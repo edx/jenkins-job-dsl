@@ -1,0 +1,2 @@
+gitpython>=1.0.1
+requests>=2.5.3
