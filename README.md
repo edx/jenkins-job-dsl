@@ -18,7 +18,7 @@
     │   └── test
     │       └── groovy                  # specs
     └── build.gradle                    # build file
-    └── hosts
-        └── <example>.edx.org.groovy    # Groovy script to create jobs for an individual machine
-        └── <other>.edx.org.groovy      # Groovy script to create jobs for an individual machine
+    └── seeds 
+        └── <example>.groovy            # Groovy script to create jobs for an individual machine
+        └── <other>.groovy              # Groovy script to create jobs for an individual machine
 
