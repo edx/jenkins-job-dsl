@@ -3,4 +3,4 @@ language: groovy
 script:
     # uncomment once we add a project
     #- ./gradlew check 
-
+    true
