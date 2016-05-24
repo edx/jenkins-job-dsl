@@ -1,6 +1,17 @@
 sudo: false
 language: groovy
 script:
-    # uncomment once we add a project
+    # not a python container + don't have sudo permissions so need
+    # to setup virtualenv ourselves
+    - pip install --user virtualenv
+    - $HOME/.local/bin/virtualenv venv
+    - source venv/bin/activate
+    - pip install -r shared/test-requirements.txt
+
+    # mobile app
+    - pip install -r mobile_app/resources/requirements.txt
+    - pep8 mobile_app/resources
+    - nosetests mobile_app/resources -v --with-coverage --cover-package=mobile_app
+
+    # uncomment once we add a groovy project
     #- ./gradlew check 
-    true
