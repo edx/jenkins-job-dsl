@@ -29,6 +29,9 @@ configurations {
 }
 
 dependencies {
+    
+    compile(':shared')
+
     // for AnalyticsTasks
     libs 'org.yaml:snakeyaml:1.17'
     compile 'org.yaml:snakeyaml:1.17'

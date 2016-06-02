@@ -55,7 +55,7 @@ stringParams = [
 ]
 
 /* Groovy script called within job to process environment variables for easier use */
-String envVarScript = readFileFromWorkspace('resources/mapEnvVars.groovy')
+String envVarScript = readFileFromWorkspace('platform/resources/mapEnvVars.groovy')
 
 /* Environment variable (set in Seeder job config) to reference a Jenkins secret file */
 String secretFileVariable = 'EDX_PLATFORM_TEST_SUBSET_SECRET'

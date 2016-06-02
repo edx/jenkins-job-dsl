@@ -30,7 +30,7 @@ endToEndTests.each { endToEndTest ->
             virtualenv {
                 name(jobName)
                 nature('shell')
-                command readFileFromWorkspace('resources/end-to-end-test.sh')
+                command readFileFromWorkspace('platform/resources/end-to-end-test.sh')
             }
         }
         publishers {

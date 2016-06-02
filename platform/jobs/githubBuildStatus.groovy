@@ -70,11 +70,11 @@ job('github-build-status') {
     concurrentBuild()
     label('github-status-worker')
     steps {
-        shell(readFileFromWorkspace('resources/jenkins_public_scripts/github_status_shell.sh'))
+        shell(readFileFromWorkspace('platform/resources/jenkins_public_scripts/github_status_shell.sh'))
     }
     publishers {
         groovyPostBuild(
-            readFileFromWorkspace('resources/jenkins_public_scripts/deployment_status.groovy'),
+            readFileFromWorkspace('platform/resources/jenkins_public_scripts/deployment_status.groovy'),
             Behavior.MarkFailed
         )
     }
