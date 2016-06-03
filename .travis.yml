@@ -14,4 +14,4 @@ script:
     - nosetests mobile_app/resources -v --with-coverage --cover-package=mobile_app
 
     # uncomment once we add a groovy project
-    #- ./gradlew check 
+    - ./gradlew check 
