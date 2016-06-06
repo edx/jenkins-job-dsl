@@ -12,7 +12,7 @@ Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
-    url : github-url-segment 
+    url : github-url-segment
     credential : n/a
     cloneReference : clone/.git
     hipchat : token
@@ -22,7 +22,8 @@ Map <String, String> predefinedPropsMap  = [:]
 predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
 predefinedPropsMap.put('GITHUB_ORG', 'edx')
 predefinedPropsMap.put('GITHUB_REPO', 'edx-platform')
-predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'view/accessibility/job/edx-platform-accessibility-master/${BUILD_NUMBER}/')
+predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
+    'view/accessibility/job/edx-platform-accessibility-master/${BUILD_NUMBER}/')
 predefinedPropsMap.put('CONTEXT', 'jenkins/a11y')
 
 String archiveResults = 'edx-platform/**/nosetests.xml,edx-platform/reports/**/*.xml,'
@@ -46,7 +47,7 @@ params = [
 String secretFileVariable = 'EDX_PLATFORM_TEST_ACCESSIBILITY_SECRET'
 
 /* Map to hold the k:v pairs parsed from the secret file */
-def secretMap = [:]
+Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
@@ -77,6 +78,12 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('hipchat')
 
     job(jobConfig['jobName']) {
+        /* For open jobs, enable project based security so viewing is public */
+        if (jobConfig['open'].toBoolean())  {
+            authorization {
+                permission('hudson.model.Item.Read', 'anonymous')
+            }
+        }
         parameters {
             stringParam(params.name, params.default, params.description)
         }
