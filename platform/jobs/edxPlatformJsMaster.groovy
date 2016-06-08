@@ -1,18 +1,18 @@
 package devops
 
 import hudson.model.Build
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 
 /*
 Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
-    url : github-url-segment 
+    url : github-url-segment
     credential : n/a
     cloneReference : clone/.git
     email : email-address@email.com
@@ -51,7 +51,7 @@ params = [
 String secretFileVariable = 'EDX_PLATFORM_TEST_JS_SECRET'
 
 /* Map to hold the k:v pairs parsed from the secret file */
-def secretMap = [:]
+Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
@@ -83,6 +83,12 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('email')
 
     job(jobConfig['jobName']) {
+        /* For open jobs, enable project based security so viewing is public */
+        if (jobConfig['open'].toBoolean())  {
+            authorization {
+                permission('hudson.model.Item.Read', 'anonymous')
+            }
+        }
         parameters {
             stringParam(params.name, params.default, params.description)
         }
@@ -134,7 +140,7 @@ secretMap.each { jobConfigs ->
            shell('cd edx-platform')
            shell('TEST_SUITE=js-unit ./scripts/all-tests.sh')
        }
-       publishers { //publish artifacts, coverage, and JUnit Test report, trigger GitHub-Build-Status, message on hipchat
+       publishers { //publish artifacts, coverage, JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
            archiveArtifacts {
                pattern(archiveReports)
                defaultExcludes()
