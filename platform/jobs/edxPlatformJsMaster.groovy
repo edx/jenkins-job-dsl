@@ -83,12 +83,15 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('email')
 
     job(jobConfig['jobName']) {
-        /* For open jobs, enable project based security so viewing is public */
-        if (jobConfig['open'].toBoolean())  {
+
+        /* For non-open jobs, enable project based security */
+        if (!jobConfig['open'].toBoolean()) {
             authorization {
-                permission('hudson.model.Item.Read', 'anonymous')
+                blocksInheritance(true)
+                permissionAll('edx')
             }
         }
+
         parameters {
             stringParam(params.name, params.default, params.description)
         }
