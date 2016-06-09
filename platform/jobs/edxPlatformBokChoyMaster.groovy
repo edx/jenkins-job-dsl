@@ -147,7 +147,7 @@ secretMap.each { jobConfigs ->
         triggers { //trigger when change pushed to GitHub
             githubPush()
         }
-        dslFile('edx-platform-bok-choy-master.groovy')//'testeng-ci/jenkins/flow/master/edx-platform-bok-choy-master.groovy')
+        dslFile('testeng-ci/jenkins/flow/master/edx-platform-bok-choy-master.groovy')
         publishers { //JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
            archiveJunit(jUnitReports)
            downstreamParameterized {
