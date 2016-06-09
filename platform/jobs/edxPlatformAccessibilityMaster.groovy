@@ -115,7 +115,7 @@ secretMap.each { jobConfigs ->
             }
         }
         triggers { //trigger when change pushed to GitHub
-            gitHubPushTrigger()
+            githubPush()
         }
         wrappers { //abort when stuck after 75 minutes, use gnome-terminal coloring, have timestamps at Console
             timeout {
@@ -134,8 +134,8 @@ secretMap.each { jobConfigs ->
                    }
                }
            }
-           shell('cd edx-platform')
-           shell('RUN_PA11YCRAWLER=1 ./scripts/accessibility-tests.sh')
+           shell('cd edx-platform \n' +
+                 'RUN_PA11YCRAWLER=1 ./scripts/accessibility-tests.sh')
        }
        publishers { //publish artifacts and JUnit Test report, trigger GitHub-Build-Status, message on hipchat
            archiveArtifacts {
@@ -146,10 +146,7 @@ secretMap.each { jobConfigs ->
                allowEmpty()
                defaultExcludes()
            }
-           jUnitResultArchiver {
-               testResults(archiveResults)
-               healthScaleFactor((double) 1.0)
-           }
+           jUnitResultArchiver(archiveResults)
            downstreamParameterized {
                trigger('github-build-status') {
                    condition('SUCCESS')

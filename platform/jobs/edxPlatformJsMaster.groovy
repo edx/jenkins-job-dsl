@@ -120,7 +120,7 @@ secretMap.each { jobConfigs ->
             }
         }
         triggers { //trigger when change pushed to GitHub
-            gitHubPushTrigger()
+            githubPush()
         }
         wrappers { //abort when stuck after 30 minutes, x-mal coloring, timestamps at Console, change the build name
             timeout {
@@ -140,8 +140,8 @@ secretMap.each { jobConfigs ->
                    }
                }
            }
-           shell('cd edx-platform')
-           shell('TEST_SUITE=js-unit ./scripts/all-tests.sh')
+           shell('cd edx-platform \n' +
+                 'TEST_SUITE=js-unit ./scripts/all-tests.sh')
        }
        publishers { //publish artifacts, coverage, JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
            archiveArtifacts {
@@ -155,10 +155,7 @@ secretMap.each { jobConfigs ->
                lineTarget(80, 0, 0)
                conditionalTarget(70, 0, 0)
            }
-           jUnitResultArchiver {
-               testResults(jUnitReports)
-               healthScaleFactor((double) 1.0)
-           }
+           jUnitResultArchiver(jUnitReports)
            downstreamParameterized {
                trigger('github-build-status') {
                    condition('SUCCESS')
