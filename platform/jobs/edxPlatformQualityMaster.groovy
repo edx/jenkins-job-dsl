@@ -139,8 +139,8 @@ secretMap.each { jobConfigs ->
                    }
                }
            }
-           shell('cd edx-platform \n' +
-                 'TEST_SUITE=quality ./scripts/all-tests.sh')
+           shell('cd edx-platform \n')
+           shell('TEST_SUITE=quality ./scripts/all-tests.sh')
        }
        publishers { //publish artifacts, HTML, violations report, trigger GitHub-Build-Status, email, message hipchat
            archiveArtifacts {

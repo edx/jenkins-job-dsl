@@ -140,8 +140,8 @@ secretMap.each { jobConfigs ->
                    }
                }
            }
-           shell('cd edx-platform \n' +
-                 'TEST_SUITE=js-unit ./scripts/all-tests.sh')
+           shell('cd edx-platform \n'
+           shell('TEST_SUITE=js-unit ./scripts/all-tests.sh')
        }
        publishers { //publish artifacts, coverage, JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
            archiveArtifacts {
