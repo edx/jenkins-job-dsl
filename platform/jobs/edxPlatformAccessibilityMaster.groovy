@@ -134,8 +134,7 @@ secretMap.each { jobConfigs ->
                    }
                }
            }
-           shell('cd edx-platform \n')
-           shell('RUN_PA11YCRAWLER=1 ./scripts/accessibility-tests.sh')
+           shell('cd edx-platform; RUN_PA11YCRAWLER=1 ./scripts/accessibility-tests.sh')
        }
        publishers { //publish artifacts and JUnit Test report, trigger GitHub-Build-Status, message on hipchat
            archiveArtifacts {
