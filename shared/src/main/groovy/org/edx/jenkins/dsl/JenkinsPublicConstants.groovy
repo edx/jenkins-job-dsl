@@ -76,5 +76,48 @@ class JenkinsPublicConstants {
         secretMap = yaml.load(fileContents)
         return secretMap
     }
+    
+    public static final String JENKINS_PUBLIC_JUNIT_REPORTS = 'edx-platform/**/nosetests.xml,edx-platform/reports/acceptance/*.xml,' +
+                                                              'edx-platform/reports/quality.xml,edx-platform/reports/javascript/' +
+                                                              'javascript_xunit.xml,edx-platform/reports/bok_choy/xunit.xml,edx-platform/' +
+                                                              'reports/bok_choy/**/xunit.xml'
 
+    public static final Closure JENKINS_PUBLIC_GITHUB_STATUS_PENDING = { predefinedPropsMap ->
+        return {
+            trigger('github-build-status') {
+                parameters {
+                    predefinedProps(predefinedPropsMap)
+                    predefinedProp('BUILD_STATUS', 'pending')
+                    predefinedProp('DESCRIPTION', 'Pending')
+                }
+            }
+        }
+    }
+
+    public static final Closure JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS = { predefinedPropsMap ->
+        return {
+            trigger('github-build-status') {
+                condition('SUCCESS')
+                parameters {
+                    predefinedProps(predefinedPropsMap)
+                    predefinedProp('BUILD_STATUS', 'success')
+                    predefinedProp('DESCRIPTION', 'Build Passed')
+                    predefinedProp('CREATE_DEPLOYMENT', 'true')
+                }
+            }
+        }
+    }
+
+    public static final Closure JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE = { predefinedPropsMap ->
+        return {
+            trigger('github-build-status') {
+                condition('UNSTABLE_OR_WORSE')
+                parameters {
+                    predefinedProps(predefinedPropsMap)
+                    predefinedProp('BUILD_STATUS', 'failure')
+                    predefinedProp('DESCRIPTION', 'Build Failed')
+                }
+            }
+        }
+    }
 }

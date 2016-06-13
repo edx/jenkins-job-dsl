@@ -6,17 +6,20 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 
 /*
 Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
-    url: github-url-segment
-    url-clone : github-url-segment-clone
-    credential : n/a
-    credential-clone : n/a
-    cloneReference : clone/.git
+    testengUrl: testeng-github-url-segment
+    platformUrl : platform-github-url-segment
+    testengCredential : n/a
+    platformCredential : n/a
+    platformCloneReference : clone/.git
     email : email-address@email.com
     hipchat : token
 */
@@ -27,10 +30,6 @@ predefinedPropsMap.put('GITHUB_ORG', 'edx')
 predefinedPropsMap.put('GITHUB_REPO', 'edx-platform')
 predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'job/edx-platform-bok-choy-master/${BUILD_NUMBER}/')
 predefinedPropsMap.put('CONTEXT', 'jenkins/bokchoy')
-
-String jUnitReports = 'edx-platform/**/nosetests.xml,edx-platform/reports/acceptance/*.xml,'
-jUnitReports += 'edx-platform/reports/quality.xml,edx-platform/reports/javascript/javascript_xunit.xml,'
-jUnitReports += 'edx-platform/reports/bok_choy/xunit.xml,edx-platform/reports/bok_choy/**/xunit.xml'
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -82,11 +81,11 @@ secretMap.each { jobConfigs ->
     /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
-    assert jobConfig.containsKey('url')
-    assert jobConfig.containsKey('urlClone')
-    assert jobConfig.containsKey('credential')
-    assert jobConfig.containsKey('credentialClone')
-    assert jobConfig.containsKey('cloneReference')
+    assert jobConfig.containsKey('testengUrl')
+    assert jobConfig.containsKey('platformUrl')
+    assert jobConfig.containsKey('testengCredential')
+    assert jobConfig.containsKey('platformCredential')
+    assert jobConfig.containsKey('platformCloneReference')
     assert jobConfig.containsKey('hipchat')
     assert jobConfig.containsKey('email')
 
@@ -112,9 +111,9 @@ secretMap.each { jobConfigs ->
         multiscm {
             git { //using git on the branch and url, clean before checkout
                 remote {
-                    github(jobConfig['url'])
+                    github(jobConfig['testengUrl'])
                     if (!jobConfig['open'].toBoolean()) {
-                        credentials(jobConfig['credential'])
+                        credentials(jobConfig['testengCredential'])
                     }
                 }
                 branch('*/master')
@@ -126,17 +125,17 @@ secretMap.each { jobConfigs ->
             }
            git { //using git on the branch and url, clone, clean before checkout
                 remote {
-                    github(jobConfig['urlClone'])
+                    github(jobConfig['platformUrl'])
                     refspec('+refs/heads/master:refs/remotes/origin/master')
                     if (!jobConfig['open'].toBoolean()) {
-                        credentials(jobConfig['credentialClone'])
+                        credentials(jobConfig['platformCredential'])
                     }
                 }
                 branch('\${sha1}')
                 browser()
                 extensions {
                     cloneOptions {
-                        reference("\$HOME/" + jobConfig['cloneReference'])
+                        reference("\$HOME/" + jobConfig['platformCloneReference'])
                         timeout(10)
                     }
                     cleanBeforeCheckout()
@@ -149,28 +148,9 @@ secretMap.each { jobConfigs ->
         }
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-bok-choy-master.groovy')
         publishers { //JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
-           archiveJunit(jUnitReports)
-           downstreamParameterized {
-               trigger('github-build-status') {
-                   condition('SUCCESS')
-                   parameters {
-                       predefinedProps(predefinedPropsMap)
-                       predefinedProp('BUILD_STATUS', 'success')
-                       predefinedProp('DESCRIPTION', 'Build Passed')
-                       predefinedProp('CREATE_DEPLOYMENT', 'true')
-                  }
-               }
-           }
-           downstreamParameterized {
-               trigger('github-build-status') {
-                   condition('UNSTABLE_OR_WORSE')
-                   parameters {
-                       predefinedProps(predefinedPropsMap)
-                       predefinedProp('BUILD_STATUS', 'failure')
-                       predefinedProp('DESCRIPTION', 'Build Failed')
-                   }
-               }
-           }
+           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
+           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
            mailer(jobConfig['email'])
            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
        }
