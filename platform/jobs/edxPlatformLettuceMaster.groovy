@@ -1,22 +1,14 @@
-//package devops
+package devops
 
 import hudson.model.Build
-//import static org.edx.jenkins.dsl.
-import static JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-//import static org.edx.jenkins.dsl.
-import static JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
-//import static org.edx.jenkins.dsl.
-import static JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
-//import static org.edx.jenkins.dsl.
-import static JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
-//import static org.edx.jenkins.dsl.
-import static JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
-//import static org.edx.jenkins.dsl.
-import static JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
-//import static org.edx.jenkins.dsl.
-import static JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
-//import static org.edx.jenkins.dsl.
-import static JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 
 /*
 Example secret YAML file used by this script
