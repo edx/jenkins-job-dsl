@@ -1,5 +1,5 @@
 apply plugin: 'groovy'
-apply plugin: 'java'
+//apply plugin: 'java'
 apply plugin: 'codenarc'
 
 // see https://github.com/jenkinsci/job-dsl-plugin/wiki/User-Power-Moves#using-libraries
@@ -8,7 +8,12 @@ defaultTasks 'libs'
 sourceSets {
     jobs {
         groovy {
-            srcDirs 'jobs'
+            srcDirs 'sample/jobs'
+        }
+    }
+    src {
+        groovy {
+            srcDirs 'src/main/groovy'
         }
     }
     test {
@@ -25,19 +30,20 @@ repositories {
 }
 
 configurations {
+    testPlugins {}
     libs
 }
 
 dependencies {
     
-    compile(':shared')
-
+    //compile(':shared')
+    //testCompile(':shared')
     // for AnalyticsTasks
     libs 'org.yaml:snakeyaml:1.17'
     compile 'org.yaml:snakeyaml:1.17'
 
     compile 'org.codehaus.groovy:groovy:2.1.3'
-    compile 'org.jenkins-ci.plugins:job-dsl-core:1.42'
+    //compile 'org.jenkins-ci.plugins:job-dsl-core:1.42'
     testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
         exclude module: 'groovy-all'
     }
@@ -49,6 +55,31 @@ dependencies {
 
     // for the RestApiScriptRunner and XmlOutputRunner
     compile('ant:ant:1.7.0')
+
+    // COPY //
+    compile "org.jenkins-ci.plugins:job-dsl-core:${jobDslVersion}"
+
+    //testCompile 'cglib:cglib-nodep:2.2.2' // used by Spock
+    testCompile 'cglib:cglib:3.1' // used by Spock
+    //cglib:cglib:3.1 
+
+    // Jenkins test harness dependencies
+    testCompile 'org.jenkins-ci.main:jenkins-test-harness:2.8'
+    testCompile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
+    testCompile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}:war-for-test@jar"
+
+    // Job DSL plugin including plugin dependencies
+    testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
+    testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
+    testCompile 'org.jenkins-ci.plugins:structs:1.1@jar'
+    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
+
+    // plugins to install in test instance
+    testPlugins 'org.jenkins-ci.plugins:ghprb:1.31.4'
+    testPlugins 'com.coravy.hudson.plugins.github:github:1.19.0'
+
+    // END //
+
 }
 
 task cleanLibs(type: Delete) {
@@ -63,15 +94,35 @@ task libs(type: Copy) {
 tasks.getByName('test').inputs.files(sourceSets.jobs.groovy.srcDirs)
 
 task rest(dependsOn: 'classes', type: JavaExec) {
-    main = 'com.dslexample.rest.RestApiScriptRunner'
+    main = 'org.edx.jenkins.dsl.rest.RestApiScriptRunner'
     classpath = sourceSets.main.runtimeClasspath
     systemProperties System.getProperties()
 }
 
 task debugXml(dependsOn: 'classes', type: JavaExec) {
-    main = 'com.dslexample.debug.XmlOutputRunner'
+    main = 'org.edx.jenkins.dsl.debug.XmlOutputRunner'
     classpath = sourceSets.main.runtimeClasspath
     systemProperties System.getProperties()
+}
+
+task resolveTestPlugins(type: Copy) {
+    from configurations.testPlugins
+    into new File(sourceSets.test.output.resourcesDir, 'test-dependencies')
+    include '*.hpi'
+    include '*.jpi'
+
+    doLast {
+        def baseNames = source.collect { it.name[0..it.name.lastIndexOf('.')-1] }
+        new File(destinationDir, 'index').setText(baseNames.join('\n'), 'UTF-8')
+    }
+}
+
+test {
+    dependsOn tasks.resolveTestPlugins
+    inputs.files sourceSets.jobs.groovy.srcDirs
+
+    // set build directory for Jenkins test harness, JENKINS-26331
+    systemProperty 'buildDirectory', project.buildDir.absolutePath
 }
 
 codenarc {
