@@ -39,7 +39,7 @@ Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
-stringParam = [
+stringParams = [
     name: 'sha1',
     description: 'Sha1 hash of branch to build. Default branch : master',
     default: 'master' 
@@ -93,9 +93,9 @@ secretMap.each { jobConfigs ->
         }
 
         parameters {
-            stringParam(stringParam.name, stringParam.default, stringParam.description)
+            stringParam(stringParams.name, stringParams.default, stringParams.description)
         }        
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of days
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-lettuce') //restrict to flow-worker-lettuce
         checkoutRetryCount(5)
