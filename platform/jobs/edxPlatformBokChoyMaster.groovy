@@ -31,8 +31,6 @@ predefinedPropsMap.put('GITHUB_REPO', 'edx-platform')
 predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'job/edx-platform-bok-choy-master/${BUILD_NUMBER}/')
 predefinedPropsMap.put('CONTEXT', 'jenkins/bokchoy')
 
-/* stdout logger */
-/* use this instead of println, because you can pass it into closures or other scripts. */
 /* TODO: Move this into JenkinsPublicConstants, as it can be shared. */
 Map config = [:]
 Binding bindings = getBinding()
