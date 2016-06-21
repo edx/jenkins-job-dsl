@@ -6,7 +6,7 @@ script:
     - pip install --user virtualenv
     - $HOME/.local/bin/virtualenv venv
     - source venv/bin/activate
-    - pip install -r shared/test-requirements.txt
+    - pip install -r test-requirements.txt
 
     # mobile app
     - pip install -r mobile_app/resources/requirements.txt
