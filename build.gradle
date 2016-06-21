@@ -1,5 +1,5 @@
 apply plugin: 'groovy'
-//apply plugin: 'java'
+apply plugin: 'java'
 apply plugin: 'codenarc'
 
 // see https://github.com/jenkinsci/job-dsl-plugin/wiki/User-Power-Moves#using-libraries
@@ -35,10 +35,7 @@ configurations {
 }
 
 dependencies {
-    
-    //compile(':shared')
-    //testCompile(':shared')
-    // for AnalyticsTasks
+
     libs 'org.yaml:snakeyaml:1.17'
     compile 'org.yaml:snakeyaml:1.17'
 
@@ -56,11 +53,10 @@ dependencies {
     // for the RestApiScriptRunner and XmlOutputRunner
     compile('ant:ant:1.7.0')
 
-    // COPY //
     compile "org.jenkins-ci.plugins:job-dsl-core:${jobDslVersion}"
 
     //testCompile 'cglib:cglib-nodep:2.2.2' // used by Spock
-    testCompile 'cglib:cglib:3.1' // used by Spock
+    testCompile 'cglib:cglib:3.1' 
     //cglib:cglib:3.1 
 
     // Jenkins test harness dependencies
@@ -77,8 +73,6 @@ dependencies {
     // plugins to install in test instance
     testPlugins 'org.jenkins-ci.plugins:ghprb:1.31.4'
     testPlugins 'com.coravy.hudson.plugins.github:github:1.19.0'
-
-    // END //
 
 }
 
