@@ -6,6 +6,10 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_PENDING
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 
 /*
 Example secret YAML file used by this script
@@ -29,10 +33,6 @@ predefinedPropsMap.put('CONTEXT', 'jenkins/js')
 String archiveReports = 'edx-platform/reports/**/*,edx-platform/test_root/log/*.png,'
 archiveReports += 'edx-platform/test_root/log/*.log,edx-platform/test_root/log/hars/*.har,'
 archiveReports += 'edx-platform/**/nosetests.xml,edx-platform/**/TEST-*.xml'
-
-String jUnitReports = 'edx-platform/**/nosetests.xml,edx-platform/reports/acceptance/*.xml,'
-jUnitReports += 'edx-platform/reports/quality.xml,edx-platform/reports/javascript/javascript_xunit*.xml,'
-jUnitReports += 'edx-platform/reports/bok_choy/xunit.xml,edx-platform/reports/bok_choy/**/xunit.xml'
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -131,15 +131,7 @@ secretMap.each { jobConfigs ->
            buildName('#${BUILD_NUMBER}: JS Tests')
        }
        steps { //trigger GitHub-Build-Status and run accessibility tests
-           downstreamParameterized {
-               trigger('github-build-status') {
-                   parameters {
-                       predefinedProps(predefinedPropsMap)
-                       predefinedProp('BUILD_STATUS', 'pending')
-                       predefinedProp('DESCRIPTION', 'Pending')
-                   }
-               }
-           }
+           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
            shell('cd edx-platform; TEST_SUITE=js-unit ./scripts/all-tests.sh')
        }
        publishers { //publish artifacts, coverage, JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
@@ -154,28 +146,9 @@ secretMap.each { jobConfigs ->
                lineTarget(80, 0, 0)
                conditionalTarget(70, 0, 0)
            }
-           jUnitResultArchiver(jUnitReports)
-           downstreamParameterized {
-               trigger('github-build-status') {
-                   condition('SUCCESS')
-                   parameters {
-                       predefinedProps(predefinedPropsMap)
-                       predefinedProp('BUILD_STATUS', 'success')
-                       predefinedProp('DESCRIPTION', 'Build Passed')
-                       predefinedProp('CREATE_DEPLOYMENT', 'true')
-                  }
-               }
-           }
-           downstreamParameterized {
-               trigger('github-build-status') {
-                   condition('UNSTABLE_OR_WORSE')
-                   parameters {
-                       predefinedProps(predefinedPropsMap)
-                       predefinedProp('BUILD_STATUS', 'failure')
-                       predefinedProp('DESCRIPTION', 'Build Failed')
-                   }
-               }
-           }
+           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
+           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
            mailer(jobConfig['email'])
            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
        }
