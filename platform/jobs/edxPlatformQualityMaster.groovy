@@ -6,6 +6,9 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_PENDING
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 
 /*
 Example secret YAML file used by this script
@@ -130,15 +133,7 @@ secretMap.each { jobConfigs ->
            buildName('#${BUILD_NUMBER}: Quality Tests')
        }
        steps { //trigger GitHub-Build-Status and run accessibility tests
-           downstreamParameterized {
-               trigger('github-build-status') {
-                   parameters {
-                       predefinedProps(predefinedPropsMap)
-                       predefinedProp('BUILD_STATUS', 'pending')
-                       predefinedProp('DESCRIPTION', 'Pending')
-                   }
-               }
-           }
+           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
            shell('cd edx-platform; TEST_SUITE=quality ./scripts/all-tests.sh')
        }
        publishers { //publish artifacts, HTML, violations report, trigger GitHub-Build-Status, email, message hipchat
@@ -172,27 +167,8 @@ secretMap.each { jobConfigs ->
                stylecop(10, 999, 999)
                sourceEncoding()
            }
-           downstreamParameterized {
-               trigger('github-build-status') {
-                   condition('SUCCESS')
-                   parameters {
-                       predefinedProps(predefinedPropsMap)
-                       predefinedProp('BUILD_STATUS', 'success')
-                       predefinedProp('DESCRIPTION', 'Build Passed')
-                       predefinedProp('CREATE_DEPLOYMENT', 'true')
-                  }
-               }
-           }
-           downstreamParameterized {
-               trigger('github-build-status') {
-                   condition('UNSTABLE_OR_WORSE')
-                   parameters {
-                       predefinedProps(predefinedPropsMap)
-                       predefinedProp('BUILD_STATUS', 'failure')
-                       predefinedProp('DESCRIPTION', 'Build Failed')
-                   }
-               }
-           }
+           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
+           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
            mailer(jobConfig['email'])
            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
        }
