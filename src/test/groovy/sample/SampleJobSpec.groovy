@@ -1,5 +1,7 @@
+package sample
 
 import groovy.util.slurpersupport.GPathResult
+import groovy.util.slurpersupport.Node
 import javaposse.jobdsl.dsl.DslScriptLoader
 import javaposse.jobdsl.dsl.JobManagement
 import javaposse.jobdsl.plugin.JenkinsJobManagement
@@ -83,7 +85,7 @@ class SampleJobSpec extends Specification {
         GPathResult project = new XmlSlurper().parseText(jm.getConfig('SampleJenkinsJob'))
 
         then:
-        GPathResult logRotatorBlock = project.childNodes().find { it.name == 'logRotator' }
+        Node logRotatorBlock = project.childNodes().find { it.name == 'logRotator' }
         logRotatorBlock.childNodes().any { it.name == 'daysToKeep' && it.text() == '10' }
 
     }

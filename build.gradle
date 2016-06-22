@@ -31,6 +31,7 @@ repositories {
 configurations {
     libs
     testPlugins {}
+    debugXml {}
 }
 
 dependencies {
@@ -63,6 +64,11 @@ dependencies {
     testCompile 'org.jenkins-ci.main:jenkins-test-harness:2.8'
     testCompile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
     testCompile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}:war-for-test@jar"
+
+    debugXml "ant:ant:1.7.0"
+    debugXml 'org.jenkins-ci.main:jenkins-test-harness:2.8'
+    debugXml "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
+    debugXml "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}:war-for-test@jar"
 
     // Job DSL plugin including plugin dependencies
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
@@ -106,7 +112,6 @@ task rest(dependsOn: 'classes', type: JavaExec) {
 task debugXml(dependsOn: 'classes', type: JavaExec) {
     main = 'org.edx.jenkins.dsl.debug.XmlOutputRunner'
     classpath = sourceSets.main.runtimeClasspath
-    classpath += sourceSets.main.compileClasspath
     systemProperties System.getProperties()
 }
 
@@ -130,9 +135,6 @@ test {
     systemProperty 'buildDirectory', project.buildDir.absolutePath
 }
 
-// run tests on jobs
-// generate xml
-// build
 task wrapper(type: Wrapper) {
     gradleVersion = '2.4'
 }
