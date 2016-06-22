@@ -1,11 +1,8 @@
 
-import groovy.io.FileType
-import groovy.util.XmlSlurper
 import groovy.util.slurpersupport.GPathResult
 import javaposse.jobdsl.dsl.DslScriptLoader
 import javaposse.jobdsl.dsl.JobManagement
 import javaposse.jobdsl.plugin.JenkinsJobManagement
-import javaposse.jobdsl.dsl.Job
 import javaposse.jobdsl.dsl.GeneratedItems
 import javaposse.jobdsl.dsl.GeneratedJob
 import org.junit.ClassRule
@@ -17,7 +14,7 @@ import spock.lang.Unroll
 /**
  * Basic POC tests for the sample dsl script sample/jobs/sampleJob.groovy
  */
-class JobScriptsSpec extends Specification {
+class SampleJobSpec extends Specification {
 
     @Shared
     @ClassRule
@@ -38,7 +35,7 @@ class JobScriptsSpec extends Specification {
         noExceptionThrown()
 
     }
-    
+
     @Unroll
     void 'test name of generated job'() {
 
@@ -73,24 +70,6 @@ class JobScriptsSpec extends Specification {
 
     }
 
-    /* Following test is intended to fail, in order to display error logging and reporting */
-    @Unroll
-    void 'test particular content within generated xml'() {
-
-        given:
-        JobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
-        DslScriptLoader loader = new DslScriptLoader(jm)
-        File dslScript = new File('sample/jobs/sampleJob.groovy')
-
-        when:
-        loader.runScript(dslScript.text)
-        String config = jm.getConfig('SampleJenkinsJob')
-
-        then:
-        config.contains('goodbye world')
-
-    }
-
     @Unroll
     void 'test particular xml structure within generated xml'() {
 
@@ -100,14 +79,13 @@ class JobScriptsSpec extends Specification {
         File dslScript = new File('sample/jobs/sampleJob.groovy')
 
         when:
+        loader.runScript(dslScript.text)
         GPathResult project = new XmlSlurper().parseText(jm.getConfig('SampleJenkinsJob'))
-        
+
         then:
-        def logRotatorBlock = project.childNodes().find { it.name == 'logRotator'}
+        GPathResult logRotatorBlock = project.childNodes().find { it.name == 'logRotator' }
         logRotatorBlock.childNodes().any { it.name == 'daysToKeep' && it.text() == '10' }
 
     }
 
-
 }
-

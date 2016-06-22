@@ -1,3 +1,5 @@
+import hudson.model.Build
+
 job ('SampleJenkinsJob') {
 
     logRotator {

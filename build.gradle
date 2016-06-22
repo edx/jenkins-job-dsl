@@ -2,23 +2,22 @@ apply plugin: 'groovy'
 apply plugin: 'java'
 apply plugin: 'codenarc'
 
-// see https://github.com/jenkinsci/job-dsl-plugin/wiki/User-Power-Moves#using-libraries
 defaultTasks 'libs'
-
 sourceSets {
     jobs {
         groovy {
-            srcDirs 'sample/jobs'
+            srcDir "platform/jobs"
+            srcDir "sample/jobs"
         }
     }
     src {
         groovy {
-            srcDirs 'src/main/groovy'
+            srcDir "src/main/groovy"
         }
     }
     test {
         groovy {
-            srcDirs 'src/test/groovy'
+            srcDir "src/test/groovy"
         }
     }
 }
@@ -30,17 +29,20 @@ repositories {
 }
 
 configurations {
-    testPlugins {}
     libs
+    testPlugins {}
 }
 
 dependencies {
+
+    jobsCompile 'org.yaml:snakeyaml:1.17'
+    jobsCompile 'org.codehaus.groovy:groovy:2.1.3'
+    jobsCompile "org.jenkins-ci.plugins:job-dsl-core:${jobDslVersion}"
 
     libs 'org.yaml:snakeyaml:1.17'
     compile 'org.yaml:snakeyaml:1.17'
 
     compile 'org.codehaus.groovy:groovy:2.1.3'
-    //compile 'org.jenkins-ci.plugins:job-dsl-core:1.42'
     testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
         exclude module: 'groovy-all'
     }
@@ -55,9 +57,7 @@ dependencies {
 
     compile "org.jenkins-ci.plugins:job-dsl-core:${jobDslVersion}"
 
-    //testCompile 'cglib:cglib-nodep:2.2.2' // used by Spock
     testCompile 'cglib:cglib:3.1' 
-    //cglib:cglib:3.1 
 
     // Jenkins test harness dependencies
     testCompile 'org.jenkins-ci.main:jenkins-test-harness:2.8'
@@ -76,13 +76,23 @@ dependencies {
 
 }
 
-task cleanLibs(type: Delete) {
-    delete 'lib'
+
+codenarc {
+    toolVersion = '0.25.2'
+    configFile = file('config/codenarc/codenarcRules.groovy')
+    maxPriority2Violations = 49
+    maxPriority3Violations = 99
 }
+
+
 
 task libs(type: Copy) {
     into 'lib'
     from configurations.libs
+}
+
+task cleanLibs(type: Delete) {
+    delete 'lib'
 }
 
 tasks.getByName('test').inputs.files(sourceSets.jobs.groovy.srcDirs)
@@ -96,6 +106,7 @@ task rest(dependsOn: 'classes', type: JavaExec) {
 task debugXml(dependsOn: 'classes', type: JavaExec) {
     main = 'org.edx.jenkins.dsl.debug.XmlOutputRunner'
     classpath = sourceSets.main.runtimeClasspath
+    classpath += sourceSets.main.compileClasspath
     systemProperties System.getProperties()
 }
 
@@ -119,13 +130,9 @@ test {
     systemProperty 'buildDirectory', project.buildDir.absolutePath
 }
 
-codenarc {
-    toolVersion = '0.25.2'
-    configFile = file('config/codenarc/codenarcRules.groovy')
-    maxPriority2Violations = 49
-    maxPriority3Violations = 91
-}
-
+// run tests on jobs
+// generate xml
+// build
 task wrapper(type: Wrapper) {
     gradleVersion = '2.4'
 }
