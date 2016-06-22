@@ -92,7 +92,7 @@ secretMap.each { jobConfigs ->
         multiscm {
             git { //using git on the branch and url, clean before checkout
                 remote {
-                        github(jobConfig['testengUrl'])
+                    github(jobConfig['testengUrl'])
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['testengCredential'])
                     }
@@ -129,7 +129,6 @@ secretMap.each { jobConfigs ->
                 admins(jobConfig['admin'])
                 useGitHubHooks()
                 triggerPhrase('jenkins run bokchoy')
-                cron('H/5 * * * *')
                 userWhitelist(jobConfig['userWhiteList'])
                 orgWhitelist(jobConfig['orgWhiteList'])
                 extensions {
