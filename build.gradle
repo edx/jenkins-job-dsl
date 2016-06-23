@@ -70,10 +70,6 @@ task libs(type: Copy) {
     from configurations.libs
 }
 
-task cleanLibs(type: Delete) {
-    delete 'lib'
-}
-
 tasks.getByName('test').inputs.files(sourceSets.jobs.groovy.srcDirs)
 
 test {

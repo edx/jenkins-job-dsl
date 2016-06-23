@@ -53,6 +53,7 @@ class SampleJobSpec extends Specification {
         GeneratedItems generatedItems = loader.runScript(dslScript.text)
 
         then:
+        // Ensure that the DslScriptLoader has created a Job instance with the expected name 'SampleJenkinsJob'
         GeneratedJob gj = new GeneratedJob(null, 'SampleJenkinsJob')
         generatedItems.jobs.contains(gj)
 
@@ -70,10 +71,10 @@ class SampleJobSpec extends Specification {
 
     }
 
-    /*
-     * The following two tests will expect the following structure be present in the XML generated
-     * from runnning the dsl script. (Commenting differently for IDE related aesthetics)
-    */
+    
+    // The following two tests will expect the following structure be present in the XML generated
+    // from runnning the dsl script. (Commenting differently for IDE related aesthetics)
+    //
     //    <logRotator>
     //       <daysToKeep>10</daysToKeep>
     //       <numToKeep>-1</numToKeep>
@@ -94,6 +95,9 @@ class SampleJobSpec extends Specification {
 
     }
 
+    // The unroll annotation will treat each iteration of this test (based on the data table
+    // in the 'where' clause) as a separate test, and name it according to the pattern in
+    // parentheses
     @Unroll('test xml contains node #nodeName with value #nodeValue')
     void 'test particular xml structure within generated xml- with a data table'() {
 
