@@ -46,9 +46,3 @@ To run codenarc on the shared code:
 `./gradlew codenarcSrc`
 etc...
 
-### Debug XML
-You can pass the dsl scripts to a local Jenkins instance and generate the actual XML for a job configuration. Currently, this is only useful for verifying that it doesn't blow up, and eyeballing the XML for a sanity test.
-
-To generate the XML config files for all of the DSL scripts within a project:
-`./gradlew debugXml -Dpattern=<project>/jobs/*.groovy`
-
