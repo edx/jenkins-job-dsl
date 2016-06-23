@@ -37,7 +37,7 @@ To run all of the test specs within a given project:
 To run all a single test spec:
 `./gradlew test --tests sample.SampleJobSpec`
 
-### Linting
+### Static Analysis
 You can run codenarc to verify well written Groovy code.
 
 To run codenarc on the dsl jobs:
