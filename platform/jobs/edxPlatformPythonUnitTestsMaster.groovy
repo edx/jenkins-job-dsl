@@ -141,7 +141,6 @@ secretMap.each { jobConfigs ->
            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
            configure { node ->
                node /publishers << 'jenkins.plugins.shiningpanda.publishers.CoveragePublisher' {
-                   htmlDir ''
                }
            }
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
