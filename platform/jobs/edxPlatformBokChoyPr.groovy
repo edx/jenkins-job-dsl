@@ -28,12 +28,6 @@ Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
-stringParams = [
-    name: 'sha1',
-    description: 'Sha1 hash of branch to build. Default branch : master',
-    default: '*/master'
-]
-
 /* Environment variable (set in Seeder job config) to reference a Jenkins secret file */
 String secretFileVariable = 'EDX_PLATFORM_TEST_BOK_CHOY_PR_SECRET'
 
@@ -82,9 +76,6 @@ secretMap.each { jobConfigs ->
             }
         }
 
-        parameters {
-            stringParam(stringParams.name, stringParams.default, stringParams.description)
-        }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of time
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-bokchoy') //restrict to jenkins-worker
