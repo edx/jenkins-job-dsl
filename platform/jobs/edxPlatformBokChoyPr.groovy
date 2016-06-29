@@ -4,6 +4,7 @@ import hudson.model.Build
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 
 /*
 Example secret YAML file used by this script
@@ -75,7 +76,9 @@ secretMap.each { jobConfigs ->
                 permissionAll('edx')
             }
         }
-
+        properties {
+              githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
+        }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of time
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-bokchoy') //restrict to jenkins-worker
@@ -83,7 +86,7 @@ secretMap.each { jobConfigs ->
         multiscm {
             git { //using git on the branch and url, clean before checkout
                 remote {
-                    github(jobConfig['testengUrl'])
+                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['testengCredential'])
                     }
@@ -97,7 +100,7 @@ secretMap.each { jobConfigs ->
             }
             git { //using git on the branch and url, clone, clean before checkout
                 remote {
-                    github(jobConfig['platformUrl'])
+                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'] + '.git')
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['platformCredential'])
