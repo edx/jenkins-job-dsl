@@ -15,6 +15,8 @@ class JenkinsPublicConstants {
     }
   }
 
+  public static final String JENKINS_PUBLIC_GITHUB_BASEURL = "https://github.com/"
+
   public static final String JENKINS_PUBLIC_WORKER = "jenkins-worker"
 
   public static final Closure JENKINS_PUBLIC_ARCHIVE_ARTIFACTS = {
