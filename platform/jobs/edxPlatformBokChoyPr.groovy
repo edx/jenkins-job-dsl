@@ -11,8 +11,10 @@ Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
-    testengUrl: testeng-github-url-segment
-    platformUrl : platform-github-url-segment
+    subsetJob : name-of-test-subset-job
+    repoName : name-of-github-edx-repo
+    testengUrl: testeng-github-url-segment.git
+    platformUrl : platform-github-url-segment.git
     testengCredential : n/a
     platformCredential : n/a
     platformCloneReference : clone/.git
@@ -58,6 +60,8 @@ secretMap.each { jobConfigs ->
     /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
+    assert jobConfig.containsKey('subsetJob')
+    assert jobConfig.containsKey('repoName')
     assert jobConfig.containsKey('testengUrl')
     assert jobConfig.containsKey('platformUrl')
     assert jobConfig.containsKey('testengCredential')
@@ -83,6 +87,10 @@ secretMap.each { jobConfigs ->
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-bokchoy') //restrict to jenkins-worker
         checkoutRetryCount(5)
+        environmentVariables {
+            env("SUBSET_JOB", jobConfig['subsetJob'])
+            env("REPO_NAME", jobConfig['repoName'])
+        }
         multiscm {
             git { //using git on the branch and url, clean before checkout
                 remote {
@@ -114,7 +122,7 @@ secretMap.each { jobConfigs ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
-                    relativeTargetDirectory('edx-platform')
+                    relativeTargetDirectory(jobConfig['repoName'])
                 }
             }
         }
