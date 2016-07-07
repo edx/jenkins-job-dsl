@@ -218,9 +218,8 @@ class edxPlatformTestSubsetSpec extends Specification {
 
         job                                 | open  | block | permissions 
         "edx-platform-test-subset"          | true  | false | _
-        "edx-platform-test-subset_2"  | false | true  | pList
+        "edx-platform-test-subset_2"        | false | true  | pList
 
     }
 
-    
 }
