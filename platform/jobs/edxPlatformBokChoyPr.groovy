@@ -122,7 +122,7 @@ secretMap.each { jobConfigs ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
-                    relativeTargetDirectory('edx-platform')
+                    relativeTargetDirectory(jobConfig['repoName'])
                 }
             }
         }
