@@ -6,18 +6,18 @@ defaultTasks 'clean', 'libs'
 sourceSets {
     jobs {
         groovy {
-            srcDir "platform/jobs"
-            srcDir "sample/jobs"
+            srcDir 'platform/jobs'
+            srcDir 'sample/jobs'
         }
     }
     src {
         groovy {
-            srcDir "src/main/groovy"
+            srcDir 'src/main/groovy'
         }
     }
     test {
         groovy {
-            srcDir "src/test/groovy"
+            srcDir 'src/test/groovy'
         }
     }
 }
@@ -52,10 +52,18 @@ dependencies {
     }
     // Needed for mocking in tests
     testCompile 'cglib:cglib:3.1' 
-    testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
-    testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
+
+    // Jenkins test harness dependencies
     testCompile 'org.jenkins-ci.main:jenkins-test-harness:2.8'
     testCompile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
+    testCompile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}:war-for-test@jar"
+
+    // Job DSL plugin including plugin dependencies
+    testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
+    testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
+    testCompile 'org.jenkins-ci.plugins:structs:1.1@jar'
+    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
+
 }
 
 codenarc {
