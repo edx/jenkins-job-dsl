@@ -12,7 +12,7 @@ publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
     subsetJob : name-of-test-subset-job
-    repoName : name-of-edx-repo
+    repoName : name-of-github-edx-repo
     testengUrl: testeng-github-url-segment.git
     platformUrl : platform-github-url-segment.git
     testengCredential : n/a
