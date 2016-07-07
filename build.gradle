@@ -6,18 +6,18 @@ defaultTasks 'clean', 'libs'
 sourceSets {
     jobs {
         groovy {
-            srcDir "platform/jobs"
-            srcDir "sample/jobs"
+            srcDir 'platform/jobs'
+            srcDir 'sample/jobs'
         }
     }
     src {
         groovy {
-            srcDir "src/main/groovy"
+            srcDir 'src/main/groovy'
         }
     }
     test {
         groovy {
-            srcDir "src/test/groovy"
+            srcDir 'src/test/groovy'
         }
     }
 }
@@ -30,7 +30,6 @@ repositories {
 
 configurations {
     libs
-    testPlugins {}
 }
 
 dependencies {
@@ -65,11 +64,6 @@ dependencies {
     testCompile 'org.jenkins-ci.plugins:structs:1.1@jar'
     testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
 
-    //testCompile "org.jenkins-ci.plugins:credential:1.24"
-    //testPlugins "org.jenkins-ci.plugins:structs:1.2"
-    //testPlugins "org.jenkins-ci.plugins:credentials:1.23"
-    //testPlugins "org.jenkins-ci.plugins:plain-credentials:1.0"
-    //testPlugins "org.jenkins-ci.plugins.workflow:workflow-step-api:2.2"
 }
 
 codenarc {
@@ -83,22 +77,10 @@ task libs(type: Copy) {
     into 'lib'
     from configurations.libs
 }
-task resolveTestPlugins(type: Copy) {
-    from configurations.testPlugins
-    into new File(sourceSets.test.output.resourcesDir, 'test-dependencies')
-    include '*.hpi'
-    include '*.jpi'
-
-    doLast {
-        def baseNames = source.collect { it.name[0..it.name.lastIndexOf('.')-1] }
-        new File(destinationDir, 'index').setText(baseNames.join('\n'), 'UTF-8')
-    }
-}
 
 tasks.getByName('test').inputs.files(sourceSets.jobs.groovy.srcDirs)
 
 test {
-    dependsOn tasks.resolveTestPlugins
     inputs.files sourceSets.jobs.groovy.srcDirs
     systemProperty 'buildDirectory', project.buildDir.absolutePath
 }
