@@ -12,7 +12,6 @@ publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
     subsetJob : name-of-test-subset-job
-    repoName : name-of-github-edx-repo
     testengUrl: testeng-github-url-segment.git
     platformUrl : platform-github-url-segment.git
     testengCredential : n/a
@@ -61,7 +60,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('subsetJob')
-    assert jobConfig.containsKey('repoName')
     assert jobConfig.containsKey('testengUrl')
     assert jobConfig.containsKey('platformUrl')
     assert jobConfig.containsKey('testengCredential')
@@ -87,9 +85,8 @@ secretMap.each { jobConfigs ->
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-bokchoy') //restrict to jenkins-worker
         checkoutRetryCount(5)
-        environmentVariables {
+        environmentVariables { //inject environment variable
             env("SUBSET_JOB", jobConfig['subsetJob'])
-            env("REPO_NAME", jobConfig['repoName'])
         }
         multiscm {
             git { //using git on the branch and url, clean before checkout
@@ -122,7 +119,7 @@ secretMap.each { jobConfigs ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
-                    relativeTargetDirectory(jobConfig['repoName'])
+                    relativeTargetDirectory("edx-platform")
                 }
             }
         }
