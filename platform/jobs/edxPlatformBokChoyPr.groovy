@@ -85,7 +85,7 @@ secretMap.each { jobConfigs ->
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-bokchoy') //restrict to jenkins-worker
         checkoutRetryCount(5)
-        environmentVariables {
+        environmentVariables { //inject environment variable
             env("SUBSET_JOB", jobConfig['subsetJob'])
         }
         multiscm {
