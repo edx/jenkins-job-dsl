@@ -13,7 +13,7 @@ Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
-    url : github-url-segment 
+    url : full-github-url
     credential : n/a
     cloneReference : clone/.git
 */
@@ -94,7 +94,7 @@ secretMap.each { jobConfigs ->
 
         logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         properties {
-            githubProjectUrl('https://github.com/'.concat(jobConfig['url']))
+            githubProjectUrl(jobConfig['url'])
         }
         
         /* For non-open jobs, enable project based security */
@@ -119,7 +119,7 @@ secretMap.each { jobConfigs ->
         scm {
             git {
                 remote {
-                    github(jobConfig['url'], 'https', 'github.com')
+                    url(jobConfig['url'] + '.git')
                     refspec('+refs/heads/*:refs/remotes/origin/* +refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['credential'])
@@ -150,6 +150,9 @@ secretMap.each { jobConfigs ->
             colorizeOutput('gnome-terminal')
             environmentVariables {
                 groovy(envVarScript)
+            }
+            if (!jobConfig['open'].toBoolean()) {
+                sshAgent(jobConfig['credential'])
             }
             buildName('#\${BUILD_NUMBER}: \${ENV,var=\"TEST_SUITE\"} \${ENV,var=\"SHARD\"}')
         }

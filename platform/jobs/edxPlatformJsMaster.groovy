@@ -10,6 +10,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_RE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_PENDING
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
+import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
@@ -17,6 +18,7 @@ publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
     url : github-url-segment
+    repoName : name-of-github-edx-repo
     credential : n/a
     cloneReference : clone/.git
     email : email-address@email.com
@@ -30,9 +32,9 @@ predefinedPropsMap.put('GITHUB_REPO', 'edx-platform')
 predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +  'job/edx-platform-js-master/${BUILD_NUMBER}/')
 predefinedPropsMap.put('CONTEXT', 'jenkins/js')
 
-String archiveReports = 'edx-platform/reports/**/*,edx-platform/test_root/log/*.png,'
-archiveReports += 'edx-platform/test_root/log/*.log,edx-platform/test_root/log/hars/*.har,'
-archiveReports += 'edx-platform/**/nosetests.xml,edx-platform/**/TEST-*.xml'
+String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
+archiveReports += 'edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,'
+archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -55,10 +57,9 @@ Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
-    Thread thread = Thread.currentThread()
-    Build build = thread?.executable
-    Map envVarsMap = build.parent.builds[0].properties.get("envVars")
-    secretMap = JENKINS_PUBLIC_PARSE_SECRET.call(secretFileVariable, envVarsMap, out)
+    String contents = new File("${EDX_PLATFORM_TEST_JS_SECRET}").text
+    Yaml yaml = new Yaml()
+    secretMap = yaml.load(contents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
@@ -77,6 +78,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('url')
+    assert jobConfig.containsKey('repoName')
     assert jobConfig.containsKey('credential')
     assert jobConfig.containsKey('cloneReference')
     assert jobConfig.containsKey('hipchat')
@@ -115,7 +117,7 @@ secretMap.each { jobConfigs ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
-                    relativeTargetDirectory('edx-platform')
+                    relativeTargetDirectory(jobConfig['repoName'])
                 }
             }
         }
@@ -132,14 +134,14 @@ secretMap.each { jobConfigs ->
        }
        steps { //trigger GitHub-Build-Status and run accessibility tests
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
-           shell('cd edx-platform; TEST_SUITE=js-unit ./scripts/all-tests.sh')
+           shell('cd ' + jobConfig['repoName'] + '; TEST_SUITE=js-unit ./scripts/all-tests.sh')
        }
        publishers { //publish artifacts, coverage, JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
            archiveArtifacts {
                pattern(archiveReports)
                defaultExcludes()
            }
-           cobertura ('edx-platform/**/reports/**/coverage*.xml') {
+           cobertura ('edx-platform*/**/reports/**/coverage*.xml') {
                failNoReports(true)
                sourceEncoding('ASCII')
                methodTarget(80, 0, 0)

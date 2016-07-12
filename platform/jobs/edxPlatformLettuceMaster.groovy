@@ -6,15 +6,19 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
+import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
+    subsetJob : name-of-test-subset-job
+    repoName : name-of-github-edx-repo
     testengUrl: github-url-segment
     platformUrl : github-url-segment-clone
     testengCredential : n/a
@@ -53,10 +57,9 @@ Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
-    Thread thread = Thread.currentThread()
-    Build build = thread?.executable
-    Map envVarsMap = build.parent.builds[0].properties.get("envVars")
-    secretMap = JENKINS_PUBLIC_PARSE_SECRET.call(secretFileVariable, envVarsMap, out)
+    String contents = new File("${EDX_PLATFORM_TEST_LETTUCE_SECRET}").text
+    Yaml yaml = new Yaml()
+    secretMap = yaml.load(contents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
@@ -74,6 +77,8 @@ secretMap.each { jobConfigs ->
     /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
+    assert jobConfig.containsKey('subsetJob')
+    assert jobConfig.containsKey('repoName')
     assert jobConfig.containsKey('testengUrl')
     assert jobConfig.containsKey('platformUrl')
     assert jobConfig.containsKey('testengCredential')
@@ -94,15 +99,22 @@ secretMap.each { jobConfigs ->
 
         parameters {
             stringParam(stringParams.name, stringParams.default, stringParams.description)
+        }
+        properties {
+              githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }        
         logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of days
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-lettuce') //restrict to flow-worker-lettuce
         checkoutRetryCount(5)
+        environmentVariables {
+            env("SUBSET_JOB", jobConfig['subsetJob'])
+            env("REPO_NAME", jobConfig['repoName'])
+        }
         multiscm {
             git { //using git on the branch and url, clean before checkout
                 remote {
-                    github(jobConfig['testengUrl'])
+                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['testengCredential'])
                     }
@@ -116,7 +128,7 @@ secretMap.each { jobConfigs ->
             }
             git { //using git on the branch and url, clone, clean before checkout
                 remote {
-                    github(jobConfig['platformUrl'])
+                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'] + '.git')
                     refspec('+refs/heads/master:refs/remotes/origin/master')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['platformCredential'])
@@ -129,7 +141,7 @@ secretMap.each { jobConfigs ->
                         reference("\$HOME/" + jobConfig['platformCloneReference'])
                         timeout(10)
                     }
-                    relativeTargetDirectory('edx-platform')
+                    relativeTargetDirectory(jobConfig['repoName'])
                     cleanBeforeCheckout()
                 }
             }

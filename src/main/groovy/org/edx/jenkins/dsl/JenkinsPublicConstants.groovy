@@ -79,9 +79,9 @@ class JenkinsPublicConstants {
         return secretMap
     }
     
-    public static final String JENKINS_PUBLIC_JUNIT_REPORTS = 'edx-platform/**/nosetests.xml,edx-platform/reports/acceptance/*.xml,' +
-                                                              'edx-platform/reports/quality.xml,edx-platform/reports/javascript/' +
-                                                              'javascript_xunit*.xml,edx-platform/reports/bok_choy/xunit.xml,edx-platform/' +
+    public static final String JENKINS_PUBLIC_JUNIT_REPORTS = 'edx-platform*/**/nosetests.xml,edx-platform*/reports/acceptance/*.xml,' +
+                                                              'edx-platform*/reports/quality.xml,edx-platform*/reports/javascript/' +
+                                                              'javascript_xunit*.xml,edx-platform*/reports/bok_choy/xunit.xml,edx-platform*/' +
                                                               'reports/bok_choy/**/xunit.xml'
 
     public static final Closure JENKINS_PUBLIC_GITHUB_STATUS_PENDING = { predefinedPropsMap ->
