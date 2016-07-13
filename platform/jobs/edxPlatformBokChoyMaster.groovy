@@ -9,12 +9,16 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
+import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
+    subsetJob : name-of-test-subset-job
+    repoName : name-of-github-edx-repo
     testengUrl: testeng-github-url-segment
     platformUrl : platform-github-url-segment
     testengCredential : n/a
@@ -60,10 +64,9 @@ Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
-    Thread thread = Thread.currentThread()
-    Build build = thread?.executable
-    Map envVarsMap = build.parent.builds[0].properties.get("envVars")
-    secretMap = JENKINS_PUBLIC_PARSE_SECRET.call(secretFileVariable, envVarsMap, out)
+    String contents = new File("${EDX_PLATFORM_TEST_BOK_CHOY_SECRET}").text
+    Yaml yaml = new Yaml()
+    secretMap = yaml.load(contents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
@@ -81,6 +84,8 @@ secretMap.each { jobConfigs ->
     /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
+    assert jobConfig.containsKey('repoName')
+    assert jobConfig.containsKey('testengUrl')
     assert jobConfig.containsKey('testengUrl')
     assert jobConfig.containsKey('platformUrl')
     assert jobConfig.containsKey('testengCredential')
@@ -103,15 +108,22 @@ secretMap.each { jobConfigs ->
             stringParams.each { param ->
                 stringParam(param.name, param.default, param.description)
             }
-        }        
+        }
+        properties {
+              githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
+        }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-bokchoy') //restrict to flow-worker-bokchoy
         checkoutRetryCount(5)
+        environmentVariables {
+            env("SUBSET_JOB", jobConfig['subsetJob'])
+            env("REPO_NAME", jobConfig['repoName'])
+        }
         multiscm {
             git { //using git on the branch and url, clean before checkout
                 remote {
-                    github(jobConfig['testengUrl'])
+                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['testengCredential'])
                     }
@@ -125,7 +137,7 @@ secretMap.each { jobConfigs ->
             }
            git { //using git on the branch and url, clone, clean before checkout
                 remote {
-                    github(jobConfig['platformUrl'])
+                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'] + '.git')
                     refspec('+refs/heads/master:refs/remotes/origin/master')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['platformCredential'])
@@ -139,7 +151,7 @@ secretMap.each { jobConfigs ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
-                    relativeTargetDirectory('edx-platform')
+                    relativeTargetDirectory(jobConfig['repoName'])
                 }
             }
         }

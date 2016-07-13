@@ -39,10 +39,9 @@ Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
-    Thread thread = Thread.currentThread()
-    Build build = thread?.executable
-    Map envVarsMap = build.parent.builds[0].properties.get("envVars")
-    secretMap = JENKINS_PUBLIC_PARSE_SECRET.call(secretFileVariable, envVarsMap, out)
+    String contents = new File("${EDX_PLATFORM_TEST_BOK_CHOY_PR_SECRET}").text
+    Yaml yaml = new Yaml()
+    secretMap = yaml.load(contents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {

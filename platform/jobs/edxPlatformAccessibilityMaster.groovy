@@ -10,6 +10,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_RE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_PENDING
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
+import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
@@ -17,6 +18,7 @@ publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
     url : github-url-segment
+    repoName : name-of-github-edx-repo
     credential : n/a
     cloneReference : clone/.git
     hipchat : token
@@ -51,10 +53,9 @@ Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
-    Thread thread = Thread.currentThread()
-    Build build = thread?.executable
-    Map envVarsMap = build.parent.builds[0].properties.get("envVars")
-    secretMap = JENKINS_PUBLIC_PARSE_SECRET.call(secretFileVariable, envVarsMap, out)
+    String contents = new File("${EDX_PLATFORM_TEST_ACCESSIBILITY_SECRET}").text
+    Yaml yaml = new Yaml()
+    secretMap = yaml.load(contents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
@@ -73,6 +74,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('url')
+    assert jobConfig.containsKey('repoName')
     assert jobConfig.containsKey('credential')
     assert jobConfig.containsKey('cloneReference')
     assert jobConfig.containsKey('hipchat')
@@ -110,7 +112,7 @@ secretMap.each { jobConfigs ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
-                    relativeTargetDirectory('edx-platform')
+                    relativeTargetDirectory(jobConfig['repoName'])
                 }
             }
         }
@@ -126,14 +128,14 @@ secretMap.each { jobConfigs ->
        }
        steps { //trigger GitHub-Build-Status and run accessibility tests
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap) 
-           shell('cd edx-platform; RUN_PA11YCRAWLER=1 ./scripts/accessibility-tests.sh')
+           shell('cd ' + jobConfig['repoName'] + '; RUN_PA11YCRAWLER=1 ./scripts/accessibility-tests.sh')
        }
        publishers { //publish artifacts and JUnit Test report, trigger GitHub-Build-Status, message on hipchat
            archiveArtifacts {
                pattern(JENKINS_PUBLIC_JUNIT_REPORTS)
-               pattern('edx-platform/test_root/log/**/*.png')
-               pattern('edx-platform/test_root/log/**/*.log')
-               pattern('edx-platform/reports/pa11ycrawler/**/*')
+               pattern('edx-platform*/test_root/log/**/*.png')
+               pattern('edx-platform*/test_root/log/**/*.log')
+               pattern('edx-platform*/reports/pa11ycrawler/**/*')
                allowEmpty()
                defaultExcludes()
            }
