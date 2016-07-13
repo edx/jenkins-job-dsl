@@ -167,7 +167,7 @@ class edxPlatformTestSubsetSpec extends Specification {
         Node scm = project.childNodes().find { it.name == "scm" }
         Node urc = scm.childNodes().find { it.name == "userRemoteConfigs" }
         Node giturc = urc.childNodes().find { it.name == "hudson.plugins.git.UserRemoteConfig" }
-        giturc.childNodes().any { it.name == "url"  && it.text() == url }
+        giturc.childNodes().any { it.name == "url" && it.text() == url }
         if (!open) {
             giturc.childNodes().any { it.name == "credentialsId" && it.text() ==  cred }
         }
