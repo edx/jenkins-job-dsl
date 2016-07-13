@@ -124,17 +124,17 @@ secretMap.each { jobConfigs ->
                 }
             }
         }
-        wrappers { //abort when stuck after 75 minutes, use gnome-terminal coloring, have timestamps at Console
+        wrappers { //abort when stuck after 65 minutes, use gnome-terminal coloring, have timestamps at Console
             timeout {
                absolute(65)
            }
            timestamps()
            colorizeOutput('gnome-terminal')
        }
-       steps { //trigger GitHub-Build-Status and run accessibility tests
+       steps { //Run accessibility tests
            shell('cd ' + jobConfig['repoName'] + '; bash scripts/accessibility-tests.sh')
        }
-       publishers { //publish artifacts and JUnit Test report, trigger GitHub-Build-Status, message on hipchat
+       publishers { //publish artifacts and JUnit Test report
            archiveArtifacts {
                pattern(JENKINS_PUBLIC_JUNIT_REPORTS)
                pattern('edx-platform*/test_root/log/**/*.png')
