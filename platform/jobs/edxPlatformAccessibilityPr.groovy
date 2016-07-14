@@ -23,8 +23,6 @@ publicJobConfig:
 */
 
 /* stdout logger */
-/* use this instead of println, because you can pass it into closures or other scripts. */
-/* TODO: Move this into JenkinsPublicConstants, as it can be shared. */
 Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
@@ -60,7 +58,6 @@ secretMap.each { jobConfigs ->
     Map jobConfig = jobConfigs.getValue()
 
     /* Test secret contains all necessary keys for this job */
-    /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('repoName')
@@ -73,7 +70,6 @@ secretMap.each { jobConfigs ->
 
     job(jobConfig['jobName']) {
 
-        /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {
             authorization {
                 blocksInheritance(true)
@@ -86,11 +82,11 @@ secretMap.each { jobConfigs ->
         parameters {
             stringParam(params.name, params.default, params.description)
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //discard old builds after 14 days
-        concurrentBuild() //concurrent builds can happen
-        label(JENKINS_PUBLIC_WORKER) //restrict to jenkins-worker
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        concurrentBuild() 
+        label(JENKINS_PUBLIC_WORKER)
         scm {
-            git { //using git on the branch and url, clone, clean before checkout
+            git {
                 remote {
                     url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'] + '.git')
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
@@ -110,7 +106,7 @@ secretMap.each { jobConfigs ->
                 }
             }
         }
-        triggers { //trigger when pull request is created
+        triggers {
             pullRequest {
                 admins(jobConfig['admin'])
                 useGitHubHooks()
@@ -124,17 +120,17 @@ secretMap.each { jobConfigs ->
                 }
             }
         }
-        wrappers { //abort when stuck after 65 minutes, use gnome-terminal coloring, have timestamps at Console
+        wrappers {
             timeout {
                absolute(65)
            }
            timestamps()
            colorizeOutput('gnome-terminal')
        }
-       steps { //Run accessibility tests
+       steps {
            shell('cd ' + jobConfig['repoName'] + '; bash scripts/accessibility-tests.sh')
        }
-       publishers { //publish artifacts and JUnit Test report
+       publishers {
            archiveArtifacts {
                pattern(JENKINS_PUBLIC_JUNIT_REPORTS)
                pattern('edx-platform*/test_root/log/**/*.png')
