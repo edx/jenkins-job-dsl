@@ -39,7 +39,6 @@ String secretFileVariable = 'EDX_PLATFORM_TEST_LETTUCE_PR_SECRET'
 Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
-    /* Parse k:v pairs from the secret file referenced by secretFileVariable */
     String contents = new File("${EDX_PLATFORM_TEST_LETTUCE_PR_SECRET}").text
     Yaml yaml = new Yaml()
     secretMap = yaml.load(contents)
@@ -56,8 +55,6 @@ secretMap.each { jobConfigs ->
 
     Map jobConfig = jobConfigs.getValue()
 
-    /* Test secret contains all necessary keys for this job */
-    /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('subsetJob')
@@ -73,7 +70,6 @@ secretMap.each { jobConfigs ->
 
     buildFlowJob(jobConfig['jobName']) {
 
-        /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {
             authorization {
                 blocksInheritance(true)
@@ -83,16 +79,16 @@ secretMap.each { jobConfigs ->
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of time
-        concurrentBuild() //concurrent builds can happen
-        label('flow-worker-lettuce') //restrict to jenkins-worker
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        concurrentBuild()
+        label('flow-worker-lettuce')
         checkoutRetryCount(5)
         environmentVariables {
             env("SUBSET_JOB", jobConfig['subsetJob'])
             env("REPO_NAME", jobConfig['repoName'])
         }
         multiscm {
-            git { //using git on the branch and url, clean before checkout
+            git {
                 remote {
                     url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
                     if (!jobConfig['open'].toBoolean()) {
@@ -106,7 +102,7 @@ secretMap.each { jobConfigs ->
                     cleanBeforeCheckout()
                 }
             }
-            git { //using git on the branch and url, clone, clean before checkout
+            git {
                 remote {
                     url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'] + '.git')
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
@@ -126,7 +122,7 @@ secretMap.each { jobConfigs ->
                 }
             }
         }
-        triggers { //trigger when pull request is created
+        triggers {
             pullRequest {
                 admins(jobConfig['admin'])
                 useGitHubHooks()
@@ -141,7 +137,7 @@ secretMap.each { jobConfigs ->
             }
         }
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-lettuce-pr.groovy')
-        publishers { //publish JUnit Test report
+        publishers {
             archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
         }
     }
