@@ -13,6 +13,7 @@ publicJobConfig:
     platformUrl : platform-github-url-segment.git
     platformCredential : n/a
     platformCloneReference : clone/.git
+    protocol : https
 */
 
 /* stdout logger */
@@ -111,11 +112,11 @@ secretMap.each { jobConfigs ->
             buildName('#\${BUILD_NUMBER}: Quality Tests')
         }
         steps {
-            shell('cd edx-platform; TEST_SUITE=quality ./scripts/all-tests.sh')
+            shell("cd ${jobConfig['repoName']}; TEST_SUITE=quality ./scripts/all-tests.sh")
         }
         publishers {
             archiveArtifacts {
-                pattern('edx-platform/reports/**/*,edx-platform/test_root/log/*.png,edx-platform/test_root/log/*.log,edx-platform/test_root/log/hars/*.har,edx-platform/**/nosetests.xml,edx-platform/**/TEST-*.xml')
+                pattern('edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml')
                 defaultExcludes(true)
                 allowEmpty(true)
             }
@@ -126,7 +127,7 @@ secretMap.each { jobConfigs ->
                     keepAll(true)
                     allowMissing(true)
                 }
-                report('edx-platform/reports/diff_quality') {
+                report('edx-platform*/reports/diff_quality') {
                     reportName('Diff Quality Report')
                     reportFiles('diff_quality_pep8.html,diff_quality_pylint.html,diff_quality_jshint.html')
                     keepAll(true)
