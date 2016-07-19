@@ -151,6 +151,7 @@ secretMap.each { jobConfigs ->
             colorizeOutput('gnome-terminal')
             buildName('#\${BUILD_NUMBER}: \${GIT_REVISION,length=8}')
         }
+       /* Copy Artifacts from test subset jobs with build number UNIT_BUILD_NUM */
         steps {
             for (buildNum = 1; buildNum < 7; buildNum += 1) {
                 copyArtifacts(jobConfig['subsetJob']) {
