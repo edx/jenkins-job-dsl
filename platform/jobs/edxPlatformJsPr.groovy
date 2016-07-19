@@ -18,6 +18,14 @@ publicJobConfig:
     cloneReference : clone/.git
 */
 
+String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
+archiveReports += 'edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,'
+archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
+
+String descriptionString = 'This job runs pull requests through our javascript tests.<br><br> \n'
+descriptionString += 'To run failed tests on devstack, see test patterns <a href=https://github.'
+descriptionString += 'com/edx/edx-platform/blob/master/docs/en_us/internal/testing.rst>here</a>'
+
 /* stdout logger */
 Map config = [:]
 Binding bindings = getBinding()
@@ -29,7 +37,7 @@ Map secretMap = [:]
 Map ghprbMap = [:]
 try {
     out.println('Parsing secret YAML file')
-    String secretFileContents = new File("${EDX_PLATFORM_TEST_ACCESSIBILITY_PR_SECRET}").text
+    String secretFileContents = new File("${EDX_PLATFORM_TEST_JS_PR_SECRET}").text
     String ghprbConfigContents = new File("${GHPRB_SECRET}").text
     Yaml yaml = new Yaml()
     secretMap = yaml.load(secretFileContents)
@@ -37,7 +45,6 @@ try {
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
-    out.println(any)
     out.println('Jenkins DSL: Error parsing secret YAML file')
     out.println('Exiting with error code 1')
     return 1
@@ -48,7 +55,6 @@ secretMap.each { jobConfigs ->
 
     Map jobConfig = jobConfigs.getValue()
 
-    /* Test secret contains all necessary keys for this job */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('protocol')
@@ -61,6 +67,7 @@ secretMap.each { jobConfigs ->
     assert ghprbMap.containsKey('orgWhiteList')
 
     job(jobConfig['jobName']) {
+        description(descriptionString)
         if (!jobConfig['open'].toBoolean()) {
             authorization {
                 blocksInheritance(true)
@@ -68,7 +75,7 @@ secretMap.each { jobConfigs ->
             }
         }
         properties {
-              githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'])
+            githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'])
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild()
@@ -86,10 +93,9 @@ secretMap.each { jobConfigs ->
                 browser()
                 extensions {
                     cloneOptions {
-                        reference('\$HOME/' + jobConfig['cloneReference'])
+                        reference("\$HOME/" + jobConfig['cloneReference'])
                         timeout(10)
                     }
-                    cleanBeforeCheckout()
                     relativeTargetDirectory(jobConfig['repoName'])
                 }
             }
@@ -98,37 +104,49 @@ secretMap.each { jobConfigs ->
             pullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
-                triggerPhrase('jenkins run a11y')
+                triggerPhrase('jenkins run js')
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
                 extensions {
                     commitStatus {
-                        context('jenkins/a11y')
+                        context('jenkins/js')
                     }
                 }
             }
         }
         wrappers {
             timeout {
-               absolute(65)
+               absolute(45)
            }
            timestamps()
-           colorizeOutput('gnome-terminal')
+           colorizeOutput()
            if (!jobConfig['open'].toBoolean()) {
                 sshAgent(jobConfig['credential'])
            }
+           buildName('#${BUILD_NUMBER}: Javascript Tests')
        }
        steps {
-           shell("cd ${jobConfig['repoName']}; bash scripts/accessibility-tests.sh")
+           shell("cd ${jobConfig['repoName']}; TEST_SUITE=js-unit ./scripts/all-tests.sh")
        }
        publishers {
            archiveArtifacts {
-               pattern(JENKINS_PUBLIC_JUNIT_REPORTS)
-               pattern('edx-platform*/test_root/log/**/*.png')
-               pattern('edx-platform*/test_root/log/**/*.log')
-               pattern('edx-platform*/reports/pa11ycrawler/**/*')
-               allowEmpty()
+               pattern(archiveReports)
                defaultExcludes()
+           }
+           cobertura ('edx-platform*/**/reports/**/coverage*.xml') {
+               failNoReports(true)
+               sourceEncoding('ASCII')
+               methodTarget(80, 0, 0)
+               lineTarget(80, 0, 0)
+               conditionalTarget(70, 0, 0)
+           }
+           publishHtml {
+               report('edx-platform*/reports') {
+                   reportFiles('diff_coverage_combined.html')
+                   reportName('Diff Coverage Report')
+                   keepAll()
+                   allowMissing()
+               }
            }
            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
        }
