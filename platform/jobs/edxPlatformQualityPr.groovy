@@ -109,6 +109,9 @@ secretMap.each { jobConfigs ->
             }
             timestamps()
             colorizeOutput()
+            if (!jobConfig['open'].toBoolean()) {
+                sshAgent(jobConfig['platformCredential'])
+            }
             buildName('#\${BUILD_NUMBER}: Quality Tests')
         }
         steps {
