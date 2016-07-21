@@ -64,7 +64,6 @@ dependencies {
     testCompile 'org.jenkins-ci.plugins:structs:1.1@jar'
     testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
     testCompile 'com.cloudbees.plugins:build-flow-plugin:0.17@jar'
-    //testCompile 'org.jenkins-ci.plugins:buildgraph-view:1.3.2@jar'
 
 }
 

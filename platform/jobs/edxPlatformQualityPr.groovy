@@ -18,7 +18,6 @@ publicJobConfig:
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
-/* TODO: Move this into JenkinsPublicConstants, as it can be shared. */
 Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
@@ -50,6 +49,12 @@ secretMap.each { jobConfigs ->
 
     /* Test secret contains all necessary keys for this job */
     assert jobConfig.containsKey('open')
+    assert jobConfig.containsKey('jobName')
+    assert jobConfig.containsKey('repoName')
+    assert jobConfig.containsKey('platformUrl')
+    assert jobConfig.containsKey('platformCredential')
+    assert jobConfig.containsKey('platformCloneReference')
+    assert jobConfig.containsKey('protocol')
 
     job(jobConfig['jobName']) {
 
