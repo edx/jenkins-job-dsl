@@ -6,8 +6,8 @@ defaultTasks 'clean', 'libs'
 sourceSets {
     jobs {
         groovy {
-            srcDir 'platform/jobs'
             srcDir 'sample/jobs'
+            srcDir 'platform/jobs'
         }
     }
     src {
@@ -63,13 +63,14 @@ dependencies {
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
     testCompile 'org.jenkins-ci.plugins:structs:1.1@jar'
     testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
+    testCompile 'com.cloudbees.plugins:build-flow-plugin:0.17@jar'
 
 }
 
 codenarc {
     toolVersion = '0.25.2'
     configFile = file('config/codenarc/codenarcRules.groovy')
-    maxPriority2Violations = 49
+    maxPriority2Violations = 50
     maxPriority3Violations = 99
 }
 
