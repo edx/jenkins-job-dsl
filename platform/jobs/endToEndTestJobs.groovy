@@ -7,7 +7,7 @@ endToEndTests.each { endToEndTest ->
 
     String jobName = "${endToEndTest.name}-end-to-end-tests"
 
-    job(jobName){
+    job(jobName) {
         wrappers common_wrappers
         description(endToEndTest.description)
 
@@ -22,7 +22,7 @@ endToEndTests.each { endToEndTest ->
 
         label(endToEndTest.workerLabel)
 
-        scm{
+        scm {
             github(endToEndTest.code_dir, endToEndTest.branch)
         }
 

@@ -1,22 +1,22 @@
 package devops
 
-import hudson.model.Build
+import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_PENDING
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
-import org.yaml.snakeyaml.Yaml
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 
 /*
 Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
+    protocol : protocol-for-github
     url : github-url-segment
     repoName : name-of-github-edx-repo
     credential : n/a
@@ -49,9 +49,6 @@ params = [
     description: 'Sha1 hash of branch to build. Default branch : master',
     default: 'refs/heads/master' ]
 
-/* Environment variable (set in Seeder job config) to reference a Jenkins secret file */
-String secretFileVariable = 'EDX_PLATFORM_TEST_JS_SECRET'
-
 /* Map to hold the k:v pairs parsed from the secret file */
 Map secretMap = [:]
 try {
@@ -77,6 +74,7 @@ secretMap.each { jobConfigs ->
     /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
+    assert jobConfig.containsKey('protocol')
     assert jobConfig.containsKey('url')
     assert jobConfig.containsKey('repoName')
     assert jobConfig.containsKey('credential')
@@ -93,7 +91,9 @@ secretMap.each { jobConfigs ->
                 permissionAll('edx')
             }
         }
-
+        properties {
+            githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'])
+        }
         parameters {
             stringParam(params.name, params.default, params.description)
         }
@@ -103,7 +103,7 @@ secretMap.each { jobConfigs ->
         scm {
             git { //using git on the branch and url, clone, clean before checkout
                 remote {
-                    github(jobConfig['url'])
+                    url(jobConfig['protocol'] + '://github.com/' + jobConfig['url'] + '.git')
                     refspec('+refs/heads/master:refs/remotes/origin/master')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['credential'])
@@ -124,19 +124,22 @@ secretMap.each { jobConfigs ->
         triggers { //trigger when change pushed to GitHub
             githubPush()
         }
-        wrappers { //abort when stuck after 30 minutes, x-mal coloring, timestamps at Console, change the build name
+        wrappers { //abort when stuck, x-mal coloring, timestamps in Console, change build name
             timeout {
                absolute(30)
            }
            timestamps()
            colorizeOutput()
+           if (!jobConfig['open'].toBoolean()) {
+                sshAgent(jobConfig['credential'])
+           }
            buildName('#${BUILD_NUMBER}: JS Tests')
        }
        steps { //trigger GitHub-Build-Status and run accessibility tests
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
-           shell('cd ' + jobConfig['repoName'] + '; TEST_SUITE=js-unit ./scripts/all-tests.sh')
+           shell("cd ${jobConfig['repoName']}; TEST_SUITE=js-unit ./scripts/all-tests.sh")
        }
-       publishers { //publish artifacts, coverage, JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
+       publishers { //archive artifacts, coverage, JUnit report, trigger GitHub-Build-Status, email, message hipchat
            archiveArtifacts {
                pattern(archiveReports)
                defaultExcludes()

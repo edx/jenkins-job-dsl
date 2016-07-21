@@ -1,11 +1,9 @@
 package devops
 
-import hudson.model.Build
+import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
-import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
@@ -19,30 +17,25 @@ publicJobConfig:
     testengCredential : n/a
     platformCredential : n/a
     platformCloneReference : clone/.git
-    admin : [name, name, name]
-    userWhiteList : [name, name, name]
-    orgWhiteList : [name, name, name]
 */
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
-/* TODO: Move this into JenkinsPublicConstants, as it can be shared. */
 Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
-/* Environment variable (set in Seeder job config) to reference a Jenkins secret file */
-String secretFileVariable = 'EDX_PLATFORM_TEST_BOK_CHOY_PR_SECRET'
-
 /* Map to hold the k:v pairs parsed from the secret file */
 Map secretMap = [:]
+Map ghprbMap = [:]
 try {
     out.println('Parsing secret YAML file')
-    /* Parse k:v pairs from the secret file referenced by secretFileVariable */
-    String contents = new File("${EDX_PLATFORM_TEST_BOK_CHOY_PR_SECRET}").text
+    String secretFileContents = new File("${EDX_PLATFORM_TEST_BOK_CHOY_PR_SECRET}").text
+    String ghprbConfigContents = new File("${GHPRB_SECRET}").text
     Yaml yaml = new Yaml()
-    secretMap = yaml.load(contents)
+    secretMap = yaml.load(secretFileContents)
+    ghprbMap = yaml.load(ghprbConfigContents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
@@ -57,7 +50,6 @@ secretMap.each { jobConfigs ->
     Map jobConfig = jobConfigs.getValue()
 
     /* Test secret contains all necessary keys for this job */
-    /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('subsetJob')
@@ -67,9 +59,9 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('testengCredential')
     assert jobConfig.containsKey('platformCredential')
     assert jobConfig.containsKey('platformCloneReference')
-    assert jobConfig.containsKey('admin')
-    assert jobConfig.containsKey('userWhiteList')
-    assert jobConfig.containsKey('orgWhiteList')
+    assert ghprbMap.containsKey('admin')
+    assert ghprbMap.containsKey('userWhiteList')
+    assert ghprbMap.containsKey('orgWhiteList')
 
     buildFlowJob(jobConfig['jobName']) {
 
@@ -83,13 +75,13 @@ secretMap.each { jobConfigs ->
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of time
-        concurrentBuild() //concurrent builds can happen
-        label('flow-worker-bokchoy') //restrict to jenkins-worker
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        concurrentBuild()
+        label('flow-worker-bokchoy')
         checkoutRetryCount(5)
         environmentVariables {
-            env("SUBSET_JOB", jobConfig['subsetJob'])
-            env("REPO_NAME", jobConfig['repoName'])
+            env('SUBSET_JOB', jobConfig['subsetJob'])
+            env('REPO_NAME', jobConfig['repoName'])
         }
         multiscm {
             git { //using git on the branch and url, clean before checkout
@@ -128,11 +120,11 @@ secretMap.each { jobConfigs ->
         }
         triggers { //trigger when pull request is created
             pullRequest {
-                admins(jobConfig['admin'])
+                admins(ghprbMap['admin'])
                 useGitHubHooks()
                 triggerPhrase('jenkins run bokchoy')
-                userWhitelist(jobConfig['userWhiteList'])
-                orgWhitelist(jobConfig['orgWhiteList'])
+                userWhitelist(ghprbMap['userWhiteList'])
+                orgWhitelist(ghprbMap['orgWhiteList'])
                 extensions {
                     commitStatus {
                         context('jenkins/bokchoy')
