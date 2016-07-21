@@ -1,16 +1,13 @@
 package devops
 
-import hudson.model.Build
+import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
-import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
@@ -46,11 +43,8 @@ PrintStream out = config['out']
 stringParams = [
     name: 'sha1',
     description: 'Sha1 hash of branch to build. Default branch : master',
-    default: 'master' 
+    default: 'master'
 ]
-
-/* Environment variable (set in Seeder job config) to reference a Jenkins secret file */
-String secretFileVariable = 'EDX_PLATFORM_TEST_LETTUCE_SECRET'
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map secretMap = [:]
@@ -102,14 +96,14 @@ secretMap.each { jobConfigs ->
         }
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
-        }        
+        }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of days
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-lettuce') //restrict to flow-worker-lettuce
         checkoutRetryCount(5)
         environmentVariables {
-            env("SUBSET_JOB", jobConfig['subsetJob'])
-            env("REPO_NAME", jobConfig['repoName'])
+            env('SUBSET_JOB', jobConfig['subsetJob'])
+            env('REPO_NAME', jobConfig['repoName'])
         }
         multiscm {
             git { //using git on the branch and url, clean before checkout

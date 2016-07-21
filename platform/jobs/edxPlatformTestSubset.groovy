@@ -1,12 +1,10 @@
 package devops
 
-import hudson.model.Build
+import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_ARTIFACTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_XUNIT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
-import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
@@ -58,10 +56,7 @@ stringParams = [
 /* Groovy script called within job to process environment variables for easier use */
 String envVarScript = readFileFromWorkspace('platform/resources/mapEnvVars.groovy')
 
-/* Environment variable (set in Seeder job config) to reference a Jenkins secret file */
-String secretFileVariable = 'EDX_PLATFORM_TEST_SUBSET_SECRET'
-
-def secretMap = [:]
+Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
@@ -82,7 +77,6 @@ secretMap.each { jobConfigs ->
     Map jobConfig = jobConfigs.getValue()
 
     /* Test secret contains all necessary keys for this job */
-    /* TODO: Use/Build a more robust test framework for this */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('url')
@@ -96,7 +90,7 @@ secretMap.each { jobConfigs ->
         properties {
             githubProjectUrl(jobConfig['url'])
         }
-        
+
         /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {
             authorization {
@@ -167,6 +161,5 @@ secretMap.each { jobConfigs ->
             archiveArtifacts JENKINS_PUBLIC_ARCHIVE_ARTIFACTS()
             archiveXUnit JENKINS_PUBLIC_ARCHIVE_XUNIT()
         }
-
     }
 }

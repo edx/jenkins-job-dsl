@@ -1,16 +1,13 @@
 package devops
 
-import hudson.model.Build
+import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_PARSE_SECRET
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
-import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
@@ -37,7 +34,6 @@ predefinedPropsMap.put('CONTEXT', 'jenkins/bokchoy')
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
-/* TODO: Move this into JenkinsPublicConstants, as it can be shared. */
 Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
@@ -47,17 +43,14 @@ stringParams = [
     [
     name: 'ENV_VARS',
     description: '',
-    default: '' 
+    default: ''
     ],
     [
     name: 'sha1',
     description: 'Sha1 hash of branch to build. Default branch : master',
-    default: '*/master' 
+    default: '*/master'
     ]
 ]
-
-/* Environment variable (set in Seeder job config) to reference a Jenkins secret file */
-String secretFileVariable = 'EDX_PLATFORM_TEST_BOK_CHOY_SECRET'
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map secretMap = [:]
@@ -117,8 +110,8 @@ secretMap.each { jobConfigs ->
         label('flow-worker-bokchoy') //restrict to flow-worker-bokchoy
         checkoutRetryCount(5)
         environmentVariables {
-            env("SUBSET_JOB", jobConfig['subsetJob'])
-            env("REPO_NAME", jobConfig['repoName'])
+            env('SUBSET_JOB', jobConfig['subsetJob'])
+            env('REPO_NAME', jobConfig['repoName'])
         }
         multiscm {
             git { //using git on the branch and url, clean before checkout

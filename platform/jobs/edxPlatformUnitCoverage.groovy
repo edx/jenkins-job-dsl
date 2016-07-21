@@ -1,8 +1,8 @@
 package devops
 
+import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
-import org.yaml.snakeyaml.Yaml
 
 /*
 Example secret YAML file used by this script
@@ -71,7 +71,7 @@ stringParams = [
     ]
 ]
 
-def secretMap = [:]
+Map secretMap = [:]
 try {
     out.println('Parsing secret YAML file')
     /* Parse k:v pairs from the secret file referenced by secretFileVariable */
