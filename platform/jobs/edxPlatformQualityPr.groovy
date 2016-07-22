@@ -10,10 +10,10 @@ publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
     repoName : name-of-github-edx-repo
+    protocol : protocol-and-base-url
     platformUrl : platform-github-url-segment.git
     platformCredential : n/a
     platformCloneReference : clone/.git
-    protocol : https
 */
 
 /* stdout logger */
@@ -75,7 +75,7 @@ secretMap.each { jobConfigs ->
         scm {
             git { //using git on the branch and url, clone, clean before checkout
                 remote {
-                    url(jobConfig['protocol'] + "://github.com/" + jobConfig['platformUrl'] + '.git')
+                    url(jobConfig['protocol'] + jobConfig['platformUrl'] + '.git')
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['platformCredential'])
@@ -129,15 +129,15 @@ secretMap.each { jobConfigs ->
                 allowEmpty(true)
             }
             publishHtml {
-                report('edx-platform*/reports/metrics/') {
+                report("${jobConfig['repoName']}/reports/metrics/") {
                     reportName('Quality Report')
                     reportFiles('pylint/*view*/,pep8/*view*/,jshint/*view*/,python_complexity/*view*/,safecommit/*view*/,safelint/*view*/')
                     keepAll(true)
                     allowMissing(true)
                 }
-                report('edx-platform*/reports/diff_quality') {
+                report("${jobConfig['repoName']}/reports/diff_quality") {
                     reportName('Diff Quality Report')
-                    reportFiles('diff_quality_pep8.html,diff_quality_pylint.html,diff_quality_jshint.html')
+                    reportFiles('diff_quality_pep8.html, diff_quality_pylint.html, diff_quality_jshint.html')
                     keepAll(true)
                 }
             }
