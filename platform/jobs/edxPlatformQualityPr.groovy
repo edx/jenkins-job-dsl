@@ -124,14 +124,17 @@ secretMap.each { jobConfigs ->
         }
         publishers {
             archiveArtifacts {
-                pattern('edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml')
+                pattern('edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,edx-platform*/' +
+                        'test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,edx-platform*/**/' +
+                        'nosetests.xml,edx-platform*/**/TEST-*.xml')
                 defaultExcludes(true)
                 allowEmpty(true)
             }
             publishHtml {
                 report("${jobConfig['repoName']}/reports/metrics/") {
                     reportName('Quality Report')
-                    reportFiles('pylint/*view*/,pep8/*view*/,jshint/*view*/,python_complexity/*view*/,safecommit/*view*/,safelint/*view*/')
+                    reportFiles('pylint/*view*/,pep8/*view*/,jshint/*view*/,python_complexity/*view*/,' +
+                                'safecommit/*view*/,safelint/*view*/')
                     keepAll(true)
                     allowMissing(true)
                 }
