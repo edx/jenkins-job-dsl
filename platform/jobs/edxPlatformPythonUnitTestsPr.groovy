@@ -137,7 +137,7 @@ secretMap.each { jobConfigs ->
                retainLongStdout()
            }
            publishHtml {
-               report("${repoName}/reports") {
+               report("${jobConfig['repoName']}/reports") {
                    reportFiles('diff_coverage_combined.html')
                    reportName('Diff Coverage Report')
                    keepAll()
