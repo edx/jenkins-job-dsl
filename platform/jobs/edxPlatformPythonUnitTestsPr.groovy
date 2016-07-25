@@ -137,7 +137,7 @@ secretMap.each { jobConfigs ->
                retainLongStdout()
            }
            publishHtml {
-               report('edx-platform*/reports') {
+               report("${repoName}/reports") {
                    reportFiles('diff_coverage_combined.html')
                    reportName('Diff Coverage Report')
                    keepAll()
