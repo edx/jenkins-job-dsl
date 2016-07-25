@@ -9,7 +9,8 @@ Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
-    url : full-github-url
+    protocol : protocol-and-base-url
+    url : github-url-segment
     credential : n/a
     cloneReference : clone/.git
     subsetJob : name-of-test-subset-job
@@ -123,7 +124,7 @@ secretMap.each { jobConfigs ->
         scm {
             git {
                 remote {
-                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'] + '.git')
+                    url(jobConfig['protocol'] + jobConfig['url'] + '.git')
                     refspec('+refs/heads/*:refs/remotes/origin/* +refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['credential'])
@@ -149,6 +150,9 @@ secretMap.each { jobConfigs ->
             }
             timestamps()
             colorizeOutput('gnome-terminal')
+            if (!jobConfig['open'].toBoolean()) {
+                sshAgent(jobConfig['credential'])
+            }
             buildName('#\${BUILD_NUMBER}: \${GIT_REVISION,length=8}')
         }
        /* Copy Artifacts from test subset jobs with build number UNIT_BUILD_NUM */

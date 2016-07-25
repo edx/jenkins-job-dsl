@@ -5,13 +5,15 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_ARTIFACTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_XUNIT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 
 /*
 Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
-    url : full-github-url
+    protocol : protocol-and-base-url
+    url : github-url-segment
     credential : n/a
     cloneReference : clone/.git
 */
@@ -88,7 +90,7 @@ secretMap.each { jobConfigs ->
 
         logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         properties {
-            githubProjectUrl(jobConfig['url'])
+            githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'])
         }
 
         /* For non-open jobs, enable project based security */
@@ -113,7 +115,7 @@ secretMap.each { jobConfigs ->
         scm {
             git {
                 remote {
-                    url(jobConfig['url'] + '.git')
+                    url(jobConfig['protocol'] + jobConfig['url'] + '.git')
                     refspec('+refs/heads/*:refs/remotes/origin/* +refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['credential'])

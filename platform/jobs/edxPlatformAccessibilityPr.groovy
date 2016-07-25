@@ -11,7 +11,7 @@ Example secret YAML file used by this script
 publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
-    protocol : protocol-for-github
+    protocol : protocol-and-base-url
     url : github-url-segment
     repoName : name-of-github-edx-repo
     credential : n/a
@@ -75,7 +75,7 @@ secretMap.each { jobConfigs ->
         scm {
             git {
                 remote {
-                    url(jobConfig['protocol'] + '://github.com/' + jobConfig['url'] + '.git')
+                    url(jobConfig['protocol'] + jobConfig['url'] + '.git')
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['credential'])
