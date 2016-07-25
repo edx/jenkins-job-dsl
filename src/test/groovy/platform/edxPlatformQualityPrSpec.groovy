@@ -177,7 +177,7 @@ class edxPlatformQualityPrSpec extends Specification {
         Node scm = project.childNodes().find { it.name == 'scm' }
         Node urc = scm.childNodes().find { it.name == 'userRemoteConfigs' }
         Node giturc = urc.childNodes().find { it.name == 'hudson.plugins.git.UserRemoteConfig' }
-        giturc.childNodes().any { it.name == "url" && it.text() == "${protocol}://github.com/${platformUrl}.git" }
+        giturc.childNodes().any { it.name == "url" && it.text() == "${protocol}${platformUrl}.git" }
         if (!open) {
             giturc.childNodes().any { it.name == 'credentialsId' && it.text() ==  platformCred }
         }
@@ -189,8 +189,8 @@ class edxPlatformQualityPrSpec extends Specification {
 
         where:
         job                         | open  | repoName          | platformUrl           | platformCred  | platformCloneReference        | protocol
-        'edx-platform-quality-pr'   | true  | 'edx-platform'    | 'edx/edx-platform'    | false         | 'edx-platform-clone/.git'     | 'https'
-        'edx-platform-quality-pr_2' | false | 'edx-platform-2'  | 'edx/edx-platform-2'  | 'password'    | 'edx-platform-2-clone/.git'   | 'ssh'
+        'edx-platform-quality-pr'   | true  | 'edx-platform'    | 'edx/edx-platform'    | false         | 'edx-platform-clone/.git'     | 'https://github.com/'
+        'edx-platform-quality-pr_2' | false | 'edx-platform-2'  | 'edx/edx-platform-2'  | 'password'    | 'edx-platform-2-clone/.git'   | 'git@github.com:'
 
 
     }

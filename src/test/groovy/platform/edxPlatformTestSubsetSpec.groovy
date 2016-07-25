@@ -167,7 +167,7 @@ class edxPlatformTestSubsetSpec extends Specification {
         Node scm = project.childNodes().find { it.name == "scm" }
         Node urc = scm.childNodes().find { it.name == "userRemoteConfigs" }
         Node giturc = urc.childNodes().find { it.name == "hudson.plugins.git.UserRemoteConfig" }
-        giturc.childNodes().any { it.name == "url" && it.text() == url }
+        giturc.childNodes().any { it.name == "url" && it.text() == "${protocol}${url}.git" }
         if (!open) {
             giturc.childNodes().any { it.name == "credentialsId" && it.text() ==  cred }
         }
@@ -176,9 +176,9 @@ class edxPlatformTestSubsetSpec extends Specification {
         cloneOption.childNodes().any { it.name == "reference" && it.text() == "\$HOME/${clone}"}
 
         where:
-        job                                 | open  | url                                           | cred          | clone
-        "edx-platform-test-subset"          | true  | "https://github.com/edx/edx-platform.git"     | false         | "edx-platform-clone/.git"
-        "edx-platform-test-subset_2"        | false | "ssh://github.com/edx/edx-platform-2.git"     | "password"    | "edx-platform-2-clone/.git"
+        job                                 | open  | protocol               | url                    | cred          | clone
+        "edx-platform-test-subset"          | true  | "https://github.com/"  | "edx/edx-platform"     | false         | "edx-platform-clone/.git"
+        "edx-platform-test-subset_2"        | false | "git@github.com:"      | "edx/edx-platform-2"   | "password"    | "edx-platform-2-clone/.git"
 
 
     }
