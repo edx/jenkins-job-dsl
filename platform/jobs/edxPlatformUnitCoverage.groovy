@@ -121,6 +121,9 @@ secretMap.each { jobConfigs ->
         }
         concurrentBuild(true)
         label('coverage-worker')
+        environmentVariables {
+            env('SUBSET_JOB', jobConfig['subsetJob'])
+        }
         scm {
             git {
                 remote {
