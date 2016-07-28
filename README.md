@@ -46,3 +46,29 @@ To run codenarc on the shared code:
 `./gradlew codenarcSrc`
 etc...
 
+## Writing DSLs
+
+### Shared Constants:
+In order to make use of shared constants in a DSL script:
+* Have a try/catch to parse the Yaml file into a map
+```groovy
+    Map constantsMap = [:]
+    try {
+        out.println('Parsing secret YAML file')
+        String constantsConfig = new File("${EDX_PLATFORM_SHARED_CONSTANTS}").text
+        Yaml yaml = new Yaml()
+        constantsMap = yaml.load(constantsConfig)
+        out.println('Successfully parsed secret YAML file')
+    }
+    catch (any) {
+        out.println('Jenkins DSL: Error parsing secret YAML file')
+        out.println('Exiting with error code 1')
+        return 1
+    }
+```
+* Assert that the map contains the desired constants
+* Use the constant as the key value in the map ex. constantsMap['credential']
+
+Constant | Purpose | Use
+------------ | ------------- | -------------
+credential | Allow access to private git repositories | In the credential() function in the Git Scm Context
