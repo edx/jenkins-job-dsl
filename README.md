@@ -55,7 +55,7 @@ In order to make use of shared constants in a DSL script:
     Map constantsMap = [:]
     try {
         out.println('Parsing secret YAML file')
-        String constantsConfig = new File("${FILE_NAME}").text
+        String constantsConfig = new File("${EDX_PLATFORM_SHARED_CONSTANTS}").text
         Yaml yaml = new Yaml()
         constantsMap = yaml.load(constantsConfig)
         out.println('Successfully parsed secret YAML file')
