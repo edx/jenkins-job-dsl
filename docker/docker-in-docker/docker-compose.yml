@@ -1,0 +1,9 @@
+edxops-jenkins:
+  image: edxops/jenkins:latest
+  container_name: edxops-jenkins-docker-in-docker
+  volumes:
+      - .docker-volumes/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+  ports:
+    - "8080:8080"
+    - "50000:50000"
