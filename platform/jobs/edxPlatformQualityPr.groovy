@@ -134,14 +134,15 @@ secretMap.each { jobConfigs ->
                 report("${jobConfig['repoName']}/reports/metrics/") {
                     reportName('Quality Report')
                     reportFiles('pylint/*view*/,pep8/*view*/,jshint/*view*/,python_complexity/*view*/,' +
-                                'safecommit/*view*/,safelint/*view*/')
+                                'safecommit/*view*/,safelint/*view*/,eslint/*view*/')
                     keepAll(true)
                     allowMissing(true)
                 }
                 report("${jobConfig['repoName']}/reports/diff_quality") {
                     reportName('Diff Quality Report')
-                    reportFiles('diff_quality_pep8.html, diff_quality_pylint.html, diff_quality_jshint.html')
+                    reportFiles('diff_quality_pep8.html, diff_quality_pylint.html, diff_quality_jshint.html, diff_quality_eslint.html')
                     keepAll(true)
+                    allowMissing(true)
                 }
             }
         }
