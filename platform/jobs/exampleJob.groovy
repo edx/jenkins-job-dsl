@@ -50,6 +50,9 @@ secretMap.each { jobConfigs ->
     Map jobConfig = jobConfigs.getValue()
 
     /* Test secret contains all necessary keys for this job */
+    assert jobConfig.containsKey('open')
+    assert jobConfig.containsKey('jobName')
+    assert jobConfig.containsKey('credential')
     assert jobConfig.containsKey('hipchat')
 
     /* Set the job name */
