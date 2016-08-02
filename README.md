@@ -49,7 +49,7 @@ etc...
 ## Writing DSLs
 
 ### Example Job
-An example job can be found at [here](../blob/master/platform/jobs/exampleJob.groovy). 
+An example job can be found [here](../blob/master/platform/jobs/exampleJob.groovy). 
 
 ### Shared Constants:
 In order to make use of shared constants in a DSL script:
