@@ -1,5 +1,7 @@
 package devops
 
+/* JenkinsPublicConstants can be found in src/main/groovy/org/edx/jenkins/dsl*/
+/* It contains values and methods that are used repeatedly through the dsl jobs */
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
@@ -49,7 +51,7 @@ secretMap.each { jobConfigs ->
 
     Map jobConfig = jobConfigs.getValue()
 
-    /* Test secret contains all necessary keys for this job */
+    /* Test that secret contains all necessary keys for this job */
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('credential')
@@ -80,7 +82,7 @@ secretMap.each { jobConfigs ->
         label(JENKINS_PUBLIC_WORKER)
 
         /* Using Source Code Management */
-        /* Set the repository, if it is a private respository, set credentials for access, specify branch */
+        /* Set the repository, if it is  private respository, set credentials for access, specify branch */
         scm {
             git {
                 remote {
@@ -118,11 +120,11 @@ secretMap.each { jobConfigs ->
        /* Archive artifacts, archive jUnit Reports, send an email, message on hipchat */
        publishers {
            archiveArtifacts {
-               pattern('Comma seperated list of files to archive')
+               pattern('Comma separated list of files to archive')
                allowEmpty()
                defaultExcludes()
            }
-           archiveJunit('Comma seperated list of files to archive')
+           archiveJunit('Comma separated list of files to archive')
            mailer('email@email.com')
            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
        }
