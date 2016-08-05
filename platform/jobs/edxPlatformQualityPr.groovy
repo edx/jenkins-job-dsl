@@ -140,7 +140,8 @@ secretMap.each { jobConfigs ->
                 }
                 report("${jobConfig['repoName']}/reports/diff_quality") {
                     reportName('Diff Quality Report')
-                    reportFiles('diff_quality_pep8.html, diff_quality_pylint.html, diff_quality_jshint.html, diff_quality_eslint.html')
+                    reportFiles('diff_quality_pep8.html, diff_quality_pylint.html, ' +
+                                'diff_quality_jshint.html, diff_quality_eslint.html')
                     keepAll(true)
                     allowMissing(true)
                 }

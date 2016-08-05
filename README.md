@@ -48,9 +48,12 @@ etc...
 
 ## Writing DSLs
 
+### Example Job
+An example job can be found [here](../blob/master/platform/jobs/exampleJob.groovy). 
+
 ### Shared Constants:
 In order to make use of shared constants in a DSL script:
-* Have a try/catch to parse the Yaml file into a map
+* Use a try/catch to parse the Yaml file into a map
 ```groovy
     Map constantsMap = [:]
     try {
