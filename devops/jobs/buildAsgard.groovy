@@ -1,10 +1,23 @@
 job('Build-Asgard-WARs'){
     scm {
-        git("https://github.com/edx/asgard", "origin/release", createTag=false)
+        git {
+            remote {
+                url("https://github.com/edx/asgard")
+                branch("origin/release")
+            }
+            createTag(false)
+
+        }
     }
 
     steps {
-        gradle("test")
-        gradle("war")
+        grails{
+            target("test")
+            useWrapper(true)
+        }
+        grails{
+            target("war")
+            useWrapper(true)
+        }
     }
 }
