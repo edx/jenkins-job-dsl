@@ -105,6 +105,7 @@ secretMap.each { jobConfigs ->
         environmentVariables {
             env('SUBSET_JOB', jobConfig['subsetJob'])
             env('REPO_NAME', jobConfig['repoName'])
+            env('COVERAGE_JOB', jobConfig['coverageJob'])
         }
         multiscm {
             git { //using git on the branch and url, clean before checkout
