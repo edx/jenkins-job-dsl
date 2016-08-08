@@ -146,7 +146,7 @@ secretMap.each { jobConfigs ->
            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
            predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
            predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
-                                  'job/' + jobConfig['jobConfig'] + '/${BUILD_NUMBER}/')
+                                  'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
            mailer(jobConfig['email'])
