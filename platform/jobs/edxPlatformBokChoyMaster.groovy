@@ -28,8 +28,6 @@ publicJobConfig:
 Map <String, String> predefinedPropsMap  = [:]
 predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
 predefinedPropsMap.put('GITHUB_ORG', 'edx')
-predefinedPropsMap.put('GITHUB_REPO', 'edx-platform')
-predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'job/edx-platform-bok-choy-master/${BUILD_NUMBER}/')
 predefinedPropsMap.put('CONTEXT', 'jenkins/bokchoy')
 
 /* stdout logger */
@@ -154,6 +152,9 @@ secretMap.each { jobConfigs ->
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-bok-choy-master.groovy')
         publishers { //JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+           predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
+           predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
+                                  'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
            mailer(jobConfig['email'])

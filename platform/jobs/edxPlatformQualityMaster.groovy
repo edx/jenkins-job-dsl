@@ -27,8 +27,6 @@ publicJobConfig:
 Map <String, String> predefinedPropsMap  = [:]
 predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
 predefinedPropsMap.put('GITHUB_ORG', 'edx')
-predefinedPropsMap.put('GITHUB_REPO', 'edx-platform')
-predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'job/edx-platform-quality-master/${BUILD_NUMBER}/')
 predefinedPropsMap.put('CONTEXT', 'jenkins/quality')
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
@@ -138,6 +136,9 @@ secretMap.each { jobConfigs ->
            buildName('#${BUILD_NUMBER}: Quality Tests')
        }
        steps { //trigger GitHub-Build-Status and run accessibility tests
+           predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
+           predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'job/'
+                                  + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
            shell("cd ${jobConfig['repoName']}; TEST_SUITE=quality ./scripts/all-tests.sh")
        }

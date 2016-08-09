@@ -28,9 +28,6 @@ publicJobConfig:
 Map <String, String> predefinedPropsMap  = [:]
 predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
 predefinedPropsMap.put('GITHUB_ORG', 'edx')
-predefinedPropsMap.put('GITHUB_REPO', 'edx-platform')
-predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
-                       'job/edx-platform-python-unittests-master/${BUILD_NUMBER}/')
 predefinedPropsMap.put('CONTEXT', 'jenkins/python')
 
 /* stdout logger */
@@ -152,6 +149,9 @@ secretMap.each { jobConfigs ->
                node / publishers << 'jenkins.plugins.shiningpanda.publishers.CoveragePublisher' {
                }
            }
+           predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
+           predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
+                                  'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
            mailer(jobConfig['email'])
