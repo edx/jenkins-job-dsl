@@ -18,14 +18,14 @@ class backupJenkinsSpec extends Specification {
     @Shared @ClassRule
     JenkinsRule jenkinsRule = new JenkinsRule()
 
-    def @Shared DslScriptLoader loader
-    def @Shared JobManagement jm
+    @Shared DslScriptLoader loader
+    @Shared JobManagement jm
 
-    def @Shared File dslScript = new File('testeng/jobs/backupJenkins.groovy')
-    def @Shared String baseSecretPath = 'src/test/resources/testeng/secrets'
-    def @Shared String secretVar = 'BACKUP_JENKINS_SECRET'
+    @Shared File dslScript = new File('testeng/jobs/backupJenkins.groovy')
+    @Shared String baseSecretPath = 'src/test/resources/testeng/secrets'
+    @Shared String secretVar = 'BACKUP_JENKINS_SECRET'
 
-    def @Shared List pList = [ 'com.cloudbees.plugins.credentials.CredentialsProvider.Delete:edx',
+    @Shared List pList = [ 'com.cloudbees.plugins.credentials.CredentialsProvider.Delete:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:edx',
                                 'hudson.model.Item.Read:edx', 'hudson.model.Item.Configure:edx',
                                 'hudson.model.Item.Workspace:edx', 'hudson.model.Run.Delete:edx',
@@ -42,10 +42,10 @@ class backupJenkinsSpec extends Specification {
     * return a JenkinsJobManagement object containing a mapping of secret variables to secret values
     */
     JenkinsJobManagement loadSecret(secretKey, secretValue) {
-        Map<String,String> envVars = new HashMap<String,String>()
+        Map<String,String> envVars = [:]
         envVars.put(secretKey, secretValue)
         JenkinsJobManagement jjm = new JenkinsJobManagement(System.out, envVars, new File('.'))
-        return jjm
+        jjm
     }
 
     /*
@@ -55,9 +55,8 @@ class backupJenkinsSpec extends Specification {
     */
     JenkinsJobManagement loadSecrets(envVars) {
         JenkinsJobManagement jjm = new JenkinsJobManagement(System.out, envVars, new File('.'))
-        return jjm
+        jjm
     }
-
 
     /**
     * Using an evironment variable that points to a non-existent secret file, ensure that no
@@ -164,13 +163,15 @@ class backupJenkinsSpec extends Specification {
         // Command
         Node builders = project.childNodes().find { it.name == 'builders' }
         Node venv = builders.childNodes().find { it.name == 'jenkins.plugins.shiningpanda.builders.VirtualenvBuilder' }
-        venv.childNodes().any { it.name == 'command' && it.text().contains(vol) && it.text().contains("Automatic ${instance} jenkins") }
+        venv.childNodes().any {
+            it.name == 'command' && it.text().contains(vol) &&
+            it.text().contains("Automatic ${instance} jenkins")
+        }
 
         where:
-        job                     | instance | region     | vol
-        'backup-build-jenkins'  | 'build'  | 'us-east.1'| 'vol-123'
-        'backup-test-jenkins'   | 'test'   | 'us-west.1'| 'vol-456'
-       
+        job                     | instance | region      | vol
+        'backup-build-jenkins'  | 'build'  | 'us-east.1' | 'vol-123'
+        'backup-test-jenkins'   | 'test'   | 'us-west.1' | 'vol-456'
 
     }
 

@@ -75,8 +75,9 @@ secretMap.each { jobConfigs ->
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
 
+        // fix this
         String script = "pip install -r \${WORKSPACE}/testeng-infrastructure/resources/requirements.txt; "
-        script += "aws ec2 create_snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot'"
+        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot'"
         steps {
             virtualenv {
                 clear()
