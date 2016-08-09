@@ -8,6 +8,7 @@ sourceSets {
         groovy {
             srcDir 'sample/jobs'
             srcDir 'platform/jobs'
+            srcDir 'testeng/jobs'
         }
     }
     src {
