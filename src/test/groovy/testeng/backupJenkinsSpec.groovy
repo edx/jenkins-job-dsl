@@ -29,9 +29,9 @@ class backupJenkinsSpec extends Specification {
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:edx',
                                 'hudson.model.Item.Read:edx', 'hudson.model.Item.Configure:edx',
                                 'hudson.model.Item.Workspace:edx', 'hudson.model.Run.Delete:edx',
-                                'hudson.model.Item.Discover:edx',
+                                'hudson.model.Item.Discover:edx', 'hudson.scm.SCM.Tag:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.View:edx',
-                                'hudson.model.Item.Build:edx',
+                                'hudson.model.Item.Build:edx', 'hudson.model.Item.Move:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.Create:edx',
                                 'hudson.model.Item.Cancel:edx', 'hudson.model.Item.Delete:edx',
                                 'hudson.model.Run.Update:edx',
@@ -193,11 +193,8 @@ class backupJenkinsSpec extends Specification {
         Node prop = project.childNodes().find { it.name == 'properties' }
         Node privacyBlock = prop.childNodes().find { it.name == 'hudson.security.AuthorizationMatrixProperty' }
         privacyBlock.childNodes().any { it.name == 'blocksInheritance' && it.text() == 'true' }
-        privacyBlock.childNodes().each {
-            if (it.name == 'permission') {
-                pList.contains(it.text())
-            }
-        }
+        ArrayList<Node> permissions = privacyBlock.childNodes().findAll { it.name == 'permission' } 
+        permissions.each { pList.contains(it.text()) }
 
     }
 

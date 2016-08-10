@@ -74,9 +74,13 @@ secretMap.each { jobConfigs ->
         environmentVariables {
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
-
-        // fix this
-        String script = "pip install -r \${WORKSPACE}/testeng-infrastructure/resources/requirements.txt; "
+        
+        // This might seem overkill, but in case the pip requirements change, read them from
+        // the requirements file in the workspace
+        String script = ""
+        readFileFromWorkspace('testeng/resources/requirements.txt').split("\n").each { line ->
+            script += "pip install ${line}; "
+        }
         script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot'"
         steps {
             virtualenv {
