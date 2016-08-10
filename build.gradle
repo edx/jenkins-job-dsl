@@ -8,6 +8,7 @@ sourceSets {
         groovy {
             srcDir 'sample/jobs'
             srcDir 'platform/jobs'
+            srcDir 'testeng/jobs'
         }
     }
     src {
@@ -70,7 +71,7 @@ dependencies {
 codenarc {
     toolVersion = '0.25.2'
     configFile = file('config/codenarc/codenarcRules.groovy')
-    maxPriority2Violations = 50
+    maxPriority2Violations = 75
     maxPriority3Violations = 99
 }
 

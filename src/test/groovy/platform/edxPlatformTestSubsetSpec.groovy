@@ -24,18 +24,21 @@ class edxPlatformTestSubsetSpec extends Specification {
 
     // The DSL script under test
     def @Shared File dslScript = new File('platform/jobs/edxPlatformTestSubset.groovy')
-    def @Shared String baseJobName = "edx-platform-test-subset"
-    def @Shared String baseSecretPath = "src/test/resources/platform/secrets"
+    def @Shared String baseJobName = 'edx-platform-test-subset'
+    def @Shared String baseSecretPath = 'src/test/resources/platform/secrets'
     // Secret variable used in DSL script
-    def @Shared String secretVar = "EDX_PLATFORM_TEST_SUBSET_SECRET"
-    
-    def @Shared List pList = [ 'com.cloudbees.plugins.credentials.CredentialsProvider.Delete:edx',  
-                                'com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:edx', 'hudson.model.Item.Read:edx', 
-                                'hudson.model.Item.Configure:edx', 'hudson.model.Item.Workspace:edx', 'hudson.model.Run.Delete:edx', 
-                                'hudson.model.Item.Discover:edx', 'com.cloudbees.plugins.credentials.CredentialsProvider.View:edx', 
-                                'hudson.model.Item.Build:edx', 'com.cloudbees.plugins.credentials.CredentialsProvider.Create:edx', 
-                                'hudson.model.Item.Cancel:edx', 'hudson.model.Item.Delete:edx', 'hudson.model.Run.Update:edx', 
-                                'com.cloudbees.plugins.credentials.CredentialsProvider.Update:edx' ]
+    def @Shared String secretVar = 'EDX_PLATFORM_TEST_SUBSET_SECRET'
+
+    def @Shared List pList = [ 'com.cloudbees.plugins.credentials.CredentialsProvider.Delete:edx',
+                                'com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:edx',
+                                'hudson.model.Item.Read:edx','hudson.model.Item.Configure:edx',
+                                'hudson.model.Item.Workspace:edx', 'hudson.model.Run.Delete:edx',
+                                'com.cloudbees.plugins.credentials.CredentialsProvider.View:edx',
+                                'com.cloudbees.plugins.credentials.CredentialsProvider.Create:edx',
+                                'hudson.model.Item.Discover:edx', 'hudson.model.Item.Build:edx', 
+                                'hudson.model.Item.Cancel:edx', 'hudson.model.Item.Delete:edx', 
+                                'com.cloudbees.plugins.credentials.CredentialsProvider.Update:edx',
+                                'hudson.model.Run.Update:edx' ]
 
     /*
     * Helper function: loadSecret
@@ -56,7 +59,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test non-existent secret file is handled correctly'() {
 
         setup:
-        String secretPath = baseSecretPath + "/non-existent-file.yml"
+        String secretPath = baseSecretPath + '/non-existent-file.yml'
         jm =  loadSecret(secretVar, secretPath)
         loader = new DslScriptLoader(jm)
 
@@ -74,7 +77,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test invalid yaml is handled correctly'() {
 
         setup:
-        String secretPath = baseSecretPath + "/corrupt-secret.yml"
+        String secretPath = baseSecretPath + '/corrupt-secret.yml'
         jm =  loadSecret(secretVar, secretPath)
         loader = new DslScriptLoader(jm)
 
@@ -92,7 +95,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test incomplete secret is handled correctly'() {
 
         setup:
-        String secretPath = baseSecretPath + "/incomplete-secret.yml"
+        String secretPath = baseSecretPath + '/incomplete-secret.yml'
         jm =  loadSecret(secretVar, secretPath)
         loader = new DslScriptLoader(jm)
 
@@ -110,7 +113,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test no exceptions are thrown'() {
 
         setup:
-        String secretPath = baseSecretPath + "/edx-platform-test-subset-secret.yml"
+        String secretPath = baseSecretPath + '/edx-platform-test-subset-secret.yml'
         jm =  loadSecret(secretVar, secretPath)
         loader = new DslScriptLoader(jm)
 
@@ -118,7 +121,7 @@ class edxPlatformTestSubsetSpec extends Specification {
         loader.runScript(dslScript.text)
 
         then:
-        noExceptionThrown()  
+        noExceptionThrown()
 
     }
 
@@ -129,7 +132,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test correct jobs are created'() {
 
         setup:
-        String secretPath = baseSecretPath + "/edx-platform-test-subset-secret.yml"
+        String secretPath = baseSecretPath + '/edx-platform-test-subset-secret.yml'
         jm =  loadSecret(secretVar, secretPath)
         loader = new DslScriptLoader(jm)
 
@@ -145,7 +148,7 @@ class edxPlatformTestSubsetSpec extends Specification {
         generatedItems.jobs.contains(job2)
 
     }
-    
+
     /**
     * Run the DSL script and verify that the values from the secret file created the
     * correct XML structures in the generated jobs
@@ -154,7 +157,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test secret creates correct xml'() {
 
         setup:
-        String secretPath = baseSecretPath + "/edx-platform-test-subset-secret.yml"
+        String secretPath = baseSecretPath + '/edx-platform-test-subset-secret.yml'
         jm =  loadSecret(secretVar, secretPath)
         loader = new DslScriptLoader(jm)
 
@@ -164,21 +167,21 @@ class edxPlatformTestSubsetSpec extends Specification {
         GPathResult project = new XmlSlurper().parseText(jm.getConfig(job))
 
         then:
-        Node scm = project.childNodes().find { it.name == "scm" }
-        Node urc = scm.childNodes().find { it.name == "userRemoteConfigs" }
-        Node giturc = urc.childNodes().find { it.name == "hudson.plugins.git.UserRemoteConfig" }
-        giturc.childNodes().any { it.name == "url" && it.text() == "${protocol}${url}.git" }
+        Node scm = project.childNodes().find { it.name == 'scm' }
+        Node urc = scm.childNodes().find { it.name == 'userRemoteConfigs' }
+        Node giturc = urc.childNodes().find { it.name == 'hudson.plugins.git.UserRemoteConfig' }
+        giturc.childNodes().any { it.name == 'url' && it.text() == "${protocol}${url}.git" }
         if (!open) {
-            giturc.childNodes().any { it.name == "credentialsId" && it.text() ==  cred }
+            giturc.childNodes().any { it.name == 'credentialsId' && it.text() ==  cred }
         }
-        Node ext = scm.childNodes().find { it.name == "extensions" }
-        Node cloneOption = ext.childNodes().find { it.name == "hudson.plugins.git.extensions.impl.CloneOption" }
-        cloneOption.childNodes().any { it.name == "reference" && it.text() == "\$HOME/${clone}"}
+        Node ext = scm.childNodes().find { it.name == 'extensions' }
+        Node cloneOption = ext.childNodes().find { it.name == 'hudson.plugins.git.extensions.impl.CloneOption' }
+        cloneOption.childNodes().any { it.name == 'reference' && it.text() == "\$HOME/${clone}"}
 
         where:
-        job                                 | open  | protocol               | url                    | cred          | clone
-        "edx-platform-test-subset"          | true  | "https://github.com/"  | "edx/edx-platform"     | false         | "edx-platform-clone/.git"
-        "edx-platform-test-subset_2"        | false | "git@github.com:"      | "edx/edx-platform-2"   | "password"    | "edx-platform-2-clone/.git"
+        job                          | open  | protocol              | url                  | cred       | clone
+        'edx-platform-test-subset'   | true  | 'https://github.com/' | 'edx/edx-platform'   | false      | 'edx-platform-clone/.git'
+        'edx-platform-test-subset_2' | false | 'git@github.com:'     | 'edx/edx-platform-2' | 'password' | 'edx-platform-2-clone/.git'
 
 
     }
@@ -191,7 +194,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test security settings'() {
 
         setup:
-        String secretPath = baseSecretPath + "/edx-platform-test-subset-secret.yml"
+        String secretPath = baseSecretPath + '/edx-platform-test-subset-secret.yml'
         jm =  loadSecret(secretVar, secretPath)
         loader = new DslScriptLoader(jm)
 
@@ -200,10 +203,12 @@ class edxPlatformTestSubsetSpec extends Specification {
         GPathResult project = new XmlSlurper().parseText(jm.getConfig(job))
 
         then:
-        Node properties = project.childNodes().find { it.name == "properties" }
+        Node properties = project.childNodes().find { it.name == 'properties' }
         if (!open) {
-            Node privacyBlock = properties.childNodes().find { it.name == 'hudson.security.AuthorizationMatrixProperty' }
-            privacyBlock.childNodes().any { it.name == "blocksInheritance" && it.text() == block.toString() }
+            Node privacyBlock = properties.childNodes().find {
+                it.name == 'hudson.security.AuthorizationMatrixProperty'
+            }
+            privacyBlock.childNodes().any { it.name == 'blocksInheritance' && it.text() == block.toString() }
             privacyBlock.childNodes().each {
                 if (it.name == 'permissions') {
                     permissions.contains(it.text())
@@ -216,9 +221,9 @@ class edxPlatformTestSubsetSpec extends Specification {
 
         where:
 
-        job                                 | open  | block | permissions 
-        "edx-platform-test-subset"          | true  | false | _
-        "edx-platform-test-subset_2"        | false | true  | pList
+        job                                 | open  | block | permissions
+        'edx-platform-test-subset'          | true  | false | _
+        'edx-platform-test-subset_2'        | false | true  | pList
 
     }
 
