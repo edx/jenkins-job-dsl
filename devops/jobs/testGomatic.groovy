@@ -1,4 +1,4 @@
-t_steps = '''#!/usr/bin/env bash -ex
+test_steps = '''#!/usr/bin/env bash -ex
 
 cd edx-gomatic
 make test_requirements
@@ -6,6 +6,10 @@ make test
 '''
 
 job('TestGomatic'){
+    publishers {
+        githubCommitNotifier()
+    }
+
     multiscm {
         git {
             remote {
@@ -23,7 +27,7 @@ job('TestGomatic'){
             remote {
                 url("git@github.com:edx-ops/gomatic-secure.git")
                 branch("origin/master")
-              	credentials('TBD')
+                credentials('TBD')
 
             }
             createTag(false)
@@ -38,6 +42,5 @@ job('TestGomatic'){
       virtualenv {
           command(test_steps)
       }
-		
     }
 }
