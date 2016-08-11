@@ -1,6 +1,7 @@
 package testeng
 
 import org.yaml.snakeyaml.Yaml
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 
 Map config = [:]
 Binding bindings = getBinding()
@@ -27,6 +28,8 @@ Config:
     jenkinsInstance : test
     volumeId : vol-123
     region : us-west.1
+    hipchat : hipchat token
+    email : email@address.com
 */
 
 /* Iterate over the job configurations */
@@ -37,6 +40,8 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('jenkinsInstance')
     assert jobConfig.containsKey('volumeId')
     assert jobConfig.containsKey('region')
+    assert jobConfig.containsKey('hipchat')
+    assert jobConfig.containsKey('email')
 
     job("backup-${jobConfig['jenkinsInstance']}-jenkins") {
         
@@ -53,9 +58,10 @@ secretMap.each { jobConfigs ->
             numToKeep(50)
         }
         concurrentBuild(false)
-        label("micro-worker")
+        label("backup-runner")
 
-        // Configure the Exclusive Execution plugin, to reduce the amount of things in memory during snapshotting
+        // Configure the Exclusive Execution plugin, to reduce the amount of things in memory
+        // during snapshotting
         configure { project ->
             project / buildWrappers << 'hudson.plugins.execution.exclusive.ExclusiveBuildWrapper' {
                 skipWaitOnRunningJobs false
@@ -75,13 +81,14 @@ secretMap.each { jobConfigs ->
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
         
+        // Sync currently paged files to disk
+        String script = "sync\n"
         // This might seem overkill, but in case the pip requirements change, read them from
         // the requirements file in the workspace
-        String script = ""
         readFileFromWorkspace('testeng/resources/requirements.txt').split("\n").each { line ->
-            script += "pip install ${line}; "
+            script += "pip install --exists-action w ${line}\n"
         }
-        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot'"
+        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot' |tee \${WORKSPACE}/snapshot-out"
         steps {
             virtualenv {
                 clear()
@@ -89,6 +96,15 @@ secretMap.each { jobConfigs ->
                 nature('shell')
                 command(script)
             }
+        }
+
+        publishers {
+            // alert team of failures via hipchat & email
+            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
+            mailer(jobConfig['email'])
+            // fail the build if the snapshot command does not correctly trigger a snapshot
+            // requires "textFinder plugin"
+            textFinder('"State": "(pending|completed)"', 'snapshot-out', false, true, false)
         }
     }
     
