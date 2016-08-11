@@ -6,6 +6,11 @@ make test
 '''
 
 job('TestGomatic'){
+    // This class is not directly accessible via the DSL right now
+    configure { project ->
+         project / builders / 'com.cloudbees.jenkins.GitHubSetCommitStatusBuilder' / 'statusMessage' /'content' {}
+
+    }
     publishers {
         githubCommitNotifier()
     }
