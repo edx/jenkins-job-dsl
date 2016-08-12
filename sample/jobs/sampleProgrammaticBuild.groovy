@@ -1,6 +1,5 @@
 final String CONFIGURATION_REPO_URL = 'https://github.com/edx/configuration.git'
-// final String CONFIGURATION_BRANCH = 'master'
-final String CONFIGURATION_BRANCH = 'michael/travis' // temporary to be able to trigger builds
+final String CONFIGURATION_BRANCH = 'master'
 
 final String EDX_REPO_ROOT = 'https://github.com/edx/'
 final String EDX_REPO_BRANCH = 'release'
@@ -18,7 +17,7 @@ def job = job('configuration-watcher') {
     }
     // polls configuration repository for changes every 4 minutes
     triggers {
-        scm('H/4 * * * *')
+        scm('H/10 * * * *')
     }
 
     // run the trigger-builds shell script in a virtual environment called venv

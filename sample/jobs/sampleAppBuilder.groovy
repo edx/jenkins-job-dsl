@@ -12,6 +12,8 @@ final String CONFIGURATION_BRANCH = 'master'
 
 final String EDX_REPO_ROOT = 'https://github.com/edx/'
 
+// TODO: the Jenkins seed job should create credentials and use a user-entered ID (instead of UUID),
+// so credentials can be referred to more easily from within the job.
 // ID of credentials set up in Jenkins to log into DockerHub
 final String JENKINS_CREDENTIALS_ID = '595676cc-61ce-41d1-b3c2-ee8578540650'
 
@@ -40,7 +42,7 @@ def job = job('main'){
                     // ignore notifications on commits to branch; this job will be triggered by configuration-watcher job
                     ignoreNotifyCommit()
                     // increase clone timeout to 3 hours
-                    cloneTimeout(360)
+                    cloneTimeout(minutes = 360)
 
                 }
                 // if the IDA has a corresponding repository in the edx organization, checkout that repository
@@ -58,9 +60,9 @@ def job = job('main'){
             }
 
             // polls configuration repository for changes every 10 minutes
-            // triggers {
-            //     scm('H/10 * * * *')
-            // }
+            triggers {
+                scm('H/10 * * * *')
+            }
 
             steps {
                 // inject name of the IDA as an environment variable
