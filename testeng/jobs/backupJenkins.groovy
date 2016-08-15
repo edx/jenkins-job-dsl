@@ -68,6 +68,11 @@ secretMap.each { jobConfigs ->
             }
         }
 
+        // Run snapshotting script once a day, at 1:00 AM
+        triggers {
+            cron('0 1 * * *')
+        }
+
         wrappers {
             timeout {
                 absolute(20)
