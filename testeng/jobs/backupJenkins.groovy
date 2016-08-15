@@ -87,7 +87,8 @@ secretMap.each { jobConfigs ->
         }
         
         // Sync currently paged files to disk
-        String script = "sync\n"
+        String script = "set -o pipefail\n"
+        script += "sync\n"
         // This might seem overkill, but in case the pip requirements change, read them from
         // the requirements file in the workspace
         readFileFromWorkspace('testeng/resources/requirements.txt').split("\n").each { line ->
