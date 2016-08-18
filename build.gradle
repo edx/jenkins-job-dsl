@@ -6,6 +6,7 @@ defaultTasks 'clean', 'libs'
 sourceSets {
     jobs {
         groovy {
+            srcDir 'common/jobs'
             srcDir 'sample/jobs'
             srcDir 'platform/jobs'
             srcDir 'testeng/jobs'
@@ -13,12 +14,12 @@ sourceSets {
     }
     src {
         groovy {
-            srcDir 'src/main/groovy'
+            srcDir 'common/src/main/groovy'
         }
     }
     test {
         groovy {
-            srcDir 'src/test/groovy'
+            srcDir 'common/src/test/groovy'
         }
     }
 }
