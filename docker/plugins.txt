@@ -24,13 +24,13 @@ git-server 1.6
 github 1.17.0
 github-api 1.72
 github-oauth 0.22.2
-github-sqs-plugin 1.6-SNAPSHOT
+github-sqs-plugin
 grails 1.7
 greenballs 1.15
 groovy 1.29
 hipchat 1.0.0
 htmlpublisher 1.1
-icom-shim 2.0.3
+icon-shim 2.0.3
 javadoc 1.3
 job-dsl 1.42
 jobConfigHistory 2.12
