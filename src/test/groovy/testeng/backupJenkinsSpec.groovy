@@ -160,7 +160,7 @@ class backupJenkinsSpec extends Specification {
         Node content = info.childNodes().find { it.name == 'propertiesContent' }
         String envVars = content.text()
         envVars.contains("REGION=${region}")
-        envVars.contains("AWS_ACCESS_KEY_ID=${accessKey}")
+        envVars.contains("AWS_ACCESS_KEY_ID=${accessKeyId}")
         envVars.contains("AWS_SECRET_ACCESS_KEY=${secretAccessKey}")
         // Command
         Node builders = project.childNodes().find { it.name == 'builders' }
@@ -171,9 +171,9 @@ class backupJenkinsSpec extends Specification {
         }
 
         where:
-        job                     | instance | region      | vol       | accessKey | secretAccessKey
-        'backup-build-jenkins'  | 'build'  | 'us-east.1' | 'vol-123' | 'b123'    | 'b1234'
-        'backup-test-jenkins'   | 'test'   | 'us-west.1' | 'vol-456' | 't123'    | 't1234'
+        job                     | instance | region      | vol       | accessKeyId | secretAccessKey
+        'backup-build-jenkins'  | 'build'  | 'us-east.1' | 'vol-123' | 'b123'      | 'b1234'
+        'backup-test-jenkins'   | 'test'   | 'us-west.1' | 'vol-456' | 't123'      | 't1234'
 
     }
 

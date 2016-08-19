@@ -28,7 +28,7 @@ Config:
     jenkinsInstance : test
     volumeId : vol-123
     region : us-west.1
-    accessKey : 123
+    accessKeyId : 123
     secretAccessKey: 123
     hipchat : hipchat token
     email : email@address.com
@@ -42,7 +42,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('jenkinsInstance')
     assert jobConfig.containsKey('volumeId')
     assert jobConfig.containsKey('region')
-    assert jobConfig.containsKey('accessKey')
+    assert jobConfig.containsKey('accessKeyId')
     assert jobConfig.containsKey('secretAccessKey')
     assert jobConfig.containsKey('hipchat')
     assert jobConfig.containsKey('email')
@@ -94,7 +94,7 @@ secretMap.each { jobConfigs ->
 
         // load env vars for executing awscli commands
         environmentVariables {
-            env('AWS_ACCESS_KEY_ID', jobConfig['accessKey'])
+            env('AWS_ACCESS_KEY_ID', jobConfig['accessKeyId'])
             env('AWS_SECRET_ACCESS_KEY', jobConfig['secretAccessKey'])
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
