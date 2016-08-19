@@ -28,6 +28,8 @@ Config:
     jenkinsInstance : test
     volumeId : vol-123
     region : us-west.1
+    accessKey : 123
+    secretAccessKey: 123
     hipchat : hipchat token
     email : email@address.com
 */
@@ -40,6 +42,8 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('jenkinsInstance')
     assert jobConfig.containsKey('volumeId')
     assert jobConfig.containsKey('region')
+    assert jobConfig.containsKey('accessKey')
+    assert jobConfig.containsKey('secretAccessKey')
     assert jobConfig.containsKey('hipchat')
     assert jobConfig.containsKey('email')
 
@@ -68,9 +72,15 @@ secretMap.each { jobConfigs ->
             }
         }
 
-        // Run snapshotting script once a day, at 1:00 AM
+        // Run snapshotting script once a day, when there is usually no Jenkins activity
         triggers {
-            cron('0 1 * * *')
+            if (jobConfig['jenkinsInstance'] == 'build') {
+                cron('0 1 * * *')
+            }
+            // test jenkins
+            else {
+                cron('0 2 * * *')
+            }
         }
 
         wrappers {
@@ -82,19 +92,22 @@ secretMap.each { jobConfigs ->
             colorizeOutput('xterm')
         }
 
+        // load env vars for executing awscli commands
         environmentVariables {
+            env('AWS_ACCESS_KEY_ID', jobConfig['accessKey'])
+            env('AWS_SECRET_ACCESS_KEY', jobConfig['secretAccessKey'])
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
         
         // Sync currently paged files to disk
-        String script = "set -o pipefail\n"
-        script += "sync\n"
+        String script = "sync\n"
         // This might seem overkill, but in case the pip requirements change, read them from
         // the requirements file in the workspace
         readFileFromWorkspace('testeng/resources/requirements.txt').split("\n").each { line ->
             script += "pip install --exists-action w ${line}\n"
         }
-        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot' |tee \${WORKSPACE}/snapshot-out"
+        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot' > \${WORKSPACE}/snapshot-out\n"
+        script += "cat \${WORKSPACE}/snapshot-out"
         steps {
             virtualenv {
                 clear()
