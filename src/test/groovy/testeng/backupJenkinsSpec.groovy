@@ -169,9 +169,9 @@ class backupJenkinsSpec extends Specification {
         }
 
         where:
-        job                     | instance | region      | vol
-        'backup-build-jenkins'  | 'build'  | 'us-east.1' | 'vol-123'
-        'backup-test-jenkins'   | 'test'   | 'us-west.1' | 'vol-456'
+        job                     | instance | region      | vol       | accessKeyId | secretAccessKey
+        'backup-build-jenkins'  | 'build'  | 'us-east.1' | 'vol-123' | 'b123'      | 'b1234'
+        'backup-test-jenkins'   | 'test'   | 'us-west.1' | 'vol-456' | 't123'      | 't1234'
 
     }
 
