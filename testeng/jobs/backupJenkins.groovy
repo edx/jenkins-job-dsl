@@ -1,5 +1,6 @@
 package testeng
 
+import hudson.util.Secret
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 
@@ -94,11 +95,26 @@ secretMap.each { jobConfigs ->
 
         // load env vars for executing awscli commands
         environmentVariables {
-            env('AWS_ACCESS_KEY_ID', jobConfig['accessKeyId'])
-            env('AWS_SECRET_ACCESS_KEY', jobConfig['secretAccessKey'])
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
-        
+        // mask credentials
+        configure { project ->
+            project / buildWrappers << 'EnvInjectPasswordWrapper' {
+                injectGlobalPasswords false
+                maskPasswordParameters true
+                passwordEntries {
+                    EnvInjectPasswordEntry {
+                        name 'AWS_ACCESS_KEY_ID'
+                        value Secret.fromString(jobConfig['accessKeyId']).getEncryptedValue()
+                    }
+                    EnvInjectPasswordEntry {
+                        name 'AWS_SECRET_ACCESS_KEY'
+                        value Secret.fromString(jobConfig['secretAccessKey']).getEncryptedValue()
+                    }
+                }
+            }
+        }
+
         // Sync currently paged files to disk
         String script = "sync\n"
         // This might seem overkill, but in case the pip requirements change, read them from
@@ -106,8 +122,8 @@ secretMap.each { jobConfigs ->
         readFileFromWorkspace('testeng/resources/requirements.txt').split("\n").each { line ->
             script += "pip install --exists-action w ${line}\n"
         }
-        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot' > \${WORKSPACE}/snapshot-out\n"
-        script += "cat \${WORKSPACE}/snapshot-out"
+        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot' > \${WORKSPACE}/snapshot-out.log\n"
+        script += "cat \${WORKSPACE}/snapshot-out.log"
         steps {
             virtualenv {
                 clear()
@@ -118,12 +134,17 @@ secretMap.each { jobConfigs ->
         }
 
         publishers {
+            // archive the snapshot tool output
+            archiveArtifacts {
+                pattern('snapshot-out.log')
+                allowEmpty(false)
+            }
             // alert team of failures via hipchat & email
             hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
             mailer(jobConfig['email'])
             // fail the build if the snapshot command does not correctly trigger a snapshot
             // requires "textFinder plugin"
-            textFinder('"State": "(pending|completed)"', 'snapshot-out', false, true, false)
+            textFinder('"State": "(pending|completed)"', 'snapshot-out.log', false, true, false)
         }
     }
     

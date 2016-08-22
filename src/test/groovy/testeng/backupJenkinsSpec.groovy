@@ -160,8 +160,6 @@ class backupJenkinsSpec extends Specification {
         Node content = info.childNodes().find { it.name == 'propertiesContent' }
         String envVars = content.text()
         envVars.contains("REGION=${region}")
-        envVars.contains("AWS_ACCESS_KEY_ID=${accessKeyId}")
-        envVars.contains("AWS_SECRET_ACCESS_KEY=${secretAccessKey}")
         // Command
         Node builders = project.childNodes().find { it.name == 'builders' }
         Node venv = builders.childNodes().find { it.name == 'jenkins.plugins.shiningpanda.builders.VirtualenvBuilder' }
