@@ -76,11 +76,11 @@ secretMap.each { jobConfigs ->
         // Run snapshotting script once a day, when there is usually no Jenkins activity
         triggers {
             if (jobConfig['jenkinsInstance'] == 'build') {
-                cron('0 1 * * *')
+                cron('0 23 * * *')
             }
             // test jenkins
             else {
-                cron('0 2 * * *')
+                cron('0 2 * * 6')
             }
         }
 
@@ -97,7 +97,6 @@ secretMap.each { jobConfigs ->
         environmentVariables {
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
-        // mask credentials
         configure { project ->
             project / buildWrappers << 'EnvInjectPasswordWrapper' {
                 injectGlobalPasswords false
