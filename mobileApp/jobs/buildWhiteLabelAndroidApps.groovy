@@ -3,6 +3,18 @@ package mobile
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
+/*
+Example secret YAML file used by this script
+jobConfig:
+    jobName: build-demo-android-app
+    public: true
+    gitRepo: https://github.com/org/project.git
+    gitCredential: git_user
+    appBaseDir: android-app-project
+    appBaseName: edx-demo-app
+    sshAgent: ssh_user
+*/
+
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
 Map config = [:]
@@ -30,6 +42,13 @@ secretMap.each { jobConfigs ->
     Map jobConfig = jobConfigs.getValue()
 
     // Test parsed secret contains the correct fields
+    assert jobConfig.containsKey('jobName')
+    assert jobConfig.containsKey('public')
+    assert jobConfig.containsKey('gitRepo')
+    assert jobConfig.containsKey('gitCredential')
+    assert jobConfig.containsKey('appBaseDir')
+    assert jobConfig.containsKey('appBaseName')
+    assert jobConfig.containsKey('sshAgent')
 
     // Create a Jenkins job
     job(jobConfig['jobName']) {
