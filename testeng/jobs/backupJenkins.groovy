@@ -69,11 +69,15 @@ secretMap.each { jobConfigs ->
         // during snapshotting
         configure { project ->
             project / buildWrappers << 'hudson.plugins.execution.exclusive.ExclusiveBuildWrapper' {
+                // Do not wait for running jobs to complete before executing this job
+                // This is done because a locks when dealing with sub-jobs.
                 skipWaitOnRunningJobs true
             }
         }
 
-        // Run snapshotting script once a day, when there is usually no Jenkins activity
+        // Run the jobs on the following schedule (to reduce interference with other jobs):
+        // Build Jenkins: Sunday 1AM
+        // Test Jenkins: Sunday 2AM
         triggers {
             if (jobConfig['jenkinsInstance'] == 'build') {
                 cron('0 1 * * 6')
