@@ -9,6 +9,7 @@ sourceSets {
             srcDir 'sample/jobs'
             srcDir 'platform/jobs'
             srcDir 'testeng/jobs'
+            srcDir 'mobileApp/jobs'
         }
     }
     src {
