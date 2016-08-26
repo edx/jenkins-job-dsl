@@ -56,9 +56,11 @@ secretMap.each { jobConfigs ->
     job(jobConfig['jobName']) {
 
         // This is a private job
-        authorization {
-            blocksInheritance(true)
-            permissionAll('edx')
+        if (!jobConfig['public']) {
+            authorization {
+                blocksInheritance(true)
+                permissionAll('edx')
+            }
         }
 
         description('Compile, sign, test and publish the edX Android app to HockeyApp')
