@@ -120,6 +120,21 @@ secretMap.each { jobConfigs ->
                 allowEmpty(false)
                 pattern('artifacts/\$APP_BASE_NAME.*')
             }
+
+            // Publish the application to HockeyApp
+            configure { project ->
+                project / publishers << 'hockeyapp.HockeyappRecorder' {
+                    applications {
+                        'hockeyapp.HockeyappApplication' {
+                            apiToken jobConfig['hockeyAppApiToken']
+                            filePath 'artifacts/*.apk'
+                        }
+                    }
+                }
+            }
+
+
+
         }
 
     }
