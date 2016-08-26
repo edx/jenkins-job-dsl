@@ -69,18 +69,22 @@ secretMap.each { jobConfigs ->
         // during snapshotting
         configure { project ->
             project / buildWrappers << 'hudson.plugins.execution.exclusive.ExclusiveBuildWrapper' {
-                skipWaitOnRunningJobs false
+                // Do not wait for running jobs to complete before executing this job
+                // This is done because of locks when dealing with sub-jobs.
+                skipWaitOnRunningJobs true
             }
         }
 
-        // Run snapshotting script once a day, when there is usually no Jenkins activity
+        // Run the jobs on the following schedule (to reduce interference with other jobs):
+        // Build Jenkins: Sunday 1AM
+        // Test Jenkins: Sunday 2AM
         triggers {
             if (jobConfig['jenkinsInstance'] == 'build') {
-                cron('0 1 * * *')
+                cron('0 1 * * 6')
             }
             // test jenkins
             else {
-                cron('0 2 * * *')
+                cron('0 2 * * 6')
             }
         }
 
@@ -97,7 +101,6 @@ secretMap.each { jobConfigs ->
         environmentVariables {
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
-        // mask credentials
         configure { project ->
             project / buildWrappers << 'EnvInjectPasswordWrapper' {
                 injectGlobalPasswords false
