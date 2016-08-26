@@ -70,7 +70,7 @@ secretMap.each { jobConfigs ->
         configure { project ->
             project / buildWrappers << 'hudson.plugins.execution.exclusive.ExclusiveBuildWrapper' {
                 // Do not wait for running jobs to complete before executing this job
-                // This is done because a locks when dealing with sub-jobs.
+                // This is done because of locks when dealing with sub-jobs.
                 skipWaitOnRunningJobs true
             }
         }
