@@ -95,26 +95,9 @@ class buildWhiteLabelAndroidAppsSpec extends Specification {
     }
 
     /**
-    * Run the DSL script and verify that no exceptions were thrown by the dslScriptRunner
-    **/
-    void 'test no exceptions are thrown'() {
-
-        setup:
-        String secretPath = baseSecretPath + '/build-android-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
-        loader = new DslScriptLoader(jm)
-
-        when:
-        loader.runScript(dslScript.text)
-
-        then:
-        noExceptionThrown()
-
-    }
-
-    /**
-    * Run the DSL script and verify that the correct number of jobs was created and that
-    * each generated job has the correct name
+    * Run the DSL script and verify that no exceptions were thrown by the dsl script runner
+    * and that the correct number of jobs was created and that each generated job has the 
+    * correct name
     **/
     void 'test correct jobs are created'() {
 
@@ -130,6 +113,7 @@ class buildWhiteLabelAndroidAppsSpec extends Specification {
         GeneratedJob job2 = new GeneratedJob(null, 'build-second-app')
 
         then:
+        noExceptionThrown()
         generatedItems.jobs.size() == 2
         generatedItems.jobs.contains(job1)
         generatedItems.jobs.contains(job2)

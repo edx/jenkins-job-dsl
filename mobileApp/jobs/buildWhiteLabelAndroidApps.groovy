@@ -89,9 +89,6 @@ secretMap.each { jobConfigs ->
                 branch('\${HASH}')
                 browser()
                 extensions {
-                    submoduleOptions{
-                        disable(false)
-                    }
                     cleanBeforeCheckout()
                     relativeTargetDirectory(jobConfig['appBaseDir'])
                 }
