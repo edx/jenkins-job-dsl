@@ -13,6 +13,7 @@ jobConfig:
     appBaseDir: android-app-project
     appBaseName: edx-demo-app
     sshAgent: ssh_user
+    hockeyAppApiToken: abc123
 */
 
 /* stdout logger */
@@ -49,14 +50,17 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('appBaseDir')
     assert jobConfig.containsKey('appBaseName')
     assert jobConfig.containsKey('sshAgent')
+    assert jobConfig.containsKey('hockeyAppApiToken')
 
     // Create a Jenkins job
     job(jobConfig['jobName']) {
 
         // This is a private job
-        authorization {
-            blocksInheritance(true)
-            permissionAll('edx')
+        if (!jobConfig['public']) {
+            authorization {
+                blocksInheritance(true)
+                permissionAll('edx')
+            }
         }
 
         description('Compile, sign, test and publish the edX Android app to HockeyApp')
@@ -71,6 +75,7 @@ secretMap.each { jobConfigs ->
         // Parameterize build with "HASH", the git hash used to pull source
         parameters {
             stringParam('HASH', 'refs/heads/master', 'Git hash of the project to build. Default = most recent hash of master.')
+            textParam('RELEASE_NOTES', 'Test Build', 'Plain text release notes. Add content here and it will be published to HockeyApp along with the app.')
         }
 
         scm {
@@ -80,7 +85,6 @@ secretMap.each { jobConfigs ->
                     if (!jobConfig['public'].toBoolean()) {
                         credentials(jobConfig['gitCredential'])
                     }
-                    refspec('+refs/heads/master:refs/remotes/origin/master')
                 }
                 branch('\${HASH}')
                 browser()
@@ -120,7 +124,25 @@ secretMap.each { jobConfigs ->
                 allowEmpty(false)
                 pattern('artifacts/\$APP_BASE_NAME.*')
             }
-        }
 
+            // Publish the application to HockeyApp
+            configure { project ->
+                project / publishers << 'hockeyapp.HockeyappRecorder' {
+                    applications {
+                        'hockeyapp.HockeyappApplication' {
+                            apiToken jobConfig['hockeyAppApiToken']
+                            notifyTeam true
+                            filePath 'artifacts/*.apk'
+                            dowloadAllowed true
+                            releaseNotesMethod {
+                                releaseNotes "${RELEASE_NOTES}"
+                                isMarkDown false
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
     }
 }
