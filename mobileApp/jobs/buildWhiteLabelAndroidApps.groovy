@@ -8,7 +8,7 @@ Example secret YAML file used by this script
 jobConfig:
     jobName: build-demo-android-app
     public: true
-    release: false
+    release: false => whether or not the job will build a release apk (as opposed to a debuggable apk)
     buildScript: build.sh
     gradleProperties: GRADLE_PROPERTIES
     keystore: APP_KEYSTORE
