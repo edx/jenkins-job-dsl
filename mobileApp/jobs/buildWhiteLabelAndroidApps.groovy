@@ -3,24 +3,44 @@ package mobile
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
-/*
-Example secret YAML file used by this script
-jobConfig:
-    jobName: build-demo-android-app
-    public: true
-    release: false => whether or not the job will build a release apk (as opposed to a debuggable apk)
-    buildScript: build.sh
-    gradleProperties: GRADLE_PROPERTIES
-    keystore: APP_KEYSTORE
-    keystoreFile: APP_KEYSTORE_FILE
-    gitRepo: https://github.com/org/project.git
-    gitCredential: git_user
-    appBaseDir: android-app-project
-    appBaseName: edx-demo-app
-    generatedApkName: edx-demo-app.apk
-    sshAgent: ssh_user
-    hockeyAppApiToken: abc123
-*/
+/**
+ buildWhiteLabelAndroidApps.groovy
+
+ This dsl-script creates Jenkins jobs to perform the following:
+   - Build an apk based on a user-supplied git-hash from a given edx android repository
+   - Archive the apk file on Jenkins for history & quick testing
+   - Publish the apk to HockeyApp (a service for hosting & disrtibuting application files)
+   - TODO: Run tests on the generated apk file (linting, unit tests, screenshot tests)
+ Depending on the "release" flag mentioned below, the job will be considered either 'release' or 'debug'
+ Release builds will also use special gradle.properties and keystore files when compiled, to sign
+ the build.
+
+ ==========================================================================================
+ In order to run, the job requires the following be loaded into Jenkins as secrets files:
+   - A secret yml file: This contains a number of jobConfigs, one for each desired Jenkins job
+   - A gradle.properties file: A key-value file used in the gradle build process **
+       For more informataion, see https://github.com/edx/edx-app-android/blob/master/README.rst#building-for-release
+   - A key store file: These are used to sign Android applications **
+   ** This is only required for 'release' jobs
+
+ Example secret YAML file used by this script
+ jobConfig:
+    jobName: build-demo-android-app => name of generated Jenkins job
+    public: true => (boolean) if the job should be open or not
+    release: false => (boolean) whether or not the job will build a release apk (as opposed to a debuggable apk)
+    buildScript: build.sh => script in appBaseDir to run in order to compile the apk
+    gradleProperties: GRADLE_PROPERTIES => env var exposed as secret which points to gradle.properties for this build
+    keystore: APP_KEYSTORE => env var exposed as secret which points to the keystore file to use in signing
+    keystoreFile: APP_KEYSTORE_FILE => output file to copy the keystore into
+    gitRepo: https://github.com/org/project.git => source repo for the app to build
+    gitCredential: git_user => credentials for git user
+    appBaseDir: android-app-project => name of directory to clone app source into
+    appBaseName: edx-demo-app => first part of desired apk name produced by this job. Apk names should have the following
+                 naming structure: '$appBaseName-$gitHash.apk'
+    generatedApkName: edx-demo-app.apk => original name of the apk built via gradle (before our renaming scheme)
+    sshAgent: ssh_user => reference to ssh user for using git submodules from within shell steps in Jenkins jobs
+    hockeyAppApiToken: abc123 => token used to access the hockey app api for publishing apks
+**/
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
