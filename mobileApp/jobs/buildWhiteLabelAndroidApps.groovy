@@ -90,7 +90,7 @@ secretMap.each { jobConfigs ->
         //"RELEASE_NOTES", a string (multi-line) for annotating the builds published to hockeyApp
         parameters {
             stringParam('HASH', 'refs/heads/master', 'Git hash of the project to build. Default = most recent hash of master.')
-            textParam('RELEASE_NOTES', 'Test Build', 'Plain text release notes. Add content here and it will be published to HockeyApp along with the app.')
+            textParam('RELEASE_NOTES', 'Built with Jenkins', 'Plain text release notes. Add content here and it will be published to HockeyApp along with the app.')
         }
 
         scm {
@@ -119,6 +119,13 @@ secretMap.each { jobConfigs ->
             colorizeOutput('xterm')
             // Recursively use ssh while initializing git submodules
             sshAgent(jobConfig['sshAgent'])
+            // Grant release builds access to secrets
+            if (jobConfig['release']) {
+                credentialsBinding {
+                    file('KEY_STORE', jobConfig['keystore'])
+                    file('GRADLE_PROPERTIES', jobConfig['gradleProperties'])
+                }
+            }
         }
 
         // Inject environment variables to make the build script generic
@@ -128,8 +135,6 @@ secretMap.each { jobConfigs ->
             env('APP_BASE_DIR', jobConfig['appBaseDir'])
             env('APP_BASE_NAME', jobConfig['appBaseName'])
             env('GEN_APK', jobConfig['generatedApkName'])
-            env('GRADLE_PROPERTIES', jobConfig['gradleProperties'])
-            env('KEY_STORE', jobConfig['keystore'])
             env('KEY_STORE_FILE', jobConfig['keystoreFile'])
         }
 
@@ -153,7 +158,7 @@ secretMap.each { jobConfigs ->
             // Archive the artifacts, in this case, the APK file:
             archiveArtifacts {
                 allowEmpty(false)
-                pattern('artifacts/\$APP_BASE_NAME.*')
+                pattern('artifacts/\$APP_BASE_NAME*')
             }
 
             // Publish the application to HockeyApp
