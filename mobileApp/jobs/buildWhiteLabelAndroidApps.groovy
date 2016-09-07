@@ -18,10 +18,12 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
  ==========================================================================================
  In order to run, the job requires the following be loaded into Jenkins as secrets files:
    - A secret yml file: This contains a number of jobConfigs, one for each desired Jenkins job
-   - A gradle.properties file: A key-value file used in the gradle build process **
+   - A gradle.properties file (release builds only): A key-value file used in the gradle build process **
        For more informataion, see https://github.com/edx/edx-app-android/blob/master/README.rst#building-for-release
-   - A key store file: These are used to sign Android applications **
-   ** This is only required for 'release' jobs
+   - A key store file (release builds only): These are used to sign Android applications ***
+   ** Debug builds require less information in the gradle.properties file than release builds, and are 
+      created by the build scripts
+   *** Debug builds will use default signing keys from the Android SDK
 
  Example secret YAML file used by this script
  jobConfig:
