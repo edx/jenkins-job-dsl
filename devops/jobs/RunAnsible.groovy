@@ -2,6 +2,7 @@ package devops.jobs
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
+import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
 class RunAnsible {
     public static def job = { dslFactory, jobName, environment, deployment, extraVars ->
@@ -12,19 +13,28 @@ class RunAnsible {
              */
 
             wrappers common_wrappers
-                wrappers {
-                    credentialsBinding {
-                        file('AWS_CONFIG_FILE','jenkins-aws-credentials')
-                        string('ROLE_ARN','ec2py-role-arn')
-                    }
-                    sshAgent(extraVars.get("SSH_AGENT_KEY").get(environment))
+            wrappers {
+                credentialsBinding {
+                    file('AWS_CONFIG_FILE','jenkins-aws-credentials')
+                    string('ROLE_ARN','find-host-role-arn')
                 }
+                sshAgent(extraVars.get("SSH_AGENT_KEY").get(environment))
+            }
 
             parameters {
                 stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
                             'Git repo containing the analytics pipeline configuration automation.')
                 stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
+            }
+
+            def access_control = extraVars.get('ACCESS_CONTROL',[])
+            access_control.each { acl ->
+                common_read_permissions.each { perm ->
+                    authorization {
+                        permission(perm,acl)
+                    }
+                }
             }
 
             multiscm {
@@ -39,6 +49,15 @@ class RunAnsible {
                         relativeTargetDirectory('configuration')
                     }
                 }
+            }
+
+            triggers {
+                if (extraVars.get('SCHEDULE')) {
+                    cron(extraVars['SCHEDULE'])
+                }
+            }
+            throttleConcurrentBuilds {
+                maxPerNode(1)
             }
 
             // Parameters from the seed job that you don't override, they're just part of
