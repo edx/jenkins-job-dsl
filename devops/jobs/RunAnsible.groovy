@@ -1,3 +1,28 @@
+/*
+
+    Variables consumed from the EXTRA_VARS input to your seed job in addition
+    to those listed in the seed job.
+
+    SSH_AGENT_KEY: dictionary of key per environment (looked up from the currently generating ENVIRONMENT)
+    CONFIGURATION_REPO: standard default available
+    CONFIGURATION_BRANCH: defaults to master
+    ACCESS_CONTROL: list of Jenkins matrix targets who should get read access (edx*team or username)
+    SCHEDULE: Cron syntax consumed by Jenkins triggered builds
+    REGION: For boto - defaults to us-east-1
+    SSH_USER: ansible connect user - defaults to ubuntu.  Make sure this matches up with SSH_AGENT_KEY
+    CLUSTER: Our cluster tag for identifying machines
+    BECOME_USER: If you are sudoing using ansible, this sets ansible's become
+    MODULE_NAME: What ansible module to run, defaults to shell
+    MODULE_ARGS: Arguments for the ansible module, must be specified
+    PATTERN: host pattern consumed by ansible (normally an argument to ec2.py)
+    INVENTORY: ansible inventory - defaults to ec2.py
+    CUSTOM_INVENTORY: if you want to run a custom program to generate an inventory, set this and it will override INVENTORY
+
+    Expected credentials - these will normally be set up on the Folder.
+        jnkins-aws-credentials: a file credential that can be set in the environment as AWS_CONFIG_FILE for assuming role
+        find-host-role-arn: ARN of the IAM role that will be assumed
+
+*/
 package devops.jobs
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
