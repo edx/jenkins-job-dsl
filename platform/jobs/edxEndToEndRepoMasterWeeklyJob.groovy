@@ -28,22 +28,22 @@ PrintStream out = config['out']
 
 stringParams = [
     [
-    name: 'courseOrg',
+    name: 'COURSE_ORG',
     description: 'Organization name of the course',
     default: 'ArbiRaees'
     ],
     [
-    name: 'courseNumber',
+    name: 'COURSE_NUMBER',
     description: 'Course number',
     default: 'AR-1000'
     ],
     [
-    name: 'courseRun',
+    name: 'COURSE_RUN',
     description: 'Term in which course will run',
     default: 'fall'
     ],
     [
-    name: 'courseDisp',
+    name: 'COURSE_DISPLAY_NAME',
     description: 'Display name of the course',
     default: 'Manual Smoke Test Course 1 - Auto'
     ]
@@ -140,14 +140,16 @@ secretMap.each { jobConfigs ->
         wrappers {
             timeout {
                absolute(75)
-           }
-           timestamps()
-           colorizeOutput('gnome-terminal')
+            }
+            timestamps()
+            colorizeOutput('gnome-terminal')
         }
 
         publishers {
-          archiveArtifacts('reports/*.xml')
-          mailer(jobConfig['email'])
+            archiveJunit('reports/*.xml') {
+                allowEmptyResults(false)
+            }
+            mailer(jobConfig['email'])
       }
     }
 }
