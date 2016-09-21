@@ -146,9 +146,12 @@ secretMap.each { jobConfigs ->
         }
 
         publishers {
+            // Achive XML report as XUnit for ease of analysis
             archiveJunit('reports/*.xml') {
                 allowEmptyResults(false)
             }
+            // Also, archive XML reports so they can be downloaded
+            archiveArtifacts('reports/*.xml')
             mailer(jobConfig['email'])
       }
     }
