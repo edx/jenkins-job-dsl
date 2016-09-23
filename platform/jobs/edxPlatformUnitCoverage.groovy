@@ -179,7 +179,10 @@ secretMap.each { jobConfigs ->
                     }
                 }
             }
-            shell("./scripts/jenkins-report.sh ${CI_BRANCH}")
+            // Run jenkins-report.sh which will upload coverage results to
+            // both codecov and coveralls. This is temporary. We plan to move
+            // off of coveralls.
+            shell("./scripts/jenkins-report.sh ${CI_BRANCH} ${jobConfig['shellKey']}")
         }
         publishers {
             archiveArtifacts {
