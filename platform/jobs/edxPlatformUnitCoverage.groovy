@@ -161,6 +161,9 @@ secretMap.each { jobConfigs ->
                 sshAgent(jobConfig['credential'])
             }
             buildName('#\${BUILD_NUMBER}: \${GIT_REVISION,length=8}')
+            credentialsBinding {
+                file('CODE_COV_TOKEN', 'CODE_COV_TOKEN')
+            }
         }
        /* Copy Artifacts from test subset jobs with build number UNIT_BUILD_NUM */
         steps {
@@ -176,7 +179,10 @@ secretMap.each { jobConfigs ->
                     }
                 }
             }
-            shell('./scripts/jenkins-report.sh ' + jobConfig['shellKey'] + ' $CI_BRANCH')
+            // Run jenkins-report.sh which will upload coverage results to
+            // both codecov and coveralls. This is temporary. We plan to move
+            // off of coveralls.
+            shell("./scripts/jenkins-report.sh ${CI_BRANCH} ${jobConfig['shellKey']}")
         }
         publishers {
             archiveArtifacts {
