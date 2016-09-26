@@ -185,7 +185,7 @@ secretMap.each { jobConfigs ->
             // must be removed from this job, and
             // https://github.com/edx/edx-platform/scripts/jenkins-report.sh
             // must be altered to only report to codecov.
-            shell("./scripts/jenkins-report.sh ${jobConfig['shellKey']} ${CI_BRANCH}")
+            shell("./scripts/jenkins-report.sh ${jobConfig['shellKey']} \${CI_BRANCH}")
         }
         publishers {
             archiveArtifacts {
