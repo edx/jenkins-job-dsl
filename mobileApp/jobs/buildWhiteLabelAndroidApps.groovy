@@ -152,7 +152,7 @@ secretMap.each { jobConfigs ->
 
         // Inject environment variables to make the build script generic
         environmentVariables {
-            env('ANDROID_HOME', '/opt/Android/Sdk')
+            env('ANDROID_HOME', '/opt/Android/android-sdk-linux')
             env('BUILD_SCRIPT', jobConfig['buildScript'])
             env('APP_BASE_DIR', jobConfig['appBaseDir'])
             env('APP_BASE_NAME', jobConfig['appBaseName'])
@@ -165,6 +165,8 @@ secretMap.each { jobConfigs ->
             def copyKeyScript = readFileFromWorkspace('mobileApp/resources/copy_keys.sh')
             def buildScript = readFileFromWorkspace('mobileApp/resources/organize_android_app_build.sh')
             def testSigningScript = readFileFromWorkspace('mobileApp/resources/check_release_build.sh')
+            def prepareEmulatorScript = readFileFromWorkspace('mobileApp/resources/prepare_emulator.sh')
+
             // Copy keystores into workspace for release builds
             if (jobConfig['release']) {
                 shell(copyKeyScript)
@@ -174,13 +176,49 @@ secretMap.each { jobConfigs ->
             if (jobConfig['release']) {
                 shell(testSigningScript)
             }
+
+            // Run the gradle targets to perform linting and unit tests
+            gradle{
+                useWrapper(true)
+                makeExecutable(true)
+                fromRootBuildScriptDir(true)
+                tasks('lintProdDebug')
+                tasks('copyLinBuildArtifacts')
+                tasks('testProdDebugUnitTestCoverage')
+                tasks('copyUnitTestBuildArtifacts')
+                rootBuildScriptDir("\${APP_BASE_DIR}/edx-app-android/")
+            }
+
+            // Set up the Android Emulator (AVD) for testing
+            shell(prepareEmulatorScript)
+
+            // Run the gradle targets to perform screenshot tests on an AVD
+            gradle{
+                useWrapper(true)
+                makeExecutable(true)
+                fromRootBuildScriptDir(true)
+                tasks('verifyMode')
+                tasks('screenshotTests')
+                switches('-PdisablePreDex')
+                rootBuildScriptDir("\${APP_BASE_DIR}/edx-app-android/")
+            }
+
         }
 
         publishers {
             // Archive the artifacts, in this case, the APK file:
             archiveArtifacts {
                 allowEmpty(false)
-                pattern('artifacts/\$APP_BASE_NAME*')
+                def screenshotPath = "${jobConfig['appBaseDir']}/edx-app-android/VideoLocker/screenshots/*png"
+                pattern("artifacts/\$APP_BASE_NAME*, ${screenshotPath}")
+            }
+
+            publishHtml {
+                report("${APP_BASE_DIR}/edx-app-android/VideoLocker/build/reports/tests/prodDebug/") {
+                    allowMissing('')
+                    reportFiles('')
+                    reportName('')
+                }
             }
 
             // Publish the application to HockeyApp
