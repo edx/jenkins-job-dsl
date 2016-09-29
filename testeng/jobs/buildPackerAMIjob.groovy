@@ -53,7 +53,7 @@ secretMap.each { jobConfigs ->
 
         description('Create an AMI on aws based on json from the ' +
                     'util/packer folder in the configuration repo.')
-        
+
         // Special security scheme for members of a team
         authorization JENKINS_PUBLIC_TEAM_SECURITY.call(jobConfig['toolsTeam'])
 

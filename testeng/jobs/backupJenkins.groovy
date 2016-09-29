@@ -49,7 +49,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('email')
 
     job("backup-${jobConfig['jenkinsInstance']}-jenkins") {
-        
+
         // private job
         authorization {
             blocksInheritance(true)
@@ -63,7 +63,7 @@ secretMap.each { jobConfigs ->
             numToKeep(50)
         }
         concurrentBuild(false)
-        label("backup-runner")
+        label('backup-runner')
 
         // Configure the Exclusive Execution plugin, to reduce the amount of things in memory
         // during snapshotting
@@ -119,10 +119,10 @@ secretMap.each { jobConfigs ->
         }
 
         // Sync currently paged files to disk
-        String script = "sync\n"
+        String script = 'sync\n'
         // This might seem overkill, but in case the pip requirements change, read them from
         // the requirements file in the workspace
-        readFileFromWorkspace('testeng/resources/requirements.txt').split("\n").each { line ->
+        readFileFromWorkspace('testeng/resources/requirements.txt').split('\n').each { line ->
             script += "pip install --exists-action w ${line}\n"
         }
         script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot' > \${WORKSPACE}/snapshot-out.log\n"
@@ -150,5 +150,4 @@ secretMap.each { jobConfigs ->
             textFinder('"State": "(pending|completed)"', 'snapshot-out.log', false, true, false)
         }
     }
-    
 }
