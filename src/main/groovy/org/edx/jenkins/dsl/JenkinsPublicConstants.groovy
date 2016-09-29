@@ -122,4 +122,18 @@ class JenkinsPublicConstants {
             }
         }
     }
+
+    public static final Closure JENKINS_PUBLIC_TEAM_SECURITY = { memberList ->
+
+        return {
+            blocksInheritance(true)
+            // grant team members control of job
+            memberList.each { member ->
+                permissionAll(member)
+            }
+            // grant read rights to the org
+            permission('hudson.model.Item.Read', 'edx')
+            permission('hudson.model.Item.Discover', 'edx')
+        }
+    }
 }
