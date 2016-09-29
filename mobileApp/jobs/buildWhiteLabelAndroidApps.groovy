@@ -21,7 +21,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
    - A gradle.properties file (release builds only): A key-value file used in the gradle build process **
        For more informataion, see https://github.com/edx/edx-app-android/blob/master/README.rst#building-for-release
    - A key store file (release builds only): These are used to sign Android applications ***
-   ** Debug builds require less information in the gradle.properties file than release builds, and are 
+   ** Debug builds require less information in the gradle.properties file than release builds, and are
       created by the build scripts
    *** Debug builds will use default signing keys from the Android SDK
 
@@ -102,7 +102,7 @@ secretMap.each { jobConfigs ->
 
         // Clean up older builds/logs
         logRotator JENKINS_PUBLIC_LOG_ROTATOR()
-        
+
         concurrentBuild(false)
         // Run this build on the Jenkins worker configured with the Android SDK
         label('android-worker')
@@ -116,7 +116,7 @@ secretMap.each { jobConfigs ->
         }
 
         scm {
-            git { 
+            git {
                 remote {
                     url(jobConfig['gitRepo'])
                     if (!jobConfig['public'].toBoolean()) {

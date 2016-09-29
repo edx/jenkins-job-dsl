@@ -4,13 +4,13 @@ import hudson.util.Secret
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 
-/* Sample Secret File 
+/* Sample Secret File
 honorCourseId : honor-course-id
 verifiedCourseId : verified-course-id
 professionalCourseId : professional-course-id
 ecommerceUrlRoot : ecommerce-root-url
 lmsAutoAuth : true/false
-marketingRootUrl : marketing-root-url 
+marketingRootUrl : marketing-root-url
 lmsUrlRoot : lms-url-root
 lmsHttps : true/false
 enableCouponAdminTests : true/false
