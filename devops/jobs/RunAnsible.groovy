@@ -17,6 +17,7 @@
     PATTERN: host pattern consumed by ansible (normally an argument to ec2.py)
     INVENTORY: ansible inventory - defaults to ec2.py
     CUSTOM_INVENTORY: if you want to run a custom program to generate an inventory, set this and it will override INVENTORY
+    NOTIFY_ON_FAILURE: email address to be notified when this job fails
 
     Expected credentials - these will normally be set up on the Folder.
         jnkins-aws-credentials: a file credential that can be set in the environment as AWS_CONFIG_FILE for assuming role
@@ -107,6 +108,10 @@ class RunAnsible {
                     nature('shell')
                     command(dslFactory.readFileFromWorkspace('devops/resources/run-ansible.sh'))
                 }
+            }
+
+            publishers {
+                mailer(extraVars.get('NOTIFY_ON_FAILURE',''), false, false)
             }
         }
     }
