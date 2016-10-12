@@ -54,7 +54,7 @@ if [[ -n ${CUSTOM_INVENTORY} ]]; then
       ANSIBLE_INVENTORY="-i ${HOSTS}"
   else
       echo "No HOSTS found from CUSTOM_INVENTORY - refusing to run ansible"
-      exit(1)
+      exit 1
   fi
 fi
 
