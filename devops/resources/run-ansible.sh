@@ -50,7 +50,12 @@ fi
 
 if [[ -n ${CUSTOM_INVENTORY} ]]; then
   HOSTS=$($CUSTOM_INVENTORY)
-  ANSIBLE_INVENTORY="-i ${HOSTS}"
+  if [[ -n ${HOSTS} ]]; then
+      ANSIBLE_INVENTORY="-i ${HOSTS}"
+  else
+      echo "No HOSTS found from CUSTOM_INVENTORY - refusing to run ansible"
+      exit(1)
+  fi
 fi
 
 if [[ -n "${BECOME_USER}" ]]; then
