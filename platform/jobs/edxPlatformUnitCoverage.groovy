@@ -13,7 +13,6 @@ publicJobConfig:
     credential : n/a
     cloneReference : clone/.git
     subsetJob : name-of-test-subset-job
-    shellKey : key-in-shell
 */
 
 /* stdout logger */
@@ -99,7 +98,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('credential')
     assert jobConfig.containsKey('cloneReference')
     assert jobConfig.containsKey('subsetJob')
-    assert jobConfig.containsKey('shellKey')
 
     job(jobConfig['jobName']) {
 
@@ -127,6 +125,7 @@ secretMap.each { jobConfigs ->
         label('coverage-worker')
         environmentVariables {
             env('SUBSET_JOB', jobConfig['subsetJob'])
+            env('REPORT_COVERAGE', jobConfig['open'])
         }
         scm {
             git {
@@ -180,12 +179,8 @@ secretMap.each { jobConfigs ->
                 }
             }
             // Run jenkins-report.sh which will upload coverage results to
-            // both codecov and coveralls. This is temporary. We plan to move
-            // off of coveralls. In order to do so, the coveralls 'shellKey'
-            // must be removed from this job, and
-            // https://github.com/edx/edx-platform/scripts/jenkins-report.sh
-            // must be altered to only report to codecov.
-            shell("./scripts/jenkins-report.sh ${jobConfig['shellKey']} \${CI_BRANCH}")
+            // codecov.
+            shell("./scripts/jenkins-report.sh")
         }
         publishers {
             archiveArtifacts {
