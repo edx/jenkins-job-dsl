@@ -109,10 +109,15 @@ secretMap.each { jobConfigs ->
 
         // Parameterize build with:
         //"HASH", the git hash used to pull the app source code
+        //"SHOULD_PUBLISH", determine if an apk should be submitted to hockey app
         //"RELEASE_NOTES", a string (multi-line) for annotating the builds published to hockeyApp
         parameters {
-            stringParam('HASH', 'refs/heads/master', 'Git hash of the project to build. Default = most recent hash of master.')
-            textParam('RELEASE_NOTES', 'Built with Jenkins', 'Plain text release notes. Add content here and it will be published to HockeyApp along with the app.')
+            stringParam('HASH', 'refs/heads/master',
+                        'Git hash of the project to build. Default = most recent hash of master.')
+            booleanParam('SHOULD_PUBLISH', false,
+                         'Should this apk be published to Hockey App? (default = No)')
+            textParam('RELEASE_NOTES', 'Built with Jenkins',
+                      'Plain text release notes. Add content here and it will be published to HockeyApp along with the app.')
         }
 
         scm {
@@ -152,7 +157,7 @@ secretMap.each { jobConfigs ->
 
         // Inject environment variables to make the build script generic
         environmentVariables {
-            env('ANDROID_HOME', '/opt/Android/Sdk')
+            env('ANDROID_HOME', '/opt/android-sdk-linux')
             env('BUILD_SCRIPT', jobConfig['buildScript'])
             env('APP_BASE_DIR', jobConfig['appBaseDir'])
             env('APP_BASE_NAME', jobConfig['appBaseName'])
@@ -183,20 +188,33 @@ secretMap.each { jobConfigs ->
                 pattern('artifacts/\$APP_BASE_NAME*')
             }
 
-            // Publish the application to HockeyApp
+
             configure { project ->
-                project / publishers << 'hockeyapp.HockeyappRecorder' (schemaVersion: '2') {
-                    applications {
-                        'hockeyapp.HockeyappApplication' (plugin: 'hockeyapp@1.2.1', schemaVersion: '1') {
-                            apiToken jobConfig['hockeyAppApiToken']
-                            notifyTeam true
-                            filePath 'artifacts/*.apk'
-                            dowloadAllowed true
-                            releaseNotesMethod (class: "net.hockeyapp.jenkins.releaseNotes.ManualReleaseNotes") {
-                                releaseNotes "\${RELEASE_NOTES}"
-                                isMarkDown false
+                project / publishers << 'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' (plugin: 'flexible-publish@0.15.2') {
+                    publishers {
+                        'org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher' { 
+                            condition (class: 'org.jenkins_ci.plugins.run_condition.core.BooleanCondition', plugin: 'run-condition@1.0') {
+                                token "\${SHOULD_PUBLISH}"
                             }
-                            uploadMethod (class: 'net.hockeyapp.jenkins.uploadMethod.AppCreation') {}
+                            publisherList {
+                                'hockeyapp.HockeyappRecorder' (schemaVersion: '2') {
+                                    applications {
+                                        'hockeyapp.HockeyappApplication' (plugin: 'hockeyapp@1.2.1', schemaVersion: '1') {
+                                            apiToken jobConfig['hockeyAppApiToken']
+                                            notifyTeam true
+                                            filePath 'artifacts/*.apk'
+                                            dowloadAllowed true
+                                            releaseNotesMethod (class: "net.hockeyapp.jenkins.releaseNotes.ManualReleaseNotes") {
+                                                releaseNotes "\${RELEASE_NOTES}"
+                                                isMarkDown false
+                                            }
+                                            uploadMethod (class: 'net.hockeyapp.jenkins.uploadMethod.AppCreation') {}
+                                        }
+                                    }
+                                }
+                            }
+                            run (class: 'org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail', plugin: 'run-condition@1.0' ) {}
+                            executionStrategy (class: 'org.jenkins_ci.plugins.flexible_publish.strategy.FailAtEndExecutionStrategy') {}
                         }
                     }
                 }

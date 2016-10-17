@@ -173,7 +173,11 @@ class buildWhiteLabelAndroidAppsSpec extends Specification {
 
         then:
         Node publishers = project.childNodes().find { it.name == 'publishers' }
-        Node recorder = publishers.childNodes().find { it.name == 'hockeyapp.HockeyappRecorder' }
+        Node flex = publishers.childNodes().find { it.name == 'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' }
+        Node subPublishers =  flex.childNodes().find { it.name == 'publishers' }
+        Node condPublisher = subPublishers.childNodes().find { it.name == 'org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher' }
+        Node pubList = condPublisher.childNodes().find { it.name == 'publisherList' }
+        Node recorder = pubList.childNodes().find { it.name == 'hockeyapp.HockeyappRecorder' }
         Node applications = recorder.childNodes().find { it.name == 'applications' }
         Node hockeyApp = applications.childNodes().find { it.name == 'hockeyapp.HockeyappApplication' }
         hockeyApp.childNodes().any { it.name == 'apiToken' && it.text() == '123'}
