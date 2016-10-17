@@ -125,7 +125,6 @@ secretMap.each { jobConfigs ->
         label('coverage-worker')
         environmentVariables {
             env('SUBSET_JOB', jobConfig['subsetJob'])
-            env('REPORT_COVERAGE', jobConfig['open'])
         }
         scm {
             git {
@@ -160,8 +159,11 @@ secretMap.each { jobConfigs ->
                 sshAgent(jobConfig['credential'])
             }
             buildName('#\${BUILD_NUMBER}: \${GIT_REVISION,length=8}')
-            credentialsBinding {
-                file('CODE_COV_TOKEN', 'CODE_COV_TOKEN')
+            // Inject CodeCov token so that public jobs can report coverage
+            if (jobConfig['open'].toBoolean()) {
+                credentialsBinding {
+                    string('CODE_COV_TOKEN', 'CODE_COV_TOKEN')
+                }
             }
         }
        /* Copy Artifacts from test subset jobs with build number UNIT_BUILD_NUM */
