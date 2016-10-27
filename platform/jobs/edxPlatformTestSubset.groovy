@@ -159,7 +159,8 @@ secretMap.each { jobConfigs ->
 
         /* Actual build steps for this job */
         steps {
-            shell('bash scripts/all-tests.sh')
+            shell('bash scripts/all-tests.sh; ' +
+                  "pip freeze > \${WORKSPACE}/${jobConfig['cloneReference']}/test_root/log/pip_freeze.log")
         }
 
         /* Publish artifacts from build */

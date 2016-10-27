@@ -118,7 +118,9 @@ secretMap.each { jobConfigs ->
            }
        }
        steps {
-           shell("cd ${jobConfig['repoName']}; bash scripts/accessibility-tests.sh")
+           shell("cd ${jobConfig['repoName']}; " +
+                 'bash scripts/accessibility-tests.sh; ' +
+                 "pip freeze > \${WORKSPACE}/${jobConfig['repoName']}/test_root/log/pip_freeze.log")
        }
        publishers {
            archiveArtifacts {

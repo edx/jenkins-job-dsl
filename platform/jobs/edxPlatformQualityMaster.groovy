@@ -140,7 +140,9 @@ secretMap.each { jobConfigs ->
            predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'job/'
                                   + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
-           shell("cd ${jobConfig['repoName']}; TEST_SUITE=quality ./scripts/all-tests.sh")
+           shell("cd ${jobConfig['repoName']}; " +
+                 'TEST_SUITE=quality ./scripts/all-tests.sh; ' +
+                 "pip freeze > \${WORKSPACE}/$jobConfig['repoName']}/test_root/log/pip_freeze.log")
        }
        publishers { //publish artifacts, HTML, violations report, trigger GitHub-Build-Status, email, message hipchat
            archiveArtifacts {

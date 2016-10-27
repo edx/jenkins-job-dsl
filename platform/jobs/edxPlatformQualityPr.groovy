@@ -120,7 +120,9 @@ secretMap.each { jobConfigs ->
             buildName('#\${BUILD_NUMBER}: Quality Tests')
         }
         steps {
-            shell("cd ${jobConfig['repoName']}; TEST_SUITE=quality ./scripts/all-tests.sh")
+            shell("cd ${jobConfig['repoName']}; " +
+                  'TEST_SUITE=quality ./scripts/all-tests.sh; ' +
+                  "pip freeze > \${WORKSPACE}/${jobConfig['repoName']}/test_root/log/pip_freeze.log")
         }
         publishers {
             archiveArtifacts {

@@ -182,11 +182,13 @@ secretMap.each { jobConfigs ->
             }
             // Run jenkins-report.sh which will upload coverage results to
             // codecov.
-            shell("./scripts/jenkins-report.sh")
+            shell("./scripts/jenkins-report.sh; " +
+                  "pip freeze > \${WORKSPACE}/${jobConfig['cloneReference']}/test_root/log/pip_freeze.log")
         }
         publishers {
             archiveArtifacts {
                 pattern('reports/diff_coverage_combined.html,reports/**')
+                pattern('edx-platform*/test_root/log/pip_freeze.log')
                 defaultExcludes()
             }
         }
