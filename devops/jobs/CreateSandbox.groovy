@@ -7,6 +7,7 @@
     * BASIC_AUTH_USER 
     * BASIC_AUTH_PASS
     * CONFIGURATION_SECURE_REPO (required)
+    * CONFIGURATION_INTERNAL_REPO (required)
     * SSH_KEYPAIR_NAME (required)
 
     Credentials you must set up (probably inside FOLDER_NAME).
@@ -76,6 +77,18 @@ class CreateSandbox {
                         relativeTargetDirectory('configuration-secure')
                     }
                 }
+                git {
+                    remote {
+                        url(extraVars.get('CONFIGURATION_INTERNAL_REPO',''))
+                        branch('$configuration_internal_version')
+                        credentials('sandbox-secure-credentials')
+                    }
+                    extensions {
+                        cleanAfterCheckout()
+                        pruneBranches()
+                        relativeTargetDirectory('configuration-internal')
+                    }
+                }
             }
 
 
@@ -97,6 +110,7 @@ class CreateSandbox {
                 stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
                 stringParam("configuration_secure_version","master","")
+                stringParam("configuration_internal_version","master","")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
                 choiceParam("edxapp_comprehensive_theme_dir",["/edx/app/edxapp/edx-platform/themes/edx.org","unset"],"")
                 booleanParam("testcourses",true,"")
