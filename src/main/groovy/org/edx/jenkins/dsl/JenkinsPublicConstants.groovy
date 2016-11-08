@@ -3,7 +3,7 @@ package org.edx.jenkins.dsl
 import org.yaml.snakeyaml.Yaml
 
 class JenkinsPublicConstants {
-  
+
   public static final String JENKINS_PUBLIC_BASE_URL = "https://build.testeng.edx.org/"
 
   public static final Closure JENKINS_PUBLIC_LOG_ROTATOR = {
@@ -22,7 +22,7 @@ class JenkinsPublicConstants {
   public static final Closure JENKINS_PUBLIC_ARCHIVE_ARTIFACTS = {
     return {
         pattern("reports/**/*,test_root/log/**/*.png,test_root/log/**/*.log, test_root/log/**/hars/*.har,**/nosetests.xml," +
-                "**/TEST-*.xml"
+                "**/TEST-*.xml,*.log"
                 )
         exclude("reports/bok-choy/*/bok_choy/cover/*")
         allowEmpty(true)
@@ -78,7 +78,7 @@ class JenkinsPublicConstants {
         secretMap = yaml.load(fileContents)
         return secretMap
     }
-    
+
     public static final String JENKINS_PUBLIC_JUNIT_REPORTS = 'edx-platform*/**/nosetests.xml,edx-platform*/reports/acceptance/*.xml,' +
                                                               'edx-platform*/reports/quality.xml,edx-platform*/reports/javascript/' +
                                                               'javascript_xunit*.xml,edx-platform*/reports/bok_choy/xunit.xml,edx-platform*/' +
