@@ -37,6 +37,16 @@ class CreateSandbox {
                 buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
             }
 
+            publishers {
+                archiveArtifacts('timer.ansible.log')
+            }
+
+            wrappers {
+                environmentVariables {
+                    env('ANSIBLE_TIMER_LOG', '${WORKSPACE}/timer.ansible.log')
+                }
+            }
+
             authorization {
                 DevopsConstants.common_read_permissions.each { permission_name -> permission(permission_name,'edx')}
             }
