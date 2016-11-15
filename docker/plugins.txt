@@ -25,6 +25,7 @@ github 1.17.0
 github-api 1.72
 github-oauth 0.22.2
 github-sqs-plugin
+gradle 1.25
 grails 1.7
 greenballs 1.15
 groovy 1.29
