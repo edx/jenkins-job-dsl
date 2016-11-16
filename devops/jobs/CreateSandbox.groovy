@@ -38,12 +38,12 @@ class CreateSandbox {
             }
 
             publishers {
-                archiveArtifacts('timer.ansible.log')
+                archiveArtifacts('timing.ansible.log')
             }
 
             wrappers {
                 environmentVariables {
-                    env('ANSIBLE_TIMER_LOG', '${WORKSPACE}/timer.ansible.log')
+                    env('ANSIBLE_TIMER_LOG', '${WORKSPACE}/timing.ansible.log')
                 }
             }
 
