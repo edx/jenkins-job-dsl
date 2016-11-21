@@ -6,6 +6,13 @@ set -ex
 virtualenv VENV
 . $WORKSPACE/bin/activate
 
+kill_all_emus() {
+    for emu_device in $(adb devices -l |grep 'device product:' |cut -d' ' -f1); do
+        echo "Killing emulator: $emu_device"
+        adb -s $emu_device emu kill
+    done
+}
+
 # set up environment for testing
 export PATH="/opt/Android/Sdk/tools:$PATH"
 export ADB_INSTALL_TIMEOUT=12
@@ -19,10 +26,7 @@ make validate
 
 # Kill all running emulators (in case there are emulators still running on
 # a machine -- this will cause tests to fail)
-for emu_device in $(adb devices -l |grep 'device product:' |cut -d' ' -f1); do
-    echo "Killing emulator: $emu_device"
-    adb -s $emu_device emu kill
-done
+kill_all_emus
 
 # Set up Android emulator and wait until it is fully booted
 make emulator
@@ -32,5 +36,10 @@ $ANDROID_TOOLS/adb shell input keyevent 82 &
 # Run emulator tests
 make e2e
 make artifacts
+
+# Again, kill all running emulators, as the Makefile spawns them as a background
+# process, and leaving them running can interfere with other jobs
+kill_all_emus
+
 
 exit 0
