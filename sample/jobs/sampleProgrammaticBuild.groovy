@@ -32,8 +32,8 @@ def job = job('configuration-watcher') {
         environmentVariables {
             propertiesFile('temp_props')
         }
-        
-        // trigger the jobs defined in the TO_BUILD environment variable; this is set via the trigger-builds script 
+
+        // trigger the jobs defined in the TO_BUILD environment variable; this is set via the trigger-builds script
         // and injected into the environment from the temp_props file
         downstreamParameterized {
             trigger('${TO_BUILD}')

@@ -125,7 +125,9 @@ secretMap.each { jobConfigs ->
         readFileFromWorkspace('testeng/resources/requirements.txt').split('\n').each { line ->
             script += "pip install --exists-action w ${line}\n"
         }
-        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} --description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot' > \${WORKSPACE}/snapshot-out.log\n"
+        script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} " +
+                  "--description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot'" +
+                  "> \${WORKSPACE}/snapshot-out.log\n"
         script += "cat \${WORKSPACE}/snapshot-out.log"
         steps {
             virtualenv {

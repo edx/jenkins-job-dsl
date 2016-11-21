@@ -37,8 +37,8 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
     gitRepo: https://github.com/org/project.git => source repo for the app to build
     gitCredential: git_user => credentials for git user
     appBaseDir: android-app-project => name of directory to clone app source into
-    appBaseName: edx-demo-app => first part of desired apk name produced by this job. Apk names should have the following
-                 naming structure: '$appBaseName-$gitHash.apk'
+    appBaseName: edx-demo-app => first part of desired apk name produced by this job. Apk names should have
+                 the following naming structure: '$appBaseName-$gitHash.apk'
     generatedApkName: edx-demo-app.apk => original name of the apk built via gradle (before our renaming scheme)
     sshAgent: ssh_user => reference to ssh user for using git submodules from within shell steps in Jenkins jobs
     hockeyAppApiToken: abc123 => token used to access the hockey app api for publishing apks
@@ -117,7 +117,8 @@ secretMap.each { jobConfigs ->
             booleanParam('SHOULD_PUBLISH', false,
                          'Should this apk be published to Hockey App? (default = No)')
             textParam('RELEASE_NOTES', 'Built with Jenkins',
-                      'Plain text release notes. Add content here and it will be published to HockeyApp along with the app.')
+                      'Plain text release notes. Add content here and it will be published to HockeyApp ' +
+                      'along with the app.')
         }
 
         scm {
@@ -200,33 +201,43 @@ secretMap.each { jobConfigs ->
                 }
             }
 
-
             configure { project ->
-                project / publishers << 'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' (plugin: 'flexible-publish@0.15.2') {
+                project / publishers << 'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' (
+                    plugin: 'flexible-publish@0.15.2')
+                {
                     publishers {
-                        'org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher' { 
-                            condition (class: 'org.jenkins_ci.plugins.run_condition.core.BooleanCondition', plugin: 'run-condition@1.0') {
-                                token "\${SHOULD_PUBLISH}"
-                            }
+                        'org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher' {
+                            condition (
+                                class: 'org.jenkins_ci.plugins.run_condition.core.BooleanCondition',
+                                plugin: 'run-condition@1.0') {
+                                    token "\${SHOULD_PUBLISH}"
+                                }
                             publisherList {
                                 'hockeyapp.HockeyappRecorder' (schemaVersion: '2') {
                                     applications {
-                                        'hockeyapp.HockeyappApplication' (plugin: 'hockeyapp@1.2.1', schemaVersion: '1') {
+                                        'hockeyapp.HockeyappApplication' (
+                                            plugin: 'hockeyapp@1.2.1', schemaVersion: '1') {
                                             apiToken jobConfig['hockeyAppApiToken']
                                             notifyTeam true
                                             filePath 'artifacts/*.apk'
                                             dowloadAllowed true
-                                            releaseNotesMethod (class: "net.hockeyapp.jenkins.releaseNotes.ManualReleaseNotes") {
+                                            releaseNotesMethod (
+                                                class: 'net.hockeyapp.jenkins.releaseNotes.ManualReleaseNotes') {
                                                 releaseNotes "\${RELEASE_NOTES}"
                                                 isMarkDown false
                                             }
-                                            uploadMethod (class: 'net.hockeyapp.jenkins.uploadMethod.AppCreation') {}
+                                            uploadMethod (
+                                                class: 'net.hockeyapp.jenkins.uploadMethod.AppCreation') {}
                                         }
                                     }
                                 }
                             }
-                            run (class: 'org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail', plugin: 'run-condition@1.0' ) {}
-                            executionStrategy (class: 'org.jenkins_ci.plugins.flexible_publish.strategy.FailAtEndExecutionStrategy') {}
+                            run (
+                                class: 'org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail',
+                                plugin: 'run-condition@1.0') {}
+                            executionStrategy (
+                                class: 'org.jenkins_ci.plugins.flexible_publish.strategy.FailAtEndExecutionStrategy'
+                            ) {}
                         }
                     }
                 }

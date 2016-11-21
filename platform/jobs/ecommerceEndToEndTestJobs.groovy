@@ -24,7 +24,6 @@ basicAuthUsername : basic-auth-username
 basicAuthPassword : basic-auth-password
 */
 
-
 /* stdout logger */
 Map config = [:]
 Binding bindings = getBinding()
