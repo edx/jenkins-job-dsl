@@ -179,13 +179,25 @@ secretMap.each { jobConfigs ->
             if (jobConfig['release']) {
                 shell(testSigningScript)
             }
+
+            def testScript = readFileFromWorkspace('mobileApp/resources/blah.sh')
+            shell(testScript)
         }
 
         publishers {
             // Archive the artifacts, in this case, the APK file:
             archiveArtifacts {
                 allowEmpty(false)
-                pattern('artifacts/\$APP_BASE_NAME*')
+                def screenshotPath = "${jobConfig['appBaseDir']}/edx-app-android/OpenEdXMobile/screenshots/*png"
+                pattern("artifacts/\$APP_BASE_NAME*, ${screenshotPath}")
+            }
+
+            publishHtml {
+                report("\$APP_BASE_DIR/edx-app-android/OpenEdXMobile/build/reports/tests/prodDebug/") {
+                    allowMissing(true)
+                    reportFile('')
+                    reportName('')
+                }
             }
 
 

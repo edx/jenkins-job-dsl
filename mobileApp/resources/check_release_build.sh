@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # Verify that an APK intended to be released is both:
 #   - TODO: Signed with a certificate
 #   - Not a debug apk (seems redundant, but the build script could be accidentally changed)
