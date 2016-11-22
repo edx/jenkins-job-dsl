@@ -27,14 +27,17 @@ kill_all_emus
 # Set up Android emulator
 make emulator
 
+# Wait a little while before querying the AVD (querying it before it has begun booting can cause the build to fail)
+sleep 180
+
 # Wait until the newly created emulator has finished booting before running tests
-adb wait-for-device
 while true; do
     echo "Checking if the emulator is ready"
-    DEVICE_BOOT_COMPLETE=`adb shell getprop dev.bootcomplete`
-    SYS_BOOT_COMPLETE=`adb shell getprop sys.boot_complete`
-    INIT_ANIM_STATE=`adb shell getprop init.svc.bootanim`
-    if [ $DEVICE_BOOT_COMPLETE == '1' ] && [ $SYS_BOOT_COMPLETE == '1' ] && [ $INIT_ANIM_STATE == 'stopped' ]; then
+    # Due to extra characters in getprop commands, test for presence of a certain string
+    DEVICE_BOOT_COMPLETE=$(adb shell getprop dev.bootcomplete |grep -c '1')
+    SYS_BOOT_COMPLETE=$(adb shell getprop sys.boot_completed |grep -c '1')
+    INIT_ANIM_STATE=$(adb shell getprop init.svc.bootanim |grep -c 'stopped')
+    if [ $DEVICE_BOOT_COMPLETE -gt 0 ] && [ $SYS_BOOT_COMPLETE -gt 0 ] && [ $INIT_ANIM_STATE -gt 0 ]; then
         echo "emulator ready..."
         break
     fi
@@ -50,6 +53,3 @@ make artifacts
 # Again, kill all running emulators, as the Makefile spawns them as a background
 # process, and leaving them running can interfere with other jobs
 kill_all_emus
-
-
-exit 0

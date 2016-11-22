@@ -135,5 +135,34 @@ class JenkinsPublicConstants {
             permission('hudson.model.Item.Read', 'edx')
             permission('hudson.model.Item.Discover', 'edx')
         }
+
+
     }
+
+    public static final Closure PUBLISH_TO_HOCKEY_APP(String hockeyAppApiToken, String apkFilePath, String releaseNotesString) {
+        return {
+            it /
+                publishers /
+                'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' /
+                publishers /
+                'org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher' /
+                publisherList /
+                'hockeyapp.HockeyappRecorder' (schemaVersion: '2') {
+                    applications {
+                        'hockeyapp.HockeyappApplication' (plugin: 'hockeyapp@1.2.1', schemaVersion: '1') {
+                            apiToken hockeyAppApiToken
+                            notifyTeam true
+                            filePath apkFilePath
+                            downloadAllowed true
+                            releaseNotesMethod (class: "net.hockeyapp.jenkins.releaseNotes.ManualReleaseNotes") {
+                                releaseNotes releaseNoteString
+                                isMarkDown false
+                            }
+                            uploadMethod (class: "net.hockeyapp.jenkins.uploadMethod.AppCreation") {}
+                        }
+                    }
+                }
+        }
+    }
+
 }

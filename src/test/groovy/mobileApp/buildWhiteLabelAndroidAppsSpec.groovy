@@ -180,7 +180,7 @@ class buildWhiteLabelAndroidAppsSpec extends Specification {
         Node recorder = pubList.childNodes().find { it.name == 'hockeyapp.HockeyappRecorder' }
         Node applications = recorder.childNodes().find { it.name == 'applications' }
         Node hockeyApp = applications.childNodes().find { it.name == 'hockeyapp.HockeyappApplication' }
-        hockeyApp.childNodes().any { it.name == 'apiToken' && it.text() == '123'}
+        hockeyApp.childNodes().any { it.name == 'apiToken' && it.text() == 'abc123'}
         hockeyApp.childNodes().any { it.name == 'filePath' && it.text() == 'artifacts/*.apk' }
 
     }

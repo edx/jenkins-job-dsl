@@ -13,5 +13,3 @@ if [ $DEBUGGABLE -eq 0 ]; then
 fi
 
 echo "This release apk apears to be signed correctly."
-
-exit 0

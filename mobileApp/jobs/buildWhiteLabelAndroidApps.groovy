@@ -2,6 +2,7 @@ package mobile
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.PUBLISH_TO_HOCKEY_APP
 
 /**
  buildWhiteLabelAndroidApps.groovy
@@ -214,49 +215,18 @@ secretMap.each { jobConfigs ->
                 }
             }
 
-            // Publish to HockeyApp if user says so
-            configure { project ->
-                project / publishers << 'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' (
-                    plugin: 'flexible-publish@0.15.2') {
-                    publishers {
-                        'org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher' {
-                            condition (
-                                class: 'org.jenkins_ci.plugins.run_condition.core.BooleanCondition',
-                                plugin: 'run-condition@1.0') {
-                                    token "\${SHOULD_PUBLISH}"
-                                }
-                            // Manually configured XML for using the HockeyApp API, because it is not present in
-                            // the Jenkins Job DSL
-                            publisherList {
-                                'hockeyapp.HockeyappRecorder' (schemaVersion: '2') {
-                                    applications {
-                                        'hockeyapp.HockeyappApplication' (
-                                            plugin: 'hockeyapp@1.2.1', schemaVersion: '1') {
-                                            apiToken jobConfig['hockeyAppApiToken']
-                                            notifyTeam true
-                                            filePath 'artifacts/*.apk'
-                                            dowloadAllowed true
-                                            releaseNotesMethod (
-                                                class: 'net.hockeyapp.jenkins.releaseNotes.ManualReleaseNotes') {
-                                                releaseNotes "\${RELEASE_NOTES}"
-                                                isMarkDown false
-                                            }
-                                            uploadMethod (
-                                                class: 'net.hockeyapp.jenkins.uploadMethod.AppCreation') {}
-                                        }
-                                    }
-                                }
-                            }
-                            run (
-                                class: 'org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail',
-                                plugin: 'run-condition@1.0') {}
-                            executionStrategy (
-                                class: 'org.jenkins_ci.plugins.flexible_publish.strategy.FailAtEndExecutionStrategy'
-                            ) {}
-                        }
+            flexiblePublish {
+                conditionalAction {
+                    condition {
+                        booleanCondition("\${SHOULD_PUBLISH}")
                     }
                 }
             }
         }
+
+        // Manually configure access to the Hockey App API plugin, because it is not yet present
+        // in the Jenkins Job DSL
+        configure PUBLISH_TO_HOCKEY_APP(jobConfig['hockeyAppApiToken'], 'artifacts/*.apk', "\${RELEASE_NOTES}")
+
     }
 }

@@ -22,5 +22,3 @@ APK_NAME="${APP_BASE_NAME}-${HASH}.apk"
 rm -Rf $WORKSPACE/artifacts
 mkdir $WORKSPACE/artifacts
 cp $WORKSPACE/$APP_BASE_DIR/edx-app-android/OpenEdXMobile/build/outputs/apk/$GEN_APK $WORKSPACE/artifacts/$APK_NAME
-
-exit 0
