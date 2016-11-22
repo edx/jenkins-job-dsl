@@ -2,10 +2,6 @@
 
 set -ex
 
-# take this out
-virtualenv VENV
-. $WORKSPACE/bin/activate
-
 kill_all_emus() {
     for emu_device in $(adb devices -l |grep 'device product:' |cut -d' ' -f1); do
         echo "Killing emulator: $emu_device"
@@ -14,7 +10,7 @@ kill_all_emus() {
 }
 
 # set up environment for testing
-export PATH="/opt/Android/Sdk/tools:$PATH"
+export PATH="$ANDROID_HOME/tools:$PATH"
 export ADB_INSTALL_TIMEOUT=12
 export ANDROID_TARGET=android-23
 cd $WORKSPACE/$APP_BASE_DIR/edx-app-android
@@ -28,9 +24,23 @@ make validate
 # a machine -- this will cause tests to fail)
 kill_all_emus
 
-# Set up Android emulator and wait until it is fully booted
+# Set up Android emulator
 make emulator
-sleep 1120
+
+# Wait until the newly created emulator has finished booting before running tests
+adb wait-for-device
+while true; do
+    echo "Checking if the emulator is ready"
+    DEVICE_BOOT_COMPLETE=`adb shell getprop dev.bootcomplete`
+    SYS_BOOT_COMPLETE=`adb shell getprop sys.boot_complete`
+    INIT_ANIM_STATE=`adb shell getprop init.svc.bootanim`
+    if [ $DEVICE_BOOT_COMPLETE == '1' ] && [ $SYS_BOOT_COMPLETE == '1' ] && [ $INIT_ANIM_STATE == 'stopped' ]; then
+        echo "emulator ready..."
+        break
+    fi
+    sleep 30
+done
+
 $ANDROID_TOOLS/adb shell input keyevent 82 &
 
 # Run emulator tests
