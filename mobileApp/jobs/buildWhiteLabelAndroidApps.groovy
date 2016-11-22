@@ -217,8 +217,7 @@ secretMap.each { jobConfigs ->
             // Publish to HockeyApp if user says so
             configure { project ->
                 project / publishers << 'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' (
-                    plugin: 'flexible-publish@0.15.2')
-                {
+                    plugin: 'flexible-publish@0.15.2') {
                     publishers {
                         'org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher' {
                             condition (
