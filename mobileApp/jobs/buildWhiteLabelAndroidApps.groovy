@@ -140,8 +140,10 @@ secretMap.each { jobConfigs ->
 
         wrappers {
             timeout {
-                absolute(20)
+                // Abort builds if there are no new logging lines within `1200` seconds. This
+                // is because the emulator booting phase can take a while and may look idle
                 abortBuild()
+                noActivity(1200)
             }
             timestamps()
             colorizeOutput('xterm')
@@ -167,26 +169,30 @@ secretMap.each { jobConfigs ->
         }
 
         steps {
-            // Run the scripts to build and rename the app
             def copyKeyScript = readFileFromWorkspace('mobileApp/resources/copy_keys.sh')
             def buildScript = readFileFromWorkspace('mobileApp/resources/organize_android_app_build.sh')
             def testSigningScript = readFileFromWorkspace('mobileApp/resources/check_release_build.sh')
+            def testScript = readFileFromWorkspace('mobileApp/resources/run_tests.sh')
             // Copy keystores into workspace for release builds
             if (jobConfig['release']) {
                 shell(copyKeyScript)
             }
+            // Build the apk file
             shell(buildScript)
             // Verify that they are signed properly for release builds
             if (jobConfig['release']) {
                 shell(testSigningScript)
             }
-
-            def testScript = readFileFromWorkspace('mobileApp/resources/blah.sh')
+            // Run the tests and collect their artifacts
             shell(testScript)
         }
 
         publishers {
-            // Archive the artifacts, in this case, the APK file:
+            // Archive the following:
+            //      Generated APK file
+            //      Screenshots from emulator tests
+            //      Unit tests HTML report
+            //      Linting HTML report
             archiveArtifacts {
                 allowEmpty(false)
                 def screenshotPath = "${jobConfig['appBaseDir']}/edx-app-android/OpenEdXMobile/screenshots/*png"
@@ -195,12 +201,20 @@ secretMap.each { jobConfigs ->
 
             publishHtml {
                 report("\$APP_BASE_DIR/edx-app-android/OpenEdXMobile/build/reports/tests/prodDebug/") {
-                    allowMissing(true)
-                    reportFile('')
-                    reportName('')
+                    allowMissing(false)
+                    keepAll(true)
+                    reportFiles('index.html')
+                    reportName("Unit Test Results")
+                }
+                report("\$APP_BASE_DIR/edx-app-android/OpenEdXMobile/build/outputs/") {
+                    allowMissing(false)
+                    keepAll(true)
+                    reportFiles('lint-results-prodDebug.html')
+                    reportName('Linting Results')
                 }
             }
 
+            // Publish to HockeyApp if user says so
             configure { project ->
                 project / publishers << 'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' (
                     plugin: 'flexible-publish@0.15.2')
@@ -212,6 +226,8 @@ secretMap.each { jobConfigs ->
                                 plugin: 'run-condition@1.0') {
                                     token "\${SHOULD_PUBLISH}"
                                 }
+                            // Manually configured XML for using the HockeyApp API, because it is not present in
+                            // the Jenkins Job DSL
                             publisherList {
                                 'hockeyapp.HockeyappRecorder' (schemaVersion: '2') {
                                     applications {
