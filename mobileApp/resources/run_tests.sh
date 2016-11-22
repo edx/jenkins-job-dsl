@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 
 kill_all_emus() {
     for emu_device in $(adb devices -l |grep 'device product:' |cut -d' ' -f1); do
@@ -41,7 +41,7 @@ while true; do
     sleep 30
 done
 
-$ANDROID_TOOLS/adb shell input keyevent 82 &
+adb shell input keyevent 82 &
 
 # Run emulator tests
 make e2e
