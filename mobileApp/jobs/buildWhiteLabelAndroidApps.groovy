@@ -2,6 +2,7 @@ package mobile
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.PUBLISH_TO_HOCKEY_APP
 
 /**
  buildWhiteLabelAndroidApps.groovy
@@ -37,8 +38,8 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
     gitRepo: https://github.com/org/project.git => source repo for the app to build
     gitCredential: git_user => credentials for git user
     appBaseDir: android-app-project => name of directory to clone app source into
-    appBaseName: edx-demo-app => first part of desired apk name produced by this job. Apk names should have the following
-                 naming structure: '$appBaseName-$gitHash.apk'
+    appBaseName: edx-demo-app => first part of desired apk name produced by this job. Apk names should have
+                 the following naming structure: '$appBaseName-$gitHash.apk'
     generatedApkName: edx-demo-app.apk => original name of the apk built via gradle (before our renaming scheme)
     sshAgent: ssh_user => reference to ssh user for using git submodules from within shell steps in Jenkins jobs
     hockeyAppApiToken: abc123 => token used to access the hockey app api for publishing apks
@@ -117,7 +118,8 @@ secretMap.each { jobConfigs ->
             booleanParam('SHOULD_PUBLISH', false,
                          'Should this apk be published to Hockey App? (default = No)')
             textParam('RELEASE_NOTES', 'Built with Jenkins',
-                      'Plain text release notes. Add content here and it will be published to HockeyApp along with the app.')
+                      'Plain text release notes. Add content here and it will be published to HockeyApp ' +
+                      'along with the app.')
         }
 
         scm {
@@ -139,8 +141,10 @@ secretMap.each { jobConfigs ->
 
         wrappers {
             timeout {
-                absolute(20)
+                // Abort builds if there are no new logging lines within `1200` seconds. This
+                // is because the emulator booting phase can take a while and may look idle
                 abortBuild()
+                noActivity(1200)
             }
             timestamps()
             colorizeOutput('xterm')
@@ -166,59 +170,63 @@ secretMap.each { jobConfigs ->
         }
 
         steps {
-            // Run the scripts to build and rename the app
             def copyKeyScript = readFileFromWorkspace('mobileApp/resources/copy_keys.sh')
             def buildScript = readFileFromWorkspace('mobileApp/resources/organize_android_app_build.sh')
             def testSigningScript = readFileFromWorkspace('mobileApp/resources/check_release_build.sh')
+            def testScript = readFileFromWorkspace('mobileApp/resources/run_tests.sh')
             // Copy keystores into workspace for release builds
             if (jobConfig['release']) {
                 shell(copyKeyScript)
             }
+            // Build the apk file
             shell(buildScript)
             // Verify that they are signed properly for release builds
             if (jobConfig['release']) {
                 shell(testSigningScript)
             }
+            // Run the tests and collect their artifacts
+            shell(testScript)
         }
 
         publishers {
-            // Archive the artifacts, in this case, the APK file:
+            // Archive the following:
+            //      Generated APK file
+            //      Screenshots from emulator tests
+            //      Unit tests HTML report
+            //      Linting HTML report
             archiveArtifacts {
                 allowEmpty(false)
-                pattern('artifacts/\$APP_BASE_NAME*')
+                def screenshotPath = "${jobConfig['appBaseDir']}/edx-app-android/OpenEdXMobile/screenshots/*png"
+                pattern("artifacts/\$APP_BASE_NAME*, ${screenshotPath}")
             }
 
+            publishHtml {
+                report("\$APP_BASE_DIR/edx-app-android/OpenEdXMobile/build/reports/tests/prodDebug/") {
+                    allowMissing(false)
+                    keepAll(true)
+                    reportFiles('index.html')
+                    reportName("Unit Test Results")
+                }
+                report("\$APP_BASE_DIR/edx-app-android/OpenEdXMobile/build/outputs/") {
+                    allowMissing(false)
+                    keepAll(true)
+                    reportFiles('lint-results-prodDebug.html')
+                    reportName('Linting Results')
+                }
+            }
 
-            configure { project ->
-                project / publishers << 'org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher' (plugin: 'flexible-publish@0.15.2') {
-                    publishers {
-                        'org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher' { 
-                            condition (class: 'org.jenkins_ci.plugins.run_condition.core.BooleanCondition', plugin: 'run-condition@1.0') {
-                                token "\${SHOULD_PUBLISH}"
-                            }
-                            publisherList {
-                                'hockeyapp.HockeyappRecorder' (schemaVersion: '2') {
-                                    applications {
-                                        'hockeyapp.HockeyappApplication' (plugin: 'hockeyapp@1.2.1', schemaVersion: '1') {
-                                            apiToken jobConfig['hockeyAppApiToken']
-                                            notifyTeam true
-                                            filePath 'artifacts/*.apk'
-                                            dowloadAllowed true
-                                            releaseNotesMethod (class: "net.hockeyapp.jenkins.releaseNotes.ManualReleaseNotes") {
-                                                releaseNotes "\${RELEASE_NOTES}"
-                                                isMarkDown false
-                                            }
-                                            uploadMethod (class: 'net.hockeyapp.jenkins.uploadMethod.AppCreation') {}
-                                        }
-                                    }
-                                }
-                            }
-                            run (class: 'org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail', plugin: 'run-condition@1.0' ) {}
-                            executionStrategy (class: 'org.jenkins_ci.plugins.flexible_publish.strategy.FailAtEndExecutionStrategy') {}
-                        }
+            flexiblePublish {
+                conditionalAction {
+                    condition {
+                        booleanCondition("\${SHOULD_PUBLISH}")
                     }
                 }
             }
         }
+
+        // Manually configure access to the Hockey App API plugin, because it is not yet present
+        // in the Jenkins Job DSL
+        configure PUBLISH_TO_HOCKEY_APP(jobConfig['hockeyAppApiToken'], 'artifacts/*.apk', "\${RELEASE_NOTES}")
+
     }
 }

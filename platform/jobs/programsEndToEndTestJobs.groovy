@@ -4,7 +4,7 @@ import hudson.util.Secret
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 
-/* Sample Secret File  
+/* Sample Secret File
 lmsUrlRoot : lms-url-root
 programsUrlRoot : programs-url-root
 studioUrlRoot : studio-url-root

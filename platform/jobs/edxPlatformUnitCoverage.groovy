@@ -182,7 +182,7 @@ secretMap.each { jobConfigs ->
             }
             // Run jenkins-report.sh which will upload coverage results to
             // codecov.
-            shell("./scripts/jenkins-report.sh")
+            shell('./scripts/jenkins-report.sh')
         }
         publishers {
             archiveArtifacts {

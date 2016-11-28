@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # Verify that an APK intended to be released is both:
 #   - TODO: Signed with a certificate
 #   - Not a debug apk (seems redundant, but the build script could be accidentally changed)
@@ -11,5 +13,3 @@ if [ $DEBUGGABLE -eq 0 ]; then
 fi
 
 echo "This release apk apears to be signed correctly."
-
-exit 0

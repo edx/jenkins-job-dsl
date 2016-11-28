@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 # Copy gradle.properties and the keystore file into the application directory
