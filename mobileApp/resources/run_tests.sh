@@ -13,12 +13,12 @@ kill_all_emus() {
 export PATH="$ANDROID_HOME/tools:$PATH"
 export ADB_INSTALL_TIMEOUT=12
 export ANDROID_TARGET=android-23
+virtualenv $WORKSPACE/VENV
+source $WORKSPACE/VENV/bin/activate
+echo "org.gradle.jvmargs=-Xmx3072M" > $WORKSPACE/$APP_BASE_DIR/edx-app-android/gradle.properties
 cd $WORKSPACE/$APP_BASE_DIR/edx-app-android
 make requirements
 make clean
-
-# Run linting and unit tests
-make validate
 
 # Kill all running emulators (in case there are emulators still running on
 # a machine -- this will cause tests to fail)
@@ -26,6 +26,9 @@ kill_all_emus
 
 # Set up Android emulator
 make emulator
+
+# Run linting and unit tests
+make validate
 
 # Wait a little while before querying the AVD (querying it before it has begun booting can cause the build to fail)
 sleep 180
