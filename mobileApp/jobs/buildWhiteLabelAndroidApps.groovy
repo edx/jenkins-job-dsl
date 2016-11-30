@@ -194,6 +194,7 @@ secretMap.each { jobConfigs ->
             //      Screenshots from emulator tests
             //      Unit tests HTML report
             //      Linting HTML report
+            //      Screenshot Test HTML report
             archiveArtifacts {
                 allowEmpty(false)
                 def screenshotPath = "${jobConfig['appBaseDir']}/edx-app-android/OpenEdXMobile/screenshots/*png"
@@ -213,8 +214,13 @@ secretMap.each { jobConfigs ->
                     reportFiles('lint-results-prodDebug.html')
                     reportName('Linting Results')
                 }
+                report("\$APP_BASE_DIR/edx-app-android/OpenEdXMobile/build/reports/androidTests/connected/flavors/PROD/") {
+                    allowMissing(false)
+                    keepAll(true)
+                    reportFiles('index.html')
+                    reportName('Screenshot Test Results')
+                }
             }
-
             flexiblePublish {
                 conditionalAction {
                     condition {
