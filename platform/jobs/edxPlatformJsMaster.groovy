@@ -94,10 +94,13 @@ secretMap.each { jobConfigs ->
         }
         parameters {
             stringParam(params.name, params.default, params.description)
+            labelParam('WORKER_LABEL') {
+                description('Select a Jenkins worker label for running this job')
+                defaultValue(JENKINS_PUBLIC_WORKER)
+            }
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
         concurrentBuild() //concurrent builds can happen
-        label(JENKINS_PUBLIC_WORKER) //restrict to jenkins-worker
         scm {
             git { //using git on the branch and url, clone, clean before checkout
                 remote {

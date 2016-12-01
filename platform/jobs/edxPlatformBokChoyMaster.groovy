@@ -8,6 +8,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_RE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 
 /*
 Example secret YAML file used by this script
@@ -47,6 +48,11 @@ stringParams = [
     name: 'sha1',
     description: 'Sha1 hash of branch to build. Default branch : master',
     default: '*/master'
+    ],
+    [
+    name: 'WORKER_LABEL',
+    description: 'Jenkins worker for running the test subset jobs',
+    default: JENKINS_PUBLIC_WORKER
     ]
 ]
 

@@ -3,6 +3,7 @@ package platform
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 
 /*
 Example secret YAML file used by this script
@@ -71,7 +72,12 @@ secretMap.each { jobConfigs ->
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }
         concurrentBuild()
-        label('jenkins-worker')
+        parameters {
+            labelParam('WORKER_LABEL') {
+                description('Select a Jenkins worker label for running this job')
+                defaultValue(JENKINS_PUBLIC_WORKER)
+            }
+        }
         scm {
             git { //using git on the branch and url, clone, clean before checkout
                 remote {
