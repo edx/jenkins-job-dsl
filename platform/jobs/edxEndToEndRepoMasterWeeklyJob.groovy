@@ -108,13 +108,6 @@ secretMap.each { jobConfigs ->
 
         checkoutRetryCount(5)
 
-        environmentVariables {
-            env('BASIC_AUTH_USER', jobConfig['authUser'])
-            env('BASIC_AUTH_PASSWORD', jobConfig['authPass'])
-            env('USER_LOGIN_EMAIL', jobConfig['loginEmail'])
-            env('USER_LOGIN_PASSWORD', jobConfig['loginPass'])
-        }
-
         scm {
 
            git { //using git on the branch and url, clone, clean before checkout
@@ -143,6 +136,12 @@ secretMap.each { jobConfigs ->
             }
             timestamps()
             colorizeOutput('gnome-terminal')
+            credentialsBinding {
+                string('BASIC_AUTH_USER', jobConfig['authUser'])
+                string('BASIC_AUTH_PASSWORD', jobConfig['authPass'])
+                string('USER_LOGIN_EMAIL', jobConfig['loginEmail'])
+                string('USER_LOGIN_PASSWORD', jobConfig['loginPass'])
+            }
         }
 
         publishers {
