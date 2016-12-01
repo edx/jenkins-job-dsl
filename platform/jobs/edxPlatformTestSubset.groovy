@@ -110,10 +110,13 @@ secretMap.each { jobConfigs ->
             stringParams.each { param ->
                 stringParam(param.name, param.default, param.description)
             }
+            labelParam('WORKER_LABEL') {
+                description('Select a Jenkins worker label for running this job')
+                defaultValue(JENKINS_PUBLIC_WORKER)
+            }
         }
 
         concurrentBuild(true)
-        label(JENKINS_PUBLIC_WORKER)
 
         /*  configure project to pull from a github repo */
         scm {
