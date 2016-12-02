@@ -79,7 +79,12 @@ secretMap.each { jobConfigs ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild()
-        label(JENKINS_PUBLIC_WORKER)
+        parameters {
+            labelParam('WORKER_LABEL') {
+                description('Select a Jenkins worker label for running this job')
+                defaultValue(JENKINS_PUBLIC_WORKER)
+            }
+        }
         scm {
             git {
                 remote {

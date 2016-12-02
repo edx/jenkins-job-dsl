@@ -8,6 +8,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_B
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 
 /*
 Example secret YAML file used by this script
@@ -39,9 +40,16 @@ config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
 stringParams = [
+    [
     name: 'sha1',
     description: 'Sha1 hash of branch to build. Default branch : master',
     default: 'master'
+    ],
+    [
+    name: 'WORKER_LABEL',
+    description: 'Jenkins worker for running the test subset jobs',
+    default: JENKINS_PUBLIC_WORKER
+    ]
 ]
 
 /* Map to hold the k:v pairs parsed from the secret file */

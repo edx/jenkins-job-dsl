@@ -4,6 +4,7 @@ import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 
 /*
 Example secret YAML file used by this script
@@ -80,6 +81,9 @@ secretMap.each { jobConfigs ->
         environmentVariables {
             env('SUBSET_JOB', jobConfig['subsetJob'])
             env('REPO_NAME', jobConfig['repoName'])
+        }
+        parameters {
+            stringParam('WORKER_LABEL', JENKINS_PUBLIC_WORKER, 'Jenkins worker for running the test subset jobs')
         }
         multiscm {
             git {
