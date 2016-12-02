@@ -81,7 +81,19 @@ secretMap.each { jobConfigs ->
                   " --content_api_url " + jobConfig['content_api_url'] + " --lms_url " + jobConfig['lms_url'] +
                   " --report_email " + jobConfig['report_email'] + " --fixups=" + jobConfig['fixups'] +
                   " --type " + jobConfig['type'] + " " + jobConfig['mode']
-
+        
+        wrappers common_wrappers
+        wrappers {
+            maskPasswordsBuildWrapper {
+                varPasswordPairs {
+                    varPasswordPair {
+                        var('SYNC_COMMAND')
+                        password(sync_content)
+                    }
+                }
+            }
+        }
+        
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['githubRepoUrlSegment'])
         }
@@ -104,14 +116,13 @@ secretMap.each { jobConfigs ->
 
         steps {
             virtualenv {
-                pythonName('System-CPython-2.7')
+                pythonName('System-CPython-3.5')
                 nature('shell')
-                command( requirements )
-                command( sync_content )
+                command readFileFromWorkspace('resources/pull-translations.sh')
             }
         }
 
-        triggers { //triggers daily
+        triggers {
             scm('@daily')
         }
 
@@ -120,7 +131,6 @@ secretMap.each { jobConfigs ->
                absolute(75)
             }
             timestamps()
-            colorizeOutput('gnome-terminal')
         }
 
         publishers {
