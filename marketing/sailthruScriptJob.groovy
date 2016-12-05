@@ -1,8 +1,11 @@
-package devops
+package org.edx.jenkins.dsl
 
 import org.yaml.snakeyaml.Yaml
+import static org.edx.jenkins.dsl.Constants.common_wrappers
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
+import static org.edx.jenkins.dsl.YAMLHelpers.parseYaml
+import org.yaml.snakeyaml.error.YAMLException
 
 
 /*
@@ -54,34 +57,20 @@ secretMap.each { jobConfigs ->
 
     Map jobConfig = jobConfigs.getValue()
 
-    /* Test secret contains all necessary keys for this job */
-    assert jobConfig.containsKey('oauth_host')
-    assert jobConfig.containsKey('oauth_key')
-    assert jobConfig.containsKey('oauth_secret')
-    assert jobConfig.containsKey('sailthru_key')
-    assert jobConfig.containsKey('sailthru_secret')
-    assert jobConfig.containsKey('content_api_url')
-    assert jobConfig.containsKey('lms_url')
-    assert jobConfig.containsKey('report_email')
-    assert jobConfig.containsKey('type')
-    assert jobConfig.containsKey('fixups')
-    assert jobConfig.containsKey('mode')
-    assert jobConfig.containsKey('requirements')
-    assert jobConfig.containsKey('scriptPath')
-    assert jobConfig.containsKey('githubRepoUrlSegment')
-    assert jobConfig.containsKey('jobName')
-    assert jobConfig.containsKey('notificationEmail')
-
     job(jobConfig['jobName']) {
 
         requirements = "pip install -r " + jobConfig['requirements']
-        sync_content = "python " + jobConfig['scriptPath'] + " --oauth_host "+ jobConfig['oauth_host'] + 
-                  " --oauth_key " + jobConfig['oauth_key'] + " --oauth_secret " + jobConfig['oauth_secret'] + 
-                  " --sailthru_key " + jobConfig['sailthru_key'] + " --sailthru_secret " + jobConfig['sailthru_secret'] +
-                  " --content_api_url " + jobConfig['content_api_url'] + " --lms_url " + jobConfig['lms_url'] +
-                  " --report_email " + jobConfig['report_email'] + " --fixups=" + jobConfig['fixups'] +
-                  " --type " + jobConfig['type'] + " " + jobConfig['mode']
-        
+        sync_content = """python {scriptPath} --oauth_host {oauth_host} --oauth_key {oauth_key} --oauth_secret {oauth_secret} 
+                    --sailthru_key {sailthru_key} --sailthru_secret {sailthru_secret} --content_api_url {content_api_url} 
+                    --lms_url {lms_url} --report_email {report_email} --fixups {fixups} --type {type} {mode}""".format(
+                    scriptPath=jobConfig['scriptPath'], oauth_host=jobConfig['oauth_host'], 
+                    oauth_key=jobConfig['oauth_key'], oauth_secret=jobConfig['oauth_secret'], 
+                    sailthru_key=jobConfig['sailthru_key'], sailthru_secret=jobConfig['sailthru_secret'], 
+                    content_api_url=jobConfig['content_api_url'], lms_url=jobConfig['lms_url'], 
+                    report_email=jobConfig['report_email'], fixups=jobConfig['fixups'], 
+                    type=jobConfig['type'], mode=jobConfig['mode']
+                )
+
         wrappers common_wrappers
         wrappers {
             maskPasswordsBuildWrapper {
