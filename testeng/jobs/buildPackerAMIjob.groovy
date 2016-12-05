@@ -4,6 +4,7 @@ import hudson.util.Secret
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_MASKED_PASSWORD
 
 Map config = [:]
 Binding bindings = getBinding()
@@ -49,6 +50,15 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('hipchat')
 
+    // Parameters for masked password configuration
+    params = [
+        [
+            name: 'JENKINS_WORKER_AMI',
+            description: 'Base ami on which to run the Packer script',
+            default: jobConfig['jenkinsWorkerAMI']
+        ]
+    ]
+
     job('build-packer-ami') {
 
         description('Create an AMI on aws based on json from the ' +
@@ -77,6 +87,10 @@ secretMap.each { jobConfigs ->
                         'What should we do with the AMI if it is ' +
                         'successfully built? (Hint: delete means you are ' +
                         'just testing the process.)')
+        }
+
+        params.each { param ->
+            configure JENKINS_PUBLIC_MASKED_PASSWORD(param)
         }
 
         concurrentBuild(true)
@@ -119,10 +133,6 @@ secretMap.each { jobConfigs ->
                     EnvInjectPasswordEntry {
                         name 'AWS_SECRET_ACCESS_KEY'
                         value Secret.fromString(jobConfig['awsSecretAccessKey']).getEncryptedValue()
-                    }
-                    EnvInjectPasswordEntry {
-                        name 'JENKINS_WORKER_AMI'
-                        value Secret.fromString(jobConfig['jenkinsWorkerAMI']).getEncryptedValue()
                     }
                     EnvInjectPasswordEntry {
                         name 'WEBPAGE_TEST_BASE_AMI'
