@@ -1,6 +1,7 @@
 package org.edx.jenkins.dsl
 
 import org.yaml.snakeyaml.Yaml
+import hudson.util.Secret
 
 class JenkinsPublicConstants {
 
@@ -165,4 +166,17 @@ class JenkinsPublicConstants {
         }
     }
 
+    // Reusable closure for configuring a masked password user parameter with a default value
+    // Input must be structured in the following format:
+    // [ name: String x, description: String y, default: String z ]
+    public static final Closure JENKINS_PUBLIC_MASKED_PASSWORD = { param ->
+        return {
+            it / 'properties' / 'hudson.model.ParametersDefinitionProperty' / parameterDefinitions << 'hudson.model.PasswordParameterDefinition' {
+                name param.name
+                defaultValue Secret.fromString(param.default.toString()).getEncryptedValue()
+                description param.description
+            }
+        }
+
+    }
 }
