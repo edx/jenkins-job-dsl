@@ -98,7 +98,9 @@ secretMap.each { jobConfigs ->
         }
 
         parameters {
-            stringParam(stringParams.name, stringParams.default, stringParams.description)
+            stringParams.each { param ->
+                stringParam(param.name, param.default, param.description)
+            }
         }
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
