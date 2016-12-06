@@ -58,7 +58,7 @@ You will need to create a new Jenkins job that executes the DSL, and creates oth
 1. Use the Jenkins UI to create a new **Freestyle project** job named **Job Creator**.
 2. Configure the job to use **Multiple SCMs** for *Source Control Management*, and add a Git repository. (Note that we 
 are NOT using the Git plugin here.)
-    1. Set the Repository URL to the repo containing your job DSL (e.g. git@github.com:edx-ops/edx-jenkins-job-dsl.git).
+    1. Set the Repository URL to the repo containing your job DSL (e.g. git@github.com:edx/jenkins-job-dsl-internal.git).
     2. If necessary, select your authentication credentials (e.g. SSH key).
 3. Add a **Process Job DSLs** build step and configure it using the settings below. Remember to click the  *Advanced* 
 button to expose the final two fields.
