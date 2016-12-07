@@ -194,10 +194,10 @@ job(jobName) {
     }
     publishers {
         archiveArtifacts {
-            pattern('acceptance_tests/*.xml') // xunit output
+            pattern('e2e/*.xml') // xunit output
             pattern('*.log') // test logs
             pattern('*.png') // test screenshots
         }
-        archiveJunit('acceptance_tests/*.xml')
+        archiveJunit('e2e/*.xml')
     }
 }
