@@ -20,9 +20,7 @@ stops and starts.
 filesystem. However, due to the nature of how Docker runs on Mac OS X, you can only share sub-directories of your
 home directory when using Mac OS X.
 
-Once the container is running, you can connect to Jenkins at `http://localhost:8080`. If you are using Mac OS X and
-docker-machine, use your docker host's IP instead of localhost (e.g. `http://192.168.99.100:8080`).  If you have access
-to the Docker Beta, you can use localhost:8080 as normal.
+Once the container is running, you can connect to Jenkins at `http://localhost:8080`.
 
 In order to bootstrap Jenkins in a container you will need to do two things:
 
