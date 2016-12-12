@@ -51,8 +51,16 @@ etc...
 ### Example Job
 An example job can be found [here](platform/jobs/exampleJob.groovy). 
 
+### Credentials and Secrets
+
+Several techniques for managing credentials and secrets are discussed here
+
+https://openedx.atlassian.net/wiki/display/TE/Jenkins+secrets+management+with+Job+DSL
+
 ### Shared Constants:
-In order to make use of shared constants in a DSL script:
+
+In addition to the yaml parsing techniques in the wiki link above, you can also manage
+shared constants directly in your DSL script.
 * Use a try/catch to parse the Yaml file into a map
 ```groovy
     Map constantsMap = [:]
