@@ -78,4 +78,4 @@ The [edxops/jenkins](https://hub.docker.com/r/edxops/jenkins/) image is used in 
 The required plugins have been pre-installed on the container. Feel free to install additional plugins, but
 if they are required for either other developers or deployment further steps will be required.  To add them to the 
 the Docker container, they must be listed in ```docker/plugins.txt```. To be installed in a deployment environment,
-they must be added to the appropriate Ansible defaults.
+they must be added to the appropriate Ansible role defaults.
