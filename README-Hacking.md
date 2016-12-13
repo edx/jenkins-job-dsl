@@ -20,9 +20,7 @@ stops and starts.
 filesystem. However, due to the nature of how Docker runs on Mac OS X, you can only share sub-directories of your
 home directory when using Mac OS X.
 
-Once the container is running, you can connect to Jenkins at `http://localhost:8080`. If you are using Mac OS X and
-docker-machine, use your docker host's IP instead of localhost (e.g. `http://192.168.99.100:8080`).  If you have access
-to the Docker Beta, you can use localhost:8080 as normal.
+Once the container is running, you can connect to Jenkins at `http://localhost:8080`.
 
 In order to bootstrap Jenkins in a container you will need to do two things:
 
@@ -80,4 +78,4 @@ The [edxops/jenkins](https://hub.docker.com/r/edxops/jenkins/) image is used in 
 The required plugins have been pre-installed on the container. Feel free to install additional plugins, but
 if they are required for either other developers or deployment further steps will be required.  To add them to the 
 the Docker container, they must be listed in ```docker/plugins.txt```. To be installed in a deployment environment,
-they must be added to the appropriate Ansible defaults.
+they must be added to the appropriate Ansible role defaults.
