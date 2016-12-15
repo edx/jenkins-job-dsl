@@ -152,7 +152,6 @@ secretMap.each { jobConfigs ->
                 useGeneratedTunnelIdentifier(true)
                 options("--tunnel-domains studio.stage.edx.org, courses.stage.edx.org")
                 verboseLogging(true)
-                credentials("7fdacd6c-32bb-46c7-968c-d4cbd4cc5462")
             }
         }
 
