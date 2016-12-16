@@ -177,7 +177,13 @@ job(jobName) {
     /* Run on jenkins-worker */
     label(JENKINS_PUBLIC_WORKER)
     scm {
-        github('edx/ecommerce', '*/master')
+        git {
+            remote {
+                url('https://github.com/edx/ecommerce.git')
+            }
+            browser()
+            branch('*/master')
+        }
     }
     wrappers {
         maskPasswords() //can't see passwords in console
