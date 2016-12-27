@@ -166,6 +166,16 @@ class JenkinsPublicConstants {
         }
     }
 
+    public static final Closure GHPRB_WHITELIST_BRANCH(String branchRegex) {
+        return {
+            it / triggers / 'org.jenkinsci.plugins.ghprb.GhprbTrigger' << whiteListTargetBranches {
+                'org.jenkinsci.plugins.ghprb.GhprbBranch' {
+                    branch branchRegex
+                }
+            }
+        }
+    }
+
     // Reusable closure for configuring a masked password user parameter with a default value
     // Input must be structured in the following format:
     // [ name: String x, description: String y, default: String z ]

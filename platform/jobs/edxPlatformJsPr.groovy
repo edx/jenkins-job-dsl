@@ -2,9 +2,9 @@ package devops
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
 
 /*
 Example secret YAML file used by this script
@@ -16,7 +16,10 @@ publicJobConfig:
     repoName : name-of-github-edx-repo
     credential : n/a
     cloneReference : clone/.git
-*/
+    workerLabel: worker-label
+    whitelistBranchRegex: 'release/*'
+    context: jenkins/test
+    triggerPhrase: 'jenkins run test' */
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
 archiveReports += 'edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,'
@@ -62,6 +65,10 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('repoName')
     assert jobConfig.containsKey('credential')
     assert jobConfig.containsKey('cloneReference')
+    assert jobConfig.containsKey('workerLabel')
+    assert jobConfig.containsKey('whitelistBranchRegex')
+    assert jobConfig.containsKey('context')
+    assert jobConfig.containsKey('triggerPhrase')
     assert ghprbMap.containsKey('admin')
     assert ghprbMap.containsKey('userWhiteList')
     assert ghprbMap.containsKey('orgWhiteList')
@@ -82,7 +89,7 @@ secretMap.each { jobConfigs ->
         parameters {
             labelParam('WORKER_LABEL') {
                 description('Select a Jenkins worker label for running this job')
-                defaultValue(JENKINS_PUBLIC_WORKER)
+                defaultValue(jobConfig['workerLabel'])
             }
         }
         scm {
@@ -109,16 +116,19 @@ secretMap.each { jobConfigs ->
             pullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
-                triggerPhrase('jenkins run js')
+                triggerPhrase(jobConfig['triggerPhrase'])
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
                 extensions {
                     commitStatus {
-                        context('jenkins/js')
+                        context(jobConfig['context'])
                     }
                 }
             }
         }
+
+        configure GHPRB_WHITELIST_BRANCH(jobConfig['whitelistBranchRegex'])
+
         wrappers {
             timeout {
                absolute(45)

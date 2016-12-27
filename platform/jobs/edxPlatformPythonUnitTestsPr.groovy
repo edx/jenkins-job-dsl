@@ -4,7 +4,7 @@ import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
 
 /*
 Example secret YAML file used by this script
@@ -19,6 +19,10 @@ publicJobConfig:
     testengCredential : n/a
     platformCredential : n/a
     platformCloneReference : clone/.git
+    workerLabel: worker-label
+    whitelistBranchRegex: 'release/*'
+    context: jenkins/test
+    triggerPhrase: 'jenkins run test'
 */
 
 /* stdout logger */
@@ -60,6 +64,10 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('testengCredential')
     assert jobConfig.containsKey('platformCredential')
     assert jobConfig.containsKey('platformCloneReference')
+    assert jobConfig.containsKey('workerLabel')
+    assert jobConfig.containsKey('whitelistBranchRegex')
+    assert jobConfig.containsKey('context')
+    assert jobConfig.containsKey('triggerPhrase')
     assert ghprbMap.containsKey('admin')
     assert ghprbMap.containsKey('userWhiteList')
     assert ghprbMap.containsKey('orgWhiteList')
@@ -84,7 +92,7 @@ secretMap.each { jobConfigs ->
             env('COVERAGE_JOB', jobConfig['coverageJob'])
         }
         parameters {
-            stringParam('WORKER_LABEL', JENKINS_PUBLIC_WORKER, 'Jenkins worker for running the test subset jobs')
+            stringParam('WORKER_LABEL', jobConfig['workerLabel'], 'Jenkins worker for running the test subset jobs')
         }
         multiscm {
             git {
@@ -125,16 +133,19 @@ secretMap.each { jobConfigs ->
             pullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
-                triggerPhrase('jenkins run python')
+                triggerPhrase(jobConfig['triggerPhrase'])
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
                 extensions {
                     commitStatus {
-                        context('jenkins/python')
+                        context(jobConfig['context'])
                     }
                 }
             }
         }
+
+        configure GHPRB_WHITELIST_BRANCH(jobConfig['whitelistBranchRegex'])
+
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-python-unittests-pr.groovy')
         publishers {
            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
