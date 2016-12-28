@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -exuo pipefail
 
 cd $WORKSPACE/configuration
 pip install -r requirements.txt
