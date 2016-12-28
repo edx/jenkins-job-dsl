@@ -8,7 +8,6 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_RE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 
 /*
 Example secret YAML file used by this script
@@ -24,12 +23,12 @@ publicJobConfig:
     platformCloneReference : clone/.git
     email : email-address@email.com
     hipchat : token
+    workerLabel : worker-label
+    refSpec : '+refs/heads/master:refs/remotes/origin/master'
+    context : 'jenkins/test'
+    defaultBranch : 'master'
 */
 
-Map <String, String> predefinedPropsMap  = [:]
-predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-predefinedPropsMap.put('GITHUB_ORG', 'edx')
-predefinedPropsMap.put('CONTEXT', 'jenkins/bokchoy')
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -38,23 +37,6 @@ Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
-stringParams = [
-    [
-    name: 'ENV_VARS',
-    description: '',
-    default: ''
-    ],
-    [
-    name: 'sha1',
-    description: 'Sha1 hash of branch to build. Default branch : master',
-    default: '*/master'
-    ],
-    [
-    name: 'WORKER_LABEL',
-    description: 'Jenkins worker for running the test subset jobs',
-    default: JENKINS_PUBLIC_WORKER
-    ]
-]
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map secretMap = [:]
@@ -90,6 +72,10 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('platformCloneReference')
     assert jobConfig.containsKey('hipchat')
     assert jobConfig.containsKey('email')
+    assert jobConfig.containsKey('workerLabel')
+    assert jobConfig.containsKey('refSpec')
+    assert jobConfig.containsKey('context')
+    assert jobConfig.containsKey('defaultBranch')
 
     buildFlowJob(jobConfig['jobName']) {
 
@@ -102,10 +88,11 @@ secretMap.each { jobConfigs ->
         }
 
         parameters {
-            stringParams.each { param ->
-                stringParam(param.name, param.default, param.description)
-            }
+            stringParam('ENV_VARS', '', '')
+            stringParam('sha1', jobConfig['defaultBranch'], 'Sha1 hash of branch to build. Default branch: master')
+            stringParam('WORKER_LABEL', jobConfig['workerLabel'], 'Jenkins worker for running the test subset jobs')
         }
+
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }
@@ -135,7 +122,7 @@ secretMap.each { jobConfigs ->
            git { //using git on the branch and url, clone, clean before checkout
                 remote {
                     url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'] + '.git')
-                    refspec('+refs/heads/master:refs/remotes/origin/master')
+                    refspec(jobConfig['refSpec'])
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['platformCredential'])
                     }
@@ -155,16 +142,21 @@ secretMap.each { jobConfigs ->
         triggers { //trigger when change pushed to GitHub
             githubPush()
         }
+
+        Map <String, String> predefinedPropsMap  = [:]
+        predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
+        predefinedPropsMap.put('GITHUB_ORG', 'edx')
+        predefinedPropsMap.put('CONTEXT', jobConfig['context'])
+        predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
+        predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
+                                  'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-bok-choy-master.groovy')
         publishers { //JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
-           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
-           predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
-           predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
-                                  'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
-           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
-           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
-           mailer(jobConfig['email'])
-           hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
+            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
+            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
+            mailer(jobConfig['email'])
+            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
        }
     }
 }

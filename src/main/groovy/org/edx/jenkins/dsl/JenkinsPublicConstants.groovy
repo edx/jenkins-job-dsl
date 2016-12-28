@@ -176,6 +176,18 @@ class JenkinsPublicConstants {
         }
     }
 
+    public static final Closure DEFAULT_VIEW = {
+        return {
+            status()
+            weather()
+            name()
+            lastSuccess()
+            lastFailure()
+            lastDuration()
+            buildButton()
+        }
+    }
+
     // Reusable closure for configuring a masked password user parameter with a default value
     // Input must be structured in the following format:
     // [ name: String x, description: String y, default: String z ]
@@ -189,4 +201,5 @@ class JenkinsPublicConstants {
         }
 
     }
+
 }
