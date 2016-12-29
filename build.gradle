@@ -12,6 +12,11 @@ sourceSets {
             srcDir 'mobileApp/jobs'
         }
     }
+    views {
+        groovy {
+            srcDir 'platform/views'
+        }
+    }
     src {
         groovy {
             srcDir 'src/main/groovy'

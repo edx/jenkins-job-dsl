@@ -2,7 +2,6 @@ package devops
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_PENDING
@@ -22,12 +21,12 @@ publicJobConfig:
     cloneReference : clone/.git
     email : email-address@email.com
     hipchat : token
+    workerLabel : worker-label
+    refSpec : '+refs/heads/master:refs/remotes/origin/master'
+    context : 'jenkins/test'
+    defaultBranch : 'master'
 */
 
-Map <String, String> predefinedPropsMap  = [:]
-predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-predefinedPropsMap.put('GITHUB_ORG', 'edx')
-predefinedPropsMap.put('CONTEXT', 'jenkins/quality')
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
 archiveReports += 'edx-platform*/test_root/log/*.log, edx-platform*/test_root/log/hars/*.har,'
@@ -43,11 +42,6 @@ Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
-
-params = [
-    name: 'sha1',
-    description: 'Sha1 hash of branch to build. Default branch : master',
-    default: 'refs/heads/master' ]
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map secretMap = [:]
@@ -81,6 +75,10 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('cloneReference')
     assert jobConfig.containsKey('hipchat')
     assert jobConfig.containsKey('email')
+    assert jobConfig.containsKey('workerLabel')
+    assert jobConfig.containsKey('refSpec')
+    assert jobConfig.containsKey('context')
+    assert jobConfig.containsKey('defaultBranch')
 
     job(jobConfig['jobName']) {
 
@@ -95,10 +93,10 @@ secretMap.each { jobConfigs ->
             githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'])
         }
         parameters {
-            stringParam(params.name, params.default, params.description)
+            stringParam('sha1', jobConfig['defaultBranch'], 'Sha1 hash of branch to build. Default branch: master')
             labelParam('WORKER_LABEL') {
                 description('Select a Jenkins worker label for running this job')
-                defaultValue(JENKINS_PUBLIC_WORKER)
+                defaultValue(jobConfig['workerLabel'])
             }
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
@@ -107,7 +105,7 @@ secretMap.each { jobConfigs ->
             git { //using git on the branch and url, clone, clean before checkout
                 remote {
                     url(jobConfig['protocol'] + jobConfig['url'] + '.git')
-                    refspec('+refs/heads/master:refs/remotes/origin/master')
+                    refspec(jobConfig['refSpec'])
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['credential'])
                     }
@@ -138,49 +136,54 @@ secretMap.each { jobConfigs ->
            }
            buildName('#${BUILD_NUMBER}: Quality Tests')
        }
-       steps { //trigger GitHub-Build-Status and run accessibility tests
-           predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
-           predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'job/'
+
+        Map <String, String> predefinedPropsMap  = [:]
+        predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
+        predefinedPropsMap.put('GITHUB_ORG', 'edx')
+        predefinedPropsMap.put('CONTEXT', jobConfig['context'])
+        steps { //trigger GitHub-Build-Status and run accessibility tests
+            predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
+            predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL + 'job/'
                                   + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
-           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
-           shell("cd ${jobConfig['repoName']}; TEST_SUITE=quality ./scripts/all-tests.sh")
-       }
-       publishers { //publish artifacts, HTML, violations report, trigger GitHub-Build-Status, email, message hipchat
-           archiveArtifacts {
-               pattern(archiveReports)
-               defaultExcludes()
-           }
-           publishHtml {
-               report(jobConfig['repoName'] + '/reports/metrics/') {
-                   reportFiles(htmlReports)
-                   reportName('Quality Report')
-                   allowMissing()
-                   keepAll()
-               }
-           }
-           violations(100) {
-               checkstyle(10, 999, 999)
-               codenarc(10, 999, 999)
-               cpd(10, 999, 999)
-               cpplint(10, 999, 999)
-               csslint(10, 999, 999)
-               findbugs(10, 999, 999)
-               fxcop(10, 999, 999)
-               gendarme(10, 999, 999)
-               jcreport(10, 999, 999)
-               jslint(10, 999, 999)
-               pep8(1, 2, 3, '**/pep8.report')
-               perlcritic(10, 999, 999)
-               pmd(10, 999, 999)
-               pylint(10, 4500, 4500, '**/*pylint.report')
-               simian(10, 999, 999)
-               stylecop(10, 999, 999)
-               sourceEncoding()
-           }
-           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
-           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
-           mailer(jobConfig['email'])
-           hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
-       }
+            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
+            shell("cd ${jobConfig['repoName']}; TEST_SUITE=quality ./scripts/all-tests.sh")
+        }
+        publishers { //publish artifacts, HTML, violations report, trigger GitHub-Build-Status, email, message hipchat
+            archiveArtifacts {
+                pattern(archiveReports)
+                defaultExcludes()
+            }
+            publishHtml {
+                report(jobConfig['repoName'] + '/reports/metrics/') {
+                    reportFiles(htmlReports)
+                    reportName('Quality Report')
+                    allowMissing()
+                    keepAll()
+                }
+            }
+            violations(100) {
+                checkstyle(10, 999, 999)
+                codenarc(10, 999, 999)
+                cpd(10, 999, 999)
+                cpplint(10, 999, 999)
+                csslint(10, 999, 999)
+                findbugs(10, 999, 999)
+                fxcop(10, 999, 999)
+                gendarme(10, 999, 999)
+                jcreport(10, 999, 999)
+                jslint(10, 999, 999)
+                pep8(1, 2, 3, '**/pep8.report')
+                perlcritic(10, 999, 999)
+                pmd(10, 999, 999)
+                pylint(10, 4500, 4500, '**/*pylint.report')
+                simian(10, 999, 999)
+                stylecop(10, 999, 999)
+                sourceEncoding()
+            }
+            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
+            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
+            mailer(jobConfig['email'])
+            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
+        }
     }
 }
