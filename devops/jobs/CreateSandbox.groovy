@@ -172,8 +172,8 @@ class CreateSandbox {
                 choiceParam("server_type",
                             ["full_edx_installation",
                              "full_edx_installation_from_scratch",
-                             "ubuntu_12.04",
-                             "ubuntu_14.04(experimental)"],
+                             "ubuntu_16.04",
+                            ],
                             "Type of AMI we should boot before updating the selected roles above")
 
                 stringParam("github_username","","Github account whose ssh keys will be used to set up an account on the sandbox.  Defaults to your jenkins account, which comes from github")
