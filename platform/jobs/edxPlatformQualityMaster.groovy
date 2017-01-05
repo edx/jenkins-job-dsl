@@ -93,7 +93,6 @@ secretMap.each { jobConfigs ->
             githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'])
         }
         parameters {
-            stringParam('sha1', jobConfig['defaultBranch'], 'Sha1 hash of branch to build. Default branch: master')
             labelParam('WORKER_LABEL') {
                 description('Select a Jenkins worker label for running this job')
                 defaultValue(jobConfig['workerLabel'])
@@ -110,7 +109,7 @@ secretMap.each { jobConfigs ->
                         credentials(jobConfig['credential'])
                     }
                 }
-                branch('\${sha1}')
+                branch(jobConfig['defaultBranch'])
                 browser()
                 extensions {
                     cloneOptions {

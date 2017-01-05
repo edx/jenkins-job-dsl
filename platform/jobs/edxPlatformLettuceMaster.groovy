@@ -88,7 +88,6 @@ secretMap.each { jobConfigs ->
         }
 
         parameters {
-            stringParam('sha1', jobConfig['defaultBranch'], 'Sha1 hash of branch to build. Default branch: master')
             stringParam('WORKER_LABEL', jobConfig['workerLabel'], 'Jenkins worker for running the test subset jobs')
         }
         properties {
@@ -125,7 +124,7 @@ secretMap.each { jobConfigs ->
                         credentials(jobConfig['platformCredential'])
                     }
                 }
-                branch('\${sha1}')
+                branch(jobConfig['defaultBranch'])
                 browser()
                 extensions {
                     cloneOptions {
