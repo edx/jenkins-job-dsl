@@ -121,8 +121,20 @@ secretMap.each { jobConfigs ->
                 }
             }
         }
-        triggers { //trigger when change pushed to GitHub
-            githubPush()
+        triggers {
+            // due to a bug or misconfiguration, jobs with default branches with
+            // slashes are indiscriminately triggered by pushes to other branches.
+            // For more information, see:
+            // https://openedx.atlassian.net/browse/TE-1921
+            // for commits merging into master, trigger jobs via github pushes
+            if ( jobConfig['defaultBranch'] == 'master') {
+                githubPush()
+            }
+            // for all other jobs in this style, poll github for new commits on
+            // the 'defaultBranch'
+            else {
+                scm("@hourly")
+            }
         }
         wrappers { //abort when stuck after 45 minutes, x-mal coloring, timestamps at Console, change the build name
             timeout {
