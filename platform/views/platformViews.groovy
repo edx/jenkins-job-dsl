@@ -23,7 +23,8 @@ branchList.each { branch ->
         jobs {
             regex("${branch}-.*-pr")
         }
-        columns(DEFAULT_VIEW)
+        columns DEFAULT_VIEW.call()
+
     }
 
     listView("${branch}-master-tests") {
@@ -41,7 +42,7 @@ branchList.each { branch ->
             name('github-build-status')
             regex("${branch}-.*-master")
         }
-        columns(DEFAULT_VIEW)
+        columns DEFAULT_VIEW.call()
     }
 
 }
