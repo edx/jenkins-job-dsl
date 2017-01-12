@@ -104,20 +104,6 @@ secretMap.each { jobConfigs ->
             env('COVERAGE_JOB', jobConfig['coverageJob'])
         }
         multiscm {
-            git { //using git on the branch and url, clean before checkout
-                remote {
-                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
-                    if (!jobConfig['open'].toBoolean()) {
-                        credentials(jobConfig['testengCredential'])
-                    }
-                }
-                branch(jobConfig['defaultTestengBranch'])
-                browser()
-                extensions {
-                    cleanBeforeCheckout()
-                    relativeTargetDirectory('testeng-ci')
-                }
-            }
            git { //using git on the branch and url, clone, clean before checkout
                 remote {
                     url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'] + '.git')
@@ -135,6 +121,20 @@ secretMap.each { jobConfigs ->
                         timeout(10)
                     }
                     relativeTargetDirectory(jobConfig['repoName'])
+                }
+            }
+            git { //using git on the branch and url, clean before checkout
+                remote {
+                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
+                    if (!jobConfig['open'].toBoolean()) {
+                        credentials(jobConfig['testengCredential'])
+                    }
+                }
+                branch(jobConfig['defaultTestengBranch'])
+                browser()
+                extensions {
+                    cleanBeforeCheckout()
+                    relativeTargetDirectory('testeng-ci')
                 }
             }
         }
