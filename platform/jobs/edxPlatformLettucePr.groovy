@@ -22,6 +22,7 @@ publicJobConfig:
     whitelistBranchRegex: 'release/*'
     context: jenkins/test
     triggerPhrase: 'jenkins run test'
+    defaultTestengBranch: 'master'
 */
 
 /* stdout logger */
@@ -67,6 +68,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('whitelistBranchRegex')
     assert jobConfig.containsKey('context')
     assert jobConfig.containsKey('triggerPhrase')
+    assert jobConfig.containsKey('defaultTestengBranch')
     assert ghprbMap.containsKey('admin')
     assert ghprbMap.containsKey('userWhiteList')
     assert ghprbMap.containsKey('orgWhiteList')
@@ -101,7 +103,7 @@ secretMap.each { jobConfigs ->
                         credentials(jobConfig['testengCredential'])
                     }
                 }
-                branch('*/master')
+                branch(jobConfig['defaultTestengBranch'])
                 browser()
                 extensions {
                     relativeTargetDirectory('testeng-ci')

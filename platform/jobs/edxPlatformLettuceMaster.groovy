@@ -27,6 +27,7 @@ publicJobConfig:
     refSpec : '+refs/heads/master:refs/remotes/origin/master'
     context : 'jenkins/test'
     defaultBranch : 'master'
+    defaultTestengBranch: 'master'
 */
 
 /* stdout logger */
@@ -75,6 +76,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('refSpec')
     assert jobConfig.containsKey('context')
     assert jobConfig.containsKey('defaultBranch')
+    assert jobConfig.containsKey('defaultTestengBranch')
 
 
     buildFlowJob(jobConfig['jobName']) {
@@ -102,20 +104,6 @@ secretMap.each { jobConfigs ->
             env('REPO_NAME', jobConfig['repoName'])
         }
         multiscm {
-            git { //using git on the branch and url, clean before checkout
-                remote {
-                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
-                    if (!jobConfig['open'].toBoolean()) {
-                        credentials(jobConfig['testengCredential'])
-                    }
-                }
-                branch('*/master')
-                browser()
-                extensions {
-                    cleanBeforeCheckout()
-                    relativeTargetDirectory('testeng-ci')
-                }
-            }
             git { //using git on the branch and url, clone, clean before checkout
                 remote {
                     url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'] + '.git')
@@ -133,6 +121,20 @@ secretMap.each { jobConfigs ->
                     }
                     relativeTargetDirectory(jobConfig['repoName'])
                     cleanBeforeCheckout()
+                }
+            }
+            git { //using git on the branch and url, clean before checkout
+                remote {
+                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
+                    if (!jobConfig['open'].toBoolean()) {
+                        credentials(jobConfig['testengCredential'])
+                    }
+                }
+                branch(jobConfig['defaultTestengBranch'])
+                browser()
+                extensions {
+                    cleanBeforeCheckout()
+                    relativeTargetDirectory('testeng-ci')
                 }
             }
         }
