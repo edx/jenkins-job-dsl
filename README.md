@@ -87,3 +87,4 @@ shared constants directly in your DSL script.
 Constant | Purpose | Use
 ------------ | ------------- | -------------
 credential | Allow access to private git repositories | In the credential() function in the Git Scm Context
+
