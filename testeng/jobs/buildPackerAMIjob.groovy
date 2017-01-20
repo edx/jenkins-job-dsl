@@ -50,15 +50,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('hipchat')
 
-    // Parameters for masked password configuration
-    params = [
-        [
-            name: 'JENKINS_WORKER_AMI',
-            description: 'Base ami on which to run the Packer script',
-            default: jobConfig['jenkinsWorkerAMI']
-        ]
-    ]
-
     job('build-packer-ami') {
 
         description('Create an AMI on aws based on json from the ' +
@@ -87,10 +78,8 @@ secretMap.each { jobConfigs ->
                         'What should we do with the AMI if it is ' +
                         'successfully built? (Hint: delete means you are ' +
                         'just testing the process.)')
-        }
-
-        params.each { param ->
-            configure JENKINS_PUBLIC_MASKED_PASSWORD(param)
+            stringParam('JENKINS_WORKER_AMI', jobConfig['jenkinsWorkerAMI'],
+                        'Base ami on which to run the Packer script')
         }
 
         concurrentBuild(true)
