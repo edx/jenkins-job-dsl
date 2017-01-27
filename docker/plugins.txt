@@ -24,6 +24,7 @@ emailext-template 0.4
 envinject 1.92.1
 extended-choice-parameter 0.56
 external-monitor-job 1.4
+ghprb 1.35.0
 git 2.5.3
 git-client 1.21.0
 git-server 1.6
