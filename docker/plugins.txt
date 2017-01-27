@@ -44,7 +44,6 @@ job-dsl 1.50
 jobConfigHistory 2.15
 jquery 1.11.2-0
 junit 1.15
-junit 1.2-beta-4
 ldap 1.11
 mailer 1.16
 mailer 1.17
