@@ -7,6 +7,7 @@ RUN apt-get update \
          libssl-dev libffi-dev  \
       && rm -rf /var/lib/apt/lists/*
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+RUN curl https://raw.githubusercontent.com/edx/configuration/master/requirements.txt > /tmp/system-ansible.txt && pip install -r /tmp/system-ansible.txt
 
 USER jenkins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
