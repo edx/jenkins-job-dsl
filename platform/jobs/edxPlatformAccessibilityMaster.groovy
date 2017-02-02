@@ -136,7 +136,7 @@ secretMap.each { jobConfigs ->
                 sshAgent(jobConfig['credential'])
             }
         }
-        
+
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
         predefinedPropsMap.put('GITHUB_ORG', 'edx')

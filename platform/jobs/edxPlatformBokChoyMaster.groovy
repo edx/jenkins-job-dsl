@@ -30,14 +30,12 @@ publicJobConfig:
     defaultTestengBranch: 'master'
 */
 
-
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
 Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
-
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map secretMap = [:]
