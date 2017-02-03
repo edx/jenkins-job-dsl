@@ -81,6 +81,10 @@ jobConfigs.each { jobConfig ->
             stringParam('COURSE_NUMBER', jobConfig.courseNumber, 'Course number')
             stringParam('COURSE_RUN', 'fall', 'Term in which course will run')
             stringParam('COURSE_DISPLAY_NAME', 'Manual Smoke Test Course 1 - Auto', 'Display name of the course')
+            // Both the pipeline and pr jobs are inteded to be triggered via external
+            // automation, but this parameter allows the default values to be overriden
+            // when run manually.
+            stringParam('E2E_BRANCH', jobConfig.branch, 'Branch of the e2e test repo to use')
         }
 
         scm {
@@ -89,7 +93,7 @@ jobConfigs.each { jobConfig ->
                     url('https://github.com/edx/edx-e2e-tests.git')
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                 }
-                branch(jobConfig.branch)
+                branch('\${E2E_BRANCH}')
                 browser()
             }
         }
