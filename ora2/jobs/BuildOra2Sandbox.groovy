@@ -2,6 +2,7 @@
     Variables consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
 
+    * JOB_FOLDER_NAME: some-folder
     * NOTIFY_ON_FAILURE : e-mail-contact@example.com
     * SANDBOX_JOB : 'Sandboxes/CreateSandbox'
 */
