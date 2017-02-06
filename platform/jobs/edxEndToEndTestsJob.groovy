@@ -23,6 +23,7 @@ try {
     Yaml yaml = new Yaml()
     mailingListMap = yaml.load(mailingListSecretContents)
     ghprbMap = yaml.load(ghprbConfigContents)
+    securityGroupMap = yaml.load(securityGroupConfigContents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
@@ -32,7 +33,7 @@ catch (any) {
 }
 
 assert mailingListMap.containsKey('e2e_test_mailing_list')
-assert securityGroupMap.containsKey('e2eTestUsers')
+assert securityGroupMap.containsKey('e2eSecurityGroup')
 assert ghprbMap.containsKey('admin')
 assert ghprbMap.containsKey('userWhiteList')
 assert ghprbMap.containsKey('orgWhiteList')
