@@ -27,7 +27,6 @@ publicJobConfig:
     defaultBranch : 'master'
 */
 
-
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
 archiveReports += 'edx-platform*/test_root/log/*.log, edx-platform*/test_root/log/hars/*.har,'
 archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
@@ -133,7 +132,7 @@ secretMap.each { jobConfigs ->
             // for all other jobs in this style, poll github for new commits on
             // the 'defaultBranch'
             else {
-                scm("@hourly")
+                scm('@hourly')
             }
         }
         wrappers { //abort when stuck after 45 minutes, x-mal coloring, timestamps at Console, change the build name

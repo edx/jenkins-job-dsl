@@ -78,7 +78,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('defaultBranch')
     assert jobConfig.containsKey('defaultTestengBranch')
 
-
     buildFlowJob(jobConfig['jobName']) {
 
         /* For non-open jobs, enable project based security */
@@ -150,7 +149,7 @@ secretMap.each { jobConfigs ->
             // for all other jobs in this style, poll github for new commits on
             // the 'defaultBranch'
             else {
-                scm("@hourly")
+                scm('@hourly')
             }
         }
 
