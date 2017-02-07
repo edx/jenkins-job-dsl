@@ -9,7 +9,7 @@
 
 package ora2.jobs
 
-class BuildOra2Sandbox {
+class BuildOraSandbox {
 
     public static def job = { dslFactory, extraVars ->
         return dslFactory.job(extraVars.get('JOB_FOLDER_NAME', 'ora2') + '/add-course-to-sandbox') {
