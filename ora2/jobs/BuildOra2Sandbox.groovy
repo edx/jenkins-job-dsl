@@ -12,7 +12,7 @@ package ora2.jobs
 class BuildOra2Sandbox {
 
     public static def job = { dslFactory, extraVars ->
-        return dslFactory.job(extraVars.get('JOB_FOLDER_NAME', 'ora2') + '/build-ora-sandbox') {
+        return dslFactory.job(extraVars.get('JOB_FOLDER_NAME', 'ora2') + '/build-ora2-sandbox') {
             properties {
                 parameters {
                     stringParam('dns_name', 'ora2', '')
