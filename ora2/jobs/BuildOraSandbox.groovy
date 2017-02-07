@@ -27,11 +27,11 @@ class BuildOraSandbox {
             }
             steps {
                 downstreamParameterized {
-                    triggers(extraVars.get('SANDBOX_JOB','Sandboxes/CreateSandbox')) {
-                        // parameters {
-                        //     currentBuild()
-                        //     booleanParam('basic_auth', false)
-                        // }
+                    trigger(extraVars.get('SANDBOX_JOB','Sandboxes/CreateSandbox')) {
+                        parameters {
+                            currentBuild()
+                            booleanParam('basic_auth', false)
+                        }
                     }
                 }
             }
