@@ -150,7 +150,7 @@ secretMap.each { jobConfigs ->
             // for all other jobs in this style, poll github for new commits on
             // the 'defaultBranch'
             else {
-                scm("@hourly")
+                scm('@hourly')
             }
         }
 

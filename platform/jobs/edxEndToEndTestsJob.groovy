@@ -14,13 +14,16 @@ PrintStream out = config['out']
 /* Map to hold the k:v pairs parsed from the secret file */
 Map mailingListMap = [:]
 Map ghprbMap = [:]
+Map securityGroupMap = [:]
 try {
     out.println('Parsing secret YAML file')
     String mailingListSecretContents  = new File("${MAILING_LIST_SECRET}").text
     String ghprbConfigContents = new File("${GHPRB_SECRET}").text
+    String securityGroupConfigContents = new File("${SECURITY_GROUP_SECRET}").text
     Yaml yaml = new Yaml()
     mailingListMap = yaml.load(mailingListSecretContents)
     ghprbMap = yaml.load(ghprbConfigContents)
+    securityGroupMap = yaml.load(securityGroupConfigContents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
@@ -30,6 +33,7 @@ catch (any) {
 }
 
 assert mailingListMap.containsKey('e2e_test_mailing_list')
+assert securityGroupMap.containsKey('e2eSecurityGroup')
 assert ghprbMap.containsKey('admin')
 assert ghprbMap.containsKey('userWhiteList')
 assert ghprbMap.containsKey('orgWhiteList')
@@ -37,7 +41,7 @@ assert ghprbMap.containsKey('orgWhiteList')
 // The edx-e2e-tests job is run automatically on every deployment of the edx-platform
 // from the gocd pipeline.
 Map pipelineJob = [ name: 'edx-e2e-tests',
-                    trigger: 'manual',
+                    trigger: 'pipeline',
                     branch: '*/master',
                     description: 'Run end-to-end tests against GoCD deployments',
                     courseNumber: 'AR-1000'
@@ -62,6 +66,17 @@ jobConfigs.each { jobConfig ->
         authorization {
             blocksInheritance(true)
             permissionAll('edx')
+            // grant additional permissions to bots
+            if (jobConfig.trigger == 'pipeline') {
+                List<String> permissionList = [ 'hudson.model.Item.Read',
+                                                'hudson.model.Item.Workspace',
+                                                'hudson.model.Item.Discover',
+                                                'hudson.model.Item.Build',
+                                                'hudson.model.Item.Cancel' ]
+                permissionList.each { perm ->
+                    permission(perm, securityGroupMap['e2eSecurityGroup'])
+                }
+            }
         }
 
         if (jobConfig.trigger == 'ghprb') {
@@ -99,7 +114,7 @@ jobConfigs.each { jobConfig ->
         }
 
         // enable triggers for the PR job
-        if (jobConfig.trigger == "ghprb") { 
+        if (jobConfig.trigger == 'ghprb') {
             triggers {
                 pullRequest {
                     admins(ghprbMap['admin'])
