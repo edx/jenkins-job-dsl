@@ -28,12 +28,14 @@
 */
 package devops.jobs
 
+import javaposse.jobdsl.dsl.DslFactory
+
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
 class RunAnsible {
-    public static def job = { dslFactory, jobName, environment, deployment, extraVars ->
+    public static job(DslFactory dslFactory, String jobName, String environment, String deployment, Map extraVars) {
         return dslFactory.job(extraVars.get("FOLDER_NAME") + "/${environment}-${deployment}-${jobName}") {
             /*
                Run arbitrary remote commands on a host belonging to a target environment, deployment and cluster,
