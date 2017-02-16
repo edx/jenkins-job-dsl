@@ -1,8 +1,7 @@
 edxops-jenkins:
-  image: edxops/jenkins:latest
-  container_name: edxops-jenkins-base
+  image: edxops/tools-jenkins:latest
+  container_name: tools-jenkins
   volumes:
-      - .docker-volumes/jenkins:/var/jenkins_home
+      - .docker-volumes/jenkins:/edx/var/jenkins
   ports:
     - "8080:8080"
-    - "50000:50000"
