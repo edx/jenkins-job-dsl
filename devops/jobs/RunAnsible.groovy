@@ -37,11 +37,14 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 class RunAnsible {
     public static job(DslFactory dslFactory, String jobName, String environment, String deployment, Map extraVars) {
         return dslFactory.job(extraVars.get("FOLDER_NAME") + "/${environment}-${deployment}-${jobName}") {
+            // These 3 don't have defaults
+            assert extraVars.containsKey('SSH_AGENT_KEY') : "Please define SSH_AGENT_KEY"
+            assert extraVars.containsKey('CLUSTER') : "Please define CLUSTER"
+            assert extraVars.containsKey('MODULE_ARGS') : "Please define MODULE_ARGS"
             /*
                Run arbitrary remote commands on a host belonging to a target environment, deployment and cluster,
                in a specified region.
              */
-
             wrappers common_wrappers
             wrappers {
                 credentialsBinding {
