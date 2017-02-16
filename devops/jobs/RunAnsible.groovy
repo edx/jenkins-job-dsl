@@ -21,7 +21,9 @@
 
     Expected credentials - these will normally be set up on the Folder.
         jnkins-aws-credentials: a file credential that can be set in the environment as AWS_CONFIG_FILE for assuming role
+            This name can be overridden by passing a credential id as AWS_CONFIG_FILE in the extra vars
         find-host-role-arn: ARN of the IAM role that will be assumed
+            This name can be overridden by passing an ARN as ROLE_ARN in the extra vars
 
 */
 package devops.jobs
@@ -41,8 +43,8 @@ class RunAnsible {
             wrappers common_wrappers
             wrappers {
                 credentialsBinding {
-                    file('AWS_CONFIG_FILE','jenkins-aws-credentials')
-                    string('ROLE_ARN','find-host-role-arn')
+                    file('AWS_CONFIG_FILE', extraVars.get('AWS_CONFIG_FILE','jenkins-aws-credentials'))
+                    string('ROLE_ARN',extraVars.get('AWS_ROLE_ARN','find-host-role-arn'))
                 }
                 sshAgent(extraVars.get("SSH_AGENT_KEY").get(environment))
             }
