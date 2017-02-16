@@ -1,7 +1,0 @@
-edxops-jenkins:
-  image: edxops/tools-jenkins:latest
-  container_name: tools-jenkins
-  volumes:
-      - .docker-volumes/jenkins:/edx/var/jenkins
-  ports:
-    - "8080:8080"
