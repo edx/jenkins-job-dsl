@@ -4,7 +4,7 @@ MAINTAINER edxops
 USER root
 RUN apt-get update \
       && apt-get install -y sudo python-dev python-pip libmysqlclient-dev \
-         libssl-dev libffi-dev  \
+         libssl-dev libffi-dev xvfb iceweasel  \
       && rm -rf /var/lib/apt/lists/*
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
