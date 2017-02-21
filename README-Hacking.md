@@ -10,7 +10,7 @@ Execute this command from the root of the repository:
 
 If you opt not to use `docker-compose`, the following command will achieve the same results.
 
-    $ docker run -p 8080:8080 -v jenkins:/edx/var/jenkins tools-jenkins
+    $ docker run -p 8080:8080 -v jenkins:/edx/var/jenkins tools_jenkins
 
 In both instances port 8080 will be exposed to the host system, and a volume will be created on the 
 container. This volume contains all of the configuration for Jenkins, and will be preserved between container
@@ -54,13 +54,13 @@ button to expose the final two fields.
 
 ## WIP: Updating the Docker Image
 
-The [edxops/tools-jenkins](https://hub.docker.com/r/edxops/tools-jenkins/) image is used in the Docker steps above. The required plugins have been pre-installed on the container. Feel free to install additional plugins. If you'd like to add or modify Jenkins plugins, follow the steps below.
+The [edxops/tools_jenkins](https://hub.docker.com/r/edxops/tools_jenkins/) image is used in the Docker steps above. The required plugins have been pre-installed on the container. Feel free to install additional plugins. If you'd like to add or modify Jenkins plugins, follow the steps below.
 
 Note: Adding or modifying Jenkins plugin(s) will wipe your Jenkins workspace.
 
 Update the plugin list by changing the plugin version number(s) or by adding additional plugin(s) in the tools_jenkins Ansible role in the configuration repository on your local machine. The role is available [here](https://github.com/edx/configuration/blob/master/playbooks/roles/tools_jenkins/defaults/main.yml). Build a new Docker image that incorporates your changes by running the following command from the root of the configuration repository:
 
-	$ docker build -f docker/build/tools-jenkins/Dockerfile -t edxops/tools-jenkins:latest .
+	$ docker build -f docker/build/tools_jenkins/Dockerfile -t edxops/tools_jenkins:latest .
 
 In order for your change(s) to be reflected in the Docker container running Jenkins, you must remove the jenkins volume, which is mounted by the docker-compose.yml file. Run the following command to remove the volume:
 

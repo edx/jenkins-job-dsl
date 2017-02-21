@@ -6,4 +6,4 @@ The docker-compose.yml file in docker-in-docker differs from the top level versi
 
 # Building Docker Containers
 
-To build the docker-in-docker Docker container from this directoy: `docker build .`
+To build the docker-in-docker Docker container, run the following command from within the docker-in-docker subdirectory: `docker build .` 

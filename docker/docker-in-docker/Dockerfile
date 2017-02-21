@@ -1,4 +1,4 @@
-FROM edxops/tools-jenkins:latest
+FROM edxops/tools_jenkins:latest
 MAINTAINER edxops
 
 USER root
