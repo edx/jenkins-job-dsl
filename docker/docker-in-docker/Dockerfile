@@ -1,4 +1,4 @@
-FROM jenkins:1.651.3
+FROM edxops/tools_jenkins:latest
 MAINTAINER edxops
 
 USER root
@@ -10,7 +10,3 @@ COPY docker.list /etc/apt/sources.list.d/docker.list
 RUN sudo apt-get update
 RUN sudo apt-get install -y docker-engine
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
-
-USER jenkins
-COPY plugins.txt /usr/share/jenkins/plugins.txt
-RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt

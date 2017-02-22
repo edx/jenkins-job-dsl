@@ -10,15 +10,11 @@ Execute this command from the root of the repository:
 
 If you opt not to use `docker-compose`, the following command will achieve the same results.
 
-    $ docker run -p 8080:8080 -p 50000:50000 -v .docker-volumes/jenkins:/var/jenkins_home edxops/jenkins
+    $ docker run -p 8080:8080 -v jenkins:/edx/var/jenkins tools_jenkins
 
-In both instances ports 8080 and 50000 will be exposed to the host system, and a local volume will be shared on the 
-container. This local volume contains all of the configuration for Jenkins, and will be preserved between container
-stops and starts.
-
-**NOTE:** You are not required to use `.docker-volumes/jenkins`, and can use practically any directory on your local 
-filesystem. However, due to the nature of how Docker runs on Mac OS X, you can only share sub-directories of your
-home directory when using Mac OS X.
+In both instances port 8080 will be exposed to the host system, and a volume will be created on the 
+container. This volume contains all of the configuration for Jenkins, and will be preserved between container
+stops and starts, except in the case of plugin updates or installs (see WIP: Updating the Docker Image below).
 
 Once the container is running, you can connect to Jenkins at `http://localhost:8080`.
 
@@ -33,20 +29,6 @@ You will need credentials--SSH key, or username and password--to clone private G
  GitHub, use a scoped [personal access token](https://github.com/settings/tokens) to limit potential security risks.  
 
 Credentials can be added using the Jenkins UI.
-
-**NOTE:** The alternative below is still a work in progress.
-
-Alternatively, you can create a YAML file with your credentials, and execute a script to register the credentials with 
-Jenkins. An example of the YAML file is available at `.docker-volumes/jenkins/jenkins-credentials.example.yaml`.
-
-Follow these steps to add your credentials.
-
-1. Create a new file, `.docker-volumes/jenkins/jenkins-credentials.yaml`, and add your credentials.
-2. Execute the command below. Remember to change the URL if you are using Mac OS X.
-
-
-    $ java -jar .docker-volumes/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080 groovy resources/addCredentials.groovy
-
 
 ### Testing DSL
 
@@ -72,10 +54,18 @@ button to expose the final two fields.
 
 ## WIP: Updating the Docker Image
 
-The [edxops/jenkins](https://hub.docker.com/r/edxops/jenkins/) image is used in the Docker steps above. If you'd like to
- add or modify Jenkins plugins, update `docker/plugins.txt`.
- 
-The required plugins have been pre-installed on the container. Feel free to install additional plugins, but
-if they are required for either other developers or deployment further steps will be required.  To add them to the 
-the Docker container, they must be listed in ```docker/plugins.txt```. To be installed in a deployment environment,
-they must be added to the appropriate Ansible role defaults.
+The [edxops/tools_jenkins](https://hub.docker.com/r/edxops/tools_jenkins/) image is used in the Docker steps above. The required plugins have been pre-installed on the container. Feel free to install additional plugins. If you'd like to add or modify Jenkins plugins, follow the steps below.
+
+Note: Adding or modifying Jenkins plugin(s) will wipe your Jenkins workspace.
+
+Update the plugin list by changing the plugin version number(s) or by adding additional plugin(s) in the tools_jenkins Ansible role in the configuration repository on your local machine. The role is available [here](https://github.com/edx/configuration/blob/master/playbooks/roles/tools_jenkins/defaults/main.yml). Build a new Docker image that incorporates your changes by running the following command from the root of the configuration repository:
+
+	$ docker build -f docker/build/tools_jenkins/Dockerfile -t edxops/tools_jenkins:latest .
+
+In order for your change(s) to be reflected in the Docker container running Jenkins, you must remove the jenkins volume, which is mounted by the docker-compose.yml file. Run the following command to remove the volume:
+
+	$ docker-compose down -v
+
+Run the following command to restart a Docker container running Jenkins with update or new plugin(s).
+
+	$ docker-compose up
