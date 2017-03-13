@@ -139,9 +139,6 @@ class CreateSandbox {
                 booleanParam("ecommerce",false,"")
                 stringParam("ecommerce_version","master","")
 
-                booleanParam("programs",false,"")
-                stringParam("programs_version","master","")
-
                 booleanParam("notifier",false,"")
                 stringParam("notifier_version","master","")
 
