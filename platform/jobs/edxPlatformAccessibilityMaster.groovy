@@ -65,6 +65,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('credential')
     assert jobConfig.containsKey('cloneReference')
     assert jobConfig.containsKey('hipchat')
+    assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('workerLabel')
     assert jobConfig.containsKey('refSpec')
     assert jobConfig.containsKey('context')
@@ -146,7 +147,7 @@ secretMap.each { jobConfigs ->
                                   'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
         steps { //trigger GitHub-Build-Status and run accessibility tests
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
-            shell("cd ${jobConfig['repoName']}; RUN_PA11YCRAWLER=1 ./scripts/accessibility-tests.sh")
+            shell("cd ${jobConfig['repoName']}; RUN_PA11YCRAWLER=0 ./scripts/accessibility-tests.sh")
         }
         publishers { //publish artifacts and JUnit Test report, trigger GitHub-Build-Status, message on hipchat
            archiveArtifacts {
@@ -157,9 +158,17 @@ secretMap.each { jobConfigs ->
                allowEmpty()
                defaultExcludes()
            }
+           publishHtml {
+               report(jobConfig['repoName'] + '/reports/pa11ycrawler/html') {
+               reportName('HTML Report')
+               allowMissing()
+               keepAll()
+               }
+           }
            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
+           mailer(jobConfig['email'])
            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
        }
     }
