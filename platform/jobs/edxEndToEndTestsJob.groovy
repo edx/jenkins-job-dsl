@@ -87,9 +87,12 @@ jobConfigs.each { jobConfig ->
 
         logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         label(JENKINS_PUBLIC_WORKER)
-        // Disable concurrent builds because the environment in use is a shared
-        // resource, and concurrent builds can cause spurious test results
-        concurrentBuild(false)
+        // Disable concurrent pipeline builds because the environment in use is
+        // a shared resource, and concurrent builds can cause spurious test
+        // results
+        if (jobConfig.trigger == 'pipeline') {
+            concurrentBuild(false)
+        }
 
         parameters {
             stringParam('COURSE_ORG', 'ArbiRaees', 'Organization name of the course')
@@ -158,7 +161,10 @@ jobConfigs.each { jobConfig ->
                 pattern('log/*')
                 pattern('screenshots/*')
             }
-            mailer(mailingListMap['e2e_test_mailing_list'])
+            // email alerts for failures on pipeline jobs
+            if (jobConfig.trigger == 'pipeline') {
+                mailer(mailingListMap['e2e_test_mailing_list'])
+            }
         }
 
     }
