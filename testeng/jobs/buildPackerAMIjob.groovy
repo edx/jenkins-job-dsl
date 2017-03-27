@@ -30,6 +30,7 @@ catch (any) {
         awsAccessKeyId: 123abc
         awsSecretAccessKey: 123abc
         jenkinsWorkerAMI: ami-123
+        newRelicKey: 123abc
         webPageTestBaseAMI: ami-123
         githubToken: 123abc
         toolsTeam: [ 'users1', 'users2' ]
@@ -44,6 +45,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('awsAccessKeyId')
     assert jobConfig.containsKey('awsSecretAccessKey')
     assert jobConfig.containsKey('jenkinsWorkerAMI')
+    assert jobConfig.containsKey('newRelicKey')
     assert jobConfig.containsKey('webPageTestBaseAMI')
     assert jobConfig.containsKey('githubToken')
     assert jobConfig.containsKey('toolsTeam')
@@ -57,6 +59,10 @@ secretMap.each { jobConfigs ->
 
         // Special security scheme for members of a team
         authorization JENKINS_PUBLIC_TEAM_SECURITY.call(jobConfig['toolsTeam'])
+
+        environmentVariables{
+            env('NEW_RELIC_KEY', jobConfig['newRelicKey'])
+        }
 
         parameters {
             stringParam('REMOTE_BRANCH', 'master',
