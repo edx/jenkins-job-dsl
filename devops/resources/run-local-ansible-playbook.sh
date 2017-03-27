@@ -21,10 +21,23 @@ else
   ANSIBLE_TAGS=""
 fi
 
+if [[ -n ${SKIP_DEPLOYMENT_FILES} ]]; then
+  ANSIBLE_INCLUDES=$( cat <<INCLUDES
+-e@$WORKSPACE/configuration-internal/ansible/vars/${ENVIRONMENT}-${DEPLOYMENT}.yml
+-e@$WORKSPACE/configuration-secure/ansible/vars/${ENVIRONMENT}-${DEPLOYMENT}.yml
+INCLUDES
+)
+else
+  ANSIBLE_INCLUDES=$( cat <<INCLUDES2
+-e@$WORKSPACE/configuration-internal/ansible/vars/${DEPLOYMENT}.yml
+-e@$WORKSPACE/configuration-internal/ansible/vars/${ENVIRONMENT}-${DEPLOYMENT}.yml
+-e@$WORKSPACE/configuration-secure/ansible/vars/${DEPLOYMENT}.yml
+-e@$WORKSPACE/configuration-secure/ansible/vars/${ENVIRONMENT}-${DEPLOYMENT}.yml
+INCLUDES2
+)
+fi
+
 ansible-playbook -vvvv -i 127.0.0.1, -c local ${ANSIBLE_PLAYBOOK} -U $(whoami) \
--e@$WORKSPACE/configuration-internal/ansible/vars/${DEPLOYMENT}.yml \
--e@$WORKSPACE/configuration-internal/ansible/vars/${ENVIRONMENT}-${DEPLOYMENT}.yml \
--e@$WORKSPACE/configuration-secure/ansible/vars/${DEPLOYMENT}.yml \
--e@$WORKSPACE/configuration-secure/ansible/vars/${ENVIRONMENT}-${DEPLOYMENT}.yml \
+${ANSIBLE_INCLUDES} \
 ${ANSIBLE_EXTRA_VARS} \
 ${ANSIBLE_TAGS}

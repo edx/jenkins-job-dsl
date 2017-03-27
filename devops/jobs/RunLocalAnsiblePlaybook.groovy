@@ -18,6 +18,8 @@
     ACCESS_CONTROL: list of Jenkins matrix targets who should get read access (edx*team or username)
     TAGS: a list of tags to pass to the ansible-playbook invocation (optional)
     PLAYBOOK: name of the playbook to run, assumed to live in playbooks/edx-east/
+    SKIP_DEPLOYMENT_FILES: whether or not to -e@ deployment.yml files in addition to environment-deployment.yml files
+      poor substitute for a boolean - any value is true, unset or '' is false.
 
 */
 package devops.jobs
@@ -56,6 +58,7 @@ class RunLocalAnsiblePlaybook {
                 env('ENVIRONMENT', environment)
                 env('DEPLOYMENT', deployment)
                 env('ANSIBLE_EXTRA_VARS', extraVars.get('ANSIBLE_EXTRA_VARS',''))
+                env('SKIP_DEPLOYMENT_FILES', extraVars.get('SKIP_DEPLOYMENT_FILES',''))
             }
 
             pre_ansible_steps.each { pre_step ->
