@@ -67,7 +67,8 @@ secretMap.each { jobConfigs ->
                           'harprofiler.json',
                           'webpagetest.json',
                           'jenkins_worker_simple.json',
-                          'jenkins_worker_android.json'
+                          'jenkins_worker_android.json',
+                          'jenkins_worker_loadtest.json'
                         ],
                         'Json file (in util/packer) specifying how to build ' +
                         'the new AMI.')
