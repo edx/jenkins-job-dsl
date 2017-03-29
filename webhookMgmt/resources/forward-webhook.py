@@ -26,11 +26,11 @@ if 'action' in json_data.keys():
         sys.stdout.write('This webhook is not used by the GHPRB and will not be ')
         sys.stdout.write('forwarded\n')
         sys.exit(0)
-    sys.stdout.write('This is a pull request, sending to {}/ghprbhook'.format(target)
+    sys.stdout.write('This is a pull request, sending to {}/ghprbhook'.format(target))
     target_endpoint = "{}/ghprbhook".format(target)
     github_event = github_event_map[action]
 else:
-    sys.stdout.write('This is a merge, sending to {}/github-webhook'.format(target)
+    sys.stdout.write('This is a merge, sending to {}/github-webhook'.format(target))
     target_endpoint = "{}/ghprbhook".format(target)
     github_event = 'push'
 
