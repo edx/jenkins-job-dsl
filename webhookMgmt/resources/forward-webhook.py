@@ -20,6 +20,7 @@ target_instance = jenkins.Jenkins(target)
 
 json_data = json.loads(payload)
 
+# determine the correct rest endpoint and github event header to use for this payload
 if 'action' in json_data.keys():
     if json_data['action'] not in github_event_map.keys():
         sys.stdout.write('This webhook is not used by the GHPRB and will not be ')
@@ -29,7 +30,7 @@ if 'action' in json_data.keys():
     target_endpoint = "{}/ghprbhook".format(target)
     github_event = github_event_map[action]
 else:
-    sys.stdout.write('This is a merge, sending to {}/ghprbhook'.format(target)
+    sys.stdout.write('This is a merge, sending to {}/github-webhook'.format(target)
     target_endpoint = "{}/ghprbhook".format(target)
     github_event = 'push'
 
