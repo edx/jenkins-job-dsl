@@ -5,7 +5,7 @@ job('forward-webhook') {
     description("Receive a webhook from Github and forward it along to ${TARGET}")
     parameters {
         stringParam('payload', 'the payload string from a Jenkins webhook')
-        stringParam('taget', "${TARGET}", 'the target Jenkins to send traffic to')
+        stringParam('target', "${TARGET}", 'the target Jenkins to send traffic to')
     }
     wrappers {
         timestamps()
