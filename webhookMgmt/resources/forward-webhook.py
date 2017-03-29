@@ -28,10 +28,10 @@ if 'action' in json_data.keys():
         sys.exit(0)
     sys.stdout.write('This is a pull request, sending to {}/ghprbhook'.format(target))
     target_endpoint = "{}/ghprbhook".format(target)
-    github_event = github_event_map[action]
+    github_event = github_event_map[json_date['action']]
 else:
     sys.stdout.write('This is a merge, sending to {}/github-webhook'.format(target))
-    target_endpoint = "{}/ghprbhook".format(target)
+    target_endpoint = "{}/github-webhook".format(target)
     github_event = 'push'
 
 # fail if the target jenkins is inaccessible or not accepting new jobs
