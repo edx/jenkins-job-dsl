@@ -191,6 +191,9 @@ jobConfigs.each { jobConfig ->
         }
 
         steps {
+            if (jobConfig.testSuite == 'microsites') {
+                environmentVariables('USER_DATA_SET', 'pr')
+            }
             shell(jobConfig.testScript)
         }
 
