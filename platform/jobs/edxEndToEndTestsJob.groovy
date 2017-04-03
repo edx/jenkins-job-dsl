@@ -2,6 +2,7 @@ package platform
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -44,11 +45,14 @@ Map pipelineJob = [ name: 'edx-e2e-tests',
                     worker: 'jenkins-precise-worker',
                     trigger: 'pipeline',
                     branch: '*/master',
+                    refspec: '+refs/heads/master:refs/remotes/origin/master',
                     description: 'Run end-to-end tests against GoCD deployments',
                     courseNumber: 'AR-1000',
                     testScript: 'jenkins/end_to_end_tests.sh',
                     junitReportPath: 'reports/*.xml'
                     ]
+
+// Pull Request Triggered Jobs
 
 // The edx-e2e-tests-pr job is run on every PR to the edx-e2e-tests repo. This
 // is used for development of the tests themselves
@@ -58,6 +62,8 @@ Map prJob = [ name: 'edx-e2e-tests-pr',
               trigger: 'ghprb',
               triggerPhrase: 'jenkins run e2e',
               branch: '${ghprbActualCommit}',
+              refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
+              branchRegex: "^(?!kashif\/white-label)$", // all branches except for kashif/white-label
               description: 'Verify the quality of changes made to the end-to-end tests',
               courseNumber: 'AR-1001',
               testScript: 'jenkins/end_to_end_tests.sh',
@@ -65,7 +71,7 @@ Map prJob = [ name: 'edx-e2e-tests-pr',
               junitReportPath: 'reports/*.xml'
               ]
 
-// The microsites-staging-test-pr job is run on every PR to the edx-e2e-tests
+// The microsites-staging-tests-pr job is run on every PR to the edx-e2e-tests
 // repo. This is used for development of the tests themselves
 Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
                         testSuite: 'microsites',
@@ -73,6 +79,8 @@ Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
                         trigger: 'ghprb',
                         triggerPhrase: 'jenkins run microsites',
                         branch: '${ghprbActualCommit}',
+                        refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
+                        branchRegex: "^(?!kashif\/white-label)$", // all branches except for kashif/white-label
                         description: 'Verify the quality of changes made to the microsite tests',
                         courseNumber: 'AR-1001',
                         testScript: 'edx-e2e-tests/jenkins/white_label.sh',
@@ -80,7 +88,25 @@ Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
                         junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
                         ]
 
-List jobConfigs = [ pipelineJob, prJob, micrositesPrJob ]
+// The microsites-deprecated-tests-pr job is run on every PR into the kashif/white-label branch.
+// NOTE: this is a temporary job. Remove it once kashif/white-label has been
+// merged into edx/edx-e2e-tests
+Map deprecatedPrJob = [ name: 'microsites-deprecated-tests-pr',
+                        testSuite: 'microsites',
+                        worker: 'jenkins-worker',
+                        trigger: 'ghprb',
+                        triggerPhrase: 'jenkins run microsites',
+                        branch: '${ghprbActualCommit}',
+                        refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
+                        branchRegex: '^kashif\/white-label$', // ONLY the kashif/white-label branch
+                        description: 'Verify the changes made to the microsites tests in kashif/white-label branch',
+                        courseNumber: 'AR-1001',
+                        testScript: 'edx-e2e-tests/jenkins/white_label.sh',
+                        context: 'jenkins/microsites',
+                        junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
+                        ]
+
+List jobConfigs = [ pipelineJob, prJob, micrositesPrJob, deprecatedPrJob ]
 
 jobConfigs.each { jobConfig ->
     job(jobConfig.name) {
@@ -132,6 +158,7 @@ jobConfigs.each { jobConfig ->
                 remote {
                     url('https://github.com/edx/edx-e2e-tests.git')
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
+                    refspec(jobConfig.refspec)
                 }
                 branch('\${E2E_BRANCH}')
                 browser()
@@ -159,6 +186,7 @@ jobConfigs.each { jobConfig ->
                     }
                 }
             }
+            configure GHPRB_WHITELIST_BRANCH(jobConfig.branchRegex)
         }
 
         wrappers {
