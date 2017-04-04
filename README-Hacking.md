@@ -36,20 +36,33 @@ You will need to create a new Jenkins job that executes the DSL, and creates oth
  below.
 
 1. Use the Jenkins UI to create a new **Freestyle project** job named **Job Creator**.
-2. Configure the job to use **Multiple SCMs** for *Source Control Management*, and add a Git repository. (Note that we 
+2. Configure the job to use **Multiple SCMs** for *Source Control Management*, and add a Git repository. (Note that we
 are NOT using the Git plugin here.)
     1. Set the Repository URL to the repo containing your job DSL (e.g. git@github.com:edx/jenkins-job-dsl-internal.git).
     2. If necessary, select your authentication credentials (e.g. SSH key).
-3. Add a **Process Job DSLs** build step and configure it using the settings below. Remember to click the  *Advanced* 
+3. Add a **Invoke Gradle script** build step and configure it using the settings below.
+    1. Use Gradle Wrapper: [x]
+    2. Make gradlew executable: [x]
+    3. From Root Build Script Dir: [x]
+    4. Tasks:
+       ```
+       libs
+       ```
+    5. Force GRADLE_USER_HOME to use workspace: [x]
+4. Add a **Process Job DSLs** build step and configure it using the settings below. Remember to click the  *Advanced*
 button to expose the final two fields.
-    1. DSL Scripts: jobs/hacking-edx-jenkins.edx.org/*Jobs.groovy 
+    1. DSL Scripts: `jobs/hacking-edx-jenkins.edx.org/*Jobs.groovy`
        (You may opt to change this if you're developing for a different Jenkins server.)
-    2. Action for existing jobs and views: UNchecked
+    2. Action for existing jobs and views: [ ] Ignore changes
     3. Action for removed jobs: Delete
     4. Action for removed views: Ignore
     5. Context to use for relative job names: Jenkins Root
-    6. Additional classpath: src/main/groovy
-4. Save the job, and run it.
+    6. Additional classpath:
+       ```
+       lib/snakeyaml-1.17.jar
+       src/main/groovy
+       ```
+5. Save the job, and run it.
 
 
 ## WIP: Updating the Docker Image
