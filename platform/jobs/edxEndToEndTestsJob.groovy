@@ -94,7 +94,7 @@ Map prJob = [ name: 'edx-e2e-tests-pr',
               triggerPhrase: 'jenkins run e2e',
               branch: '${ghprbActualCommit}',
               refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
-              branchRegex: "^(?!kashif/white-label)\$", // all branches except for kashif/white-label
+              branchRegex: '^(?!kashif/white_label).*$', // PRs targeting any branch except kashif/white-label
               description: 'Verify the quality of changes made to the end-to-end tests',
               courseNumber: 'AR-1001',
               testScript: 'jenkins/end_to_end_tests.sh',
@@ -112,7 +112,7 @@ Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
                         triggerPhrase: 'jenkins run microsites',
                         branch: '${ghprbActualCommit}',
                         refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
-                        branchRegex: "^(?!kashif/white-label)\$", // all branches except for kashif/white-label
+                        branchRegex: '^(?!kashif/white_label).*$', // PRs targeting any branch except kashif/white-label
                         description: 'Verify the quality of changes made to the microsite tests',
                         testScript: 'edx-e2e-tests/jenkins/white_label.sh',
                         context: 'jenkins/microsites',
@@ -130,7 +130,7 @@ Map deprecatedPrJob = [ name: 'microsites-deprecated-tests-pr',
                         triggerPhrase: 'jenkins run microsites',
                         branch: '${ghprbActualCommit}',
                         refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
-                        branchRegex: '^kashif/white-label\$', // ONLY the kashif/white-label branch
+                        branchRegex: 'kashif/white_label', // ONLY PRs targeting the kashif/white-label branch
                         description: 'Verify the changes made to the microsites tests in kashif/white-label branch',
                         testScript: 'edx-e2e-tests/jenkins/white_label.sh',
                         context: 'jenkins/microsites',
