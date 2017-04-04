@@ -3,6 +3,10 @@ package platform
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -146,6 +150,7 @@ Map mergeJob = [  name: 'edx-e2e-tests-merge',
                   description: 'Verify the quality of changes made to the end-to-end tests',
                   courseNumber: 'AR-1001',
                   testScript: 'jenkins/end_to_end_tests.sh',
+                  context: 'jenkins/e2e',
                   junitReportPath: 'reports/*.xml'
                   ]
 
@@ -160,6 +165,7 @@ Map micrositesMergeJob = [  name: 'microsites-staging-tests-merge',
                             refspec: '+refs/heads/master:refs/remotes/origin/master',
                             description: 'Verify the quality of changes made to the microsite tests',
                             testScript: 'edx-e2e-tests/jenkins/white_label.sh',
+                            context: 'jenkins/microsites',
                             junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
                             ]
 
@@ -175,6 +181,7 @@ Map deprecatedMergeJob = [  name: 'microsites-deprecated-tests-merge',
                             refspec: '+refs/heads/kashif/white-label:refs/remotes/origin/kashif/white-label',
                             description: 'Verify the changes made to the microsites tests in kashif/white-label branch',
                             testScript: 'edx-e2e-tests/jenkins/white_label.sh',
+                            context: 'jenkins/microsites',
                             junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
                             ]
 
@@ -322,7 +329,20 @@ jobConfigs.each { jobConfig ->
             shell(jobConfig.testScript)
         }
 
+
         publishers {
+            // for merge jobs, update github with the test status
+            if (jobConfig.trigger == 'merge') {
+                Map <String, String> predefinedPropsMap  = [:]
+                predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
+                predefinedPropsMap.put('GITHUB_ORG', 'edx')
+                predefinedPropsMap.put('CONTEXT', jobConfig.context)
+                predefinedPropsMap.put('GITHUB_REPO', 'edx-e2e-tests')
+                predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
+                                          'job/' + jobConfig.name + '/${BUILD_NUMBER}/')
+                downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
+                downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
+            }
             archiveJunit(jobConfig.junitReportPath) {
                 allowEmptyResults(false)
             }
