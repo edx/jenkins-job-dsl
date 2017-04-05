@@ -1,8 +1,8 @@
 # Local Development
 
-The simplest way to get started with local development is to use our Docker container. This container is pre-configured 
-to run Jenkins. The `docker-compose.yml` file in the root of this repository contains the configuration necessary to 
-bring a new container online with the proper ports exposed, and volumes shared.
+The simplest way to get started with local development targeted for tools-edx-jenkins is to use our Docker container.
+This container is pre-configured  to run Jenkins. The `docker-compose.yml` file in the root of this repository contains 
+the configuration necessary to  bring a new container online with the proper ports exposed, and volumes shared.
 
 Execute this command from the root of the repository:
 
@@ -30,26 +30,35 @@ You will need credentials--SSH key, or username and password--to clone private G
 
 Credentials can be added using the Jenkins UI.
 
+Note that if using a personal access token, you can only clone https://github.com/ URLs, and ssh keys only work on git@github.com:edx
+URLs.  We use git@github.com URLs on tools-edx-jenkins with deployment keys, but you can use whatever is simpler in testing.
+
 ### Testing DSL
 
 You will need to create a new Jenkins job that executes the DSL, and creates other jobs. This can be done with the steps
- below.
+below.  Note that these instructions are for a simple DSL, your seed job documentation may specify cloning multiple DSL/configuration
+repos, or running Gradle.
 
 1. Use the Jenkins UI to create a new **Freestyle project** job named **Job Creator**.
 2. Configure the job to use **Multiple SCMs** for *Source Control Management*, and add a Git repository. (Note that we 
 are NOT using the Git plugin here.)
     1. Set the Repository URL to the repo containing your job DSL (e.g. git@github.com:edx/jenkins-job-dsl-internal.git).
     2. If necessary, select your authentication credentials (e.g. SSH key).
+    3. Repeat for jenkins-job-dsl and edx-internal (and possibly edge-internal).  These will likely be checked out into
+       a subdirectory documented in your seed job.
+4. If specified in your documentation, add a **Invoke Gradle scrip** job and follow the settings in your docs.
 3. Add a **Process Job DSLs** build step and configure it using the settings below. Remember to click the  *Advanced* 
-button to expose the final two fields.
+button to expose the final fields.
     1. DSL Scripts: jobs/hacking-edx-jenkins.edx.org/*Jobs.groovy 
        (You may opt to change this if you're developing for a different Jenkins server.)
-    2. Action for existing jobs and views: UNchecked
+    2. Action for existing jobs and views: Unchecked
     3. Action for removed jobs: Delete
     4. Action for removed views: Ignore
     5. Context to use for relative job names: Jenkins Root
-    6. Additional classpath: src/main/groovy
-4. Save the job, and run it.
+    6. Additional classpath: Click on the down-arrow to get a text box and enter the classpath specified by your seed job.
+    7. Fail build if a plugin must be installed or update: checked
+    8. Mark build as unstable when using deprecated features: checked
+4. Save the job, and Build it with Parameters.
 
 
 ## WIP: Updating the Docker Image
