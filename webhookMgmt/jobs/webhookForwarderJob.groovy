@@ -19,4 +19,15 @@ job('forward-webhook') {
         }
     }
 
+    // configure the build name setter component, as it is not supported via dsl
+    configure { project ->
+        project / 'builders' / 'org.jenkinsci.plugins.buildnameupdater.BuildNameUpdater' {
+            buildName 'custom_description';
+            macroTemplate '#${BUILD_NUMBER}';
+            fromFile true;
+            fromMacro false;
+            macroFirst false;
+        }
+    }
+
 }
