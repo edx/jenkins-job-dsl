@@ -302,15 +302,15 @@ jobConfigs.each { jobConfig ->
                 // by this dsl script
                 string('BASIC_AUTH_USER', 'BASIC_AUTH_USER')
                 string('BASIC_AUTH_PASSWORD', 'BASIC_AUTH_PASSWORD')
+                string('ACCESS_TOKEN', 'MICROSITES_ACCESS_TOKEN')
+                string('GLOBAL_PASSWORD', 'MICROSITES_GLOBAL_PASSWORD')
+                string('STAFF_USER_EMAIL', 'MICROSITES_STAFF_USER_EMAIL')
                 // environment variables used exclusively by different test suites,
                 // separated to avoid clobbering concurrent tests
                 if (jobConfig.testSuite == 'microsites') {
-                    string('GLOBAL_PASSWORD', 'MICROSITES_GLOBAL_PASSWORD')
-                    string('STAFF_USER_EMAIL', 'MICROSITES_STAFF_USER_EMAIL')
                     string('TEST_EMAIL_SERVICE', 'MICROSITES_TEST_EMAIL_SERVICE')
                     string('TEST_EMAIL_ACCOUNT', 'MICROSITES_TEST_EMAIL_ACCOUNT')
                     string('TEST_EMAIL_PASSWORD', 'MICROSITES_TEST_EMAIL_PASSWORD')
-                    string('ACCESS_TOKEN', 'MICROSITES_ACCESS_TOKEN')
                 }
                 // values used for the main
                 else if (jobConfig.testSuite == 'e2e') {
@@ -321,7 +321,9 @@ jobConfigs.each { jobConfig ->
         }
 
         steps {
-            if (jobConfig.testSuite == 'microsites') {
+            // Use a different set of user accounts for non-deployment jobs to avoid
+            // conflicts
+            if (jobConfig.trigger == 'merge' || jobConfig.trigger == 'ghprb') {
                 environmentVariables {
                     env('USER_DATA_SET', 'pr')
                  }
