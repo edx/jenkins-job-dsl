@@ -134,7 +134,7 @@ secretMap.each { jobConfigs ->
            }
        }
        steps {
-           shell("cd ${jobConfig['repoName']}; RUN_PA11YCRAWLER=1 bash scripts/accessibility-tests.sh")
+           shell("cd ${jobConfig['repoName']}; bash scripts/accessibility-tests.sh")
        }
        publishers {
            publishHtml {
