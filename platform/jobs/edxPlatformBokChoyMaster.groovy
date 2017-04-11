@@ -28,6 +28,7 @@ publicJobConfig:
     context : 'jenkins/test'
     defaultBranch : 'master'
     defaultTestengBranch: 'master'
+    disabled: true/false
 */
 
 /* stdout logger */
@@ -76,8 +77,15 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('context')
     assert jobConfig.containsKey('defaultBranch')
     assert jobConfig.containsKey('defaultTestengBranch')
+    assert jobConfig.containsKey('disabled')
 
     buildFlowJob(jobConfig['jobName']) {
+
+        // automatically disable certain jobs for branches that don't always exist
+        // to avoid incessant polling
+        if (jobConfig['disabled'].toBoolean()) {
+            disabled()
+        }
 
         /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {

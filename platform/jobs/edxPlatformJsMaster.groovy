@@ -26,6 +26,7 @@ publicJobConfig:
     refSpec : '+refs/heads/master:refs/remotes/origin/master'
     context : 'jenkins/test'
     defaultBranch : 'master'
+    disabled: true/false
 */
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
@@ -76,8 +77,15 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('refSpec')
     assert jobConfig.containsKey('context')
     assert jobConfig.containsKey('defaultBranch')
+    assert jobConfig.containsKey('disabled')
 
     job(jobConfig['jobName']) {
+
+        // automatically disable certain jobs for branches that don't always exist
+        // to avoid incessant polling
+        if (jobConfig['disabled'].toBoolean()) {
+            disabled()
+        }
 
         /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {
