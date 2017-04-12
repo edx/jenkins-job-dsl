@@ -236,8 +236,10 @@ jobConfigs.each { jobConfig ->
             }
             // All of the jobs created via this script are inteded to be triggered via external
             // automation, but this parameter allows the default values to be overriden
-            // when run manually.
-            stringParam('E2E_BRANCH', jobConfig.branch, 'Branch of the e2e test repo to use')
+            // when run manually. However there is no need to offer this parameter on merge jobs
+            if (jobConfig.trigger != 'merge') {
+                stringParam('E2E_BRANCH', jobConfig.branch, 'Branch of the e2e test repo to use')
+            }
         }
 
         scm {
@@ -246,7 +248,12 @@ jobConfigs.each { jobConfig ->
                     url('https://github.com/edx/edx-e2e-tests.git')
                     refspec(jobConfig.refspec)
                 }
-                branch('\${E2E_BRANCH}')
+                if (jobConfig.trigger == 'merge') {
+                    branch(jobConfig.branch)
+                }
+                else {
+                    branch('\${E2E_BRANCH}')
+                }
                 browser()
                 if (jobConfig.testSuite == 'microsites') {
                     extensions {
