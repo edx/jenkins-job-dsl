@@ -135,9 +135,9 @@ secretMap.each { jobConfigs ->
                 scm('@hourly')
             }
         }
-        wrappers { //abort when stuck after 45 minutes, x-mal coloring, timestamps at Console, change the build name
+        wrappers { //abort when stuck after 90 minutes, x-mal coloring, timestamps at Console, change the build name
             timeout {
-               absolute(45)
+               absolute(90)
            }
            timestamps()
            colorizeOutput()
