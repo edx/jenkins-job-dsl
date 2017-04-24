@@ -79,6 +79,10 @@ secretMap.each { jobConfigs ->
         // to avoid incessant polling
         if (jobConfig['disabled'].toBoolean()) {
             disabled()
+            description('This job is disabled by default, as the target platform' +
+                        'branch is not guaranteed to always exist. If you need to' +
+                        'run this job, make sure you manually enable it, and ' +
+                        'disable it when you are finished')
         }
 
         /* For non-open jobs, enable project based security */
