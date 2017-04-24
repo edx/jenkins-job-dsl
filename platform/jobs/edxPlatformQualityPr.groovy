@@ -129,7 +129,7 @@ secretMap.each { jobConfigs ->
 
         wrappers {
             timeout {
-                absolute(45)
+                absolute(90)
             }
             timestamps()
             colorizeOutput()
