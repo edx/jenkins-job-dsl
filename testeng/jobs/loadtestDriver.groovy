@@ -54,22 +54,26 @@ job('loadtest-driver') {
                     'https://github.com/edx/edx-load-tests/tree/master/loadtests')
         stringParam('REMOTE_BRANCH', 'master',
                     'Branch of the edx-load-tests repo to use.')
-        stringParam('NUM_CLIENTS', '',
-                    'This many locust clients will be hatched. This ' +
-                    'parameter must not be left empty.')
-        stringParam('HATCH_RATE', '',
+        stringParam('NUM_CLIENTS', '500',
+                    'This many locust clients (i.e. fake users) will be ' +
+                    'hatched.')
+        stringParam('HATCH_RATE', '30',
                     'Locust clients will be hatched at this rate ' +
-                    '(hatches/second). This parameter must not be left empty.')
-        stringParam('MAX_RUN_TIME', '',
+                    '(hatches/second).')
+        stringParam('MAX_RUN_TIME', '15m',
                     'After this amount of time the loadtest will ' +
                     'automatically stop.  Its value is a floating point ' +
                     'number with an optional suffix: \'s\' for seconds (the ' +
                     'default), \'m\' for minutes, \'h\' for hours or \'d\' ' +
-                    'for days.  If left empty, the loadtest will never stop ' +
-                    'itself.')
+                    'for days.  The timer starts at the beginning of the ' +
+                    'hatching phase. If left empty, the loadtest will never ' +
+                    'stop itself.')
         fileParam('job_param_overrides.yml',
                   'Override the default settings. This YAML file ' +
-                  'should use the standard edx-load-test settings format. ' +
+                  'should use the standard edx-load-test settings format. To ' +
+                  'see the current defaults for $TEST_COMPONENT, refer to ' +
+                  'the $TEST_COMPONENT.yml.example file at ' +
+                  '<a href="https://github.com/edx/edx-load-tests/tree/master/settings_files">https://github.com/edx/edx-load-tests/tree/master/settings_files</a>.<br><br>' +
                   'DO NOT INCLUDE SENSITIVE SECRETS.')
     }
 
