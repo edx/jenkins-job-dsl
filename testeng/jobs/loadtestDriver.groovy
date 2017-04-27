@@ -40,7 +40,15 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SEC
 
 job('loadtest-driver') {
 
-    description('Start a new load test.')
+    description(
+        'Start a new load test.<br><br>' +
+        'Before kicking off a load test against the loadtest environment ' +
+        '(courses-loadtest.edx.org) using this job, make sure to consult the ' +
+        '<a href="https://openedx.atlassian.net/wiki/pages/viewpage.action?spaceKey=EdxOps&title=Loadtest+environment+queue">Loadtest environment queue</a>! ' +
+        'For more information about running load tests, refer to the ' +
+        '<a href="https://openedx.atlassian.net/wiki/display/EdxOps/How+to+Run+Performance+Tests">How to Run Performance Tests</a> ' +
+        'wiki page.'
+    )
 
     // Abusing the team security feature to give all job control
     // permissions to all edx employees.
