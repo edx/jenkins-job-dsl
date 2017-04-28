@@ -27,19 +27,9 @@ class RunAcceptanceTests {
                 }
                 parameters {
                     stringParam(
-                        'TEST_HOST',
+                        'SANDBOX_HOST',
                         'ora2.sandbox.edx.org',
                         "The hostname of the sandbox."
-                    )
-                    stringParam(
-                        'BASIC_AUTH_USER',
-                        extraVars.get('BASIC_AUTH_USER', ''),
-                        'Basic auth user name'
-                    )
-                    stringParam(
-                        'BASIC_AUTH_PASSWORD',
-                        extraVars.get('BASIC_AUTH_PASS', ''),
-                        'Basic auth password'
                     )
                     stringParam(
                         'BRANCH',
@@ -50,6 +40,11 @@ class RunAcceptanceTests {
                         'SLEEP_TIME',
                         '300',
                         'How long to wait before actually starting the tests (apparently this is necessary to ensure environment is ready?)'
+                    )
+                    stringParam(
+                        "NOTIFY_ON_FAILURE",
+                        extraVars.get("NOTIFY_ON_FAILURE", ''),
+                        "Email to notify on failure"
                     )
                 }
             }
@@ -65,9 +60,16 @@ class RunAcceptanceTests {
                 }
             }
             steps {
+                environmentVariables {
+                    env('BASIC_AUTH_USER', extraVars.get('BASIC_AUTH_USER'))
+                    env('BASIC_AUTH_PASSWORD', extraVars.get('BASIC_AUTH_PASS'))
+                    env('TEST_HOST', '${SANDBOX_HOST}')
+                }
                 virtualenv {
                     name('shell')
-                    command(dslFactory.readFileFromWorkspace('ora2/resources/run-ora2-acceptance-tests.sh'))
+                    command(
+                        dslFactory.readFileFromWorkspace('ora2/resources/run-ora2-acceptance-tests.sh')
+                    )
                     clear()
                 }
             }
@@ -84,7 +86,7 @@ class RunAcceptanceTests {
                     testResults("**/build/test-reports/*.xml")
                     allowEmptyResults(true)
                 }
-                mailer(extraVars['NOTIFY_ON_FAILURE'], true, false)
+                mailer('$NOTIFY_ON_FAILURE', true, false)
             }
             wrappers {
                 buildTimeoutWrapper {
