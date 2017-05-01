@@ -130,8 +130,13 @@ job('loadtest-driver') {
     }
 
     publishers {
+        groovyPostBuild {
+            script(readFileFromWorkspace('testeng/resources/run-loadtest-postbuild.groovy'))
+            sandbox(false)  // The groovy script executes a shell script, but
+                            // that would be prevented in sandbox mode.
+        }
         archiveArtifacts {
-            pattern('edx-load-tests/results/log.txt')
+            pattern('edx-load-tests/results/*')
         }
     }
 }
