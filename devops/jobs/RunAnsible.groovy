@@ -47,6 +47,7 @@ class RunAnsible {
                in a specified region.
              */
             wrappers common_wrappers
+            logRotator common_logrotator
             wrappers {
                 credentialsBinding {
                     file('AWS_CONFIG_FILE', extraVars.get('AWS_CONFIG_FILE','jenkins-aws-credentials'))
