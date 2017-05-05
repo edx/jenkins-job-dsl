@@ -61,8 +61,6 @@ class CreateSandboxCI {
                   booleanParam('reconfigure',true)
                   booleanParam('recreate',false)
                   predefinedProp('name_tag','continuous-integration')
-                  booleanParam('xqueue',true)
-                  booleanParam('xserver',true)
                   booleanParam('ecommerce_worker',true)
                   booleanParam('credentials',true)
                 }
