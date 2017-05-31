@@ -6,20 +6,19 @@ defaultTasks 'clean', 'libs'
 sourceSets {
     jobs {
         groovy {
-            srcDir 'sample/jobs'
-            srcDir 'platform/jobs'
-            srcDir 'testeng/jobs'
+            srcDirs 'jobs'
             srcDir 'mobileApp/jobs'
+            srcDir 'platform/jobs'
+            srcDir 'sample/jobs'
+            srcDir 'testeng/jobs'
+            compileClasspath += main.compileClasspath
         }
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
     }
     views {
         groovy {
             srcDir 'platform/views'
-        }
-    }
-    src {
-        groovy {
-            srcDir 'src/main/groovy'
         }
     }
     test {
@@ -37,29 +36,24 @@ repositories {
 
 configurations {
     libs
+    testPlugins {}
 }
 
+// Exclude buggy Xalan dependency this way the JRE default TransformerFactory is used
+// The xalan pulled in by htmlunit does not properly deal with spaces folder / job names
+configurations.all*.exclude group: 'xalan'
+
 dependencies {
-
     libs 'org.yaml:snakeyaml:1.17'
-    
+
     compile 'org.yaml:snakeyaml:1.17'
-    compile 'org.codehaus.groovy:groovy:2.1.3'
-    compile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    compile "org.jenkins-ci.plugins:job-dsl-core:${jobDslVersion}"
+    compile 'org.jenkins-ci.plugins:credentials:1.9.4@jar'
+    compile files("${System.properties['java.home']}/../lib/tools.jar")
 
-    jobsCompile 'org.yaml:snakeyaml:1.17'
-    jobsCompile 'org.codehaus.groovy:groovy:2.1.3'
-    jobsCompile "org.jenkins-ci.plugins:job-dsl-core:${jobDslVersion}"
-
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
-        exclude module: 'groovy-all'
-    }
-
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
-        exclude module: 'groovy-all'
-    }
-    // Needed for mocking in tests
-    testCompile 'cglib:cglib:3.1' 
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'cglib:cglib-nodep:2.2.2' // used by Spock
 
     // Jenkins test harness dependencies
     testCompile 'org.jenkins-ci.main:jenkins-test-harness:2.8'
@@ -69,10 +63,22 @@ dependencies {
     // Job DSL plugin including plugin dependencies
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
-    testCompile 'org.jenkins-ci.plugins:structs:1.1@jar'
-    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
+    testCompile 'org.jenkins-ci.plugins:structs:1.2@jar'
+    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:5.0@jar'
     testCompile 'com.cloudbees.plugins:build-flow-plugin:0.17@jar'
 
+    // plugins to install in test instance
+    testPlugins 'org.jenkins-ci.plugins:ghprb:1.31.4'
+    testPlugins 'com.coravy.hudson.plugins.github:github:1.19.0'
+    testPlugins 'org.jenkins-ci.plugins:cloudbees-folder:5.0'
+
+    // for the RestApiScriptRunner
+    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2') {
+        exclude(module: 'groovy')
+    }
+
+    // for the RestApiScriptRunner
+    compile('org.apache.ant:ant:1.9.7')
 }
 
 codenarc {
@@ -82,18 +88,50 @@ codenarc {
     maxPriority3Violations = 99
 }
 
+/**
+ * Export specific libraries into the lib directory.
+ *
+ * This is useful when running the jobs on Jenkins. Add "lib" as an additional classpath.
+ */
 task libs(type: Copy) {
     into 'lib'
     from configurations.libs
 }
 
-tasks.getByName('test').inputs.files(sourceSets.jobs.groovy.srcDirs)
+task resolveTestPlugins(type: Copy) {
+    from configurations.testPlugins
+    into new File(sourceSets.test.output.resourcesDir, 'test-dependencies')
+    include '*.hpi'
+    include '*.jpi'
+    def mapping = [:]
+
+    doFirst {
+        configurations.testPlugins.resolvedConfiguration.resolvedArtifacts.each {
+            mapping[it.file.name] = "${it.name}.${it.extension}"
+        }
+    }
+    rename { mapping[it] }
+
+    doLast {
+        List<String> baseNames = source*.name.collect { mapping[it] }.collect { it[0..it.lastIndexOf('.') - 1] }
+        new File(destinationDir, 'index').setText(baseNames.join('\n'), 'UTF-8')
+    }
+}
 
 test {
+    dependsOn tasks.resolveTestPlugins
     inputs.files sourceSets.jobs.groovy.srcDirs
+
+    // set build directory for Jenkins test harness, JENKINS-26331
     systemProperty 'buildDirectory', project.buildDir.absolutePath
 }
 
+task rest(dependsOn: 'classes', type: JavaExec) {
+    main = 'com.dslexample.rest.RestApiScriptRunner'
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties System.getProperties()
+}
+
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.4'
+    gradleVersion = '3.5'
 }
