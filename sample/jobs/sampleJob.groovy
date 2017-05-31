@@ -5,6 +5,6 @@ job ('SampleJenkinsJob') {
         numToKeep(-1)
     }
     steps {
-        shell('hello world')
+        shell("echo 'hello world'")
     }
 }
