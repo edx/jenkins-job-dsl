@@ -38,51 +38,127 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SEC
  *        ID: loadtest_basic_auth_settings.yml
  */
 
-job('loadtest-driver') {
+/* Define job parameters centrally so that they can be reused across two jobs
+ * (run-simple-loadtest and loadtest-driver).
+ */
+stringParams = [
+    [
+    name: 'TARGET_URL',
+    description: 'The loadtest target where requests are to be sent.',
+    default: 'https://courses-loadtest.edx.org'
+    ],
+    [
+    name: 'TEST_COMPONENT',
+    description: 'The desired component to loadtest. See complete list here: ' +
+                 'https://github.com/edx/edx-load-tests/tree/master/loadtests',
+    default: 'lms'
+    ],
+    [
+    name: 'REMOTE_BRANCH',
+    description: 'Branch of the edx-load-tests repo to use.',
+    default: 'master'
+    ],
+    [
+    name: 'NUM_CLIENTS',
+    description: 'This many locust clients (i.e. fake users) will be hatched.',
+    default: '500'
+    ],
+    [
+    name: 'HATCH_RATE',
+    description: 'Locust clients will be hatched at this rate ' +
+                 '(hatches/second).',
+    default: '30'
+    ],
+    [
+    name: 'MAX_RUN_TIME',
+    description: 'After this amount of time the loadtest will ' +
+                 'automatically stop.  Its value is a floating point ' +
+                 'number with an optional suffix: \'s\' for seconds (the ' +
+                 'default), \'m\' for minutes, \'h\' for hours or \'d\' ' +
+                 'for days.  The timer starts at the beginning of the ' +
+                 'hatching phase. If left empty, the loadtest will never ' +
+                 'stop itself.',
+    default: '15m'
+    ]
+]
+textParams = [
+    [
+    name: 'LOADTEST_OVERRIDES',
+    description: 'Override the default settings. This YAML stream ' +
+                 'should use the standard edx-load-test settings format. To ' +
+                 'see the current defaults for $TEST_COMPONENT, refer to ' +
+                 'the $TEST_COMPONENT.yml.example file at ' +
+                 '<a href="https://github.com/edx/edx-load-tests/tree/master/settings_files">https://github.com/edx/edx-load-tests/tree/master/settings_files</a>.<br><br>' +
+                 'DO NOT INCLUDE SENSITIVE OR LONG-TERM SECRETS.',
+    default: null
+    ]
+]
 
+/* This is the main top level job that humans should use to kick off a simple
+ * load test.
+ */
+buildFlowJob('run-simple-loadtest') {
     description(
-        'Start a new load test.<br><br>' +
+        'Start a new load test, and generate a summary report.<br><br>' +
         'Before kicking off a load test against the loadtest environment ' +
         '(courses-loadtest.edx.org) using this job, make sure to consult the ' +
         '<a href="https://openedx.atlassian.net/wiki/pages/viewpage.action?spaceKey=EdxOps&title=Loadtest+environment+queue">Loadtest environment queue</a>! ' +
         'For more information about running load tests, refer to the ' +
         '<a href="https://openedx.atlassian.net/wiki/display/EdxOps/How+to+Run+Performance+Tests">How to Run Performance Tests</a> ' +
-        'wiki page.'
+        'wiki page.<br><br>' +
+        'Stop a load test by aborting the downstream job "loadtest-driver". ' +
+        'Aborting this job (run-simple-loadtest) will not stop load generation!'
     )
 
-    // Abusing the team security feature to give all job control
-    // permissions to all edx employees.
+    /* Abusing the team security feature to give all job control
+     * permissions to all edx employees.
+     */
     authorization JENKINS_PUBLIC_TEAM_SECURITY.call(['edx'])
 
     parameters {
-        stringParam('TARGET_URL', 'https://courses-loadtest.edx.org',
-                    'The loadtest target where requests are to be sent.')
-        stringParam('TEST_COMPONENT', 'lms',
-                    'The desired component to loadtest. See complete list here: ' +
-                    'https://github.com/edx/edx-load-tests/tree/master/loadtests')
-        stringParam('REMOTE_BRANCH', 'master',
-                    'Branch of the edx-load-tests repo to use.')
-        stringParam('NUM_CLIENTS', '500',
-                    'This many locust clients (i.e. fake users) will be ' +
-                    'hatched.')
-        stringParam('HATCH_RATE', '30',
-                    'Locust clients will be hatched at this rate ' +
-                    '(hatches/second).')
-        stringParam('MAX_RUN_TIME', '15m',
-                    'After this amount of time the loadtest will ' +
-                    'automatically stop.  Its value is a floating point ' +
-                    'number with an optional suffix: \'s\' for seconds (the ' +
-                    'default), \'m\' for minutes, \'h\' for hours or \'d\' ' +
-                    'for days.  The timer starts at the beginning of the ' +
-                    'hatching phase. If left empty, the loadtest will never ' +
-                    'stop itself.')
-        fileParam('job_param_overrides.yml',
-                  'Override the default settings. This YAML file ' +
-                  'should use the standard edx-load-test settings format. To ' +
-                  'see the current defaults for $TEST_COMPONENT, refer to ' +
-                  'the $TEST_COMPONENT.yml.example file at ' +
-                  '<a href="https://github.com/edx/edx-load-tests/tree/master/settings_files">https://github.com/edx/edx-load-tests/tree/master/settings_files</a>.<br><br>' +
-                  'DO NOT INCLUDE SENSITIVE SECRETS.')
+        stringParams.each { param ->
+            stringParam(param.name, param.default, param.description)
+        }
+        textParams.each { param ->
+            textParam(param.name, param.default, param.description)
+        }
+    }
+
+    wrappers {
+        buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
+        buildName('#${BUILD_NUMBER} by ${ENV,var="BUILD_USER_ID"}')
+        timestamps()
+        colorizeOutput('xterm')
+    }
+
+    buildFlow(readFileFromWorkspace(
+        'testeng/resources/flow-run-simple-loadtest.groovy'
+    ))
+}
+
+/* This is the job actually responsible for generating synthetic network load
+ * against a remote.
+ */
+job('loadtest-driver') {
+    description(
+        'Create a new load test driver.<br><br>' +
+        'If you are human, you should instead build the ' +
+        '<a href="/job/run-simple-loadtest/">run-simple-loadtest job</a> ' +
+        'to start a new load test.'
+    )
+
+    /* Abusing the team security feature to give all job control
+     * permissions to all edx employees.
+     */
+    authorization JENKINS_PUBLIC_TEAM_SECURITY.call(['edx'])
+
+    parameters {
+        stringParams.each { param ->
+            stringParam(param.name, param.default, param.description)
+        }
+        textParams.each { param ->
+            textParam(param.name, param.default, param.description)
+        }
     }
 
     /* It's okay to run multiple load tests at the same time.  We only require
@@ -110,7 +186,7 @@ job('loadtest-driver') {
     }
 
     wrappers {
-        buildUserVars() // gives us access to BUILD_USER_ID, among other things
+        buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
         buildName('#${BUILD_NUMBER} by ${ENV,var="BUILD_USER_ID"}')
         timestamps()
         colorizeOutput('xterm')
@@ -131,7 +207,81 @@ job('loadtest-driver') {
 
     publishers {
         archiveArtifacts {
-            pattern('edx-load-tests/results/log.txt')
+            pattern('edx-load-tests/results/*')
+        }
+    }
+}
+
+job('loadtest-summary') {
+
+    description('Summarize a past load test.')
+
+    /* Abusing the team security feature to give all job control
+     * permissions to all edx employees.
+     */
+    authorization JENKINS_PUBLIC_TEAM_SECURITY.call(['edx'])
+
+    parameters {
+        stringParam('REMOTE_BRANCH', 'master',
+                    'Branch of the edx-load-tests repo to use.')
+    }
+
+    concurrentBuild(true)
+
+    /* Build this on a loadtest-driver-worker instead of a generic jenkins worker because the former is likely already
+     * online.
+     */
+    label('loadtest-driver-worker')
+
+    scm {
+        git {
+            remote {
+                url('https://github.com/edx/edx-load-tests')
+            }
+            branch('\${REMOTE_BRANCH}')
+            extensions {
+                relativeTargetDirectory('edx-load-tests')
+                cleanBeforeCheckout()
+                cloneOptions {
+                    shallow(true)
+                }
+            }
+        }
+    }
+
+    wrappers {
+        buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
+        buildName('#${BUILD_NUMBER} by ${ENV,var="BUILD_USER_ID"}')
+        timestamps()
+        colorizeOutput('xterm')
+    }
+
+    steps {
+        copyArtifacts('run-simple-loadtest') {
+            buildSelector {
+                /* Selects the upstream build that triggered this job as the build to copy artifacts from. */
+                upstreamBuild {
+                    /* Do not fallback to copying the artifacts from last successful upstream build, those are
+                     * irrelevant because they correspond to a completely different load test.
+                     */
+                    fallbackToLastSuccessful(false)
+                }
+            }
+            /* Do not ignore the directory structure of the artifacts */
+            flatten(false)
+        }
+        virtualenv {
+            name('edx-load-tests-venv')
+            command('cd edx-load-tests && ' +
+                    'pip install -e . && ' +
+                    'generate_summary >results/summary.yml')
+            clear(false)
+        }
+    }
+
+    publishers {
+        archiveArtifacts {
+            pattern('edx-load-tests/results/summary.yml')
         }
     }
 }
