@@ -11,7 +11,7 @@ PrintStream out = config['out']
 
 try {
     out.println('Parsing secret YAML file')
-    String constantsConfig = new File("${EDX_TOGGLE_INTERCEPTOR_SECRET}").text
+    String constantsConfig = new File("${EDX_TOGGLE_SPIGOT_SECRET}").text
     Yaml yaml = new Yaml()
     secretMap = yaml.load(constantsConfig)
     out.println('Successfully parsed secret YAML file')
@@ -41,9 +41,9 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('secretAccessKey')
     assert jobConfig.containsKey('email')
 
-    job('toggle-webhook-interceptor') {
+    job('toggle-spigot') {
 
-        description('Update the state of the webhook-processor.')
+        description('Update the state of the spigot.')
 
         // Enable project security to avoid exposing aws keys
         authorization {
@@ -54,8 +54,8 @@ secretMap.each { jobConfigs ->
         }
 
         parameters {
-            choiceParam('IS_ENABLED', ['True', 'False'],
-                        'Whether or not the webhook-processor should be enabled')
+            choiceParam('SPIGOT_STATE', ['ON', 'OFF'],
+                        'Whether the spigot should be ON or OFF')
         }
 
         concurrentBuild(false)
@@ -93,7 +93,7 @@ secretMap.each { jobConfigs ->
         }
 
         steps {
-            shell(readFileFromWorkspace('testeng/resources/toggle-interceptor.sh'))
+            shell(readFileFromWorkspace('testeng/resources/toggle-spigot.sh'))
         }
 
         publishers {
