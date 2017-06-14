@@ -7,7 +7,7 @@ pip install -r requirements.txt
 pip install awscli
 
 env
-
+export EC2_CACHE_PATH="ec2-cache"
 . util/jenkins/assume-role.sh
 set +x
 # Assume the role that will allow running ec2.py for getting a dynamic inventory
