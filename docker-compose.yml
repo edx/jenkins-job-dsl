@@ -5,6 +5,7 @@ services:
     container_name: tools_jenkins
     volumes:
         - jenkins:/edx/var/jenkins
+        - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "127.0.0.1:8080:8080"
 
