@@ -7,6 +7,7 @@ import javaposse.jobdsl.dsl.DslFactory
 class JenkinsHeartbeat{
     public static job( DslFactory dslFactory, Map extraVars){
         dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/jenkins-heartbeat") {
+            description("Job to check in with Dead Man's Snitch to make sure that Jenkins is still running.")
             triggers {
                 cron("H/5 * * * *")
             }
