@@ -1,6 +1,17 @@
+/*
+ 
+ This job expects the following credentials to be defined on the folder
+    tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
+    find-active-instances-${deployment}-role-arn: the role to aws sts assume-role
+    ubuntu_deployment_201407: ssh key
+
+*/
+
+
 package devops.jobs
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 import static org.edx.jenkins.dsl.Constants.common_logrotator
+import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
 class AppPermissions{
     public static def job = { dslFactory, extraVars ->
@@ -23,6 +34,15 @@ class AppPermissions{
                         def ssh_key = "ubuntu_deployment_201407"
                         sshAgent(ssh_key)
                       }
+
+                    def access_control = extraVars.get('ACCESS_CONTROL',[])
+                    access_control.each { acl ->
+                        common_read_permissions.each { perm ->
+                            authorization {
+                                permission(perm,acl)
+                            }
+                        }
+                    }
 
                     throttleConcurrentBuilds {
                         maxPerNode(0)
