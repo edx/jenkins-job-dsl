@@ -119,24 +119,6 @@ Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
                         junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
                         ]
 
-// The microsites-deprecated-tests-pr job is run on every PR into the kashif/white-label branch.
-// NOTE: this is a temporary job. Remove it once kashif/white-label has been
-// merged into edx/edx-e2e-tests
-Map deprecatedPrJob = [ name: 'microsites-deprecated-tests-pr',
-                        deprecated: true,
-                        testSuite: 'microsites',
-                        worker: 'jenkins-precise-worker',
-                        trigger: 'ghprb',
-                        triggerPhrase: 'jenkins run microsites',
-                        branch: '${ghprbActualCommit}',
-                        refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
-                        branchRegex: 'kashif/white_label', // ONLY PRs targeting the kashif/white-label branch
-                        description: 'Verify the changes made to the microsites tests in kashif/white-label branch',
-                        testScript: 'edx-e2e-tests/jenkins/white_label.sh',
-                        context: 'jenkins/microsites',
-                        junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
-                        ]
-
 // Merge Triggered Jobs
 
 // The edx-e2e-tests-merge job is run on every merge into master for the edx-e2e-tests repo.
@@ -164,22 +146,6 @@ Map micrositesMergeJob = [  name: 'microsites-staging-tests-merge',
                             branch: '*/master',
                             refspec: '+refs/heads/master:refs/remotes/origin/master',
                             description: 'Verify the quality of changes made to the microsite tests',
-                            testScript: 'edx-e2e-tests/jenkins/white_label.sh',
-                            context: 'jenkins/microsites',
-                            junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
-                            ]
-
-// The microsites-deprecated-tests-merge job is run on every merge into the kashif/white-label branch.
-// NOTE: this is a temporary job. Remove it once kashif/white-label has been
-// merged into edx/edx-e2e-tests
-Map deprecatedMergeJob = [  name: 'microsites-deprecated-tests-merge',
-                            deprecated: true,
-                            testSuite: 'microsites',
-                            worker: 'jenkins-precise-worker',
-                            trigger: 'merge',
-                            branch: 'origin/kashif/white-label',
-                            refspec: '+refs/heads/kashif/white-label:refs/remotes/origin/kashif/white-label',
-                            description: 'Verify the changes made to the microsites tests in kashif/white-label branch',
                             testScript: 'edx-e2e-tests/jenkins/white_label.sh',
                             context: 'jenkins/microsites',
                             junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
