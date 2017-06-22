@@ -45,7 +45,7 @@ class ClusterInstanceMonitoring{
 
                     stringParam('CONFIGURATION_INTERNAL_REPO', extraVars.get('CONFIGURATION_INTERNAL_REPO',  "git@github.com:edx/${deployment}-internal.git"),
                     		'Git repo containing internal overrides')
-            		stringParam('CONFIGURATION_INTERNAL_BRANCH', extraVars.get('CONFIGURATION_INTERNAL_BRANCH', 'hchen/cluster-monitoring'),
+            		stringParam('CONFIGURATION_INTERNAL_BRANCH', extraVars.get('CONFIGURATION_INTERNAL_BRANCH', 'master'),
                     		'e.g. tagname or origin/branchname')
                 }
                 
