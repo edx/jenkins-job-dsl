@@ -87,7 +87,10 @@ class ClusterInstanceMonitoring{
                     cron("H/10 * * * *")
                 }
 
-                
+                environmentVariables {
+                    env('REGION', extraVars.get('REGION','us-east-1'))
+                }
+
                 steps {
                     virtualenv {
                         nature("shell")
@@ -104,11 +107,6 @@ class ClusterInstanceMonitoring{
                 publishers {
                     mailer(extraVars.get('NOTIFY_ON_FAILURE','devops@edx.org'), false, false)
                 }
-
-
-
-
-
 
 			}
 		}
