@@ -39,7 +39,7 @@ class ClusterInstanceMonitoring{
                 parameters{
                     stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
                                     'Git repo containing edX configuration.')
-                    stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'hchen/cluster-monitoring'),
+                    stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
 
                     stringParam('CONFIGURATION_INTERNAL_REPO', extraVars.get('CONFIGURATION_INTERNAL_REPO',  "git@github.com:edx/${deployment}-internal.git"),
