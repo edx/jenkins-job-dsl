@@ -11,31 +11,30 @@ import static org.edx.jenkins.dsl.Constants.common_wrappers
 import static org.edx.jenkins.dsl.Constants.common_logrotator
 
 class ClusterInstanceMonitoring{
-	public static def job = { dslFactory, extraVars ->
-		assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
+    public static def job = { dslFactory, extraVars ->
+        assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
-		extraVars.get('DEPLOYMENTS').each { deployment ->
-			
-			dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/cluster-instance-monitoring-${deployment}") {
-				wrappers common_wrappers
+        extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
+            
+            dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/cluster-instance-monitoring-${deployment}") {
+                wrappers common_wrappers
                 logRotator common_logrotator
 
                 wrappers {
                     credentialsBinding {
                         file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
-                        def role = "find-active-instances-${deployment}-role-arn"
-                        string('ROLE_ARN', role)
+                        string('ROLE_ARN', "find-active-instances-${deployment}-role-arn")
                     }
                 }
 
                 def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
-
-                def config_internal_repo = "git@github.com:edx/${deployment}-internal.git"
-                if (deployment == 'mckinsey'){
-                	config_internal_repo = "git@github.com:mckinseyacademy/mckinsey-internal.git"
-                }
                 
-                extraVars['CONFIGURATION_INTERNAL_REPO'] = config_internal_repo
+                def internal_config = "git@github.com:edx/${deployment}-internal.git"
+                if (configuration.get('internal_repo')){
+                    internal_config = configuration.get('internal_repo')
+                }
+
+                extraVars['CONFIGURATION_INTERNAL_REPO'] = internal_config
 
                 parameters{
                     stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
@@ -44,9 +43,9 @@ class ClusterInstanceMonitoring{
                             'e.g. tagname or origin/branchname')
 
                     stringParam('CONFIGURATION_INTERNAL_REPO', extraVars.get('CONFIGURATION_INTERNAL_REPO',  "git@github.com:edx/${deployment}-internal.git"),
-                    		'Git repo containing internal overrides')
-            		stringParam('CONFIGURATION_INTERNAL_BRANCH', extraVars.get('CONFIGURATION_INTERNAL_BRANCH', 'master'),
-                    		'e.g. tagname or origin/branchname')
+                            'Git repo containing internal overrides')
+                    stringParam('CONFIGURATION_INTERNAL_BRANCH', extraVars.get('CONFIGURATION_INTERNAL_BRANCH', 'master'),
+                            'e.g. tagname or origin/branchname')
                 }
                 
                 multiscm{
@@ -104,11 +103,13 @@ class ClusterInstanceMonitoring{
 
                 }
 
-                publishers {
-                    mailer(extraVars.get('NOTIFY_ON_FAILURE','devops@edx.org'), false, false)
+                if (extraVars.get('NOTIFY_ON_FAILURE')){
+                    publishers {
+                        mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
+                    }
                 }
 
-			}
-		}
-	}
+            }
+        }
+    }
 }
