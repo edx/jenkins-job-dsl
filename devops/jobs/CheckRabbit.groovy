@@ -1,10 +1,18 @@
 /*
+    Variables without defaults are marked (required)
 
-    Variables consumed from the EXTRA_VARS input to your seed job in addition
-    to those listed in createMonitoringJobs.
-
-    * SSH_USER: monitor
-    * RABBIT_SNITCH
+    Variables consumed for this job:
+        * CONFIGURATION_SECURE_BRANCH: origin/master
+        * DEPLOYMENTS: (required)
+            environments:
+              - environment
+        * PLAYS:  (required)
+            - play
+        * NOTIFY_ON_FAILURE: alert@example.com
+        * FOLDER_NAME: folder
+        * SSH_USER: user 
+        * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
+        * RABBIT_SNITCH
 
     This job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format

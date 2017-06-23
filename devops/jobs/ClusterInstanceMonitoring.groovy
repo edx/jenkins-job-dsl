@@ -1,4 +1,12 @@
 /*
+ Vars consumed for this job:
+    * DEPLOYMENTS: (required)
+        deployment:
+          internal_repo: repo for internal configuration 
+
+    * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
+    * NOTIFY_ON_FAILURE: alert@example.com
+    * FOLDER_NAME: folder
  
  This job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
