@@ -82,6 +82,20 @@ Map pipelineJob = [ name: 'edx-e2e-tests',
                     junitReportPath: 'reports/*.xml'
                     ]
 
+// The microsites-staging-tests job is run automatically on every deployment of the edx-platform
+// from the gocd pipeline.
+Map micrositesPipelineJob = [ name: 'microsites-staging-tests',
+                    deprecated: false,
+                    testSuite: 'microsites',
+                    worker: 'jenkins-precise-worker',
+                    trigger: 'pipeline',
+                    branch: '*/master',
+                    refspec: '+refs/heads/master:refs/remotes/origin/master',
+                    description: 'Run microsites tests against GoCD deployments',
+                    testScript: 'edx-e2e-tests/jenkins/white_label.sh',
+                    junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
+                    ]
+
 // Pull Request Triggered Jobs
 
 // The edx-e2e-tests-pr job is run on every PR to the edx-e2e-tests repo. This
@@ -152,12 +166,11 @@ Map micrositesMergeJob = [  name: 'microsites-staging-tests-merge',
                             ]
 
 List jobConfigs = [ pipelineJob,
+                    micrositesPipelineJob,
                     prJob,
                     micrositesPrJob,
-                    deprecatedPrJob,
                     mergeJob,
-                    micrositesMergeJob,
-                    deprecatedMergeJob
+                    micrositesMergeJob
                     ]
 
 jobConfigs.each { jobConfig ->
