@@ -132,9 +132,11 @@ class JenkinsPublicConstants {
             memberList.each { member ->
                 permissionAll(member)
             }
-            // grant read rights to the org
+            // grant read/run rights to the org
             permission('hudson.model.Item.Read', 'edx')
             permission('hudson.model.Item.Discover', 'edx')
+            permission('hudson.model.Item.Build', 'edx')
+            permission('hudson.model.Item.Cancel', 'edx')
         }
 
 
