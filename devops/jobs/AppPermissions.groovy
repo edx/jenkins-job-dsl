@@ -50,7 +50,7 @@ class AppPermissions{
                     }
 
                     triggers {
-                        cron("H/5 * * * *")
+                        scm("H/2 * * * *")
                     }
 
 
