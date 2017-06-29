@@ -33,7 +33,7 @@ archiveReports += 'edx-platform*/test_root/log/*.log, edx-platform*/test_root/lo
 archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
 
 String htmlReports = 'pylint/*view*/, pep8/*view*/, jshint/*view*/, python_complexity/*view*/,'
-htmlReports += 'safecommit/*view*/, safelint/*view*/, eslint/*view*/'
+htmlReports += 'xsscommitlint/*view*/, xsslint/*view*/, eslint/*view*/'
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */

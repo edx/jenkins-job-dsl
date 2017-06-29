@@ -153,7 +153,7 @@ secretMap.each { jobConfigs ->
                 report("${jobConfig['repoName']}/reports/metrics/") {
                     reportName('Quality Report')
                     reportFiles('pylint/*view*/,pep8/*view*/,jshint/*view*/,python_complexity/*view*/,' +
-                                'safecommit/*view*/,safelint/*view*/,eslint/*view*/')
+                                'xsscommitlint/*view*/,xsslint/*view*/,eslint/*view*/')
                     keepAll(true)
                     allowMissing(true)
                 }
