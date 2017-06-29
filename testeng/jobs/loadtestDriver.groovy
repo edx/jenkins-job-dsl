@@ -124,6 +124,8 @@ buildFlowJob('run-simple-loadtest') {
         }
     }
 
+    concurrentBuild(true)
+
     wrappers {
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
         buildName('#${BUILD_NUMBER} by ${ENV,var="BUILD_USER_ID"}')
