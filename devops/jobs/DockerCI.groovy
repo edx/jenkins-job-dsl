@@ -2,10 +2,34 @@
     Variables consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
 
-    APPS_TO_REPO: a dictionary containing mappings from an edX IDA to the name of its respective GitHub repository (REQUIRED)
-    APPS_TO_BRANCH: a dictionary containing mappings from an edX IDA to the name of its main GitHub branch (REQUIRED)
+    APPS_TO_CONFIG: a dictionary containing mappings from an edX IDA to a dictionary of various configuration values (REQUIRED). 
+        The structure of APPS_TO_CONFIG should be
+        
+        APPS_TO_CONFIG:
+            <IDA name>:
+                app_repo: <GitHub repository name for the IDA>
+                app_repo_branch: <branch of the above repository to checkout>
+                config_branch: <GitHub branch of configuration repository to checkout>
+
+        For example, 
+
+        APPS_TO_CONFIG:
+            ecommerce:
+                app_repo: 'ecommerce'
+                app_repo_branch: 'master'
+                config_branch: 'master'
+
+        Note that the default for app_repo_branch is master, and the default for config_branch is master; therefore, they do not need to be specified unless you are providing overrides.
+        
+        For example,
+
+        APPS_TO_CONFIG:
+            ecommerce:
+                app_repo: 'ecommerce'
+                
+        accomplishes the same as the dictionary above.
+
     CONFIGURATION_REPO_URL: URL of the configuration GitHub repository (REQUIRED)
-    CONFIGURATION_BRANCH: the main GitHub branch of the configuration repository (REQUIRED)
     EDX_REPO_ROOT: the URL of the edX GitHub organization (REQUIRED)
     CONFIG_JSON_FILE_CREDENTIAL_ID: ID of the credentials set up in Jenkins to log into DockerHub; defaults to docker-config-json; this refers to the docker-config-json expected credential described below
     FOLDER_NAME: the name of the folder in which the downstream per-app jobs will live; defaults to DockerCI
@@ -23,14 +47,16 @@ import org.yaml.snakeyaml.error.YAMLException
 class DockerCI {
     public static def job = { dslFactory, extraVars ->
         // for each application
-        extraVars.get("APPS_TO_REPO").each { app_name, app_repo ->
+        extraVars.get("APPS_TO_CONFIG").each { app_name, app_config ->
             dslFactory.job(extraVars.get("FOLDER_NAME", "DockerCI") + "/" + app_name) {
 
-                assert extraVars.containsKey('APPS_TO_REPO') : "Please define APPS_TO_REPO"
-                assert extraVars.containsKey('APPS_TO_BRANCH') : "Please define APPS_TO_BRANCH"
                 assert extraVars.containsKey('CONFIGURATION_REPO_URL') : "Please define CONFIGURATION_REPO_URL"
-                assert extraVars.containsKey('CONFIGURATION_BRANCH') : "Please define CONFIGURATION_BRANCH"
                 assert extraVars.containsKey('EDX_REPO_ROOT') : "Please define EDX_REPO_ROOT"
+                assert extraVars.containsKey('APPS_TO_CONFIG'): "Please define APPS_TO_CONFIG"
+
+                def app_repo = app_config.get('app_repo', '')
+                def app_repo_branch = app_config.get('app_repo_branch', 'master')
+                def config_branch = app_config.get('config_branch', 'master')
 
                 // add credentials to log in to DockerHub; ID refers to credential ID as set up in Jenkins
                 wrappers {
@@ -39,11 +65,11 @@ class DockerCI {
                     }
                 }
                 multiscm {
-                    // check out edx/configuration repository from GitHub; necessary to be able to run dependency analyzer
+                    // check out edx/configuration repository from GitHub
                     git {
                         remote {
                             url(extraVars.get("CONFIGURATION_REPO_URL"))
-                            branch(extraVars.get("CONFIGURATION_BRANCH"))
+                            branch(config_branch)
                         }
                         extensions {
                             relativeTargetDirectory('configuration')
@@ -55,10 +81,11 @@ class DockerCI {
                     }
                     // if the IDA has a corresponding repository in the edx organization, checkout that repository
                     if (app_repo) {
+                        
                         git {
                             remote {
                                 url(extraVars.get("EDX_REPO_ROOT") + app_repo + '.git')
-                                branch(extraVars.get("APPS_TO_BRANCH").get(app_name))
+				                branch(app_repo_branch)
                             }
                             extensions {
                                 relativeTargetDirectory('edx')
