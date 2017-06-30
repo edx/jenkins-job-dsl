@@ -49,30 +49,25 @@ class AppPermissions{
                         maxTotal(0)
                     }
 
+                    properties {
+                        githubProjectUrl("https://github.com/edx/app-permissions/")
+                    }
+
                     triggers {
-                        scm("H/2 * * * *")
+                        githubPush()
                     }
 
 
                     def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
                     
-                    parameters{
-                        stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
-                                        'Git repo containing edX configuration.')
-                        stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
-                                'e.g. tagname or origin/branchname')
-
-                        stringParam('APP_PERMISSIONS_REPO', extraVars.get('APP_PERMISSIONS_REPO', 'git@github.com:edx/app-permissions.git'),
-                                            'Git repo containing app permissions.')
-                        stringParam('APP_PERMISSIONS_BRANCH', extraVars.get('APP_PERMISSIONS_BRANCH', 'master'),
-                                'e.g. tagname or origin/branchname')
-                    }
-                    
+                    // The urls for the repos as well as the branch names have to be hardcoded in order for webhooks to work. 
+                    // If they are parameterized, they are not defined until run time so the webhook cannot find them.
+                    // To make the job more configurable, you can add back in parameters for repos and branches, but you have to change the trigger back to polling.
                     multiscm{
                         git {
                             remote {
-                                url('$CONFIGURATION_REPO')
-                                branch('$CONFIGURATION_BRANCH')
+                                url('https://github.com/edx/configuration.git')
+                                branch('master')
                             }
                             extensions {
                                 cleanAfterCheckout()
@@ -83,8 +78,8 @@ class AppPermissions{
 
                         git {
                             remote {
-                                url('$APP_PERMISSIONS_REPO')
-                                branch('$APP_PERMISSIONS_BRANCH')
+                                url('git@github.com:edx/app-permissions.git')
+                                branch('master')
                                     if (gitCredentialId) {
                                         credentials(gitCredentialId)
                                     }
@@ -115,10 +110,11 @@ class AppPermissions{
 
                     }
 
-                    publishers {
-                        mailer(extraVars.get('NOTIFY_ON_FAILURE',''), false, false)
+                    if (extraVars.get('NOTIFY_ON_FAILURE')){
+                        publishers {
+                            mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
+                        }
                     }
-
 
                 }
             }
