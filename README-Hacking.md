@@ -65,16 +65,21 @@ button to expose the final fields.
 
 The [edxops/tools_jenkins](https://hub.docker.com/r/edxops/tools_jenkins/) image is used in the Docker steps above. The required plugins have been pre-installed on the container. Feel free to install additional plugins. If you'd like to add or modify Jenkins plugins, follow the steps below.
 
-Note: Adding or modifying Jenkins plugin(s) will wipe your Jenkins workspace.
+Note: Adding or modifying Jenkins plugin(s) will delete all of your Jenkins workspace, including jobs, credentials, and history.
 
 Update the plugin list by changing the plugin version number(s) or by adding additional plugin(s) in the tools_jenkins Ansible role in the configuration repository on your local machine. The role is available [here](https://github.com/edx/configuration/blob/master/playbooks/roles/tools_jenkins/defaults/main.yml). Build a new Docker image that incorporates your changes by running the following command from the root of the configuration repository:
 
 	$ docker build -f docker/build/tools_jenkins/Dockerfile -t edxops/tools_jenkins:latest .
 
-In order for your change(s) to be reflected in the Docker container running Jenkins, you must remove the jenkins volume, which is mounted by the docker-compose.yml file. Run the following command to remove the volume:
+In order for your change(s) to be reflected in the Docker container running Jenkins, you must remove the jenkins volume, which is mounted by the docker-compose.yml file. Run the following command from the jenkins-job-dsl repo to remove the volume:
 
 	$ docker-compose down -v
 
 Run the following command to restart a Docker container running Jenkins with update or new plugin(s).
 
 	$ docker-compose up
+
+To verify that your plugins were added, connect to Jenkins and click on 'Manage Jenkins' in the side menu and select 'Manage Plugins'. You can then make sure that the plugins are visible under the 'Installed' tab.
+
+Debugging tips:
+If buidling the new Docker image fails, make sure that the playbook contains the correct roles for the tasks that are being run.
