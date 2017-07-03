@@ -29,6 +29,7 @@ catch (any) {
     sampleJobConfig:
         awsAccessKeyId: 123abc
         awsSecretAccessKey: 123abc
+        awsSecurityGroup: 123
         jenkinsWorkerAMI: ami-123
         newRelicKey: 123abc
         webPageTestBaseAMI: ami-123
@@ -44,6 +45,7 @@ secretMap.each { jobConfigs ->
 
     assert jobConfig.containsKey('awsAccessKeyId')
     assert jobConfig.containsKey('awsSecretAccessKey')
+    assert jobConfig.containsKey('awsSecurityGroup')
     assert jobConfig.containsKey('jenkinsWorkerAMI')
     assert jobConfig.containsKey('newRelicKey')
     assert jobConfig.containsKey('webPageTestBaseAMI')
@@ -129,6 +131,10 @@ secretMap.each { jobConfigs ->
                     EnvInjectPasswordEntry {
                         name 'AWS_SECRET_ACCESS_KEY'
                         value Secret.fromString(jobConfig['awsSecretAccessKey']).getEncryptedValue()
+                    }
+                    EnvInjectPasswordEntry {
+                        name 'AWS_SECURITY_GROUP'
+                        value Secret.fromString(jobConfig['awsSecurityGroup']).getEncryptedValue()
                     }
                     EnvInjectPasswordEntry {
                         name 'WEBPAGE_TEST_BASE_AMI'
