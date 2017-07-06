@@ -33,6 +33,7 @@
     EDX_REPO_ROOT: the URL of the edX GitHub organization (REQUIRED)
     CONFIG_JSON_FILE_CREDENTIAL_ID: ID of the credentials set up in Jenkins to log into DockerHub; defaults to docker-config-json; this refers to the docker-config-json expected credential described below
     FOLDER_NAME: the name of the folder in which the downstream per-app jobs will live; defaults to DockerCI
+    ACCESS_CONTROL: list of github users or groups who will have access to the jobs
 
     Expected credentials - these will normally be set up on the Folder.
 
@@ -43,6 +44,10 @@ package devops.jobs
 
 import static org.edx.jenkins.dsl.YAMLHelpers.parseYaml
 import org.yaml.snakeyaml.error.YAMLException
+
+import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
+import static org.edx.jenkins.dsl.Constants.common_logrotator
+import static org.edx.jenkins.dsl.Constants.common_wrappers
 
 class DockerCI {
     public static def job = { dslFactory, extraVars ->
@@ -58,12 +63,24 @@ class DockerCI {
                 def app_repo_branch = app_config.get('app_repo_branch', 'master')
                 def config_branch = app_config.get('config_branch', 'master')
 
+                wrappers common_wrappers
                 // add credentials to log in to DockerHub; ID refers to credential ID as set up in Jenkins
                 wrappers {
                     credentialsBinding {
                         file("CONFIG_JSON_FILE", extraVars.get("CONFIG_JSON_FILE_CREDENTIAL_ID", "docker-config-json"))
                     }
                 }
+                logRotator common_logrotator
+
+                def access_control = extraVars.get('ACCESS_CONTROL',[])
+                access_control.each { acl ->
+                    common_read_permissions.each { perm ->
+                        authorization {
+                            permission(perm,acl)
+                        }
+                    }
+                }
+
                 multiscm {
                     // check out edx/configuration repository from GitHub
                     git {
