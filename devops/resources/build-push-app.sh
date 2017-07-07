@@ -11,3 +11,5 @@ docker build -f docker/build/${APP_NAME}/Dockerfile -t ${image_tag} --no-cache .
 
 # push built image to DockerHub
 docker --config $(dirname ${CONFIG_JSON_FILE}) push ${image_tag}
+
+docker system prune -f
