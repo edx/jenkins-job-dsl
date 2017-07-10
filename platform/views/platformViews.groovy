@@ -47,14 +47,3 @@ branchList.each { branch ->
     }
 
 }
-
-
-listView() {
-    description('Jobs used to run e2e tests against a deployed edx-platform instance')
-    filterBuildQueue(true)
-    filterExecutors(true)
-    jobs {
-        regex('edx-e2e-.*|.*staging.*')
-    }
-    columns DEFAULT_VIEW.call()
-}
