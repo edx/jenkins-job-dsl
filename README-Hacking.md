@@ -28,15 +28,23 @@ In order to bootstrap Jenkins in a container you will need to do two things:
 You will need credentials--SSH key, or username and password--to clone private Git repositories. If you are using 
  GitHub, use a scoped [personal access token](https://github.com/settings/tokens) to limit potential security risks.  
 
-Credentials can be added using the Jenkins UI.
-
 Note that if using a personal access token, you can only clone https://github.com/ URLs, and ssh keys only work on git@github.com:edx
 URLs.  We use git@github.com URLs on tools-edx-jenkins with deployment keys, but you can use whatever is simpler in testing.
+
+Credentials can be added using the Jenkins UI at http://localhost:8080/credentials/ or with a Groovy script. The script 
+lives at `resources/createOrUpdateCredentials.groovy`. Modify the script with your GitHub username and personal access 
+token, and execute the script with the command below.
+
+    $ curl --data-urlencode "script=$(<./resources/createOrUpdateCredentials.groovy)" http://localhost:8080/scriptText
 
 ### Testing DSL
 
 You will need to create a new Jenkins job that executes the DSL, and creates other jobs. This can be done with the steps
-below.  Note that these instructions are for a simple DSL, your seed job documentation may specify cloning multiple DSL/configuration
+below or by running a Gradle task.
+
+    $  ./gradlew rest -Dpattern=jobs/seed.groovy -DbaseUrl=http://localhost:8080/api
+
+Note that these instructions are for a simple DSL, your seed job documentation may specify cloning multiple DSL/configuration
 repos, or running Gradle.
 
 1. Use the Jenkins UI to create a new **Freestyle project** job named **Job Creator**.
