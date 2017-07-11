@@ -29,6 +29,7 @@ catch (any) {
         accessKeyId: 123abc
         secretAccessKey: 123abc
         email: email@address
+        hipchat: token
 */
 
 // Iterate over the job configurations
@@ -40,6 +41,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('accessKeyId')
     assert jobConfig.containsKey('secretAccessKey')
     assert jobConfig.containsKey('email')
+    assert jobConfig.containsKey('hipchat')
 
     job('toggle-spigot') {
 
@@ -98,6 +100,12 @@ secretMap.each { jobConfigs ->
 
         publishers {
             mailer(jobConfig['email'])
+            hipChat {
+                token(jobConfig['hipchat'])
+                rooms('Tools Super Team')
+                notifySuccess()
+                completeJobMessage('The Spigot is now: $SPIGOT_STATE')
+            }
         }
     }
 }
