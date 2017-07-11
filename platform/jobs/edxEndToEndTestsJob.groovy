@@ -194,7 +194,7 @@ jobConfigs.each { jobConfig ->
             }
         }
 
-        if (jobConfig.trigger == 'ghprb') {
+        if (jobConfig.trigger == 'ghprb' || jobConfig.trigger == 'merge') {
             properties {
                 githubProjectUrl('https://github.com/edx/edx-e2e-tests')
             }
