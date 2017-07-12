@@ -129,7 +129,7 @@ class CreateSandbox {
                 stringParam("configuration_secure_version","master","")
                 stringParam("configuration_internal_version","master","")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
-                choiceParam("edxapp_comprehensive_theme_dirs",["/edx/app/edxapp/edx-platform/themes","unset"],"")
+                choiceParam("edxapp_comprehensive_theme_dir",["/edx/app/edxapp/edx-platform/themes/edx.org","unset"],"")
                 booleanParam("testcourses",true,"")
                 booleanParam("performance_course",true,"")
                 booleanParam("demo_test_course",true,"")
