@@ -142,7 +142,7 @@ secretMap.each { jobConfigs ->
             // for all other jobs in this style, poll github for new commits on
             // the 'defaultBranch'
             else {
-                scm("@hourly")
+                scm("H/10 * * * *")
             }
         }
         wrappers { //abort when stuck, x-mal coloring, timestamps in Console, change build name
