@@ -219,6 +219,8 @@ class CreateSandbox {
 
                 stringParam("auth_pass",extraVars.get('BASIC_AUTH_PASS',''),"")
 
+                booleanParam("enable_automatic_auth_for_testing",false,"This enables the /auto_auth endpoint which facilitates generating fake users.  This is typically required for running load tests.")
+
                 booleanParam("start_services",true,"")
 
                 booleanParam("edx_internal",true,
