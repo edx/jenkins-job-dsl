@@ -37,7 +37,6 @@ class SandboxTermination{
                     file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                     string('ROLE_ARN', "launch-sandboxes-role-arn")
                 }
-                sshAgent("ubuntu_deployment_201407")
             }
 
             def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
