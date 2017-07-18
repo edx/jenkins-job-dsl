@@ -11,7 +11,6 @@ pip install -r requirements.txt
 . util/jenkins/assume-role.sh
 
 assume-role ${ROLE_ARN}
-NOTIFICATION_CONFIG=$"${WORKSPACE}/configuration-internal/tools-edx-jenkins/sandbox-termination-notification-config.yml"
 
 cd $WORKSPACE/sysadmin
 pip install -r requirements.txt
@@ -22,7 +21,7 @@ if [ "$NOOP" = true ]; then
   extra_args="-n"
 fi
 
-python terminate-sandbox.py $extra_args -z $ROUTE53_ZONE -r $AWS_REGION -f $NOTIFICATION_CONFIG
+python terminate-sandbox.py $extra_args -z $ROUTE53_ZONE -r $AWS_REGION --hipchat_room $HIPCHAT_ROOM --hipchat_api_key $HIPCHAT_API_KEY
 
 curl https://nosnch.in/c6dcca38ad
 
