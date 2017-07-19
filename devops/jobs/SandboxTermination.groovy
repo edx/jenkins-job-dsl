@@ -55,10 +55,6 @@ class SandboxTermination{
                         'Git repo containing sysadmin configuration which contains the sandbox termination script.')
                 stringParam('SYSADMIN_BRANCH', extraVars.get('SYSADMIN_BRANCH', 'master'),
                         'e.g. tagname or origin/branchname')
-                stringParam('CONFIGURATION_INTERNAL_REPO', extraVars.get('CONFIGURATION_INTERNAL_REPO',  "git@github.com:edx/edx-internal.git"),
-                            'Git repo containing internal overrides')
-                stringParam('CONFIGURATION_INTERNAL_BRANCH', extraVars.get('CONFIGURATION_INTERNAL_BRANCH', 'master'),
-                            'e.g. tagname or origin/branchname')
             }
 
             multiscm{
@@ -87,20 +83,6 @@ class SandboxTermination{
                         relativeTargetDirectory('sysadmin')
                     }
                 }
-                git {
-                    remote {
-                        url('$CONFIGURATION_INTERNAL_REPO')
-                        branch('$CONFIGURATION_INTERNAL_BRANCH')
-                            if (gitCredentialId) {
-                                credentials(gitCredentialId)
-                            }
-                    }
-                    extensions {
-                        cleanAfterCheckout()
-                        pruneBranches()
-                        relativeTargetDirectory('configuration-internal')
-                    }
-                } 
             }
             
             triggers{
