@@ -38,7 +38,7 @@ class StatusEdxOrg {
                             'Git repo containing edX configuration.')
                 stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                         'e.g. tagname or origin/branchname')
-                stringParam('STATUS_REPO', extraVars.get('STATUS_REPO', 'git@github.com:edX/status.edx.org'),
+                stringParam('STATUS_REPO', extraVars.get('STATUS_REPO', 'git@github.com:edx/status.edx.org'),
                         'Git repo containing status.edx.org configuration.')
                 stringParam('STATUS_BRANCH', extraVars.get('STATUS_BRANCH', 'master'),
                         'e.g. tagname or origin/branchname')
