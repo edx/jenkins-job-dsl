@@ -12,11 +12,11 @@
     * ACCESS_CONTROL: list of users to give access to
         - user
     * USER: user to run ansible (required)
+    * DEPLOYMENT_KEY: ssh key that should be defined on the folder (required)
  
  This job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
     find-active-instances-${deployment}-role-arn: the role to aws sts assume-role
-    ubuntu_deployment_201407: ssh key
 
 */
 
@@ -43,7 +43,8 @@ class AppPermissions{
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                             string('ROLE_ARN', "find-active-instances-${deployment}-role-arn")
                         }
-                        sshAgent("ubuntu_deployment_201407")
+                        assert extraVars.containsKey('DEPLOYMENT_KEY_NAME') : "Make sure you define the deployment key name"
+                        sshAgent(extraVars.get('DEPLOYMENT_KEY_NAME'))
                       }
 
                     def access_control = extraVars.get('ACCESS_CONTROL',[])
