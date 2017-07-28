@@ -16,6 +16,11 @@
     ACCESS_CONTROL: list of Jenkins matrix targets who should get read access (edx*team or username)
     SCHEDULE: Cron syntax consumed by Jenkins triggered builds
     NOTIFY_ON_FAILURE: email address to be notified when this job fails
+    ADDITIONAL_REPO: an additional git repository to be checkout out if needed
+    ADDITIONAL_REPO_BRANCH: defaults to master
+    ADDITIONAL_REPO_TARGET_DIRECTORY: name of additional repo target directory in the workspace
+    ANSIBLE_EXTRA_VARS: Extra variables for Ansible
+    TAGS: Tags for ansible
 */
 package devops.jobs
 
@@ -39,14 +44,16 @@ class RunRemoteAnsiblePlaybook {
                             'Git repo containing the analytics pipeline configuration automation.')
                 stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
-                stringParam("ANSIBLE_INVENTORY",
-                            "", "The inventory address(es) to run the remote script")
-                stringParam("ANSIBLE_EXTRA_VARS",
-                            "", "The Extra variables for Ansible for example '-e ora2_version=''")
-                stringParam("NOTIFY_ON_FAILURE",
-                            "", "Email to notify on failure")
-                stringParam("ANSIBLE_PLAYBOOK",
-                            "", "Ansible playbook to be run remotely")
+                stringParam("ANSIBLE_INVENTORY", extraVars.get('ANSIBLE_INVENTORY', ""),
+                            "The inventory address(es) to run the remote script")
+                stringParam("ANSIBLE_EXTRA_VARS", extraVars.get('ANSIBLE_EXTRA_VARS', ""),
+                            "The Extra variables for Ansible for example '-e ora2_version=''")
+                stringParam("NOTIFY_ON_FAILURE", extraVars.get('NOTIFY_ON_FAILURE', ""),
+                            "Email to notify on failure")
+                stringParam("ANSIBLE_PLAYBOOK", extraVars.get("ANSIBLE_PLAYBOOK", ""),
+                            "Ansible playbook to be run remotely")
+                stringParam("TAGS", extraVars.get("TAGS", ""),
+                            "Tags on ansible playbook")
             }
 
             def access_control = extraVars.get('ACCESS_CONTROL',[])
@@ -58,6 +65,9 @@ class RunRemoteAnsiblePlaybook {
                 }
             }
 
+            def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
+            def additionalRepo = extraVars.get("ADDITIONAL_REPO", '')
+
             multiscm {
                 git {
                     remote {
@@ -68,6 +78,22 @@ class RunRemoteAnsiblePlaybook {
                         cleanAfterCheckout()
                         pruneBranches()
                         relativeTargetDirectory('configuration')
+                    }
+                }
+                if (additionalRepo){
+                    git{
+                        remote{
+                            url(additionalRepo)
+                            branch(extraVars.get('ADDITIONAL_REPO_BRANCH', 'master'))
+                            if (gitCredentialId) {
+                                credentials(gitCredentialId)
+                            }
+                        }
+                        extensions{
+                            cleanAfterCheckout()
+                            pruneBranches()
+                            relativeTargetDirectory(extraVars.get('ADDITIONAL_REPO_TARGET_DIRECTORY',''))
+                        }
                     }
                 }
             }

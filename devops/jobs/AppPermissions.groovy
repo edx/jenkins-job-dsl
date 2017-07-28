@@ -1,9 +1,22 @@
 /*
  
+ Variables without defaults are marked (required) 
+ 
+ Variables consumed for this job:
+    * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
+    * NOTIFY_ON_FAILURE: alert@example.com
+    * FOLER_NAME: folder, default is User-Mananagement
+    * DEPLOYMENTS: (required)
+        environments:
+          - environment (required)
+    * ACCESS_CONTROL: list of users to give access to
+        - user
+    * USER: user to run ansible (required)
+    * DEPLOYMENT_KEY: ssh key that should be defined on the folder (required)
+ 
  This job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
     find-active-instances-${deployment}-role-arn: the role to aws sts assume-role
-    ubuntu_deployment_201407: ssh key
 
 */
 
@@ -20,7 +33,7 @@ class AppPermissions{
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment ->
 
-                dslFactory.job(extraVars.get("FOLDER_NAME","App-Permissions") + "/app-permissions-${environment}-${deployment}") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","User-Management") + "/app-permissions-${environment}-${deployment}") {
 
                     wrappers common_wrappers
                     logRotator common_logrotator
@@ -28,11 +41,10 @@ class AppPermissions{
                     wrappers {
                         credentialsBinding {
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
-                            def role = "find-active-instances-${deployment}-role-arn"
-                            string('ROLE_ARN', role)
+                            string('ROLE_ARN', "find-active-instances-${deployment}-role-arn")
                         }
-                        def ssh_key = "ubuntu_deployment_201407"
-                        sshAgent(ssh_key)
+                        assert extraVars.containsKey('DEPLOYMENT_KEY_NAME') : "Make sure you define the deployment key name"
+                        sshAgent(extraVars.get('DEPLOYMENT_KEY_NAME'))
                       }
 
                     def access_control = extraVars.get('ACCESS_CONTROL',[])
