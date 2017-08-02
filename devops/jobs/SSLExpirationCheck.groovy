@@ -14,7 +14,6 @@
     * REGION: default is us-east-1
     * NOTIFY_ON_FAILURE: alert@example.com
     * FOLDER_NAME: folder, default is Monitoring
-    * SNITCH: deadmans snitch
     * DAYS: alert if SSL certificate will expire within these days
     
 
@@ -96,7 +95,6 @@ class SSLExpirationCheck{
                 environmentVariables {
                     env('REGION', extraVars.get('REGION','us-east-1'))
                     env('DAYS', extraVars.get('DAYS', 30))
-                    env('SNITCH', extraVars.get('SNITCH'))
                 }
 
                 steps {

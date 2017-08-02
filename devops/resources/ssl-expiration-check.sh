@@ -22,5 +22,3 @@ if [ -n "${FROM_ADDRESS}" ]; then
 else
 	python ssl-expiration-check.py --region $REGION -d $DAYS
 fi
-
-curl $SNITCH
