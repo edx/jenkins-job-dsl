@@ -150,19 +150,8 @@ secretMap.each { jobConfigs ->
             }
         }
         triggers {
-            // due to a bug or misconfiguration, jobs with default branches with
-            // slashes are indiscriminately triggered by pushes to other branches.
-            // For more information, see:
-            // https://openedx.atlassian.net/browse/TE-1921
-            // for commits merging into master, trigger jobs via github pushes
-            if ( jobConfig['defaultBranch'] == 'master') {
-                githubPush()
-            }
-            // for all other jobs in this style, poll github for new commits on
-            // the 'defaultBranch'
-            else {
-                scm('H/10 * * * *')
-            }
+            // Trigger jobs via github pushes
+            githubPush()
         }
 
         Map <String, String> predefinedPropsMap  = [:]
