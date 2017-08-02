@@ -17,7 +17,7 @@ cd $WORKSPACE/sysadmin
 pip install -r requirements.txt
 cd jenkins
 
-if [ -n "${FROM_ADDRESS}" ]; then
+if [[ -n "${FROM_ADDRESS}" && "${TO_ADDRESS}" ]]; then
 	python ssl-expiration-check.py --region $REGION -d $DAYS  -r $TO_ADDRESS -f $FROM_ADDRESS
 else
 	python ssl-expiration-check.py --region $REGION -d $DAYS
