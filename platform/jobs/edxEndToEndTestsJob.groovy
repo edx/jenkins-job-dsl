@@ -181,6 +181,7 @@ jobConfigs.each { jobConfig ->
         authorization {
             blocksInheritance(true)
             permissionAll('edx')
+            permission('hudson.model.Item.Discover', 'anonymous')
             // grant additional permissions to bots
             if (jobConfig.trigger == 'pipeline') {
                 List<String> permissionList = [ 'hudson.model.Item.Read',
