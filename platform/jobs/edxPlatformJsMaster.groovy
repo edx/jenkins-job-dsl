@@ -96,6 +96,7 @@ secretMap.each { jobConfigs ->
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
         properties {
