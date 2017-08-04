@@ -75,6 +75,7 @@ secretMap.each { jobConfigs ->
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
         description('This job runs pull requests through our quality checks.')
