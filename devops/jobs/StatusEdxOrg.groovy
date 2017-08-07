@@ -65,7 +65,6 @@ class StatusEdxOrg {
                         }
                     }
                     extensions {
-                        cleanAfterCheckout()
                         pruneBranches()
                         relativeTargetDirectory('status.edx.org')
                     }
