@@ -39,6 +39,7 @@ class SandboxTermination{
                     file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                     string('ROLE_ARN', "launch-sandboxes-role-arn")
                     string('HIPCHAT_API_KEY', "hipchat-api-key")
+                    string('EDX_GIT_BOT_TOKEN', "edx_git_bot_token")
                 }
             }
 
