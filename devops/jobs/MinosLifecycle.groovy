@@ -10,7 +10,8 @@
     * DEPLOYMENTS: (required)
         deployment:
           environments:
-            - environment (required)
+            environment (required)
+                snitch: snitch url
     * SSH_ACCESS_CREDENTIALS: ssh access credentials, should be defined on the folder (required)
     * CONFIGURATION_REPO: name of config repo, default is https://github.com/edx/configuration.git
     * CONFIGURATION_BRANCH: default is master
@@ -34,7 +35,7 @@ class MinosLifecycle {
         assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
-            configuration.environments.each { environment ->
+            configuration.environments.each { environment, inner_config ->
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/retire-instances-in-terminating-wait-${environment}-${deployment}") {
 
                     wrappers common_wrappers
@@ -87,6 +88,7 @@ class MinosLifecycle {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
                         env('AWS_REGION',extraVars.get('AWS_REGION','us-east-1'))
+                        env('SNITCH', inner_config.get('snitch', ''))
                     }
 
                     steps {

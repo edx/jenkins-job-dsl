@@ -18,3 +18,4 @@ COMMON_AWS_SYNC_BUCKET="edx-${ENVIRONMENT}-${DEPLOYMENT}"
 
 ansible-playbook -u ubuntu -i lifecycle_inventory.py retire_host.yml -vvv -e COMMON_AWS_SYNC_BUCKET="${COMMON_AWS_SYNC_BUCKET}" -e COMMON_OBJECT_STORE_LOG_SYNC_BUCKET="${COMMON_AWS_SYNC_BUCKET}" -e COMMON_LOG_DIR="/edx/var/log" -e TARGET="${ENVIRONMENT}_${DEPLOYMENT}_Terminating_Wait"
 
+curl ${SNITCH}
