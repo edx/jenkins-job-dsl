@@ -16,5 +16,5 @@ COMMON_AWS_SYNC_BUCKET="edx-${ENVIRONMENT}-${DEPLOYMENT}"
 # to the host match.  --limit returns a non-zero exit code, so it 
 # has been abandoned.
 
-ansible-playbook -u ubuntu -i lifecycle_inventory.py retire_host.yml -vvv -e COMMON_AWS_SYNC_BUCKET="${COMMON_AWS_SYNC_BUCKET}" -e COMMON_OBJECT_STORE_LOG_SYNC_BUCKET="${COMMON_AWS_SYNC_BUCKET}" -e COMMON_LOG_DIR="/edx/var/log" -e TARGET="${ENVIRONMENT}_${DEPLOYMENT}_Terminating_Wait" || true
+ansible-playbook -u ubuntu -i lifecycle_inventory.py retire_host.yml -vvv -e COMMON_AWS_SYNC_BUCKET="${COMMON_AWS_SYNC_BUCKET}" -e COMMON_OBJECT_STORE_LOG_SYNC_BUCKET="${COMMON_AWS_SYNC_BUCKET}" -e COMMON_LOG_DIR="/edx/var/log" -e TARGET="${ENVIRONMENT}_${DEPLOYMENT}_Terminating_Wait"
 
