@@ -40,8 +40,6 @@ job('oep2-report') {
     publishers {
         archiveJunit('oep2-report.xml') {
             retainLongStdout(false)
-	     double test = 1.0
-            healthScaleFactor(test)
         }
         publishHtml {
             report('.') {
