@@ -21,8 +21,8 @@ pip install -r configuration/requirements.txt
 # set TRAVIS_BUILD_DIR variable to point to root of configuration repository; needed by parsefiles.py
 export TRAVIS_BUILD_DIR=${WORKSPACE}/configuration
 
-# pipe the diff of the commit range into the parsefiles.py script, which resolves to a list of files affected by the change
-# transform the output into a comma-separated list prefixed by the name of the folder in which the jobs should be created 
-# "applications-autobuilds" and redirect into temp_props file
+# find the intersection of the applications described in the job configuration file and the applications determined
+# as necessary to be built via the parsefiles.py script and redirect it into temp_props file to be read in as an
+# environment variable TO_BUILD
 cd configuration
-echo "TO_BUILD=$(git diff --name-only ${GIT_PREVIOUS_COMMIT}...${GIT_COMMIT} | sort | python util/parsefiles.py | sed -e 's/ /\,applications-autobuilds\//g' -e 's/^/applications-autobuilds\//')" > ../temp_props
+echo "TO_BUILD=$(comm -12 <(echo ${APPS} | tr " " "\n" | sort) <(git diff --name-only ${GIT_PREVIOUS_COMMIT}...${GIT_COMMIT} | python util/parsefiles.py | tr " " "\n" | sort) | while read play; do echo -n "$play, "; done)" > ../temp_props

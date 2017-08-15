@@ -82,4 +82,22 @@ class DevopsConstants {
             }
         }
     }
+
+    public static def merge_to_master_trigger = { branchName ->
+        return { 
+            // due to a bug or misconfiguration, jobs with default branches with
+            // slashes are indiscriminately triggered by pushes to other branches.
+            // For more information, see:
+            // https://openedx.atlassian.net/browse/TE-1921
+            // for commits merging into master, trigger jobs via github pushes
+            if (branchName == 'master') {
+                githubPush()
+            }
+            // for all other jobs in this style, poll github for new commits on
+            // the 'defaultBranch' every 10 minutes
+            else {
+                scm('H/10 * * * *')
+            }
+        }
+    }
 }
