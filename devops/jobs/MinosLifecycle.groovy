@@ -11,7 +11,7 @@
         deployment:
           environments:
             environment (required)
-                snitch: snitch url
+                snitch: snitch url (required)
     * SSH_ACCESS_CREDENTIALS: ssh access credentials, should be defined on the folder (required)
     * CONFIGURATION_REPO: name of config repo, default is https://github.com/edx/configuration.git
     * CONFIGURATION_BRANCH: default is master
@@ -88,7 +88,6 @@ class MinosLifecycle {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
                         env('AWS_REGION',extraVars.get('AWS_REGION','us-east-1'))
-                        env('SNITCH', inner_config.get('snitch', ''))
                     }
 
                     steps {
@@ -97,6 +96,11 @@ class MinosLifecycle {
                             nature("shell")
                             systemSitePackages(false)
                             command(dslFactory.readFileFromWorkspace("devops/resources/retire-instances-in-terminating-wait.sh"))
+                        }
+
+                        String snitch =  inner_config.get('snitch','')
+                        if (snitch) {
+                            shell("curl $snitch")
                         }
 
                         downstreamParameterized {
