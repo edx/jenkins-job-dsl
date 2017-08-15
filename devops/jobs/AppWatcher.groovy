@@ -2,16 +2,15 @@
     This job handles changes to an application.
 
     For applications that have source code repositories, this job watches for changes pushed to master. 
-    Upon a push to master, the job is triggered via a webhook. The job triggers the downstream image-builder job, passing the name of the
-    application as a build parameter. The image-builder then builds and pushes the application's Docker image to DockerHub.
+    Upon a push to master, the job is triggered via a webhook. The job triggers the matching downstream image-builder job at
+    DockerCI/image-builders/<app>-image-builder. The <app>-image-builder then builds and pushes the application's Docker image to DockerHub.
 
-    For applications that do not have source code repositories, this job serves simply as an interim layer between the configuration-watcher
-    and image-builder, because they do not have an application code repository to watch. The configuration-watcher job triggers this job, 
-    and this job immediately triggers the image-builder downstream job, passing the name of the application as a build parameter. 
-    The image-builder then builds and pushes the application's Docker image to DockerHub.
+    For applications that do not have source code repositories, there are no watcher jobs, because there are no repositories to watch. If a new
+    image for these applications is needed, the associated <app>-image-builder job will need to be run manually.
 
     Variables consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
+    
     APPS_TO_CONFIG: a dictionary containing mappings from an edX IDA to a dictionary of various configuration values (REQUIRED). 
         The structure of APPS_TO_CONFIG should be
         
@@ -61,39 +60,45 @@ class AppWatcher {
 
         // for each application
         extraVars.get("APPS_TO_CONFIG").each { app_name, app_config ->
-            dslFactory.job(extraVars.get("FOLDER_NAME", "DockerCI") + "/" + app_name) {
 
-                def app_repo = app_config.get("app_repo", '')
-                def app_repo_branch = app_config.get('app_repo_branch', 'master')
+            def app_repo = app_config.get("app_repo", '')
 
-                logRotator common_logrotator
+            // we don't need a watcher job if there is no repository to watch
+            if (app_repo) {
+                dslFactory.job(extraVars.get("FOLDER_NAME", "DockerCI") + "/application-watchers/" + app_name + "-watcher") {
 
-                wrappers common_wrappers
+                    // if an application has no repository, the app_repo_branch should be blank so as not to set up webhooks
+                    def app_repo_branch = !app_repo ? '' : app_config.get('app_repo_branch', 'master')
 
-                def access_control = extraVars.get('ACCESS_CONTROL',[])
-                access_control.each { acl ->
-                    common_read_permissions.each { perm ->
-                        authorization {
-                            permission(perm,acl)
+                    description('\rThis job watches the ' + app_repo_branch + ' branch of the ' + app_repo + ' repository for changes via a webhook. ' + 
+                        'Upon a change to the branch, this job will run and trigger the downstream ' + app_name + '-image-builder job, which will ' +
+                        'build and push the image to DockerHub. Applications without application code repositories do not have an associated watcher job.')
+
+                    logRotator common_logrotator
+
+                    wrappers common_wrappers
+
+                    def access_control = extraVars.get('ACCESS_CONTROL',[])
+                    access_control.each { acl ->
+                        common_read_permissions.each { perm ->
+                            authorization {
+                                permission(perm,acl)
+                            }
                         }
                     }
-                }
 
-                def APP_REPO_URL = extraVars.get("EDX_REPO_ROOT") + app_repo + "/"
-
-                // for GitHub Webhooks; note that you need to use an https URL and include
-                // the trailing slash
-                properties {
-                    if (app_repo) {
-                       githubProjectUrl(APP_REPO_URL)
+                    def app_repo_url = extraVars.get("EDX_REPO_ROOT") + app_repo + "/"
+                    
+                    // for GitHub Webhooks; note that you need to use an https URL and include
+                    // the trailing slash
+                    properties {
+                       githubProjectUrl(app_repo_url)   
                     }
-                }
 
-                scm {
-                    if (app_repo) {
+                    scm {
                         git {
                             remote {
-                                url(APP_REPO_URL)
+                                url(app_repo_url)
                                 branch(app_repo_branch)
                             }
                             extensions {
@@ -101,17 +106,13 @@ class AppWatcher {
                             }
                         }
                     }
-                }
 
-                triggers merge_to_master_trigger(app_repo_branch)
+                    triggers merge_to_master_trigger(app_repo_branch)
 
-                steps {
-                    // trigger image-builder job, passing name of application as a parameter
-                   downstreamParameterized {
-                        trigger('image-builder') {
-                            parameters {
-                                predefinedProp('APP_NAME', app_name)
-                            }
+                    steps {
+                        // trigger image-builder job, passing commit checked out of the applicatio code repository 
+                       downstreamParameterized {
+                            trigger('../image-builders/' + app_name + '-image-builder')
                         }
                     }
                 }

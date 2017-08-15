@@ -7,6 +7,7 @@
 
     Variables consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
+
     APPS_TO_CONFIG: a dictionary containing mappings from an edX IDA to a dictionary of various configuration values (REQUIRED). 
         The structure of APPS_TO_CONFIG should be
         
@@ -64,6 +65,10 @@ class ConfigurationWatcher {
                 env('APPS', apps)
             }
 
+            description('\rThis job watches the configuration repository for changes via a webhook. Upon a change, the job runs a script ' + 
+                'that determines what images must be rebuilt as a result of the change to configuration. It then triggers the associated ' +
+                'image-builder jobs.')
+
             wrappers common_wrappers
 
             logRotator common_logrotator
@@ -94,7 +99,6 @@ class ConfigurationWatcher {
                         relativeTargetDirectory('configuration')
                     }
                 }
-                
             }
             
             triggers merge_to_master_trigger(config_branch)

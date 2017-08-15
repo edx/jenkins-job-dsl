@@ -93,11 +93,6 @@ class DevopsConstants {
             if (branchName == 'master') {
                 githubPush()
             }
-            // for all other jobs in this style, poll github for new commits on
-            // the 'defaultBranch' every 10 minutes
-            else {
-                scm('H/10 * * * *')
-            }
         }
     }
 }
