@@ -48,14 +48,22 @@ class AppPermissionsRunner {
                         maxTotal(0)
                     }
 
+                    assert extraVars.containsKey('APP_PERMISSIONS_REPO') : 'Make sure you define the app permissions repository'
+
+                    def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
+
                     parameters{
                         stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
                                 'Git repo containing edX configuration.')
                         stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                                 'e.g. tagname or origin/branchname')
+                        stringParam('APP_PERMISSIONS_REPO', extraVars.get('APP_PERMISSIONS_REPO'),
+                                'Git repo containing edx app permissions')
+                        stringParam('APP_PERMISSIONS_BRANCH', extraVars.get('APP_PERMISSIONS_BRANCH', 'master'),
+                                'e.g. tagname or origin/branchname')
                     }
                     
-                    scm{ 
+                    multiscm{ 
                         git {
                             remote {
                                 url('$CONFIGURATION_REPO')
@@ -65,6 +73,20 @@ class AppPermissionsRunner {
                                 cleanAfterCheckout()
                                 pruneBranches()
                                 relativeTargetDirectory('configuration')
+                            }
+                        }
+                        git {
+                            remote {
+                                url('$APP_PERMISSIONS_REPO')
+                                branch('$APP_PERMISSIONS_BRANCH')
+                                    if (gitCredentialId) {
+                                        credentials(gitCredentialId)
+                                    }
+                            }
+                            extensions {
+                                cleanAfterCheckout()
+                                pruneBranches()
+                                relativeTargetDirectory('app-permissions')
                             }
                         }
                     }

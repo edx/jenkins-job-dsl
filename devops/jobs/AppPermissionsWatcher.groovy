@@ -17,8 +17,8 @@
     * USER: user to run ansible (required)
     * DEPLOYMENT_KEY: ssh key that should be defined on the folder (required)
     * NOTIFY_ON_FAILURE: alert@example.com
+    * APP_PERMISSION_REPO: app permissions git repository (required)
     * APP_PERMISSION_BRANCH: branch of app permissions for the webhook to watch, default is master
-
 
 */
 
@@ -90,7 +90,7 @@ class AppPermissionsWatcher{
                     }
                 }  
             }
-              
+
         }
     }
 }
