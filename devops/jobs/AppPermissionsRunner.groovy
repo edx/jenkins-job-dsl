@@ -94,6 +94,7 @@ class AppPermissionsRunner {
                     environmentVariables {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
+                        env('USER', extraVars.get('USER', 'ubuntu'))
                     }
 
                     steps {
