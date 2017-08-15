@@ -1,39 +1,25 @@
 /*
- 
- Variables without defaults are marked (required) 
- 
- Variables consumed for this job:
-    * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
-    * NOTIFY_ON_FAILURE: alert@example.com
-    * FOLER_NAME: folder, default is User-Mananagement
-    * DEPLOYMENTS: (required)
-        environments:
-          - environment (required)
-    * ACCESS_CONTROL: list of users to give access to
-        - user
-    * USER: user to run ansible (required)
-    * DEPLOYMENT_KEY: ssh key that should be defined on the folder (required)
- 
- This job expects the following credentials to be defined on the folder
+
+ This job runs the script with the ansible to update app permissions. It is triggered by the app-permissions-watcher job.
+ It consumes the same variables as the app-permissions-watcher job.
+    
+ Additionally, this job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
     find-active-instances-${deployment}-role-arn: the role to aws sts assume-role
 
 */
-
-
 package devops.jobs
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 import static org.edx.jenkins.dsl.Constants.common_logrotator
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
-class AppPermissions{
+class AppPermissionsRunner {
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment ->
-
-                dslFactory.job(extraVars.get("FOLDER_NAME","User-Management") + "/app-permissions-${environment}-${deployment}") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","User-Management") + "/app-permissions-runner-${environment}-${deployment}") {
 
                     wrappers common_wrappers
                     logRotator common_logrotator
@@ -44,10 +30,11 @@ class AppPermissions{
                             string('ROLE_ARN', "find-active-instances-${deployment}-role-arn")
                         }
                         assert extraVars.containsKey('DEPLOYMENT_KEY_NAME') : "Make sure you define the deployment key name"
-                        sshAgent(extraVars.get('DEPLOYMENT_KEY_NAME'))
-                      }
 
-                    def access_control = extraVars.get('ACCESS_CONTROL',[])
+                        sshAgent(extraVars.get('DEPLOYMENT_KEY_NAME'))
+                    }
+
+                    def access_control = extraVars.get('ACCESS_CONTROL', [])
                     access_control.each { acl ->
                         common_read_permissions.each { perm ->
                             authorization {
@@ -61,37 +48,37 @@ class AppPermissions{
                         maxTotal(0)
                     }
 
-                    properties {
-                        githubProjectUrl("https://github.com/edx/app-permissions/")
-                    }
-
-                    triggers {
-                        githubPush()
-                    }
-
+                    assert extraVars.containsKey('APP_PERMISSIONS_REPO') : 'Make sure you define the app permissions repository'
 
                     def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
+
+                    parameters{
+                        stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
+                                'Git repo containing edX configuration.')
+                        stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
+                                'e.g. tagname or origin/branchname')
+                        stringParam('APP_PERMISSIONS_REPO', extraVars.get('APP_PERMISSIONS_REPO'),
+                                'Git repo containing edx app permissions')
+                        stringParam('APP_PERMISSIONS_BRANCH', extraVars.get('APP_PERMISSIONS_BRANCH', 'master'),
+                                'e.g. tagname or origin/branchname')
+                    }
                     
-                    // The urls for the repos as well as the branch names have to be hardcoded in order for webhooks to work. 
-                    // If they are parameterized, they are not defined until run time so the webhook cannot find them.
-                    // To make the job more configurable, you can add back in parameters for repos and branches, but you have to change the trigger back to polling.
-                    multiscm{
+                    multiscm{ 
                         git {
                             remote {
-                                url('https://github.com/edx/configuration.git')
-                                branch('master')
+                                url('$CONFIGURATION_REPO')
+                                branch('$CONFIGURATION_BRANCH')
                             }
                             extensions {
                                 cleanAfterCheckout()
                                 pruneBranches()
                                 relativeTargetDirectory('configuration')
                             }
-                        } 
-
+                        }
                         git {
                             remote {
-                                url('git@github.com:edx/app-permissions.git')
-                                branch('master')
+                                url('$APP_PERMISSIONS_REPO')
+                                branch('$APP_PERMISSIONS_BRANCH')
                                     if (gitCredentialId) {
                                         credentials(gitCredentialId)
                                     }
@@ -109,6 +96,7 @@ class AppPermissions{
                         env('DEPLOYMENT', deployment)
                         env('USER', extraVars.get('USER', 'ubuntu'))
                     }
+
                     steps {
                         virtualenv {
                             nature("shell")
@@ -117,9 +105,7 @@ class AppPermissions{
                             command(
                                 dslFactory.readFileFromWorkspace("devops/resources/run-app-permissions.sh")
                             )
-
                         }
-
                     }
 
                     if (extraVars.get('NOTIFY_ON_FAILURE')){
@@ -132,5 +118,4 @@ class AppPermissions{
             }
         }
     }
-
 }
