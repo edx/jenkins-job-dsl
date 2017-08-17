@@ -25,4 +25,4 @@ export TRAVIS_BUILD_DIR=${WORKSPACE}/configuration
 # as necessary to be built via the parsefiles.py script and redirect it into temp_props file to be read in as an
 # environment variable TO_BUILD
 cd configuration
-echo "TO_BUILD=$(comm -12 <(echo ${APPS} | tr " " "\n" | sort) <(git diff --name-only ${GIT_PREVIOUS_COMMIT}...${GIT_COMMIT} | python util/parsefiles.py | tr " " "\n" | sort) | while read play; do echo -n "$play, "; done)" > ../temp_props
+echo "TO_BUILD=$(comm -12 <(echo ${APPS} | tr " " "\n" | sort) <(git diff --name-only ${GIT_PREVIOUS_COMMIT}...${GIT_COMMIT} | python util/parsefiles.py | tr " " "\n" | sort) | while read play; do echo -n "image-builders/$play-image-builder, "; done)" > ../temp_props
