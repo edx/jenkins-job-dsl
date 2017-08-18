@@ -81,7 +81,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('platformCredential')
 
-    job(jobConfig['jobName']) {
+    job("${jobConfig['jobName']}-master") {
 
         /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {

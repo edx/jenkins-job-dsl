@@ -96,7 +96,7 @@ secretMap.each { jobConfigs ->
     assert ghprbMap.containsKey('userWhiteList')
     assert ghprbMap.containsKey('orgWhiteList')
 
-    job(jobConfig['jobName']) {
+    job("${jobConfig['jobName']}-pr") {
 
         /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {
