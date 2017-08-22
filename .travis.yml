@@ -13,5 +13,5 @@ script:
     - pep8 mobile_app/resources
     - nosetests mobile_app/resources -v --with-coverage --cover-package=mobile_app
 
-    # uncomment once we add a groovy project
+    - export CI_SYSTEM='travis'
     - ./gradlew check 
