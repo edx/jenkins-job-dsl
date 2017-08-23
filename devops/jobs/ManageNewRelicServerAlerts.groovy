@@ -71,12 +71,13 @@ class  ManageNewRelicServerAlerts {
 
                 steps {
                     virtualenv {
-                    nature("shell")
-                    systemSitePackages(false)
+                        pythonName('System-CPython-3.5')
+                        nature("shell")
+                        systemSitePackages(false)
 
-                    command(
-                        dslFactory.readFileFromWorkspace("devops/resources/manage-newrelic-server-alerts.sh")
-                    )
+                        command(
+                            dslFactory.readFileFromWorkspace("devops/resources/manage-newrelic-server-alerts.sh")
+                        )
                     }
                 }
 
