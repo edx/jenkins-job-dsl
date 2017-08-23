@@ -30,7 +30,7 @@ class CloudflareHitRate {
 
 
             triggers {
-                cron("* */8 * * *")
+                cron("* */1 * * *")
             }
 
 
