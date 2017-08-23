@@ -26,7 +26,7 @@ job('oep2-report') {
         timestamps()
         sshAgent('jenkins')
         credentialsBinding {
-           file('OEP_REPORT_TOKEN', 'GITHUB_STATUS_OAUTH_TOKEN')
+           string('OEP_REPORT_TOKEN', 'GITHUB_STATUS_OAUTH_TOKEN')
         }
     }
     steps {
