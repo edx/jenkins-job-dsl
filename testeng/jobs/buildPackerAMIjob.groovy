@@ -33,7 +33,6 @@ catch (any) {
         jenkinsWorkerAMI: ami-123
         newRelicKey: 123abc
         webPageTestBaseAMI: ami-123
-        githubToken: 123abc
         toolsTeam: [ 'users1', 'users2' ]
         email : email@address
         hipchat : 123abc
@@ -49,7 +48,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('jenkinsWorkerAMI')
     assert jobConfig.containsKey('newRelicKey')
     assert jobConfig.containsKey('webPageTestBaseAMI')
-    assert jobConfig.containsKey('githubToken')
     assert jobConfig.containsKey('toolsTeam')
     assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('hipchat')
@@ -139,10 +137,6 @@ secretMap.each { jobConfigs ->
                     EnvInjectPasswordEntry {
                         name 'WEBPAGE_TEST_BASE_AMI'
                         value Secret.fromString(jobConfig['webPageTestBaseAMI']).getEncryptedValue()
-                    }
-                    EnvInjectPasswordEntry {
-                        name 'GITHUB_TOKEN'
-                        value Secret.fromString(jobConfig['githubToken']).getEncryptedValue()
                     }
                 }
             }
