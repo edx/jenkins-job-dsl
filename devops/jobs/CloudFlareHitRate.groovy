@@ -27,6 +27,7 @@ class CloudflareHitRate {
             def zone_id = extraVars.get('ZONE_ID')
             def auth_key = extraVars.get('AUTH_KEY')
             def email = extraVars.get('EMAIL')
+            def email = extraVars.get('THRESHOLD')
 
 
             triggers {
