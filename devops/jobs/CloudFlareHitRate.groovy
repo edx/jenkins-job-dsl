@@ -14,6 +14,7 @@ package devops.jobs
 
 
 import static org.edx.jenkins.dsl.DevopsTasks.common_parameters
+import static org.edx.jenkins.dsl.Constants.common_wrappers
 
 
 class CloudflareHitRate {
@@ -22,10 +23,16 @@ class CloudflareHitRate {
         assert extraVars.containsKey('AUTH_KEY') : "Required Authentication key(AUTH_KEY) setting missing from configuration"
         assert extraVars.containsKey('EMAIL') : "Required email(EMAIL) setting missing from configuration"
         dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/cloudflare-hit-rate-edx") {
+            wrappers common_wrappers
 
+
+            wrappers {
+                    credentialsBinding {
+                        string('AUTH_KEY', 'AUTH_KEY')
+                    }
+                }
 
             def zone_id = extraVars.get('ZONE_ID')
-            def auth_key = extraVars.get('AUTH_KEY')
             def email = extraVars.get('EMAIL')
             def email = extraVars.get('THRESHOLD')
 
