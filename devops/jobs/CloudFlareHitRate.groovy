@@ -24,7 +24,7 @@ class CloudflareHitRate {
         assert extraVars.containsKey('EMAIL') : "Required email(EMAIL) setting missing from configuration"
         dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/cloudflare-hit-rate-edx") {
             wrappers common_wrappers
-
+            logRotator common_logrotator
 
             wrappers {
                     credentialsBinding {
