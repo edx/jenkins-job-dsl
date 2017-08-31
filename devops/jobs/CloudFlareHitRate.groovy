@@ -13,7 +13,6 @@
 package devops.jobs
 
 
-import static org.edx.jenkins.dsl.DevopsTasks.common_parameters
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 import static org.edx.jenkins.dsl.Constants.common_logrotator
 
