@@ -20,7 +20,6 @@ import static org.edx.jenkins.dsl.Constants.common_wrappers
 class CloudflareHitRate {
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey('ZONE_ID') : "Required ZONE_ID setting missing from configuration"
-        assert extraVars.containsKey('AUTH_KEY') : "Required Authentication key(AUTH_KEY) setting missing from configuration"
         assert extraVars.containsKey('EMAIL') : "Required email(EMAIL) setting missing from configuration"
         dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/cloudflare-hit-rate-edx") {
             wrappers common_wrappers
