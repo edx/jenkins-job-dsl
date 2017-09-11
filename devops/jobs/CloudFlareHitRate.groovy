@@ -67,7 +67,6 @@ class CloudflareHitRate {
                 }
             }
 
-
             publishers {
                 mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
             }
