@@ -29,17 +29,15 @@ class CloudflareHitRate {
                     credentialsBinding {
                         string('AUTH_KEY', 'AUTH_KEY')
                     }
-                }
+            }
 
             def zone_id = extraVars.get('ZONE_ID')
             def email = extraVars.get('EMAIL')
-            def email = extraVars.get('THRESHOLD')
-
+            def threshold = extraVars.get('THRESHOLD')
 
             triggers {
                 cron("* */1 * * *")
             }
-
 
             steps {
                 virtualenv {
@@ -68,7 +66,6 @@ class CloudflareHitRate {
                     }
                 }
             }
-
 
             publishers {
                 mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
