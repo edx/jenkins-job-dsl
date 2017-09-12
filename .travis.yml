@@ -14,4 +14,4 @@ script:
     - nosetests mobile_app/resources -v --with-coverage --cover-package=mobile_app
 
     - export CI_SYSTEM='travis'
-    - ./gradlew check 
+    - ./gradlew check --stacktrace --info

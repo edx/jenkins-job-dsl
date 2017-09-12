@@ -31,9 +31,11 @@ class CloudFlareHitRate {
                     }
             }
 
-            def zone_id = extraVars.get('ZONE_ID')
-            def email = extraVars.get('EMAIL')
-            def threshold = extraVars.get('THRESHOLD')
+            environmentVariables {
+	        env('ZONE_ID', extraVars.get('ZONE_ID'))
+	        env('EMAIL', extraVars.get('EMAIL'))
+	        env('THRESHOLD', extraVars.get('THRESHOLD'))
+            }
 
             triggers {
                 cron("H */1 * * *")
