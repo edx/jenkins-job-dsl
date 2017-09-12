@@ -17,7 +17,7 @@ import static org.edx.jenkins.dsl.Constants.common_wrappers
 import static org.edx.jenkins.dsl.Constants.common_logrotator
 
 
-class CloudflareHitRate {
+class CloudFlareHitRate {
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey('ZONE_ID') : "Required ZONE_ID setting missing from configuration"
         assert extraVars.containsKey('EMAIL') : "Required email(EMAIL) setting missing from configuration"
