@@ -36,7 +36,7 @@ class CloudFlareHitRate {
             def threshold = extraVars.get('THRESHOLD')
 
             triggers {
-                cron("* */1 * * *")
+                cron("H */1 * * *")
             }
 
             steps {
