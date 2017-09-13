@@ -6,6 +6,6 @@ env
 
 python util/jenkins/cloudflare-hit-rate.py\
     --zone ${ZONE_ID}\
-    --auth-key ${AUTH_KEY}\
+    --auth_key ${AUTH_KEY}\
     --email ${EMAIL}\
     --threshold ${THRESHOLD}
