@@ -2,6 +2,7 @@
 set -exuo pipefail
 
 cd $WORKSPACE/configuration
+pip install -r requirements-cloudflare.txt
 env
 
 python util/jenkins/cloudflare-hit-rate.py\
