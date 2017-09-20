@@ -202,6 +202,8 @@ class CreateSandbox {
 
                 stringParam("security_group","sandbox-vpc","")
 
+                stringParam("instance_initiated_shutdown_behavior","terminate","")
+
                 stringParam("dns_zone","sandbox.edx.org","Please don't modify unless you know what you're doing.")
 
                 stringParam("environment","sandbox","")
