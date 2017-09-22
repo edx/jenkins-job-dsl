@@ -298,6 +298,8 @@ jobConfigs.each { jobConfig ->
                     string('TEST_EMAIL_SERVICE', 'MICROSITES_TEST_EMAIL_SERVICE')
                     string('TEST_EMAIL_ACCOUNT', 'MICROSITES_TEST_EMAIL_ACCOUNT')
                     string('TEST_EMAIL_PASSWORD', 'MICROSITES_TEST_EMAIL_PASSWORD')
+                    string('OAUTH_CLIENT_ID', 'MICROSITES_OAUTH_CLIENT_ID')
+                    string('OAUTH_CLIENT_SECRET', 'MICROSITES_OAUTH_CLIENT_SECRET')
                 }
                 // values used for the main
                 else if (jobConfig.testSuite == 'e2e') {
