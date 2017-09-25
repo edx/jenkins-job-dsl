@@ -287,3 +287,33 @@ job('loadtest-summary') {
         }
     }
 }
+
+
+buildFlowJob('loadtest-regression-test') {
+    description(
+        'loadtest-regression-test'
+    )
+
+    /* Abusing the team security feature to give all job control
+     * permissions to all edx employees.
+     */
+    authorization JENKINS_PUBLIC_TEAM_SECURITY.call(['edx'])
+
+    parameters {
+        stringParam('REMOTE_BRANCH', 'master', 'Branch of the edx-load-tests repo to use.')
+        stringParam('MAX_RUN_TIME', '1m', 'Run each test for this amount of time.')
+    }
+
+    concurrentBuild(true)
+
+    wrappers {
+        buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
+        timestamps()
+        colorizeOutput('xterm')
+        /* NOTE: buildName is set in the build flow DSL */
+    }
+
+    buildFlow(readFileFromWorkspace(
+        'testeng/resources/flow-run-simple-loadtest.groovy'
+    ))
+}
