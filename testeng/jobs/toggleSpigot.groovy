@@ -94,6 +94,10 @@ secretMap.each { jobConfigs ->
             env('AWS_DEFAULT_REGION', jobConfig['region'])
         }
 
+        wrappers {
+            timestamps()
+        }
+
         steps {
             shell(readFileFromWorkspace('testeng/resources/toggle-spigot.sh'))
         }
