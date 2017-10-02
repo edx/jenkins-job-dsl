@@ -21,6 +21,10 @@ job('travis-counts') {
         cron("H/10 * * * *")
     }
 
+    wrappers {
+        timestamps()
+    }
+
     steps {
        shell(readFileFromWorkspace('testeng/resources/travis-counts.sh'))
      }

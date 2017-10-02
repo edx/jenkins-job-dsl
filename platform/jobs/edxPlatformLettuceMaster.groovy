@@ -155,6 +155,10 @@ secretMap.each { jobConfigs ->
             githubPush()
         }
 
+        wrappers {
+            timestamps()
+        }
+
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
         predefinedPropsMap.put('GITHUB_ORG', 'edx')

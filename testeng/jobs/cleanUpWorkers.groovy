@@ -23,6 +23,10 @@ job('clean-up-workers') {
         cron('H H/6 * * *')
     }
 
+    wrappers {
+        timestamps()
+    }
+
     steps {
         systemGroovyScriptFile('jenkins/admin-scripts/delete-old-workers.groovy')
     }

@@ -147,6 +147,10 @@ secretMap.each { jobConfigs ->
             }
         }
 
+        wrappers {
+            timestamps()
+        }
+
         configure GHPRB_WHITELIST_BRANCH(jobConfig['whitelistBranchRegex'])
 
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-python-unittests-pr.groovy')
