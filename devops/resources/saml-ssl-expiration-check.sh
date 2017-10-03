@@ -7,7 +7,7 @@ HOME=/edx/var/jenkins
 env
 set -x
 
-SAML_SSL_CERT_FILE=$WORKSPACE/configuration_secure/ansible/vars/${SAML_CERT_FILE}
+SAML_SSL_CERT_FILE=$WORKSPACE/configuration_secure/${SAML_CERT_FILE}
 
 cd $WORKSPACE/sysadmin
 pip install -r requirements.txt
