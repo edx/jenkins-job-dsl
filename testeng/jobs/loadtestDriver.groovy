@@ -1,6 +1,7 @@
 package testeng
 
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 /* loadtestDriver.groovy
  *
@@ -126,6 +127,8 @@ buildFlowJob('run-simple-loadtest') {
 
     concurrentBuild(true)
 
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+
     wrappers {
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
         buildName('#${BUILD_NUMBER} by ${ENV,var="BUILD_USER_ID"}')
@@ -168,6 +171,8 @@ job('loadtest-driver') {
      * elsewhere.
      */
     concurrentBuild(true)
+
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR()
 
     /* This worker label corresponds to an AMI built using
      * util/packer/jenkins_worker_loadtest.json from edx/configuration.
@@ -229,6 +234,8 @@ job('loadtest-summary') {
     }
 
     concurrentBuild(true)
+
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR()
 
     /* Build this on a loadtest-driver-worker instead of a generic jenkins worker because the former is likely already
      * online.
