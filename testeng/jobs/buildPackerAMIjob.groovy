@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_MASKED_PASSWORD
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 Map config = [:]
 Binding bindings = getBinding()
@@ -89,6 +90,7 @@ secretMap.each { jobConfigs ->
                         'Base ami on which to run the Packer script')
         }
 
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild(true)
         label('coverage-worker')
 

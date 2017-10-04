@@ -3,6 +3,7 @@ package testeng
 import hudson.util.Secret
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_MASKED_PASSWORD
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 Map config = [:]
 Binding bindings = getBinding()
@@ -60,6 +61,7 @@ secretMap.each { jobConfigs ->
                         'Whether the spigot should be ON or OFF')
         }
 
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild(false)
 
         scm {

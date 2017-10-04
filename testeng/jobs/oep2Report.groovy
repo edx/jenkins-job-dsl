@@ -1,5 +1,7 @@
 package testeng
 
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+
 job('oep2-report') {
 
     description('Generate a report describing OEP-2 compliance accross edX repos')
@@ -8,6 +10,7 @@ job('oep2-report') {
         permissionAll('edx')
         permission('hudson.model.Item.Discover', 'anonymous')
     }
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR()
     concurrentBuild(false)
     label('jenkins-worker')
     scm {
