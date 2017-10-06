@@ -116,6 +116,7 @@ secretMap.each { jobConfigs ->
             }
             timestamps()
             colorizeOutput('xterm')
+	    buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"}')
         }
 
         // Put sensitive info into masked password slots
