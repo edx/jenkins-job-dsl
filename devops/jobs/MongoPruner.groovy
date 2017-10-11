@@ -12,7 +12,7 @@
         mongo_user: mongo user to authenticate and access db's (required)
     This job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
-    mongo-prune-${deployment}-role-arn: the role to aws sts assume-role
+    mongo-pruner-${deployment}-role-arn: the role to aws sts assume-role
     mongo-db-password: the password for the mongo database
 
 */
@@ -37,7 +37,7 @@ class MongoPruner {
                     wrappers{
                         credentialsBinding{
                             string('MONGO_PASSWORD', "mongo-db-password-${environment}-${deployment}")
-                            string('ROLE_ARN', "mongo-prune-${deployment}-role-arn")
+                            string('ROLE_ARN', "mongo-pruner-${deployment}-role-arn")
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         }
                     }
@@ -65,9 +65,6 @@ class MongoPruner {
                         }
                     }
 
-                    triggers{
-                        cron('0 H/12 * * *')
-                    }
 
                     environmentVariables {
                         env('ENVIRONMENT', environment)
