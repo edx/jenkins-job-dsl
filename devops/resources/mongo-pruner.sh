@@ -24,7 +24,8 @@ set -x
 NAME_TAG="${ENVIRONMENT}-${DEPLOYMENT}-mongo"
 IP_ADDRESSES=`aws ec2 describe-instances\
                --filter Name=tag:Name,Values=$NAME_TAG\
-               --output text --query 'Reservations[*].Instances[*].PrivateIpAddress'`
+               --output text --query 'Reservations[*].Instances[*].PrivateIpAddress'\
+               --region us-east-1`
 
 MONGO_IPS=`echo $IP_ADDRESSES | sed 's/ /,/g'`
 
