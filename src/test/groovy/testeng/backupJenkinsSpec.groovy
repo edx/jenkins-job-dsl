@@ -126,13 +126,11 @@ class backupJenkinsSpec extends Specification {
         when:
         loader.runScript(dslScript.text)
         GeneratedItems generatedItems = loader.runScript(dslScript.text)
-        GeneratedJob job1 = new GeneratedJob(null, 'backup-build-jenkins')
-        GeneratedJob job2 = new GeneratedJob(null, 'backup-test-jenkins')
+        GeneratedJob job = new GeneratedJob(null, 'backup-build-jenkins')
 
         then:
-        generatedItems.jobs.size() == 2
-        generatedItems.jobs.contains(job1)
-        generatedItems.jobs.contains(job2)
+        generatedItems.jobs.size() == 1
+        generatedItems.jobs.contains(job)
 
     }
 
@@ -165,14 +163,12 @@ class backupJenkinsSpec extends Specification {
         Node venv = builders.childNodes().find { it.name == 'jenkins.plugins.shiningpanda.builders.VirtualenvBuilder' }
         venv.childNodes().any {
             it.name == 'command' && it.text().contains(vol) &&
-            it.text().contains("Automatic ${instance} jenkins")
+            it.text().contains("Data volume snapshot from the backup-build-jenkins job")
         }
 
         where:
         job                     | instance | region      | vol       | accessKeyId | secretAccessKey
         'backup-build-jenkins'  | 'build'  | 'us-east.1' | 'vol-123' | 'b123'      | 'b1234'
-        'backup-test-jenkins'   | 'test'   | 'us-west.1' | 'vol-456' | 't123'      | 't1234'
-
     }
 
     /**
@@ -193,7 +189,7 @@ class backupJenkinsSpec extends Specification {
         Node prop = project.childNodes().find { it.name == 'properties' }
         Node privacyBlock = prop.childNodes().find { it.name == 'hudson.security.AuthorizationMatrixProperty' }
         privacyBlock.childNodes().any { it.name == 'blocksInheritance' && it.text() == 'true' }
-        ArrayList<Node> permissions = privacyBlock.childNodes().findAll { it.name == 'permission' } 
+        ArrayList<Node> permissions = privacyBlock.childNodes().findAll { it.name == 'permission' }
         permissions.each { pList.contains(it.text()) }
 
     }
