@@ -65,32 +65,17 @@ secretMap.each { jobConfigs ->
         concurrentBuild(false)
         label('backup-runner')
 
-        // Configure the Exclusive Execution plugin, to reduce the amount of things in memory
-        // during snapshotting
-        configure { project ->
-            project / buildWrappers << 'hudson.plugins.execution.exclusive.ExclusiveBuildWrapper' {
-                // Do not wait for running jobs to complete before executing this job
-                // This is done because of locks when dealing with sub-jobs.
-                skipWaitOnRunningJobs true
-            }
-        }
-
-        // Run the jobs on the following schedule (to reduce interference with other jobs):
-        // Build Jenkins: Sunday 1AM
-        // Test Jenkins: Sunday 2AM
+        // Run the job daily at 1AM
         triggers {
-            if (jobConfig['jenkinsInstance'] == 'build') {
-                cron('0 1 * * 6')
-            }
-            // test jenkins
-            else {
-                cron('0 2 * * 6')
-            }
+            cron('0 1 * * *')
         }
 
+        // This should take < 10 seconds in most cases, as it is only
+        // kicking off the snapshot, not waiting for it to complete.
+        // Giving it enough time for the case that it needs to install new requirements.
         wrappers {
             timeout {
-                absolute(20)
+                absolute(5)
                 abortBuild()
             }
             timestamps()
