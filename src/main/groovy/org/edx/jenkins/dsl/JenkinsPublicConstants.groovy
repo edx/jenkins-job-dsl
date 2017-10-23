@@ -139,7 +139,14 @@ class JenkinsPublicConstants {
             permission('hudson.model.Item.Cancel', 'edx')
         }
 
+    }
 
+    public static final Closure GENERAL_PRIVATE_JOB_SECURITY = {
+        return {
+            blocksInheritance(true)
+            permissionAll('edx')
+            permission('hudson.model.Item.Discover', 'anonymous')
+        }
     }
 
     public static final Closure PUBLISH_TO_HOCKEY_APP(String hockeyAppApiToken, String apkFilePath, String releaseNotesString) {
