@@ -8,11 +8,12 @@ Execute this command from the root of the repository:
 
     $ docker-compose up
 
-If you opt not to use `docker-compose`, the following command will achieve the same results.
+If you opt not to use `docker-compose`, the following command will achieve the same results
 
-    $ docker run -p 8080:8080 -v jenkins:/edx/var/jenkins tools_jenkins
+    $ docker run -it --rm -p 127.0.0.1:8080:8080 -v jenkinsjobdsl_jenkins:/edx/var/jenkins edxops/tools_jenkins:latest
 
-In both instances port 8080 will be exposed to the host system, and a volume will be created on the 
+
+In both instances port 8080 will be exposed only to the host system, and a volume will be created on the 
 container. This volume contains all of the configuration for Jenkins, and will be preserved between container
 stops and starts, except in the case of plugin updates or installs (see WIP: Updating the Docker Image below).
 
@@ -26,9 +27,10 @@ In order to bootstrap Jenkins in a container you will need to do two things:
 ### Credentials
 
 You will need credentials--SSH key, or username and password--to clone private Git repositories. If you are using 
- GitHub, use a scoped [personal access token](https://github.com/settings/tokens) to limit potential security risks.  
+ GitHub, use a scoped [personal access token](https://github.com/settings/tokens) to limit potential security risks. A 'repo' scope should be sufficient for most jobs. 
 
-Credentials can be added using the Jenkins UI.
+Credentials can be added using the Jenkins UI
+You create a username/password combination where the password is your token, this is required if you are using MFA but still want to use a password
 
 Note that if using a personal access token, you can only clone https://github.com/ URLs, and ssh keys only work on git@github.com:edx
 URLs.  We use git@github.com URLs on tools-edx-jenkins with deployment keys, but you can use whatever is simpler in testing.
@@ -42,15 +44,20 @@ repos, or running Gradle.
 1. Use the Jenkins UI to create a new **Freestyle project** job named **Job Creator**.
 2. Configure the job to use **Multiple SCMs** for *Source Control Management*, and add a Git repository. (Note that we 
 are NOT using the Git plugin here.)
-    1. Set the Repository URL to the repo containing your job DSL (e.g. git@github.com:edx/jenkins-job-dsl-internal.git).
-    2. If necessary, select your authentication credentials (e.g. SSH key).
-    3. Repeat for jenkins-job-dsl and edx-internal (and possibly edge-internal).  These will likely be checked out into
-       a subdirectory documented in your seed job.
-4. If specified in your documentation, add a **Invoke Gradle scrip** job and follow the settings in your docs.
-3. Add a **Process Job DSLs** build step and configure it using the settings below. Remember to click the  *Advanced* 
+    1. Set the Repository URL to the repo containing your job DSL (e.g. git@github.com:edx/jenkins-job-dsl-internal.git). (At the time of this writing there is a top level groovy script for each seed job in dsl-internal/jobs.)
+    2. If necessary, select your authentication credentials (e.g. SSH key or the personal token from above).
+    3. Repeat for jenkins-job-dsl and edx-internal (and possibly edge-internal).  
+    4. For each repository add an additional behaviour and check them out into a subdirectory of the same name i.e. jenkins-job-dsl-internal
+       EXCEPT for jenkins-edx-dsl, do not check this out into a subdirectory.
+4. Add a **Invoke Gradle scrip** job
+    1. Select Use Graddle Wrapper
+    1. check 'Make gradlew executable'
+    2. check 'From Root Build Script Dir'
+    3. tasks: 'clean libs'
+5. Add a **Process Job DSLs** build step and configure it using the settings below. Remember to click the  *Advanced* 
 button to expose the final fields.
-    1. DSL Scripts: jobs/hacking-edx-jenkins.edx.org/*Jobs.groovy 
-       (You may opt to change this if you're developing for a different Jenkins server.)
+    1. DSL Scripts: jenkins-job-dsl-internal/jobs/tools-edx-jenkins.edx.org/createMonitoringJobs.groovy
+       if you wanted to create an entry for monitoring jobs (You may need to change this to your particular seeding job)
     2. Action for existing jobs and views: Unchecked
     3. Action for removed jobs: Delete
     4. Action for removed views: Ignore
@@ -60,6 +67,56 @@ button to expose the final fields.
     8. Mark build as unstable when using deprecated features: checked
 4. Save the job, and Build it with Parameters.
 
+### Common Problems
+
+1. How to fix: Path issues
+
+    workspace:/jenkins-job-dsl-internal/jobs/tools-edx-jenkins.edx.org/createMonitoringJobs.groovy: 180: unable to resolve class org.yaml.snakeyaml.error.YAMLException
+     @ line 180, column 1.
+       import org.yaml.snakeyaml.error.YAMLException
+       ^
+
+Under advanced (On the far right of the UI) for 'Process Job DSLs' you need to add the valid groovy class path that is required to locate your groovy files.. this is new line delimited, and might look like the following:  
+
+    jenkins-job-dsl-internal/src/main/groovy/
+    jenkins-job-dsl-internal/lib/*.jar
+    src/main/groovy/
+    lib/*.jar
+    .
+
+2. Null pointer on extra_vars
+    
+    java.lang.NullPointerException
+    ......
+    at createMonitoringJobs.run(createMonitoringJobs.groovy:208)
+
+
+On a line like so:
+
+    CheckRabbitJob(this, globals + extraVars.get('CHECK_RABBITMQ_VARS'))
+
+
+You need to change the build into a parameterized build
+and set a text parameter for EXTRA_VARS with the value: 
+    
+    @edx-internal/tools-edx-jenkins/monitoring.yml
+
+There exists one of these for most seeders
+
+3. Unknown parent path
+
+An example error might look like:
+
+    Processing DSL script createMonitoringJobs.groovy
+    ERROR: Could not create item, unknown parent path in "Monitoring/check-rabbitmq-loadtest-edx"
+    Finished: FAILURE
+
+You need to add a folder through jenkins named appropriately, in this case: Monitoring. 
+Different seeders require different folders so the folder you need to create may vary.
+
+New Item -> Folder
+
+    Item name: Monitoring
 
 ## WIP: Updating the Docker Image
 
