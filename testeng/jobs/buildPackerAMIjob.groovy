@@ -61,10 +61,6 @@ secretMap.each { jobConfigs ->
         // Special security scheme for members of a team
         authorization JENKINS_PUBLIC_TEAM_SECURITY.call(jobConfig['toolsTeam'])
 
-        environmentVariables{
-            env('NEW_RELIC_KEY', jobConfig['newRelicKey'])
-        }
-
         parameters {
             stringParam('REMOTE_BRANCH', 'master',
                         'Branch of the configuration repo to use.')
@@ -125,6 +121,10 @@ secretMap.each { jobConfigs ->
                 injectGlobalPasswords false
                 maskPasswordParameters true
                 passwordEntries {
+                    EnvInjectPasswordEntry {
+                        name 'NEW_RELIC_KEY'
+                        value Secret.fromString(jobConfig['newRelicKey']).getEncryptedValue()
+                    }
                     EnvInjectPasswordEntry {
                         name 'AWS_ACCESS_KEY_ID'
                         value Secret.fromString(jobConfig['awsAccessKeyId']).getEncryptedValue()
