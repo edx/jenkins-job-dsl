@@ -52,6 +52,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('toolsTeam')
     assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('hipchat')
+    assert jobConfig.containsKey('sshKeyURL')
 
     job('build-packer-ami') {
 
@@ -112,7 +113,11 @@ secretMap.each { jobConfigs ->
             }
             timestamps()
             colorizeOutput('xterm')
-	    buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"}')
+            buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"}')
+        }
+
+        environmentVariables{
+	    env('JENKINS_WORKER_KEY_URL', jobConfig['sshKeyURL'])
         }
 
         // Put sensitive info into masked password slots
