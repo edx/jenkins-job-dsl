@@ -54,6 +54,20 @@ Map publicJobConfig = [ open: true,
                         defaultTestengBranch: 'master'
                         ]
 
+Map djangoUpgradeJobConfig = [ open: true,
+                               jobName: 'edx-platform-django-upgrade-unittests-pr',
+                               subsetJob: 'edx-platform-test-subset',
+                               repoName: 'edx-platform',
+                               coverageJob: 'edx-platform-unit-coverage',
+                               workerLabel: 'django-upgrade-worker',
+                               whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                               context: 'jenkins/django-upgrade/python',
+                               triggerPhrase: 'jenkins run django upgrade python',
+                               defaultTestengBranch: 'master',
+                               commentOnly: true,
+                               djangoVersion: '1.11'
+                               ]
+
 Map privateJobConfig = [ open: false,
                          jobName: 'edx-platform-python-unittests-pr_private',
                          subsetJob: 'edx-platform-test-subset_private',
@@ -65,6 +79,20 @@ Map privateJobConfig = [ open: false,
                          triggerPhrase: 'jenkins run python',
                          defaultTestengBranch: 'master'
                          ]
+
+Map privateDjangoUpgradeJobConfig = [ open: false,
+                                      jobName: 'edx-platform-django-upgrade-unittests-pr_private',
+                                      subsetJob: 'edx-platform-test-subset_private',
+                                      repoName: 'edx-platform-private',
+                                      coverageJob: 'edx-platform-unit-coverage_private',
+                                      workerLabel: 'django-upgrade-worker',
+                                      whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                                      context: 'jenkins/django-upgrade/python',
+                                      triggerPhrase: 'jenkins run django upgrade python',
+                                      defaultTestengBranch: 'master',
+                                      commentOnly: true,
+                                      djangoVersion: '1.11'
+                                      ]
 
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-python-unittests-pr',
@@ -79,16 +107,16 @@ Map publicGinkgoJobConfig = [ open: true,
                               ]
 
 Map privateGinkgoJobConfig = [ open: false,
-                             jobName: 'ginkgo-python-unittests-pr_private',
-                             subsetJob: 'edx-platform-test-subset_private',
-                             repoName: 'edx-platform-private',
-                             coverageJob: 'edx-platform-unit-coverage_private',
-                             workerLabel: 'ginkgo-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ginkgo.master/,
-                             context: 'jenkins/ginkgo/python',
-                             triggerPhrase: 'ginkgo run python',
-                             defaultTestengBranch: 'origin/open-release/ginkgo.master'
-                             ]
+                               jobName: 'ginkgo-python-unittests-pr_private',
+                               subsetJob: 'edx-platform-test-subset_private',
+                               repoName: 'edx-platform-private',
+                               coverageJob: 'edx-platform-unit-coverage_private',
+                               workerLabel: 'ginkgo-jenkins-worker',
+                               whitelistBranchRegex: /open-release\/ginkgo.master/,
+                               context: 'jenkins/ginkgo/python',
+                               triggerPhrase: 'ginkgo run python',
+                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
+                               ]
 
 Map publicFicusJobConfig = [ open: true,
                              jobName: 'ficus-python-unittests-pr',
@@ -115,7 +143,9 @@ Map privateFicusJobConfig = [ open: false,
                               ]
 
 List jobConfigs = [ publicJobConfig,
+                    djangoUpgradeJobConfig,
                     privateJobConfig,
+                    privateDjangoUpgradeJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
                     publicFicusJobConfig,
@@ -141,6 +171,11 @@ jobConfigs.each { jobConfig ->
             env('SUBSET_JOB', jobConfig.subsetJob)
             env('REPO_NAME', jobConfig.repoName)
             env('COVERAGE_JOB', jobConfig.coverageJob)
+            // Only define the Django version if explicitly defined in a config.
+            // Otherwise, the default version will be used
+            if (jobConfig.djangoVersion == '1.11') {
+                env('DJANGO_VERSION', '1.11')
+            }
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
@@ -162,7 +197,7 @@ jobConfigs.each { jobConfig ->
                     url("https://github.com/edx/${jobConfig.repoName}.git")
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig['open'].toBoolean()) {
-                        credentials("${EDX_STATUS_BOT_CREDENTIALS}")
+                        credentials("EDX_STATUS_BOT_CREDENTIALS")
                     }
                 }
                 branch('\${ghprbActualCommit}')
@@ -184,6 +219,9 @@ jobConfigs.each { jobConfig ->
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
                 triggerPhrase(jobConfig.triggerPhrase)
+                if (jobConfig.commentOnly) {
+                    onlyTriggerPhrase(true)
+                }
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
                 extensions {
