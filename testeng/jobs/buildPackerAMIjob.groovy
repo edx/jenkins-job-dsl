@@ -52,6 +52,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('toolsTeam')
     assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('hipchat')
+    assert jobConfig.containsKey('sshKeyURL')
 
     job('build-packer-ami') {
 
@@ -60,10 +61,6 @@ secretMap.each { jobConfigs ->
 
         // Special security scheme for members of a team
         authorization JENKINS_PUBLIC_TEAM_SECURITY.call(jobConfig['toolsTeam'])
-
-        environmentVariables{
-            env('NEW_RELIC_KEY', jobConfig['newRelicKey'])
-        }
 
         parameters {
             stringParam('REMOTE_BRANCH', 'master',
@@ -116,7 +113,11 @@ secretMap.each { jobConfigs ->
             }
             timestamps()
             colorizeOutput('xterm')
-	    buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"}')
+            buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"}')
+        }
+
+        environmentVariables{
+	    env('JENKINS_WORKER_KEY_URL', jobConfig['sshKeyURL'])
         }
 
         // Put sensitive info into masked password slots
@@ -125,6 +126,10 @@ secretMap.each { jobConfigs ->
                 injectGlobalPasswords false
                 maskPasswordParameters true
                 passwordEntries {
+                    EnvInjectPasswordEntry {
+                        name 'NEW_RELIC_KEY'
+                        value Secret.fromString(jobConfig['newRelicKey']).getEncryptedValue()
+                    }
                     EnvInjectPasswordEntry {
                         name 'AWS_ACCESS_KEY_ID'
                         value Secret.fromString(jobConfig['awsAccessKeyId']).getEncryptedValue()
