@@ -12,7 +12,7 @@ PrintStream out = config['out']
 
 try {
     out.println('Parsing secret YAML file')
-    String constantsConfig = new File("${EDX_TOGGLE_SPIGOT_SECRET}").text
+    String constantsConfig = new File("${TOGGLE_SPIGOT_SECRET}").text
     Yaml yaml = new Yaml()
     secretMap = yaml.load(constantsConfig)
     out.println('Successfully parsed secret YAML file')
