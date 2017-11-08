@@ -31,8 +31,8 @@ MONGO_IPS=`echo $IP_ADDRESSES | sed 's/ /,/g'`
 
 python scripts/structures.py\
         --database-name ${DATABASE_NAME}\
-        --connection "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IPS}" make_plan plan.json
+        --connection "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IPS}/${DATABASE_NAME}" make_plan plan.json
 
 python scripts/structures.py\
         --database-name ${DATABASE_NAME}\
-        --connection "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IPS}" prune --delay 5000 plan.json
+        --connection "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IPS}/${DATABASE_NAME}" prune --delay 5000 plan.json
