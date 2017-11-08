@@ -118,6 +118,22 @@ New Item -> Folder
 
     Item name: Monitoring
 
+4. Failed to find python installations
+
+An example error might look like:
+
+    FATAL: failed to find the Python installation to use from its name: System-CPython-3.5 (was it deleted?)
+
+You need to set the python installations.
+
+Manage Jenkins -> Configure System -> Python installations
+
+    Name = System-CPython-3.5
+
+    Home or executable = /usr/bin/python3.5
+
+    Check Install automatically
+
 ## WIP: Updating the Docker Image
 
 The [edxops/tools_jenkins](https://hub.docker.com/r/edxops/tools_jenkins/) image is used in the Docker steps above. The required plugins have been pre-installed on the container. Feel free to install additional plugins. If you'd like to add or modify Jenkins plugins, follow the steps below.
