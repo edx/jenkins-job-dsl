@@ -64,7 +64,10 @@ class MongoPruner {
                             }
                         }
                     }
-
+                    
+                    triggers{
+                        cron('H 0 * * 0')
+                    }
 
                     environmentVariables {
                         env('ENVIRONMENT', environment)
