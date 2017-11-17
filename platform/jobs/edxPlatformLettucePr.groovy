@@ -126,7 +126,7 @@ jobConfigs.each { jobConfig ->
         properties {
               githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        // logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild()
         label('flow-worker-lettuce')
         checkoutRetryCount(5)

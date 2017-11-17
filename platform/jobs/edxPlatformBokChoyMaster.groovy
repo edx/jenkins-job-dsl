@@ -108,7 +108,7 @@ secretMap.each { jobConfigs ->
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
+        // logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-bokchoy') //restrict to flow-worker-bokchoy
         checkoutRetryCount(5)
