@@ -143,7 +143,6 @@ jobConfigs.each { jobConfig ->
                     url('https://github.com/edx/testeng-ci.git')
                 }
                 branch('estute/catch-report-exceptions')
-                branch(jobConfig.defaultTestengBranch)
                 browser()
                 extensions {
                     cleanBeforeCheckout()
