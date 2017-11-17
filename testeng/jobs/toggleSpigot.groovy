@@ -62,6 +62,7 @@ secretMap.each { jobConfigs ->
         }
 
         logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        label('master')
         concurrentBuild(false)
 
         scm {
