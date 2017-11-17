@@ -196,7 +196,9 @@ jobConfigs.each { jobConfig ->
 
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-bok-choy-pr.groovy')
         publishers { //publish JUnit Test report
-            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
+              allowEmptyResults()
+            }
         }
     }
 }

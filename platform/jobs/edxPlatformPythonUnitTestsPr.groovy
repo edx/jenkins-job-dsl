@@ -241,10 +241,12 @@ jobConfigs.each { jobConfig ->
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-python-unittests-pr.groovy')
         publishers {
            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
+               allowEmptyResults()
                retainLongStdout()
            }
            publishHtml {
                report("${jobConfig.repoName}/reports") {
+                   allowMissing()
                    reportFiles('diff_coverage_combined.html')
                    reportName('Diff Coverage Report')
                    keepAll()

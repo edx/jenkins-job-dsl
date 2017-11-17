@@ -195,7 +195,9 @@ jobConfigs.each { jobConfig ->
 
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-lettuce-pr.groovy')
         publishers {
-            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
+              allowEmptyResults()
+            }
         }
     }
 }
