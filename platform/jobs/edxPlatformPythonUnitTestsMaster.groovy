@@ -143,7 +143,7 @@ secretMap.each { jobConfigs ->
                         credentials(jobConfig['testengCredential'])
                     }
                 }
-                branch(jobConfig['defaultTestengBranch'])
+                branch('estute/catch-report-exceptions')
                 browser()
                 extensions {
                     cleanBeforeCheckout()
@@ -167,7 +167,9 @@ secretMap.each { jobConfigs ->
 
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-python-unittests-master.groovy')
         publishers { //JUnit Test and coverage.py report, trigger GitHub-Build-Status, email, message hipchat
-           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
+               allowEmptyResults()
+           }
            configure { node ->
                node / publishers << 'jenkins.plugins.shiningpanda.publishers.CoveragePublisher' {
                }

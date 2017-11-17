@@ -139,6 +139,7 @@ secretMap.each { jobConfigs ->
             git { //using git on the branch and url, clean before checkout
                 remote {
                     url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
+                    branch('estute/catch-report-exceptions')
                     if (!jobConfig['open'].toBoolean()) {
                         credentials(jobConfig['testengCredential'])
                     }
@@ -169,7 +170,9 @@ secretMap.each { jobConfigs ->
                                   'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-bok-choy-master.groovy')
         publishers { //JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
-            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
+                allowEmptyResults()
+            }
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
             mailer(jobConfig['email'])
