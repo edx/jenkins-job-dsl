@@ -143,6 +143,7 @@ jobConfigs.each { jobConfig ->
                 remote {
                     url('https://github.com/edx/testeng-ci.git')
                 }
+                branch('estute/catch-report-exceptions')
                 branch(jobConfig.defaultTestengBranch)
                 browser()
                 extensions {
