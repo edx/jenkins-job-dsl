@@ -127,10 +127,15 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    url("https://github.com/edx/${jobConfig.repoName}.git")
+                    if (!jobConfig.open.toBoolean()) {
+                        url("git@github.com:edx/${jobConfig.repoName}.git")
+                    }
+                    else {
+                        url("https://github.com/edx/${jobConfig.repoName}.git")
+                    }
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig.open.toBoolean()) {
-                        credentials("EDX_STATUS_BOT_CREDENTIALS")
+                        credentials('jenkins-worker')
                     }
                 }
                 branch('\${ghprbActualCommit}')
