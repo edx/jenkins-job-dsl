@@ -12,7 +12,7 @@ PrintStream out = config['out']
 
 try {
     out.println('Parsing secret YAML file')
-    String constantsConfig = new File("${EDX_TOGGLE_SPIGOT_SECRET}").text
+    String constantsConfig = new File("${TOGGLE_SPIGOT_SECRET}").text
     Yaml yaml = new Yaml()
     secretMap = yaml.load(constantsConfig)
     out.println('Successfully parsed secret YAML file')
@@ -95,6 +95,7 @@ secretMap.each { jobConfigs ->
 
         environmentVariables {
             env('AWS_DEFAULT_REGION', jobConfig['region'])
+            groovy(readFileFromWorkspace('testeng/resources/toggle-spigot-message.groovy'))
         }
 
         wrappers {
@@ -109,9 +110,9 @@ secretMap.each { jobConfigs ->
             mailer(jobConfig['email'])
             hipChat {
                 token(jobConfig['hipchat'])
-                rooms('Tools Super Team')
+                rooms('new-jenkins-chatter')
                 notifySuccess()
-                completeJobMessage('The Spigot is now: $SPIGOT_STATE')
+                completeJobMessage('The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)')
             }
         }
     }
