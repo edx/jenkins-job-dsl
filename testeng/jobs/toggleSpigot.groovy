@@ -110,7 +110,7 @@ secretMap.each { jobConfigs ->
             mailer(jobConfig['email'])
             hipChat {
                 token(jobConfig['hipchat'])
-                rooms('new-jenkins-chatter')
+                rooms('Test Engineering')
                 notifySuccess()
                 completeJobMessage('The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)')
             }
