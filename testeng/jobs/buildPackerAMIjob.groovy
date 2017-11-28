@@ -31,7 +31,6 @@ catch (any) {
         awsAccessKeyId: 123abc
         awsSecretAccessKey: 123abc
         awsSecurityGroup: 123
-        jenkinsWorkerAMI: ami-123
         newRelicKey: 123abc
         webPageTestBaseAMI: ami-123
         toolsTeam: [ 'users1', 'users2' ]
@@ -46,7 +45,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('awsAccessKeyId')
     assert jobConfig.containsKey('awsSecretAccessKey')
     assert jobConfig.containsKey('awsSecurityGroup')
-    assert jobConfig.containsKey('jenkinsWorkerAMI')
     assert jobConfig.containsKey('newRelicKey')
     assert jobConfig.containsKey('webPageTestBaseAMI')
     assert jobConfig.containsKey('toolsTeam')
@@ -83,7 +81,7 @@ secretMap.each { jobConfigs ->
                         'What should we do with the AMI if it is ' +
                         'successfully built? (Hint: delete means you are ' +
                         'just testing the process.)')
-            stringParam('JENKINS_WORKER_AMI', jobConfig['jenkinsWorkerAMI'],
+            stringParam('JENKINS_WORKER_AMI', 'ami-aa2ea6d0',
                         'Base ami on which to run the Packer script')
         }
 
