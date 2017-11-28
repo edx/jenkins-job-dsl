@@ -112,7 +112,7 @@ secretMap.each { jobConfigs ->
                 token(jobConfig['hipchat'])
                 rooms('TestEngineering')
                 notifySuccess()
-                completeJobMessage('The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)')
+                completeJobMessage('@here The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)')
             }
         }
     }
