@@ -126,7 +126,7 @@ jobConfigs.each { jobConfig ->
         properties {
               githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        // logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild()
         label('flow-worker-bokchoy')
         checkoutRetryCount(5)
@@ -143,7 +143,7 @@ jobConfigs.each { jobConfig ->
                 remote {
                     url('https://github.com/edx/testeng-ci.git')
                 }
-                branch(jobConfig.defaultTestengBranch)
+                branch('estute/catch-report-exceptions')
                 browser()
                 extensions {
                     cleanBeforeCheckout()
@@ -196,7 +196,9 @@ jobConfigs.each { jobConfig ->
 
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-bok-choy-pr.groovy')
         publishers { //publish JUnit Test report
-            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
+              allowEmptyResults()
+            }
         }
     }
 }

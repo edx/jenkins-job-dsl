@@ -107,7 +107,7 @@ secretMap.each { jobConfigs ->
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of days
+        // logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of days
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-lettuce') //restrict to flow-worker-lettuce
         checkoutRetryCount(5)
@@ -142,7 +142,7 @@ secretMap.each { jobConfigs ->
                         credentials(jobConfig['testengCredential'])
                     }
                 }
-                branch(jobConfig['defaultTestengBranch'])
+                branch('estute/catch-report-exceptions')
                 browser()
                 extensions {
                     cleanBeforeCheckout()
@@ -166,7 +166,9 @@ secretMap.each { jobConfigs ->
 
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-lettuce-master.groovy')
         publishers { //JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
-           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
+               allowEmptyResults()
+           }
            predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
            predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
                                   'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
