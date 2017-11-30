@@ -67,6 +67,11 @@ stringParams = [
         name: 'CI_BRANCH',
         description: '',
         default: 'unspecified'
+    ],
+    [
+        name: 'TARGET_BRANCH',
+        description: 'Branch of the edx-platform to run diff-coverage against',
+        default: 'master'
     ]
 ]
 
