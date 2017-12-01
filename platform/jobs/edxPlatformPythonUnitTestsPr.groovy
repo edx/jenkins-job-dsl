@@ -52,7 +52,7 @@ Map publicJobConfig = [ open: true,
                         context: 'jenkins/python',
                         triggerPhrase: 'jenkins run python',
                         targetBranch: 'master',
-                        defaultTestengBranch: 'master'
+                        defaultTestengBranch: 'origin/master'
                         ]
 
 Map djangoUpgradeJobConfig = [ open: true,
@@ -65,7 +65,7 @@ Map djangoUpgradeJobConfig = [ open: true,
                                context: 'jenkins/django-upgrade/python',
                                triggerPhrase: 'jenkins run django upgrade python',
                                targetBranch: 'master',
-                               defaultTestengBranch: 'master',
+                               defaultTestengBranch: 'origin/master',
                                commentOnly: true,
                                djangoVersion: '1.11'
                                ]
@@ -79,7 +79,7 @@ Map privateJobConfig = [ open: false,
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
                          context: 'jenkins/python',
                          triggerPhrase: 'jenkins run python',
-                         targetBranch: 'security-release',
+                         targetBranch: 'origin/security-release',
                          defaultTestengBranch: 'master'
                          ]
 
@@ -92,7 +92,7 @@ Map privateDjangoUpgradeJobConfig = [ open: false,
                                       whitelistBranchRegex: /^((?!open-release\/).)*$/,
                                       context: 'jenkins/django-upgrade/python',
                                       triggerPhrase: 'jenkins run django upgrade python',
-                                      targetBranch: 'security-release',
+                                      targetBranch: 'origin/security-release',
                                       defaultTestengBranch: 'master',
                                       commentOnly: true,
                                       djangoVersion: '1.11'
@@ -107,7 +107,7 @@ Map publicGinkgoJobConfig = [ open: true,
                               whitelistBranchRegex: /open-release\/ginkgo.master/,
                               context: 'jenkins/ginkgo/python',
                               triggerPhrase: 'ginkgo run python',
-                              targetBranch: 'open-release/ginkgo.master',
+                              targetBranch: 'origin/open-release/ginkgo.master',
                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
                               ]
 
@@ -120,7 +120,7 @@ Map privateGinkgoJobConfig = [ open: false,
                                whitelistBranchRegex: /open-release\/ginkgo.master/,
                                context: 'jenkins/ginkgo/python',
                                triggerPhrase: 'ginkgo run python',
-                               targetBranch: 'security/release',
+                               targetBranch: 'origin/security/release',
                                defaultTestengBranch: 'origin/open-release/ginkgo.master'
                                ]
 
@@ -133,7 +133,7 @@ Map publicFicusJobConfig = [ open: true,
                              whitelistBranchRegex: /open-release\/ficus.master/,
                              context: 'jenkins/ficus/python',
                              triggerPhrase: 'ficus run python',
-                             targetBranch: 'open-release/ficus.master',
+                             targetBranch: 'origin/open-release/ficus.master',
                              defaultTestengBranch: 'origin/open-release/ficus.master'
                              ]
 
@@ -146,7 +146,7 @@ Map privateFicusJobConfig = [ open: false,
                               whitelistBranchRegex: /open-release\/ficus.master/,
                               context: 'jenkins/ficus/python',
                               triggerPhrase: 'ficus run python',
-                              targetBranch: 'security-release',
+                              targetBranch: 'origin/security-release',
                               defaultTestengBranch: 'origin/open-release/ficus.master'
                               ]
 

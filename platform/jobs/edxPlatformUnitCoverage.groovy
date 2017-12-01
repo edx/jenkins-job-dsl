@@ -54,7 +54,7 @@ stringParams = [
     [
         name: 'TARGET_BRANCH',
         description: 'Branch of the edx-platform to run diff-coverage against',
-        default: 'master'
+        default: 'origin/master'
     ]
 ]
 
