@@ -51,6 +51,7 @@ Map publicJobConfig = [ open: true,
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
                         context: 'jenkins/python',
                         triggerPhrase: 'jenkins run python',
+                        targetBranch: 'master',
                         defaultTestengBranch: 'master'
                         ]
 
@@ -63,6 +64,7 @@ Map djangoUpgradeJobConfig = [ open: true,
                                whitelistBranchRegex: /^((?!open-release\/).)*$/,
                                context: 'jenkins/django-upgrade/python',
                                triggerPhrase: 'jenkins run django upgrade python',
+                               targetBranch: 'master',
                                defaultTestengBranch: 'master',
                                commentOnly: true,
                                djangoVersion: '1.11'
@@ -77,6 +79,7 @@ Map privateJobConfig = [ open: false,
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
                          context: 'jenkins/python',
                          triggerPhrase: 'jenkins run python',
+                         targetBranch: 'security-release',
                          defaultTestengBranch: 'master'
                          ]
 
@@ -89,6 +92,7 @@ Map privateDjangoUpgradeJobConfig = [ open: false,
                                       whitelistBranchRegex: /^((?!open-release\/).)*$/,
                                       context: 'jenkins/django-upgrade/python',
                                       triggerPhrase: 'jenkins run django upgrade python',
+                                      targetBranch: 'security-release',
                                       defaultTestengBranch: 'master',
                                       commentOnly: true,
                                       djangoVersion: '1.11'
@@ -103,6 +107,7 @@ Map publicGinkgoJobConfig = [ open: true,
                               whitelistBranchRegex: /open-release\/ginkgo.master/,
                               context: 'jenkins/ginkgo/python',
                               triggerPhrase: 'ginkgo run python',
+                              targetBranch: 'open-release/ginkgo.master',
                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
                               ]
 
@@ -115,6 +120,7 @@ Map privateGinkgoJobConfig = [ open: false,
                                whitelistBranchRegex: /open-release\/ginkgo.master/,
                                context: 'jenkins/ginkgo/python',
                                triggerPhrase: 'ginkgo run python',
+                               targetBranch: 'security/release',
                                defaultTestengBranch: 'origin/open-release/ginkgo.master'
                                ]
 
@@ -127,6 +133,7 @@ Map publicFicusJobConfig = [ open: true,
                              whitelistBranchRegex: /open-release\/ficus.master/,
                              context: 'jenkins/ficus/python',
                              triggerPhrase: 'ficus run python',
+                             targetBranch: 'open-release/ficus.master',
                              defaultTestengBranch: 'origin/open-release/ficus.master'
                              ]
 
@@ -139,6 +146,7 @@ Map privateFicusJobConfig = [ open: false,
                               whitelistBranchRegex: /open-release\/ficus.master/,
                               context: 'jenkins/ficus/python',
                               triggerPhrase: 'ficus run python',
+                              targetBranch: 'security-release',
                               defaultTestengBranch: 'origin/open-release/ficus.master'
                               ]
 
@@ -171,6 +179,7 @@ jobConfigs.each { jobConfig ->
             env('SUBSET_JOB', jobConfig.subsetJob)
             env('REPO_NAME', jobConfig.repoName)
             env('COVERAGE_JOB', jobConfig.coverageJob)
+            env('TARGET_BRANCH', jobConfig.targetBranch)
             // Only define the Django version if explicitly defined in a config.
             // Otherwise, the default version will be used
             if (jobConfig.djangoVersion == '1.11') {
