@@ -65,8 +65,6 @@ secretMap.each { jobConfigs ->
                         'Branch of the configuration repo to use.')
             choiceParam('PACKER_JSON',
                         [ 'jenkins_worker.json',
-                          'jenkins_worker_sitespeedio.json',
-                          'harprofiler.json',
                           'webpagetest.json',
                           'jenkins_worker_simple.json',
                           'jenkins_worker_android.json',
