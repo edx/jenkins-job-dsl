@@ -187,7 +187,7 @@ secretMap.each { jobConfigs ->
                 pep8(1, 2, 3, '**/pep8.report')
                 perlcritic(10, 999, 999)
                 pmd(10, 999, 999)
-                pylint(10, 4500, 4500, '**/*pylint.report')
+                pylint(10, 10000, 10000, '**/*pylint.report')
                 simian(10, 999, 999)
                 stylecop(10, 999, 999)
                 sourceEncoding()
