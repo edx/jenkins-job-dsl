@@ -8,11 +8,12 @@ class JenkinsPublicConstants {
   public static final String JENKINS_PUBLIC_BASE_URL = "https://build.testeng.edx.org/"
 
   public static final Closure JENKINS_PUBLIC_LOG_ROTATOR = {
+    int days=14, int num=-1, int artifactDays=-1, int artifactNum=-1 ->
     return {
-      daysToKeep(14)
-      numToKeep(-1)
-      artifactDaysToKeep(-1)
-      artifactNumToKeep(-1)
+      daysToKeep(days)
+      numToKeep(num)
+      artifactDaysToKeep(artifactDays)
+      artifactNumToKeep(artifactNum)
     }
   }
 

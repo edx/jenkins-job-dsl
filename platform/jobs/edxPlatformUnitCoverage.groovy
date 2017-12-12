@@ -2,6 +2,7 @@ package platform
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 stringParams = [
     [
@@ -88,12 +89,8 @@ jobConfigs.each { jobConfig ->
 
     job(jobConfig.jobName) {
 
-        logRotator{
-            daysToKeep(1)
-            numToKeep(-1)
-            artifactDaysToKeep(-1)
-            artifactNumToKeep(-1)
-        }
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(1)
+
         if (!jobConfig.open.toBoolean()) {
             authorization GENERAL_PRIVATE_JOB_SECURITY()
         }

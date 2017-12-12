@@ -110,7 +110,7 @@ secretMap.each { jobConfigs ->
                 defaultValue(jobConfig['workerLabel'])
             }
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild() //concurrent builds can happen
         scm {
             git { //using git on the branch and url, clone, clean before checkout
