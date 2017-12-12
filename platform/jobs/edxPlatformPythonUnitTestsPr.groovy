@@ -56,7 +56,7 @@ Map publicJobConfig = [ open: true,
                         ]
 
 Map django19JobConfig = [ open: true,
-                          jobName: 'edx-platform-django-upgrade-unittests-pr',
+                          jobName: 'edx-platform-django-1.9-unittests-pr',
                           subsetJob: 'edx-platform-test-subset',
                           repoName: 'edx-platform',
                           coverageJob: 'edx-platform-unit-coverage',
@@ -71,7 +71,7 @@ Map django19JobConfig = [ open: true,
                           ]
 
 Map django110JobConfig = [ open: true,
-                           jobName: 'edx-platform-django-upgrade-unittests-pr',
+                           jobName: 'edx-platform-django-1.10-unittests-pr',
                            subsetJob: 'edx-platform-test-subset',
                            repoName: 'edx-platform',
                            coverageJob: 'edx-platform-unit-coverage',
@@ -114,7 +114,7 @@ Map privateJobConfig = [ open: false,
                          ]
 
 Map privateDjango19JobConfig = [ open: false,
-                                 jobName: 'edx-platform-django-upgrade-unittests-pr_private',
+                                 jobName: 'edx-platform-django-upgrade-1.9-unittests-pr_private',
                                  subsetJob: 'edx-platform-test-subset_private',
                                  repoName: 'edx-platform-private',
                                  coverageJob: 'edx-platform-unit-coverage_private',
@@ -129,7 +129,7 @@ Map privateDjango19JobConfig = [ open: false,
                                  ]
 
 Map privateDjango110JobConfig = [ open: false,
-                                  jobName: 'edx-platform-django-upgrade-unittests-pr_private',
+                                  jobName: 'edx-platform-django-upgrade-1.10-unittests-pr_private',
                                   subsetJob: 'edx-platform-test-subset_private',
                                   repoName: 'edx-platform-private',
                                   coverageJob: 'edx-platform-unit-coverage_private',
