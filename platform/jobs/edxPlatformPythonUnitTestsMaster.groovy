@@ -107,7 +107,7 @@ secretMap.each { jobConfigs ->
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after a certain amount of days
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-python') //restrict to flow-worker-lettuce
         checkoutRetryCount(5)

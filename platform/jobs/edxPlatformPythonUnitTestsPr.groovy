@@ -34,9 +34,9 @@ catch (any) {
 //                       repoName: name of the github repo containing the edx-platform you want to test
 //                       coverageJob: name of the coverage job to run after the unit tests
 //                       workerLabel: label of the worker to run the subset jobs on
-//                       whiteListBranchRegex: regular expression to filter which branches of a particular repo 
+//                       whiteListBranchRegex: regular expression to filter which branches of a particular repo
 //                       can will trigger builds (via GHRPB)
-//                       context: Github context used to report test status 
+//                       context: Github context used to report test status
 //                       triggerPhrase: Github comment used to trigger this job
 //                       defaultTestengbranch: default branch of the testeng-ci repo for this job
 //                       ]
@@ -235,7 +235,7 @@ jobConfigs.each { jobConfig ->
         properties {
               githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
         label('flow-worker-python')
         checkoutRetryCount(5)

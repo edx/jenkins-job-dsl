@@ -111,7 +111,7 @@ jobConfigs.each { jobConfig ->
         properties {
               githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
         parameters {
             labelParam('WORKER_LABEL') {

@@ -5,7 +5,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 buildFlowJob('edx-platform-pr-tests-special-worker') {
 
     description('a wrapper job used to run a platform PR test suite on a given worker type')
-    logRotator JENKINS_PUBLIC_LOG_ROTATOR
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR(3)
     label('flow-worker')
 
     List<String> prJobs = [ 'edx-platform-accessibility-pr',

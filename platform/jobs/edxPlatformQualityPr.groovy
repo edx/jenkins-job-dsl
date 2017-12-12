@@ -36,7 +36,7 @@ catch (any) {
 //                       workerLabel: label of the worker to run this job on
 //                       whiteListBranchRegex: regular expression to filter which branches of a particular repo
 //                       can will trigger builds (via GHRPB)
-//                       context: Github context used to report test status 
+//                       context: Github context used to report test status
 //                       triggerPhrase: Github comment used to trigger this job
 //                       ]
 
@@ -116,7 +116,7 @@ jobConfigs.each { jobConfig ->
         properties {
               githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
         parameters {
             labelParam('WORKER_LABEL') {
