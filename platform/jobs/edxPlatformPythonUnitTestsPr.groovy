@@ -55,20 +55,50 @@ Map publicJobConfig = [ open: true,
                         defaultTestengBranch: 'origin/master'
                         ]
 
-Map djangoUpgradeJobConfig = [ open: true,
-                               jobName: 'edx-platform-django-upgrade-unittests-pr',
-                               subsetJob: 'edx-platform-test-subset',
-                               repoName: 'edx-platform',
-                               coverageJob: 'edx-platform-unit-coverage',
-                               workerLabel: 'django-upgrade-worker',
-                               whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                               context: 'jenkins/django-upgrade/python',
-                               triggerPhrase: 'jenkins run django upgrade python',
-                               targetBranch: 'master',
-                               defaultTestengBranch: 'origin/master',
-                               commentOnly: true,
-                               djangoVersion: '1.11'
-                               ]
+Map django19JobConfig = [ open: true,
+                          jobName: 'edx-platform-django-upgrade-unittests-pr',
+                          subsetJob: 'edx-platform-test-subset',
+                          repoName: 'edx-platform',
+                          coverageJob: 'edx-platform-unit-coverage',
+                          workerLabel: 'django-upgrade-worker',
+                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                          context: 'jenkins/django-upgrade/python',
+                          triggerPhrase: 'jenkins run django 1.9 python',
+                          targetBranch: 'master',
+                          defaultTestengBranch: 'origin/master',
+                          commentOnly: true,
+                          djangoVersion: '1.9'
+                          ]
+
+Map django110JobConfig = [ open: true,
+                           jobName: 'edx-platform-django-upgrade-unittests-pr',
+                           subsetJob: 'edx-platform-test-subset',
+                           repoName: 'edx-platform',
+                           coverageJob: 'edx-platform-unit-coverage',
+                           workerLabel: 'django-upgrade-worker',
+                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                           context: 'jenkins/django-upgrade/python',
+                           triggerPhrase: 'jenkins run django 1.10 python',
+                           targetBranch: 'master',
+                           defaultTestengBranch: 'origin/master',
+                           commentOnly: true,
+                           djangoVersion: '1.10'
+                           ]
+
+Map django111JobConfig = [ open: true,
+                           jobName: 'edx-platform-django-upgrade-unittests-pr',
+                           subsetJob: 'edx-platform-test-subset',
+                           repoName: 'edx-platform',
+                           coverageJob: 'edx-platform-unit-coverage',
+                           workerLabel: 'django-upgrade-worker',
+                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                           context: 'jenkins/django-upgrade/python',
+                           triggerPhrase: 'jenkins run django 1.11 python',
+                           targetBranch: 'master',
+                           defaultTestengBranch: 'origin/master',
+                           commentOnly: true,
+                           djangoVersion: '1.11'
+                           ]
 
 Map privateJobConfig = [ open: false,
                          jobName: 'edx-platform-python-unittests-pr_private',
@@ -83,20 +113,50 @@ Map privateJobConfig = [ open: false,
                          defaultTestengBranch: 'master'
                          ]
 
-Map privateDjangoUpgradeJobConfig = [ open: false,
-                                      jobName: 'edx-platform-django-upgrade-unittests-pr_private',
-                                      subsetJob: 'edx-platform-test-subset_private',
-                                      repoName: 'edx-platform-private',
-                                      coverageJob: 'edx-platform-unit-coverage_private',
-                                      workerLabel: 'django-upgrade-worker',
-                                      whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                                      context: 'jenkins/django-upgrade/python',
-                                      triggerPhrase: 'jenkins run django upgrade python',
-                                      targetBranch: 'origin/security-release',
-                                      defaultTestengBranch: 'master',
-                                      commentOnly: true,
-                                      djangoVersion: '1.11'
-                                      ]
+Map privateDjango19JobConfig = [ open: false,
+                                 jobName: 'edx-platform-django-upgrade-unittests-pr_private',
+                                 subsetJob: 'edx-platform-test-subset_private',
+                                 repoName: 'edx-platform-private',
+                                 coverageJob: 'edx-platform-unit-coverage_private',
+                                 workerLabel: 'django-upgrade-worker',
+                                 whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                                 context: 'jenkins/django-upgrade/python',
+                                 triggerPhrase: 'jenkins run django 1.9 python',
+                                 targetBranch: 'origin/security-release',
+                                 defaultTestengBranch: 'master',
+                                 commentOnly: true,
+                                 djangoVersion: '1.9'
+                                 ]
+
+Map privateDjango110JobConfig = [ open: false,
+                                  jobName: 'edx-platform-django-upgrade-unittests-pr_private',
+                                  subsetJob: 'edx-platform-test-subset_private',
+                                  repoName: 'edx-platform-private',
+                                  coverageJob: 'edx-platform-unit-coverage_private',
+                                  workerLabel: 'django-upgrade-worker',
+                                  whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                                  context: 'jenkins/django-upgrade/python',
+                                  triggerPhrase: 'jenkins run django 1.10 python',
+                                  targetBranch: 'origin/security-release',
+                                  defaultTestengBranch: 'master',
+                                  commentOnly: true,
+                                  djangoVersion: '1.10'
+                                  ]
+
+Map privateDjango111JobConfig = [ open: false,
+                                  jobName: 'edx-platform-django-upgrade-unittests-pr_private',
+                                  subsetJob: 'edx-platform-test-subset_private',
+                                  repoName: 'edx-platform-private',
+                                  coverageJob: 'edx-platform-unit-coverage_private',
+                                  workerLabel: 'django-upgrade-worker',
+                                  whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                                  context: 'jenkins/django-upgrade/python',
+                                  triggerPhrase: 'jenkins run django 1.11 python',
+                                  targetBranch: 'origin/security-release',
+                                  defaultTestengBranch: 'master',
+                                  commentOnly: true,
+                                  djangoVersion: '1.11'
+                                  ]
 
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-python-unittests-pr',
@@ -151,9 +211,13 @@ Map privateFicusJobConfig = [ open: false,
                               ]
 
 List jobConfigs = [ publicJobConfig,
-                    djangoUpgradeJobConfig,
+                    django19JobConfig,
+                    django110JobConfig,
+                    django111JobConfig,
                     privateJobConfig,
-                    privateDjangoUpgradeJobConfig,
+                    privateDjango19JobConfig,
+                    privateDjango110JobConfig,
+                    privateDjango111JobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
                     publicFicusJobConfig,
@@ -182,8 +246,8 @@ jobConfigs.each { jobConfig ->
             env('TARGET_BRANCH', jobConfig.targetBranch)
             // Only define the Django version if explicitly defined in a config.
             // Otherwise, the default version will be used
-            if (jobConfig.djangoVersion == '1.11') {
-                env('DJANGO_VERSION', '1.11')
+            if (jobConfig.containsKey('djangoVersion')) {
+                env('DJANGO_VERSION', jobConfig.djangoVersion)
             }
         }
         parameters {
