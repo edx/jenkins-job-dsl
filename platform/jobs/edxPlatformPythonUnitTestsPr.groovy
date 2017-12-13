@@ -38,6 +38,9 @@ catch (any) {
 //                       can will trigger builds (via GHRPB)
 //                       context: Github context used to report test status
 //                       triggerPhrase: Github comment used to trigger this job
+//                       targetBranch: branch of the edx-platform used as a comparison when running coverage.
+//                       this value is passed from the python job to the coverage job and used as an environment
+//                       variable
 //                       defaultTestengbranch: default branch of the testeng-ci repo for this job
 //                       ]
 
@@ -51,8 +54,8 @@ Map publicJobConfig = [ open: true,
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
                         context: 'jenkins/python',
                         triggerPhrase: 'jenkins run python',
-                        targetBranch: 'master',
-                        defaultTestengBranch: 'origin/master'
+                        targetBranch: 'origin/master',
+                        defaultTestengBranch: 'master'
                         ]
 
 Map django19JobConfig = [ open: true,
@@ -64,8 +67,8 @@ Map django19JobConfig = [ open: true,
                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
                           context: 'jenkins/django-upgrade/python',
                           triggerPhrase: 'jenkins run django19 python',
-                          targetBranch: 'master',
-                          defaultTestengBranch: 'origin/master',
+                          targetBranch: 'origin/master',
+                          defaultTestengBranch: 'master',
                           commentOnly: true,
                           djangoVersion: '1.9'
                           ]
@@ -79,8 +82,8 @@ Map django110JobConfig = [ open: true,
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
                            context: 'jenkins/django-upgrade/python',
                            triggerPhrase: 'jenkins run django110 python',
-                           targetBranch: 'master',
-                           defaultTestengBranch: 'origin/master',
+                           targetBranch: 'origin/master',
+                           defaultTestengBranch: 'master',
                            commentOnly: true,
                            djangoVersion: '1.10'
                            ]
@@ -94,8 +97,8 @@ Map django111JobConfig = [ open: true,
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
                            context: 'jenkins/django-upgrade/python',
                            triggerPhrase: 'jenkins run django upgrade python',
-                           targetBranch: 'master',
-                           defaultTestengBranch: 'origin/master',
+                           targetBranch: 'origin/master',
+                           defaultTestengBranch: 'master',
                            commentOnly: true,
                            djangoVersion: '1.11'
                            ]
