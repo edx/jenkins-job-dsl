@@ -52,6 +52,45 @@ Map publicJobConfig = [ open : true,
                         defaultTestengBranch: 'master'
                         ]
 
+Map django19JobConfig = [ open : true,
+                          jobName : 'edx-platform-django-1.9-bok-choy-pr',
+                          subsetJob: 'edx-platform-test-subset',
+                          repoName: 'edx-platform',
+                          workerLabel: 'django-upgrade-worker',
+                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                          context: 'jenkins/bokchoy',
+                          triggerPhrase: 'jenkins run django19 bokchoy',
+                          defaultTestengBranch: 'master',
+                          commentOnly: true,
+                          djangoVersion: '1.9'
+                          ]
+
+Map django110JobConfig = [ open : true,
+                           jobName : 'edx-platform-django-1.10-bok-choy-pr',
+                           subsetJob: 'edx-platform-test-subset',
+                           repoName: 'edx-platform',
+                           workerLabel: 'django-upgrade-worker',
+                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                           context: 'jenkins/bokchoy',
+                           triggerPhrase: 'jenkins run django110 bokchoy',
+                           defaultTestengBranch: 'master',
+                           commentOnly: true,
+                           djangoVersion: '1.9'
+                           ]
+
+Map django111JobConfig = [ open : true,
+                           jobName : 'edx-platform-django-upgrade-bok-choy-pr',
+                           subsetJob: 'edx-platform-test-subset',
+                           repoName: 'edx-platform',
+                           workerLabel: 'django-upgrade-worker',
+                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                           context: 'jenkins/bokchoy',
+                           triggerPhrase: 'jenkins run django upgrade bokchoy',
+                           defaultTestengBranch: 'master',
+                           commentOnly: true,
+                           djangoVersion: '1.11'
+                           ]
+
 Map privateJobConfig = [ open: false,
                          jobName: 'edx-platform-bok-choy-pr_private',
                          subsetJob: 'edx-platform-test-subset_private',
@@ -108,6 +147,9 @@ Map privateFicusJobConfig = [ open: false,
                               ]
 
 List jobConfigs = [ publicJobConfig,
+                    django19JobConfig,
+                    django110JobConfig,
+                    django111JobConfig,
                     privateJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
@@ -133,6 +175,11 @@ jobConfigs.each { jobConfig ->
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)
             env('REPO_NAME', jobConfig.repoName)
+            // Only define the Django version if explicitly defined in a config.
+            // Otherwise, the default version will be used
+            if (jobConfig.containsKey('djangoVersion')) {
+                env('DJANGO_VERSION', jobConfig.djangoVersion)
+            }
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
@@ -178,6 +225,9 @@ jobConfigs.each { jobConfig ->
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
                 triggerPhrase(jobConfig.triggerPhrase)
+                if (jobConfig.commentOnly) {
+                    onlyTriggerPhrase(true)
+                }
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
                 extensions {
