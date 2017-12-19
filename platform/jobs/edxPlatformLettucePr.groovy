@@ -39,6 +39,9 @@ catch (any) {
 //                       context: Github context used to report test status
 //                       triggerPhrase: Github comment used to trigger this job
 //                       defaultTestengbranch: default branch of the testeng-ci repo for this job
+//                       commentOnly: true/false if this job should only be triggered by explicit comments on
+//                       github. Default behavior: triggered by comments AND pull request updates
+//                       djangoVersion: version of django to run tests with (via tox)
 //                       ]
 
 Map publicJobConfig = [ open : true,
@@ -51,6 +54,45 @@ Map publicJobConfig = [ open : true,
                         triggerPhrase: 'jenkins run lettuce',
                         defaultTestengBranch: 'master'
                         ]
+
+Map django19JobConfig = [ open : true,
+                          jobName : 'edx-platform-django-1.9-lettuce-pr',
+                          subsetJob: 'edx-platform-test-subset',
+                          repoName: 'edx-platform',
+                          workerLabel: 'django-upgrade-worker',
+                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                          context: 'jenkins/django-1.9/lettuce',
+                          triggerPhrase: 'jenkins run django19 lettuce',
+                          defaultTestengBranch: 'master',
+                          commentOnly: true,
+                          djangoVersion: '1.9'
+                          ]
+
+Map django110JobConfig = [ open : true,
+                           jobName : 'edx-platform-django-1.10-lettuce-pr',
+                           subsetJob: 'edx-platform-test-subset',
+                           repoName: 'edx-platform',
+                           workerLabel: 'django-upgrade-worker',
+                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                           context: 'jenkins/django-1.10/lettuce',
+                           triggerPhrase: 'jenkins run django110 lettuce',
+                           defaultTestengBranch: 'master',
+                           commentOnly: true,
+                           djangoVersion: '1.10'
+                           ]
+
+Map django111JobConfig = [ open : true,
+                           jobName : 'edx-platform-django-upgrade-lettuce-pr',
+                           subsetJob: 'edx-platform-test-subset',
+                           repoName: 'edx-platform',
+                           workerLabel: 'django-upgrade-worker',
+                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                           context: 'jenkins/django-upgrade/lettuce',
+                           triggerPhrase: 'jenkins run django upgrade lettuce',
+                           defaultTestengBranch: 'master',
+                           commentOnly: true,
+                           djangoVersion: '1.11'
+                           ]
 
 Map privateJobConfig = [ open: false,
                          jobName: 'edx-platform-lettuce-pr_private',
@@ -108,6 +150,9 @@ Map privateFicusJobConfig = [ open: false,
                               ]
 
 List jobConfigs = [ publicJobConfig,
+                    django19JobConfig,
+                    django110JobConfig,
+                    django111JobConfig,
                     privateJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
@@ -133,6 +178,11 @@ jobConfigs.each { jobConfig ->
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)
             env('REPO_NAME', jobConfig.repoName)
+            // Only define the Django version if explicitly defined in a config.
+            // Otherwise, the default version will be used
+            if (jobConfig.containsKey('djangoVersion')) {
+                env('DJANGO_VERSION', jobConfig.djangoVersion)
+            }
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
@@ -176,6 +226,9 @@ jobConfigs.each { jobConfig ->
             pullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
+                if (jobConfig.commentOnly) {
+                    onlyTriggerPhrase(true)
+                }
                 triggerPhrase(jobConfig.triggerPhrase)
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])

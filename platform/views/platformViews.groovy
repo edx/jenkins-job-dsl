@@ -46,3 +46,12 @@ branchList.each { branch ->
     }
 
 }
+
+listView('django-upgrade-pr-tests') {
+    description('jobs used to run tests against various versions of django ' +
+                'during the upgrade process')
+    jobs {
+        regex('edx-platform-django-.*-pr')
+    }
+    columns DEFAULT_VIEW.call()
+}
