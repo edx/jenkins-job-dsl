@@ -42,6 +42,9 @@ catch (any) {
 //                       this value is passed from the python job to the coverage job and used as an environment
 //                       variable
 //                       defaultTestengbranch: default branch of the testeng-ci repo for this job
+//                       commentOnly: true/false if this job should only be triggered by explicit comments on
+//                       github. Default behavior: triggered by comments AND pull request updates
+//                       djangoVersion: version of django to run tests with (via tox)
 //                       ]
 
 // Individual Job Configurations
@@ -65,7 +68,7 @@ Map django19JobConfig = [ open: true,
                           coverageJob: 'edx-platform-unit-coverage',
                           workerLabel: 'django-upgrade-worker',
                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                          context: 'jenkins/django-upgrade/python',
+                          context: 'jenkins/django-1.9/python',
                           triggerPhrase: 'jenkins run django19 python',
                           targetBranch: 'origin/master',
                           defaultTestengBranch: 'master',
@@ -80,7 +83,7 @@ Map django110JobConfig = [ open: true,
                            coverageJob: 'edx-platform-unit-coverage',
                            workerLabel: 'django-upgrade-worker',
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                           context: 'jenkins/django-upgrade/python',
+                           context: 'jenkins/django-1.10/python',
                            triggerPhrase: 'jenkins run django110 python',
                            targetBranch: 'origin/master',
                            defaultTestengBranch: 'master',
