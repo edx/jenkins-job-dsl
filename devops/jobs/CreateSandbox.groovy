@@ -172,6 +172,9 @@ class CreateSandbox {
                 booleanParam("credentials",false,"")
                 stringParam("credentials_version","master","")
 
+                booleanParam("set_whitelabel",false,
+                             "Check this in order to create a Sandbox with whitelabel themes automatically set.")
+
                 choiceParam("server_type",
                             ["full_edx_installation",
                              "full_edx_installation_from_scratch",
