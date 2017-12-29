@@ -155,6 +155,10 @@ secretMap.each { jobConfigs ->
                 sshAgent(jobConfig['credential'])
             }
             buildName('#\${BUILD_NUMBER}: \${ENV,var=\"TEST_SUITE\"} \${ENV,var=\"SHARD\"}')
+            credentialsBinding {
+                string('AWS_ACCESS_KEY_ID', 'DB_CACHE_ACCESS_KEY_ID')
+                string('AWS_SECRET_ACCESS_KEY', 'DB_CACHE_SECRET_ACCESS_KEY')
+            }
         }
 
         /* Actual build steps for this job */
