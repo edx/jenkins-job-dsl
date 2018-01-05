@@ -138,6 +138,10 @@ secretMap.each { jobConfigs ->
             if (!jobConfig['open'].toBoolean()) {
                 sshAgent(jobConfig['credential'])
             }
+            credentialsBinding {
+                string('AWS_ACCESS_KEY_ID', 'DB_CACHE_ACCESS_KEY_ID')
+                string('AWS_SECRET_ACCESS_KEY', 'DB_CACHE_SECRET_ACCESS_KEY')
+            }
         }
 
         Map <String, String> predefinedPropsMap  = [:]
