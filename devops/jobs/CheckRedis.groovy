@@ -41,7 +41,7 @@ class CheckRedis {
                     wrappers {
                         credentialsBinding {
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
-                            def variable = "redis-monitoring-role-${deployment}-arn"
+                            def variable = "redis-monitoring-${deployment}-role-arn"
                             string('ROLE_ARN', variable)
                         }
                       }
