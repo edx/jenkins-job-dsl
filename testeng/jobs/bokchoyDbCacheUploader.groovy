@@ -125,7 +125,7 @@ secretMap.each { jobConfigs ->
 
         wrappers {
             credentialsBinding {
-                string('GITHUB_TOKEN', 'GITHUB_STATUS_OAUTH_TOKEN')
+                string('GITHUB_TOKEN', 'GITHUB_CACHE_UPLOADER_TOKEN')
             }
             timestamps()
         }
