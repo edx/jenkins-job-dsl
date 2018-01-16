@@ -103,6 +103,10 @@ secretMap.each { jobConfigs ->
         }
 
         wrappers {
+            credentialsBinding {
+                string('DB_CACHE_ACCESS_KEY_ID', 'DB_CACHE_ACCESS_KEY_ID')
+                string('DB_CACHE_SECRET_ACCESS_KEY', 'DB_CACHE_SECRET_ACCESS_KEY')
+            }
             timeout {
                 absolute(180)
                 abortBuild()
