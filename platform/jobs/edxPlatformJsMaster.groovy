@@ -30,7 +30,7 @@ publicJobConfig:
 */
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
-archiveReports += 'edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,'
+archiveReports += 'edx-platform*/test_root/log/*.log,'
 archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
 
 /* stdout logger */

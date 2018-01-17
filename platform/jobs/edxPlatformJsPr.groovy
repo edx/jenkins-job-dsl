@@ -7,7 +7,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
-archiveReports += 'edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,'
+archiveReports += 'edx-platform*/test_root/log/*.log,'
 archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
 
 String descriptionString = 'This job runs pull requests through our javascript tests.<br><br> \n'

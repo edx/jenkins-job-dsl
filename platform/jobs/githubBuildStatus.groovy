@@ -72,11 +72,4 @@ job('github-build-status') {
     steps {
         shell(readFileFromWorkspace('platform/resources/github_status_shell.sh'))
     }
-    publishers {
-        groovyPostBuild(
-            readFileFromWorkspace('platform/resources/deployment_status.groovy'),
-            Behavior.MarkFailed
-        )
-    }
 }
-

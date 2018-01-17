@@ -29,7 +29,7 @@ publicJobConfig:
 */
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
-archiveReports += 'edx-platform*/test_root/log/*.log, edx-platform*/test_root/log/hars/*.har,'
+archiveReports += 'edx-platform*/test_root/log/*.log,'
 archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
 
 String htmlReports = 'pylint/*view*/, pep8/*view*/, jshint/*view*/, python_complexity/*view*/,'
