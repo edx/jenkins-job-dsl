@@ -186,7 +186,7 @@ jobConfigs.each { jobConfig ->
         publishers {
             archiveArtifacts {
                 pattern('edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,edx-platform*/' +
-                        'test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,edx-platform*/**/' +
+                        'test_root/log/*.log,edx-platform*/**/' +
                         'nosetests.xml,edx-platform*/**/TEST-*.xml')
                 defaultExcludes(true)
                 allowEmpty(true)
