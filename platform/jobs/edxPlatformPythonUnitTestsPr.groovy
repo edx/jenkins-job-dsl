@@ -32,6 +32,8 @@ catch (any) {
 //                       jobName: name of the job
 //                       subsetjob: name of subset job run by this job (shard jobs)
 //                       repoName: name of the github repo containing the edx-platform you want to test
+//                       runCoverage: whether or not the shards should run unit tests through coverage, and then
+//                       run the coverage job on the results
 //                       coverageJob: name of the coverage job to run after the unit tests
 //                       workerLabel: label of the worker to run the subset jobs on
 //                       whiteListBranchRegex: regular expression to filter which branches of a particular repo
@@ -52,6 +54,7 @@ Map publicJobConfig = [ open: true,
                         jobName: 'edx-platform-python-unittests-pr',
                         subsetJob: 'edx-platform-test-subset',
                         repoName: 'edx-platform',
+                        runCoverage: true,
                         coverageJob: 'edx-platform-unit-coverage',
                         workerLabel: 'jenkins-worker',
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
@@ -65,6 +68,7 @@ Map django19JobConfig = [ open: true,
                           jobName: 'edx-platform-django-1.9-unittests-pr',
                           subsetJob: 'edx-platform-test-subset',
                           repoName: 'edx-platform',
+                          runCoverage: false,
                           coverageJob: 'edx-platform-unit-coverage',
                           workerLabel: 'django-upgrade-worker',
                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
@@ -80,6 +84,7 @@ Map django110JobConfig = [ open: true,
                            jobName: 'edx-platform-django-1.10-unittests-pr',
                            subsetJob: 'edx-platform-test-subset',
                            repoName: 'edx-platform',
+                           runCoverage: false,
                            coverageJob: 'edx-platform-unit-coverage',
                            workerLabel: 'django-upgrade-worker',
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
@@ -95,6 +100,7 @@ Map django111JobConfig = [ open: true,
                            jobName: 'edx-platform-django-upgrade-unittests-pr',
                            subsetJob: 'edx-platform-test-subset',
                            repoName: 'edx-platform',
+                           runCoverage: false,
                            coverageJob: 'edx-platform-unit-coverage',
                            workerLabel: 'django-upgrade-worker',
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
@@ -110,6 +116,7 @@ Map privateJobConfig = [ open: false,
                          jobName: 'edx-platform-python-unittests-pr_private',
                          subsetJob: 'edx-platform-test-subset_private',
                          repoName: 'edx-platform-private',
+                         runCoverage: true,
                          coverageJob: 'edx-platform-unit-coverage_private',
                          workerLabel: 'jenkins-worker',
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
@@ -123,6 +130,7 @@ Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-python-unittests-pr',
                               subsetJob: 'edx-platform-test-subset',
                               repoName: 'edx-platform',
+                              runCoverage: true,
                               coverageJob: 'edx-platform-unit-coverage',
                               workerLabel: 'ginkgo-jenkins-worker',
                               whitelistBranchRegex: /open-release\/ginkgo.master/,
@@ -136,6 +144,7 @@ Map privateGinkgoJobConfig = [ open: false,
                                jobName: 'ginkgo-python-unittests-pr_private',
                                subsetJob: 'edx-platform-test-subset_private',
                                repoName: 'edx-platform-private',
+                               runCoverage: true,
                                coverageJob: 'edx-platform-unit-coverage_private',
                                workerLabel: 'ginkgo-jenkins-worker',
                                whitelistBranchRegex: /open-release\/ginkgo.master/,
@@ -149,6 +158,7 @@ Map publicFicusJobConfig = [ open: true,
                              jobName: 'ficus-python-unittests-pr',
                              subsetJob: 'edx-platform-test-subset',
                              repoName: 'edx-platform',
+                             runCoverage: true,
                              coverageJob: 'edx-platform-unit-coverage',
                              workerLabel: 'ficus-jenkins-worker',
                              whitelistBranchRegex: /open-release\/ficus.master/,
@@ -162,6 +172,7 @@ Map privateFicusJobConfig = [ open: false,
                               jobName: 'ficus-python-unittests-pr_private',
                               subsetJob: 'edx-platform-test-subset_private',
                               repoName: 'edx-platform-private',
+                              runCoverage: true,
                               coverageJob: 'edx-platform-unit-coverage_private',
                               workerLabel: 'ficus-jenkins-worker',
                               whitelistBranchRegex: /open-release\/ficus.master/,
@@ -191,7 +202,7 @@ jobConfigs.each { jobConfig ->
             authorization GENERAL_PRIVATE_JOB_SECURITY()
         }
         properties {
-              githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
+            githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
@@ -200,6 +211,7 @@ jobConfigs.each { jobConfig ->
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)
             env('REPO_NAME', jobConfig.repoName)
+            env('RUN_COVERAGE', jobConfig.runCoverage)
             env('COVERAGE_JOB', jobConfig.coverageJob)
             env('TARGET_BRANCH', jobConfig.targetBranch)
             // Only define the Django version if explicitly defined in a config.
@@ -271,20 +283,23 @@ jobConfigs.each { jobConfig ->
 
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-python-unittests-pr.groovy')
         publishers {
-           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
-               retainLongStdout()
-           }
-           publishHtml {
-               report("${jobConfig.repoName}/reports") {
-                   reportFiles('diff_coverage_combined.html')
-                   reportName('Diff Coverage Report')
-                   keepAll()
-               }
-           }
-           configure { node ->
-               node / publishers << 'jenkins.plugins.shiningpanda.publishers.CoveragePublisher' {
-               }
-           }
-       }
+            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS) {
+                retainLongStdout()
+            }
+            // Only archive Coverage data when explicitly defined in the jobConfig to avoid build errors
+            if (jobConfig.runCoverage) {
+                publishHtml {
+                    report("${jobConfig.repoName}/reports") {
+                        reportFiles('diff_coverage_combined.html')
+                        reportName('Diff Coverage Report')
+                        keepAll()
+                    }
+                }
+                configure { node ->
+                    node / publishers << 'jenkins.plugins.shiningpanda.publishers.CoveragePublisher' {
+                    }
+                }
+            }
+        }
     }
 }
