@@ -31,6 +31,8 @@ catch (any) {
         awsAccessKeyId: 123abc
         awsSecretAccessKey: 123abc
         awsSecurityGroup: 123
+        DBCacheAccessKeyId: 123abc
+        DBCacheSecretAccessKey: 123abc
         newRelicKey: 123abc
         webPageTestBaseAMI: ami-123
         toolsTeam: [ 'users1', 'users2' ]
@@ -45,6 +47,8 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('awsAccessKeyId')
     assert jobConfig.containsKey('awsSecretAccessKey')
     assert jobConfig.containsKey('awsSecurityGroup')
+    assert jobConfig.containsKey('DBCacheAccessKeyId')
+    assert jobConfig.containsKey('DBCacheSecretAccessKey')
     assert jobConfig.containsKey('newRelicKey')
     assert jobConfig.containsKey('webPageTestBaseAMI')
     assert jobConfig.containsKey('toolsTeam')
@@ -141,6 +145,14 @@ secretMap.each { jobConfigs ->
                     EnvInjectPasswordEntry {
                         name 'WEBPAGE_TEST_BASE_AMI'
                         value Secret.fromString(jobConfig['webPageTestBaseAMI']).getEncryptedValue()
+                    }
+                    EnvInjectPasswordEntry {
+                        name 'DB_CACHE_ACCESS_KEY_ID'
+                        value Secret.fromString(jobConfig['DBCacheAccessKeyId']).getEncryptedValue()
+                    }
+                    EnvInjectPasswordEntry {
+                        name 'DB_CACHE_SECRET_ACCESS_KEY'
+                        value Secret.fromString(jobConfig['DBCacheSecretAccessKey']).getEncryptedValue()
                     }
                 }
             }
