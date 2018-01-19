@@ -60,7 +60,8 @@ class edxPlatformPrJobSpec extends Specification {
         'edxPlatformJsPr.groovy'              | 6
         'edxPlatformLettucePr.groovy'         | 9
         'edxPlatformPythonUnitTestsPr.groovy' | 9
-        'edxPlatformQualityPr.groovy'         | 6
+        'edxPlatformQualityPr.groovy'         | 2
+        'edxPlatformQualityDiff.groovy'       | 2
         'edxPlatformUnitCoverage.groovy'      | 2
     }
 }
