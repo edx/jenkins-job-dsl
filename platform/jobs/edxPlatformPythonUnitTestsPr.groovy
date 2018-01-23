@@ -64,38 +64,6 @@ Map publicJobConfig = [ open: true,
                         defaultTestengBranch: 'master'
                         ]
 
-Map django19JobConfig = [ open: true,
-                          jobName: 'edx-platform-django-1.9-unittests-pr',
-                          subsetJob: 'edx-platform-test-subset',
-                          repoName: 'edx-platform',
-                          runCoverage: false,
-                          coverageJob: 'edx-platform-unit-coverage',
-                          workerLabel: 'django-upgrade-worker',
-                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                          context: 'jenkins/django-1.9/python',
-                          triggerPhrase: 'jenkins run django19 python',
-                          targetBranch: 'origin/master',
-                          defaultTestengBranch: 'master',
-                          commentOnly: true,
-                          djangoVersion: '1.9'
-                          ]
-
-Map django110JobConfig = [ open: true,
-                           jobName: 'edx-platform-django-1.10-unittests-pr',
-                           subsetJob: 'edx-platform-test-subset',
-                           repoName: 'edx-platform',
-                           runCoverage: false,
-                           coverageJob: 'edx-platform-unit-coverage',
-                           workerLabel: 'django-upgrade-worker',
-                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                           context: 'jenkins/django-1.10/python',
-                           triggerPhrase: 'jenkins run django110 python',
-                           targetBranch: 'origin/master',
-                           defaultTestengBranch: 'master',
-                           commentOnly: true,
-                           djangoVersion: '1.10'
-                           ]
-
 Map django111JobConfig = [ open: true,
                            jobName: 'edx-platform-django-upgrade-unittests-pr',
                            subsetJob: 'edx-platform-test-subset',
@@ -183,8 +151,6 @@ Map privateFicusJobConfig = [ open: false,
                               ]
 
 List jobConfigs = [ publicJobConfig,
-                    django19JobConfig,
-                    django110JobConfig,
                     django111JobConfig,
                     privateJobConfig,
                     publicGinkgoJobConfig,
