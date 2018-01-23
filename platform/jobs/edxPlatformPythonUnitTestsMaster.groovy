@@ -1,53 +1,28 @@
-package devops
+package platform
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 
-/*
-Example secret YAML file used by this script
-publicJobConfig:
-    open : true/false
-    jobName : name-of-jenkins-job-to-be
-    subsetJob : name-of-test-subset-job
-    repoName : name-of-github-edx-repo
-    testengUrl: testeng-github-url-segment
-    platformUrl : platform-github-url-segment
-    testengCredential : n/a
-    platformCredential : n/a
-    platformCloneReference : clone/.git
-    email : email-address@email.com
-    hipchat : token
-    workerLabel : worker-label
-    refSpec : '+refs/heads/master:refs/remotes/origin/master'
-    context : 'jenkins/test'
-    defaultBranch : 'master'
-    defaultTestengBranch: 'master'
-    disabled: true/false
-*/
 
 /* stdout logger */
-/* use this instead of println, because you can pass it into closures or other scripts. */
-/* TODO: Move this into JenkinsPublicConstants, as it can be shared. */
-
 Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
-Map secretMap = [:]
+Map ghprbMap = [:]
 try {
     out.println('Parsing secret YAML file')
-    /* Parse k:v pairs from the secret file referenced by secretFileVariable */
-    String contents = new File("${EDX_PLATFORM_TEST_PYTHON_SECRET}").text
+    String ghprbConfigContents = new File("${GHPRB_SECRET}").text
     Yaml yaml = new Yaml()
-    secretMap = yaml.load(contents)
+    ghprbMap = yaml.load(ghprbConfigContents)
     out.println('Successfully parsed secret YAML file')
 }
 catch (any) {
@@ -55,95 +30,168 @@ catch (any) {
     out.println('Exiting with error code 1')
     return 1
 }
-/* Iterate over the job configurations */
-secretMap.each { jobConfigs ->
 
-    Map jobConfig = jobConfigs.getValue()
+// This script generates a lot of jobs. Here is the breakdown of the configuration options:
+// Map exampleConfig = [
+//     open: true/false if this job should be 'open' (use the default security scheme or not)
+//     jobName: name of the job
+//     subsetjob: name of subset job run by this job (shard jobs)
+//     repoName: name of the github repo containing the edx-platform you want to test
+//     runCoverage: whether or not the shards should run unit tests through coverage, and then
+//         run the coverage job on the results
+//     coverageJob: name of the coverage job to run after the unit tests
+//     workerLabel: label of the worker to run the subset jobs on
+//     context: Github context used to report test status
+//     targetBranch: branch of the edx-platform used as a comparison when running coverage.
+//         This value is passed from the python job to the coverage job and used as an environment
+//         variable
+//     defaultTestengBranch: default branch of the testeng-ci repo for this job
+//     refSpec: refspec for branches to build
+//     defaultBranch: branch to build
+//     djangoVersion: version of django to run tests with (via tox)
+// ]
 
-    /* Test secret contains all necessary keys for this job */
-    /* TODO: Use/Build a more robust test framework for this */
-    assert jobConfig.containsKey('open')
-    assert jobConfig.containsKey('jobName')
-    assert jobConfig.containsKey('subsetJob')
-    assert jobConfig.containsKey('repoName')
-    assert jobConfig.containsKey('testengUrl')
-    assert jobConfig.containsKey('platformUrl')
-    assert jobConfig.containsKey('testengCredential')
-    assert jobConfig.containsKey('platformCredential')
-    assert jobConfig.containsKey('platformCloneReference')
-    assert jobConfig.containsKey('hipchat')
-    assert jobConfig.containsKey('email')
-    assert jobConfig.containsKey('workerLabel')
-    assert jobConfig.containsKey('refSpec')
-    assert jobConfig.containsKey('context')
-    assert jobConfig.containsKey('defaultBranch')
-    assert jobConfig.containsKey('defaultTestengBranch')
-    assert jobConfig.containsKey('disabled')
+// Individual Job Configurations
+Map publicJobConfig = [
+    open: true,
+    jobName: 'edx-platform-python-unittests-master',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    runCoverage: true,
+    coverageJob: 'edx-platform-unit-coverage',
+    workerLabel: 'jenkins-worker',
+    context: 'jenkins/python',
+    targetBranch: 'origin/master',
+    defaultTestengBranch: 'master',
+    refSpec : '+refs/heads/master:refs/remotes/origin/master',
+    defaultBranch : 'master'
+]
 
-    buildFlowJob(jobConfig['jobName']) {
+Map django111JobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-upgrade-unittests-master',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    runCoverage: false,
+    coverageJob: 'edx-platform-unit-coverage',
+    workerLabel: 'django-upgrade-worker',
+    context: 'jenkins/django-upgrade/python',
+    targetBranch: 'origin/master',
+    defaultTestengBranch: 'master',
+    refSpec : '+refs/heads/master:refs/remotes/origin/master',
+    defaultBranch : 'master',
+    djangoVersion: '1.11'
+]
 
-        // automatically disable certain jobs for branches that don't always exist
-        // to avoid incessant polling
-        if (jobConfig['disabled'].toBoolean()) {
-            disabled()
-            description('This job is disabled by default, as the target platform' +
-                        'branch is not guaranteed to always exist. If you need to' +
-                        'run this job, make sure you manually enable it, and ' +
-                        'disable it when you are finished')
-        }
+Map privateJobConfig = [
+    open: false,
+    jobName: 'edx-platform-python-unittests-master_private',
+    subsetJob: 'edx-platform-test-subset_private',
+    repoName: 'edx-platform-private',
+    runCoverage: true,
+    coverageJob: 'edx-platform-unit-coverage_private',
+    workerLabel: 'jenkins-worker',
+    context: 'jenkins/python',
+    targetBranch: 'origin/security-release',
+    defaultTestengBranch : 'master',
+    refSpec : '+refs/heads/master:refs/remotes/origin/master',
+    defaultBranch : 'master'
+]
 
-        /* For non-open jobs, enable project based security */
-        if (!jobConfig['open'].toBoolean()) {
-            authorization {
-                blocksInheritance(true)
-                permissionAll('edx')
-                permission('hudson.model.Item.Discover', 'anonymous')
-            }
-        }
+Map ginkgoJobConfig = [
+    open: true,
+    jobName: 'ginkgo-python-unittests-master',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    runCoverage: true,
+    coverageJob: 'edx-platform-unit-coverage',
+    workerLabel: 'ginkgo-jenkins-worker',
+    context: 'jenkins/ginkgo/python',
+    targetBranch: 'origin/open-release/ginkgo.master',
+    defaultTestengBranch : 'refs/heads/open-release/ginkgo.master',
+    refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
+    defaultBranch : 'refs/heads/open-release/ginkgo.master'
+]
 
-        parameters {
-            stringParam('WORKER_LABEL', jobConfig['workerLabel'], 'Jenkins worker for running the test subset jobs')
+Map ficusJobConfig = [
+    open: true,
+    jobName: 'ficus-python-unittests-master',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    runCoverage: true,
+    coverageJob: 'edx-platform-unit-coverage',
+    workerLabel: 'ficus-jenkins-worker',
+    context: 'jenkins/ficus/python',
+    targetBranch: 'origin/open-release/ficus.master',
+    defaultTestengBranch : 'refs/heads/open-release/ficus.master',
+    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
+    defaultBranch : 'refs/heads/open-release/ficus.master'
+]
+
+List jobConfigs = [
+    publicJobConfig,
+    django111JobConfig,
+    privateJobConfig,
+    ginkgoJobConfig,
+    ficusJobConfig
+]
+
+jobConfigs.each { jobConfig ->
+
+    buildFlowJob(jobConfig.jobName) {
+
+        if (!jobConfig.open.toBoolean()) {
+            authorization GENERAL_PRIVATE_JOB_SECURITY()
         }
         properties {
-              githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
+            githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
-        concurrentBuild() //concurrent builds can happen
-        label('flow-worker-python') //restrict to flow-worker-lettuce
+        concurrentBuild()
+        label('flow-worker-python')
         checkoutRetryCount(5)
         environmentVariables {
-            env('SUBSET_JOB', jobConfig['subsetJob'])
-            env('REPO_NAME', jobConfig['repoName'])
-            env('COVERAGE_JOB', jobConfig['coverageJob'])
+            env('SUBSET_JOB', jobConfig.subsetJob)
+            env('REPO_NAME', jobConfig.repoName)
+            env('RUN_COVERAGE', jobConfig.runCoverage)
+            env('COVERAGE_JOB', jobConfig.coverageJob)
+            env('TARGET_BRANCH', jobConfig.targetBranch)
+            // Only define the Django version if explicitly defined in a config.
+            // Otherwise, the default version will be used
+            if (jobConfig.containsKey('djangoVersion')) {
+                env('DJANGO_VERSION', jobConfig.djangoVersion)
+            }
+        }
+        parameters {
+            stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
         }
         multiscm {
-           git { //using git on the branch and url, clone, clean before checkout
+            git {
                 remote {
-                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'] + '.git')
-                    refspec(jobConfig['refSpec'])
-                    if (!jobConfig['open'].toBoolean()) {
-                        credentials(jobConfig['platformCredential'])
+                    url("https://github.com/edx/${jobConfig.repoName}.git")
+                    refspec(jobConfig.refSpec)
+                    if (!jobConfig.open.toBoolean()) {
+                        credentials("EDX_STATUS_BOT_CREDENTIALS")
                     }
                 }
-                branch(jobConfig['defaultBranch'])
+                branch(jobConfig.defaultBranch)
                 browser()
                 extensions {
-                    cleanBeforeCheckout()
+                    relativeTargetDirectory(jobConfig.repoName)
                     cloneOptions {
-                        reference("\$HOME/" + jobConfig['platformCloneReference'])
+                        // Use a reference clone for quicker clones. This is configured on jenkins workers via
+                        // (https://github.com/edx/configuration/blob/master/playbooks/roles/test_build_server/tasks/main.yml#L26)
+                        reference("\$HOME/edx-platform-clone")
                         timeout(10)
                     }
-                    relativeTargetDirectory(jobConfig['repoName'])
+                    cleanBeforeCheckout()
                 }
             }
-            git { //using git on the branch and url, clean before checkout
+            git {
                 remote {
-                    url(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['testengUrl'] + '.git')
-                    if (!jobConfig['open'].toBoolean()) {
-                        credentials(jobConfig['testengCredential'])
-                    }
+                    url('https://github.com/edx/testeng-ci.git')
                 }
-                branch(jobConfig['defaultTestengBranch'])
+                branch(jobConfig.defaultTestengBranch)
                 browser()
                 extensions {
                     cleanBeforeCheckout()
@@ -151,34 +199,30 @@ secretMap.each { jobConfigs ->
                 }
             }
         }
-        triggers {
-            // Trigger jobs via github pushes
-            githubPush()
-        }
-
-        wrappers {
-            timestamps()
-        }
+        triggers { githubPush() }
+        wrappers { timestamps() }
 
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
         predefinedPropsMap.put('GITHUB_ORG', 'edx')
-        predefinedPropsMap.put('CONTEXT', jobConfig['context'])
+        predefinedPropsMap.put('CONTEXT', jobConfig.context)
 
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-python-unittests-master.groovy')
-        publishers { //JUnit Test and coverage.py report, trigger GitHub-Build-Status, email, message hipchat
-           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
-           configure { node ->
-               node / publishers << 'jenkins.plugins.shiningpanda.publishers.CoveragePublisher' {
-               }
-           }
-           predefinedPropsMap.put('GITHUB_REPO', jobConfig['repoName'])
-           predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
-                                  'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
-           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
-           downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
-           mailer(jobConfig['email'])
-           hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
-       }
+        publishers {
+            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+            if (jobConfig.runCoverage) {
+                configure { node ->
+                    node / publishers << 'jenkins.plugins.shiningpanda.publishers.CoveragePublisher' {
+                    }
+                }
+            }
+            predefinedPropsMap.put('GITHUB_REPO', jobConfig.repoName)
+            predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
+                                   'job/' + jobConfig.jobName + '/${BUILD_NUMBER}/')
+            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
+            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
+            mailer('testeng@edx.org')
+            hipChat JENKINS_PUBLIC_HIPCHAT.call('')  // Use the token specified in the global configuration
+        }
     }
 }
