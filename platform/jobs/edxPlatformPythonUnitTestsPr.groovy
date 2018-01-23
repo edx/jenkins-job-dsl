@@ -108,7 +108,6 @@ Map django111JobConfig = [ open: true,
                            triggerPhrase: 'jenkins run django upgrade python',
                            targetBranch: 'origin/master',
                            defaultTestengBranch: 'master',
-                           commentOnly: true,
                            djangoVersion: '1.11'
                            ]
 
