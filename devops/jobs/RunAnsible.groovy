@@ -67,6 +67,8 @@ class RunAnsible {
                             'Git repo containing the analytics pipeline configuration automation.')
                 stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
+                stringParam('MANAGEMENT_COMMAND_EXTRA', extraVars.get('MANAGEMENT_COMMAND_EXTRA', ''),
+                            'Extra options for the current management command, e.g. "--extra_option_1 true')
             }
 
             def access_control = extraVars.get('ACCESS_CONTROL',[])
@@ -101,6 +103,12 @@ class RunAnsible {
                 maxPerNode(1)
             }
 
+            def module_args = extraVars.get('MODULE_ARGS')
+
+            if (extraVars.get('MANAGEMENT_COMMAND_EXTRA')) {
+                module_args = module_args + ""
+            }
+
             // Parameters from the seed job that you don't override, they're just part of
             // the run.  We need to load different ssh keys per env anyway.
             environmentVariables {
@@ -111,7 +119,7 @@ class RunAnsible {
                 env("CLUSTER", extraVars.get('CLUSTER'))
                 env("BECOME_USER", extraVars.get('BECOME_USER',''))
                 env('ANSIBLE_MODULE_NAME', extraVars.get('MODULE_NAME','shell'))
-                env('ANSIBLE_MODULE_ARGS', extraVars.get('MODULE_ARGS'))
+                env('ANSIBLE_MODULE_ARGS', module_args)
                 env('PATTERN', extraVars.get('PATTERN',''))
                 env('INVENTORY', extraVars.get('INVENTORY',''))
                 env('CUSTOM_INVENTORY', extraVars.get('CUSTOM_INVENTORY',''))
