@@ -106,7 +106,7 @@ class RunAnsible {
             def module_args = extraVars.get('MODULE_ARGS')
 
             if (extraVars.get('MANAGEMENT_COMMAND_EXTRA')) {
-                module_args = module_args + ""
+                module_args = module_args + extraVars.get('MANAGEMENT_COMMAND_EXTRA')
             }
 
             // Parameters from the seed job that you don't override, they're just part of
