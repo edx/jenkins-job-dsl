@@ -72,7 +72,7 @@ class CheckRedis {
                     }
 
                     triggers {
-                        cron("H/1 * * * *")
+                        cron("* * * * *")
                     }
 
                     parameters common_parameters(extraVars)
