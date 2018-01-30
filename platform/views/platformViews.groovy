@@ -21,7 +21,7 @@ branchList.each { branch ->
         }
 
         jobs {
-            regex("${branch}(-django-upgrade)?-(accessibility|bok-choy|js|lettuce|quality|python-unittests)-pr")
+            regex("${branch}(-django-upgrade)?-(accessibility|bok-choy|js|lettuce|quality|python-unittests|unittests)-pr")
         }
         columns DEFAULT_VIEW.call()
 
@@ -40,7 +40,7 @@ branchList.each { branch ->
 
         jobs {
             name('github-build-status')
-            regex("${branch}(-django-upgrade)?-(accessibility|bok-choy|js|lettuce|quality|python-unittests)-master")
+            regex("${branch}(-django-upgrade)?-(accessibility|bok-choy|js|lettuce|quality|python-unittests|unittests)-master")
         }
         columns DEFAULT_VIEW.call()
     }
