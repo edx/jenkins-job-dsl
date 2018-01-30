@@ -1,6 +1,10 @@
 #!/bin/bash
 set -exuo pipefail
 
+# Required by click http://click.pocoo.org/5/python3/
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+
 cd $WORKSPACE/configuration/util/jenkins
 pip install -r requirements-celery.txt
 env
