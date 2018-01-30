@@ -21,7 +21,7 @@ branchList.each { branch ->
         }
 
         jobs {
-            regex("${branch}-.*-pr")
+            regex("${branch}(-django-upgrade)?-(accessibility|bok-choy|js|lettuce|quality|python-unittests)-pr")
         }
         columns DEFAULT_VIEW.call()
 
@@ -40,7 +40,7 @@ branchList.each { branch ->
 
         jobs {
             name('github-build-status')
-            regex("${branch}-.*-master")
+            regex("${branch}(-django-upgrade)?-(accessibility|bok-choy|js|lettuce|quality|python-unittests)-master")
         }
         columns DEFAULT_VIEW.call()
     }
@@ -48,10 +48,19 @@ branchList.each { branch ->
 }
 
 listView('django-upgrade-pr-tests') {
-    description('jobs used to run tests against various versions of django ' +
-                'during the upgrade process')
+    description('jobs used to run tests on pull requests against various ' +
+                'versions of django during the upgrade process')
     jobs {
         regex('edx-platform-django-.*-pr')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('django-upgrade-master-tests') {
+    description('jobs used to run tests on merges to master against various ' +
+                'versions of django during the upgrade process')
+    jobs {
+        regex('edx-platform-django-.*-master')
     }
     columns DEFAULT_VIEW.call()
 }
