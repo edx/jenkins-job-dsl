@@ -8,6 +8,9 @@
             environments:
               environment:
                 redis_host: (required)
+                sns_topic: (required)
+                thresholds:
+                  queue_name: 1000
         * NOTIFY_ON_FAILURE: alert@example.com
         * FOLDER_NAME: folder
         * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
@@ -79,16 +82,23 @@ class CheckRedis {
 
                     multiscm common_multiscm(extraVars)
 
+                    def thresholds = ""
+                    redis_config.thresholds.each { queue, threshold ->
+                        thresholds = "${thresholds}--queue-threshold ${queue} ${threshold} "
+                    }
+
                     environmentVariables {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
                         env('REDIS_HOST', redis_config.get('redis_host'))
                         env('SNS_TOPIC', redis_config.get('sns_topic'))
                         env('AWS_DEFAULT_REGION', configuration.get('aws_region'))
+                        env('THRESHOLDS', thresholds)
                     }
 
                     steps {
                         virtualenv {
+                            pythonName('System-CPython-3.5')
                             nature("shell")
                             systemSitePackages(false)
 
