@@ -153,7 +153,7 @@ secretMap.each { jobConfigs ->
                                   'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
         steps { //trigger GitHub-Build-Status and run accessibility tests
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
-            shell("cd ${jobConfig['repoName']}; bash scripts/accessibility-tests.sh")
+            shell("cd ${jobConfig['repoName']}; TEST_SUITE=a11y bash scripts/accessibility-tests.sh")
         }
         publishers { //publish artifacts and JUnit Test report, trigger GitHub-Build-Status, message on hipchat
            archiveArtifacts {

@@ -180,7 +180,7 @@ jobConfigs.each { jobConfig ->
            }
        }
        steps {
-           shell("cd ${jobConfig.repoName}; bash scripts/accessibility-tests.sh")
+           shell("cd ${jobConfig.repoName}; TEST_SUITE=a11y bash scripts/accessibility-tests.sh")
        }
        publishers {
            publishHtml {
