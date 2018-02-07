@@ -58,7 +58,7 @@ class JenkinsPublicConstants {
     }
   }
 
-  public static final Closure JENKINS_PUBLIC_HIPCHAT = {authToken ->
+  public static final Closure JENKINS_PUBLIC_HIPCHAT = { authToken ->
     return {
             token(authToken)
             rooms('new-jenkins-chatter')
@@ -85,6 +85,17 @@ class JenkinsPublicConstants {
                                                               'edx-platform*/reports/quality.xml,edx-platform*/reports/javascript/' +
                                                               'javascript_xunit*.xml,edx-platform*/reports/a11y/**/xunit.xml,' +
                                                               'edx-platform*/reports/bok_choy/**/xunit.xml'
+
+    public static final Closure JENKINS_EDX_PLATFORM_TEST_NOTIFIER = { prNumber ->
+        return {
+            trigger('edx-platform-test-notifier') {
+                condition('ALWAYS')
+                parameters {
+                    predefinedProp('PR_NUMBER', prNumber)
+                }
+            }
+        }
+    }
 
     public static final Closure JENKINS_PUBLIC_GITHUB_STATUS_PENDING = { predefinedPropsMap ->
         return {
