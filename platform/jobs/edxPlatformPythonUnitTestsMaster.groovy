@@ -1,9 +1,9 @@
 package platform
 
 import org.yaml.snakeyaml.Yaml
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS
@@ -15,21 +15,6 @@ Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
-
-/* Map to hold the k:v pairs parsed from the secret file */
-Map ghprbMap = [:]
-try {
-    out.println('Parsing secret YAML file')
-    String ghprbConfigContents = new File("${GHPRB_SECRET}").text
-    Yaml yaml = new Yaml()
-    ghprbMap = yaml.load(ghprbConfigContents)
-    out.println('Successfully parsed secret YAML file')
-}
-catch (any) {
-    out.println('Jenkins DSL: Error parsing secret YAML file')
-    out.println('Exiting with error code 1')
-    return 1
-}
 
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
 // Map exampleConfig = [
@@ -51,7 +36,6 @@ catch (any) {
 //     djangoVersion: version of django to run tests with (via tox)
 // ]
 
-// Individual Job Configurations
 Map publicJobConfig = [
     open: true,
     jobName: 'edx-platform-python-unittests-master',
