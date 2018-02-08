@@ -32,12 +32,15 @@ catch (any) {
 // Map exampleConfig = [
 //     open: true/false if this job should be 'open' (use the default security scheme or not)
 //     jobName: name of the job
+//     subsetJob: name of subset job run by this job (shard jobs)
 //     repoName: name of the github repo containing the edx-platform you want to test
 //     workerLabel: label of the worker to run this job on
 //     whiteListBranchRegex: regular expression to filter which branches of a particular repo
 //     can will trigger builds (via GHRPB)
 //     context: Github context used to report test status
 //     triggerPhrase: Github comment used to trigger this job
+//     defaultTestengbranch: default branch of the testeng-ci repo for this job
+//     diffJob: Job to run diff coverage
 // ]
 
 Map publicJobConfig = [
@@ -56,6 +59,7 @@ Map publicJobConfig = [
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-quality-flow-pr_private',
+    subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform-private',
     workerLabel: 'jenkins-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,

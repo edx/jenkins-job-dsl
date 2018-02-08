@@ -10,12 +10,11 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_S
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 
-String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
-archiveReports += 'edx-platform*/test_root/log/*.log,'
-archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
+String archiveReports = 'reports/**/*,test_root/log/*.log,'
+archiveReports += 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.log,'
 
-String htmlReports = 'pylint/*view*/, pep8/*view*/, jshint/*view*/, python_complexity/*view*/,'
-htmlReports += 'xsscommitlint/*view*/, xsslint/*view*/, eslint/*view*/'
+String htmlReports = 'pylint/*view*/,pep8/*view*/,python_complexity/*view*/,'
+htmlReports += 'xsscommitlint/*view*/,xsslint/*view*/,eslint/*view*/'
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -29,9 +28,11 @@ PrintStream out = config['out']
 // Map exampleConfig = [
 //     open: true/false if this job should be 'open' (use the default security scheme or not)
 //     jobName: name of the job
+//     subsetJob: name of subset job run by this job (shard jobs)
 //     repoName: name of the github repo containing the edx-platform you want to test
 //     workerLabel: label of the worker to run the subset jobs on
 //     context: Github context used to report test status
+//     defaultTestengbranch: default branch of the testeng-ci repo for this job
 //     refSpec: refspec for branches to build
 //     defaultBranch: branch to build
 // ]
@@ -39,9 +40,11 @@ PrintStream out = config['out']
 Map publicJobConfig = [
     open: true,
     jobName: 'edx-platform-quality-master',
+    subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
     workerLabel: 'jenkins-worker',
     context: 'jenkins/quality',
+    defaultTestengBranch: 'master',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master'
 ]
@@ -49,44 +52,24 @@ Map publicJobConfig = [
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-quality-master_private',
+    subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform-private',
     workerLabel: 'jenkins-worker',
     context: 'jenkins/quality',
+    defaultTestengBranch: 'master',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master'
 ]
 
-Map ginkgoJobConfig = [
-    open: true,
-    jobName: 'ginkgo-quality-master',
-    repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
-    context: 'jenkins/ginkgo/quality',
-    refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
-    defaultBranch : 'refs/heads/open-release/ginkgo.master'
-]
-
-Map ficusJobConfig = [
-    open: true,
-    jobName: 'ficus-quality-master',
-    repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
-    context: 'jenkins/ficus/quality',
-    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
-    defaultBranch : 'refs/heads/open-release/ficus.master'
-]
-
 List jobConfigs = [
     publicJobConfig,
-    privateJobConfig,
-    ginkgoJobConfig,
-    ficusJobConfig
+    privateJobConfig
 ]
 
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
 
-    job(jobConfig.jobName) {
+    buildFlowJob(jobConfig.jobName) {
 
         /* For non-open jobs, enable project based security */
         if (!jobConfig.open.toBoolean()) {
@@ -97,13 +80,18 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
-        parameters {
-            labelParam('WORKER_LABEL') {
-                description('Select a Jenkins worker label for running this job')
-                defaultValue(jobConfig.workerLabel)
-            }
+        label('flow-worker-quality')
+        checkoutRetryCount(5)
+        environmentVariables {
+            env('SUBSET_JOB', jobConfig.subsetJob)
+            env('REPO_NAME', jobConfig.repoName)
+            env('DIFF_JOB', jobConfig.diffJob)
+            env('TARGET_BRANCH', 'origin/master')
         }
-        scm {
+        parameters {
+            stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
+        }
+        multiscm {
             git {
                 remote {
                     url("https://github.com/edx/${jobConfig.repoName}.git")
@@ -116,13 +104,22 @@ jobConfigs.each { jobConfig ->
                 browser()
                 extensions {
                     cloneOptions {
-                        // Use a reference clone for quicker clones. This is configured on jenkins workers via
-                        // (https://github.com/edx/configuration/blob/master/playbooks/roles/test_build_server/tasks/main.yml#L26)
                         reference("\$HOME/edx-platform-clone")
                         timeout(10)
                     }
                     cleanBeforeCheckout()
                     relativeTargetDirectory(jobConfig.repoName)
+                }
+            }
+            git {
+                remote {
+                    url('https://github.com/edx/testeng-ci.git')
+                }
+                branch(jobConfig.defaultTestengBranch)
+                browser()
+                extensions {
+                    cleanBeforeCheckout()
+                    relativeTargetDirectory('testeng-ci')
                 }
             }
         }
@@ -133,10 +130,6 @@ jobConfigs.each { jobConfig ->
             }
             timestamps()
             colorizeOutput()
-            if (!jobConfig.open.toBoolean()) {
-                sshAgent('jenkins-worker')
-            }
-            buildName('#${BUILD_NUMBER}: Quality Tests')
        }
 
         Map <String, String> predefinedPropsMap  = [:]
@@ -150,6 +143,7 @@ jobConfigs.each { jobConfig ->
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
             shell("cd ${jobConfig.repoName}; TEST_SUITE=quality ./scripts/all-tests.sh")
         }
+        dslFile('testeng-ci/jenkins/flow/master/edx-platform-quality-master.groovy')
         publishers { //publish artifacts, HTML, violations report, trigger GitHub-Build-Status, email, message hipchat
             archiveArtifacts {
                 pattern(archiveReports)
