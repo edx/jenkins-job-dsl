@@ -163,6 +163,7 @@ secretMap.each { jobConfigs ->
 
         /* Actual build steps for this job */
         steps {
+            shell(readFileFromWorkspace('platform/resources/quality-fail-fast.sh'))
             shell('bash scripts/all-tests.sh')
         }
 
