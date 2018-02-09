@@ -39,7 +39,7 @@ PrintStream out = config['out']
 
 Map publicJobConfig = [
     open: true,
-    jobName: 'edx-platform-quality-master',
+    jobName: 'edx-platform-quality-flow-master',
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
     workerLabel: 'jenkins-worker',
@@ -51,7 +51,7 @@ Map publicJobConfig = [
 
 Map privateJobConfig = [
     open: false,
-    jobName: 'edx-platform-quality-master_private',
+    jobName: 'edx-platform-quality-flow-master_private',
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform-private',
     workerLabel: 'jenkins-worker',
