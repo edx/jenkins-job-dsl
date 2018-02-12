@@ -30,6 +30,7 @@ catch (any) {
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
 // Map exampleConfig = [ open: true/false if this job should be 'open' (use the default security scheme or not)
 //                       jobName: name of the job
+//                       flowWorkerLabel: name of worker to run the flow job on
 //                       subsetjob: name of subset job run by this job (shard jobs)
 //                       repoName: name of the github repo containing the edx-platform you want to test
 //                       runCoverage: whether or not the shards should run unit tests through coverage, and then
@@ -52,6 +53,7 @@ catch (any) {
 // Individual Job Configurations
 Map publicJobConfig = [ open: true,
                         jobName: 'edx-platform-python-unittests-pr',
+                        flowWorkerLabel: 'flow-worker-python',
                         subsetJob: 'edx-platform-test-subset',
                         repoName: 'edx-platform',
                         runCoverage: true,
@@ -66,6 +68,7 @@ Map publicJobConfig = [ open: true,
 
 Map django19JobConfig = [ open: true,
                           jobName: 'edx-platform-django-1.9-unittests-pr',
+                          flowWorkerLabel: 'flow-worker-django-upgrade-python',
                           subsetJob: 'edx-platform-test-subset',
                           repoName: 'edx-platform',
                           runCoverage: false,
@@ -82,6 +85,7 @@ Map django19JobConfig = [ open: true,
 
 Map django110JobConfig = [ open: true,
                            jobName: 'edx-platform-django-1.10-unittests-pr',
+                           flowWorkerLabel: 'flow-worker-django-upgrade-python',
                            subsetJob: 'edx-platform-test-subset',
                            repoName: 'edx-platform',
                            runCoverage: false,
@@ -98,6 +102,7 @@ Map django110JobConfig = [ open: true,
 
 Map django111JobConfig = [ open: true,
                            jobName: 'edx-platform-django-upgrade-unittests-pr',
+                           flowWorkerLabel: 'flow-worker-django-upgrade-python',
                            subsetJob: 'edx-platform-test-subset',
                            repoName: 'edx-platform',
                            runCoverage: false,
@@ -114,6 +119,7 @@ Map django111JobConfig = [ open: true,
 
 Map privateJobConfig = [ open: false,
                          jobName: 'edx-platform-python-unittests-pr_private',
+                         flowWorkerLabel: 'flow-worker-python',
                          subsetJob: 'edx-platform-test-subset_private',
                          repoName: 'edx-platform-private',
                          runCoverage: true,
@@ -128,6 +134,7 @@ Map privateJobConfig = [ open: false,
 
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-python-unittests-pr',
+                              flowWorkerLabel: 'flow-worker-python',
                               subsetJob: 'edx-platform-test-subset',
                               repoName: 'edx-platform',
                               runCoverage: true,
@@ -142,6 +149,7 @@ Map publicGinkgoJobConfig = [ open: true,
 
 Map privateGinkgoJobConfig = [ open: false,
                                jobName: 'ginkgo-python-unittests-pr_private',
+                               flowWorkerLabel: 'flow-worker-python',
                                subsetJob: 'edx-platform-test-subset_private',
                                repoName: 'edx-platform-private',
                                runCoverage: true,
@@ -156,6 +164,7 @@ Map privateGinkgoJobConfig = [ open: false,
 
 Map publicFicusJobConfig = [ open: true,
                              jobName: 'ficus-python-unittests-pr',
+                             flowWorkerLabel: 'flow-worker-python',
                              subsetJob: 'edx-platform-test-subset',
                              repoName: 'edx-platform',
                              runCoverage: true,
@@ -170,6 +179,7 @@ Map publicFicusJobConfig = [ open: true,
 
 Map privateFicusJobConfig = [ open: false,
                               jobName: 'ficus-python-unittests-pr_private',
+                              flowWorkerLabel: 'flow-worker-python',
                               subsetJob: 'edx-platform-test-subset_private',
                               repoName: 'edx-platform-private',
                               runCoverage: true,
@@ -206,7 +216,7 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
-        label('flow-worker-python')
+        label(jobConfig.flowWorkerLabel)
         checkoutRetryCount(5)
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)

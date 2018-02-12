@@ -20,6 +20,7 @@ PrintStream out = config['out']
 // Map exampleConfig = [
 //     open: true/false if this job should be 'open' (use the default security scheme or not)
 //     jobName: name of the job
+//     flowWorkerLabel: name of worker to run the flow job on
 //     subsetjob: name of subset job run by this job (shard jobs)
 //     repoName: name of the github repo containing the edx-platform you want to test
 //     runCoverage: whether or not the shards should run unit tests through coverage, and then
@@ -39,6 +40,7 @@ PrintStream out = config['out']
 Map publicJobConfig = [
     open: true,
     jobName: 'edx-platform-python-unittests-master',
+    flowWorkerLabel: 'flow-worker-python',
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
     runCoverage: true,
@@ -54,6 +56,7 @@ Map publicJobConfig = [
 Map django111JobConfig = [
     open: true,
     jobName: 'edx-platform-django-upgrade-unittests-master',
+    flowWorkerLabel: 'flow-worker-django-upgrade-python',
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
     runCoverage: false,
@@ -70,6 +73,7 @@ Map django111JobConfig = [
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-python-unittests-master_private',
+    flowWorkerLabel: 'flow-worker-python',
     subsetJob: 'edx-platform-test-subset_private',
     repoName: 'edx-platform-private',
     runCoverage: true,
@@ -85,6 +89,7 @@ Map privateJobConfig = [
 Map ginkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-python-unittests-master',
+    flowWorkerLabel: 'flow-worker-python',
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
     runCoverage: true,
@@ -100,6 +105,7 @@ Map ginkgoJobConfig = [
 Map ficusJobConfig = [
     open: true,
     jobName: 'ficus-python-unittests-master',
+    flowWorkerLabel: 'flow-worker-python',
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
     runCoverage: true,
@@ -132,7 +138,7 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
-        label('flow-worker-python')
+        label(jobConfig.flowWorkerLabel)
         checkoutRetryCount(5)
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)
