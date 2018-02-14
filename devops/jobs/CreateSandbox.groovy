@@ -175,6 +175,14 @@ class CreateSandbox {
                 booleanParam("set_whitelabel",false,
                              "Check this in order to create a Sandbox with whitelabel themes automatically set.")
 
+                booleanParam("video_pipeline",false,
+                             "video_pipeline and video_encode_worker must be selected for video pipeline to work")
+                stringParam("video_pipeline_version","master","")
+
+                booleanParam("video_encode_worker",false,
+                             "video_pipeline and video_encode_worker must be selected for video pipeline to work")
+                stringParam("video_encode_worker_version","master","")
+
                 choiceParam("server_type",
                             ["full_edx_installation",
                              "full_edx_installation_from_scratch",
