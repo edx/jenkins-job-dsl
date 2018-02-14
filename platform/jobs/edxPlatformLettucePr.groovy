@@ -51,7 +51,7 @@ Map publicJobConfig = [ open : true,
                         workerLabel: 'jenkins-worker',
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
                         context: 'jenkins/lettuce',
-                        triggerPhrase: 'jenkins run lettuce',
+                        triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
                         defaultTestengBranch: 'master'
                         ]
 
@@ -62,7 +62,7 @@ Map django19JobConfig = [ open : true,
                           workerLabel: 'django-upgrade-worker',
                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
                           context: 'jenkins/django-1.9/lettuce',
-                          triggerPhrase: 'jenkins run django19 lettuce',
+                          triggerPhrase: /.*jenkins\W+run\W+django19\W+lettuce.*/,
                           defaultTestengBranch: 'master',
                           commentOnly: true,
                           djangoVersion: '1.9'
@@ -75,7 +75,7 @@ Map django110JobConfig = [ open : true,
                            workerLabel: 'django-upgrade-worker',
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
                            context: 'jenkins/django-1.10/lettuce',
-                           triggerPhrase: 'jenkins run django110 lettuce',
+                           triggerPhrase: /.*jenkins\W+run\W+django110\W+lettuce.*/,
                            defaultTestengBranch: 'master',
                            commentOnly: true,
                            djangoVersion: '1.10'
@@ -88,7 +88,7 @@ Map django111JobConfig = [ open : true,
                            workerLabel: 'django-upgrade-worker',
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
                            context: 'jenkins/django-upgrade/lettuce',
-                           triggerPhrase: 'jenkins run django upgrade lettuce',
+                           triggerPhrase: /.*jenkins\W+run\W+django\W+upgrade\W+lettuce.*/,
                            defaultTestengBranch: 'master',
                            commentOnly: true,
                            djangoVersion: '1.11'
@@ -101,7 +101,7 @@ Map privateJobConfig = [ open: false,
                          workerLabel: 'jenkins-worker',
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
                          context: 'jenkins/lettuce',
-                         triggerPhrase: 'jenkins run lettuce',
+                         triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
                          defaultTestengBranch: 'master'
                          ]
 
@@ -112,7 +112,7 @@ Map publicGinkgoJobConfig = [ open: true,
                               workerLabel: 'ginkgo-jenkins-worker',
                               whitelistBranchRegex: /open-release\/ginkgo.master/,
                               context: 'jenkins/ginkgo/lettuce',
-                              triggerPhrase: 'ginkgo run lettuce',
+                              triggerPhrase: /.*ginkgo\W+run\W+lettuce.*/,
                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
                               ]
 
@@ -123,7 +123,7 @@ Map privateGinkgoJobConfig = [ open: false,
                                workerLabel: 'ginkgo-jenkins-worker',
                                whitelistBranchRegex: /open-release\/ginkgo.master/,
                                context: 'jenkins/ginkgo/lettuce',
-                               triggerPhrase: 'ginkgo run lettuce',
+                               triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
                                defaultTestengBranch: 'origin/open-release/ginkgo.master'
                                ]
 
@@ -134,7 +134,7 @@ Map publicFicusJobConfig = [ open: true,
                              workerLabel: 'ficus-jenkins-worker',
                              whitelistBranchRegex: /open-release\/ficus.master/,
                              context: 'jenkins/ficus/lettuce',
-                             triggerPhrase: 'ficus run lettuce',
+                             triggerPhrase: /.*ficus\W+run\W+lettuce.*/,
                              defaultTestengBranch: 'origin/open-release/ficus.master'
                              ]
 
@@ -145,7 +145,7 @@ Map privateFicusJobConfig = [ open: false,
                               workerLabel: 'ficus-jenkins-worker',
                               whitelistBranchRegex: /open-release\/ficus.master/,
                               context: 'jenkins/ficus/lettuce',
-                              triggerPhrase: 'ficus run lettuce',
+                              triggerPhrase: /.*ficus\W+run\W+lettuce.*/,
                               defaultTestengBranch: 'origin/open-release/ficus.master'
                               ]
 
