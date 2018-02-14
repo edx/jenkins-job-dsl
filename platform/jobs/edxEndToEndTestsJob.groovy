@@ -77,7 +77,7 @@ Map pipelineJob = [ name: 'edx-e2e-tests',
                     branch: '*/master',
                     refspec: '+refs/heads/master:refs/remotes/origin/master',
                     description: 'Run end-to-end tests against GoCD deployments',
-                    courseNumber: 'AR-1000',
+                    courseNumber: 'E2E-1000',
                     testScript: 'jenkins/end_to_end_tests.sh',
                     junitReportPath: 'reports/*.xml'
                     ]
@@ -105,12 +105,12 @@ Map prJob = [ name: 'edx-e2e-tests-pr',
               testSuite: 'e2e',
               worker: 'jenkins-worker',
               trigger: 'ghprb',
-              triggerPhrase: 'jenkins run e2e',
+              triggerPhrase: /.*jenkins\W+run\W+e2e.*/,
               branch: '${ghprbActualCommit}',
               refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
               branchRegex: '^(?!kashif/white_label).*$', // PRs targeting any branch except kashif/white-label
               description: 'Verify the quality of changes made to the end-to-end tests',
-              courseNumber: 'AR-1001',
+              courseNumber: 'E2E-1001',
               testScript: 'jenkins/end_to_end_tests.sh',
               context: 'jenkins/e2e',
               junitReportPath: 'reports/*.xml'
@@ -123,7 +123,7 @@ Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
                         testSuite: 'microsites',
                         worker: 'jenkins-worker',
                         trigger: 'ghprb',
-                        triggerPhrase: 'jenkins run microsites',
+                        triggerPhrase: /.*jenkins\W+run\W+microsites.*/,
                         branch: '${ghprbActualCommit}',
                         refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
                         branchRegex: '^(?!kashif/white_label).*$', // PRs targeting any branch except kashif/white-label
@@ -144,7 +144,7 @@ Map mergeJob = [  name: 'edx-e2e-tests-merge',
                   branch: '*/master',
                   refspec: '+refs/heads/master:refs/remotes/origin/master',
                   description: 'Verify the quality of changes made to the end-to-end tests',
-                  courseNumber: 'AR-1001',
+                  courseNumber: 'E2E-1001',
                   testScript: 'jenkins/end_to_end_tests.sh',
                   context: 'jenkins/e2e',
                   junitReportPath: 'reports/*.xml'
@@ -209,10 +209,10 @@ jobConfigs.each { jobConfig ->
 
         parameters {
             if (jobConfig.testSuite == 'e2e') {
-                stringParam('COURSE_ORG', 'ArbiRaees', 'Organization name of the course')
+                stringParam('COURSE_ORG', 'edx', 'Organization name of the course')
                 stringParam('COURSE_NUMBER', jobConfig.courseNumber, 'Course number')
                 stringParam('COURSE_RUN', 'fall', 'Term in which course will run')
-                stringParam('COURSE_DISPLAY_NAME', 'Manual Smoke Test Course 1 - Auto', 'Display name of the course')
+                stringParam('COURSE_DISPLAY_NAME', 'E2E Test Course', 'Display name of the course')
             }
             // All of the jobs created via this script are inteded to be triggered via external
             // automation, but this parameter allows the default values to be overriden
