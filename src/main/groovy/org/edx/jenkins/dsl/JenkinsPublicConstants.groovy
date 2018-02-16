@@ -176,6 +176,16 @@ class JenkinsPublicConstants {
         }
     }
 
+    public static final Closure GHPRB_BLACKLIST_BRANCH(String branchRegex) {
+        return {
+            it / triggers / 'org.jenkinsci.plugins.ghprb.GhprbTrigger' << blackListTargetBranches {
+                'org.jenkinsci.plugins.ghprb.GhprbBranch' {
+                    branch branchRegex
+                }
+            }
+        }
+    }
+
     public static final Closure GHPRB_WHITELIST_BRANCH(String branchRegex) {
         return {
             it / triggers / 'org.jenkinsci.plugins.ghprb.GhprbTrigger' << whiteListTargetBranches {
