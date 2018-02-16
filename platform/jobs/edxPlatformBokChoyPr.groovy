@@ -55,7 +55,7 @@ Map publicJobConfig = [ open : true,
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
                         blacklistBranchRegex: 'estute/jenkins-ff-57-b',
                         context: 'jenkins/bokchoy',
-                        triggerPhrase: 'jenkins run bokchoy',
+                        triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
                         defaultTestengBranch: 'master'
                         ]
 
@@ -66,7 +66,7 @@ Map django19JobConfig = [ open : true,
                           workerLabel: 'django-upgrade-worker',
                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
                           context: 'jenkins/django-1.9/bokchoy',
-                          triggerPhrase: 'jenkins run django19 bokchoy',
+                          triggerPhrase: /.*jenkins\W+run\W+django19\W+bokchoy.*/,
                           defaultTestengBranch: 'master',
                           commentOnly: true,
                           djangoVersion: '1.9'
@@ -79,7 +79,7 @@ Map django110JobConfig = [ open : true,
                            workerLabel: 'django-upgrade-worker',
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
                            context: 'jenkins/django-1.10/bokchoy',
-                           triggerPhrase: 'jenkins run django110 bokchoy',
+                           triggerPhrase: /.*jenkins\W+run\W+django110\W+bokchoy.*/,
                            defaultTestengBranch: 'master',
                            commentOnly: true,
                            djangoVersion: '1.10'
@@ -92,7 +92,7 @@ Map django111JobConfig = [ open : true,
                            workerLabel: 'django-upgrade-worker',
                            whitelistBranchRegex: /^((?!open-release\/).)*$/,
                            context: 'jenkins/django-upgrade/bokchoy',
-                           triggerPhrase: 'jenkins run django upgrade bokchoy',
+                           triggerPhrase: /.*jenkins\W+run\W+django\W+upgrade\W+bokchoy.*/,
                            defaultTestengBranch: 'master',
                            commentOnly: true,
                            djangoVersion: '1.11'
@@ -105,7 +105,7 @@ Map privateJobConfig = [ open: false,
                          workerLabel: 'jenkins-worker',
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
                          context: 'jenkins/bokchoy',
-                         triggerPhrase: 'jenkins run bokchoy',
+                         triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
                          defaultTestengBranch: 'master'
                          ]
 
@@ -116,7 +116,7 @@ Map publicGinkgoJobConfig = [ open: true,
                               workerLabel: 'ginkgo-jenkins-worker',
                               whitelistBranchRegex: /open-release\/ginkgo.master/,
                               context: 'jenkins/ginkgo/bokchoy',
-                              triggerPhrase: 'ginkgo run bokchoy',
+                              triggerPhrase: /.*ginkgo\W+run\W+bokchoy.*/,
                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
                               ]
 
@@ -127,7 +127,7 @@ Map privateGinkgoJobConfig = [ open: false,
                                workerLabel: 'ginkgo-jenkins-worker',
                                whitelistBranchRegex: /open-release\/ginkgo.master/,
                                context: 'jenkins/ginkgo/bokchoy',
-                               triggerPhrase: 'ginkgo run bokchoy',
+                               triggerPhrase: /.*ginkgo\W+run\W+bokchoy.*/,
                                defaultTestengBranch: 'origin/open-release/ginkgo.master'
                                ]
 
@@ -138,7 +138,7 @@ Map publicFicusJobConfig = [ open: true,
                              workerLabel: 'ficus-jenkins-worker',
                              whitelistBranchRegex: /open-release\/ficus.master/,
                              context: 'jenkins/ficus/bokchoy',
-                             triggerPhrase: 'ficus run bokchoy',
+                             triggerPhrase: /.*ficus\W+run\W+bokchoy.*/,
                              defaultTestengBranch: 'origin/open-release/ficus.master'
                              ]
 
@@ -149,7 +149,7 @@ Map privateFicusJobConfig = [ open: false,
                               workerLabel: 'ficus-jenkins-worker',
                               whitelistBranchRegex: /open-release\/ficus.master/,
                               context: 'jenkins/ficus/bokchoy',
-                              triggerPhrase: 'ficus run bokchoy',
+                              triggerPhrase: /.*ficus\W+run\W+bokchoy.*/,
                               defaultTestengBranch: 'origin/open-release/ficus.master'
                               ]
 

@@ -44,7 +44,7 @@ Map publicJobConfig = [ open : true,
                         workerLabel: 'jenkins-worker',
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
                         context: 'jenkins/a11y',
-                        triggerPhrase: 'jenkins run a11y'
+                        triggerPhrase: /.*jenkins\W+run\W+a11y.*/
                         ]
 
 Map privateJobConfig = [ open: false,
@@ -53,7 +53,7 @@ Map privateJobConfig = [ open: false,
                          workerLabel: 'jenkins-worker',
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
                          context: 'jenkins/a11y',
-                         triggerPhrase: 'jenkins run a11y'
+                         triggerPhrase: /.*jenkins\W+run\W+a11y.*/
                          ]
 
 Map publicGinkgoJobConfig = [ open: true,
@@ -62,7 +62,7 @@ Map publicGinkgoJobConfig = [ open: true,
                               workerLabel: 'ginkgo-jenkins-worker',
                               whitelistBranchRegex: /open-release\/ginkgo.master/,
                               context: 'jenkins/ginkgo/a11y',
-                              triggerPhrase: 'ginkgo run a11y'
+                              triggerPhrase: /.*ginkgo\W+run\W+a11y.*/
                               ]
 
 Map privateGinkgoJobConfig = [ open: false,
@@ -71,7 +71,7 @@ Map privateGinkgoJobConfig = [ open: false,
                                workerLabel: 'ginkgo-jenkins-worker',
                                whitelistBranchRegex: /open-release\/ginkgo.master/,
                                context: 'jenkins/ginkgo/a11y',
-                               triggerPhrase: 'ginkgo run a11y'
+                               triggerPhrase: /.*ginkgo\W+run\W+a11y.*/
                                ]
 
 Map publicFicusJobConfig = [ open: true,
@@ -80,7 +80,7 @@ Map publicFicusJobConfig = [ open: true,
                              workerLabel: 'ficus-jenkins-worker',
                              whitelistBranchRegex: /open-release\/ficus.master/,
                              context: 'jenkins/ficus/a11y',
-                             triggerPhrase: 'ficus run a11y'
+                             triggerPhrase: /.*ficus\W+run\W+a11y.*/
                              ]
 
 Map privateFicusJobConfig = [ open: false,
@@ -89,7 +89,7 @@ Map privateFicusJobConfig = [ open: false,
                               workerLabel: 'ficus-jenkins-worker',
                               whitelistBranchRegex: /open-release\/ficus.master/,
                               context: 'jenkins/ficus/a11y',
-                              triggerPhrase: 'ficus run a11y'
+                              triggerPhrase: /.*ficus\W+run\W+a11y.*/
                               ]
 
 List jobConfigs = [ publicJobConfig,

@@ -51,7 +51,7 @@ Map publicJobConfig = [
     workerLabel: 'jenkins-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/quality',
-    triggerPhrase: 'jenkins run quality',
+    triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     defaultTestengBranch: 'master',
     diffJob: 'edx-platform-quality-diff'
 ]
@@ -64,7 +64,7 @@ Map privateJobConfig = [
     workerLabel: 'jenkins-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/quality',
-    triggerPhrase: 'jenkins run quality',
+    triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     defaultTestengBranch: 'master',
     diffJob: 'edx-platform-quality-diff_private'
 ]
