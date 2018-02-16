@@ -3,6 +3,7 @@ package platform
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_BLACKLIST_BRANCH
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 
@@ -35,7 +36,9 @@ catch (any) {
 //                       repoName: name of the github repo containing the edx-platform you want to test
 //                       workerLabel: label of the worker to run the subset jobs on
 //                       whiteListBranchRegex: regular expression to filter which branches of a particular repo
-//                       can will trigger builds (via GHRPB)
+//                       can trigger builds (via GHRPB)
+//                       blacklistBranchRegex: regular expression to filter which branches of a particular repo
+//                       should not trigger builds (via GHRPB)
 //                       context: Github context used to report test status
 //                       triggerPhrase: Github comment used to trigger this job
 //                       defaultTestengbranch: default branch of the testeng-ci repo for this job
@@ -50,6 +53,7 @@ Map publicJobConfig = [ open : true,
                         repoName: 'edx-platform',
                         workerLabel: 'jenkins-worker',
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                        blacklistBranchRegex: 'estute/jenkins-ff-57-b',
                         context: 'jenkins/bokchoy',
                         triggerPhrase: 'jenkins run bokchoy',
                         defaultTestengBranch: 'master'
@@ -149,6 +153,17 @@ Map privateFicusJobConfig = [ open: false,
                               defaultTestengBranch: 'origin/open-release/ficus.master'
                               ]
 
+Map firefox57JobConfig = [ open : true,
+                        jobName : 'edx-platform-firefox-upgrade-bok-choy-pr',
+                        subsetJob: 'edx-platform-test-subset',
+                        repoName: 'edx-platform',
+                        workerLabel: 'ff-57-jenkins-worker',
+                        whitelistBranchRegex: /estute\/jenkins-ff-57-b/,
+                        context: 'jenkins/ff-57-bokchoy',
+                        triggerPhrase: /.*jenkins\W+run\W+firefox\W+upgrade\W+bokchoy.*/,
+                        defaultTestengBranch: 'master'
+                        ]
+
 List jobConfigs = [ publicJobConfig,
                     django19JobConfig,
                     django110JobConfig,
@@ -157,7 +172,8 @@ List jobConfigs = [ publicJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
                     publicFicusJobConfig,
-                    privateFicusJobConfig
+                    privateFicusJobConfig,
+                    firefox57JobConfig
                     ]
 
 /* Iterate over the job configurations */
@@ -245,6 +261,9 @@ jobConfigs.each { jobConfig ->
             timestamps()
         }
 
+        if (jobConfig.blacklistBranchRegex) {
+            configure GHPRB_BLACKLIST_BRANCH(jobConfig.blacklistBranchRegex)
+        }
         configure GHPRB_WHITELIST_BRANCH(jobConfig.whitelistBranchRegex)
 
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-bok-choy-pr.groovy')
