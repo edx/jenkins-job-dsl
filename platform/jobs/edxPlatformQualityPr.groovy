@@ -56,6 +56,48 @@ Map publicJobConfig = [
     diffJob: 'edx-platform-quality-diff'
 ]
 
+Map django19JobConfig = [
+    open : true,
+    jobName : 'edx-platform-django-1.9-quality-flow-pr',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    workerLabel: 'django-upgrade-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-1.9/quality',
+    triggerPhrase: /.*jenkins\W+run\W+django19\W+quality.*/,
+    defaultTestengBranch: 'master',
+    commentOnly: true,
+    djangoVersion: '1.9'
+]
+
+Map django110JobConfig = [
+    open : true,
+    jobName : 'edx-platform-django-1.10-quality-flow-pr',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    workerLabel: 'django-upgrade-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-1.10/quality',
+    triggerPhrase: /.*jenkins\W+run\W+django110\W+quality.*/,
+    defaultTestengBranch: 'master',
+    commentOnly: true,
+    djangoVersion: '1.10'
+]
+
+Map django111JobConfig = [
+    open : true,
+    jobName : 'edx-platform-django-upgrade-quality-flow-pr',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    workerLabel: 'django-upgrade-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-upgrade/quality',
+    triggerPhrase: /.*jenkins\W+run\W+django\W+upgrade\W+quality.*/,
+    defaultTestengBranch: 'master',
+    commentOnly: true,
+    djangoVersion: '1.11'
+]
+
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-quality-flow-pr_private',
@@ -72,6 +114,9 @@ Map privateJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
+    django19JobConfig,
+    django110JobConfig,
+    django111JobConfig,
 ]
 
 jobConfigs.each { jobConfig ->
@@ -93,6 +138,11 @@ jobConfigs.each { jobConfig ->
             env('REPO_NAME', jobConfig.repoName)
             env('DIFF_JOB', jobConfig.diffJob)
             env('TARGET_BRANCH', 'origin/master')
+            // Only define the Django version if explicitly defined in a config.
+            // Otherwise, the default version will be used
+            if (jobConfig.containsKey('djangoVersion')) {
+                env('DJANGO_VERSION', jobConfig.djangoVersion)
+            }
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
