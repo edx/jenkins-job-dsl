@@ -55,12 +55,12 @@ class edxPlatformPrJobSpec extends Specification {
 
         where:
         dslFile                               | numJobs
-        'edxPlatformAccessibilityPr.groovy'   | 6
+        'edxPlatformAccessibilityPr.groovy'   | 9
         'edxPlatformBokChoyPr.groovy'         | 10
-        'edxPlatformJsPr.groovy'              | 6
+        'edxPlatformJsPr.groovy'              | 9
         'edxPlatformLettucePr.groovy'         | 9
         'edxPlatformPythonUnitTestsPr.groovy' | 9
-        'edxPlatformQualityPr.groovy'         | 2
+        'edxPlatformQualityPr.groovy'         | 5
         'edxPlatformQualityDiff.groovy'       | 2
         'edxPlatformUnitCoverage.groovy'      | 2
     }

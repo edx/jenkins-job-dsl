@@ -36,78 +36,127 @@ catch (any) {
 }
 
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
-// Map exampleConfig = [ open: true/false if this job should be 'open' (use the default security scheme or not)
-//                       jobName: name of the job
-//                       repoName: name of the github repo containing the edx-platform you want to test
-//                       workerLabel: label of the worker to run this job on
-//                       whiteListBranchRegex: regular expression to filter which branches of a particular repo
-//                       can will trigger builds (via GHRPB)
-//                       context: Github context used to report test status
-//                       triggerPhrase: Github comment used to trigger this job
-//                       ]
+// Map exampleConfig = [
+//     open: true/false if this job should be 'open' (use the default security scheme or not)
+//     jobName: name of the job
+//     repoName: name of the github repo containing the edx-platform you want to test
+//     workerLabel: label of the worker to run this job on
+//     whiteListBranchRegex: regular expression to filter which branches of a particular repo
+//     can will trigger builds (via GHRPB)
+//     context: Github context used to report test status
+//     triggerPhrase: Github comment used to trigger this job
+// ]
 
-Map publicJobConfig = [ open : true,
-                        jobName : 'edx-platform-js-pr',
-                        subsetJob: 'edx-platform-test-subset',
-                        repoName: 'edx-platform',
-                        workerLabel: 'jenkins-worker',
-                        whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                        context: 'jenkins/js',
-                        triggerPhrase: /.*jenkins\W+run\W+js.*/
-                        ]
+Map publicJobConfig = [
+    open : true,
+    jobName : 'edx-platform-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'jenkins-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/js',
+    triggerPhrase: /.*jenkins\W+run\W+js.*/
+]
 
-Map privateJobConfig = [ open: false,
-                         jobName: 'edx-platform-js-pr_private',
-                         repoName: 'edx-platform-private',
-                         workerLabel: 'jenkins-worker',
-                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                         context: 'jenkins/js',
-                         triggerPhrase: /.*jenkins\W+run\W+js.*/
-                         ]
+Map django19JobConfig = [
+    open : true,
+    jobName : 'edx-platform-django-1.9-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'django-upgrade-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-1.9/js',
+    triggerPhrase: /.*jenkins\W+run\W+django19\W+js.*/,
+    defaultTestengBranch: 'master',
+    commentOnly: true,
+    djangoVersion: '1.9'
+]
 
-Map publicGinkgoJobConfig = [ open: true,
-                              jobName: 'ginkgo-js-pr',
-                              repoName: 'edx-platform',
-                              workerLabel: 'ginkgo-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ginkgo.master/,
-                              context: 'jenkins/ginkgo/js',
-                              triggerPhrase: /.*ginkgo\W+run\W+js.*/
-                              ]
+Map django110JobConfig = [
+    open : true,
+    jobName : 'edx-platform-django-1.10-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'django-upgrade-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-1.10/js',
+    triggerPhrase: /.*jenkins\W+run\W+django110\W+js.*/,
+    defaultTestengBranch: 'master',
+    commentOnly: true,
+    djangoVersion: '1.10'
+]
 
-Map privateGinkgoJobConfig = [ open: false,
-                               jobName: 'ginkgo-js-pr_private',
-                               repoName: 'edx-platform-private',
-                               workerLabel: 'ginkgo-jenkins-worker',
-                               whitelistBranchRegex: /open-release\/ginkgo.master/,
-                               context: 'jenkins/ginkgo/js',
-                               triggerPhrase: /.*ginkgo\W+run\W+js.*/
-                               ]
+Map django111JobConfig = [
+    open : true,
+    jobName : 'edx-platform-django-upgrade-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'django-upgrade-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-upgrade/js',
+    triggerPhrase: /.*jenkins\W+run\W+django\W+upgrade\W+js.*/,
+    defaultTestengBranch: 'master',
+    commentOnly: true,
+    djangoVersion: '1.11'
+]
 
-Map publicFicusJobConfig = [ open: true,
-                             jobName: 'ficus-js-pr',
-                             repoName: 'edx-platform',
-                             workerLabel: 'ficus-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ficus.master/,
-                             context: 'jenkins/ficus/js',
-                             triggerPhrase: /.*ficus\W+run\W+js.*/
-                             ]
+Map privateJobConfig = [
+    open: false,
+    jobName: 'edx-platform-js-pr_private',
+    repoName: 'edx-platform-private',
+    workerLabel: 'jenkins-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/js',
+    triggerPhrase: /.*jenkins\W+run\W+js.*/
+]
 
-Map privateFicusJobConfig = [ open: false,
-                              jobName: 'ficus-js-pr_private',
-                              repoName: 'edx-platform-private',
-                              workerLabel: 'ficus-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ficus.master/,
-                              context: 'jenkins/ficus/js',
-                              triggerPhrase: /.*ficus\W+run\W+js.*/
-                              ]
+Map publicGinkgoJobConfig = [
+    open: true,
+    jobName: 'ginkgo-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'ginkgo-jenkins-worker',
+    whitelistBranchRegex: /open-release\/ginkgo.master/,
+    context: 'jenkins/ginkgo/js',
+    triggerPhrase: /.*ginkgo\W+run\W+js.*/
+]
 
-List jobConfigs = [ publicJobConfig,
-                    privateJobConfig,
-                    publicGinkgoJobConfig,
-                    privateGinkgoJobConfig,
-                    publicFicusJobConfig,
-                    privateFicusJobConfig
-                    ]
+Map privateGinkgoJobConfig = [
+    open: false,
+    jobName: 'ginkgo-js-pr_private',
+    repoName: 'edx-platform-private',
+    workerLabel: 'ginkgo-jenkins-worker',
+    whitelistBranchRegex: /open-release\/ginkgo.master/,
+    context: 'jenkins/ginkgo/js',
+    triggerPhrase: /.*ginkgo\W+run\W+js.*/
+]
+
+Map publicFicusJobConfig = [
+    open: true,
+    jobName: 'ficus-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'ficus-jenkins-worker',
+    whitelistBranchRegex: /open-release\/ficus.master/,
+    context: 'jenkins/ficus/js',
+    triggerPhrase: /.*ficus\W+run\W+js.*/
+]
+
+Map privateFicusJobConfig = [
+    open: false,
+    jobName: 'ficus-js-pr_private',
+    repoName: 'edx-platform-private',
+    workerLabel: 'ficus-jenkins-worker',
+    whitelistBranchRegex: /open-release\/ficus.master/,
+    context: 'jenkins/ficus/js',
+    triggerPhrase: /.*ficus\W+run\W+js.*/
+]
+
+List jobConfigs = [
+    publicJobConfig,
+    privateJobConfig,
+    django19JobConfig,
+    django110JobConfig,
+    django111JobConfig,
+    publicGinkgoJobConfig,
+    privateGinkgoJobConfig,
+    publicFicusJobConfig,
+    privateFicusJobConfig
+]
 
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
@@ -123,6 +172,13 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
+        environmentVariables {
+            // Only define the Django version if explicitly defined in a config.
+            // Otherwise, the default version will be used
+            if (jobConfig.containsKey('djangoVersion')) {
+                env('DJANGO_VERSION', jobConfig.djangoVersion)
+            }
+        }
         parameters {
             labelParam('WORKER_LABEL') {
                 description('Select a Jenkins worker label for running this job')
