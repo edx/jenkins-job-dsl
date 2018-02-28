@@ -25,7 +25,7 @@ job('edx-platform-test-notifier') {
             remote {
                 url('https://github.com/edx/testeng-ci.git')
             }
-            branch('youngstrom/test-notifier')
+            branch('*/master')
             browser()
         }
     }
