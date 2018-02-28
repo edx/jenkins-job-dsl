@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_RE
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_BLACKLIST_BRANCH
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_EDX_PLATFORM_TEST_NOTIFIER
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -269,6 +270,9 @@ jobConfigs.each { jobConfig ->
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-bok-choy-pr.groovy')
         publishers { //publish JUnit Test report
             archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+            if (jobConfig.repoName == "edx-platform") {
+                downstreamParameterized JENKINS_EDX_PLATFORM_TEST_NOTIFIER('${ghprbPullId}')
+            }
         }
     }
 }

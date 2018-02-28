@@ -5,6 +5,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_EDX_PLATFORM_TEST_NOTIFIER
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -233,6 +234,9 @@ jobConfigs.each { jobConfig ->
                     keepAll(true)
                     allowMissing(true)
                 }
+            }
+            if (jobConfig.repoName == "edx-platform") {
+                downstreamParameterized JENKINS_EDX_PLATFORM_TEST_NOTIFIER('${ghprbPullId}')
             }
         }
     }

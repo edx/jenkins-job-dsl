@@ -5,6 +5,8 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_EDX_PLATFORM_TEST_NOTIFIER
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
 archiveReports += 'edx-platform*/test_root/log/*.log,'
@@ -268,6 +270,9 @@ jobConfigs.each { jobConfig ->
                 }
             }
             archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+            if (jobConfig.repoName == "edx-platform") {
+                downstreamParameterized JENKINS_EDX_PLATFORM_TEST_NOTIFIER.call('${ghprbPullId}')
+            }
         }
     }
 }
