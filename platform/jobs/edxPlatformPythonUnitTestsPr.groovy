@@ -245,27 +245,6 @@ jobConfigs.each { jobConfig ->
                     relativeTargetDirectory('testeng-ci')
                 }
             }
-           git {
-                remote {
-                    url("https://github.com/edx/${jobConfig.repoName}.git")
-                    refspec('+refs/pull/*:refs/remotes/origin/pr/*')
-                    if (!jobConfig['open'].toBoolean()) {
-                        credentials("EDX_STATUS_BOT_CREDENTIALS")
-                    }
-                }
-                branch('\${ghprbActualCommit}')
-                browser()
-                extensions {
-                    relativeTargetDirectory(jobConfig.repoName)
-                    cloneOptions {
-                        // Use a reference clone for quicker clones. This is configured on jenkins workers via
-                        // (https://github.com/edx/configuration/blob/master/playbooks/roles/test_build_server/tasks/main.yml#L26)
-                        reference("\$HOME/edx-platform-clone")
-                        timeout(10)
-                    }
-                    cleanBeforeCheckout()
-                }
-            }
         }
         triggers {
             pullRequest {
@@ -299,7 +278,7 @@ jobConfigs.each { jobConfig ->
             // Only archive Coverage data when explicitly defined in the jobConfig to avoid build errors
             if (jobConfig.runCoverage) {
                 publishHtml {
-                    report("${jobConfig.repoName}/reports") {
+                    report("reports") {
                         reportFiles('diff_coverage_combined.html')
                         reportName('Diff Coverage Report')
                         keepAll()
