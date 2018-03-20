@@ -94,6 +94,25 @@ jobConfigs.each { jobConfig ->
         multiscm {
             git {
                 remote {
+                    url("https://github.com/edx/${jobConfig.repoName}.git")
+                    refspec(jobConfig.refSpec)
+                    if (!jobConfig.open.toBoolean()) {
+                        credentials("EDX_STATUS_BOT_CREDENTIALS")
+                    }
+                }
+                branch(jobConfig.defaultBranch)
+                browser()
+                extensions {
+                    cloneOptions {
+                        reference("\$HOME/edx-platform-clone")
+                        timeout(10)
+                    }
+                    cleanBeforeCheckout()
+                    relativeTargetDirectory(jobConfig.repoName)
+                }
+            }
+            git {
+                remote {
                     url('https://github.com/edx/testeng-ci.git')
                 }
                 branch(jobConfig.defaultTestengBranch)
@@ -131,7 +150,7 @@ jobConfigs.each { jobConfig ->
                 defaultExcludes()
             }
             publishHtml {
-                report('reports/metrics/') {
+                report(jobConfig.repoName + '/reports/metrics/') {
                     reportFiles(htmlReports)
                     reportName('Quality Report')
                     allowMissing()
