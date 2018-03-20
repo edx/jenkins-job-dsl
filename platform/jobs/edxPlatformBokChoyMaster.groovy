@@ -29,7 +29,7 @@ PrintStream out = config['out']
 //                       defaultBranch: branch to build
 //                       ]
 
-Map publicJobConfig = [ 
+Map publicJobConfig = [
     open : true,
     jobName : 'edx-platform-bok-choy-master',
     subsetJob: 'edx-platform-test-subset',
@@ -120,9 +120,8 @@ jobConfigs.each { jobConfig ->
             stringParam('ENV_VARS', '', '')
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
         }
-
         multiscm {
-           git {
+            git {
                 remote {
                     url("https://github.com/edx/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
