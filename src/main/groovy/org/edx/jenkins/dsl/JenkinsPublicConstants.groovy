@@ -81,10 +81,10 @@ class JenkinsPublicConstants {
         return secretMap
     }
 
-    public static final String JENKINS_PUBLIC_JUNIT_REPORTS = 'edx-platform*/**/nosetests.xml,edx-platform*/reports/acceptance/*.xml,' +
-                                                              'edx-platform*/reports/quality.xml,edx-platform*/reports/javascript/' +
+    public static final String JENKINS_PUBLIC_JUNIT_REPORTS = '**/nosetests.xml,**/reports/acceptance/*.xml,' +
+                                                              '**/reports/quality.xml,edx-platform*/reports/javascript/' +
                                                               'javascript_xunit*.xml,edx-platform*/reports/a11y/**/xunit.xml,' +
-                                                              'edx-platform*/reports/bok_choy/**/xunit.xml'
+                                                              '**/reports/bok_choy/**/xunit.xml'
 
     public static final Closure JENKINS_EDX_PLATFORM_TEST_NOTIFIER = { prNumber ->
         return {

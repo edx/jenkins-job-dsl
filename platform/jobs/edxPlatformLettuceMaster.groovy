@@ -115,13 +115,12 @@ jobConfigs.each { jobConfig ->
                     url("https://github.com/edx/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
                     if (!jobConfig.open.toBoolean()) {
-                        credentials("EDX_STATUS_BOT_CREDENTIALS")
+                        credentials('EDX_STATUS_BOT_CREDENTIALS')
                     }
                 }
                 branch(jobConfig.defaultBranch)
                 browser()
                 extensions {
-                    relativeTargetDirectory(jobConfig.repoName)
                     cloneOptions {
                         // Use a reference clone for quicker clones. This is configured on jenkins workers via
                         // (https://github.com/edx/configuration/blob/master/playbooks/roles/test_build_server/tasks/main.yml#L26)
@@ -129,6 +128,7 @@ jobConfigs.each { jobConfig ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
+                    relativeTargetDirectory(jobConfig.repoName)
                 }
             }
             git {

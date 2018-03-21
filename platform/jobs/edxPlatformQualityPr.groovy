@@ -160,25 +160,6 @@ jobConfigs.each { jobConfig ->
                     relativeTargetDirectory('testeng-ci')
                 }
             }
-           git {
-                remote {
-                    url("https://github.com/edx/${jobConfig.repoName}.git")
-                    refspec('+refs/pull/*:refs/remotes/origin/pr/*')
-                    if (!jobConfig['open'].toBoolean()) {
-                        credentials("EDX_STATUS_BOT_CREDENTIALS")
-                    }
-                }
-                branch('\${ghprbActualCommit}')
-                browser()
-                extensions {
-                    relativeTargetDirectory(jobConfig.repoName)
-                    cloneOptions {
-                        reference("\$HOME/edx-platform-clone")
-                        timeout(10)
-                    }
-                    cleanBeforeCheckout()
-                }
-            }
         }
         triggers {
             pullRequest {
@@ -219,7 +200,7 @@ jobConfigs.each { jobConfig ->
                 allowEmpty(true)
             }
             publishHtml {
-                report("${jobConfig.repoName}/reports/metrics/") {
+                report("reports/metrics/") {
                     reportName('Quality Report')
                     reportFiles(
                         'pylint/*view*/,pep8/*view*/,python_complexity/*view*/,' +
@@ -228,7 +209,7 @@ jobConfigs.each { jobConfig ->
                     keepAll(true)
                     allowMissing(true)
                 }
-                report("${jobConfig.repoName}/reports/diff_quality") {
+                report("reports/diff_quality") {
                     reportName('Diff Quality Report')
                     reportFiles('diff_quality_pylint.html, diff_quality_eslint.html')
                     keepAll(true)
