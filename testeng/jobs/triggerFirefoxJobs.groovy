@@ -4,7 +4,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SEC
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_MASKED_PASSWORD
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
-job('edx-platform-test-notifier') {
+job('trigger-firefox-comments') {
 
     description('Trigger firefox builds on a cron')
 
