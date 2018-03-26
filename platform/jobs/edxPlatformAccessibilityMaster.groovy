@@ -33,7 +33,7 @@ Map publicJobConfig = [
     open: true,
     jobName: 'edx-platform-accessibility-master',
     repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'ff-59-jenkins-worker',
     context: 'jenkins/a11y',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master'
@@ -43,7 +43,7 @@ Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-accessibility-master_private',
     repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'ff-59-jenkins-worker',
     context: 'jenkins/a11y',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master'
@@ -73,8 +73,8 @@ Map firefox57JobConfig = [
     open : true,
     jobName : 'edx-platform-firefox-upgrade-accessibility-master',
     repoName: 'edx-platform',
-    workerLabel: 'ff-57-jenkins-worker',
-    context: 'jenkins/ff-57-a11y',
+    workerLabel: 'ff-59-jenkins-worker',
+    context: 'jenkins/ff-59-a11y',
     refSpec : '+refs/heads/estute/jenkins-ff-57-b:refs/remotes/origin/estute/jenkins-ff-57-b',
     defaultBranch : 'estute/jenkins-ff-57-b'
 ]

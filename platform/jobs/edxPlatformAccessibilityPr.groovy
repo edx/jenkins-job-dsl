@@ -44,7 +44,7 @@ Map publicJobConfig = [
     open : true,
     jobName : 'edx-platform-accessibility-pr',
     repoName : 'edx-platform',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'ff-59-jenkins-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/a11y',
     triggerPhrase: /.*jenkins\W+run\W+a11y.*/
@@ -93,7 +93,7 @@ Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-accessibility-pr_private',
     repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'ff-59-jenkins-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/a11y',
     triggerPhrase: /.*jenkins\W+run\W+a11y.*/
@@ -143,9 +143,9 @@ Map firefox57JobConfig = [
     open : true,
     jobName : 'edx-platform-firefox-upgrade-accessibility-pr',
     repoName: 'edx-platform',
-    workerLabel: 'ff-57-jenkins-worker',
+    workerLabel: 'ff-59-jenkins-worker',
     whitelistBranchRegex: /estute\/jenkins-ff-57-b/,
-    context: 'jenkins/ff-57-a11y',
+    context: 'jenkins/ff-59-a11y',
     triggerPhrase: /.*jenkins\W+run\W+firefox\W+upgrade\W+a11y.*/
 ]
 
