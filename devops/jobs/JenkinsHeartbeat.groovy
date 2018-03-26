@@ -11,7 +11,9 @@ class JenkinsHeartbeat{
         dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/jenkins-heartbeat") {
             description("Job to check in with Dead Man's Snitch to make sure that Jenkins is still running.")
 
-            logRotator common_logrotator
+            logRotator {
+                daysToKeep(1)
+            }
             wrappers common_wrappers
 
             triggers {
