@@ -77,24 +77,11 @@ Map publicFicusJobConfig = [
     defaultBranch : 'refs/heads/open-release/ficus.master'
 ]
 
-Map firefox57JobConfig = [
-    open : true,
-    jobName : 'edx-platform-firefox-upgrade-bok-choy-master',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    workerLabel: 'ff-59-jenkins-worker',
-    context: 'jenkins/ff-59-bokchoy',
-    defaultTestengBranch: 'master',
-    refSpec : '+refs/heads/estute/jenkins-ff-57-b:refs/remotes/origin/estute/jenkins-ff-57-b',
-    defaultBranch : 'estute/jenkins-ff-57-b'
-]
-
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
     publicGinkgoJobConfig,
-    publicFicusJobConfig,
-    firefox57JobConfig
+    publicFicusJobConfig
 ]
 
 /* Iterate over the job configurations */

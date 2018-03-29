@@ -45,7 +45,6 @@ catch (any) {
 //                       defaultTestengbranch: default branch of the testeng-ci repo for this job
 //                       commentOnly: true/false if this job should only be triggered by explicit comments on
 //                       github. Default behavior: triggered by comments AND pull request updates
-//                       djangoVersion: version of django to run tests with (via tox)
 //                       ]
 
 Map publicJobConfig = [ open : true,
@@ -59,45 +58,6 @@ Map publicJobConfig = [ open : true,
                         triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
                         defaultTestengBranch: 'master'
                         ]
-
-Map django19JobConfig = [ open : true,
-                          jobName : 'edx-platform-django-1.9-bok-choy-pr',
-                          subsetJob: 'edx-platform-test-subset',
-                          repoName: 'edx-platform',
-                          workerLabel: 'django-upgrade-worker',
-                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                          context: 'jenkins/django-1.9/bokchoy',
-                          triggerPhrase: /.*jenkins\W+run\W+django19\W+bokchoy.*/,
-                          defaultTestengBranch: 'master',
-                          commentOnly: true,
-                          djangoVersion: '1.9'
-                          ]
-
-Map django110JobConfig = [ open : true,
-                           jobName : 'edx-platform-django-1.10-bok-choy-pr',
-                           subsetJob: 'edx-platform-test-subset',
-                           repoName: 'edx-platform',
-                           workerLabel: 'django-upgrade-worker',
-                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                           context: 'jenkins/django-1.10/bokchoy',
-                           triggerPhrase: /.*jenkins\W+run\W+django110\W+bokchoy.*/,
-                           defaultTestengBranch: 'master',
-                           commentOnly: true,
-                           djangoVersion: '1.10'
-                           ]
-
-Map django111JobConfig = [ open : true,
-                           jobName : 'edx-platform-django-upgrade-bok-choy-pr',
-                           subsetJob: 'edx-platform-test-subset',
-                           repoName: 'edx-platform',
-                           workerLabel: 'django-upgrade-worker',
-                           whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                           context: 'jenkins/django-upgrade/bokchoy',
-                           triggerPhrase: /.*jenkins\W+run\W+django\W+upgrade\W+bokchoy.*/,
-                           defaultTestengBranch: 'master',
-                           commentOnly: true,
-                           djangoVersion: '1.11'
-                           ]
 
 Map privateJobConfig = [ open: false,
                          jobName: 'edx-platform-bok-choy-pr_private',
@@ -154,27 +114,12 @@ Map privateFicusJobConfig = [ open: false,
                               defaultTestengBranch: 'origin/open-release/ficus.master'
                               ]
 
-Map firefox57JobConfig = [ open : true,
-                        jobName : 'edx-platform-firefox-upgrade-bok-choy-pr',
-                        subsetJob: 'edx-platform-test-subset',
-                        repoName: 'edx-platform',
-                        workerLabel: 'ff-59-jenkins-worker',
-                        whitelistBranchRegex: /estute\/jenkins-ff-57-b/,
-                        context: 'jenkins/ff-59-bokchoy',
-                        triggerPhrase: /.*jenkins\W+run\W+firefox\W+upgrade\W+bokchoy.*/,
-                        defaultTestengBranch: 'master'
-                        ]
-
 List jobConfigs = [ publicJobConfig,
-                    django19JobConfig,
-                    django110JobConfig,
-                    django111JobConfig,
                     privateJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
                     publicFicusJobConfig,
-                    privateFicusJobConfig,
-                    firefox57JobConfig
+                    privateFicusJobConfig
                     ]
 
 /* Iterate over the job configurations */
@@ -195,11 +140,6 @@ jobConfigs.each { jobConfig ->
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)
             env('REPO_NAME', jobConfig.repoName)
-            // Only define the Django version if explicitly defined in a config.
-            // Otherwise, the default version will be used
-            if (jobConfig.containsKey('djangoVersion')) {
-                env('DJANGO_VERSION', jobConfig.djangoVersion)
-            }
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')

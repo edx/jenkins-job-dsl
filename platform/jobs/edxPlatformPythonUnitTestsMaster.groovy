@@ -34,7 +34,6 @@ PrintStream out = config['out']
 //     defaultTestengBranch: default branch of the testeng-ci repo for this job
 //     refSpec: refspec for branches to build
 //     defaultBranch: branch to build
-//     djangoVersion: version of django to run tests with (via tox)
 // ]
 
 Map publicJobConfig = [
@@ -51,23 +50,6 @@ Map publicJobConfig = [
     defaultTestengBranch: 'master',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master'
-]
-
-Map django111JobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-upgrade-unittests-master',
-    flowWorkerLabel: 'flow-worker-django-upgrade-python',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    runCoverage: false,
-    coverageJob: 'edx-platform-unit-coverage',
-    workerLabel: 'django-upgrade-worker',
-    context: 'jenkins/django-upgrade/python',
-    targetBranch: 'origin/master',
-    defaultTestengBranch: 'master',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master',
-    djangoVersion: '1.11'
 ]
 
 Map privateJobConfig = [
@@ -120,7 +102,6 @@ Map ficusJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    django111JobConfig,
     privateJobConfig,
     ginkgoJobConfig,
     ficusJobConfig
@@ -146,11 +127,6 @@ jobConfigs.each { jobConfig ->
             env('RUN_COVERAGE', jobConfig.runCoverage)
             env('COVERAGE_JOB', jobConfig.coverageJob)
             env('TARGET_BRANCH', jobConfig.targetBranch)
-            // Only define the Django version if explicitly defined in a config.
-            // Otherwise, the default version will be used
-            if (jobConfig.containsKey('djangoVersion')) {
-                env('DJANGO_VERSION', jobConfig.djangoVersion)
-            }
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
