@@ -107,6 +107,7 @@ Map prJob = [ name: 'edx-e2e-tests-pr',
               trigger: 'ghprb',
               triggerPhrase: /.*jenkins\W+run\W+e2e.*/,
               branch: '${ghprbActualCommit}',
+              blacklistBranchRegex: 'estute/e2e-ff-59', 
               refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
               branchRegex: '^(?!kashif/white_label).*$', // PRs targeting any branch except kashif/white-label
               description: 'Verify the quality of changes made to the end-to-end tests',
@@ -115,6 +116,24 @@ Map prJob = [ name: 'edx-e2e-tests-pr',
               context: 'jenkins/e2e',
               junitReportPath: 'reports/*.xml'
               ]
+
+// The edx-e2e-tests-pr job is run on every PR to the edx-e2e-tests repo. This
+// is used for development of the e2e tests themselves
+Map ff59PrJob = [ name: 'edx-e2e-ff-59-tests-pr',
+                  deprecated: false,
+                  testSuite: 'e2e',
+                  worker: 'ff-59-jenkins-worker',
+                  trigger: 'ghprb',
+                  triggerPhrase: /.*jenkins\W+run\W+firefox\W+e2e.*/,
+                  branch: '${ghprbActualCommit}',
+                  refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
+                  branchRegex: /estute\/e2e-ff-59/,
+                  description: 'Verify the quality of changes made to the end-to-end tests',
+                  courseNumber: 'E2E-1001',
+                  testScript: 'jenkins/end_to_end_tests.sh',
+                  context: 'jenkins/e2e-ff-59',
+                  junitReportPath: 'reports/*.xml'
+                  ]
 
 // The microsites-staging-tests-pr job is run on every PR into the edx-e2e-tests
 // repo. This is used for development of the microsites tests themselves
@@ -125,6 +144,7 @@ Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
                         trigger: 'ghprb',
                         triggerPhrase: /.*jenkins\W+run\W+microsites.*/,
                         branch: '${ghprbActualCommit}',
+                        blacklistBranchRegex: 'estute/e2e-ff-59', 
                         refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
                         branchRegex: '^(?!kashif/white_label).*$', // PRs targeting any branch except kashif/white-label
                         description: 'Verify the quality of changes made to the microsite tests',
@@ -132,6 +152,21 @@ Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
                         context: 'jenkins/microsites',
                         junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
                         ]
+
+Map ff59MicrositesPrJob = [ name: 'microsites-staging-ff-59-tests-pr',
+                            deprecated: false,
+                            testSuite: 'microsites',
+                            worker: 'ff-59-jenkins-worker',
+                            trigger: 'ghprb',
+                            triggerPhrase: /.*jenkins\W+run\W+firefox\W+microsites.*/,
+                            branch: '${ghprbActualCommit}',
+                            branchRegex: /estute\/e2e-ff-59/,
+                            refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
+                            description: 'Verify the quality of changes made to the microsite tests',
+                            testScript: 'edx-e2e-tests/jenkins/white_label.sh',
+                            context: 'jenkins/microsites-ff-59',
+                            junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
+                            ]
 
 // Merge Triggered Jobs
 
@@ -170,7 +205,9 @@ List jobConfigs = [ pipelineJob,
                     prJob,
                     micrositesPrJob,
                     mergeJob,
-                    micrositesMergeJob
+                    micrositesMergeJob,
+                    ff59PrJob,
+                    ff59MicrositesPrJob
                     ]
 
 jobConfigs.each { jobConfig ->
@@ -258,6 +295,9 @@ jobConfigs.each { jobConfig ->
                         }
                     }
                 }
+            }
+            if (jobConfig.blacklistBranchRegex) {
+                configure GHPRB_BLACKLIST_BRANCH(jobConfig.blacklistBranchRegex)
             }
             configure GHPRB_WHITELIST_BRANCH(jobConfig.branchRegex)
         }
