@@ -59,45 +59,6 @@ Map publicJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+js.*/
 ]
 
-Map django19JobConfig = [
-    open : true,
-    jobName : 'edx-platform-django-1.9-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'django-upgrade-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-1.9/js',
-    triggerPhrase: /.*jenkins\W+run\W+django19\W+js.*/,
-    defaultTestengBranch: 'master',
-    commentOnly: true,
-    djangoVersion: '1.9'
-]
-
-Map django110JobConfig = [
-    open : true,
-    jobName : 'edx-platform-django-1.10-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'django-upgrade-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-1.10/js',
-    triggerPhrase: /.*jenkins\W+run\W+django110\W+js.*/,
-    defaultTestengBranch: 'master',
-    commentOnly: true,
-    djangoVersion: '1.10'
-]
-
-Map django111JobConfig = [
-    open : true,
-    jobName : 'edx-platform-django-upgrade-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'django-upgrade-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-upgrade/js',
-    triggerPhrase: /.*jenkins\W+run\W+django\W+upgrade\W+js.*/,
-    defaultTestengBranch: 'master',
-    commentOnly: true,
-    djangoVersion: '1.11'
-]
-
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-js-pr_private',
@@ -151,9 +112,6 @@ Map privateFicusJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    django19JobConfig,
-    django110JobConfig,
-    django111JobConfig,
     publicGinkgoJobConfig,
     privateGinkgoJobConfig,
     publicFicusJobConfig,
@@ -174,13 +132,6 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
-        environmentVariables {
-            // Only define the Django version if explicitly defined in a config.
-            // Otherwise, the default version will be used
-            if (jobConfig.containsKey('djangoVersion')) {
-                env('DJANGO_VERSION', jobConfig.djangoVersion)
-            }
-        }
         parameters {
             labelParam('WORKER_LABEL') {
                 description('Select a Jenkins worker label for running this job')

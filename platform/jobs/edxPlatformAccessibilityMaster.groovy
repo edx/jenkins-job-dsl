@@ -69,28 +69,16 @@ Map ficusJobConfig = [
     defaultBranch : 'refs/heads/open-release/ficus.master'
 ]
 
-Map firefox57JobConfig = [
-    open : true,
-    jobName : 'edx-platform-firefox-upgrade-accessibility-master',
-    repoName: 'edx-platform',
-    workerLabel: 'ff-59-jenkins-worker',
-    context: 'jenkins/ff-59-a11y',
-    refSpec : '+refs/heads/estute/jenkins-ff-57-b:refs/remotes/origin/estute/jenkins-ff-57-b',
-    defaultBranch : 'estute/jenkins-ff-57-b'
-]
-
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
     ginkgoJobConfig,
-    ficusJobConfig,
-    firefox57JobConfig
+    ficusJobConfig
 ]
 
 jobConfigs.each { jobConfig ->
 
     job(jobConfig.jobName) {
-
 
         if (!jobConfig.open.toBoolean()) {
             authorization GENERAL_PRIVATE_JOB_SECURITY()
