@@ -120,7 +120,7 @@ Map prJob = [ name: 'edx-e2e-tests-pr',
 
 // The edx-e2e-tests-pr job is run on every PR to the edx-e2e-tests repo. This
 // is used for development of the e2e tests themselves
-Map ff59PrJob = [ name: 'edx-e2e-ff-59-tests-pr',
+Map ff59PrJob = [ name: 'edx-e2e-ff-59-tests-pr',
                   deprecated: false,
                   testSuite: 'e2e',
                   worker: 'ff-59-jenkins-worker',
