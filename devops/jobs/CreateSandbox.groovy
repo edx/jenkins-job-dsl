@@ -142,7 +142,7 @@ class CreateSandbox {
                 booleanParam("forum",true,"")
                 stringParam("forum_version","master","")
 
-                booleanParam("ecommerce",false,"")
+                booleanParam("ecommerce",true,"")
                 stringParam("ecommerce_version","master","")
 
                 booleanParam("notifier",false,"")
@@ -154,7 +154,7 @@ class CreateSandbox {
                 booleanParam("xserver",false,"")
                 stringParam("xserver_version","master","")
 
-                booleanParam("ecommerce_worker",false,"")
+                booleanParam("ecommerce_worker",true,"")
                 stringParam("ecommerce_worker_version","master","")
 
                 booleanParam("certs",false,"")
@@ -172,7 +172,7 @@ class CreateSandbox {
                 booleanParam("credentials",false,"")
                 stringParam("credentials_version","master","")
 
-                booleanParam("set_whitelabel",false,
+                booleanParam("set_whitelabel",true,
                              "Check this in order to create a Sandbox with whitelabel themes automatically set.")
 
                 booleanParam("video_pipeline",false,
