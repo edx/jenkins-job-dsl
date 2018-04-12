@@ -1,28 +1,26 @@
 # Local Development
 
-The simplest way to get started with local development targeted for tools-edx-jenkins is to use our Docker container.
-This container is pre-configured  to run Jenkins. The `docker-compose.yml` file in the root of this repository contains 
-the configuration necessary to  bring a new container online with the proper ports exposed, and volumes shared.
+The simplest way to get started with local development edx-related jenkins services is to use our Docker containers.
+These containers are pre-configured to run Jenkins. The `docker-compose.yml` file in the root of this repository
+contains the configuration necessary to bring a containers online with the proper ports exposed, and volumes shared.
 
 Execute this command from the root of the repository:
 
-    $ docker-compose up
+    $ make docker.run.<name_of_jenkins_service>
 
-If you opt not to use `docker-compose`, the following command will achieve the same results
+Where `<name_of_jenkins_service>` corresponds to services specified in docker-compose.yml.
 
-    $ docker run -it --rm -p 127.0.0.1:8080:8080 -v jenkinsjobdsl_jenkins:/edx/var/jenkins edxops/tools_jenkins:latest
+A volume will be created for the container, which contains all of the configuration for Jenkins and will persist between
+container stops and starts.  For the `jenkins_tools` container, however, plugin updates or installs will cause the
+volume to become recreated (see WIP: Updating the Docker Image below).
 
-
-In both instances port 8080 will be exposed only to the host system, and a volume will be created on the 
-container. This volume contains all of the configuration for Jenkins, and will be preserved between container
-stops and starts, except in the case of plugin updates or installs (see WIP: Updating the Docker Image below).
-
-Once the container is running, you can connect to Jenkins at `http://localhost:8080`.
+Once the container is running, you can connect to Jenkins at `http://localhost:<port>`.  Ports are also configured in
+`docker-compose.yml`.
 
 In order to bootstrap Jenkins in a container you will need to do two things:
 
 1. Set up any credentials required for pulling private repositories.
-2. Set up a seed job to process the job DSL.
+2. Set up a seed job to process the job DSL (this job is automatically created in jenkins_build).
 
 ### Credentials
 
@@ -35,11 +33,11 @@ You create a username/password combination where the password is your token, thi
 Note that if using a personal access token, you can only clone https://github.com/ URLs, and ssh keys only work on git@github.com:edx
 URLs.  We use git@github.com URLs on tools-edx-jenkins with deployment keys, but you can use whatever is simpler in testing.
 
-### Testing DSL
+### Creating the Seed Job
 
-You will need to create a new Jenkins job that executes the DSL, and creates other jobs. This can be done with the steps
-below.  Note that these instructions are for a simple DSL, your seed job documentation may specify cloning multiple DSL/configuration
-repos, or running Gradle.
+You will need to create a new Jenkins job that executes the DSL, and creates other jobs. This is referred to as the
+"seed job".  Note that these instructions are for a simple DSL, your seed job documentation may specify cloning multiple
+DSL/configuration repos, or running Gradle.
 
 1. Use the Jenkins UI to create a new **Freestyle project** job named **Job Creator**.
 2. Configure the job to use **Multiple SCMs** for *Source Control Management*, and add a Git repository. (Note that we 
@@ -134,7 +132,7 @@ Manage Jenkins -> Configure System -> Python installations
 
     Check Install automatically
 
-## WIP: Updating the Docker Image
+## WIP: Updating the Tools Jenkins Docker Image
 
 The [edxops/tools_jenkins](https://hub.docker.com/r/edxops/tools_jenkins/) image is used in the Docker steps above. The required plugins have been pre-installed on the container. Feel free to install additional plugins. If you'd like to add or modify Jenkins plugins, follow the steps below.
 

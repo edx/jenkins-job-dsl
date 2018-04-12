@@ -1,13 +1,21 @@
 version: "3"
 services:
-  edxops-jenkins:
+  jenkins_tools:
     image: edxops/tools_jenkins:latest
-    container_name: tools_jenkins
+    container_name: jenkins_tools
     volumes:
-        - jenkins:/edx/var/jenkins
+        - jenkins_tools:/edx/var/jenkins
         - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "127.0.0.1:8080:8080"
+  jenkins_build:
+    image: edxops/jenkins_build:latest
+    container_name: jenkins_build
+    volumes:
+        - jenkins_build:/var/lib/jenkins
+    ports:
+      - "127.0.0.1:8081:8080"
 
 volumes:
-  jenkins:
+  jenkins_tools:
+  jenkins_build:
