@@ -53,6 +53,18 @@ Map privateJobConfig = [
     defaultBranch : 'master'
 ]
 
+Map publicHawthornJobConfig = [
+    open: true,
+    jobName: 'hawthorn-bok-choy-master',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    workerLabel: 'hawthorn-jenkins-worker',
+    context: 'jenkins/hawthorn/bokchoy',
+    defaultTestengBranch: 'origin/open-release/hawthorn.beta1',
+    refSpec : '+refs/heads/open-release/hawthorn.beta1:refs/remotes/origin/open-release/hawthorn.beta1',
+    defaultBranch : 'refs/heads/open-release/hawthorn.beta1'
+]
+
 Map publicGinkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-bok-choy-master',
@@ -80,6 +92,7 @@ Map publicFicusJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
+    hawthornJobConfig,
     publicGinkgoJobConfig,
     publicFicusJobConfig
 ]

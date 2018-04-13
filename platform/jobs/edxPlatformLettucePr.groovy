@@ -66,6 +66,28 @@ Map privateJobConfig = [ open: false,
                          defaultTestengBranch: 'master'
                          ]
 
+Map publicHawthornJobConfig = [ open: true,
+                               jobName: 'hawthorn-lettuce-pr',
+                               subsetJob: 'edx-platform-test-subset',
+                               repoName: 'edx-platform',
+                               workerLabel: 'hawthorn-jenkins-worker',
+                               whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                               context: 'jenkins/hawthorn/lettuce',
+                               triggerPhrase: /.*hawthorn\W+run\W+lettuce.*/,
+                               defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                               ]
+
+Map privateHawthornJobConfig = [ open: false,
+                                jobName: 'hawthorn-lettuce-pr_private',
+                                subsetJob: 'edx-platform-test-subset_private',
+                                repoName: 'edx-platform-private',
+                                workerLabel: 'hawthorn-jenkins-worker',
+                                whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                                context: 'jenkins/hawthorn/lettuce',
+                                triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
+                                defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                                ]
+
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-lettuce-pr',
                               subsetJob: 'edx-platform-test-subset',
@@ -112,6 +134,8 @@ Map privateFicusJobConfig = [ open: false,
 
 List jobConfigs = [ publicJobConfig,
                     privateJobConfig,
+                    publicHawthornJobConfig,
+                    privateHawthornJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
                     publicFicusJobConfig,

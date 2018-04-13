@@ -86,12 +86,7 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    if (!jobConfig.open.toBoolean()) {
-                        url("git@github.com:edx/${jobConfig.repoName}.git")
-                    }
-                    else {
-                        url("https://github.com/edx/${jobConfig.repoName}.git")
-                    }
+                    url("git@github.com:edx/${jobConfig.repoName}.git")
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     if (!jobConfig.open.toBoolean()) {
                         credentials('jenkins-worker')
@@ -117,9 +112,7 @@ jobConfigs.each { jobConfig ->
             }
             timestamps()
             colorizeOutput('gnome-terminal')
-            if (!jobConfig.open.toBoolean()) {
-                sshAgent('jenkins-worker')
-            }
+            sshAgent('jenkins-worker')
             buildName('#\${BUILD_NUMBER}: \${GIT_REVISION,length=8}')
         }
         steps {
