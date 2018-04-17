@@ -33,7 +33,7 @@ Map publicJobConfig = [
     open: true,
     jobName: 'edx-platform-accessibility-master',
     repoName: 'edx-platform',
-    workerLabel: 'ff-59-jenkins-worker',
+    workerLabel: 'jenkins-worker',
     context: 'jenkins/a11y',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master'
@@ -43,7 +43,7 @@ Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-accessibility-master_private',
     repoName: 'edx-platform-private',
-    workerLabel: 'ff-59-jenkins-worker',
+    workerLabel: 'jenkins-worker',
     context: 'jenkins/a11y',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master'
