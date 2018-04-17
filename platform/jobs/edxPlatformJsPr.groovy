@@ -141,16 +141,9 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    if (!jobConfig.open.toBoolean()) {
-                        url("git@github.com:edx/${jobConfig.repoName}.git")
-                    }
-                    else {
-                        url("https://github.com/edx/${jobConfig.repoName}.git")
-                    }
+                    url("git@github.com:edx/${jobConfig.repoName}.git")
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
-                    if (!jobConfig.open.toBoolean()) {
-                        credentials('jenkins-worker')
-                    }
+                    credentials('jenkins-worker')
                 }
                 branch('\${ghprbActualCommit}')
                 browser()
@@ -193,9 +186,7 @@ jobConfigs.each { jobConfig ->
             timestamps()
             colorizeOutput()
             buildName('#${BUILD_NUMBER}: Javascript Tests')
-            if (!jobConfig.open.toBoolean()) {
-                sshAgent('jenkins-worker')
-            }
+            sshAgent('jenkins-worker')
         }
         steps {
             shell("cd ${jobConfig.repoName}; TEST_SUITE=js-unit ./scripts/all-tests.sh")

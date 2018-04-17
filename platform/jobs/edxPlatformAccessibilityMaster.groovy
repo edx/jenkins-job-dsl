@@ -97,11 +97,9 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    url("https://github.com/edx/${jobConfig.repoName}.git")
+                    url("git@github.com:edx/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
-                    if (!jobConfig.open.toBoolean()) {
-                        credentials("EDX_STATUS_BOT_CREDENTIALS")
-                    }
+                    credentials('jenkins-worker')
                 }
                 branch(jobConfig.defaultBranch)
                 browser()
@@ -124,9 +122,7 @@ jobConfigs.each { jobConfig ->
             }
             timestamps()
             colorizeOutput('gnome-terminal')
-            if (!jobConfig.open.toBoolean()) {
-                sshAgent('jenkins-worker')
-            }
+            sshAgent('jenkins-worker')
             credentialsBinding {
                 string('AWS_ACCESS_KEY_ID', 'DB_CACHE_ACCESS_KEY_ID')
                 string('AWS_SECRET_ACCESS_KEY', 'DB_CACHE_SECRET_ACCESS_KEY')

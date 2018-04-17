@@ -25,9 +25,6 @@ class edxPlatformTestSubsetSpec extends Specification {
     // The DSL script under test
     def @Shared File dslScript = new File('platform/jobs/edxPlatformTestSubset.groovy')
     def @Shared String baseJobName = 'edx-platform-test-subset'
-    def @Shared String baseSecretPath = 'src/test/resources/platform/secrets'
-    // Secret variable used in DSL script
-    def @Shared String secretVar = 'EDX_PLATFORM_TEST_SUBSET_SECRET'
 
     def @Shared List pList = [ 'com.cloudbees.plugins.credentials.CredentialsProvider.Delete:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:edx',
@@ -35,77 +32,10 @@ class edxPlatformTestSubsetSpec extends Specification {
                                 'hudson.model.Item.Workspace:edx', 'hudson.model.Run.Delete:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.View:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.Create:edx',
-                                'hudson.model.Item.Discover:edx', 'hudson.model.Item.Build:edx', 
-                                'hudson.model.Item.Cancel:edx', 'hudson.model.Item.Delete:edx', 
+                                'hudson.model.Item.Discover:edx', 'hudson.model.Item.Build:edx',
+                                'hudson.model.Item.Cancel:edx', 'hudson.model.Item.Delete:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.Update:edx',
                                 'hudson.model.Run.Update:edx' ]
-
-    /*
-    * Helper function: loadSecret
-    * return a JenkinsJobManagement object containing a mapping of secret variables to secret values
-    */
-    JenkinsJobManagement loadSecret(secretKey, secretValue) {
-        Map<String,String> envVars = new HashMap<String,String>()
-        envVars.put(secretKey, secretValue)
-        JenkinsJobManagement jjm = new JenkinsJobManagement(System.out, envVars, new File('.'))
-        return jjm
-    }
-
-
-    /**
-    * Using an evironment variable that points to a non-existent secret file, ensure that no
-    * jobs are created.
-    **/
-    void 'test non-existent secret file is handled correctly'() {
-
-        setup:
-        String secretPath = baseSecretPath + '/non-existent-file.yml'
-        jm =  loadSecret(secretVar, secretPath)
-        loader = new DslScriptLoader(jm)
-
-        when:
-        GeneratedItems generatedItems = loader.runScript(dslScript.text)
-
-        then:
-        generatedItems.jobs.size() == 0
-    }
-
-    /**
-    * Using an invalid yaml secret, ensure that the appropriate exceptions are thrown, and
-    * that no jobs are created.
-    **/
-    void 'test invalid yaml is handled correctly'() {
-
-        setup:
-        String secretPath = baseSecretPath + '/corrupt-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
-        loader = new DslScriptLoader(jm)
-
-        when:
-        GeneratedItems generatedItems = loader.runScript(dslScript.text)
-
-        then:
-        generatedItems.jobs.size() == 0
-    }
-
-    /**
-    * Using a valid, but incomplete yaml (missing a key:value pair) verify that an assertionError is
-    * thrown.
-    **/
-    void 'test incomplete secret is handled correctly'() {
-
-        setup:
-        String secretPath = baseSecretPath + '/incomplete-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
-        loader = new DslScriptLoader(jm)
-
-        when:
-        GeneratedItems generatedItems = loader.runScript(dslScript.text)
-
-        then:
-        thrown(AssertionError)
-
-    }
 
     /**
     * Run the DSL script and verify that no exceptions were thrown by the dslScriptRunner
@@ -113,8 +43,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test no exceptions are thrown'() {
 
         setup:
-        String secretPath = baseSecretPath + '/edx-platform-test-subset-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
+        JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
         loader = new DslScriptLoader(jm)
 
         when:
@@ -132,15 +61,14 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test correct jobs are created'() {
 
         setup:
-        String secretPath = baseSecretPath + '/edx-platform-test-subset-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
+        JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
         loader = new DslScriptLoader(jm)
 
         when:
         loader.runScript(dslScript.text)
         GeneratedItems generatedItems = loader.runScript(dslScript.text)
         GeneratedJob job1 = new GeneratedJob(null, baseJobName)
-        GeneratedJob job2 = new GeneratedJob(null, baseJobName + '_2')
+        GeneratedJob job2 = new GeneratedJob(null, baseJobName + '_private')
 
         then:
         generatedItems.jobs.size() == 2
@@ -157,8 +85,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test secret creates correct xml'() {
 
         setup:
-        String secretPath = baseSecretPath + '/edx-platform-test-subset-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
+        JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
         loader = new DslScriptLoader(jm)
 
         when:
@@ -171,17 +98,14 @@ class edxPlatformTestSubsetSpec extends Specification {
         Node urc = scm.childNodes().find { it.name == 'userRemoteConfigs' }
         Node giturc = urc.childNodes().find { it.name == 'hudson.plugins.git.UserRemoteConfig' }
         giturc.childNodes().any { it.name == 'url' && it.text() == "${protocol}${url}.git" }
-        if (!open) {
-            giturc.childNodes().any { it.name == 'credentialsId' && it.text() ==  cred }
-        }
         Node ext = scm.childNodes().find { it.name == 'extensions' }
         Node cloneOption = ext.childNodes().find { it.name == 'hudson.plugins.git.extensions.impl.CloneOption' }
         cloneOption.childNodes().any { it.name == 'reference' && it.text() == "\$HOME/${clone}"}
 
         where:
-        job                          | open  | protocol              | url                  | cred       | clone
-        'edx-platform-test-subset'   | true  | 'https://github.com/' | 'edx/edx-platform'   | false      | 'edx-platform-clone/.git'
-        'edx-platform-test-subset_2' | false | 'git@github.com:'     | 'edx/edx-platform-2' | 'password' | 'edx-platform-2-clone/.git'
+        job                                | open  | protocol          | url                        | clone
+        'edx-platform-test-subset'         | true  | 'git@github.com:' | 'edx/edx-platform'         | 'edx-platform-clone/.git'
+        'edx-platform-test-subset_private' | false | 'git@github.com:' | 'edx/edx-platform-private' | 'edx-platform-private-clone/.git'
 
 
     }
@@ -194,8 +118,7 @@ class edxPlatformTestSubsetSpec extends Specification {
     void 'test security settings'() {
 
         setup:
-        String secretPath = baseSecretPath + '/edx-platform-test-subset-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
+        JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
         loader = new DslScriptLoader(jm)
 
         when:
@@ -223,8 +146,9 @@ class edxPlatformTestSubsetSpec extends Specification {
 
         job                                 | open  | block | permissions
         'edx-platform-test-subset'          | true  | false | _
-        'edx-platform-test-subset_2'        | false | true  | pList
+        'edx-platform-test-subset_private'  | false | true  | pList
 
     }
+
 
 }

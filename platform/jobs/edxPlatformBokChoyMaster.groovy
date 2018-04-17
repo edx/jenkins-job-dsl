@@ -110,11 +110,9 @@ jobConfigs.each { jobConfig ->
         multiscm {
             git {
                 remote {
-                    url("https://github.com/edx/${jobConfig.repoName}.git")
+                    url("git@github.com:edx/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
-                    if (!jobConfig.open.toBoolean()) {
-                        credentials('EDX_STATUS_BOT_CREDENTIALS')
-                    }
+                    credentials('jenkins-worker')
                 }
                 branch(jobConfig.defaultBranch)
                 browser()
@@ -142,7 +140,10 @@ jobConfigs.each { jobConfig ->
             }
         }
         triggers { githubPush() }
-        wrappers { timestamps() }
+        wrappers {
+            timestamps()
+            sshAgent('jenkins-worker')
+        }
 
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
