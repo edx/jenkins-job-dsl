@@ -16,7 +16,6 @@
 
     sandbox-jenkins-aws-credentials: file with key/secret in boto config format
     sandbox-role-arn: the role to aws sts assume-role
-    datadog-key: your datadog key, if used to report metrics
     sandbox-ssh-keys: ssh keypair used to log in to the sandbox and run ansible, usually equivalent to SSH_KEYPAIR_NAME
     sandbox-secure-credentials: an ssh key usable to fetch secure sandbox configuration (often a github deploy key)
 
@@ -62,7 +61,6 @@ class CreateSandbox {
                 credentialsBinding {
                     file('AWS_CONFIG_FILE','sandbox-jenkins-aws-credentials')
                     string('ROLE_ARN','sandbox-role-arn')
-                    string('DATADOG_KEY','datadog-key')
                 }
                 sshAgent('sandbox-ssh-keys')
             }
@@ -237,11 +235,9 @@ class CreateSandbox {
                 booleanParam("start_services",true,"")
 
                 booleanParam("edx_internal",true,
-                             "Keep this checked for sandbox use.  Only uncheck if you want an image that will be distributed outside of edX and should not have any edX private data on it (such as SSL certificates, xserver information,  datadog API key, etc.).")
+                             "Keep this checked for sandbox use.  Only uncheck if you want an image that will be distributed outside of edX and should not have any edX private data on it (such as SSL certificates, xserver information, etc.).")
 
                 booleanParam("enable_newrelic",false,"Enable NewRelic application monitoring (this costs money, please ask devops before enabling). Server level New Relic monitoring is always enabled.  Select 'reconfigure' as well, if you want to deploy this.")
-
-                booleanParam("enable_datadog",false,"Enable DataDog monitoring (this costs money, please ask devops before enabling). Select 'reconfigure' as well, if you want to deploy this.")
 
                 booleanParam("enable_client_profiling",false,"Enable the SESSION_SAVE_EVERY_REQUEST django setting for client profiling.")
 
