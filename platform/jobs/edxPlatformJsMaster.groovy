@@ -102,11 +102,9 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    url("https://github.com/edx/${jobConfig.repoName}.git")
+                    url("git@github.com:edx/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
-                    if (!jobConfig.open.toBoolean()) {
-                        credentials("EDX_STATUS_BOT_CREDENTIALS")
-                    }
+                    credentials('jenkins-worker')
                 }
                 branch(jobConfig.defaultBranch)
                 browser()
@@ -129,9 +127,7 @@ jobConfigs.each { jobConfig ->
             }
             timestamps()
             colorizeOutput()
-            if (!jobConfig.open.toBoolean()) {
-                sshAgent('jenkins-worker')
-            }
+            sshAgent('jenkins-worker')
             buildName('#${BUILD_NUMBER}: JS Tests')
         }
 
