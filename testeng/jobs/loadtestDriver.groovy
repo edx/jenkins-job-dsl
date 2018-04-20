@@ -68,7 +68,7 @@ stringParams = [
     name: 'HATCH_RATE',
     description: 'Locust clients will be hatched at this rate ' +
                  '(hatches/second).',
-    default: '30'
+    default: '5'
     ],
     [
     name: 'MAX_RUN_TIME',
