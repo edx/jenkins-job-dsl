@@ -5,6 +5,6 @@ virtualenv venv
 . venv/bin/activate
 
 echo "Installing python requirements..."
-pip install -q -r test-requirements.txt
+pip install -q -r requirements/testing.txt
 
 python -m travis.build_info --org edx --log-level debug

@@ -8,7 +8,7 @@ Setup
 -----
 To run any of these scripts, you will first need to:
 * Create your virtual environment
-* ``pip install -r testeng-ci/requirements.txt``
+* ``pip install -r testeng-ci/requirements/base.txt``
 
 The following scripts constitute a build pipeline for the edX mobile apps.
 
