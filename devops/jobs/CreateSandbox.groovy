@@ -158,7 +158,7 @@ class CreateSandbox {
                 booleanParam("certs",false,"")
                 stringParam("certs_version","master","")
 
-                booleanParam("analytics_api",false,"")
+                booleanParam("analyticsapi",false,"")
                 stringParam("analytics_api_version","master","")
 
                 booleanParam("insights",false,"")
