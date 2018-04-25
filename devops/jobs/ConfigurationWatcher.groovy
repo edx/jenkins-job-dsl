@@ -16,13 +16,16 @@
                 app_repo: <GitHub repository name for the IDA>
                 app_repo_branch: <branch of the above repository to checkout>
                 config_branch: <GitHub branch of configuration repository to checkout>
+                tag_name: <tag to use for the built image>
         For example, 
         APPS_TO_CONFIG:
             ecommerce:
                 app_repo: 'ecommerce'
                 app_repo_branch: 'master'
                 config_branch: 'master'
-        Note that the default for app_repo_branch is master, and the default for config_branch is master; therefore, they do not need to be specified unless you are providing overrides.
+                tag_name: 'latest'
+        Note that the default for app_repo_branch is master, the default for config_branch is master, and the default for tag_name is latest;
+        therefore, they do not need to be specified unless you are providing overrides.
         
         For example,
         APPS_TO_CONFIG:

@@ -3,7 +3,7 @@
     various <app>-watcher jobs and does not run on its own. This job receives the name of an application as a build parameter. 
     This application's Docker image is then built and pushed to DockerHub.
 
-    Variables consumed from the EXTRA_VARS input to your seed job in addition
+    Variables are consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
 
     APPS_TO_CONFIG: a dictionary containing mappings from an edX IDA to a dictionary of various configuration values (REQUIRED). 
@@ -14,13 +14,16 @@
                 app_repo: <GitHub repository name for the IDA>
                 app_repo_branch: <branch of the above repository to checkout>
                 config_branch: <GitHub branch of configuration repository to checkout>
+                tag_name: <tag to use for the built image>
         For example, 
         APPS_TO_CONFIG:
             ecommerce:
                 app_repo: 'ecommerce'
                 app_repo_branch: 'master'
                 config_branch: 'master'
-        Note that the default for app_repo_branch is master, and the default for config_branch is master; therefore, they do not need to be specified unless you are providing overrides.
+                tag_name: 'latest'
+        Note that the default for app_repo_branch is master, the default for config_branch is master, and the default for tag_name is latest;
+        therefore, they do not need to be specified unless you are providing overrides.
         
         For example,
         APPS_TO_CONFIG:
@@ -58,11 +61,15 @@ class ImageBuilder {
         extraVars.get("APPS_TO_CONFIG").each { app_name, app_config ->
             dslFactory.job(extraVars.get("FOLDER_NAME", "DockerCI") + "/image-builders/" + app_name + "-image-builder") {
 
-                def config_branch = 'master'
+                def app_repo_branch = app_config.get('app_repo_branch', 'master')
+                def config_branch = app_config.get('config_branch', 'master')
+                def tag_name = app_config.get('tag_name', 'latest')
 
-                // inject APP_NAME as an environment variable for use by build-push-app.sh
+                // inject APP_NAME, OPENEDX_RELEASE, and TAG_NAME as environment variables for use by build-push-app.sh
                 environmentVariables {
                     env("APP_NAME", app_name)
+                    env('OPENEDX_RELEASE', app_repo_branch)
+                    env('TAG_NAME', tag_name)
                 }
 
                 description('\rThis job builds the ' + app_name + ' Docker image and pushes it to DockerHub. ' + 
