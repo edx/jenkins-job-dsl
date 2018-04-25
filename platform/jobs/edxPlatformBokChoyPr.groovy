@@ -70,6 +70,28 @@ Map privateJobConfig = [ open: false,
                          defaultTestengBranch: 'master'
                          ]
 
+Map publicHawthornJobConfig = [ open: true,
+                               jobName: 'hawthorn-bok-choy-pr',
+                               subsetJob: 'edx-platform-test-subset',
+                               repoName: 'edx-platform',
+                               workerLabel: 'hawthorn-jenkins-worker',
+                               whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                               context: 'jenkins/hawthorn/bokchoy',
+                               triggerPhrase: /.*hawthorn\W+run\W+bokchoy.*/,
+                               defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                               ]
+
+Map privateHawthornJobConfig = [ open: false,
+                                jobName: 'hawthorn-bok-choy-pr_private',
+                                subsetJob: 'edx-platform-test-subset_private',
+                                repoName: 'edx-platform-private',
+                                workerLabel: 'hawthorn-jenkins-worker',
+                                whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                                context: 'jenkins/hawthorn/bokchoy',
+                                triggerPhrase: /.*hawthorn\W+run\W+bokchoy.*/,
+                                defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                                ]
+
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-bok-choy-pr',
                               subsetJob: 'edx-platform-test-subset',
@@ -116,6 +138,8 @@ Map privateFicusJobConfig = [ open: false,
 
 List jobConfigs = [ publicJobConfig,
                     privateJobConfig,
+                    publicHawthornJobConfig,
+                    privateHawthornJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
                     publicFicusJobConfig,

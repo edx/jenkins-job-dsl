@@ -55,6 +55,18 @@ Map privateJobConfig = [
     defaultBranch : 'master'
 ]
 
+Map hawthornJobConfig = [
+    open: true,
+    jobName: 'hawthorn-lettuce-master',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    workerLabel: 'hawthorn-jenkins-worker',
+    context: 'jenkins/hawthorn/lettuce',
+    defaultTestengBranch : 'refs/heads/open-release/hawthorn.beta1',
+    refSpec : '+refs/heads/open-release/hawthorn.beta1:refs/remotes/origin/open-release/hawthorn.beta1',
+    defaultBranch : 'refs/heads/open-release/hawthorn.beta1'
+]
+
 Map ginkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-lettuce-master',
@@ -82,6 +94,7 @@ Map ficusJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
+    hawthornJobConfig,
     ginkgoJobConfig,
     ficusJobConfig
 ]

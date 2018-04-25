@@ -68,6 +68,22 @@ Map privateJobConfig = [
     defaultBranch : 'master'
 ]
 
+Map hawthornJobConfig = [
+    open: true,
+    jobName: 'hawthorn-python-unittests-master',
+    flowWorkerLabel: 'flow-worker-python',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    runCoverage: true,
+    coverageJob: 'edx-platform-unit-coverage',
+    workerLabel: 'hawthorn-jenkins-worker',
+    context: 'jenkins/hawthorn/python',
+    targetBranch: 'origin/open-release/hawthorn.beta1',
+    defaultTestengBranch : 'refs/heads/open-release/hawthorn.beta1',
+    refSpec : '+refs/heads/open-release/hawthorn.beta1:refs/remotes/origin/open-release/hawthorn.beta1',
+    defaultBranch : 'refs/heads/open-release/hawthorn.beta1'
+]
+
 Map ginkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-python-unittests-master',
@@ -103,6 +119,7 @@ Map ficusJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
+    hawthornJobConfig,
     ginkgoJobConfig,
     ficusJobConfig
 ]

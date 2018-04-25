@@ -69,6 +69,26 @@ Map privateJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+js.*/
 ]
 
+Map publicHawthornJobConfig = [
+    open: true,
+    jobName: 'hawthorn-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'hawthorn-jenkins-worker',
+    whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+    context: 'jenkins/hawthorn/js',
+    triggerPhrase: /.*hawthorn\W+run\W+js.*/
+]
+
+Map privateHawthornJobConfig = [
+    open: false,
+    jobName: 'hawthorn-js-pr_private',
+    repoName: 'edx-platform-private',
+    workerLabel: 'hawthorn-jenkins-worker',
+    whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+    context: 'jenkins/hawthorn/js',
+    triggerPhrase: /.*hawthorn\W+run\W+js.*/
+]
+
 Map publicGinkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-js-pr',
@@ -112,6 +132,8 @@ Map privateFicusJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
+    publicHawthornJobConfig,
+    privateHawthornJobConfig,
     publicGinkgoJobConfig,
     privateGinkgoJobConfig,
     publicFicusJobConfig,

@@ -52,6 +52,16 @@ Map privateJobConfig = [
     defaultBranch : 'master'
 ]
 
+Map hawthornJobConfig = [
+    open: true,
+    jobName: 'hawthorn-js-master',
+    repoName: 'edx-platform',
+    workerLabel: 'jenkins-worker',
+    context: 'jenkins/hawthorn/js',
+    refSpec : '+refs/heads/open-release/hawthorn.beta1:refs/remotes/origin/open-release/hawthorn.beta1',
+    defaultBranch : 'refs/heads/open-release/hawthorn.beta1'
+]
+
 Map ginkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-js-master',
@@ -75,6 +85,7 @@ Map ficusJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
+    hawthornJobConfig,
     ginkgoJobConfig,
     ficusJobConfig
 ]

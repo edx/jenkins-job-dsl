@@ -81,6 +81,36 @@ Map privateJobConfig = [ open: false,
                          defaultTestengBranch: 'master'
                          ]
 
+Map publicHawthornJobConfig = [ open: true,
+                               jobName: 'hawthorn-python-unittests-pr',
+                               flowWorkerLabel: 'flow-worker-python',
+                               subsetJob: 'edx-platform-test-subset',
+                               repoName: 'edx-platform',
+                               runCoverage: true,
+                               coverageJob: 'edx-platform-unit-coverage',
+                               workerLabel: 'hawthorn-jenkins-worker',
+                               whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                               context: 'jenkins/hawthorn/python',
+                               triggerPhrase: /.*hawthorn\W+run\W+python.*/,
+                               targetBranch: 'origin/open-release/hawthorn.beta1',
+                               defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                               ]
+
+Map privateHawthornJobConfig = [ open: false,
+                                jobName: 'hawthorn-python-unittests-pr_private',
+                                flowWorkerLabel: 'flow-worker-python',
+                                subsetJob: 'edx-platform-test-subset_private',
+                                repoName: 'edx-platform-private',
+                                runCoverage: true,
+                                coverageJob: 'edx-platform-unit-coverage_private',
+                                workerLabel: 'hawthorn-jenkins-worker',
+                                whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                                context: 'jenkins/hawthorn/python',
+                                triggerPhrase: /.*hawthorn\W+run\W+python.*/,
+                                targetBranch: 'origin/security/release',
+                                defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                                ]
+
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-python-unittests-pr',
                               flowWorkerLabel: 'flow-worker-python',
@@ -143,6 +173,8 @@ Map privateFicusJobConfig = [ open: false,
 
 List jobConfigs = [ publicJobConfig,
                     privateJobConfig,
+                    publicHawthornJobConfig,
+                    privateHawthornJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
                     publicFicusJobConfig,
