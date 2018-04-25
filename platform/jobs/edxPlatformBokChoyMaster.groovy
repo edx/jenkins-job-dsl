@@ -92,7 +92,7 @@ Map publicFicusJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    hawthornJobConfig,
+    publicHawthornJobConfig,
     publicGinkgoJobConfig,
     publicFicusJobConfig
 ]
