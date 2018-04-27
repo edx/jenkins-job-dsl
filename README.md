@@ -24,7 +24,7 @@
 ## Running a local Jenkins for development
 
 See [README-Hacking](README-Hacking.md) for details on how to spin up a local docker container with
-an environment similar to one you would find on the DevOps jenkins server.
+an environment similar to one you would find on the TestEng "Build Jenkins" or DevOps "Tools Jenkins".
 
 ## Testing
 
