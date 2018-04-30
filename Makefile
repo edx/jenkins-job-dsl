@@ -43,6 +43,7 @@ docker.clean:
 # service and launches it into a new container.  If this is used to start
 # jenkins again after stopping it, jenkins jobs and configuration will persist.
 $(DOCKER_SERVICES:%=docker.run.%) : docker.run.% :
+	docker network create devstack_default || echo 'devstack_default may already exist'
 	docker-compose up -d $*
 
 # docker.stop.$service

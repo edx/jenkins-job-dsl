@@ -19,3 +19,8 @@ services:
 volumes:
   jenkins_tools:
   jenkins_build:
+
+networks:
+  default:
+    external:
+      name: devstack_default
