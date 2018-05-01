@@ -59,9 +59,9 @@ pipelineJob('edx-platform-python-pipeline-pr') {
             }
             scriptPath('Jenkinsfile')
         }
+    }
 
-	configure {
-	    it / flow-definition / "org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" / lightweight(true)
-	}
+    configure {
+        it / definition / lightweight(true)
     }
 }
