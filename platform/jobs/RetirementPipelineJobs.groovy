@@ -1,4 +1,8 @@
-/* UserRetirementJobs.groovy
+// NOTE: These pipeline-enabled jobs have been retired in favor of the simpler
+// jenkins-native jobs in RetirementJobs.groovy which utilize Parameterized
+// Trigger plugin and a more python centric approach.
+
+/* UserRetirementPipelineJobs.groovy
  *
  * Defines jobs which orchestrate user retirement.
  */
@@ -9,7 +13,12 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SEC
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 // This is the job DSL responsible for creating the main pipeline job.
-pipelineJob('User Retirement') {
+pipelineJob('User Retirement Pipeline') {
+    // NOTE: These pipeline-enabled jobs have been retired in favor of the simpler
+    // jenkins-native jobs in RetirementJobs.groovy which utilize Parameterized
+    // Trigger plugin and a more python centric approach.
+    disabled()
+
     description('Retire a single user which has confirmed account deletion')
 
     // Only a subset of edx employees should be allowed to control this job,
