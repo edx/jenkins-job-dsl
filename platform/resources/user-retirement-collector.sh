@@ -4,7 +4,7 @@ set -ex
 
 # prepare credentials
 mkdir -p $WORKSPACE/user-retirement-secure
-cp $USER_RETIREMENT_SECURE_EXTRA $WORKSPACE/user-retirement-secure/secure-extra.yml
+cp $USER_RETIREMENT_SECURE_DEFAULT $WORKSPACE/user-retirement-secure/secure-default.yml
 
 # prepare tubular
 cd $WORKSPACE/tubular

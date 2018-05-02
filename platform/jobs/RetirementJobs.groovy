@@ -66,7 +66,7 @@ job('user-retirement-driver') {
         timestamps()
         colorizeOutput('xterm')
         credentialsBinding {
-            file('USER_RETIREMENT_SECURE_EXTRA', 'user-retirement-secure-default.yml')
+            file('USER_RETIREMENT_SECURE_DEFAULT', 'user-retirement-secure-default.yml')
         }
     }
 
@@ -166,7 +166,7 @@ job('user-retirement-collector') {
         timestamps()
         colorizeOutput('xterm')
         credentialsBinding {
-            file('USER_RETIREMENT_SECURE_EXTRA', 'user-retirement-secure-default.yml')
+            file('USER_RETIREMENT_SECURE_DEFAULT', 'user-retirement-secure-default.yml')
         }
     }
 
