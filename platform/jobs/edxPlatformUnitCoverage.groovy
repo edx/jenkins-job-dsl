@@ -41,6 +41,51 @@ stringParams = [
         default: ''
     ],
     [
+        name: 'UNIT_BUILD_NUM_7',
+        description: '',
+        default: ''
+    ],
+    [
+        name: 'UNIT_BUILD_NUM_8',
+        description: '',
+        default: ''
+    ],
+    [
+        name: 'UNIT_BUILD_NUM_9',
+        description: '',
+        default: ''
+    ],
+    [
+        name: 'UNIT_BUILD_NUM_10',
+        description: '',
+        default: ''
+    ],
+    [
+        name: 'UNIT_BUILD_NUM_11',
+        description: '',
+        default: ''
+    ],
+    [
+        name: 'UNIT_BUILD_NUM_12',
+        description: '',
+        default: ''
+    ],
+    [
+        name: 'UNIT_BUILD_NUM_13',
+        description: '',
+        default: ''
+    ],
+    [
+        name: 'UNIT_BUILD_NUM_14',
+        description: '',
+        default: ''
+    ],
+    [
+        name: 'UNIT_BUILD_NUM_15',
+        description: '',
+        default: ''
+    ],
+    [
         name: 'PARENT_BUILD',
         description: 'Solution to <a href=\"https://openedx.atlassian.net/browse/TE-894\">TE-894</a>. ' +
                      'Leave as default if starting a build manually.',
@@ -107,16 +152,9 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    if (!jobConfig.open.toBoolean()) {
-                        url("git@github.com:edx/${jobConfig.repoName}.git")
-                    }
-                    else {
-                        url("https://github.com/edx/${jobConfig.repoName}.git")
-                    }
+                    url("git@github.com:edx/${jobConfig.repoName}.git")
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
-                    if (!jobConfig.open.toBoolean()) {
-                        credentials('jenkins-worker')
-                    }
+                    credentials('jenkins-worker')
                 }
                 branch('\${sha1}')
                 browser()
@@ -133,6 +171,7 @@ jobConfigs.each { jobConfig ->
             }
         }
         wrappers {
+            sshAgent('jenkins-worker')
             timeout {
                 absolute(20)
                 writeDescription('Timed out at 20 minutes')
@@ -153,7 +192,7 @@ jobConfigs.each { jobConfig ->
         }
         /* Copy Artifacts from test subset jobs with build number UNIT_BUILD_NUM */
         steps {
-            for (buildNum = 1; buildNum < 7; buildNum += 1) {
+            for (buildNum = 1; buildNum < 16; buildNum += 1) {
                 copyArtifacts(jobConfig.subsetJob) {
                     buildSelector {
                         buildNumber("\$UNIT_BUILD_NUM_".concat(buildNum.toString()))
