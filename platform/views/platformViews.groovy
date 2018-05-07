@@ -47,3 +47,12 @@ branchList.each { branch ->
     }
 
 }
+
+listView("edx-platform-pipeline-pr-tests") {
+    description('Pipeline Jobs for running tests on PRs on the edx-platform')
+
+    jobs {
+        regex("edx-platform-.*-pipeline-pr")
+    }
+    columns DEFAULT_VIEW.call()
+}
