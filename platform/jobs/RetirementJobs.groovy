@@ -28,7 +28,7 @@ job('user-retirement-driver') {
     // but customer support can read and discover.
     authorization {
         blocksInheritance(true)
-        List membersWithFullControl = ['edx/platform-team']
+        List membersWithFullControl = ['edx/platform-team', 'edx/testeng', 'edx/devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
@@ -44,18 +44,26 @@ job('user-retirement-driver') {
     // generally there are always available jenkins-worker instances idling.
     label('jenkins-worker')
 
-    // Allow this job to have simultaneous instances building concurrently.
-    // This will make it possible for retirement of multiple users to progress
-    // in parallel.
+    // Allow this job to have simultaneous instances running at the same time
+    // in general, but use the throttle-concurrents plugin to limit only one
+    // instance of this job to run concurrently per environment per user.  This
+    // would prevent race conditions related to triggering multiple retirement
+    // driver jobs against the same user in the same environment.
     concurrentBuild(true)
-
-    // This would provide a dial for throttling the retirements.  It is
-    // currently commented out since the functionality is provided by the
-    // throttle-concurrents plugin which we do not currently have installed in
-    // Build Jenkins.
-    //throttleConcurrentBuilds {
-    //    maxTotal(2)
-    //}
+    throttleConcurrentBuilds {
+        // Tune this number to control the total number of simultaneous
+        // retirements across all environments.  This does not accurately
+        // throttle per environment, but we expect the vast majority of
+        // retirement requests to come in through prod, so it's good enough for
+        // now.
+        maxTotal(4)
+    }
+    configure { project ->
+        project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
+            'paramsToUseForLimit'('ENVIRONMENT,RETIREMENT_USERNAME')
+        project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
+            'limitOneJobWithMatchingParams'('true')
+    }
 
     // keep jobs around for 30 days
     logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
@@ -136,7 +144,7 @@ job('user-retirement-collector') {
     // but customer support can read and discover.
     authorization {
         blocksInheritance(true)
-        List membersWithFullControl = ['edx/platform-team']
+        List membersWithFullControl = ['edx/platform-team', 'edx/testeng', 'edx/devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
@@ -152,10 +160,22 @@ job('user-retirement-collector') {
     // generally there are always available jenkins-worker instances idling.
     label('jenkins-worker')
 
-    // Disallow this job to have simultaneous instances building at the same
-    // time.  This would prevent race conditions related to triggering multiple
-    // retirement driver jobs against the same user.
-    concurrentBuild(false)
+    // Allow this job to have simultaneous builds at the same time in general,
+    // but use the throttle-concurrents plugin to limit only one instance of
+    // this job to run concurrently per environment.  This just helps keep
+    // things simple.
+    concurrentBuild(true)
+    throttleConcurrentBuilds {
+        // A maxTotal of 0 implies unlimited simultaneous jobs, but below we
+        // restrict one build per environment.
+        maxTotal(0)
+    }
+    configure { project ->
+        project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
+            'paramsToUseForLimit'('ENVIRONMENT')
+        project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
+            'limitOneJobWithMatchingParams'('true')
+    }
 
     // keep jobs around for 30 days
     logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
@@ -174,11 +194,6 @@ job('user-retirement-collector') {
         stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
         stringParam('ENVIRONMENT', 'secure-default', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
         stringParam('COOL_OFF_DAYS', '7', 'Number of days a learner should be in the retirement queue before being actually retired.')
-    }
-
-    triggers {
-        // Build every hour, on the 15th minute (arbitrary).
-        cron('15 * * * *')
     }
 
     // retry cloning repositories
