@@ -140,7 +140,7 @@ secretMap.each { jobConfigs ->
 
         publishers {
             mailer(jobConfig['email'])
-            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
+            hipChatNotifier JENKINS_PUBLIC_HIPCHAT(jobConfig['hipchat'])
         }
     }
 }

@@ -246,12 +246,13 @@ jobConfigs.each { jobConfig ->
         // enable triggers for the PR jobs
         if (jobConfig.trigger == 'ghprb') {
             triggers {
-                pullRequest {
+                githubPullRequest {
                     admins(ghprbMap['admin'])
                     useGitHubHooks()
                     triggerPhrase(jobConfig.triggerPhrase)
                     userWhitelist(ghprbMap['userWhiteList'])
                     orgWhitelist(ghprbMap['orgWhiteList'])
+                    whiteListTargetBranches([jobConfig.branchRegex])
                     extensions {
                         commitStatus {
                             context(jobConfig.context)
@@ -259,7 +260,6 @@ jobConfigs.each { jobConfig ->
                     }
                 }
             }
-            configure GHPRB_WHITELIST_BRANCH(jobConfig.branchRegex)
         }
         // enable triggers for merge jobs
         else if (jobConfig.trigger == 'merge') {

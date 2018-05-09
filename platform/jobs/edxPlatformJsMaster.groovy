@@ -170,7 +170,7 @@ jobConfigs.each { jobConfig ->
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
             mailer('testeng@edx.org')
-            hipChat JENKINS_PUBLIC_HIPCHAT.call('')  // Use the token specified in the global configuration
+            hipChatNotifier JENKINS_PUBLIC_HIPCHAT(jobConfig['hipchat'])
         }
     }
 }
