@@ -28,7 +28,7 @@ job('user-retirement-driver') {
     // but customer support can read and discover.
     authorization {
         blocksInheritance(true)
-        List membersWithFullControl = ['edx/platform-team', 'edx/testeng', 'edx/devops']
+        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
@@ -144,7 +144,7 @@ job('user-retirement-collector') {
     // but customer support can read and discover.
     authorization {
         blocksInheritance(true)
-        List membersWithFullControl = ['edx/platform-team', 'edx/testeng', 'edx/devops']
+        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
