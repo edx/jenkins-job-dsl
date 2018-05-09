@@ -11,16 +11,20 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 
 List jobConfigs = [
     [
-        environmentDeployment: 'prod-edx'
+        environmentDeployment: 'prod-edx',
+        disabled: true
     ],
     [
-        environmentDeployment: 'stage-edx'
+        environmentDeployment: 'stage-edx',
+        disabled: true
     ],
     [
-        environmentDeployment: 'loadtest-edx'
+        environmentDeployment: 'loadtest-edx',
+        disabled: true
     ],
     [
-        environmentDeployment: 'prod-edge'
+        environmentDeployment: 'prod-edge',
+        disabled: true
     ]
 ]
 
@@ -31,6 +35,8 @@ jobConfigs.each { jobConfig ->
     // This defines the job which triggers the collector job for a given environment.
     job("user-retirement-trigger-${jobConfig.environmentDeployment}") {
         description("Scheduled trigger of the user-retirement-collector job for the ${jobConfig.environmentDeployment} environment")
+
+        disabled(jobConfig.disabled)
 
         // Only a subset of edx employees should be allowed to control this job,
         // but customer support can read and discover.
