@@ -173,7 +173,7 @@ jobConfigs.each { jobConfig ->
         }
 
         triggers {
-            pullRequest {
+            githubPullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
                 triggerPhrase(jobConfig.triggerPhrase)
@@ -182,6 +182,7 @@ jobConfigs.each { jobConfig ->
                 }
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
+                whiteListTargetBranches([jobConfig.whitelistBranchRegex])
                 extensions {
                     commitStatus {
                         context(jobConfig.context)
@@ -189,8 +190,6 @@ jobConfigs.each { jobConfig ->
                 }
             }
         }
-
-        configure GHPRB_WHITELIST_BRANCH(jobConfig.whitelistBranchRegex)
 
         wrappers {
            timeout {

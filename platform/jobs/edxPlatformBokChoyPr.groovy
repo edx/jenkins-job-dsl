@@ -38,7 +38,6 @@ catch (any) {
 //                       workerLabel: label of the worker to run the subset jobs on
 //                       whiteListBranchRegex: regular expression to filter which branches of a particular repo
 //                       can trigger builds (via GHRPB)
-//                       blacklistBranchRegex: regular expression to filter which branches of a particular repo
 //                       should not trigger builds (via GHRPB)
 //                       context: Github context used to report test status
 //                       triggerPhrase: Github comment used to trigger this job
@@ -53,7 +52,6 @@ Map publicJobConfig = [ open : true,
                         repoName: 'edx-platform',
                         workerLabel: 'jenkins-worker',
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                        blacklistBranchRegex: 'estute/jenkins-ff-57-b',
                         context: 'jenkins/bokchoy',
                         triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
                         defaultTestengBranch: 'master'
@@ -184,7 +182,7 @@ jobConfigs.each { jobConfig ->
         }
 
         triggers {
-            pullRequest {
+            githubPullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
                 triggerPhrase(jobConfig.triggerPhrase)
@@ -193,6 +191,7 @@ jobConfigs.each { jobConfig ->
                 }
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
+                whiteListTargetBranches([jobConfig.whitelistBranchRegex])
                 extensions {
                     commitStatus {
                         context(jobConfig.context)
@@ -204,11 +203,6 @@ jobConfigs.each { jobConfig ->
         wrappers {
             timestamps()
         }
-
-        if (jobConfig.blacklistBranchRegex) {
-            configure GHPRB_BLACKLIST_BRANCH(jobConfig.blacklistBranchRegex)
-        }
-        configure GHPRB_WHITELIST_BRANCH(jobConfig.whitelistBranchRegex)
 
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-bok-choy-pr.groovy')
         publishers { //publish JUnit Test report

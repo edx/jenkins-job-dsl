@@ -108,11 +108,19 @@ secretMap.each { jobConfigs ->
 
         publishers {
             mailer(jobConfig['email'])
-            hipChat {
+            hipChatNotifier {
                 token(jobConfig['hipchat'])
-                rooms('TestEngineering')
-                notifySuccess()
+                room('TestEngineering')
                 completeJobMessage('@here The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)')
+                startJobMessage('hey')
+                completeJobMessage('done')
+                notifySuccess(true)
+                notifyAborted(false)
+                notifyNotBuilt(false)
+                notifyFailure(false)
+                notifyBackToNormal(false)
+                notifyUnstable(false)
+                startNotification(false)
             }
         }
     }

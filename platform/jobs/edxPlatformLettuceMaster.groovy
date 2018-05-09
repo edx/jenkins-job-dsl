@@ -173,8 +173,8 @@ jobConfigs.each { jobConfig ->
                                   'job/' + jobConfig.jobName + '/${BUILD_NUMBER}/')
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
-           mailer(jobConfig.email)
-           hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig.hipchat)
+           mailer('testeng@edx.org')
+           hipChatNotifier JENKINS_PUBLIC_HIPCHAT('')
        }
     }
 }
