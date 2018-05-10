@@ -12,18 +12,22 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 List jobConfigs = [
     [
         environmentDeployment: 'prod-edx',
+        extraMembersCanBuild: [],
         disabled: true
     ],
     [
         environmentDeployment: 'stage-edx',
+        extraMembersCanBuild: ['edx*educator-all', 'edx*learner'],
         disabled: true
     ],
     [
         environmentDeployment: 'loadtest-edx',
+        extraMembersCanBuild: ['edx*educator-all', 'edx*learner'],
         disabled: true
     ],
     [
         environmentDeployment: 'prod-edge',
+        extraMembersCanBuild: [],
         disabled: true
     ]
 ]
@@ -45,6 +49,12 @@ jobConfigs.each { jobConfig ->
             List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
             membersWithFullControl.each { emp ->
                 permissionAll(emp)
+            }
+            jobConfig.extraMembersCanBuild.each { emp ->
+                permission('hudson.model.Item.Read', emp)
+                permission('hudson.model.Item.Discover', emp)
+                permission('hudson.model.Item.Build', emp)
+                permission('hudson.model.Item.Cancel', emp)
             }
             // TODO PLAT-2036: uncomment the following two lines when we add the
             // appropriate github group.

@@ -32,6 +32,11 @@ job('user-retirement-driver') {
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
+        List extraMembersCanView = ['edx*educator-all', 'edx*learner']
+        extraMembersCanView.each { emp ->
+            permission('hudson.model.Item.Read', emp)
+            permission('hudson.model.Item.Discover', emp)
+        }
         // TODO PLAT-2036: uncomment the following two lines when we add the
         // appropriate github group.
         //permission('hudson.model.Item.Read', 'edx/customer-support')
@@ -147,6 +152,11 @@ job('user-retirement-collector') {
         List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
+        }
+        List extraMembersCanView = ['edx*educator-all', 'edx*learner']
+        extraMembersCanView.each { emp ->
+            permission('hudson.model.Item.Read', emp)
+            permission('hudson.model.Item.Discover', emp)
         }
         // TODO PLAT-2036: uncomment the following two lines when we add the
         // appropriate github group.
