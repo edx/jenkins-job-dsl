@@ -35,7 +35,7 @@ class edxPlatformMasterJobSpec extends Specification {
     * Seed a DSL script and verify that the correct number of jobs are created, without throwing
     * any exceptions
     **/
-    @Unroll("test")
+    @Unroll("test seeding #dslFile")
     void 'test secret creates correct xml'() {
 
         setup:
