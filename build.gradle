@@ -30,7 +30,6 @@ sourceSets {
 }
 
 repositories {
-    //maven { url 'http://repo.jenkins-ci.org/releases/' }
     jcenter() {
         artifactUrls 'https://repo.jenkins-ci.org/public/'
     }
@@ -78,7 +77,7 @@ dependencies {
     testCompile 'org.jenkins-ci.plugins:structs:1.6@jar'
     testCompile 'org.jenkins-ci.plugins:structs:1.6'
 
-    //testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
+    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
     testCompile 'org.jvnet.hudson.plugins:hipchat:0.1.9@jar'
 
 
