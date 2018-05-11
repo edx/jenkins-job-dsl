@@ -13,7 +13,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class edxPlatformPrJobSpec extends Specification {
+class edxPlatformMasterJobSpec extends Specification {
 
     @Shared
     @ClassRule
@@ -54,14 +54,14 @@ class edxPlatformPrJobSpec extends Specification {
         noExceptionThrown()
 
         where:
-        dslFile                               | numJobs
-        'edxPlatformAccessibilityPr.groovy'   | 8
-        'edxPlatformBokChoyPr.groovy'         | 8
-        'edxPlatformJsPr.groovy'              | 8
-        'edxPlatformLettucePr.groovy'         | 8
-        'edxPlatformPythonUnitTestsPr.groovy' | 8
-        'edxPlatformQualityPr.groovy'         | 3
-        'edxPlatformQualityDiff.groovy'       | 2
-        'edxPlatformUnitCoverage.groovy'      | 2
+        dslFile                                   | numJobs
+        'edxPlatformAccessibilityMaster.groovy'   | 5
+        'edxPlatformBokChoyMaster.groovy'         | 5
+        'edxPlatformJsMaster.groovy'              | 5
+        'edxPlatformLettuceMaster.groovy'         | 5
+        'edxPlatformPythonUnitTestsMaster.groovy' | 5
+        'edxPlatformQualityMaster.groovy'         | 3
+        'edxPlatformQualityDiff.groovy'           | 2
+        'edxPlatformUnitCoverage.groovy'          | 2
     }
 }
