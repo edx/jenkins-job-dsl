@@ -46,7 +46,7 @@ configurations {
 dependencies {
 
     libs 'org.yaml:snakeyaml:1.17'
-    
+
     compile 'org.yaml:snakeyaml:1.17'
     compile 'org.codehaus.groovy:groovy:2.4.11'
     testCompile 'org.codehaus.groovy:groovy:2.4.11'
@@ -64,7 +64,7 @@ dependencies {
         exclude module: 'groovy-all'
     }
     // Needed for mocking in tests
-    testCompile 'cglib:cglib:3.1' 
+    testCompile 'cglib:cglib:3.1'
 
     // Jenkins test harness dependencies
     testCompile 'org.jenkins-ci.main:jenkins-test-harness:2.8'
@@ -77,7 +77,7 @@ dependencies {
     testCompile 'org.jenkins-ci.plugins:structs:1.6@jar'
     testCompile 'org.jenkins-ci.plugins:structs:1.6'
 
-    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
+    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:5.18@jar'
     testCompile 'com.cloudbees.plugins:build-flow-plugin:0.17@jar'
     testCompile 'org.jvnet.hudson.plugins:hipchat:0.1.9@jar'
 }
