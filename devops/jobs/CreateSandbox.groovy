@@ -173,7 +173,7 @@ class CreateSandbox {
                 booleanParam("credentials",false,"")
                 stringParam("credentials_version","master","")
 
-                booleanParam("set_whitelabel",true,
+                booleanParam("set_whitelabel",false,
                              "Check this in order to create a Sandbox with whitelabel themes automatically set.")
 
                 booleanParam("video_pipeline",false,
