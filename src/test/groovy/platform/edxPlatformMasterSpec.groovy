@@ -32,7 +32,7 @@ class edxPlatformMasterJobSpec extends Specification {
 
         setup:
         JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
-        jjm.setUnstableOnDeprecation(False)
+        jm.setUnstableOnDeprecation(False)
         loader = new DslScriptLoader(jm)
 
         when:
