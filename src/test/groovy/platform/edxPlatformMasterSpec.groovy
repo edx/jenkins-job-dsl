@@ -39,14 +39,11 @@ class edxPlatformMasterJobSpec extends Specification {
     void 'test secret creates correct xml'() {
 
         setup:
-        HashMap<String, String> envVars = new HashMap<String, String>()
-        envVars.put('GHPRB_SECRET', 'src/test/resources/platform/secrets/ghprb-config-secret.yml')
-        jm = loadSecrets(envVars)
+        JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
         loader = new DslScriptLoader(jm)
 
         when:
         File dslScriptPath = new File("platform/jobs/${dslFile}")
-
         GeneratedItems generatedItems = loader.runScript(dslScriptPath.text)
 
         then:
