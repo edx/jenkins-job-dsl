@@ -27,7 +27,8 @@ class edxPlatformMasterJobSpec extends Specification {
     * return a JenkinsJobManagement object containing a mapping of secret variables to secret values
     */
     JenkinsJobManagement loadSecrets(envVars) {
-        JenkinsJobManagement jjm = new JenkinsJobManagement(System.out, envVars, new File('.'))
+        JenkinsJobManagement jjm = new JenkinsJobManagement(System.out, [:], new File('.'))
+        jjm.setUnstableOnDeprecation(False)
         return jjm
     }
 
