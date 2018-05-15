@@ -7,7 +7,6 @@ import javaposse.jobdsl.dsl.GeneratedItems
 import javaposse.jobdsl.dsl.GeneratedJob
 import javaposse.jobdsl.dsl.DslScriptLoader
 import javaposse.jobdsl.dsl.JobManagement
-import jenkins.model.Jenkins;
 import org.junit.ClassRule
 import org.jvnet.hudson.test.JenkinsRule
 import spock.lang.Shared
@@ -24,17 +23,6 @@ class edxPlatformMasterJobSpec extends Specification {
     def @Shared DslScriptLoader loader
     def @Shared JobManagement jm
 
-    /*
-    * Helper function: loadSecrets
-    * return a JenkinsJobManagement object containing a mapping of secret variables to secret values
-    */
-    JenkinsJobManagement loadSecrets(envVars) {
-        Jenkins jenkins = Jenkins.getInstance()
-        println jenkins.getDescriptorByType(GlobalJobDslSecurityConfiguration.class).isUseScriptSecurity()
-        JenkinsJobManagement jjm = new JenkinsJobManagement(System.out, [:], new File('.'))
-        return jjm
-    }
-
     /**
     * Seed a DSL script and verify that the correct number of jobs are created, without throwing
     * any exceptions
@@ -44,6 +32,7 @@ class edxPlatformMasterJobSpec extends Specification {
 
         setup:
         JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
+        jjm.setUnstableOnDeprecation(False)
         loader = new DslScriptLoader(jm)
 
         when:
