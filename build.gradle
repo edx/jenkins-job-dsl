@@ -78,7 +78,8 @@ dependencies {
     testCompile 'org.jenkins-ci.plugins:structs:1.6'
 
     testCompile 'org.jenkins-ci.plugins:cloudbees-folder:5.18@jar'
-    testCompile 'com.cloudbees.plugins:build-flow-plugin:0.17@jar'
+    testCompile 'com.cloudbees.plugins:build-flow-plugin:0.20@jar'
+    testCompile 'com.cloudbees.plugins:build-flow-plugin:0.20'
     testCompile 'org.jvnet.hudson.plugins:hipchat:0.1.9@jar'
 }
 
