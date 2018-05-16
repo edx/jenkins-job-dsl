@@ -75,7 +75,6 @@ dependencies {
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
     testCompile 'org.jenkins-ci.plugins:structs:1.6@jar'
-    testCompile 'org.jenkins-ci.plugins:structs:1.6'
 
     testCompile 'org.jenkins-ci.plugins:cloudbees-folder:5.18@jar'
     testCompile 'com.cloudbees.plugins:build-flow-plugin:0.20@jar'
