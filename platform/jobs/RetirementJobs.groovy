@@ -273,7 +273,7 @@ job('user-retirement-collector') {
                 parameterFactories {
                     // This is Dynamic DSL magic that I copied from https://issues.jenkins-ci.org/browse/JENKINS-34552
                     fileBuildParameterFactory {
-                       filePattern('${LEARNERS_TO_RETIRE_PROPERTIES_DIR}/*')
+                       filePattern('learners-to-retire/*')
                        encoding('UTF-8')
                        noFilesFoundAction('SKIP')
                     }
