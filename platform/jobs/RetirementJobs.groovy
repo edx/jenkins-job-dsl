@@ -28,11 +28,23 @@ job('user-retirement-driver') {
     // but customer support can read and discover.
     authorization {
         blocksInheritance(true)
+        // Only core teams have full control of the retirement driver.
         List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
-        List extraMembersCanView = ['edx*educator-all', 'edx*learner']
+        // Educator is assisting with integration testing and validation, so
+        // they need build access to run the retirement driver against one user
+        // at a time.
+        List extraMembersCanBuild = ['edx*educator-all']
+        extraMembersCanBuild.each { emp ->
+            permission('hudson.model.Item.Build', emp)
+            permission('hudson.model.Item.Cancel', emp)
+            permission('hudson.model.Item.Read', emp)
+            permission('hudson.model.Item.Discover', emp)
+        }
+        // Other engineering teams can view.
+        List extraMembersCanView = ['edx*learner']
         extraMembersCanView.each { emp ->
             permission('hudson.model.Item.Read', emp)
             permission('hudson.model.Item.Discover', emp)
@@ -149,10 +161,12 @@ job('user-retirement-collector') {
     // but customer support can read and discover.
     authorization {
         blocksInheritance(true)
+        // Only core teams can run the retirement collector directly.
         List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
+        // Other engineering teams can view.
         List extraMembersCanView = ['edx*educator-all', 'edx*learner']
         extraMembersCanView.each { emp ->
             permission('hudson.model.Item.Read', emp)
