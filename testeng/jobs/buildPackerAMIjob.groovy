@@ -152,7 +152,7 @@ secretMap.each { jobConfigs ->
 
         publishers {
             // alert team of failures via hipchat & email
-            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
+            hipChatNotifier JENKINS_PUBLIC_HIPCHAT(jobConfig['hipchat'])
             mailer(jobConfig['email'])
         }
 

@@ -127,7 +127,7 @@ secretMap.each { jobConfigs ->
                 allowEmpty(false)
             }
             // alert team of failures via hipchat & email
-            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
+            hipChatNotifier JENKINS_PUBLIC_HIPCHAT(jobConfig['hipchat'])
             mailer(jobConfig['email'])
             // fail the build if the snapshot command does not correctly trigger a snapshot
             // requires "textFinder plugin"

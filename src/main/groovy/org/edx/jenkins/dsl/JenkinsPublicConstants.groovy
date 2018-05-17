@@ -61,11 +61,14 @@ class JenkinsPublicConstants {
   public static final Closure JENKINS_PUBLIC_HIPCHAT = { authToken ->
     return {
             token(authToken)
-            rooms('new-jenkins-chatter')
-            notifyAborted()
-            notifyFailure()
-            notifyUnstable()
-            notifyBackToNormal()
+            room('new-jenkins-chatter')
+            notifySuccess(false)
+            notifyAborted(true)
+            notifyNotBuilt(false)
+            notifyFailure(true)
+            notifyBackToNormal(true)
+            notifyUnstable(true)
+            startNotification(true)
             startJobMessage('$JOB_NAME #$BUILD_NUMBER $STATUS ($CHANGES_OR_CAUSE) (<a href="$URL">Open</a>)')
             completeJobMessage('$JOB_NAME #$BUILD_NUMBER $STATUS after $DURATION (<a href="$URL">Open</a>)')
     }
