@@ -30,49 +30,55 @@ sourceSets {
 }
 
 repositories {
+    jcenter() {
+        artifactUrls 'https://repo.jenkins-ci.org/public/'
+    }
+    maven {
+        url 'https://repo.jenkins-ci.org/public/'
+    }
     mavenCentral()
-    jcenter()
-    maven { url 'http://repo.jenkins-ci.org/releases/' }
 }
 
 configurations {
     libs
+    testPlugins
 }
 
 dependencies {
 
     libs 'org.yaml:snakeyaml:1.17'
-    
+
     compile 'org.yaml:snakeyaml:1.17'
-    compile 'org.codehaus.groovy:groovy:2.1.3'
+    compile 'org.codehaus.groovy:groovy:2.4.11'
     compile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
 
-    jobsCompile 'org.yaml:snakeyaml:1.17'
-    jobsCompile 'org.codehaus.groovy:groovy:2.1.3'
-    jobsCompile "org.jenkins-ci.plugins:job-dsl-core:${jobDslVersion}"
-
+    testCompile 'org.codehaus.groovy:groovy:2.4.11'
+    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
+        exclude module: 'groovy-all'
+    }
     testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
         exclude module: 'groovy-all'
     }
 
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
-        exclude module: 'groovy-all'
-    }
     // Needed for mocking in tests
-    testCompile 'cglib:cglib:3.1' 
+    testCompile 'cglib:cglib:3.1'
 
     // Jenkins test harness dependencies
     testCompile 'org.jenkins-ci.main:jenkins-test-harness:2.8'
     testCompile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
     testCompile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}:war-for-test@jar"
 
-    // Job DSL plugin including plugin dependencies
+    // Jenkins plugins needed for tests
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
-    testCompile 'org.jenkins-ci.plugins:structs:1.1@jar'
-    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:4.4@jar'
-    testCompile 'com.cloudbees.plugins:build-flow-plugin:0.17@jar'
+    testCompile 'org.jenkins-ci.plugins:structs:1.6@jar'
+    testCompile 'com.cloudbees.plugins:build-flow-plugin:0.20@jar'
+    testCompile 'org.jgrapht:jgrapht-jdk1.5:0.7.3'
+    testCompile 'org.jenkins-ci.plugins:cloudbees-folder:5.18@jar'
+    testCompile 'org.jvnet.hudson.plugins:hipchat:0.1.9@jar'
 
+    // Plugins to install in test instance
+    testPlugins 'com.cloudbees.plugins:build-flow-plugin:0.20'
 }
 
 codenarc {
@@ -93,9 +99,21 @@ task libs(type: Copy) {
     from configurations.libs
 }
 
-tasks.getByName('test').inputs.files(sourceSets.jobs.groovy.srcDirs)
+task resolveTestPlugins(type: Copy) {
+    from configurations.testPlugins
+    into new File(sourceSets.test.output.resourcesDir, 'test-dependencies')
+    include '*.hpi'
+    include '*.jpi'
+
+    doLast {
+        def baseNames = source.collect { it.name[0..it.name.lastIndexOf('.')-1] }
+        new File(destinationDir, 'index').setText(baseNames.join('\n'), 'UTF-8')
+    }
+}
 
 test {
+    dependsOn tasks.resolveTestPlugins
+
     inputs.files sourceSets.jobs.groovy.srcDirs
     systemProperty 'buildDirectory', project.buildDir.absolutePath
 }

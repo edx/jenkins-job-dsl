@@ -179,15 +179,16 @@ jobConfigs.each { jobConfig ->
         }
 
         triggers {
-            pullRequest {
+            githubPullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
+                userWhitelist(ghprbMap['userWhiteList'])
+                orgWhitelist(ghprbMap['orgWhiteList'])
+                triggerPhrase(jobConfig.triggerPhrase)
                 if (jobConfig.commentOnly) {
                     onlyTriggerPhrase(true)
                 }
-                triggerPhrase(jobConfig.triggerPhrase)
-                userWhitelist(ghprbMap['userWhiteList'])
-                orgWhitelist(ghprbMap['orgWhiteList'])
+                whiteListTargetBranches([jobConfig.whitelistBranchRegex])
                 extensions {
                     commitStatus {
                         context(jobConfig.context)
@@ -199,8 +200,6 @@ jobConfigs.each { jobConfig ->
         wrappers {
             timestamps()
         }
-
-        configure GHPRB_WHITELIST_BRANCH(jobConfig.whitelistBranchRegex)
 
         dslFile('testeng-ci/jenkins/flow/pr/edx-platform-lettuce-pr.groovy')
         publishers {

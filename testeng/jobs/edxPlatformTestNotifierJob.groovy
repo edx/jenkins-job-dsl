@@ -43,6 +43,6 @@ job('edx-platform-test-notifier') {
 
     publishers {
         mailer('testeng@edx.org')
-        hipChat JENKINS_PUBLIC_HIPCHAT.call('') // Use the token specified in the global configuration
+        hipChatNotifier JENKINS_PUBLIC_HIPCHAT('')
     }
 }
