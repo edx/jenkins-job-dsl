@@ -111,9 +111,8 @@ secretMap.each { jobConfigs ->
             hipChatNotifier {
                 token(jobConfig['hipchat'])
                 room('TestEngineering')
+                startJobMessage('')
                 completeJobMessage('@here The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)')
-                startJobMessage('hey')
-                completeJobMessage('done')
                 notifySuccess(true)
                 notifyAborted(false)
                 notifyNotBuilt(false)
