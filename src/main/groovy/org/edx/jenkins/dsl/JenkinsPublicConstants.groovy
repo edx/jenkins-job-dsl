@@ -68,7 +68,7 @@ class JenkinsPublicConstants {
             notifyFailure(true)
             notifyBackToNormal(true)
             notifyUnstable(true)
-            startNotification(true)
+            startNotification(false)
             startJobMessage('$JOB_NAME #$BUILD_NUMBER $STATUS ($CHANGES_OR_CAUSE) (<a href="$URL">Open</a>)')
             completeJobMessage('$JOB_NAME #$BUILD_NUMBER $STATUS after $DURATION (<a href="$URL">Open</a>)')
     }
