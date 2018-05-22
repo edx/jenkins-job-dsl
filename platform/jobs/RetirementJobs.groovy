@@ -110,6 +110,7 @@ job('user-retirement-driver') {
                 url('git@github.com:edx-ops/user-retirement-secure.git')
                 credentials('jenkins-worker')
             }
+            branch('master')
             extensions {
                 relativeTargetDirectory('user-retirement-secure')
                 cloneOptions {
@@ -229,6 +230,7 @@ job('user-retirement-collector') {
                 url('git@github.com:edx-ops/user-retirement-secure.git')
                 credentials('jenkins-worker')
             }
+            branch('master')
             extensions {
                 relativeTargetDirectory('user-retirement-secure')
                 cloneOptions {
