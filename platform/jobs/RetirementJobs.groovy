@@ -15,9 +15,33 @@
 
 package platform
 
+import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
+/* stdout logger */
+/* use this instead of println, because you can pass it into closures or other scripts. */
+Map config = [:]
+Binding bindings = getBinding()
+config.putAll(bindings.getVariables())
+PrintStream out = config['out']
+
+/* Map to hold the k:v pairs parsed from the secret file */
+Map mailingListMap = [:]
+try {
+    out.println('Parsing secret YAML file')
+    String mailingListSecretContents  = new File("${MAILING_LIST_SECRET}").text
+    Yaml yaml = new Yaml()
+    mailingListMap = yaml.load(mailingListSecretContents)
+    out.println('Successfully parsed secret YAML file')
+}
+catch (any) {
+    out.println('Jenkins DSL: Error parsing secret YAML file')
+    out.println('Exiting with error code 1')
+    return 1
+}
+
+assert mailingListMap.containsKey('retirement_jobs_mailing_list')
 
 // ########### user-retirement-driver ###########
 // This defines the job for retiring individual users.
@@ -302,5 +326,6 @@ job('user-retirement-collector') {
         // After all the build steps have completed, cleanup the workspace in
         // case this worker instance is re-used for a different job.
         wsCleanup()
+        mailer(mailingListMap['retirement_jobs_mailing_list'])
     }
 }
