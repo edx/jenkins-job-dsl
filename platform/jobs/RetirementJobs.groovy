@@ -243,6 +243,7 @@ job('user-retirement-collector') {
         stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
         stringParam('ENVIRONMENT', 'secure-default', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
         stringParam('COOL_OFF_DAYS', '7', 'Number of days a learner should be in the retirement queue before being actually retired.')
+        stringParam('USER_COUNT_ERROR_THRESHOLD', '200', 'If more users than this number are returned we will error out instead of retiring.')
     }
 
     // retry cloning repositories
@@ -300,7 +301,7 @@ job('user-retirement-collector') {
                 // This section causes the build to block on completion of downstream builds.
                 block {
                     // Mark this build step as FAILURE if at least one of the downstream builds were marked FAILED.
-                    buildStepFailure('FAILURE') 
+                    buildStepFailure('FAILURE')
                     // Mark this entire build as FAILURE if at least one of the downstream builds were marked FAILED.
                     failure('FAILURE')
                     // Mark this entire build as UNSTABLE if at least one of the downstream builds were marked UNSTABLE.
