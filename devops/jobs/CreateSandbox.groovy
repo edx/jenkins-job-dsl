@@ -175,6 +175,7 @@ class CreateSandbox {
 
                 booleanParam("set_whitelabel",false,
                              "Check this in order to create a Sandbox with whitelabel themes automatically set.")
+                stringParam("themes_version","master","")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
