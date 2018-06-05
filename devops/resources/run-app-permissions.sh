@@ -8,7 +8,7 @@ env
 . util/jenkins/assume-role.sh
 
 assume-role ${ROLE_ARN}
-cd $WORKSPACE/configuration/playbooks/edx-east
+cd $WORKSPACE/configuration/playbooks
 
 INVENTORY=$(../active_instances_in_asg.py --asg ${ENVIRONMENT}-${DEPLOYMENT}-worker)
 if [[ -n ${INVENTORY} ]]; then

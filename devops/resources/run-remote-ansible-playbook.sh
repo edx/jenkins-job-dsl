@@ -15,7 +15,7 @@ if [ -f /.dockerenv ]; then
   export ANSIBLE_SSH_ARGS='-o ControlMaster=auto -o ControlPersist=60s -o ControlPath="/tmp/%C" -o ServerAliveInterval=30'
 fi
 
-cd $WORKSPACE/configuration/playbooks/edx-east/
+cd $WORKSPACE/configuration/playbooks/
 
 if [ -n "${ANSIBLE_PLAYBOOK}" ]; then
     ANSIBLE_PLAYBOOK="${ANSIBLE_PLAYBOOK}"

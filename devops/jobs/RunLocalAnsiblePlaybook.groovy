@@ -17,7 +17,7 @@
     CONFIGURATION_INTERNAL_BRANCH: defaults to master
     ACCESS_CONTROL: list of Jenkins matrix targets who should get read access (edx*team or username)
     TAGS: a list of tags to pass to the ansible-playbook invocation (optional)
-    PLAYBOOK: name of the playbook to run, assumed to live in playbooks/edx-east/
+    PLAYBOOK: name of the playbook to run, assumed to live in playbooks/
     SKIP_DEPLOYMENT_FILES: whether or not to -e@ deployment.yml files in addition to environment-deployment.yml files
       poor substitute for a boolean - any value is true, unset or '' is false.
 

@@ -8,5 +8,5 @@ set +x
 assume-role ${ROLE_ARN}
 set -x
 
-cd $WORKSPACE/playbooks/edx-east
+cd $WORKSPACE/playbooks
 ansible-playbook -c local -i "localhost," -vv create_cname.yml -e "dns_zone=${dns_zone} dns_name=${dns_name} sandbox=${sandbox}"

@@ -3,7 +3,7 @@ set -xe
 pip install --upgrade pip
 pip install -r requirements.txt
 
-cd playbooks/edx-east
+cd playbooks
 
 if [ -z "${SSH_USER}" ] || [ -z "${USER}" ] || [ "${USER}" == "jenkins" ] ; then
    exit 1

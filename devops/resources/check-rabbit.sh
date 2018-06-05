@@ -11,7 +11,7 @@ export EC2_CACHE_PATH="ec2-cache"
 assume-role ${ROLE_ARN}
 
 
-cd $WORKSPACE/configuration/playbooks/edx-east
+cd $WORKSPACE/configuration/playbooks
 
 ansible tag_Name_${ENVIRONMENT}-${DEPLOYMENT}-${CLUSTER_NAME} -i ./ec2.py -u $SSH_USER \
   -m shell -a "sudo -u ${SUDO_USER} /usr/sbin/service rabbitmq-server status"
