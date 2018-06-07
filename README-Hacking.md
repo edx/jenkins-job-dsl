@@ -91,7 +91,7 @@ Under advanced (On the far right of the UI) for 'Process Job DSLs' you need to a
 
 On a line like so:
 
-    CheckRabbitJob(this, globals + extraVars.get('CHECK_RABBITMQ_VARS'))
+    CheckRedisJob(this, globals + extraVars.get('CHECK_REDIS_VARS'))
 
 
 You need to change the build into a parameterized build
@@ -106,7 +106,7 @@ There exists one of these for most seeders
 An example error might look like:
 
     Processing DSL script createMonitoringJobs.groovy
-    ERROR: Could not create item, unknown parent path in "Monitoring/check-rabbitmq-loadtest-edx"
+    ERROR: Could not create item, unknown parent path in "Monitoring/check-redis-loadtest-edx"
     Finished: FAILURE
 
 You need to add a folder through jenkins named appropriately, in this case: Monitoring. 
