@@ -6,7 +6,7 @@ cd $WORKSPACE/configuration
 
 pip install -r requirements.txt
 
-cd $WORKSPACE/configuration/playbooks/edx-east
+cd $WORKSPACE/configuration/playbooks
 
 if [[ -n ${PLAYBOOK} ]]; then
     ANSIBLE_PLAYBOOK=${PLAYBOOK}

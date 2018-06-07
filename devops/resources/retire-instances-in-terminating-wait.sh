@@ -8,7 +8,7 @@ pip install -r requirements.txt
 
 assume-role ${ROLE_ARN}
 
-cd playbooks/edx-east
+cd playbooks
 
 COMMON_AWS_SYNC_BUCKET="edx-${ENVIRONMENT}-${DEPLOYMENT}"
  
