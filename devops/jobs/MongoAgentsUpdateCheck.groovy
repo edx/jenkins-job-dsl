@@ -3,8 +3,9 @@ import static org.edx.jenkins.dsl.Constants.common_logrotator
 
 class MongoAgentsUpdateCheck {
     public static def job = {
-        dslFactory ->
+        dslFactory, extraVars ->
         dslFactory.job("Monitoring" + "/mongo-agents-update-check") {
+            logRotator common_logrotator
             parameters {
                 stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')
                 stringParam('CONFIGURATION_BRANCH', 'master')
@@ -43,8 +44,8 @@ class MongoAgentsUpdateCheck {
             publishers {
 
                 extendedEmail {
-                    recipientList('')
-                    replyToList('')
+                    recipientList(extraVars.get('NOTIFY_ON_FAILURE'))
+                    replyToList(extraVars.get('NOTIFY_ON_FAILURE'))
                     contentType('text/plain')
                     defaultSubject('Mongo Agents Update is available')
                     defaultContent('''\

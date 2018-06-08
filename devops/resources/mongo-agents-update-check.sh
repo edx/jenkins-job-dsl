@@ -1,9 +1,5 @@
 #!/bin/bash
 
-set -exo pipefail
-
-env
-
 set -x
 
 cd $WORKSPACE/configuration
