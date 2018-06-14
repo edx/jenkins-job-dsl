@@ -171,6 +171,23 @@ Map privateFicusJobConfig = [ open: false,
                               defaultTestengBranch: 'origin/open-release/ficus.master'
                               ]
 
+Map python3JobConfig = [ open: true,
+                         jobName: 'edx-platform-python3-unittests-pr',
+                         flowWorkerLabel: 'flow-worker-python',
+                         subsetJob: 'edx-platform-test-subset',
+                         repoName: 'edx-platform',
+                         runCoverage: true,
+                         coverageJob: 'edx-platform-unit-coverage',
+                         workerLabel: 'jenkins-worker',
+                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                         context: 'jenkins/python3.5/python',
+                         triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+python.*/,
+                         targetBranch: 'origin/master',
+                         defaultTestengBranch: 'master',
+                         commentOnly: true,
+                         toxEnv: 'py35-django111'
+                         ]
+
 List jobConfigs = [ publicJobConfig,
                     privateJobConfig,
                     publicHawthornJobConfig,
@@ -178,7 +195,8 @@ List jobConfigs = [ publicJobConfig,
                     publicGinkgoJobConfig,
                     privateGinkgoJobConfig,
                     publicFicusJobConfig,
-                    privateFicusJobConfig
+                    privateFicusJobConfig,
+                    python3JobConfig
                     ]
 
 // Iterate over the job configs to create individual build flow jobs

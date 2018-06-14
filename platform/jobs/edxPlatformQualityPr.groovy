@@ -83,10 +83,26 @@ Map hawthornJobConfig = [
     diffJob: 'edx-platform-quality-diff'
 ]
 
+Map python3JobConfig = [
+    open : true,
+    jobName : 'edx-platform-python3-quality-flow-pr',
+    subsetJob: 'edx-platform-test-subset',
+    repoName: 'edx-platform',
+    workerLabel: 'jenkins-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/python3.5/quality',
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+quality.*/,
+    defaultTestengBranch: 'master',
+    diffJob: 'edx-platform-quality-diff',
+    commentOnly: true,
+    toxEnv: 'py35-django111'
+]
+
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    hawthornJobConfig
+    hawthornJobConfig,
+    python3JobConfig
 ]
 
 jobConfigs.each { jobConfig ->
@@ -108,6 +124,7 @@ jobConfigs.each { jobConfig ->
             env('REPO_NAME', jobConfig.repoName)
             env('DIFF_JOB', jobConfig.diffJob)
             env('TARGET_BRANCH', 'origin/master')
+            env('TOX_ENV', jobConfig.toxEnv)
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')

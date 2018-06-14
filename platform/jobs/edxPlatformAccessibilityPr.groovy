@@ -120,6 +120,18 @@ Map privateFicusJobConfig = [
     triggerPhrase: /.*ficus\W+run\W+a11y.*/
 ]
 
+Map python3JobConfig = [
+    open : true,
+    jobName : 'edx-platform-python3-accessibility-pr',
+    repoName : 'edx-platform',
+    workerLabel: 'jenkins-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/python3.5/a11y',
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+a11y.*/,
+    commentOnly: true,
+    toxEnv: 'py35-django111'
+]
+
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
@@ -128,7 +140,8 @@ List jobConfigs = [
     publicGinkgoJobConfig,
     privateGinkgoJobConfig,
     publicFicusJobConfig,
-    privateFicusJobConfig
+    privateFicusJobConfig,
+    python3JobConfig
 ]
 
 /* Iterate over the job configurations */
@@ -144,6 +157,9 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
+        environmentVariables {
+            env('TOX_ENV', jobConfig.toxEnv)
+        }
         parameters {
             labelParam('WORKER_LABEL') {
                 description('Select a Jenkins worker label for running this job')
