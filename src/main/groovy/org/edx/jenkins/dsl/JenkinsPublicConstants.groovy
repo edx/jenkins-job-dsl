@@ -190,22 +190,10 @@ class JenkinsPublicConstants {
         }
     }
 
-    public static final Closure GHPRB_BLACKLIST_BRANCH(String branchRegex) {
+    public static final Closure GHPRB_CANCEL_BUILDS_ON_UPDATE(boolean override) {
         return {
-            it / triggers / 'org.jenkinsci.plugins.ghprb.GhprbTrigger' << blackListTargetBranches {
-                'org.jenkinsci.plugins.ghprb.GhprbBranch' {
-                    branch branchRegex
-                }
-            }
-        }
-    }
-
-    public static final Closure GHPRB_WHITELIST_BRANCH(String branchRegex) {
-        return {
-            it / triggers / 'org.jenkinsci.plugins.ghprb.GhprbTrigger' << whiteListTargetBranches {
-                'org.jenkinsci.plugins.ghprb.GhprbBranch' {
-                    branch branchRegex
-                }
+            it / 'triggers' / 'org.jenkinsci.plugins.ghprb.GhprbTrigger' / 'extensions' / 'org.jenkinsci.plugins.ghprb.extensions.build.GhprbCancelBuildsOnUpdate' {
+                overrideGlobal(override)
             }
         }
     }
@@ -221,19 +209,4 @@ class JenkinsPublicConstants {
             buildButton()
         }
     }
-
-    // Reusable closure for configuring a masked password user parameter with a default value
-    // Input must be structured in the following format:
-    // [ name: String x, description: String y, default: String z ]
-    public static final Closure JENKINS_PUBLIC_MASKED_PASSWORD = { param ->
-        return {
-            it / 'properties' / 'hudson.model.ParametersDefinitionProperty' / parameterDefinitions << 'hudson.model.PasswordParameterDefinition' {
-                name param.name
-                defaultValue Secret.fromString(param.default.toString()).getEncryptedValue()
-                description param.description
-            }
-        }
-
-    }
-
 }
