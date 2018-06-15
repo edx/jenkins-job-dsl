@@ -220,6 +220,7 @@ jobConfigs.each { jobConfig ->
             env('RUN_COVERAGE', jobConfig.runCoverage)
             env('COVERAGE_JOB', jobConfig.coverageJob)
             env('TARGET_BRANCH', jobConfig.targetBranch)
+            env('TOX_ENV', jobConfig.toxEnv)
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
