@@ -53,7 +53,7 @@ Map publicJobConfig = [ open : true,
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
                         context: 'jenkins/bokchoy',
                         triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
-                        defaultTestengBranch: 'master'
+                        defaultTestengBranch: 'origin/estute/TE-2544-pt-2'
                         ]
 
 Map privateJobConfig = [ open: false,
@@ -64,7 +64,7 @@ Map privateJobConfig = [ open: false,
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
                          context: 'jenkins/bokchoy',
                          triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
-                         defaultTestengBranch: 'master'
+                         defaultTestengBranch: 'origin/estute/TE-2544-pt-2'
                          ]
 
 Map publicHawthornJobConfig = [ open: true,
@@ -141,7 +141,7 @@ Map python3JobConfig = [ open : true,
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
                          context: 'jenkins/python3.5/bokchoy',
                          triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+bokchoy.*/,
-                         defaultTestengBranch: 'master',
+                         defaultTestengBranch: 'origin/estute/TE-2544-pt-2',
                          commentOnly: true,
                          toxEnv: 'py35-django111'
                          ]
