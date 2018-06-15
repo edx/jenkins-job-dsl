@@ -53,7 +53,7 @@ Map publicJobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/quality',
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
-    defaultTestengBranch: 'master',
+    defaultTestengBranch: 'origin/estute/TE-2544-pt-2',
     diffJob: 'edx-platform-quality-diff'
 ]
 
@@ -66,7 +66,7 @@ Map privateJobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/quality',
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
-    defaultTestengBranch: 'master',
+    defaultTestengBranch: 'origin/estute/TE-2544-pt-2',
     diffJob: 'edx-platform-quality-diff_private'
 ]
 
@@ -92,7 +92,7 @@ Map python3JobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python3.5/quality',
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+quality.*/,
-    defaultTestengBranch: 'master',
+    defaultTestengBranch: 'origin/estute/TE-2544-pt-2',
     diffJob: 'edx-platform-quality-diff',
     commentOnly: true,
     toxEnv: 'py35-django111'

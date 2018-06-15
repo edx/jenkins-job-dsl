@@ -63,7 +63,7 @@ Map publicJobConfig = [ open: true,
                         context: 'jenkins/python',
                         triggerPhrase: /.*jenkins\W+run\W+python.*/,
                         targetBranch: 'origin/master',
-                        defaultTestengBranch: 'master'
+                        defaultTestengBranch: 'origin/estute/TE-2544-pt-2'
                         ]
 
 Map privateJobConfig = [ open: false,
@@ -78,7 +78,7 @@ Map privateJobConfig = [ open: false,
                          context: 'jenkins/python',
                          triggerPhrase: /.*jenkins\W+run\W+python.*/,
                          targetBranch: 'origin/security-release',
-                         defaultTestengBranch: 'master'
+                         defaultTestengBranch: 'origin/estute/TE-2544-pt-2'
                          ]
 
 Map publicHawthornJobConfig = [ open: true,
@@ -183,7 +183,7 @@ Map python3JobConfig = [ open: true,
                          context: 'jenkins/python3.5/python',
                          triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+python.*/,
                          targetBranch: 'origin/master',
-                         defaultTestengBranch: 'master',
+                         defaultTestengBranch: 'origin/estute/TE-2544-pt-2',
                          commentOnly: true,
                          toxEnv: 'py35-django111'
                          ]
