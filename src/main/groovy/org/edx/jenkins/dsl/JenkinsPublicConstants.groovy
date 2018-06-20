@@ -36,7 +36,8 @@ class JenkinsPublicConstants {
     return {
         jUnit {
             pattern("**/nosetests.xml,**/TEST-*.xml,reports/acceptance/*.xml,reports/quality.xml," +
-                    "reports/javascript/javascript_xunit.xml,reports/a11y/xunit.xml,reports/bok_choy/xunit.xml,reports/bok_choy/**/xunit.xml"
+                    "reports/javascript/javascript_xunit.xml,reports/a11y/xunit.xml," +
+                    "reports/bok_choy/xunit.xml,reports/bok_choy/**/xunit.xml,reports/quality_junitxml/*.xml"
                     )
             skipNoTestFiles(true)
             stopProcessingIfError(true)

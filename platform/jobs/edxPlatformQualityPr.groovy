@@ -1,6 +1,7 @@
 package platform
 
 import org.yaml.snakeyaml.Yaml
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_XUNIT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
@@ -28,6 +29,9 @@ catch (any) {
     out.println('Exiting with error code 1')
     return 1
 }
+
+String pep8Reports = 'reports/pep8/pep8.report, edx-platform*/reports/pep8/pep8.report'
+String pylintReports = 'reports/**/pylint.report, edx-platform*/reports/**/pylint.report'
 
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
 // Map exampleConfig = [
@@ -181,6 +185,7 @@ jobConfigs.each { jobConfig ->
                 defaultExcludes(true)
                 allowEmpty(true)
             }
+            archiveXUnit JENKINS_PUBLIC_ARCHIVE_XUNIT()
             publishHtml {
                 report("reports/metrics/") {
                     reportName('Quality Report')
@@ -197,6 +202,9 @@ jobConfigs.each { jobConfig ->
                     keepAll(true)
                     allowMissing(true)
                 }
+            }
+            warnings([], ['Pep8': pep8Reports, 'PYLint': pylintReports]) {
+                canRunOnFailed()
             }
             if (jobConfig.repoName == "edx-platform") {
                 downstreamParameterized JENKINS_EDX_PLATFORM_TEST_NOTIFIER('${ghprbPullId}')

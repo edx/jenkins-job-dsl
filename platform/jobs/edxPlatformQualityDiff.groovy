@@ -2,6 +2,7 @@ package platform
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_XUNIT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 stringParams = [
@@ -134,9 +135,10 @@ jobConfigs.each { jobConfig ->
         }
         publishers {
             archiveArtifacts {
-                pattern('test_root/log/*.log,reports/*.html,reports/**/*.html')
+                pattern('test_root/log/*.log,reports/*.html,reports/**/*.html,reports/**/*.xml')
                 defaultExcludes(true)
             }
+            archiveXUnit JENKINS_PUBLIC_ARCHIVE_XUNIT()
             publishHtml {
                 report("${jobConfig.repoName}/reports/metrics/") {
                     reportName('Quality Report')
