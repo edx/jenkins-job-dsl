@@ -2,6 +2,7 @@ package devops
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_XUNIT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
@@ -15,6 +16,9 @@ archiveReports += 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.log,
 
 String htmlReports = 'pylint/*view*/,pep8/*view*/,python_complexity/*view*/,'
 htmlReports += 'xsscommitlint/*view*/,xsslint/*view*/,eslint/*view*/'
+
+String pep8Reports = 'reports/pep8/pep8.report, edx-platform*/reports/pep8/pep8.report'
+String pylintReports = 'reports/**/pylint.report, edx-platform*/reports/**/pylint.report'
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -163,6 +167,7 @@ jobConfigs.each { jobConfig ->
                 pattern(archiveReports)
                 defaultExcludes()
             }
+            archiveXUnit JENKINS_PUBLIC_ARCHIVE_XUNIT()
             publishHtml {
                 report(jobConfig.repoName + '/reports/metrics/') {
                     reportFiles(htmlReports)
@@ -171,24 +176,8 @@ jobConfigs.each { jobConfig ->
                     keepAll()
                 }
             }
-            violations(100) {
-                checkstyle(10, 999, 999)
-                codenarc(10, 999, 999)
-                cpd(10, 999, 999)
-                cpplint(10, 999, 999)
-                csslint(10, 999, 999)
-                findbugs(10, 999, 999)
-                fxcop(10, 999, 999)
-                gendarme(10, 999, 999)
-                jcreport(10, 999, 999)
-                jslint(10, 999, 999)
-                pep8(1, 2, 3, '**/pep8.report')
-                perlcritic(10, 999, 999)
-                pmd(10, 999, 999)
-                pylint(10, 10000, 10000, '**/*pylint.report')
-                simian(10, 999, 999)
-                stylecop(10, 999, 999)
-                sourceEncoding()
+            warnings([], ['Pep8': pep8Reports, 'PYLint': pylintReports]) {
+                canRunOnFailed()
             }
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
