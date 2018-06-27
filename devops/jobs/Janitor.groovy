@@ -6,7 +6,7 @@
             deployment
                 aws_region: region, default is us-east-1
                 s3_log_bucket: name of bucket to log things being cleaned (required)
-        * AWS_CLEANER: space separated string of names of cleaner instances you want to execute (required)
+                aws_cleaner: space separated string of names of cleaner instances you want to execute on this deployment (required)
         * NOOP: boolean value to perform no operations, default is false
         * SYSADMIN_REPO: repository containing python script with cleaner instances (required)
         * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
@@ -15,7 +15,7 @@
         * CONFIGURATION_BRANCH: default is master
         * NOTIFY_ON_FAILURE: alert@example.com
         * FOLDER_NAME: folder
-        
+
 
     This job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
@@ -34,7 +34,7 @@ class Janitor {
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/janitor-${deployment}") {
-               
+
                 logRotator common_logrotator
                 wrappers common_wrappers
 
@@ -85,21 +85,21 @@ class Janitor {
                             pruneBranches()
                             relativeTargetDirectory('sysadmin')
                         }
-                    } 
+                    }
                 }
 
                 triggers {
                     cron('H H/4 * * * ')
                 }
 
-                assert extraVars.containsKey('AWS_CLEANER') : 'Please definine AWS_CLEANER. It should be a string.'
-                assert extraVars.get('AWS_CLEANER') instanceof String : 'Make sure that AWS_CLEANER is a string. Different cleaner instanes should be separated by spaces.' 
+                assert configuration.containsKey('aws_cleaner') : 'Please definine aws_cleaner for this configuration. It should be a string.'
+                assert configuration.get('aws_cleaner') instanceof String : 'Make sure that aws_cleaner is a string. Different cleaner instanes should be separated by spaces.'
                 assert configuration.containsKey('s3_log_bucket') : 'Please define an s3_log_bucket for this configuration.'
 
                 environmentVariables {
                     env('S3_LOG_BUCKET', configuration.get('s3_log_bucket'))
                     env('AWS_REGION', configuration.get('aws_region', 'us-east-1'))
-                    env('AWS_CLEANER', extraVars.get('AWS_CLEANER'))
+                    env('AWS_CLEANER', configuration.get('aws_cleaner'))
                     env('NOOP', extraVars.get('NOOP', false))
                 }
 
@@ -113,7 +113,7 @@ class Janitor {
                             dslFactory.readFileFromWorkspace("devops/resources/janitor.sh")
                         )
                     }
-                } 
+                }
 
                 if (extraVars.get('NOTIFY_ON_FAILURE')){
                     publishers {
