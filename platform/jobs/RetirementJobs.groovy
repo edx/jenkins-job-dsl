@@ -330,3 +330,111 @@ job('user-retirement-collector') {
         mailer(mailingListMap['retirement_jobs_mailing_list'])
     }
 }
+
+// ########### retirement-partner-reporter ###########
+// Defines the job for running partner reporting
+job('retirement-partner-reporter') {
+    description('Run the partner reporting job and push the results to Google Drive.')
+
+    authorization {
+        blocksInheritance(true)
+        // Only core teams have full control of the reporter.
+        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
+        membersWithFullControl.each { emp ->
+            permissionAll(emp)
+        }
+        // Other engineering teams can view.
+        List extraMembersCanView = ['edx*learner']
+        extraMembersCanView.each { emp ->
+            permission('hudson.model.Item.Read', emp)
+            permission('hudson.model.Item.Discover', emp)
+        }
+    }
+
+    // This label is configured to disallow more than one simultaneous job
+    // per instance, and generally there are always available jenkins-worker
+    // instances idling.
+    label('jenkins-worker')
+
+    // Only one of these jobs should be running at a time per environment
+    concurrentBuild(true)
+    configure { project ->
+        project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
+            'paramsToUseForLimit'('ENVIRONMENT')
+        project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
+            'limitOneJobWithMatchingParams'('true')
+    }
+
+    // keep jobs around for 30 days
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
+
+    wrappers {
+        buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
+        buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
+        timestamps()
+        colorizeOutput('xterm')
+        credentialsBinding {
+            file('USER_RETIREMENT_SECURE_DEFAULT', 'user-retirement-secure-default.yml')
+        }
+    }
+
+    parameters {
+        stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
+        stringParam('ENVIRONMENT', 'secure-default', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
+    }
+
+    // retry cloning repositories
+    checkoutRetryCount(5)
+
+    multiscm {
+        git {
+            remote {
+                url('git@github.com:edx-ops/user-retirement-secure.git')
+                credentials('jenkins-worker')
+            }
+            branch('master')
+            extensions {
+                relativeTargetDirectory('user-retirement-secure')
+                cloneOptions {
+                    shallow()
+                    timeout(10)
+                }
+                cleanBeforeCheckout()
+            }
+        }
+        git {
+            remote {
+                url('https://github.com/edx/tubular.git')
+            }
+            branch('$TUBULAR_BRANCH')
+            extensions {
+                relativeTargetDirectory('tubular')
+                cloneOptions {
+                    shallow()
+                    timeout(10)
+                }
+                cleanBeforeCheckout()
+            }
+        }
+    }
+
+    environmentVariables {
+        env('PARTNER_REPORTS_DIR', '${WORKSPACE}/partner-reports')
+    }
+
+    steps {
+        virtualenv {
+            name('retirement-partner-reporter')
+            nature('shell')
+            command(readFileFromWorkspace('platform/resources/retirement-partner-reporter.sh'))
+        }
+    }
+
+    publishers {
+        // TODO: Add an email alert here once we are unblocked by TE-2618 and PLAT-2138
+
+        // After all the build steps have completed, cleanup the workspace in
+        // case this worker instance is re-used for a different job.
+        wsCleanup()
+    }
+}
