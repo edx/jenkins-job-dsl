@@ -34,6 +34,7 @@
                 
         accomplishes the same as the dictionary above.
     CONFIGURATION_REPO_URL: URL of the configuration GitHub repository (REQUIRED).
+    CONFIGURATION_BRANCH: the branch of the configuration repository to watch for changes
     FOLDER_NAME: the name of the folder in which the downstream per-app jobs will live; defaults to DockerCI.
     ACCESS_CONTROL: list of github users or groups who will have access to the jobs.
     
@@ -58,7 +59,7 @@ class ConfigurationWatcher {
             assert extraVars.containsKey('CONFIGURATION_REPO_URL') : "Please define CONFIGURATION_REPO_URL"
             assert extraVars.containsKey('APPS_TO_CONFIG'): "Please define APPS_TO_CONFIG"
 
-            def config_branch = 'master'
+            def config_branch = extraVars.get('CONFIGURATION_BRANCH', 'master')
 
             // to space separated list as string
             def apps = extraVars.get("APPS_TO_CONFIG").keySet().join(" ")
