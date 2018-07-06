@@ -89,11 +89,11 @@ Map publicHawthornJobConfig = [ open: true,
                                runCoverage: true,
                                coverageJob: 'edx-platform-unit-coverage',
                                workerLabel: 'hawthorn-jenkins-worker',
-                               whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                               whitelistBranchRegex: /open-release\/hawthorn.master/,
                                context: 'jenkins/hawthorn/python',
                                triggerPhrase: /.*hawthorn\W+run\W+python.*/,
-                               targetBranch: 'origin/open-release/hawthorn.beta1',
-                               defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                               targetBranch: 'origin/open-release/hawthorn.master',
+                               defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                ]
 
 Map privateHawthornJobConfig = [ open: false,
@@ -104,11 +104,11 @@ Map privateHawthornJobConfig = [ open: false,
                                 runCoverage: true,
                                 coverageJob: 'edx-platform-unit-coverage_private',
                                 workerLabel: 'hawthorn-jenkins-worker',
-                                whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                                whitelistBranchRegex: /open-release\/hawthorn.master/,
                                 context: 'jenkins/hawthorn/python',
                                 triggerPhrase: /.*hawthorn\W+run\W+python.*/,
                                 targetBranch: 'origin/security/release',
-                                defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                                defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                 ]
 
 Map publicGinkgoJobConfig = [ open: true,

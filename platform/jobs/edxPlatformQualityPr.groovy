@@ -80,10 +80,10 @@ Map hawthornJobConfig = [
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
     workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+    whitelistBranchRegex: /open-release\/hawthorn.master/,
     context: 'jenkins/hawthorn/quality',
     triggerPhrase: /.*hawthorn\W+run\W+quality.*/,
-    defaultTestengBranch: 'origin/open-release/hawthorn.beta1',
+    defaultTestengBranch: 'origin/open-release/hawthorn.master',
     diffJob: 'edx-platform-quality-diff'
 ]
 
