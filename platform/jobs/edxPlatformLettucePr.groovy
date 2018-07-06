@@ -71,10 +71,10 @@ Map publicHawthornJobConfig = [ open: true,
                                subsetJob: 'edx-platform-test-subset',
                                repoName: 'edx-platform',
                                workerLabel: 'hawthorn-jenkins-worker',
-                               whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                               whitelistBranchRegex: /open-release\/hawthorn.master/,
                                context: 'jenkins/hawthorn/lettuce',
                                triggerPhrase: /.*hawthorn\W+run\W+lettuce.*/,
-                               defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                               defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                ]
 
 Map privateHawthornJobConfig = [ open: false,
@@ -82,10 +82,10 @@ Map privateHawthornJobConfig = [ open: false,
                                 subsetJob: 'edx-platform-test-subset_private',
                                 repoName: 'edx-platform-private',
                                 workerLabel: 'hawthorn-jenkins-worker',
-                                whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+                                whitelistBranchRegex: /open-release\/hawthorn.master/,
                                 context: 'jenkins/hawthorn/lettuce',
                                 triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
-                                defaultTestengBranch: 'origin/open-release/hawthorn.beta1'
+                                defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                 ]
 
 Map publicGinkgoJobConfig = [ open: true,

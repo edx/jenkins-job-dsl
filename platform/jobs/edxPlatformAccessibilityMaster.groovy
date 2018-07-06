@@ -55,8 +55,8 @@ Map hawthornJobConfig = [
     repoName: 'edx-platform',
     workerLabel: 'hawthorn-jenkins-worker',
     context: 'jenkins/hawthorn/a11y',
-    refSpec : '+refs/heads/open-release/hawthorn.beta1:refs/remotes/origin/open-release/hawthorn.beta1',
-    defaultBranch : 'refs/heads/open-release/hawthorn.beta1'
+    refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
+    defaultBranch : 'refs/heads/open-release/hawthorn.master'
 ]
 
 Map ginkgoJobConfig = [

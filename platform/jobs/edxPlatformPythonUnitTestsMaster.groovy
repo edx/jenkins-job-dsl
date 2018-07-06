@@ -78,10 +78,10 @@ Map hawthornJobConfig = [
     coverageJob: 'edx-platform-unit-coverage',
     workerLabel: 'hawthorn-jenkins-worker',
     context: 'jenkins/hawthorn/python',
-    targetBranch: 'origin/open-release/hawthorn.beta1',
-    defaultTestengBranch : 'refs/heads/open-release/hawthorn.beta1',
-    refSpec : '+refs/heads/open-release/hawthorn.beta1:refs/remotes/origin/open-release/hawthorn.beta1',
-    defaultBranch : 'refs/heads/open-release/hawthorn.beta1'
+    targetBranch: 'origin/open-release/hawthorn.master',
+    defaultTestengBranch : 'refs/heads/open-release/hawthorn.master',
+    refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
+    defaultBranch : 'refs/heads/open-release/hawthorn.master'
 ]
 
 Map ginkgoJobConfig = [

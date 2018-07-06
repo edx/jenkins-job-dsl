@@ -74,7 +74,7 @@ Map publicHawthornJobConfig = [
     jobName: 'hawthorn-js-pr',
     repoName: 'edx-platform',
     workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+    whitelistBranchRegex: /open-release\/hawthorn.master/,
     context: 'jenkins/hawthorn/js',
     triggerPhrase: /.*hawthorn\W+run\W+js.*/
 ]
@@ -84,7 +84,7 @@ Map privateHawthornJobConfig = [
     jobName: 'hawthorn-js-pr_private',
     repoName: 'edx-platform-private',
     workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.beta1/,
+    whitelistBranchRegex: /open-release\/hawthorn.master/,
     context: 'jenkins/hawthorn/js',
     triggerPhrase: /.*hawthorn\W+run\W+js.*/
 ]
