@@ -3,6 +3,9 @@
     various <app>-watcher jobs and does not run on its own. This job receives the name of an application as a build parameter. 
     This application's Docker image is then built and pushed to DockerHub.
 
+    Branches other than master should be prefixed with "refs/heads/" for the Jenkins Git plugin to match them
+    correctly when a webhook is received.  For example, "refs/heads/open-release/hawthorn.master".
+
     Variables are consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
 
@@ -64,11 +67,12 @@ class ImageBuilder {
                 def app_repo_branch = app_config.get('app_repo_branch', 'master')
                 def config_branch = app_config.get('config_branch', 'master')
                 def tag_name = app_config.get('tag_name', 'latest')
+                def openedx_release = app_repo_branch.replace('refs/heads/', '')
 
                 // inject APP_NAME, OPENEDX_RELEASE, and TAG_NAME as environment variables for use by build-push-app.sh
                 environmentVariables {
                     env("APP_NAME", app_name)
-                    env('OPENEDX_RELEASE', app_repo_branch)
+                    env('OPENEDX_RELEASE', openedx_release)
                     env('TAG_NAME', tag_name)
                 }
 

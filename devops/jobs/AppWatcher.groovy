@@ -1,12 +1,15 @@
 /*
     This job handles changes to an application.
 
-    For applications that have source code repositories, this job watches for changes pushed to master. 
-    Upon a push to master, the job is triggered via a webhook. The job triggers the matching downstream image-builder job at
+    For applications that have source code repositories, this job watches for changes pushed to a particular branch.
+    Upon a push to that branch, the job is triggered via a webhook. The job triggers the matching downstream image-builder job at
     DockerCI/image-builders/<app>-image-builder. The <app>-image-builder then builds and pushes the application's Docker image to DockerHub.
 
     For applications that do not have source code repositories, there are no watcher jobs, because there are no repositories to watch. If a new
     image for these applications is needed, the associated <app>-image-builder job will need to be run manually.
+
+    Branches other than master should be prefixed with "refs/heads/" for the Jenkins Git plugin to match them
+    correctly when a webhook is received.  For example, "refs/heads/open-release/hawthorn.master".
 
     Variables consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
@@ -50,7 +53,6 @@ import static org.edx.jenkins.dsl.YAMLHelpers.parseYaml
 import org.yaml.snakeyaml.error.YAMLException
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
-import static org.edx.jenkins.dsl.DevopsConstants.merge_to_master_trigger
 import static org.edx.jenkins.dsl.Constants.common_logrotator
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 
@@ -71,7 +73,7 @@ class AppWatcher {
                 dslFactory.job(extraVars.get("FOLDER_NAME", "DockerCI") + "/application-watchers/" + app_name + "-watcher") {
 
                     // if an application has no repository, the app_repo_branch should be blank so as not to set up webhooks
-                    def app_repo_branch = !app_repo ? '' : app_config.get('app_repo_branch', 'master')
+                    def app_repo_branch = app_config.get('app_repo_branch', 'master')
 
                     description('\rThis job watches the ' + app_repo_branch + ' branch of the ' + app_repo + ' repository for changes via a webhook. ' + 
                         'Upon a change to the branch, this job will run and trigger the downstream ' + app_name + '-image-builder job, which will ' +
@@ -110,7 +112,7 @@ class AppWatcher {
                         }
                     }
 
-                    triggers merge_to_master_trigger(app_repo_branch)
+                    triggers { githubPush() }
 
                     steps {
                         // trigger image-builder job, passing commit checked out of the application code repository 
