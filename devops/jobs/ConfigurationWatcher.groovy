@@ -1,9 +1,12 @@
 /*
-    This job serves to watch https://github.com/edx/configuration for changes pushed to master. Upon a push to master, the job is 
+    This job serves to watch https://github.com/edx/configuration for changes pushed to a particular branch. Upon a push to that branch, the job is
     triggered via a webhook, at which point it runs the parsefiles.py script with the files changed between the old commit and the new commit. 
     This resolves which Docker images need to be rebuilt as a result of the aforementioned changes to the configuration repository. For each 
     Docker image that needs rebuilding, this job triggers the respective <app>-watcher downstream job, which then calls the image-builder job 
     to build and push up the respective image to DockerHub.
+
+    Branches other than master should be prefixed with "refs/heads/" for the Jenkins Git plugin to match them
+    correctly when a webhook is received.  For example, "refs/heads/open-release/hawthorn.master".
 
     Variables consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
@@ -48,7 +51,6 @@ import static org.edx.jenkins.dsl.YAMLHelpers.parseYaml
 import org.yaml.snakeyaml.error.YAMLException
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
-import static org.edx.jenkins.dsl.DevopsConstants.merge_to_master_trigger
 import static org.edx.jenkins.dsl.Constants.common_logrotator
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 
@@ -105,7 +107,7 @@ class ConfigurationWatcher {
                 }
             }
             
-            triggers merge_to_master_trigger(config_branch)
+            triggers { githubPush() }
 
             // run the trigger-builds shell script in a virtual environment called venv
             steps {
