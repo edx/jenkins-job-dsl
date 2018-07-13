@@ -32,6 +32,17 @@ else
   FAIL=1
 fi
 
+for i in `find . -name "*.yml" | sed '/ansible/d'`
+  do
+    python -c "import sys,yaml; yaml.load(open('$i'))" $i > /dev/null
+    if [[ $? -ne 0 ]]; then
+      echo "ERROR parsing $i"
+      FAIL=1
+    else
+      echo "YAML syntax verified"
+    fi
+  done
+
 if [ "$FAIL" -eq 1 ] ; then
   echo "Failing..."
   exit 1
