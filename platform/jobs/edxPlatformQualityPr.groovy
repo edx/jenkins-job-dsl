@@ -64,7 +64,7 @@ Map publicJobConfig = [
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-quality-flow-pr_private',
-    subsetJob: 'edx-platform-test-subset',
+    subsetJob: 'edx-platform-test-subset_private',
     repoName: 'edx-platform-private',
     workerLabel: 'jenkins-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
