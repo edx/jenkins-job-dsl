@@ -115,14 +115,16 @@ Map publicJobConfig = [ open : true,
                         jobName : 'edx-platform-unit-coverage',
                         subsetJob: 'edx-platform-test-subset',
                         repoName: 'edx-platform',
-                        workerLabel: 'coverage-worker'
+                        workerLabel: 'coverage-worker',
+                        timeout: 20
                         ]
 
 Map privateJobConfig = [ open : false,
                         jobName : 'edx-platform-unit-coverage_private',
                         subsetJob: 'edx-platform-test-subset_private',
                         repoName: 'edx-platform-private',
-                        workerLabel: 'coverage-worker'
+                        workerLabel: 'coverage-worker',
+                        timeout: 45
                         ]
 
 List jobConfigs = [ publicJobConfig,
@@ -173,8 +175,8 @@ jobConfigs.each { jobConfig ->
         wrappers {
             sshAgent('jenkins-worker')
             timeout {
-                absolute(20)
-                writeDescription('Timed out at 20 minutes')
+                absolute(jobConfig.timeout)
+                writeDescription("Timed out at ${jobConfig.timeout} minutes")
                 abortBuild()
             }
             timestamps()
