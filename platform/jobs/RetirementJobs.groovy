@@ -327,7 +327,23 @@ job('user-retirement-collector') {
         // After all the build steps have completed, cleanup the workspace in
         // case this worker instance is re-used for a different job.
         wsCleanup()
-        mailer(mailingListMap['retirement_jobs_mailing_list'])
+
+        // Send an alerting email upon failure.
+        extendedEmail {
+            recipientList(mailingListMap['retirement_jobs_mailing_list'])
+            triggers {
+                failure {
+                    attachBuildLog(false)  // build log contains PII!
+                    compressBuildLog(false)  // build log contains PII!
+                    subject('Failed build: user-retirement-collector #${BUILD_NUMBER}')
+                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
+                    contentType('text/plain')
+                    sendTo {
+                        recipientList()
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -431,10 +447,25 @@ job('retirement-partner-reporter') {
     }
 
     publishers {
-        // TODO: Add an email alert here once we are unblocked by TE-2618 and PLAT-2138
-
         // After all the build steps have completed, cleanup the workspace in
         // case this worker instance is re-used for a different job.
         wsCleanup()
+
+        // Send an alerting email upon failure.
+        extendedEmail {
+            recipientList(mailingListMap['retirement_jobs_mailing_list'])
+            triggers {
+                failure {
+                    attachBuildLog(false)  // build log contains PII!
+                    compressBuildLog(false)  // build log contains PII!
+                    subject('Failed build: retirement-partner-reporter #${BUILD_NUMBER}')
+                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
+                    contentType('text/plain')
+                    sendTo {
+                        recipientList()
+                    }
+                }
+            }
+        }
     }
 }
