@@ -13,7 +13,7 @@ List jobConfigs = [
     [
         environmentDeployment: 'prod-edx',
         extraMembersCanBuild: [],
-        disabled: true
+        disabled: false
     ],
     [
         environmentDeployment: 'stage-edx',
