@@ -11,34 +11,61 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 
 List jobConfigs = [
     [
+        downstreamJobName: 'user-retirement-collector',
+        triggerJobNamePrefix: 'user-retirement-trigger',
         environmentDeployment: 'prod-edx',
         extraMembersCanBuild: [],
+        cron: 'H * * * *',  // Hourly at an arbitrary, but consistent minute.
         disabled: false
     ],
     [
-        environmentDeployment: 'stage-edx',
-        extraMembersCanBuild: ['edx*educator-all', 'edx*learner'],
-        disabled: true
-    ],
-    [
-        environmentDeployment: 'loadtest-edx',
-        extraMembersCanBuild: ['edx*educator-all', 'edx*learner'],
-        disabled: true
-    ],
-    [
+        downstreamJobName: 'user-retirement-collector',
+        triggerJobNamePrefix: 'user-retirement-trigger',
         environmentDeployment: 'prod-edge',
         extraMembersCanBuild: [],
+        cron: 'H * * * *',  // Hourly at an arbitrary, but consistent minute.
+        disabled: true
+    ],
+    [
+        downstreamJobName: 'retirement-partner-reporter',
+        triggerJobNamePrefix: 'retirement-partner-reporter-trigger',
+        environmentDeployment: 'prod-edx',
+        extraMembersCanBuild: [],
+        cron: '0 8 * * 2',  // 09:00 UTC every Tuesday.
+        disabled: true
+    ],
+    [
+        downstreamJobName: 'retirement-partner-reporter',
+        triggerJobNamePrefix: 'retirement-partner-reporter-trigger',
+        environmentDeployment: 'prod-edge',
+        extraMembersCanBuild: [],
+        cron: '30 8 * * 2',  // 09:30 UTC every Tuesday.
+        disabled: true
+    ],
+    [
+        downstreamJobName: 'retirement-partner-report-cleanup',
+        triggerJobNamePrefix: 'retirement-partner-report-cleanup-trigger',
+        environmentDeployment: 'prod-edx',
+        extraMembersCanBuild: [],
+        cron: '0 7 * * *',  // 08:00 UTC every day.
+        disabled: true
+    ],
+    [
+        downstreamJobName: 'retirement-partner-report-cleanup',
+        triggerJobNamePrefix: 'retirement-partner-report-cleanup-trigger',
+        environmentDeployment: 'prod-edge',
+        extraMembersCanBuild: [],
+        cron: '30 7 * * *',  // 08:30 UTC every day.
         disabled: true
     ]
 ]
-
 
 jobConfigs.each { jobConfig ->
 
     // ########### user-retirement-trigger-<environment> ###########
     // This defines the job which triggers the collector job for a given environment.
-    job("user-retirement-trigger-${jobConfig.environmentDeployment}") {
-        description("Scheduled trigger of the user-retirement-collector job for the ${jobConfig.environmentDeployment} environment")
+    job("${jobConfig.triggerJobNamePrefix}-${jobConfig.environmentDeployment}") {
+        description("Scheduled trigger of the ${jobConfig.downstreamJobName} job for the ${jobConfig.environmentDeployment} environment")
 
         disabled(jobConfig.disabled)
 
@@ -74,7 +101,7 @@ jobConfigs.each { jobConfig ->
 
         triggers {
             // Build every hour.
-            cron('H * * * *')
+            cron(jobConfig.cron)
         }
 
         // keep jobs around for 30 days
@@ -88,7 +115,7 @@ jobConfigs.each { jobConfig ->
 
         steps {
             downstreamParameterized {
-                trigger('user-retirement-collector') {
+                trigger("${jobConfig.downstreamJobName}") {
                     // This section causes the build to block on completion of downstream builds.
                     block {
                         // Mark this build step as FAILURE if at least one of the downstream builds were marked FAILED.
