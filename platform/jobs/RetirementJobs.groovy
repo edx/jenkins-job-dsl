@@ -374,6 +374,11 @@ job('retirement-partner-reporter') {
 
     // Only one of these jobs should be running at a time per environment
     concurrentBuild(true)
+    throttleConcurrentBuilds {
+        // A maxTotal of 0 implies unlimited simultaneous jobs, but below we
+        // restrict one build per environment.
+        maxTotal(0)
+    }
     configure { project ->
         project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
             'paramsToUseForLimit'('ENVIRONMENT')
@@ -459,6 +464,131 @@ job('retirement-partner-reporter') {
                     attachBuildLog(false)  // build log contains PII!
                     compressBuildLog(false)  // build log contains PII!
                     subject('Failed build: retirement-partner-reporter #${BUILD_NUMBER}')
+                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
+                    contentType('text/plain')
+                    sendTo {
+                        recipientList()
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ########### retirement-partner-report-cleanup ###########
+// Defines the job for running partner reporting
+job('retirement-partner-report-cleanup') {
+    description('Run the partner report cleanup job.')
+
+    authorization {
+        blocksInheritance(true)
+        // Only core teams have full control of the reporter.
+        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
+        membersWithFullControl.each { emp ->
+            permissionAll(emp)
+        }
+        // Other engineering teams can view.
+        List extraMembersCanView = ['edx*learner']
+        extraMembersCanView.each { emp ->
+            permission('hudson.model.Item.Read', emp)
+            permission('hudson.model.Item.Discover', emp)
+        }
+    }
+
+    // This label is configured to disallow more than one simultaneous job
+    // per instance, and generally there are always available jenkins-worker
+    // instances idling.
+    label('jenkins-worker')
+
+    // Only one of these jobs should be running at a time per environment
+    concurrentBuild(true)
+    throttleConcurrentBuilds {
+        // A maxTotal of 0 implies unlimited simultaneous jobs, but below we
+        // restrict one build per environment.
+        maxTotal(0)
+    }
+    configure { project ->
+        project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
+            'paramsToUseForLimit'('ENVIRONMENT')
+        project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
+            'limitOneJobWithMatchingParams'('true')
+    }
+
+    // keep jobs around for 30 days
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
+
+    wrappers {
+        buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
+        buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
+        timestamps()
+        colorizeOutput('xterm')
+        credentialsBinding {
+            file('USER_RETIREMENT_SECURE_DEFAULT', 'user-retirement-secure-default.yml')
+        }
+    }
+
+    parameters {
+        stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
+        stringParam('ENVIRONMENT', 'secure-default', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
+        stringParam('AGE_IN_DAYS', '60', 'Number of days to keep partner reports.')
+    }
+
+    // retry cloning repositories
+    checkoutRetryCount(5)
+
+    multiscm {
+        git {
+            remote {
+                url('git@github.com:edx-ops/user-retirement-secure.git')
+                credentials('jenkins-worker')
+            }
+            branch('master')
+            extensions {
+                relativeTargetDirectory('user-retirement-secure')
+                cloneOptions {
+                    shallow()
+                    timeout(10)
+                }
+                cleanBeforeCheckout()
+            }
+        }
+        git {
+            remote {
+                url('https://github.com/edx/tubular.git')
+            }
+            branch('$TUBULAR_BRANCH')
+            extensions {
+                relativeTargetDirectory('tubular')
+                cloneOptions {
+                    shallow()
+                    timeout(10)
+                }
+                cleanBeforeCheckout()
+            }
+        }
+    }
+
+    steps {
+        virtualenv {
+            name('retirement-partner-report-cleanup')
+            nature('shell')
+            command(readFileFromWorkspace('platform/resources/retirement-partner-report-cleanup.sh'))
+        }
+    }
+
+    publishers {
+        // After all the build steps have completed, cleanup the workspace in
+        // case this worker instance is re-used for a different job.
+        wsCleanup()
+
+        // Send an alerting email upon failure.
+        extendedEmail {
+            recipientList(mailingListMap['retirement_jobs_mailing_list'])
+            triggers {
+                failure {
+                    attachBuildLog(false)  // build log contains PII!
+                    compressBuildLog(false)  // build log contains PII!
+                    subject('Failed build: retirement-partner-report-cleanup #${BUILD_NUMBER}')
                     content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
                     contentType('text/plain')
                     sendTo {
