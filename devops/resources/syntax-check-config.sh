@@ -32,7 +32,7 @@ else
   FAIL=1
 fi
 
-for i in `find $GREP_DIR -name "*.yml" | sed '/ansible/d'`
+for i in `find $WORKSPACE -name "*.yml" | sed '/ansible/d'`
   do
     /usr/bin/python2.7 -c "import sys,yaml; yaml.load(open('$i'))" $i > /dev/null
     if [[ $? -ne 0 ]]; then
