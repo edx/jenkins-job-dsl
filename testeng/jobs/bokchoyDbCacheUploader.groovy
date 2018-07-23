@@ -124,6 +124,9 @@ secretMap.each { jobConfigs ->
         }
 
         wrappers {
+            timeout {
+                absolute(20)
+            }
             credentialsBinding {
                 string('GITHUB_TOKEN', 'GITHUB_CACHE_UPLOADER_TOKEN')
             }
