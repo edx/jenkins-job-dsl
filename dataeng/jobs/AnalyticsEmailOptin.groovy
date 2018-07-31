@@ -155,7 +155,7 @@ job ('analytics-email-optin-master') {
         virtualenv {
             nature("shell")
             command(
-                readFileFromWorkspace("dataeng/resources/setup-exporter-properties.sh")
+                readFileFromWorkspace("dataeng/resources/setup-exporter-email-optin.sh")
             )
         }
         downstreamParameterized {
