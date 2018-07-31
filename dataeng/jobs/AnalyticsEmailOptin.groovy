@@ -40,6 +40,10 @@ job ('analytics-email-optin-worker') {
         stringParam('PLATFORM_VENV')
     }
 
+    logRotator {
+        daysToKeep(30)
+    }
+
     throttleConcurrentBuilds {
         maxPerNode(5)
         maxTotal(5)
@@ -141,6 +145,10 @@ job ('analytics-email-optin-master') {
         }
     }
 
+    triggers{
+        cron('# Saturdays around 4 a.m. UTC\nH 4 * * 6')
+    }
+
     wrappers {
         timestamps()
     }
@@ -154,8 +162,9 @@ job ('analytics-email-optin-master') {
         }
         virtualenv {
             nature("shell")
+            name("analytics-exporter")
             command(
-                readFileFromWorkspace("dataeng/resources/setup-exporter-properties.sh")
+                readFileFromWorkspace("dataeng/resources/setup-exporter-email-optin.sh")
             )
         }
         downstreamParameterized {
