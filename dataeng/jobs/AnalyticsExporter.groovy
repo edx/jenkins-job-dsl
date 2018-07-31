@@ -148,7 +148,7 @@ job ('analytics-exporter-slave') {
     }
 
     publishers {
-        textFinder("\[WARNING\]", '', true, false, true)
+        textFinder("\\[WARNING\\]", '', true, false, true)
     }
 
 }
