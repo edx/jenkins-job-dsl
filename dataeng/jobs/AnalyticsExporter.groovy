@@ -232,24 +232,24 @@ job ('analytics-exporter-master') {
                 readFileFromWorkspace("dataeng/resources/setup-exporter.sh")
             )
         }
-    }
 
-    downstreamParameterized {
-        trigger('analytics-exporter-slave') {
-            block {
-                buildStepFailure('FAILURE')
-                failure('FAILURE')
-                unstable('UNSTABLE')
-            }
-            parameters {
-                predefinedProp('MASTER_WORKSPACE', '${WORKSPACE}')
-                predefinedProp('NOTIFICATION_EMAILS', '${NOTIFICATION_EMAILS}')
-            }
-            parameterFactories {
-                fileBuildParameterFactory {
-                   filePattern('organizations/*')
-                   encoding('UTF-8')
-                   noFilesFoundAction('SKIP')
+        downstreamParameterized {
+            trigger('analytics-exporter-slave') {
+                block {
+                    buildStepFailure('FAILURE')
+                    failure('FAILURE')
+                    unstable('UNSTABLE')
+                }
+                parameters {
+                    predefinedProp('MASTER_WORKSPACE', '${WORKSPACE}')
+                    predefinedProp('NOTIFICATION_EMAILS', '${NOTIFICATION_EMAILS}')
+                }
+                parameterFactories {
+                    fileBuildParameterFactory {
+                       filePattern('organizations/*')
+                       encoding('UTF-8')
+                       noFilesFoundAction('SKIP')
+                    }
                 }
             }
         }
