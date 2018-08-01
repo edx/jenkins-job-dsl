@@ -599,3 +599,123 @@ job('retirement-partner-report-cleanup') {
         }
     }
 }
+
+// ########### user-retirement-bulk-status ###########
+// This defines the retirement bulk status change job for users in the retirement queue.
+job('user-retirement-bulk-status') {
+    description('Moves learners in the retirement queue from one retirement state to another.')
+
+    // Only a subset of edx employees should be allowed to control this job,
+    // but customer support can read and discover.
+    authorization {
+        blocksInheritance(true)
+        // Only core teams can run the retirement collector directly.
+        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
+        membersWithFullControl.each { emp ->
+            permissionAll(emp)
+        }
+        // Other engineering teams can view.
+        List extraMembersCanView = ['edx*educator-all', 'edx*learner']
+        extraMembersCanView.each { emp ->
+            permission('hudson.model.Item.Read', emp)
+            permission('hudson.model.Item.Discover', emp)
+        }
+    }
+
+    // The jenkins-worker is intended for platform workers, but they'll work
+    // well for this job, at least for now.  Specifically, this label is
+    // configured to disallow more than one simultaneous job per instance, and
+    // generally there are always available jenkins-worker instances idling.
+    label('jenkins-worker')
+
+    // Only one of these should run at a time.
+    concurrentBuild(false)
+
+    // keep jobs around for 30 days
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
+
+    wrappers {
+        buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
+        buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
+        timestamps()
+        colorizeOutput('xterm')
+        credentialsBinding {
+            file('USER_RETIREMENT_SECURE_DEFAULT', 'user-retirement-secure-default.yml')
+        }
+    }
+
+    parameters {
+        stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
+        stringParam('ENVIRONMENT', 'secure-default', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
+        stringParam('START_DATE', '', 'Find users that requested deletion starting with this day (YYYY-MM-DD).')
+        stringParam('END_DATE', '', 'Find users that requested deletion ending with this day (YYYY-MM-DD). To select one day make the start and end dates the same.')
+        stringParam('INITIAL_STATE_NAME', '', 'Find retiring learners in this state (ex: COMPLETE)')
+        stringParam('NEW_STATE_NAME', '', 'Set the found learners to this state (ex: PENDING)')
+    }
+
+    // retry cloning repositories
+    checkoutRetryCount(5)
+
+    multiscm {
+        git {
+            remote {
+                url('git@github.com:edx-ops/user-retirement-secure.git')
+                credentials('jenkins-worker')
+            }
+            branch('master')
+            extensions {
+                relativeTargetDirectory('user-retirement-secure')
+                cloneOptions {
+                    shallow()
+                    timeout(10)
+                }
+                cleanBeforeCheckout()
+            }
+        }
+        git {
+            remote {
+                url('https://github.com/edx/tubular.git')
+            }
+            branch('$TUBULAR_BRANCH')
+            extensions {
+                relativeTargetDirectory('tubular')
+                cloneOptions {
+                    shallow()
+                    timeout(10)
+                }
+                cleanBeforeCheckout()
+            }
+        }
+    }
+
+    steps {
+        // This step calls the shell script which talks to LMS
+        virtualenv {
+            name('user-retirement-bulk-status')
+            nature('shell')
+            command(readFileFromWorkspace('platform/resources/user-retirement-bulk-status.sh'))
+        }
+    }
+    publishers {
+        // After all the build steps have completed, cleanup the workspace in
+        // case this worker instance is re-used for a different job.
+        wsCleanup()
+
+        // Send an alerting email upon failure.
+        extendedEmail {
+            recipientList(mailingListMap['retirement_jobs_mailing_list'])
+            triggers {
+                failure {
+                    attachBuildLog(false)  // build log contains PII!
+                    compressBuildLog(false)  // build log contains PII!
+                    subject('Failed build: user-retirement-bulk-status #${BUILD_NUMBER}')
+                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
+                    contentType('text/plain')
+                    sendTo {
+                        recipientList()
+                    }
+                }
+            }
+        }
+    }
+}
