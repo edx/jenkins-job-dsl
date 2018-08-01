@@ -58,6 +58,7 @@ Map publicJobConfig = [
     context: 'jenkins/quality',
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     defaultTestengBranch: 'master',
+    targetBranch: 'origin/master',
     diffJob: 'edx-platform-quality-diff'
 ]
 
@@ -71,6 +72,7 @@ Map privateJobConfig = [
     context: 'jenkins/quality',
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     defaultTestengBranch: 'master',
+    targetBranch: 'origin/security-release',
     diffJob: 'edx-platform-quality-diff_private'
 ]
 
@@ -84,6 +86,7 @@ Map hawthornJobConfig = [
     context: 'jenkins/hawthorn/quality',
     triggerPhrase: /.*hawthorn\W+run\W+quality.*/,
     defaultTestengBranch: 'origin/open-release/hawthorn.master',
+    targetBranch: 'origin/open-release/hawthorn.master',
     diffJob: 'edx-platform-quality-diff'
 ]
 
@@ -97,6 +100,7 @@ Map python3JobConfig = [
     context: 'jenkins/python3.5/quality',
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+quality.*/,
     defaultTestengBranch: 'master',
+    targetBranch: 'origin/master',
     diffJob: 'edx-platform-quality-diff',
     commentOnly: true,
     toxEnv: 'py35-django111'
@@ -127,7 +131,7 @@ jobConfigs.each { jobConfig ->
             env('SUBSET_JOB', jobConfig.subsetJob)
             env('REPO_NAME', jobConfig.repoName)
             env('DIFF_JOB', jobConfig.diffJob)
-            env('TARGET_BRANCH', 'origin/master')
+            env('TARGET_BRANCH', jobConfig.targetBranch)
             env('TOX_ENV', jobConfig.toxEnv)
         }
         parameters {
