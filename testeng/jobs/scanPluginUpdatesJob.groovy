@@ -14,7 +14,7 @@ job('scan-plugin-updates') {
     }
 
     logRotator JENKINS_PUBLIC_LOG_ROTATOR()
-    label('jenkins-worker')
+    label('master')
     concurrentBuild(false)
 
     scm {
@@ -38,9 +38,7 @@ job('scan-plugin-updates') {
     }
 
     steps {
-        groovyScriptFile('scripts/scanPluginUpgrades.groovy') {
-            groovyInstallation('groovy')
-        }
+        systemGroovyScriptFile('jenkins-configuration/scripts/scanPluginUpgrades.groovy')
     }
 
     publishers {
