@@ -222,7 +222,7 @@ class CreateSandbox {
 
                 stringParam("environment","sandbox","")
 
-                stringParam("instance_type","t2.large","We have reservations for the default size to keep costs down, please don't change this to something larger without talking to devops")
+                stringParam("instance_type","r5.large","We have reservations for the default size to keep costs down, please don't change this to something larger without talking to devops")
 
                 stringParam("ami","","Leave blank to use the default ami for your server type.")
 
