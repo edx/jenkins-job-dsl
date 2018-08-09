@@ -95,8 +95,9 @@ job ('analytics-exporter-course') {
         }
         virtualenv {
             nature("shell")
+            name("analytics-exporter")
             command(
-                readFileFromWorkspace("dataeng/resources/setup-course-exporter.sh")
+                readFileFromWorkspace("dataeng/resources/run-course-exporter.sh")
             )
         }
     }
@@ -144,10 +145,11 @@ job ('analytics-exporter-slave') {
     }
 
     steps {
-        shell(readFileFromWorkspace("dataeng/resources/course-exporter-worker.sh"))
+        shell(readFileFromWorkspace("dataeng/resources/org-exporter-worker.sh"))
     }
 
     publishers {
+        // Mark the build as 'unstable' if the text is found in 'console log'.
         textFinder("\\[WARNING\\]", '', true, false, true)
     }
 
@@ -228,6 +230,7 @@ job ('analytics-exporter-master') {
         }
         virtualenv {
             nature("shell")
+            name("analytics-exporter")
             command(
                 readFileFromWorkspace("dataeng/resources/setup-exporter.sh")
             )

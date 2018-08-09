@@ -5,7 +5,7 @@ mkdir -p ${WORKING_DIRECTORY}/course-data
 # Install requirements into this (exporter) virtual environment
 pushd analytics-exporter/
 pip install -r github_requirements.txt
-pip install --allow-external mysql-connector-python -e .
+pip install mysql-connector-python -e .
 popd
 
 # Get name of other (platform) virtual environment
