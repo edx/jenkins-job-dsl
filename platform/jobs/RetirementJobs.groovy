@@ -160,6 +160,14 @@ job('user-retirement-driver') {
         }
     }
 
+    environmentVariables {
+        // Make sure that when we try to write unicode to the console, it
+        // correctly encodes to UTF-8 rather than exiting with a UnicodeEncode
+        // error.
+        env('PYTHONIOENCODING', 'UTF-8')
+        env('LC_CTYPE', 'en_US.UTF-8')
+    }
+
     steps {
         virtualenv {
             name('user-retirement-driver')
@@ -283,6 +291,12 @@ job('user-retirement-collector') {
 
     environmentVariables {
         env('LEARNERS_TO_RETIRE_PROPERTIES_DIR', '${WORKSPACE}/learners-to-retire')
+
+        // Make sure that when we try to write unicode to the console, it
+        // correctly encodes to UTF-8 rather than exiting with a UnicodeEncode
+        // error.
+        env('PYTHONIOENCODING', 'UTF-8')
+        env('LC_CTYPE', 'en_US.UTF-8')
     }
 
     steps {
@@ -441,6 +455,12 @@ job('retirement-partner-reporter') {
 
     environmentVariables {
         env('PARTNER_REPORTS_DIR', '${WORKSPACE}/partner-reports')
+
+        // Make sure that when we try to write unicode to the console, it
+        // correctly encodes to UTF-8 rather than exiting with a UnicodeEncode
+        // error.
+        env('PYTHONIOENCODING', 'UTF-8')
+        env('LC_CTYPE', 'en_US.UTF-8')
     }
 
     steps {
