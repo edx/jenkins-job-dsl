@@ -1,5 +1,5 @@
 # Create destination directory
-WORKING_DIRECTORY=/mnt/ephemeral-01/analytics-course-exporter
+WORKING_DIRECTORY=/var/lib/jenkins/tmp/analytics-course-exporter
 mkdir -p ${WORKING_DIRECTORY}/course-data
 
 # Install requirements into this (exporter) virtual environment

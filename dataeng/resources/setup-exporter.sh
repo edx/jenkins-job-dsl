@@ -5,7 +5,7 @@ if [ $DAYOFWEEK != 7 ]; then
 fi
 
 # Create destination directory
-mkdir -p /mnt/ephemeral-01/analytics-exporter/course-data
+mkdir -p /var/lib/jenkins/tmp/analytics-exporter/course-data
 
 # Install requirements into this (exporter) virtual environment
 pushd analytics-exporter/
