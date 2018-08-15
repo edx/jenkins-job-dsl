@@ -9,6 +9,12 @@ pushd edx-platform
 pip install --exists-action w -r requirements/edx/pre.txt
 pip install --exists-action w -r requirements/edx/django.txt
 pip install --exists-action w -r requirements/edx/base.txt
+
+# Remove if https://github.com/edx/edx-platform/pull/7465 has been merged
+if [[ -f requirements/edx/post.txt ]]; then
+  pip install --exists-action w -r requirements/edx/post.txt
+fi
+
 pip install --exists-action w -r requirements/edx/github.txt
 pip install --exists-action w -r requirements/edx/local.txt
 popd
