@@ -10,7 +10,7 @@ mkdir -p /var/lib/jenkins/tmp/analytics-exporter/course-data
 # Install requirements into this (exporter) virtual environment
 pushd analytics-exporter/
 pip install -r github_requirements.txt
-pip install --allow-external mysql-connector-python -e .
+pip install mysql-connector-python -e .
 popd
 
 # Configuration paths in analytics-secure
