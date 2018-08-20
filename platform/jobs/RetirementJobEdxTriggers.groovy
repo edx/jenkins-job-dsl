@@ -24,7 +24,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edge',
         extraMembersCanBuild: [],
         cron: 'H * * * *',  // Hourly at an arbitrary, but consistent minute.
-        disabled: true
+        disabled: false
     ],
     [
         downstreamJobName: 'retirement-partner-reporter',
