@@ -110,7 +110,7 @@ class AppPermissionsRunner {
 
                     if (extraVars.get('NOTIFY_ON_FAILURE')){
                         publishers {
-                            mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
+                            mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, true)
                         }
                     }
 
