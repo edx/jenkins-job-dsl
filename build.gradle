@@ -10,6 +10,7 @@ sourceSets {
             srcDir 'platform/jobs'
             srcDir 'testeng/jobs'
             srcDir 'mobileApp/jobs'
+            srcDir 'dataeng/jobs'
         }
     }
     views {
