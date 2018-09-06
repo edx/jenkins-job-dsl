@@ -75,6 +75,25 @@ class JenkinsPublicConstants {
     }
   }
 
+  public static final Closure GENERAL_SLACK_STATUS = {
+    return {
+        it /
+            publishers /
+            'jenkins.plugins.slack.SlackNotifier' {
+                startNotification false
+                notifySuccess false
+                notifyAborted true
+                notifyNotBuilt false
+                notifyUnstable true
+                notifyRegression false
+                notifyFailure true
+                notifyBackToNormal true
+                notifyRepeatedFailure true
+            }
+    }
+  }
+
+
     /* Parse data out of the Jenkins secret file referenced with env var "secretFileVariable" */
     /* Secret files are in YAML format, so parse their k:v into a a Map */
     public static final Closure JENKINS_PUBLIC_PARSE_SECRET = { secretFileVariable, envVarsMap, out ->

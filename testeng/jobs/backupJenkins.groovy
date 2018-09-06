@@ -3,6 +3,7 @@ package testeng
 import hudson.util.Secret
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 
 Map config = [:]
 Binding bindings = getBinding()
@@ -128,6 +129,9 @@ secretMap.each { jobConfigs ->
             }
             // alert team of failures via hipchat & email
             hipChatNotifier JENKINS_PUBLIC_HIPCHAT(jobConfig['hipchat'])
+            configure GENERAL_SLACK_STATUS()
+
+
             mailer(jobConfig['email'])
             // fail the build if the snapshot command does not correctly trigger a snapshot
             // requires "textFinder plugin"
