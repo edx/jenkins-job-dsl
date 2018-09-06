@@ -76,9 +76,11 @@ dependencies {
     testCompile 'org.jgrapht:jgrapht-jdk1.5:0.7.3'
     testCompile 'org.jenkins-ci.plugins:cloudbees-folder:5.18@jar'
     testCompile 'org.jvnet.hudson.plugins:hipchat:0.1.9@jar'
+    testCompile 'org.jenkins-ci.plugins:slack:2.2@jar'
 
     // Plugins to install in test instance
     testPlugins 'com.cloudbees.plugins:build-flow-plugin:0.20'
+    testCompile 'org.jenkins-ci.plugins:slack:2.2'
 }
 
 codenarc {
