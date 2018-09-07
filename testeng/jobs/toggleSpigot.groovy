@@ -121,6 +121,22 @@ secretMap.each { jobConfigs ->
                 notifyUnstable(false)
                 startNotification(false)
             }
+            configure {
+                it / publishers / 'jenkins.plugins.slack.SlackNotifier' {
+                    startNotification false
+                    notifySuccess true
+                    notifyAborted false
+                    notifyNotBuilt false
+                    notifyUnstable false
+                    notifyRegression false
+                    notifyFailure false
+                    notifyBackToNormal false
+                    notifyRepeatedFailure false
+                    includeCustomMessage true
+                    customMessage '@channel The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)'
+                    room 'TestEngineering'
+                }
+            }
         }
     }
 }
