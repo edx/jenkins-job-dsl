@@ -1,5 +1,6 @@
 import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
+import static analytics.UserActivity.job as UserActivityJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -21,8 +22,7 @@ try {
 }
 
 def taskList = [
-    AnalyticsEmailOptinJob,
-    AnalyticsExporterJob
+    UserActivityJob
 ]
 
 for (task in taskList) {
