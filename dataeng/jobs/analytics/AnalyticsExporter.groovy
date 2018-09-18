@@ -1,7 +1,7 @@
 package analytics
 
 class AnalyticsExporter {
-    public static def job = { dslFactory, extraVars ->
+    public static def job = { dslFactory, allVars ->
         dslFactory.job('analytics-exporter-course') {
             parameters {
                 stringParam('COURSES', '', 'Space separated list of courses to process. E.g. --course=course-v1:BerkleeX+BMPR365_3x+1T2015')
@@ -40,7 +40,7 @@ class AnalyticsExporter {
                 }
                 git {
                     remote {
-                        url(extraVars.get('SECURE_REPO_URL'))
+                        url(allVars.get('SECURE_REPO_URL'))
                         branch('$SECURE_BRANCH')
                         credentials('1')
                     }
@@ -51,7 +51,7 @@ class AnalyticsExporter {
                 }
                 git {
                     remote {
-                        url(extraVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
+                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
                         branch('*/master')
                         credentials('1')
                     }
@@ -112,7 +112,7 @@ class AnalyticsExporter {
             multiscm {
                 git {
                     remote {
-                        url(extraVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
+                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
                         branch('*/master')
                         credentials('1')
                     }
@@ -122,7 +122,7 @@ class AnalyticsExporter {
                 }
                 git {
                     remote {
-                        url(extraVars.get('SECURE_REPO_URL'))
+                        url(allVars.get('SECURE_REPO_URL'))
                         branch('$SECURE_BRANCH')
                         credentials('1')
                     }
@@ -155,8 +155,8 @@ class AnalyticsExporter {
                 stringParam('PLATFORM_BRANCH', 'aed/analytics-exporter-settings-hotfix', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('SECURE_BRANCH', 'release', 'Branch from the analytics-secure repository, where the configuration settings reside. For tags use tags/[tag-name]')
                 stringParam('CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
-                stringParam('OUTPUT_BUCKET', extraVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
-                stringParam('NOTIFICATION_EMAILS', extraVars.get('EXTENDED_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
+                stringParam('OUTPUT_BUCKET', allVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
+                stringParam('NOTIFICATION_EMAILS', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER', '', 'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 201x-0x-0x" if that is when the CWSM dump took place.  (Leave off quotes.)')
                 stringParam('EXTRA_OPTIONS', '--exclude-task=OrgEmailOptInTask', 'e.g. --exclude-task=OrgEmailOptInTask')
                 stringParam('ORG_CONFIG', 'data-czar-keys/config.yaml', 'Path to the data-czar organization config file.')
@@ -188,7 +188,7 @@ class AnalyticsExporter {
                 }
                 git {
                     remote {
-                        url(extraVars.get('SECURE_REPO_URL'))
+                        url(allVars.get('SECURE_REPO_URL'))
                         branch('$SECURE_BRANCH')
                         credentials('1')
                     }
@@ -199,7 +199,7 @@ class AnalyticsExporter {
                 }
                 git {
                     remote {
-                        url(extraVars.get('DATA_CZAR_KEYS_REPO_URL'))
+                        url(allVars.get('DATA_CZAR_KEYS_REPO_URL'))
                         branch('$DATA_CZAR_KEYS_BRANCH')
                         credentials('1')
                     }
