@@ -22,24 +22,24 @@ try {
 }
 
 def taskMap = [
-    ANALYTICS_EMAIL_OPTIN_JOB: AnalyticsEmailOptinJob,
+/*    ANALYTICS_EMAIL_OPTIN_JOB: AnalyticsEmailOptinJob,
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
-    VIDEO_TIMELINE_JOB: VideoTimelineJob,
-    USER_ACTIVITY_JOB: UserActivityJob,
+*/    VIDEO_TIMELINE_JOB: VideoTimelineJob,
+/*    USER_ACTIVITY_JOB: UserActivityJob,*/
 ]
 
 for (task in taskMap) {
     def extraVarsFileName = task.key + '_EXTRA_VARS.yaml'
     def extraVarsFilePath = commonVarsDir + extraVarsFileName
     Map extraVars = [:]
-    try {
+/*    try {*/
         String extraVarsContents = readFileFromWorkspace(extraVarsFilePath)
         Yaml yaml = new Yaml()
         extraVars = yaml.load(extraVarsContents)
-    }
-    catch (Exception e) {
+/*    }*/
+/*    catch (Exception e) {*/
         out.println("File $extraVarsFileName does not exist, skipping.")
-    }
+/*    }*/
 
     out.println(commonConfigMap)
     out.println(extraVars)
