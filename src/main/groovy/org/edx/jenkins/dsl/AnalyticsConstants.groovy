@@ -53,7 +53,7 @@ class AnalyticsConstants {
             stringParam('EMR_WORKER_INSTANCE_TYPE_1', extraVars.get('EMR_WORKER_INSTANCE_TYPE_1', 'm4.2xlarge'), 'EC2 instance type used by workers.')
             stringParam('EMR_WORKER_INSTANCE_TYPE_2', extraVars.get('EMR_WORKER_INSTANCE_TYPE_2', 'm4.4xlarge'), 'EC2 instance type used by workers.')
             stringParam('EMR_ADDITIONAL_APPLICATION_PROPERTIES', extraVars.get('EMR_ADDITIONAL_APPLICATION_PROPERTIES', ' '), 'Additional configuration properties for applications. Use blank space as default value.')
-            stringParam('EMR_MAPRED_SITE_PROPERTIES', extraVars.get('EMR_MAPRED_SITE_PROPERTIES', ' '), 'Additional hadoop mapred-site properties. Use blank space as default value.')
+            textParam('EMR_MAPRED_SITE_PROPERTIES', extraVars.get('EMR_MAPRED_SITE_PROPERTIES', ' '), 'Additional hadoop mapred-site properties. Use blank space as default value.')
             stringParam('EMR_YARN_SITE_PROPERTIES', extraVars.get('EMR_YARN_SITE_PROPERTIES', ' '), 'Additional hadoop yarn-site properties. Use blank space as default value.')
             stringParam('CONFIG_BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
             stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
