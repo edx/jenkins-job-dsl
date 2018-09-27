@@ -55,9 +55,9 @@ class AnalyticsConstants {
             stringParam('EMR_WORKER_INSTANCE_TYPE_1', extraVars.get('EMR_WORKER_INSTANCE_TYPE_1', 'm4.2xlarge'), 'EC2 instance type used by workers.')
             stringParam('EMR_WORKER_INSTANCE_TYPE_2', extraVars.get('EMR_WORKER_INSTANCE_TYPE_2', 'm4.4xlarge'), 'EC2 instance type used by workers.')
             textParam('EMR_HADOOP_ENV_CONFIG', extraVars.get('EMR_HADOOP_ENV_CONFIG'), 'EMR Hadoop env configuration.')
-            textParam('EMR_MAPRED_SITE_PROPERTIES', extraVars.get('EMR_MAPRED_SITE_PROPERTIES'), 'EMR mapred-site configuration')
-            textParam('EMR_YARN_SITE_PROPERTIES', extraVars.get('EMR_YARN_SITE_PROPERTIES'), 'EMR yarn-site configuration.')
-            textParam('EXTRA_VARS', extraVars.get('AWS_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
+            textParam('EMR_MAPRED_SITE_CONFIG', extraVars.get('EMR_MAPRED_SITE_CONFIG'), 'EMR mapred-site configuration')
+            textParam('EMR_YARN_SITE_CONFIG', extraVars.get('EMR_YARN_SITE_CONFIG'), 'EMR yarn-site configuration.')
+            textParam('EXTRA_VARS', extraVars.get('EMR_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
 This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
             stringParam('NOTIFY', '$PAGER_NOTIFY', 'Number of EMR instances to use for this job.')
             stringParam('NUM_TASK_CAPACITY', extraVars.get('NUM_TASK_CAPACITY'), 'Number of EMR instance capacity to use for this job.')
