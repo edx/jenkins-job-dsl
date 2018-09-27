@@ -41,5 +41,9 @@ for (task in taskMap) {
         out.println("File $extraVarsFileName does not exist, skipping.")
     }
 
+    out.println(commonConfigMap)
+    out.println(extraVars)
+    def x = commonConfigMap + extraVars
+    out.println(x)
     task.value(this, commonConfigMap + extraVars)
 }
