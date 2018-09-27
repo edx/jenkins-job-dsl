@@ -49,15 +49,16 @@ class AnalyticsConstants {
     public static def common_parameters = { extraVars ->
         return {
             stringParam('CLUSTER_NAME', extraVars.get('CLUSTER_NAME'), 'Name of the EMR cluster to use for this job.')
+            stringParam('CONFIG_BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
+            stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
             stringParam('EMR_MASTER_INSTANCE_TYPE', extraVars.get('EMR_MASTER_INSTANCE_TYPE', 'm4.2xlarge'), 'EC2 Instance type used for master.')
             stringParam('EMR_WORKER_INSTANCE_TYPE_1', extraVars.get('EMR_WORKER_INSTANCE_TYPE_1', 'm4.2xlarge'), 'EC2 instance type used by workers.')
             stringParam('EMR_WORKER_INSTANCE_TYPE_2', extraVars.get('EMR_WORKER_INSTANCE_TYPE_2', 'm4.4xlarge'), 'EC2 instance type used by workers.')
-            stringParam('EMR_ADDITIONAL_APPLICATION_PROPERTIES', extraVars.get('EMR_ADDITIONAL_APPLICATION_PROPERTIES', ' '), 'Additional configuration properties for applications. Use blank space as default value.')
-            textParam('EMR_MAPRED_SITE_PROPERTIES', extraVars.get('EMR_MAPRED_SITE_PROPERTIES', ' '), 'Additional hadoop mapred-site properties. Use blank space as default value.')
-            stringParam('EMR_YARN_SITE_PROPERTIES', extraVars.get('EMR_YARN_SITE_PROPERTIES', ' '), 'Additional hadoop yarn-site properties. Use blank space as default value.')
-            stringParam('CONFIG_BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
-            stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
-            textParam('EXTRA_VARS', extraVars.get('AWS_EXTRA_VARS', ''))
+            textParam('EMR_HADOOP_ENV_CONFIG', extraVars.get('EMR_HADOOP_ENV_CONFIG'), 'EMR Hadoop env configuration.')
+            textParam('EMR_MAPRED_SITE_PROPERTIES', extraVars.get('EMR_MAPRED_SITE_PROPERTIES'), 'EMR mapred-site configuration')
+            textParam('EMR_YARN_SITE_PROPERTIES', extraVars.get('EMR_YARN_SITE_PROPERTIES'), 'EMR yarn-site configuration.')
+            textParam('EXTRA_VARS', extraVars.get('AWS_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
+This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
             stringParam('NOTIFY', '$PAGER_NOTIFY', 'Number of EMR instances to use for this job.')
             stringParam('NUM_TASK_CAPACITY', extraVars.get('NUM_TASK_CAPACITY'), 'Number of EMR instance capacity to use for this job.')
             stringParam('SECURE_BRANCH', '$ANALYTICS_SECURE_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_SECURE_RELEASE when released.')
