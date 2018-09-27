@@ -64,6 +64,35 @@ class AnalyticsConstants {
         }
     }
 
+    public static def date_interval_parameters = { extraVars ->
+      return {
+        stringParam('FROM_DATE', extraVars.get('FROM_DATE', '2013-11-01'),
+          'The first date to export data for. Data for this date and all days before the "TO_DATE" parameter' +
+          ' will be included.' + $/
+  Format: A string that can be parsed by the GNU coreutils "date" utility.
+
+  Examples:
+  * today
+  * yesterday
+  * 3 days ago
+  * 1 week ago
+  * 2013-11-01
+  /$)
+        stringParam('TO_DATE', extraVars.get('TO_DATE', 'today'),
+          'The day after the last date to export data for. Data from the "FROM_DATE" parameter to 11:59:59' +
+          ' on the date before this date will be included.' + $/
+  Format: A string that can be parsed by the GNU coreutils "date" utility.
+
+  Examples:
+  * today
+  * yesterday
+  * 3 days ago
+  * 1 week ago
+  * 2017-11-01
+  /$)
+      }
+    }
+
     public static def common_wrappers = { extraVars ->
         return {
             sshAgent('1')
