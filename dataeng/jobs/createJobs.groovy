@@ -91,3 +91,19 @@ listView('Release') {
         buildButton()
     }
 }
+
+listView('Exporter') {
+    description('Jobs that are used for exporting course data.')
+    jobs {
+        regex('analytics-.+')
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+}
