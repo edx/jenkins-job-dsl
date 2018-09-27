@@ -1,5 +1,6 @@
 import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
+import static analytics.Enrollment.job as EnrollmentJob
 import static analytics.UserActivity.job as UserActivityJob
 import static analytics.VideoTimeline.job as VideoTimelineJob
 import org.yaml.snakeyaml.Yaml
