@@ -21,7 +21,7 @@ class VideoTimeline {
                 publishers common_publishers(extraVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/video-timeline.sh'))
-                    shell('curl https://nosnch.in/' + config.get('SNITCH'))
+                    shell('curl https://nosnch.in/' + env_config.get('SNITCH'))
                 }
             }
         }
