@@ -43,3 +43,51 @@ for (task in taskMap) {
 
     task.value(this, commonConfigMap + extraVars)
 }
+
+listView('Production') {
+    description('Only for production jobs.')
+    jobs {
+        regex('.+production')
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+}
+
+listView('Edge') {
+    description('Only for Edge jobs.')
+    jobs {
+        regex('.+edge')
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+}
+
+listView('Release') {
+    description('Jobs that are used for testing release candidates.')
+    jobs {
+        regex('.+release')
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+}
