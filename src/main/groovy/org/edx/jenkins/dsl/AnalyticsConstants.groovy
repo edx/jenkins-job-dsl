@@ -46,6 +46,7 @@ class AnalyticsConstants {
             textParam('EMR_HADOOP_ENV_CONFIG', allVars.get('EMR_HADOOP_ENV_CONFIG'), 'EMR Hadoop env configuration.')
             textParam('EMR_MAPRED_SITE_CONFIG', allVars.get('EMR_MAPRED_SITE_CONFIG'), 'EMR mapred-site configuration')
             textParam('EMR_YARN_SITE_CONFIG', allVars.get('EMR_YARN_SITE_CONFIG'), 'EMR yarn-site configuration.')
+            stringParam('EMR_APPLICATIONS_CONFIG', allVars.get('EMR_APPLICATIONS_CONFIG'), 'Applications to install on EMR cluster.')
             textParam('EXTRA_VARS', allVars.get('EMR_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
 This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
             stringParam('NOTIFY', '$PAGER_NOTIFY', 'Number of EMR instances to use for this job.')
