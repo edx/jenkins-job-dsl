@@ -27,6 +27,7 @@ def taskMap = [
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
     USER_ACTIVITY_JOB: UserActivityJob,
+    ENROLLMENT_JOB: EnrollmentJob,
 ]
 
 for (task in taskMap) {
