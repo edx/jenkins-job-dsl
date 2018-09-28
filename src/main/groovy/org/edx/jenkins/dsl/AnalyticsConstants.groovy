@@ -101,4 +101,13 @@ This text may reference other parameters in the task as shell variables, e.g.  $
             mailer('$NOTIFY')
         }
     }
+
+    public static def common_triggers = { allVars, env=[:] ->
+        def job_frequency = env.get('JOB_FREQUENCY', allVars.get('JOB_FREQUENCY'))
+        if (job_frequency) {
+            return {
+                cron(job_frequency)
+            }
+        }
+    }
 }
