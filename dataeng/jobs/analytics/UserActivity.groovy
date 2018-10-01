@@ -11,6 +11,7 @@ class UserActivity {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("user-activity-$environment") {
+                //TODO: Remove this
                 disabled()
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, env_config)
