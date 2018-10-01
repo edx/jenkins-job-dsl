@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "x$NUM_REDUCE_TASKS" = "x" ]; then
-    NUM_REDUCE_TASKS=$(( $NUM_TASK_INSTANCES*2 ))
+    NUM_REDUCE_TASKS=$(( $NUM_TASK_CAPACITY*2 ))
 fi
 
 env
