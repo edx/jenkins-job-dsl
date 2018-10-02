@@ -40,7 +40,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edge',
         extraMembersCanBuild: [],
         cron: '30 8 * * 2',  // 09:30 UTC every Tuesday.
-        disabled: true
+        disabled: false
     ],
     [
         downstreamJobName: 'retirement-partner-report-cleanup',
