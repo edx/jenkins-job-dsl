@@ -11,6 +11,8 @@ class Enrollment {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("enrollment-$environment") {
+                //TODO: Remove this
+                disabled()
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, env_config)
                 parameters date_interval_parameters(allVars)
