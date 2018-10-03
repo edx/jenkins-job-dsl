@@ -2,6 +2,7 @@ import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.UserActivity.job as UserActivityJob
 import static analytics.VideoTimeline.job as VideoTimelineJob
+import static analytics.ModuleEngagement.job as ModuleEngagementJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -26,6 +27,7 @@ def taskMap = [
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
     USER_ACTIVITY_JOB: UserActivityJob,
+    MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
 ]
 
 for (task in taskMap) {
