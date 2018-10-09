@@ -20,3 +20,6 @@ hs_err_pid*
 
 # PyCharm files
 *.idea/
+
+# additional configuration overrides for provisioning a local Jenkins sandbox
+ansible_overrides.yml

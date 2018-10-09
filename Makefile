@@ -59,8 +59,15 @@ $(DOCKER_SERVICES:%=docker.running.%) : docker.running.% :
 # docker.configure.$service
 # This target picks up any user-specified ansible overrides, then reconfigures
 # and restarts the specified service container.
-docker.configure.jenkins_build : docker.configure.% : ansible_overrides.yml docker.running.%
-	docker cp ansible_overrides.yml $*:/ansible_overrides_extra.yml
+docker.configure.jenkins_build : docker.configure.% : docker.running.%
+# copy in user-specified ansible overrides. If no overrides specified, just
+# duplicate the overrides already in the container. This seems redundant,
+# but prevents us from having to write more complicated targets/recipes
+	@if [ -f ansible_overrides.yml ]; then\
+		docker cp ansible_overrides.yml $*:/ansible_overrides_extra.yml;\
+	else\
+		docker exec $* cp /ansible_overrides.yml /ansible_overrides_extra.yml;\
+	fi
 	# The jenkins:local-dev ansible tag is specific to jenkinses that use
 	# the jenkins_common role.
 	docker-compose exec $* /bin/bash -c "PYTHONUNBUFFERED=1 /edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook \
