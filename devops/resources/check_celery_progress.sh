@@ -15,4 +15,4 @@ if [[ ! -v THRESHOLDS ]]; then
     THRESHOLDS=""
 fi
 
-python ./check_celery_progress.py --ops-genie-api-key ${OPSGENIE_API_KEY} --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --host ${REDIS_HOST} ${THRESHOLDS}
+python ./check_celery_progress.py --opsgenie-api-key ${OPSGENIE_API_KEY} --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --host ${REDIS_HOST} ${THRESHOLDS}
