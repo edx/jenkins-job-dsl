@@ -103,7 +103,7 @@ class CheckCeleryProgress {
                             systemSitePackages(false)
 
                             command(
-                                dslFactory.readFileFromWorkspace("devops/resources/check_celery_progress.sh")
+                                dslFactory.readFileFromWorkspace("devops/resources/check_celery_progress/check_celery_progress.sh")
                             )update
 
                         }
