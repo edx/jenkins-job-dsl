@@ -91,7 +91,7 @@ Under advanced (On the far right of the UI) for 'Process Job DSLs' you need to a
 
 On a line like so:
 
-    CheckRedisJob(this, globals + extraVars.get('CHECK_REDIS_VARS'))
+    UpdateCeleryMonitoring(this, globals + extraVars.get('UPDATE_CELERY_MONITORING_VARS'))
 
 
 You need to change the build into a parameterized build
