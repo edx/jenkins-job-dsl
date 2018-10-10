@@ -15,4 +15,6 @@ if [[ ! -v THRESHOLDS ]]; then
     THRESHOLDS=""
 fi
 
-python ./update_celery_monitoring.py --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --host ${REDIS_HOST} ${THRESHOLDS}
+. ./assume-role.sh
+assume-role ${ROLE_ARN}
+python ./update_celery_monitoring.py --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --host ${REDIS_HOST} --sns-arn ${SNS_TOPIC} ${THRESHOLDS}
