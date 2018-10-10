@@ -1,7 +1,7 @@
 package analytics
 
 class AnalyticsEmailOptin {
-    public static def job = { dslFactory, extraVars ->
+    public static def job = { dslFactory, allVars ->
         dslFactory.job('analytics-email-optin-worker') {
             parameters {
                 stringParam('NOTIFICATION_EMAILS')
@@ -31,7 +31,7 @@ class AnalyticsEmailOptin {
             multiscm {
                 git {
                     remote {
-                        url(extraVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
+                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
                         branch('*/master')
                         credentials('1')
                     }
@@ -64,9 +64,9 @@ class AnalyticsEmailOptin {
                 stringParam('SECURE_BRANCH','release',
                         'Branch from the analytics-secure repository, where the configuration settings reside. For tags use tags/[tag-name]')
                 stringParam('CONFIG_FILENAME','default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
-                stringParam('OUTPUT_BUCKET', extraVars.get('EMAIL_OPTIN_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the email opt-in data.')
+                stringParam('OUTPUT_BUCKET', allVars.get('EMAIL_OPTIN_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the email opt-in data.')
                 stringParam('OUTPUT_PREFIX','email-opt-in-', 'Optional prefix to prepend to output filename.')
-                stringParam('NOTIFICATION_EMAILS', extraVars.get('EXTENDED_NOTIFY_LIST'),
+                stringParam('NOTIFICATION_EMAILS', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'),
                         'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER','',
                         'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 201x-0x-0x" if that is when the CWSM dump took place, typically the preceding Sunday.  (Leave off quotes.)')
@@ -99,7 +99,7 @@ class AnalyticsEmailOptin {
                 }
                 git {
                     remote {
-                        url(extraVars.get('SECURE_REPO_URL'))
+                        url(allVars.get('SECURE_REPO_URL'))
                         branch('$SECURE_BRANCH')
                         credentials('1')
                     }
@@ -110,7 +110,7 @@ class AnalyticsEmailOptin {
                 }
                 git {
                     remote {
-                        url(extraVars.get('DATA_CZAR_KEYS_REPO_URL'))
+                        url(allVars.get('DATA_CZAR_KEYS_REPO_URL'))
                         branch('$DATA_CZAR_KEYS_BRANCH')
                         credentials('1')
                     }
