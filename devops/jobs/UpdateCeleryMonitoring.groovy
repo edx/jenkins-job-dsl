@@ -29,14 +29,14 @@ import static org.edx.jenkins.dsl.Constants.common_logrotator
 import static org.edx.jenkins.dsl.DevopsTasks.common_parameters
 import static org.edx.jenkins.dsl.DevopsTasks.common_multiscm
 
-class CheckRedis {
+class UpdateCeleryMonitoring {
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment, redis_config ->
 
-                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/check-redis-${environment}-${deployment}") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/update-celery-monitoring-${environment}-${deployment}") {
 
                     wrappers common_wrappers
                     logRotator common_logrotator
@@ -103,7 +103,7 @@ class CheckRedis {
                             systemSitePackages(false)
 
                             command(
-                                dslFactory.readFileFromWorkspace("devops/resources/check-redis.sh")
+                                dslFactory.readFileFromWorkspace("devops/resources/update_celery_monitoring.sh")
                             )
 
                         }
