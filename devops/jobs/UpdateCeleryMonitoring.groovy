@@ -103,7 +103,7 @@ class UpdateCeleryMonitoring {
                             systemSitePackages(false)
 
                             command(
-                                dslFactory.readFileFromWorkspace("devops/resources/update_celery_monitoring/update_celery_monitoring.sh")
+                                dslFactory.readFileFromWorkspace("devops/resources/update_celery_monitoring.sh")
                             )
 
                         }
