@@ -47,12 +47,12 @@ class CheckCeleryProgress {
                     extraVars['CONFIGURATION_INTERNAL_REPO'] = config_internal_repo
                     extraVars['CONFIGURATION_SECURE_REPO'] = config_secure_repo
 
-                  //   if (environment == 'prod'){
-                  //       extraVars['NOTIFY_ON_FAILURE'] = 'tools-edx-jenkins-alert@edx.opsgenie.net'
-                  //  }
-                  //  else{
+                    if (environment == 'prod'){
+                         extraVars['NOTIFY_ON_FAILURE'] = 'tools-edx-jenkins-alert@edx.opsgenie.net'
+                    }
+                    else{
                         extraVars['NOTIFY_ON_FAILURE'] = 'devops+non-critical@edx.org'
-                  //  }
+                    }
 
                     properties {
                         rebuild {
@@ -104,9 +104,9 @@ class CheckCeleryProgress {
                         }
                     }
 
-                    publishers {
-                        mailer(extraVars.get('NOTIFY_ON_FAILURE','devops+non-critical@edx.org'), false, false)
-                    }
+                    // publishers {
+                    //     mailer(extraVars.get('NOTIFY_ON_FAILURE','devops+non-critical@edx.org'), false, false)
+                    // }
 
 
                 }
