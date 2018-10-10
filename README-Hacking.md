@@ -46,7 +46,7 @@ are NOT using the Git plugin here.)
     2. If necessary, select your authentication credentials (e.g. SSH key or the personal token from above).
     3. Repeat for jenkins-job-dsl and edx-internal (and possibly edge-internal).  
     4. For each repository add an additional behaviour and check them out into a subdirectory of the same name i.e. jenkins-job-dsl-internal
-       EXCEPT for jenkins-edx-dsl, do not check this out into a subdirectory.
+       EXCEPT for jenkins-job-dsl, do not check this out into a subdirectory.
 4. Add a **Invoke Gradle scrip** job
     1. Select Use Graddle Wrapper
     1. check 'Make gradlew executable'
