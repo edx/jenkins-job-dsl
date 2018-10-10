@@ -15,6 +15,4 @@ if [[ ! -v THRESHOLDS ]]; then
     THRESHOLDS=""
 fi
 
-. ./assume-role.sh
-assume-role ${ROLE_ARN}
-python ./check_celery_progress.py --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --host ${REDIS_HOST} --sns-arn ${SNS_TOPIC} ${THRESHOLDS}
+python ./check_celery_progress.py --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --host ${REDIS_HOST} ${THRESHOLDS}
