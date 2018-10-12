@@ -2,9 +2,12 @@ package org.edx.jenkins.dsl
 
 class AnalyticsConstants {
 
-    public static def common_log_rotator = { allVars ->
-        return {
-            daysToKeep(30)
+    public static def common_log_rotator = { allVars, env=[:] ->
+        def job_frequency = env.get('DAYS_TO_KEEP_BUILD', allVars.get('DAYS_TO_KEEP_BUILD'))
+        if (job_frequency) {
+            return {
+                daysToKeep(job_frequency.toInteger())
+            }
         }
     }
 
@@ -61,7 +64,7 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         }
     }
 
-    public static def date_interval_parameters = { allVars ->
+    public static def from_date_interval_parameter = { allVars ->
       return {
         stringParam('FROM_DATE', allVars.get('FROM_DATE', '2013-11-01'),
           'The first date to export data for. Data for this date and all days before the "TO_DATE" parameter' +
@@ -75,6 +78,11 @@ This text may reference other parameters in the task as shell variables, e.g.  $
   * 1 week ago
   * 2013-11-01
   /$)
+      }
+    }
+
+    public static def to_date_interval_parameter = { allVars ->
+      return {
         stringParam('TO_DATE', allVars.get('TO_DATE', 'today'),
           'The day after the last date to export data for. Data from the "FROM_DATE" parameter to 11:59:59' +
           ' on the date before this date will be included.' + $/
