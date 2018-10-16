@@ -5,13 +5,6 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.PUBLISH_TO_HOCKEY_APP
 
 /**
-
-There should be 2 jobs, 
-		first -  will be triggered if there got some changes in edx-android repo, pull latest code and compile an apk. Imp thing to note that there should be some parameter/input to create either release, debug or test apk, or may be we can create all three kind of apks in one go(need to ask aj on last part)
-		
-        sencond - job will get above apk, load emulator, install apk on it, install all pre-reqs needed(requirements.txt & package.json), run appium server, execute test cases on emulator and create report at end. 
-
-
  buildWhiteLabelAndroidApps.groovy
 
  This dsl-script creates Jenkins jobs to perform the following:
@@ -95,6 +88,9 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('sshAgent')
     assert jobConfig.containsKey('hockeyAppApiToken')
 
+    out.println('-------------------------------')
+    out.println(jobConfig.containsKey('jobName'))
+    out.println('-------------------------------')
     // Create a Jenkins job
     job(jobConfig['jobName']) {
 
@@ -185,7 +181,6 @@ secretMap.each { jobConfigs ->
             if (jobConfig['release']) {
                 shell(copyKeyScript)
             }
-            buildScript.
             // Build the apk file
             shell(buildScript)
             // Verify that they are signed properly for release builds
@@ -244,3 +239,4 @@ secretMap.each { jobConfigs ->
 
     }
 }
+
