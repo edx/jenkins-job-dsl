@@ -38,6 +38,37 @@ class AnalyticsConstants {
         }
     }
 
+    public static def secure_scm = { allVars ->
+        return {
+            git {
+                remote {
+                    url(allVars.get('SECURE_REPO_URL'))
+                    branch('$SECURE_BRANCH')
+                    credentials('1')
+                }
+                extensions {
+                    pruneBranches()
+                    relativeTargetDirectory('analytics-secure')
+                }
+            }
+        }
+    }
+
+    public static def data_czar_keys_scm = { allVars ->
+        return {
+            git {
+                remote {
+                    url(allVars.get('DATA_CZAR_KEYS_REPO_URL'))
+                    branch('$DATA_CZAR_KEYS_BRANCH')
+                    credentials('1')
+                }
+                extensions {
+                    relativeTargetDirectory('data-czar-keys')
+                }
+            }
+        }
+    }
+
     public static def common_parameters = { allVars, env=[:] ->
         return {
             stringParam('CLUSTER_NAME', env.get('CLUSTER_NAME', allVars.get('CLUSTER_NAME')), 'Name of the EMR cluster to use for this job.')
