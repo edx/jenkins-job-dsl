@@ -89,7 +89,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('hockeyAppApiToken')
 
     out.println('-------------------------------')
-    out.println(jobConfig.getValue('jobName'))
+    out.println(jobConfig.'jobName')
     out.println(jobConfig.getValue('public'))
     out.println(jobConfig.getValue('release'))
     out.println(jobConfig.getValue('buildScript'))
