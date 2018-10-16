@@ -5,7 +5,6 @@ import static analytics.VideoTimeline.job as VideoTimelineJob
 import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
 import static analytics.Enrollment.job as EnrollmentJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
->>>>>>> Enrollment DSL.
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
