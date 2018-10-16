@@ -39,7 +39,12 @@ class UpdateCeleryMonitoring {
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/update-celery-monitoring-${environment}-${deployment}") {
 
                     wrappers common_wrappers
-                    logRotator common_logrotator
+                    /* Only keep the builds for one day since it runs every minute.
+                       Reduce number of builds kept from ~10,000 to ~1000
+                    */
+                    logRotator {
+                        daysToKeep(1)
+                    }
 
                     wrappers {
                         credentialsBinding {
