@@ -89,7 +89,20 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('hockeyAppApiToken')
 
     out.println('-------------------------------')
-    out.println(jobConfig.containsKey('jobName'))
+    out.println(jobConfig.key('jobName'))
+    out.println(jobConfig.key('public'))
+    out.println(jobConfig.key('release'))
+    out.println(jobConfig.key('buildScript'))
+    out.println(jobConfig.key('gradleProperties'))
+    out.println(jobConfig.key('keystore'))
+    out.println(jobConfig.key('keystoreFile'))
+    out.println(jobConfig.key('gitRepo'))
+    out.println(jobConfig.key('gitCredential'))
+    out.println(jobConfig.key('appBaseDir'))
+    out.println(jobConfig.key('appBaseName'))
+    out.println(jobConfig.key('generatedApkName'))
+    out.println(jobConfig.key('sshAgent'))
+    out.println(jobConfig.key('hockeyAppApiToken'))
     out.println('-------------------------------')
     // Create a Jenkins job
     job(jobConfig['jobName']) {
