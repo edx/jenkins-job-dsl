@@ -2,7 +2,10 @@ import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.UserActivity.job as UserActivityJob
 import static analytics.VideoTimeline.job as VideoTimelineJob
-import static analytics.UserLocationByCourse.job as UserLocationByCourse
+import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
+import static analytics.Enrollment.job as EnrollmentJob
+import static analytics.ModuleEngagement.job as ModuleEngagementJob
+>>>>>>> Enrollment DSL.
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -27,7 +30,9 @@ def taskMap = [
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     USER_ACTIVITY_JOB: UserActivityJob,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
-    USER_LOCATION_BY_COURSE: UserLocationByCourse,
+    USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
+    ENROLLMENT_JOB: EnrollmentJob,
+    MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
 ]
 
 for (task in taskMap) {
