@@ -5,6 +5,8 @@ import static analytics.VideoTimeline.job as VideoTimelineJob
 import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
 import static analytics.Enrollment.job as EnrollmentJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
+import static analytics.DatabaseExportCoursewareStudentmodule.job as DatabaseExportCoursewareStudentmoduleJob
+import static analytics.AnswerDistribution.job as AnswerDistributionJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -32,6 +34,8 @@ def taskMap = [
     USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
     ENROLLMENT_JOB: EnrollmentJob,
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
+    DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
+    ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
 ]
 
 for (task in taskMap) {
