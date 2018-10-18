@@ -9,6 +9,7 @@ import static analytics.DatabaseExportCoursewareStudentmodule.job as DatabaseExp
 import static analytics.AnswerDistribution.job as AnswerDistributionJob
 import static analytics.FinanceReport.payments_validation_job as PaymentsValidationJob
 import static analytics.FinanceReport.finance_report_job as FinanceReportJob
+import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -40,6 +41,7 @@ def taskMap = [
     ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
     PAYMENTS_VALIDATION_JOB: PaymentsValidationJob,
     FINANCE_REPORT_JOB: FinanceReportJob,
+    EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
 ]
 
 for (task in taskMap) {
