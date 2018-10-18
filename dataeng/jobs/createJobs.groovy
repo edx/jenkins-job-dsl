@@ -7,6 +7,8 @@ import static analytics.Enrollment.job as EnrollmentJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
 import static analytics.DatabaseExportCoursewareStudentmodule.job as DatabaseExportCoursewareStudentmoduleJob
 import static analytics.AnswerDistribution.job as AnswerDistributionJob
+import static analytics.FinanceReport.payments_validation_job as PaymentsValidationJob
+import static analytics.FinanceReport.finance_report_job as FinanceReportJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -36,6 +38,8 @@ def taskMap = [
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
     DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
     ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
+    PAYMENTS_VALIDATION_JOB: PaymentsValidationJob,
+    FINANCE_REPORT_JOB: FinanceReportJob,
 ]
 
 for (task in taskMap) {
