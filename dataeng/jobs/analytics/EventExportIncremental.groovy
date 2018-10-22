@@ -23,7 +23,7 @@ class EventExportIncremental {
                     stringParam('EXPORTER_CONFIG', 'config.yaml', 'Exporter configuration relative to analytics-secure/analytics-exporter')
                     stringParam('ONLY_ORGS', '', "i.e. --org-id [\"FooX\",\"BarX\"]")
                     stringParam('DATA_CZAR_KEYS_BRANCH', 'master', '')
-                    stringParam('ENVIRONMENT', environment, '')
+                    stringParam('ENVIRONMENT', env_config.get('ENVIRONMENT_SUBDIRECTORY'), '')
                 }
                 multiscm common_multiscm(allVars) >> secure_scm(allVars) >> data_czar_keys_scm(allVars)
 
