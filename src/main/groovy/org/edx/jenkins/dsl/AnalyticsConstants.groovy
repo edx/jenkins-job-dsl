@@ -42,7 +42,7 @@ class AnalyticsConstants {
         return {
             git {
                 remote {
-                    url(allVars.get('SECURE_REPO_URL'))
+                    url('$SECURE_REPO')
                     branch('$SECURE_BRANCH')
                     credentials('1')
                 }
@@ -70,7 +70,7 @@ class AnalyticsConstants {
     }
 
     public static def common_parameters = { allVars, env=[:] ->
-        return {
+        def parameters = {
             stringParam('CLUSTER_NAME', env.get('CLUSTER_NAME', allVars.get('CLUSTER_NAME')), 'Name of the EMR cluster to use for this job.')
             stringParam('CONFIG_BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
             stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
@@ -85,13 +85,21 @@ class AnalyticsConstants {
 This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
             stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
             stringParam('NUM_TASK_CAPACITY', env.get('NUM_TASK_CAPACITY', allVars.get('NUM_TASK_CAPACITY')), 'Number of EMR instance capacity to use for this job.')
-            stringParam('SECURE_BRANCH', '$ANALYTICS_SECURE_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_SECURE_RELEASE when released.')
             stringParam('SECURE_CONFIG', env.get('SECURE_CONFIG', allVars.get('SECURE_CONFIG', 'analytics-tasks/prod-edx.cfg')), '')
-            stringParam('SECURE_REPO', allVars.get('SECURE_REPO_URL'), '')
             stringParam('TASKS_BRANCH', '$ANALYTICS_PIPELINE_RELEASE', 'e.g. tagname or origin/branchname,  e.g. origin/master or $ANALYTICS_PIPELINE_RELEASE')
             stringParam('TASKS_REPO', 'https://github.com/edx/edx-analytics-pipeline.git', 'Git repo containing the analytics pipeline tasks.')
             stringParam('TASK_USER', allVars.get('TASK_USER'), 'User which runs the analytics task on the EMR cluster.')
             booleanParam('TERMINATE', true, 'Terminate the EMR cluster after running the analytics task?')
+        }
+        // secure_scm_parameters provides variables required by run-automated-task.sh.
+        return parameters >> secure_scm_parameters(allVars)
+    }
+
+    // Include this whenever secure_scm() is used, or when run-automated-task.sh is executed in a shell command.
+    public static def secure_scm_parameters = { allVars ->
+        return {
+            stringParam('SECURE_BRANCH', '$ANALYTICS_SECURE_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_SECURE_RELEASE when released.')
+            stringParam('SECURE_REPO', allVars.get('SECURE_REPO_URL'), '')
         }
     }
 
