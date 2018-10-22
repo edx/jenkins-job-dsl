@@ -10,6 +10,8 @@ import static analytics.AnswerDistribution.job as AnswerDistributionJob
 import static analytics.FinanceReport.payments_validation_job as PaymentsValidationJob
 import static analytics.FinanceReport.finance_report_job as FinanceReportJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
+import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
+import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -42,6 +44,8 @@ def taskMap = [
     PAYMENTS_VALIDATION_JOB: PaymentsValidationJob,
     FINANCE_REPORT_JOB: FinanceReportJob,
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
+    COURSEWARE_LINKS_CLICKED_JOB: CoursewareLinksClickedJob,
+    EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
 ]
 
 for (task in taskMap) {
@@ -112,6 +116,25 @@ listView('Exporter') {
     description('Jobs that are used for exporting course data.')
     jobs {
         regex('analytics-.+')
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+}
+
+listView('Warehouse') {
+    jobs {
+        name('event-type-distribution')
+        name('courseware-links-clicked')
+        name('finance-report')
+        name('payments-validation')
+        regex('.+read-replica-import')
     }
     columns {
         status()
