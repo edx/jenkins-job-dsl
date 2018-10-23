@@ -14,6 +14,7 @@ import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.LoadJsonEventsToBigquery.job as LoadJsonEventsToBigqueryJob
 import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
 import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
+import static analytics.LoadEventsToVertica.job as LoadEventsToVerticaJob
 import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
 import static analytics.SqlScripts.job as SqlScriptsJob
 import org.yaml.snakeyaml.Yaml
@@ -51,6 +52,7 @@ def taskMap = [
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     LOAD_JSON_EVENTS_TO_BIGQUERY_JOB: LoadJsonEventsToBigqueryJob,
     COURSEWARE_LINKS_CLICKED_JOB: CoursewareLinksClickedJob,
+    LOAD_EVENTS_TO_VERTICA_JOB: LoadEventsToVerticaJob,
     EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
     GENERATE_WAREHOUSE_DOCS_JOB: GenerateWarehouseDocsJob,
     SQL_SCRIPTS_JOB: SqlScriptsJob,
