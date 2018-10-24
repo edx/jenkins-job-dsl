@@ -9,6 +9,7 @@ import static analytics.DatabaseExportCoursewareStudentmodule.job as DatabaseExp
 import static analytics.AnswerDistribution.job as AnswerDistributionJob
 import static analytics.FinanceReport.payments_validation_job as PaymentsValidationJob
 import static analytics.FinanceReport.finance_report_job as FinanceReportJob
+import static analytics.BigqueryReplicaImport.job as BigqueryReplicaImportJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
 import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
@@ -43,6 +44,7 @@ def taskMap = [
     ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
     PAYMENTS_VALIDATION_JOB: PaymentsValidationJob,
     FINANCE_REPORT_JOB: FinanceReportJob,
+    BIGQUERY_REPLICA_IMPORT_JOB: BigqueryReplicaImportJob,
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     COURSEWARE_LINKS_CLICKED_JOB: CoursewareLinksClickedJob,
     EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
