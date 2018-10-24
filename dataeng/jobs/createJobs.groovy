@@ -14,6 +14,7 @@ import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
 import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
 import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
+import static analytics.SqlScripts.job as SqlScriptsJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -50,6 +51,7 @@ def taskMap = [
     COURSEWARE_LINKS_CLICKED_JOB: CoursewareLinksClickedJob,
     EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
     GENERATE_WAREHOUSE_DOCS_JOB: GenerateWarehouseDocsJob,
+    SQL_SCRIPTS_JOB: SqlScriptsJob,
 ]
 
 for (task in taskMap) {
