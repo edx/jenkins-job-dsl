@@ -1,4 +1,6 @@
 package analytics
+import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
+import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class AnalyticsEmailOptin {
     public static def job = { dslFactory, allVars ->
@@ -61,8 +63,6 @@ class AnalyticsEmailOptin {
                         'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name]. Should be environment/production.')
                 stringParam('PLATFORM_BRANCH','zafft/analytics-exporter-settings-hotfix',
                         'Branch from the edx-platform repository. For tags use tags/[tag-name]. Should be release.')
-                stringParam('SECURE_BRANCH','release',
-                        'Branch from the analytics-secure repository, where the configuration settings reside. For tags use tags/[tag-name]')
                 stringParam('CONFIG_FILENAME','default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EMAIL_OPTIN_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the email opt-in data.')
                 stringParam('OUTPUT_PREFIX','email-opt-in-', 'Optional prefix to prepend to output filename.')
@@ -73,8 +73,9 @@ class AnalyticsEmailOptin {
                 stringParam('ORG_CONFIG','data-czar-keys/config.yaml', 'Path to the data-czar organization config file')
                 stringParam('DATA_CZAR_KEYS_BRANCH','master', 'Branch of the Data-czar-keys repository to use')
             }
+            parameters secure_scm_parameters(allVars)
 
-            multiscm{
+            multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('git@github.com:edx/edx-platform.git')
@@ -95,17 +96,6 @@ class AnalyticsEmailOptin {
                     extensions {
                         pruneBranches()
                         relativeTargetDirectory('analytics-exporter')
-                    }
-                }
-                git {
-                    remote {
-                        url(allVars.get('SECURE_REPO_URL'))
-                        branch('$SECURE_BRANCH')
-                        credentials('1')
-                    }
-                    extensions {
-                        pruneBranches()
-                        relativeTargetDirectory('analytics-secure')
                     }
                 }
                 git {

@@ -13,6 +13,7 @@ import static analytics.BigqueryReplicaImport.job as BigqueryReplicaImportJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
 import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
+import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -48,6 +49,7 @@ def taskMap = [
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     COURSEWARE_LINKS_CLICKED_JOB: CoursewareLinksClickedJob,
     EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
+    GENERATE_WAREHOUSE_DOCS_JOB: GenerateWarehouseDocsJob,
 ]
 
 for (task in taskMap) {

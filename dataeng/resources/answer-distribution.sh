@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -z "$NUM_REDUCE_TASKS" ]; then
     NUM_REDUCE_TASKS=$(( $NUM_TASK_CAPACITY * 2 ))

@@ -1,4 +1,6 @@
 package analytics
+import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
+import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class AnalyticsExporter {
     public static def job = { dslFactory, allVars ->
@@ -7,15 +9,15 @@ class AnalyticsExporter {
                 stringParam('COURSES', '', 'Space separated list of courses to process. E.g. --course=course-v1:BerkleeX+BMPR365_3x+1T2015')
                 stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the analytics-exporter repository. For tags use tags/[tag-name].')
                 stringParam('PLATFORM_BRANCH', 'origin/zafft/analytics-exporter-settings-hotfix', 'Branch from the exporter repository. For tags use tags/[tag-name].')
-                stringParam('SECURE_BRANCH', 'release', 'Branch from the analytics-secure repository, where the configuration settings reside. For tags use tags/[tag-name]')
                 stringParam('CONFIG_FILENAME', 'course_exporter.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', '', 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFICATION_EMAILS', '', 'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER', '', 'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 201x-0x-0x" if that is when the CWSM dump took place.  (Leave off quotes.)')
                 stringParam('TASKS', '', 'Space separated list of tasks to process. Leave this blank to use the task list specified in the config file.  Specify here only if you are running tests of a specific task.')
             }
+            parameters secure_scm_parameters(allVars)
 
-            multiscm{
+            multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('git@github.com:edx/edx-platform.git')
@@ -36,17 +38,6 @@ class AnalyticsExporter {
                     extensions {
                         pruneBranches()
                         relativeTargetDirectory('analytics-exporter')
-                    }
-                }
-                git {
-                    remote {
-                        url(allVars.get('SECURE_REPO_URL'))
-                        branch('$SECURE_BRANCH')
-                        credentials('1')
-                    }
-                    extensions {
-                        pruneBranches()
-                        relativeTargetDirectory('analytics-secure')
                     }
                 }
                 git {
@@ -95,9 +86,8 @@ class AnalyticsExporter {
                 stringParam('ORG')
                 stringParam('PLATFORM_VENV')
                 stringParam('EXTRA_OPTIONS')
-                stringParam('SECURE_BRANCH')
             }
-
+            parameters secure_scm_parameters(allVars)
             logRotator {
                 daysToKeep(30)
             }
@@ -109,7 +99,7 @@ class AnalyticsExporter {
 
             concurrentBuild()
 
-            multiscm {
+            multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
@@ -118,17 +108,6 @@ class AnalyticsExporter {
                     }
                     extensions {
                         relativeTargetDirectory('config/baked-config-secure')
-                    }
-                }
-                git {
-                    remote {
-                        url(allVars.get('SECURE_REPO_URL'))
-                        branch('$SECURE_BRANCH')
-                        credentials('1')
-                    }
-                    extensions {
-                        pruneBranches()
-                        relativeTargetDirectory('analytics-secure')
                     }
                 }
             }
@@ -153,7 +132,6 @@ class AnalyticsExporter {
                 stringParam('ORGS', '*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name].')
                 stringParam('PLATFORM_BRANCH', 'aed/analytics-exporter-settings-hotfix', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
-                stringParam('SECURE_BRANCH', 'release', 'Branch from the analytics-secure repository, where the configuration settings reside. For tags use tags/[tag-name]')
                 stringParam('CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFICATION_EMAILS', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
@@ -162,8 +140,9 @@ class AnalyticsExporter {
                 stringParam('ORG_CONFIG', 'data-czar-keys/config.yaml', 'Path to the data-czar organization config file.')
                 stringParam('DATA_CZAR_KEYS_BRANCH', 'master', 'Branch to use for the data-czar-keys repository.')
             }
+            parameters secure_scm_parameters(allVars)
 
-            multiscm{
+            multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('git@github.com:edx/edx-platform.git')
@@ -184,17 +163,6 @@ class AnalyticsExporter {
                     extensions {
                         pruneBranches()
                         relativeTargetDirectory('analytics-exporter')
-                    }
-                }
-                git {
-                    remote {
-                        url(allVars.get('SECURE_REPO_URL'))
-                        branch('$SECURE_BRANCH')
-                        credentials('1')
-                    }
-                    extensions {
-                        pruneBranches()
-                        relativeTargetDirectory('analytics-secure')
                     }
                 }
                 git {
