@@ -69,6 +69,14 @@ class AnalyticsConstants {
         }
     }
 
+    // Include this whenever secure_scm() is used, or when run-automated-task.sh is executed in a shell command.
+    public static def secure_scm_parameters = { allVars ->
+        return {
+            stringParam('SECURE_BRANCH', '$ANALYTICS_SECURE_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_SECURE_RELEASE when released.')
+            stringParam('SECURE_REPO', allVars.get('SECURE_REPO_URL'), '')
+        }
+    }
+
     public static def common_parameters = { allVars, env=[:] ->
         def parameters = {
             stringParam('CLUSTER_NAME', env.get('CLUSTER_NAME', allVars.get('CLUSTER_NAME')), 'Name of the EMR cluster to use for this job.')
@@ -93,14 +101,6 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         }
         // secure_scm_parameters provides variables required by run-automated-task.sh.
         return parameters >> secure_scm_parameters(allVars)
-    }
-
-    // Include this whenever secure_scm() is used, or when run-automated-task.sh is executed in a shell command.
-    public static def secure_scm_parameters = { allVars ->
-        return {
-            stringParam('SECURE_BRANCH', '$ANALYTICS_SECURE_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_SECURE_RELEASE when released.')
-            stringParam('SECURE_REPO', allVars.get('SECURE_REPO_URL'), '')
-        }
     }
 
     public static def from_date_interval_parameter = { allVars ->
