@@ -77,6 +77,7 @@ class ReadOnlyAccessToDB {
 
                     environmentVariables {
                         env('BASTION_HOST', bastion_config.get('bastion_host'))
+                        env('USERS_YAML', bastion_config.get('bastion_user_yaml'))
                     }
 
                     steps {
