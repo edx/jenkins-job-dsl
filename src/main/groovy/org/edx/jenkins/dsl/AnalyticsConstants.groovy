@@ -92,7 +92,7 @@ This text may reference other parameters in the task as shell variables, e.g.  $
             booleanParam('TERMINATE', true, 'Terminate the EMR cluster after running the analytics task?')
         }
         // secure_scm_parameters provides variables required by run-automated-task.sh.
-        return parameters >> secure_scm_parameters(allVars)
+        return parameters >> AnalyticsConstants.secure_scm_parameters(allVars)
     }
 
     // Include this whenever secure_scm() is used, or when run-automated-task.sh is executed in a shell command.
