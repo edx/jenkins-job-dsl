@@ -81,6 +81,7 @@ class AnalyticsConstants {
             textParam('EMR_MAPRED_SITE_CONFIG', allVars.get('EMR_MAPRED_SITE_CONFIG'), 'EMR mapred-site configuration')
             textParam('EMR_YARN_SITE_CONFIG', allVars.get('EMR_YARN_SITE_CONFIG'), 'EMR yarn-site configuration.')
             stringParam('EMR_APPLICATIONS_CONFIG', allVars.get('EMR_APPLICATIONS_CONFIG'), 'Applications to install on EMR cluster.')
+            textParam('EMR_ADDITIONAL_STEPS', allVars.get('EMR_ADDITIONAL_STEPS', ''), 'Additional EMR steps')
             textParam('EXTRA_VARS', allVars.get('EMR_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
 This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
             stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
