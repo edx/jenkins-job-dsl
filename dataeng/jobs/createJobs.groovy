@@ -17,6 +17,8 @@ import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
 import static analytics.LoadEventsToVertica.job as LoadEventsToVerticaJob
 import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
 import static analytics.SqlScripts.job as SqlScriptsJob
+import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
+import static analytics.LoadWarehouse.bigquery_job as LoadWarehouseBigQueryJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -56,6 +58,8 @@ def taskMap = [
     EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
     GENERATE_WAREHOUSE_DOCS_JOB: GenerateWarehouseDocsJob,
     SQL_SCRIPTS_JOB: SqlScriptsJob,
+    LOAD_WAREHOUSE_VERTICA_JOB: LoadWarehouseVerticaJob,
+    LOAD_WAREHOUSE_BIGQUERY_JOB: LoadWarehouseBigQueryJob,
 ]
 
 for (task in taskMap) {
