@@ -9,6 +9,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 class SqlScripts {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("sql-scripts") {
+            disabled()
             logRotator common_log_rotator(allVars)
             parameters {
                 stringParam('SCHEMA', allVars.get('SCHEMA'))
