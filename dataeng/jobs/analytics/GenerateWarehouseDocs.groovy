@@ -36,7 +36,12 @@ class GenerateWarehouseDocs {
                 timestamps()
             }
             steps {
-                shell(dslFactory.readFileFromWorkspace("dataeng/resources/generate-warehouse-docs.sh"))
+                virtualenv {
+                    nature("shell")
+                    command(
+                        dslFactory.readFileFromWorkspace("dataeng/resources/generate-warehouse-docs.sh")
+                    )
+                }
             }
         }
     }
