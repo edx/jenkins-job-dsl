@@ -57,6 +57,22 @@ List jobConfigs = [
         extraMembersCanBuild: [],
         cron: '30 7 * * *',  // 08:30 UTC every day.
         disabled: true
+    ],
+    [
+        downstreamJobName: 'user-retirement-archiver',
+        triggerJobNamePrefix: 'user-retirement-archiver-trigger',
+        environmentDeployment: 'prod-edx',
+        extraMembersCanBuild: [],
+        cron: '0 9 * * *',  // 10:00 UTC every day.
+        disabled: true
+    ],
+    [
+        downstreamJobName: 'user-retirement-archiver',
+        triggerJobNamePrefix: 'user-retirement-archiver-trigger',
+        environmentDeployment: 'prod-edge',
+        extraMembersCanBuild: [],
+        cron: '30 9 * * *',  // 10:30 UTC every day.
+        disabled: true
     ]
 ]
 
