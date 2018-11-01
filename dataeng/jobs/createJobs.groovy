@@ -22,6 +22,7 @@ import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVer
 import static analytics.LoadEvents.load_json_events_to_s3_job as LoadJsonEventsToS3Job
 import static analytics.LoadEvents.load_json_events_to_bigquery_job as LoadJsonEventsToBigqueryJob
 import static analytics.VerticaReplicaImport.job as VerticaReplicaImportJob
+import static analytics.BackupVerticaPartial.backup_vertica_partial_job as BackupVerticaPartialJob
 import static analytics.VerticaToBigquerySchemaCopy.job as VerticaToBigquerySchemaCopyJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -67,6 +68,7 @@ def taskMap = [
     LOAD_JSON_EVENTS_TO_S3_JOB: LoadJsonEventsToS3Job,
     LOAD_JSON_EVENTS_TO_BIGQUERY_JOB: LoadJsonEventsToBigqueryJob,
     VERTICA_REPLICA_IMPORT_JOB: VerticaReplicaImportJob,
+    BACKUP_VERTICA_PARTIAL_JOB: BackupVerticaPartialJob,
     VERTICA_TO_BIGQUERY_SCHEMA_COPY_JOB: VerticaToBigquerySchemaCopyJob,
 ]
 
