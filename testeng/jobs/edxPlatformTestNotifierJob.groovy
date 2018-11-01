@@ -3,7 +3,6 @@ package testeng
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_MASKED_PASSWORD
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 
 job('edx-platform-test-notifier') {
@@ -44,7 +43,6 @@ job('edx-platform-test-notifier') {
 
     publishers {
         mailer('testeng@edx.org')
-        hipChatNotifier JENKINS_PUBLIC_HIPCHAT('')
         configure GENERAL_SLACK_STATUS()
     }
 }

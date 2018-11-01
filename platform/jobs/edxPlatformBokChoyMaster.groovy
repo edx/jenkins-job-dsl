@@ -3,7 +3,6 @@ package platform
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
@@ -167,12 +166,11 @@ jobConfigs.each { jobConfig ->
         predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
                                   'job/' + jobConfig.jobName + '/${BUILD_NUMBER}/')
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-bok-choy-master.groovy')
-        publishers { //JUnit Test report, trigger GitHub-Build-Status, email, message hipchat
+        publishers { //JUnit Test report, trigger GitHub-Build-Status, email, message slack
             archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
             mailer('testeng@edx.org')
-            hipChatNotifier JENKINS_PUBLIC_HIPCHAT('')
             configure GENERAL_SLACK_STATUS()
        }
     }

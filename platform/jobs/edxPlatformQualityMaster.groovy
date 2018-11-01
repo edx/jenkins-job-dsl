@@ -4,7 +4,6 @@ import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_XUNIT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_BASE_URL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_STATUS_PENDING
@@ -163,7 +162,7 @@ jobConfigs.each { jobConfig ->
             shell("cd ${jobConfig.repoName}; TEST_SUITE=quality ./scripts/all-tests.sh")
         }
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-quality-master.groovy')
-        publishers { //publish artifacts, HTML, violations report, trigger GitHub-Build-Status, email, message hipchat
+        publishers { //publish artifacts, HTML, violations report, trigger GitHub-Build-Status, email, message slack
             archiveArtifacts {
                 pattern(archiveReports)
                 defaultExcludes()
@@ -183,7 +182,6 @@ jobConfigs.each { jobConfig ->
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
             mailer('testeng@edx.org')
-            hipChatNotifier JENKINS_PUBLIC_HIPCHAT('')
             configure GENERAL_SLACK_STATUS()
         }
     }

@@ -2,7 +2,6 @@ package testeng
 
 import hudson.util.Secret
 import org.yaml.snakeyaml.Yaml
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 
 Map config = [:]
@@ -31,7 +30,6 @@ Config:
     region : us-west.1
     accessKeyId : 123
     secretAccessKey: 123
-    hipchat : hipchat token
     email : email@address.com
 */
 
@@ -44,7 +42,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('region')
     assert jobConfig.containsKey('accessKeyId')
     assert jobConfig.containsKey('secretAccessKey')
-    assert jobConfig.containsKey('hipchat')
     assert jobConfig.containsKey('email')
 
     job("backup-build-jenkins") {
@@ -127,8 +124,7 @@ secretMap.each { jobConfigs ->
                 pattern('snapshot-out.log')
                 allowEmpty(false)
             }
-            // alert team of failures via hipchat & email
-            hipChatNotifier JENKINS_PUBLIC_HIPCHAT(jobConfig['hipchat'])
+            // alert team of failures via slack & email
             configure GENERAL_SLACK_STATUS()
 
 

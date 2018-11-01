@@ -2,7 +2,6 @@ package testeng
 
 import hudson.util.Secret
 import org.yaml.snakeyaml.Yaml
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
@@ -35,7 +34,6 @@ catch (any) {
         webPageTestBaseAMI: ami-123
         toolsTeam: [ 'users1', 'users2' ]
         email : email@address
-        hipchat : 123abc
 */
 
 /* Iterate over the job configurations */
@@ -49,7 +47,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('webPageTestBaseAMI')
     assert jobConfig.containsKey('toolsTeam')
     assert jobConfig.containsKey('email')
-    assert jobConfig.containsKey('hipchat')
     assert jobConfig.containsKey('sshKeyURL')
 
     job('build-packer-ami') {
@@ -151,8 +148,7 @@ secretMap.each { jobConfigs ->
         }
 
         publishers {
-            // alert team of failures via hipchat & email
-            hipChatNotifier JENKINS_PUBLIC_HIPCHAT(jobConfig['hipchat'])
+            // alert team of failures via slack & email
             configure GENERAL_SLACK_STATUS()
             mailer(jobConfig['email'])
         }
