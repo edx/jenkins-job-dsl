@@ -40,7 +40,7 @@ class LoadWarehouse {
             parameters common_parameters(allVars)
             parameters to_date_interval_parameter(allVars)
             parameters {
-                stringParam('DATASET', allVars.get('SCHEMA'))
+                stringParam('DATASET', allVars.get('DATASET'))
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
             }
             multiscm common_multiscm(allVars)
