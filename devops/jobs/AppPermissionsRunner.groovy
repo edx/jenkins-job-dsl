@@ -19,7 +19,7 @@ class AppPermissionsRunner {
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment ->
-                dslFactory.job(extraVars.get("FOLDER_NAME","User-Management") + "/app-permissions-runner-${environment}-${deployment}") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","App-Permissions") + "/app-permissions-runner-${environment}-${deployment}") {
 
                     wrappers common_wrappers
                     logRotator common_logrotator
