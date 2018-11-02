@@ -30,7 +30,6 @@ catch (any) {
         accessKeyId: 123abc
         secretAccessKey: 123abc
         email: email@address
-        hipchat: token
 */
 
 // Iterate over the job configurations
@@ -42,7 +41,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('accessKeyId')
     assert jobConfig.containsKey('secretAccessKey')
     assert jobConfig.containsKey('email')
-    assert jobConfig.containsKey('hipchat')
 
     job('toggle-spigot') {
 
@@ -108,19 +106,6 @@ secretMap.each { jobConfigs ->
 
         publishers {
             mailer(jobConfig['email'])
-            hipChatNotifier {
-                token(jobConfig['hipchat'])
-                room('TestEngineering')
-                startJobMessage('')
-                completeJobMessage('@here The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)')
-                notifySuccess(true)
-                notifyAborted(false)
-                notifyNotBuilt(false)
-                notifyFailure(false)
-                notifyBackToNormal(false)
-                notifyUnstable(false)
-                startNotification(false)
-            }
             configure {
                 it / publishers / 'jenkins.plugins.slack.SlackNotifier' {
                     startNotification false

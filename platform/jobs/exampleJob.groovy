@@ -5,7 +5,7 @@ package devops
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 
 /*
@@ -14,7 +14,6 @@ publicJobConfig:
     open : true/false
     jobName : name-of-jenkins-job-to-be
     credential : n/a
-    hipchat : token
 */
 
 /* stdout logger */
@@ -55,7 +54,6 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('open')
     assert jobConfig.containsKey('jobName')
     assert jobConfig.containsKey('credential')
-    assert jobConfig.containsKey('hipchat')
 
     /* Set the job name */
     job(jobConfig['jobName']) {
@@ -117,7 +115,7 @@ secretMap.each { jobConfigs ->
        }
 
        /* Post Build Steps */
-       /* Archive artifacts, archive jUnit Reports, send an email, message on hipchat */
+       /* Archive artifacts, archive jUnit Reports, send an email, message on slack */
        publishers {
            archiveArtifacts {
                pattern('Comma separated list of files to archive')
@@ -126,7 +124,7 @@ secretMap.each { jobConfigs ->
            }
            archiveJunit('Comma separated list of files to archive')
            mailer('email@email.com')
-           hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
+           configure GENERAL_SLACK_STATUS()
        }
     }
 }
