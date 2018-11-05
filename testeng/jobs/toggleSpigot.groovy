@@ -118,7 +118,7 @@ secretMap.each { jobConfigs ->
                     notifyBackToNormal false
                     notifyRepeatedFailure false
                     includeCustomMessage true
-                    customMessage '@channel The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)'
+                    customMessage '@here The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)'
                     room 'TestEngineering'
                 }
             }
