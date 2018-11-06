@@ -5,6 +5,9 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SEC
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_XUNIT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
+String deleteReports = 'reports/**/*,test_root/log/*.log,'
+deleteReports += 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.log,'
+
 stringParams = [
     [
         name: 'sha1',
@@ -113,6 +116,10 @@ jobConfigs.each { jobConfig ->
             }
             timestamps()
             colorizeOutput('gnome-terminal')
+            preBuildCleanup {
+                includePattern(deleteReports)
+                deleteDirectories()
+            }
             sshAgent('jenkins-worker')
             buildName('#\${BUILD_NUMBER}: \${GIT_REVISION,length=8}')
         }
