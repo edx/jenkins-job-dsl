@@ -669,6 +669,7 @@ job('user-retirement-archiver') {
         colorizeOutput('xterm')
         credentialsBinding {
             file('USER_RETIREMENT_SECURE_DEFAULT', 'user-retirement-secure-default.yml')
+            string('ROLE_ARN', "${environment}-${deployment}-retirement-archive-upload-role")
         }
     }
 
