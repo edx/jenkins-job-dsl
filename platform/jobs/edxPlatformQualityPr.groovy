@@ -30,6 +30,9 @@ catch (any) {
     return 1
 }
 
+String archiveReports = 'reports/**/*,test_root/log/*.log,'
+archiveReports += 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.log,'
+
 String pep8Reports = 'reports/pep8/pep8.report, edx-platform*/reports/pep8/pep8.report'
 String pylintReports = 'reports/**/pylint.report, edx-platform*/reports/**/pylint.report'
 
@@ -175,6 +178,10 @@ jobConfigs.each { jobConfig ->
                 absolute(90)
             }
             timestamps()
+            preBuildCleanup {
+                includePattern(archiveReports)
+                deleteDirectories()
+            }
             colorizeOutput()
         }
 
@@ -182,10 +189,7 @@ jobConfigs.each { jobConfig ->
 
         publishers {
             archiveArtifacts {
-                pattern(
-                    'reports/**/*,test_root/log/*.log,' +
-                    'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.log,'
-                )
+                pattern(archiveReports)
                 defaultExcludes(true)
                 allowEmpty(true)
             }

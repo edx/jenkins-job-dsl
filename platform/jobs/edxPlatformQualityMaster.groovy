@@ -147,6 +147,10 @@ jobConfigs.each { jobConfig ->
             }
             timestamps()
             sshAgent('jenkins-worker')
+            preBuildCleanup {
+                includePattern(archiveReports)
+                deleteDirectories()
+            }
             colorizeOutput()
        }
 
