@@ -27,6 +27,7 @@ import static analytics.BackupVertica.job as BackupVerticaJob
 import static analytics.TotalEventsDailyReport.job as TotalEventsDailyReportJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import static analytics.LoadCourseStructure.job as LoadCourseStructureJob
+import static analytics.Enterprise.job as EnterpriseJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -76,6 +77,7 @@ def taskMap = [
     TOTAL_EVENTS_DAILY_REPORT_JOB: TotalEventsDailyReportJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
     LOAD_COURSE_STRUCTURE_JOB: LoadCourseStructureJob,
+    ENTERPRISE_JOB: EnterpriseJob,
 ]
 
 for (task in taskMap) {
