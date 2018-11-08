@@ -31,7 +31,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.merge_to_master_trigger
 
 class AppPermissionsWatcher{ 
     public static def job = { dslFactory, extraVars ->
-        dslFactory.job(extraVars.get("FOLDER_NAME","User-Management") + "/app-permissions-watcher") {
+        dslFactory.job(extraVars.get("FOLDER_NAME","App-Permissions") + "/app-permissions-watcher") {
 
             description("Job to watch the app-permissions repo to determine when to trigger the app-permissions-runner jobs.")
 
