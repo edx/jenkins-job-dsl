@@ -25,6 +25,7 @@ import static analytics.VerticaReplicaImport.job as VerticaReplicaImportJob
 import static analytics.VerticaToBigquerySchemaCopy.job as VerticaToBigquerySchemaCopyJob
 import static analytics.BackupVertica.job as BackupVerticaJob
 import static analytics.TotalEventsDailyReport.job as TotalEventsDailyReportJob
+import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -72,6 +73,7 @@ def taskMap = [
     VERTICA_TO_BIGQUERY_SCHEMA_COPY_JOB: VerticaToBigquerySchemaCopyJob,
     BACKUP_VERTICA_JOB: BackupVerticaJob,
     TOTAL_EVENTS_DAILY_REPORT_JOB: TotalEventsDailyReportJob,
+    JENKINS_BACKUP_JOB: JenkinsBackupJob,
 ]
 
 for (task in taskMap) {
