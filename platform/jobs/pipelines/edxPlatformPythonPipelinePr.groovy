@@ -34,7 +34,7 @@ pipelineJob('edx-platform-python-pipeline-pr') {
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
 
         triggers {
-            pullRequest {
+            githubPullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
                 triggerPhrase(/.*jenkins\W+run\W+pipeline\W+python.*/)
