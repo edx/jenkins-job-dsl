@@ -34,5 +34,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --output-root ${OUTPUT_ROOT} \
  --config ${EXPORTER_CONFIG_PATH} \
  --gpg-key-dir ${GPG_KEYS_PATH} \
- --environment ${ENVIRONMENT} ${ONLY_ORGS} \
+ --environment ${ENVIRONMENT} \
+ ${ONLY_ORGS} \
  --n-reduce-tasks ${NUM_REDUCE_TASKS}
