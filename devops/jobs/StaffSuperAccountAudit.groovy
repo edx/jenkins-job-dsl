@@ -26,7 +26,7 @@ class StaffSuperAccountAudit {
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment ->
 
-                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/staff-super-account-audit-${environment}-${deployment}") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","User-Management") + "/staff-super-account-audit-${environment}-${deployment}") {
 
                     wrappers common_wrappers
 
