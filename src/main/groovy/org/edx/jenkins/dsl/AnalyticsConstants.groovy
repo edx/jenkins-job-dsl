@@ -84,7 +84,7 @@ class AnalyticsConstants {
             textParam('EMR_ADDITIONAL_STEPS', allVars.get('EMR_ADDITIONAL_STEPS', ''), 'Additional EMR steps')
             textParam('EXTRA_VARS', allVars.get('EMR_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
 This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
-            stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
+            stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             stringParam('NUM_TASK_CAPACITY', env.get('NUM_TASK_CAPACITY', allVars.get('NUM_TASK_CAPACITY')), 'Number of EMR instance capacity to use for this job.')
             stringParam('SECURE_CONFIG', env.get('SECURE_CONFIG', allVars.get('SECURE_CONFIG', 'analytics-tasks/prod-edx.cfg')), '')
             stringParam('TASKS_BRANCH', '$ANALYTICS_PIPELINE_RELEASE', 'e.g. tagname or origin/branchname,  e.g. origin/master or $ANALYTICS_PIPELINE_RELEASE')
