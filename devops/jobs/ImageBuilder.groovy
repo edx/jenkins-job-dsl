@@ -84,13 +84,17 @@ class ImageBuilder {
 
                 wrappers common_wrappers
 
-                // add credentials to log in to DockerHub; ID refers to credential ID as set up in Jenkins
                 wrappers {
+                    // add credentials to log in to DockerHub; ID refers to credential ID as set up in Jenkins
                     credentialsBinding {
                         file("CONFIG_JSON_FILE", extraVars.get("CONFIG_JSON_FILE_CREDENTIAL_ID", "docker-config-json"))
                     }
+                    // Don't allow a stuck job to run indefinitely; longest success to date was around 35 minutes
+                    timeout {
+                        absolute(90)
+                    }
                 }
-                
+
                 logRotator common_logrotator
 
                 def access_control = extraVars.get('ACCESS_CONTROL',[])
