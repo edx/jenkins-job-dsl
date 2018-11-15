@@ -11,6 +11,7 @@ import static analytics.FinanceReport.payments_validation_job as PaymentsValidat
 import static analytics.FinanceReport.finance_report_job as FinanceReportJob
 import static analytics.BigqueryReplicaImport.job as BigqueryReplicaImportJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
+import static analytics.EventExportIncrementalLarge.job as EventExportIncrementalLargeJob
 import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
 import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
 import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
@@ -77,6 +78,7 @@ def taskMap = [
     BACKUP_VERTICA_JOB: BackupVerticaJob,
     TOTAL_EVENTS_DAILY_REPORT_JOB: TotalEventsDailyReportJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
+    EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
     LOAD_COURSE_STRUCTURE_JOB: LoadCourseStructureJob,
     ENTERPRISE_JOB: EnterpriseJob,
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
