@@ -52,15 +52,29 @@ pipelineJob('edx-platform-python-pipeline-pr') {
         cpsScm {
             scm {
                 git {
+                    extensions {
+                        cloneOptions {
+                            honorRefspec(true)
+                            noTags(true)
+                            shallow(true)
+                        }
+                        sparseCheckoutPaths {
+                            sparseCheckoutPaths {
+                                sparseCheckoutPath {
+                                    path('scripts/Jenkinsfiles')
+                                }
+                            }
+                        }
+                    }
                     remote {
                         credentials('jenkins-worker')
                         github('edx/edx-platform', 'ssh', 'github.com')
-                        refspec('+refs/heads/*:refs/remotes/origin/* +refs/pull/*:refs/remotes/origin/pr/*')
+                        refspec('+refs/heads/master:refs/remotes/origin/master +refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
                         branch('\${sha1}')
                     }
                 }
             }
-            scriptPath('Jenkinsfile')
+            scriptPath('scripts/Jenkinsfiles/python')
         }
     }
 }
