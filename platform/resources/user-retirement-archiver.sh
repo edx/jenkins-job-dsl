@@ -14,6 +14,9 @@ env
 export PYTHONIOENCODING=UTF-8
 export LC_CTYPE=en_US.UTF-8
 
+. util/jenkins/assume-role.sh
+assume-role ${ROLE_ARN}
+
 # prepare credentials
 mkdir -p $WORKSPACE/user-retirement-secure
 cp $USER_RETIREMENT_SECURE_DEFAULT $WORKSPACE/user-retirement-secure/secure-default.yml
