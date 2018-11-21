@@ -37,17 +37,17 @@ class UserRetirementArchiver {
 
             description('Archive the old user retirement status rows to AWS S3.')
 
+            ////
             // First we write the DSL statements which should be common to ALL user retirement jobs.
+            ////
+
+            common_closures_extra(extraVars)
             authorization common_access_controls(extraVars)
             triggers common_triggers(extraVars)
             wrappers common_wrappers(extraVars)
             parameters common_parameters(extraVars)
-            checkoutRetryCount(5)  // retry cloning repositories
             multiscm common_multiscm(extraVars)
             publishers common_publishers(extraVars)
-            logRotator {
-                daysToKeep(30) // keep jobs around for 30 days.
-            }
 
             ////
             // Now, everything which follows is custom to this particular job.
@@ -55,6 +55,10 @@ class UserRetirementArchiver {
 
             // Only one of these jobs should be running at a time.
             concurrentBuild(false)
+
+            logRotator {
+                daysToKeep(30) // keep jobs around for 30 days.
+            }
 
             wrappers {
                 credentialsBinding {
