@@ -12,7 +12,7 @@ class AnalyticsConstants {
     }
 
     public static def common_multiscm = { allVars ->
-        return {
+        def tasks_scm = {
             git {
                 remote {
                     url('$TASKS_REPO')
@@ -24,6 +24,12 @@ class AnalyticsConstants {
                     cleanAfterCheckout()
                 }
             }
+        }
+        return tasks_scm >> AnalyticsConstants.analytics_configuration_scm(allVars)
+    }
+
+    public static def analytics_configuration_scm = { allVars ->
+        return {
             git {
                 remote {
                     url('$CONFIG_REPO')
