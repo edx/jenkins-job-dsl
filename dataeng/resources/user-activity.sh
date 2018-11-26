@@ -11,4 +11,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --end-date $(date +%Y-%m-%d -d "$TO_DATE") \
   --weeks 52 \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
-  --overwrite-mysql
+  --overwrite-mysql \
+  $EXTRA_ARGS
