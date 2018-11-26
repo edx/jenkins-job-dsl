@@ -77,9 +77,22 @@ class AnalyticsConstants {
 
     public static def common_parameters = { allVars, env=[:] ->
         def parameters = {
-            stringParam('CLUSTER_NAME', env.get('CLUSTER_NAME', allVars.get('CLUSTER_NAME')), 'Name of the EMR cluster to use for this job.')
             stringParam('CONFIG_BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
             stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
+            stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
+            stringParam('SECURE_CONFIG', env.get('SECURE_CONFIG', allVars.get('SECURE_CONFIG', 'analytics-tasks/prod-edx.cfg')), '')
+            stringParam('TASKS_BRANCH', '$ANALYTICS_PIPELINE_RELEASE', 'e.g. tagname or origin/branchname,  e.g. origin/master or $ANALYTICS_PIPELINE_RELEASE')
+            stringParam('TASKS_REPO', 'https://github.com/edx/edx-analytics-pipeline.git', 'Git repo containing the analytics pipeline tasks.')
+            stringParam('TASK_USER', allVars.get('TASK_USER'), 'User which runs the analytics task on the EMR cluster.')
+            booleanParam('TERMINATE', true, 'Terminate the EMR cluster after running the analytics task?')
+        }
+        // secure_scm_parameters provides variables required by run-automated-task.sh.
+        return parameters >> AnalyticsConstants.secure_scm_parameters(allVars) >> AnalyticsConstants.emr_cluster_parameters(allVars, env)
+    }
+
+    public static def emr_cluster_parameters = { allVars, env=[:] ->
+        return {
+            stringParam('CLUSTER_NAME', env.get('CLUSTER_NAME', allVars.get('CLUSTER_NAME')), 'Name of the EMR cluster to use for this job.')
             stringParam('EMR_MASTER_INSTANCE_TYPE', env.get('EMR_MASTER_INSTANCE_TYPE', allVars.get('EMR_MASTER_INSTANCE_TYPE','m4.2xlarge')), 'EC2 Instance type used for master.')
             stringParam('EMR_WORKER_INSTANCE_TYPE_1', env.get('EMR_WORKER_INSTANCE_TYPE_1', allVars.get('EMR_WORKER_INSTANCE_TYPE_1','m4.2xlarge')), 'EC2 instance type used by workers.')
             stringParam('EMR_WORKER_INSTANCE_TYPE_2', env.get('EMR_WORKER_INSTANCE_TYPE_2', allVars.get('EMR_WORKER_INSTANCE_TYPE_2','m4.4xlarge')), 'EC2 instance type used by workers.')
@@ -90,18 +103,9 @@ class AnalyticsConstants {
             textParam('EMR_ADDITIONAL_STEPS', allVars.get('EMR_ADDITIONAL_STEPS', ''), 'Additional EMR steps')
             textParam('EXTRA_VARS', allVars.get('EMR_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
 This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
-            stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             stringParam('NUM_TASK_CAPACITY', env.get('NUM_TASK_CAPACITY', allVars.get('NUM_TASK_CAPACITY')), 'Number of EMR instance capacity to use for this job.')
-            stringParam('SECURE_CONFIG', env.get('SECURE_CONFIG', allVars.get('SECURE_CONFIG', 'analytics-tasks/prod-edx.cfg')), '')
-            stringParam('TASKS_BRANCH', '$ANALYTICS_PIPELINE_RELEASE', 'e.g. tagname or origin/branchname,  e.g. origin/master or $ANALYTICS_PIPELINE_RELEASE')
-            stringParam('TASKS_REPO', 'https://github.com/edx/edx-analytics-pipeline.git', 'Git repo containing the analytics pipeline tasks.')
-            stringParam('TASK_USER', allVars.get('TASK_USER'), 'User which runs the analytics task on the EMR cluster.')
-            booleanParam('TERMINATE', true, 'Terminate the EMR cluster after running the analytics task?')
         }
-        // secure_scm_parameters provides variables required by run-automated-task.sh.
-        return parameters >> AnalyticsConstants.secure_scm_parameters(allVars)
     }
-
     // Include this whenever secure_scm() is used, or when run-automated-task.sh is executed in a shell command.
     public static def secure_scm_parameters = { allVars ->
         return {
