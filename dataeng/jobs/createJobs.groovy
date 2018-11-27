@@ -33,6 +33,7 @@ import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
+import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEventsJob
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -88,6 +89,7 @@ def taskMap = [
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
+    ENROLLMENT_VALIDATION_EVENTS_JOB: EnrollmentValidationEventsJob,
 ]
 
 for (task in taskMap) {
