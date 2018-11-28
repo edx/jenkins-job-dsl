@@ -35,6 +35,7 @@ import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEventsJob
 import static analytics.DeployCluster.job as DeployClusterJob
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
 
@@ -115,15 +116,7 @@ listView('Production') {
     jobs {
         regex('.+production')
     }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
-    }
+    columns DEFAULT_VIEW.call()
 }
 
 listView('Edge') {
@@ -131,15 +124,7 @@ listView('Edge') {
     jobs {
         regex('.+edge')
     }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
-    }
+    columns DEFAULT_VIEW.call()
 }
 
 listView('Release') {
@@ -147,15 +132,7 @@ listView('Release') {
     jobs {
         regex('.+release')
     }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
-    }
+    columns DEFAULT_VIEW.call()
 }
 
 listView('Exporter') {
@@ -163,15 +140,7 @@ listView('Exporter') {
     jobs {
         regex('analytics-.+')
     }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
-    }
+    columns DEFAULT_VIEW.call()
 }
 
 listView('Warehouse') {
@@ -181,31 +150,40 @@ listView('Warehouse') {
         name('finance-report')
         name('payments-validation')
         name('generate-warehouse-docs')
-        regex('.+read-replica-import')
-        regex('load-.+')
+        regex('.+read-replica-import|load-.+|vertica-to-bigquery.+|.*sql-script.*')
     }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
-    }
+    columns DEFAULT_VIEW.call()
 }
 
 listView('Tools') {
     jobs {
         name('data_engineering_seed_job')
+        name('deploy-cluster')
+        name('terminate-cluster')
+        name('emr-cost-reporter')
+        name('update-users')
+        name('vertica-disk-usage-monitor')
     }
-    columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Stage') {
+    jobs {
+        regex('.+stage')
     }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Enterprise') {
+    jobs {
+        regex('enterprise.+')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Backups') {
+    jobs {
+        regex('.*backup.*')
+    }
+    columns DEFAULT_VIEW.call()
 }
