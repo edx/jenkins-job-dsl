@@ -56,3 +56,12 @@ listView("edx-platform-pipeline-pr-tests") {
     }
     columns DEFAULT_VIEW.call()
 }
+
+listView("edx-platform-pipeline-master-tests") {
+    description('Pipeline Jobs for running tests pushes to master branch of the edx-platform')
+
+    jobs {
+        regex("edx-platform-.*-pipeline-master")
+    }
+    columns DEFAULT_VIEW.call()
+}
