@@ -14,21 +14,28 @@ class UserRetirementConstants {
             'hudson.model.Item.Discover',
             'hudson.model.Item.Read',
         ]
-        def read_build_perms = extraVars.get('ACCESS_CONTROL',[]).each { acl ->
+        // Collect closures dynamically using side-effecting "each"
+        // iterations.  The ">>" operator constructs a "composed" closure.
+        Closure read_build_perms = {}
+        extraVars.get('ACCESS_CONTROL',[]).each { acl ->
             read_build_permission_names.each { perm ->
-                permission(perm,acl)
+                read_build_perms = read_build_perms >> { permission(perm,acl) }
             }
         }
-        def admin_perms = extraVars.get('ADMIN_ACCESS_CONTROL',[]).each { acl ->
-            permissionAll(acl)
+        Closure admin_perms = {}
+        extraVars.get('ADMIN_ACCESS_CONTROL',[]).each { acl ->
+            admin_perms = admin_perms >> { permissionAll(acl) }
         }
-        // The ">>" operator composes two closures into one closure.
+        // Combine the read permissions with the admin permissions by composing
+        // two closures with the ">>" operator.
         return read_build_perms >> admin_perms
     }
 
     public static def common_triggers = { extraVars ->
         if (extraVars.containsKey('CRON')) {
-            cron(extraVars.get('CRON'))
+            return {
+                cron(extraVars.get('CRON'))
+            }
         }
     }
 
@@ -83,6 +90,7 @@ class UserRetirementConstants {
             }
         }
     }
+
     public static def common_publishers = { extraVars ->
         return {
             // After all the build steps have completed, cleanup the workspace in
@@ -109,6 +117,7 @@ class UserRetirementConstants {
             }
         }
     }
+
     public static def common_closures_extra = { extraVars ->
         return {
             disabled(extraVars.get('DISABLED'))  // Jobs may be disabled for testing/rollout.

@@ -33,7 +33,10 @@ class UserRetirementArchiver {
             "Make sure MAILING_LIST is a single string (containing a comma-delimited list) and not a proper Yaml " +
             "list or some other non-string type."
 
-        def job_name = extraVars.get("FOLDER_NAME") + '/archiver-' + extraVars.get('ENVIRONMENT_DEPLOYMENT')
+        def job_name = 'archiver-' + extraVars.get('ENVIRONMENT_DEPLOYMENT')
+        if (extraVars.containsKey("FOLDER_NAME")) {
+            job_name = extraVars.get("FOLDER_NAME") + '/' + job_name
+        }
         dslFactory.job(job_name) {
 
             description('Archive the old user retirement status rows to AWS S3.')
@@ -82,7 +85,7 @@ class UserRetirementArchiver {
                     name('user-retirement-archiver')
                     nature('shell')
                     systemSitePackages(false)
-                    command(readFileFromWorkspace('devops/resources/user-retirement-archiver.sh'))
+                    command(dslFactory.readFileFromWorkspace('devops/resources/user-retirement-archiver.sh'))
                 }
             }
         }
