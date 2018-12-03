@@ -18,6 +18,7 @@ This job expects the following credentials to be defined on the folder:
 */
 package devops.jobs
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_access_controls
+import static org.edx.jenkins.dsl.UserRetirementConstants.common_closures_extra
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_multiscm
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_parameters
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_publishers
