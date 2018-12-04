@@ -24,7 +24,6 @@
 package devops.jobs
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
-import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
 class CreateSandbox {
@@ -65,7 +64,9 @@ class CreateSandbox {
                 sshAgent('sandbox-ssh-keys')
             }
 
-            logRotator common_logrotator
+            logRotator {
+                daysToKeep(5)
+            }
 
             multiscm {
                 git {
