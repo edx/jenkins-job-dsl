@@ -15,7 +15,8 @@ import static analytics.EventExportIncrementalLarge.job as EventExportIncrementa
 import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
 import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
 import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
-import static analytics.SqlScripts.job as SqlScriptsJob
+import static analytics.SqlScripts.multiple_scripts_job as SqlScriptsJob
+import static analytics.SqlScripts.single_script_job as SingleSqlScriptJob
 import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
 import static analytics.LoadWarehouse.bigquery_job as LoadWarehouseBigQueryJob
 import static analytics.LoadEvents.load_events_to_s3_job as LoadEventsToS3Job
@@ -73,6 +74,7 @@ def taskMap = [
     EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
     GENERATE_WAREHOUSE_DOCS_JOB: GenerateWarehouseDocsJob,
     SQL_SCRIPTS_JOB: SqlScriptsJob,
+    SINGLE_SQL_SCRIPT_JOB: SingleSqlScriptJob,
     LOAD_WAREHOUSE_VERTICA_JOB: LoadWarehouseVerticaJob,
     LOAD_WAREHOUSE_BIGQUERY_JOB: LoadWarehouseBigQueryJob,
     LOAD_EVENTS_TO_S3_JOB: LoadEventsToS3Job,
