@@ -44,7 +44,6 @@ class UserRetirementConstants {
             buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
             buildName('#${BUILD_NUMBER}, ' + extraVars.get('ENVIRONMENT_DEPLOYMENT'))
             timestamps()
-            colorizeOutput('xterm')
         }
     }
 
@@ -93,10 +92,6 @@ class UserRetirementConstants {
 
     public static def common_publishers = { extraVars ->
         return {
-            // After all the build steps have completed, cleanup the workspace in
-            // case this worker instance is re-used for a different job.
-            wsCleanup()
-
             if (extraVars.containsKey('MAILING_LIST')) {
                 // Send an alerting email upon failure.
                 extendedEmail {
