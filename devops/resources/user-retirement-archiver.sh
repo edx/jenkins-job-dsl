@@ -4,7 +4,6 @@ env
 set -ex
 
 cd $WORKSPACE/configuration
-pip install -r requirements.txt
 . util/jenkins/assume-role.sh
 
 assume-role ${ROLE_ARN}
