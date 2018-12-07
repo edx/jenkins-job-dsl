@@ -24,6 +24,8 @@ import static org.edx.jenkins.dsl.UserRetirementConstants.common_parameters
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_publishers
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_triggers
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_wrappers
+import static org.edx.jenkins.dsl.UserRetirementConstants.configuration_parameters
+import static org.edx.jenkins.dsl.UserRetirementConstants.configuration_repo
 
 class UserRetirementArchiver {
     public static def job = { dslFactory, extraVars ->
@@ -49,13 +51,14 @@ class UserRetirementArchiver {
             authorization common_access_controls(extraVars)
             triggers common_triggers(extraVars)
             wrappers common_wrappers(extraVars)
-            parameters common_parameters(extraVars)
-            multiscm common_multiscm(extraVars)
             publishers common_publishers(extraVars)
 
             ////
             // Now, everything which follows is custom to this particular job.
             ////
+
+            parameters common_parameters(extraVars) << configuration_parameters(extraVars)
+            multiscm common_multiscm(extraVars) << configuration_repo(extraVars)
 
             // Only one of these jobs should be running at a time.
             concurrentBuild(false)
