@@ -90,6 +90,32 @@ class UserRetirementConstants {
         }
     }
 
+    public static def configuration_parameters = { extraVars ->
+        return {
+            stringParam('CONFIGURATION_BRANCH', 'master', 'Repo branch for configuration.')
+        }
+    }
+
+    public static def configuration_repo = { extraVars ->
+        return {
+            git {
+                remote {
+                    url('https://github.com/edx/configuration.git')
+                    branch('$CONFIGURATION_BRANCH')
+                }
+                extensions {
+                    relativeTargetDirectory('configuration')
+                    pruneBranches()
+                    cloneOptions {
+                        shallow()
+                        timeout(10)
+                    }
+                    cleanAfterCheckout()
+                }
+            }
+        }
+    }
+
     public static def common_publishers = { extraVars ->
         return {
             if (extraVars.containsKey('MAILING_LIST')) {
