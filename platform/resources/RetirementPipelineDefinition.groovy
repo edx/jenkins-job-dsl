@@ -3,10 +3,12 @@
  */
 pipeline {
     agent {
-        // Try to run on standard jenkins-worker instances, otherwise the
-        // backup-runner will suffice as fallback.  Master is currently
-        // designated as a backup-runner.
-        label 'jenkins-worker'
+        // By default, run all the stages on standard jenkins-worker instances.
+        // For now, this means we may launch a lot of jenkins-worker instances
+        // per week.  Also the idea of a retirement stage agent being reused
+        // for a public build worker seems like a bad idea for security.
+        // PLAT-2096 will attempt to address this.
+        label "jenkins-worker"
     }
     parameters {
         string(
@@ -29,54 +31,113 @@ pipeline {
         booleanParam(name: 'do_lms_unenroll', defaultValue: true, description: 'Do the LMS course unenroll step.')
         booleanParam(name: 'do_lms_notes', defaultValue: true, description: 'Do the LMS notes retirement step.')
     }
+    environment {
+        // This pipeline assumes the following structure for any secrets YAML file:
+        //
+        //     ---
+        //     prod-edx:
+        //         lms:
+        //             base_url: https://courses.edx.org/
+        //             client_id: foo
+        //             client_secret: bar
+        //         ecommerce:
+        //             ...
+        //         ...
+        //     stage-edx:
+        //         ...
+        //     ...
+        //
+        // In short, the heirarchy is ENVIRONMENT > IDA > SECRET TYPE.
+        //
+        // For now, use "overrides" in the credential ID to make it easier to
+        // transition to reading from a credentials repo and using this as
+        // overrides only.
+        RETIREMENT_SECRETS = credentials('retirement_driver_secrets_overrides.yml')
+    }
     stages {
-        stage('Checkout') {
-            steps {
-                // checkout secure repo to get secure defaults such as API auth client keys
-                sh 'echo "running the Checkout stage"'
-
-            }
-        }
         stage('LMS - lock account') {
             when { expression { return params.do_lms_lock_account } }
             steps {
                 sh 'echo "running the LMS - lock account stage"'
+                script {
+                    retirement_driver_secrets = readYaml file: "$RETIREMENT_SECRETS"
+                    lms_secrets = retirement_driver_secrets.get(params.environment).lms
+                }
                 // TODO: PLAT-2047
+                // Make use of the following values:
+                //   lms_secrets.base_url
+                //   lms_secrets.client_id
+                //   lms_secrets.client_secret
             }
         }
         stage('CREDENTIALS - retire user') {
             when { expression { return params.do_credentials } }
             steps {
                 sh 'echo "running the CREDENTIALS - retire user stage"'
-                // TODO: PLAT-2053
+                script {
+                    retirement_driver_secrets = readYaml file: "$RETIREMENT_SECRETS"
+                    credentials_secrets = retirement_driver_secrets.get(params.environment).credentials
+                }
+                // TODO: PLAT-2053.  Make use of the following values:
+                //   credentials_secrets.base_url
+                //   credentials_secrets.client_id
+                //   credentials_secrets.client_secret
             }
         }
         stage('ECOM - retire user') {
             when { expression { return params.do_ecom } }
             steps {
                 sh 'echo "running the ECOM - retire user stage"'
-                // TODO: PLAT-2052
+                script {
+                    retirement_driver_secrets = readYaml file: "$RETIREMENT_SECRETS"
+                    ecommerce_secrets = retirement_driver_secrets.get(params.environment).ecommerce
+                }
+                // TODO: PLAT-2052.  Make use of the following values:
+                //   ecom_secrets.base_url
+                //   ecom_secrets.client_id
+                //   ecom_secrets.client_secret
             }
         }
         stage('LMS - forums retirement') {
             when { expression { return params.do_lms_forums } }
             steps {
                 sh 'echo "running the LMS - forums retirement stage"'
-                // TODO: PLAT-2049
+                script {
+                    retirement_driver_secrets = readYaml file: "$RETIREMENT_SECRETS"
+                    lms_secrets = retirement_driver_secrets.get(params.environment).lms
+                }
+                // TODO: PLAT-2049. Make use of the following values:
+                //   lms_secrets.base_url
+                //   lms_secrets.client_id
+                //   lms_secrets.client_secret
             }
         }
         stage('LMS - email list opt-out') {
             when { expression { return params.do_lms_email_lists } }
             steps {
                 sh 'echo "running the LMS - email list opt-out stage"'
-                // TODO: PLAT-2048
+                script {
+                    retirement_driver_secrets = readYaml file: "$RETIREMENT_SECRETS"
+                    lms_secrets = retirement_driver_secrets.get(params.environment).lms
+                }
+                // TODO: PLAT-2048. Make use of the following values:
+                //   lms_secrets.base_url
+                //   lms_secrets.client_id
+                //   lms_secrets.client_secret
             }
         }
         stage('LMS - unenroll') {
             when { expression { return params.do_lms_unenroll } }
             steps {
                 sh 'echo "running the LMS - unenroll stage"'
-                // TODO: PLAT-2050
+                script {
+                    retirement_driver_secrets = readYaml file: "$RETIREMENT_SECRETS"
+                    lms_secrets = retirement_driver_secrets.get(params.environment).lms
+                }
+                // TODO: PLAT-2050. Make use of the following values:
+                //   lms_secrets.base_url
+                //   lms_secrets.client_id
+                //   lms_secrets.client_secret
             }
         }
     }
