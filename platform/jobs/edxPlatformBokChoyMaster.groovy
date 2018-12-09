@@ -28,8 +28,8 @@ publicJobConfig:
     context : 'jenkins/test'
     defaultBranch : 'master'
     defaultTestengBranch: 'master'
+    disabled: true/false
 */
-
 
 /* stdout logger */
 /* use this instead of println, because you can pass it into closures or other scripts. */
@@ -37,7 +37,6 @@ Map config = [:]
 Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
-
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map secretMap = [:]
@@ -78,14 +77,26 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('context')
     assert jobConfig.containsKey('defaultBranch')
     assert jobConfig.containsKey('defaultTestengBranch')
+    assert jobConfig.containsKey('disabled')
 
     buildFlowJob(jobConfig['jobName']) {
+
+        // automatically disable certain jobs for branches that don't always exist
+        // to avoid incessant polling
+        if (jobConfig['disabled'].toBoolean()) {
+            disabled()
+            description('This job is disabled by default, as the target platform' +
+                        'branch is not guaranteed to always exist. If you need to' +
+                        'run this job, make sure you manually enable it, and ' +
+                        'disable it when you are finished')
+        }
 
         /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
 
@@ -97,7 +108,7 @@ secretMap.each { jobConfigs ->
         properties {
               githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['platformUrl'])
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild() //concurrent builds can happen
         label('flow-worker-bokchoy') //restrict to flow-worker-bokchoy
         checkoutRetryCount(5)
@@ -141,19 +152,12 @@ secretMap.each { jobConfigs ->
             }
         }
         triggers {
-            // due to a bug or misconfiguration, jobs with default branches with
-            // slashes are indiscriminately triggered by pushes to other branches.
-            // For more information, see:
-            // https://openedx.atlassian.net/browse/TE-1921
-            // for commits merging into master, trigger jobs via github pushes
-            if ( jobConfig['defaultBranch'] == 'master') {
-                githubPush()
-            }
-            // for all other jobs in this style, poll github for new commits on
-            // the 'defaultBranch'
-            else {
-                scm("@hourly")
-            }
+            // Trigger jobs via github pushes
+            githubPush()
+        }
+
+        wrappers {
+            timestamps()
         }
 
         Map <String, String> predefinedPropsMap  = [:]

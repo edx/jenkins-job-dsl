@@ -1,6 +1,6 @@
 package devops
 
-import static org.edx.jenkins.dsl.Constants.common_wrappers
+import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 jobStringParameters = [
@@ -56,7 +56,7 @@ job('github-build-status') {
             string('GITHUB_OAUTH_TOKEN', 'GITHUB_STATUS_OAUTH_TOKEN')
         }
     }
-    logRotator JENKINS_PUBLIC_LOG_ROTATOR()
+    logRotator JENKINS_PUBLIC_LOG_ROTATOR(1)
     parameters {
         jobStringParameters.each { param ->
                 stringParam(param.name, param.default, param.description)
@@ -70,13 +70,6 @@ job('github-build-status') {
     concurrentBuild()
     label('github-status-worker')
     steps {
-        shell(readFileFromWorkspace('platform/resources/jenkins_public_scripts/github_status_shell.sh'))
-    }
-    publishers {
-        groovyPostBuild(
-            readFileFromWorkspace('platform/resources/jenkins_public_scripts/deployment_status.groovy'),
-            Behavior.MarkFailed
-        )
+        shell(readFileFromWorkspace('platform/resources/github_status_shell.sh'))
     }
 }
-

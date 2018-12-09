@@ -3,8 +3,8 @@ package platform
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 
 List<String> branchList = [ "edx-platform", // Represents all non-release testing
-                            "eucalyptus",
-                            "ficus"
+                            "ficus",
+                            "ginkgo"
                             ]
 
 branchList.each { branch ->
@@ -21,7 +21,7 @@ branchList.each { branch ->
         }
 
         jobs {
-            regex("${branch}-.*-pr")
+            regex("${branch}(-django-upgrade)?-(accessibility|bok-choy|js|lettuce|quality|python-unittests|unittests)-pr")
         }
         columns DEFAULT_VIEW.call()
 
@@ -40,9 +40,27 @@ branchList.each { branch ->
 
         jobs {
             name('github-build-status')
-            regex("${branch}-.*-master")
+            regex("${branch}(-django-upgrade)?-(accessibility|bok-choy|js|lettuce|quality|python-unittests|unittests)-master")
         }
         columns DEFAULT_VIEW.call()
     }
 
+}
+
+listView('django-upgrade-pr-tests') {
+    description('jobs used to run tests on pull requests against various ' +
+                'versions of django during the upgrade process')
+    jobs {
+        regex('edx-platform-django-.*-pr')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('django-upgrade-master-tests') {
+    description('jobs used to run tests on merges to master against various ' +
+                'versions of django during the upgrade process')
+    jobs {
+        regex('edx-platform-django-.*-master')
+    }
+    columns DEFAULT_VIEW.call()
 }

@@ -3,6 +3,7 @@ package devops
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_ARTIFACTS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_ARCHIVE_XUNIT
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 
@@ -87,12 +88,7 @@ secretMap.each { jobConfigs ->
     /* Actual DSL component */
     job(jobConfig['jobName']) {
 
-        logRotator {
-            daysToKeep(14)
-            numToKeep(-1)
-            artifactDaysToKeep(5)
-            artifactNumToKeep(-1)
-        }
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7, -1, 3, -1)
         properties {
             githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'])
         }
@@ -102,6 +98,7 @@ secretMap.each { jobConfigs ->
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
 
@@ -158,6 +155,10 @@ secretMap.each { jobConfigs ->
                 sshAgent(jobConfig['credential'])
             }
             buildName('#\${BUILD_NUMBER}: \${ENV,var=\"TEST_SUITE\"} \${ENV,var=\"SHARD\"}')
+            credentialsBinding {
+                string('AWS_ACCESS_KEY_ID', 'DB_CACHE_ACCESS_KEY_ID')
+                string('AWS_SECRET_ACCESS_KEY', 'DB_CACHE_SECRET_ACCESS_KEY')
+            }
         }
 
         /* Actual build steps for this job */

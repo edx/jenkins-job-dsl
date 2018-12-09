@@ -8,11 +8,12 @@ class JenkinsPublicConstants {
   public static final String JENKINS_PUBLIC_BASE_URL = "https://build.testeng.edx.org/"
 
   public static final Closure JENKINS_PUBLIC_LOG_ROTATOR = {
+    int days=14, int num=-1, int artifactDays=-1, int artifactNum=-1 ->
     return {
-      daysToKeep(14)
-      numToKeep(-1)
-      artifactDaysToKeep(-1)
-      artifactNumToKeep(-1)
+      daysToKeep(days)
+      numToKeep(num)
+      artifactDaysToKeep(artifactDays)
+      artifactNumToKeep(artifactNum)
     }
   }
 
@@ -35,7 +36,7 @@ class JenkinsPublicConstants {
     return {
         jUnit {
             pattern("**/nosetests.xml,**/TEST-*.xml,reports/acceptance/*.xml,reports/quality.xml," +
-                    "reports/javascript/javascript_xunit.xml,reports/bok_choy/xunit.xml,reports/bok_choy/**/xunit.xml"
+                    "reports/javascript/javascript_xunit.xml,reports/a11y/xunit.xml,reports/bok_choy/xunit.xml,reports/bok_choy/**/xunit.xml"
                     )
             skipNoTestFiles(true)
             stopProcessingIfError(true)
@@ -82,8 +83,8 @@ class JenkinsPublicConstants {
 
     public static final String JENKINS_PUBLIC_JUNIT_REPORTS = 'edx-platform*/**/nosetests.xml,edx-platform*/reports/acceptance/*.xml,' +
                                                               'edx-platform*/reports/quality.xml,edx-platform*/reports/javascript/' +
-                                                              'javascript_xunit*.xml,edx-platform*/reports/bok_choy/xunit.xml,edx-platform*/' +
-                                                              'reports/bok_choy/**/xunit.xml'
+                                                              'javascript_xunit*.xml,edx-platform*/reports/a11y/**/xunit.xml,' +
+                                                              'edx-platform*/reports/bok_choy/**/xunit.xml'
 
     public static final Closure JENKINS_PUBLIC_GITHUB_STATUS_PENDING = { predefinedPropsMap ->
         return {
@@ -132,12 +133,21 @@ class JenkinsPublicConstants {
             memberList.each { member ->
                 permissionAll(member)
             }
-            // grant read rights to the org
+            // grant read/run rights to the org
             permission('hudson.model.Item.Read', 'edx')
             permission('hudson.model.Item.Discover', 'edx')
+            permission('hudson.model.Item.Build', 'edx')
+            permission('hudson.model.Item.Cancel', 'edx')
         }
 
+    }
 
+    public static final Closure GENERAL_PRIVATE_JOB_SECURITY = {
+        return {
+            blocksInheritance(true)
+            permissionAll('edx')
+            permission('hudson.model.Item.Discover', 'anonymous')
+        }
     }
 
     public static final Closure PUBLISH_TO_HOCKEY_APP(String hockeyAppApiToken, String apkFilePath, String releaseNotesString) {

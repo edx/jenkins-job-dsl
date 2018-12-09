@@ -26,10 +26,11 @@ publicJobConfig:
     refSpec : '+refs/heads/master:refs/remotes/origin/master'
     context : 'jenkins/test'
     defaultBranch : 'master'
+    disabled: true/false
 */
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
-archiveReports += 'edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,'
+archiveReports += 'edx-platform*/test_root/log/*.log,'
 archiveReports += 'edx-platform*/**/nosetests.xml,edx-platform*/**/TEST-*.xml'
 
 /* stdout logger */
@@ -76,14 +77,26 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('refSpec')
     assert jobConfig.containsKey('context')
     assert jobConfig.containsKey('defaultBranch')
+    assert jobConfig.containsKey('disabled')
 
     job(jobConfig['jobName']) {
+
+        // automatically disable certain jobs for branches that don't always exist
+        // to avoid incessant polling
+        if (jobConfig['disabled'].toBoolean()) {
+            disabled()
+            description('This job is disabled by default, as the target platform' +
+                        'branch is not guaranteed to always exist. If you need to' +
+                        'run this job, make sure you manually enable it, and ' +
+                        'disable it when you are finished')
+        }
 
         /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
         properties {
@@ -95,7 +108,7 @@ secretMap.each { jobConfigs ->
                 defaultValue(jobConfig['workerLabel'])
             }
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //Discard build after 14 days
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild() //concurrent builds can happen
         scm {
             git { //using git on the branch and url, clone, clean before checkout
@@ -119,19 +132,8 @@ secretMap.each { jobConfigs ->
             }
         }
         triggers {
-            // due to a bug or misconfiguration, jobs with default branches with
-            // slashes are indiscriminately triggered by pushes to other branches.
-            // For more information, see:
-            // https://openedx.atlassian.net/browse/TE-1921
-            // for commits merging into master, trigger jobs via github pushes
-            if ( jobConfig['defaultBranch'] == 'master') {
-                githubPush()
-            }
-            // for all other jobs in this style, poll github for new commits on
-            // the 'defaultBranch'
-            else {
-                scm("@hourly")
-            }
+            // Trigger jobs via github pushes
+            githubPush()
         }
         wrappers { //abort when stuck, x-mal coloring, timestamps in Console, change build name
             timeout {

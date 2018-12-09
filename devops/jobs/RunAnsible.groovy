@@ -3,7 +3,8 @@
     Variables consumed from the EXTRA_VARS input to your seed job in addition
     to those listed in the seed job.
 
-    SSH_AGENT_KEY: dictionary of key per environment (looked up from the currently generating ENVIRONMENT)
+    SSH_AGENT_KEY: dictionary of key per environment-deployment (looked up from the currently generating ENVIRONMENT and DEPLOYMENT)
+        As a backwards compatibility shim, will also fall back to environment only until all deployed jobs are updated.
     CONFIGURATION_REPO: standard default available
     CONFIGURATION_BRANCH: defaults to master
     ACCESS_CONTROL: list of Jenkins matrix targets who should get read access (edx*team or username)
@@ -21,30 +22,44 @@
 
     Expected credentials - these will normally be set up on the Folder.
         jnkins-aws-credentials: a file credential that can be set in the environment as AWS_CONFIG_FILE for assuming role
+            This name can be overridden by passing a credential id as AWS_CONFIG_FILE in the extra vars
         find-host-role-arn: ARN of the IAM role that will be assumed
+            This name can be overridden by passing an ARN as ROLE_ARN in the extra vars
 
 */
 package devops.jobs
+
+import javaposse.jobdsl.dsl.DslFactory
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
 class RunAnsible {
-    public static def job = { dslFactory, jobName, environment, deployment, extraVars ->
+    public static job(DslFactory dslFactory, String jobName, String environment, String deployment, Map extraVars) {
         return dslFactory.job(extraVars.get("FOLDER_NAME") + "/${environment}-${deployment}-${jobName}") {
+            // These 3 don't have defaults
+            assert extraVars.containsKey('SSH_AGENT_KEY') : "Please define SSH_AGENT_KEY"
+            assert extraVars.containsKey('CLUSTER') : "Please define CLUSTER"
+            assert extraVars.containsKey('MODULE_ARGS') : "Please define MODULE_ARGS"
             /*
                Run arbitrary remote commands on a host belonging to a target environment, deployment and cluster,
                in a specified region.
              */
-
             wrappers common_wrappers
+            logRotator common_logrotator
             wrappers {
                 credentialsBinding {
-                    file('AWS_CONFIG_FILE','jenkins-aws-credentials')
-                    string('ROLE_ARN','find-host-role-arn')
+                    file('AWS_CONFIG_FILE', extraVars.get('AWS_CONFIG_FILE','jenkins-aws-credentials'))
+                    string('ROLE_ARN',extraVars.get('AWS_ROLE_ARN','find-host-role-arn'))
                 }
-                sshAgent(extraVars.get("SSH_AGENT_KEY").get(environment))
+                def ssh_key = extraVars["SSH_AGENT_KEY"]["${environment}-${deployment}"]
+                if (!ssh_key) {
+                  // Backcompat shim until we reseed all the jobs and rename all the credentials
+                  ssh_key = extraVars["SSH_AGENT_KEY"][environment]
+                }
+                assert ssh_key : "Unable to find an ssh key in SSH_AGENT_KEY.${environment}-${deployment} or SSH_AGENT_KEY.${environment}"
+                sshAgent(ssh_key)
             }
 
             parameters {

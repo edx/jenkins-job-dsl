@@ -25,6 +25,7 @@ publicJobConfig:
     refSpec : '+refs/heads/master:refs/remotes/origin/master'
     context : 'jenkins/test'
     defaultBranch : 'master'
+    disabled: true/false
 */
 
 /* stdout logger */
@@ -65,18 +66,31 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('credential')
     assert jobConfig.containsKey('cloneReference')
     assert jobConfig.containsKey('hipchat')
+    assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('workerLabel')
     assert jobConfig.containsKey('refSpec')
     assert jobConfig.containsKey('context')
     assert jobConfig.containsKey('defaultBranch')
+    assert jobConfig.containsKey('disabled')
 
     job(jobConfig['jobName']) {
+
+        // automatically disable certain jobs for branches that don't always exist
+        // to avoid incessant polling
+        if (jobConfig['disabled'].toBoolean()) {
+            disabled()
+            description('This job is disabled by default, as the target platform' +
+                        'branch is not guaranteed to always exist. If you need to' +
+                        'run this job, make sure you manually enable it, and ' +
+                        'disable it when you are finished')
+        }
 
         /* For non-open jobs, enable project based security */
         if (!jobConfig['open'].toBoolean()) {
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
         properties {
@@ -88,7 +102,7 @@ secretMap.each { jobConfigs ->
                 defaultValue(jobConfig['workerLabel'])
             }
         }
-        logRotator JENKINS_PUBLIC_LOG_ROTATOR() //discard old builds after 14 days
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild() //concurrent builds can happen
         scm {
             git { //using git on the branch and url, clone, clean before checkout
@@ -112,19 +126,8 @@ secretMap.each { jobConfigs ->
             }
         }
         triggers {
-            // due to a bug or misconfiguration, jobs with default branches with
-            // slashes are indiscriminately triggered by pushes to other branches.
-            // For more information, see:
-            // https://openedx.atlassian.net/browse/TE-1921
-            // for commits merging into master, trigger jobs via github pushes
-            if ( jobConfig['defaultBranch'] == 'master') {
-                githubPush()
-            }
-            // for all other jobs in this style, poll github for new commits on
-            // the 'defaultBranch'
-            else {
-                scm("@hourly")
-            }
+            // Trigger jobs via github pushes
+            githubPush()
         }
         wrappers { //abort when stuck after 75 minutes, use gnome-terminal coloring, have timestamps at Console
             timeout {
@@ -135,8 +138,12 @@ secretMap.each { jobConfigs ->
             if (!jobConfig['open'].toBoolean()) {
                 sshAgent(jobConfig['credential'])
             }
+            credentialsBinding {
+                string('AWS_ACCESS_KEY_ID', 'DB_CACHE_ACCESS_KEY_ID')
+                string('AWS_SECRET_ACCESS_KEY', 'DB_CACHE_SECRET_ACCESS_KEY')
+            }
         }
-        
+
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
         predefinedPropsMap.put('GITHUB_ORG', 'edx')
@@ -146,7 +153,7 @@ secretMap.each { jobConfigs ->
                                   'job/' + jobConfig['jobName'] + '/${BUILD_NUMBER}/')
         steps { //trigger GitHub-Build-Status and run accessibility tests
             downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_PENDING.call(predefinedPropsMap)
-            shell("cd ${jobConfig['repoName']}; RUN_PA11YCRAWLER=1 ./scripts/accessibility-tests.sh")
+            shell("cd ${jobConfig['repoName']}; bash scripts/accessibility-tests.sh")
         }
         publishers { //publish artifacts and JUnit Test report, trigger GitHub-Build-Status, message on hipchat
            archiveArtifacts {
@@ -157,9 +164,17 @@ secretMap.each { jobConfigs ->
                allowEmpty()
                defaultExcludes()
            }
+           publishHtml {
+               report(jobConfig['repoName'] + '/reports/pa11ycrawler/html') {
+               reportName('HTML Report')
+               allowMissing()
+               keepAll()
+               }
+           }
            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_SUCCESS.call(predefinedPropsMap)
            downstreamParameterized JENKINS_PUBLIC_GITHUB_STATUS_UNSTABLE_OR_WORSE.call(predefinedPropsMap)
+           mailer(jobConfig['email'])
            hipChat JENKINS_PUBLIC_HIPCHAT.call(jobConfig['hipchat'])
        }
     }
