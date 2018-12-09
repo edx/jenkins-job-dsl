@@ -75,6 +75,7 @@ secretMap.each { jobConfigs ->
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
         description('This job runs pull requests through our quality checks.')
@@ -129,7 +130,7 @@ secretMap.each { jobConfigs ->
 
         wrappers {
             timeout {
-                absolute(45)
+                absolute(90)
             }
             timestamps()
             colorizeOutput()
@@ -153,7 +154,7 @@ secretMap.each { jobConfigs ->
                 report("${jobConfig['repoName']}/reports/metrics/") {
                     reportName('Quality Report')
                     reportFiles('pylint/*view*/,pep8/*view*/,jshint/*view*/,python_complexity/*view*/,' +
-                                'safecommit/*view*/,safelint/*view*/,eslint/*view*/')
+                                'xsscommitlint/*view*/,xsslint/*view*/,eslint/*view*/')
                     keepAll(true)
                     allowMissing(true)
                 }

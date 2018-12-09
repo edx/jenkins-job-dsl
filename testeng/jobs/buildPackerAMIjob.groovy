@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_MASKED_PASSWORD
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 Map config = [:]
 Binding bindings = getBinding()
@@ -29,9 +30,10 @@ catch (any) {
     sampleJobConfig:
         awsAccessKeyId: 123abc
         awsSecretAccessKey: 123abc
+        awsSecurityGroup: 123
         jenkinsWorkerAMI: ami-123
+        newRelicKey: 123abc
         webPageTestBaseAMI: ami-123
-        githubToken: 123abc
         toolsTeam: [ 'users1', 'users2' ]
         email : email@address
         hipchat : 123abc
@@ -43,9 +45,10 @@ secretMap.each { jobConfigs ->
 
     assert jobConfig.containsKey('awsAccessKeyId')
     assert jobConfig.containsKey('awsSecretAccessKey')
+    assert jobConfig.containsKey('awsSecurityGroup')
     assert jobConfig.containsKey('jenkinsWorkerAMI')
+    assert jobConfig.containsKey('newRelicKey')
     assert jobConfig.containsKey('webPageTestBaseAMI')
-    assert jobConfig.containsKey('githubToken')
     assert jobConfig.containsKey('toolsTeam')
     assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('hipchat')
@@ -58,6 +61,10 @@ secretMap.each { jobConfigs ->
         // Special security scheme for members of a team
         authorization JENKINS_PUBLIC_TEAM_SECURITY.call(jobConfig['toolsTeam'])
 
+        environmentVariables{
+            env('NEW_RELIC_KEY', jobConfig['newRelicKey'])
+        }
+
         parameters {
             stringParam('REMOTE_BRANCH', 'master',
                         'Branch of the configuration repo to use.')
@@ -67,7 +74,8 @@ secretMap.each { jobConfigs ->
                           'harprofiler.json',
                           'webpagetest.json',
                           'jenkins_worker_simple.json',
-                          'jenkins_worker_android.json'
+                          'jenkins_worker_android.json',
+                          'jenkins_worker_loadtest.json'
                         ],
                         'Json file (in util/packer) specifying how to build ' +
                         'the new AMI.')
@@ -82,6 +90,7 @@ secretMap.each { jobConfigs ->
                         'Base ami on which to run the Packer script')
         }
 
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild(true)
         label('coverage-worker')
 
@@ -107,6 +116,7 @@ secretMap.each { jobConfigs ->
             }
             timestamps()
             colorizeOutput('xterm')
+	    buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"}')
         }
 
         // Put sensitive info into masked password slots
@@ -124,12 +134,12 @@ secretMap.each { jobConfigs ->
                         value Secret.fromString(jobConfig['awsSecretAccessKey']).getEncryptedValue()
                     }
                     EnvInjectPasswordEntry {
-                        name 'WEBPAGE_TEST_BASE_AMI'
-                        value Secret.fromString(jobConfig['webPageTestBaseAMI']).getEncryptedValue()
+                        name 'AWS_SECURITY_GROUP'
+                        value Secret.fromString(jobConfig['awsSecurityGroup']).getEncryptedValue()
                     }
                     EnvInjectPasswordEntry {
-                        name 'GITHUB_TOKEN'
-                        value Secret.fromString(jobConfig['githubToken']).getEncryptedValue()
+                        name 'WEBPAGE_TEST_BASE_AMI'
+                        value Secret.fromString(jobConfig['webPageTestBaseAMI']).getEncryptedValue()
                     }
                 }
             }

@@ -72,6 +72,7 @@ secretMap.each { jobConfigs ->
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
         properties {
@@ -137,6 +138,13 @@ secretMap.each { jobConfigs ->
            shell("cd ${jobConfig['repoName']}; bash scripts/accessibility-tests.sh")
        }
        publishers {
+           publishHtml {
+               report(jobConfig['repoName'] + '/reports/pa11ycrawler/html') {
+               reportName('HTML Report')
+               allowMissing()
+               keepAll()
+               }
+           }
            archiveArtifacts {
                pattern(JENKINS_PUBLIC_JUNIT_REPORTS)
                pattern('edx-platform*/test_root/log/**/*.png')

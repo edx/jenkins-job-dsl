@@ -81,6 +81,7 @@ secretMap.each { jobConfigs ->
             authorization {
                 blocksInheritance(true)
                 permissionAll('edx')
+                permission('hudson.model.Item.Discover', 'anonymous')
             }
         }
         properties {
@@ -145,6 +146,10 @@ secretMap.each { jobConfigs ->
                     }
                 }
             }
+        }
+
+        wrappers {
+            timestamps()
         }
 
         configure GHPRB_WHITELIST_BRANCH(jobConfig['whitelistBranchRegex'])
