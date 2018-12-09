@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_HIPCHAT
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_MASKED_PASSWORD
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 Map config = [:]
 Binding bindings = getBinding()
@@ -29,9 +30,9 @@ catch (any) {
     sampleJobConfig:
         awsAccessKeyId: 123abc
         awsSecretAccessKey: 123abc
-        jenkinsWorkerAMI: ami-123
+        awsSecurityGroup: 123
+        newRelicKey: 123abc
         webPageTestBaseAMI: ami-123
-        githubToken: 123abc
         toolsTeam: [ 'users1', 'users2' ]
         email : email@address
         hipchat : 123abc
@@ -43,12 +44,13 @@ secretMap.each { jobConfigs ->
 
     assert jobConfig.containsKey('awsAccessKeyId')
     assert jobConfig.containsKey('awsSecretAccessKey')
-    assert jobConfig.containsKey('jenkinsWorkerAMI')
+    assert jobConfig.containsKey('awsSecurityGroup')
+    assert jobConfig.containsKey('newRelicKey')
     assert jobConfig.containsKey('webPageTestBaseAMI')
-    assert jobConfig.containsKey('githubToken')
     assert jobConfig.containsKey('toolsTeam')
     assert jobConfig.containsKey('email')
     assert jobConfig.containsKey('hipchat')
+    assert jobConfig.containsKey('sshKeyURL')
 
     job('build-packer-ami') {
 
@@ -67,7 +69,8 @@ secretMap.each { jobConfigs ->
                           'harprofiler.json',
                           'webpagetest.json',
                           'jenkins_worker_simple.json',
-                          'jenkins_worker_android.json'
+                          'jenkins_worker_android.json',
+                          'jenkins_worker_loadtest.json'
                         ],
                         'Json file (in util/packer) specifying how to build ' +
                         'the new AMI.')
@@ -78,10 +81,11 @@ secretMap.each { jobConfigs ->
                         'What should we do with the AMI if it is ' +
                         'successfully built? (Hint: delete means you are ' +
                         'just testing the process.)')
-            stringParam('JENKINS_WORKER_AMI', jobConfig['jenkinsWorkerAMI'],
+            stringParam('JENKINS_WORKER_AMI', 'ami-aa2ea6d0',
                         'Base ami on which to run the Packer script')
         }
 
+        logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild(true)
         label('coverage-worker')
 
@@ -107,6 +111,11 @@ secretMap.each { jobConfigs ->
             }
             timestamps()
             colorizeOutput('xterm')
+            buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"}')
+        }
+
+        environmentVariables{
+	    env('JENKINS_WORKER_KEY_URL', jobConfig['sshKeyURL'])
         }
 
         // Put sensitive info into masked password slots
@@ -116,6 +125,10 @@ secretMap.each { jobConfigs ->
                 maskPasswordParameters true
                 passwordEntries {
                     EnvInjectPasswordEntry {
+                        name 'NEW_RELIC_KEY'
+                        value Secret.fromString(jobConfig['newRelicKey']).getEncryptedValue()
+                    }
+                    EnvInjectPasswordEntry {
                         name 'AWS_ACCESS_KEY_ID'
                         value Secret.fromString(jobConfig['awsAccessKeyId']).getEncryptedValue()
                     }
@@ -124,12 +137,12 @@ secretMap.each { jobConfigs ->
                         value Secret.fromString(jobConfig['awsSecretAccessKey']).getEncryptedValue()
                     }
                     EnvInjectPasswordEntry {
-                        name 'WEBPAGE_TEST_BASE_AMI'
-                        value Secret.fromString(jobConfig['webPageTestBaseAMI']).getEncryptedValue()
+                        name 'AWS_SECURITY_GROUP'
+                        value Secret.fromString(jobConfig['awsSecurityGroup']).getEncryptedValue()
                     }
                     EnvInjectPasswordEntry {
-                        name 'GITHUB_TOKEN'
-                        value Secret.fromString(jobConfig['githubToken']).getEncryptedValue()
+                        name 'WEBPAGE_TEST_BASE_AMI'
+                        value Secret.fromString(jobConfig['webPageTestBaseAMI']).getEncryptedValue()
                     }
                 }
             }

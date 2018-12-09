@@ -20,9 +20,6 @@
     │           └──<project>
     │           └──<other_project>
     └── build.gradle                    # build file
-    └── seeds 
-        └── <example>.groovy            # Groovy script to create jobs for an individual machine
-        └── <other>.groovy              # Groovy script to create jobs for an individual machine
 
 ## Running a local Jenkins for development
 

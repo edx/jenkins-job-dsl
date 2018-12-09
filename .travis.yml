@@ -1,10 +1,7 @@
 sudo: false
 language: groovy
 script:
-    # not a python container + don't have sudo permissions so need
-    # to setup virtualenv ourselves
-    - pip install --user virtualenv
-    - $HOME/.local/bin/virtualenv venv
+    - virtualenv venv
     - source venv/bin/activate
     - pip install -r test-requirements.txt
 
@@ -13,5 +10,5 @@ script:
     - pep8 mobile_app/resources
     - nosetests mobile_app/resources -v --with-coverage --cover-package=mobile_app
 
-    # uncomment once we add a groovy project
-    - ./gradlew check 
+    - export CI_SYSTEM='travis'
+    - ./gradlew check --stacktrace --info

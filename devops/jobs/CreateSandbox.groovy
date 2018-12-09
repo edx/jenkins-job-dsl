@@ -6,15 +6,16 @@
     * FOLDER_NAME: "Sandboxes"
     * BASIC_AUTH_USER 
     * BASIC_AUTH_PASS
+    * ACCESS_CONTROL: List of orgs / orgs*teams who get github access
     * CONFIGURATION_SECURE_REPO (required)
     * CONFIGURATION_INTERNAL_REPO (required)
     * SSH_KEYPAIR_NAME (required)
 
-    Credentials you must set up (probably inside FOLDER_NAME).
-    These are the ids you should use, description is for you to document internally.
+    Credentials should be set up inside your FOLDER_NAME. Be sure your Jenkins Credential
+    uses the id specified in this list or the created job will be unable to find the Credential.
 
     sandbox-jenkins-aws-credentials: file with key/secret in boto config format
-    sandbox-role-arn: the role to assume role to
+    sandbox-role-arn: the role to aws sts assume-role
     datadog-key: your datadog key, if used to report metrics
     sandbox-ssh-keys: ssh keypair used to log in to the sandbox and run ansible, usually equivalent to SSH_KEYPAIR_NAME
     sandbox-secure-credentials: an ssh key usable to fetch secure sandbox configuration (often a github deploy key)
@@ -23,13 +24,14 @@
 */
 package devops.jobs
 
-import org.edx.jenkins.dsl.DevopsConstants
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
+import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
 class CreateSandbox {
     public static def job = { dslFactory, extraVars ->
-        return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/CreateSandbox") {
+        def jobName = extraVars.get("SANDBOX_JOB_NAME", "CreateSandbox")
+        return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/${jobName}") {
 
             wrappers common_wrappers
 
@@ -47,10 +49,14 @@ class CreateSandbox {
                 }
             }
 
-            authorization {
-                DevopsConstants.common_read_permissions.each { permission_name -> permission(permission_name,'edx')}
+            def access_control = extraVars.get('ACCESS_CONTROL',[])
+            access_control.each { acl ->
+                common_read_permissions.each { perm ->
+                    authorization {
+                        permission(perm,acl)
+                    }
+                }
             }
-
 
             wrappers {
                 credentialsBinding {
@@ -116,13 +122,13 @@ class CreateSandbox {
                          If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag.")
                 stringParam("sandbox_platform_name","","sets EDXAPP_PLATFORM_NAME, by default it will take your github username/sandbox dns name as value")
                 stringParam("sandbox_life","7","Number of day(s) sandbox will be online(between 1 to 30)")
+                booleanParam("VERBOSE",false,"Whether to run ansible in verbose mode.  Useful if debugging a sandbox failure")
                 stringParam("configuration_version","master","")
                 stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
                 stringParam("configuration_secure_version","master","")
                 stringParam("configuration_internal_version","master","")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
-                choiceParam("edxapp_comprehensive_theme_dir",["/edx/app/edxapp/edx-platform/themes/edx.org","unset"],"")
                 booleanParam("testcourses",true,"")
                 booleanParam("performance_course",true,"")
                 booleanParam("demo_test_course",true,"")
@@ -211,6 +217,8 @@ class CreateSandbox {
                 stringParam("auth_user",extraVars.get('BASIC_AUTH_USER',''),"")
 
                 stringParam("auth_pass",extraVars.get('BASIC_AUTH_PASS',''),"")
+
+                booleanParam("enable_automatic_auth_for_testing",false,"This enables the /auto_auth endpoint which facilitates generating fake users.  This is typically required for running load tests.")
 
                 booleanParam("start_services",true,"")
 

@@ -17,9 +17,14 @@ class AddCourseToSandbox {
             properties {
                 parameters {
                     stringParam(
-                        'SANDBOX_BASE',
-                        'ora2',
-                        "For example, when the sandbox is foo.sandbox.edx.org, the sandbox_base is 'foo'"
+                        'SANDBOX_HOST',
+                        'ora2.sandbox.edx.org',
+                        "The hostname of the sandbox."
+                    )
+                    stringParam(
+                        "NOTIFY_ON_FAILURE",
+                        extraVars.get("NOTIFY_ON_FAILURE", ''),
+                        "Email to notify on failure"
                     )
                 }
             }
@@ -30,7 +35,7 @@ class AddCourseToSandbox {
                 )
             }
             publishers {
-                mailer(extraVars['NOTIFY_ON_FAILURE'], true, false)
+                mailer('$NOTIFY_ON_FAILURE', true, false)
             }
             wrappers {
                 sshAgent(extraVars['SSH_AGENT_KEY'])

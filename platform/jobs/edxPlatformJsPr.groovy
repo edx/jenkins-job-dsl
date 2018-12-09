@@ -1,25 +1,10 @@
-package devops
+package platform
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_JUNIT_REPORTS
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_WHITELIST_BRANCH
-
-/*
-Example secret YAML file used by this script
-publicJobConfig:
-    open : true/false
-    jobName : name-of-jenkins-job-to-be
-    protocol : protocol-and-base-url
-    url : github-url-segment
-    repoName : name-of-github-edx-repo
-    credential : n/a
-    cloneReference : clone/.git
-    workerLabel: worker-label
-    whitelistBranchRegex: 'release/*'
-    context: jenkins/test
-    triggerPhrase: 'jenkins run test' */
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 
 String archiveReports = 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.png,'
 archiveReports += 'edx-platform*/test_root/log/*.log,edx-platform*/test_root/log/hars/*.har,'
@@ -36,14 +21,11 @@ config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
-Map secretMap = [:]
 Map ghprbMap = [:]
 try {
     out.println('Parsing secret YAML file')
-    String secretFileContents = new File("${EDX_PLATFORM_TEST_JS_PR_SECRET}").text
     String ghprbConfigContents = new File("${GHPRB_SECRET}").text
     Yaml yaml = new Yaml()
-    secretMap = yaml.load(secretFileContents)
     ghprbMap = yaml.load(ghprbConfigContents)
     out.println('Successfully parsed secret YAML file')
 }
@@ -53,62 +35,125 @@ catch (any) {
     return 1
 }
 
+// This script generates a lot of jobs. Here is the breakdown of the configuration options:
+// Map exampleConfig = [ open: true/false if this job should be 'open' (use the default security scheme or not)
+//                       jobName: name of the job
+//                       repoName: name of the github repo containing the edx-platform you want to test
+//                       workerLabel: label of the worker to run this job on
+//                       whiteListBranchRegex: regular expression to filter which branches of a particular repo
+//                       can will trigger builds (via GHRPB)
+//                       context: Github context used to report test status
+//                       triggerPhrase: Github comment used to trigger this job
+//                       ]
+
+Map publicJobConfig = [ open : true,
+                        jobName : 'edx-platform-js-pr',
+                        subsetJob: 'edx-platform-test-subset',
+                        repoName: 'edx-platform',
+                        workerLabel: 'jenkins-worker',
+                        whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                        context: 'jenkins/js',
+                        triggerPhrase: 'jenkins run js'
+                        ]
+
+Map privateJobConfig = [ open: false,
+                         jobName: 'edx-platform-js-pr_private',
+                         repoName: 'edx-platform-private',
+                         workerLabel: 'jenkins-worker',
+                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                         context: 'jenkins/js',
+                         triggerPhrase: 'jenkins run js'
+                         ]
+
+Map publicGinkgoJobConfig = [ open: true,
+                              jobName: 'ginkgo-js-pr',
+                              repoName: 'edx-platform',
+                              workerLabel: 'ginkgo-jenkins-worker',
+                              whitelistBranchRegex: /open-release\/ginkgo.master/,
+                              context: 'jenkins/ginkgo/js',
+                              triggerPhrase: 'ginkgo run js'
+                              ]
+
+Map privateGinkgoJobConfig = [ open: false,
+                               jobName: 'ginkgo-js-pr_private',
+                               repoName: 'edx-platform-private',
+                               workerLabel: 'ginkgo-jenkins-worker',
+                               whitelistBranchRegex: /open-release\/ginkgo.master/,
+                               context: 'jenkins/ginkgo/js',
+                               triggerPhrase: 'ginkgo run js'
+                               ]
+
+Map publicFicusJobConfig = [ open: true,
+                             jobName: 'ficus-js-pr',
+                             repoName: 'edx-platform',
+                             workerLabel: 'ficus-jenkins-worker',
+                             whitelistBranchRegex: /open-release\/ficus.master/,
+                             context: 'jenkins/ficus/js',
+                             triggerPhrase: 'ficus run js'
+                             ]
+
+Map privateFicusJobConfig = [ open: false,
+                              jobName: 'ficus-js-pr_private',
+                              repoName: 'edx-platform-private',
+                              workerLabel: 'ficus-jenkins-worker',
+                              whitelistBranchRegex: /open-release\/ficus.master/,
+                              context: 'jenkins/ficus/js',
+                              triggerPhrase: 'ficus run js'
+                              ]
+
+List jobConfigs = [ publicJobConfig,
+                    privateJobConfig,
+                    publicGinkgoJobConfig,
+                    privateGinkgoJobConfig,
+                    publicFicusJobConfig,
+                    privateFicusJobConfig
+                    ]
+
 /* Iterate over the job configurations */
-secretMap.each { jobConfigs ->
-
-    Map jobConfig = jobConfigs.getValue()
-
-    assert jobConfig.containsKey('open')
-    assert jobConfig.containsKey('jobName')
-    assert jobConfig.containsKey('protocol')
-    assert jobConfig.containsKey('url')
-    assert jobConfig.containsKey('repoName')
-    assert jobConfig.containsKey('credential')
-    assert jobConfig.containsKey('cloneReference')
-    assert jobConfig.containsKey('workerLabel')
-    assert jobConfig.containsKey('whitelistBranchRegex')
-    assert jobConfig.containsKey('context')
-    assert jobConfig.containsKey('triggerPhrase')
-    assert ghprbMap.containsKey('admin')
-    assert ghprbMap.containsKey('userWhiteList')
-    assert ghprbMap.containsKey('orgWhiteList')
+jobConfigs.each { jobConfig ->
 
     job(jobConfig['jobName']) {
+
         description(descriptionString)
-        if (!jobConfig['open'].toBoolean()) {
-            authorization {
-                blocksInheritance(true)
-                permissionAll('edx')
-            }
+        if (!jobConfig.open.toBoolean()) {
+            authorization GENERAL_PRIVATE_JOB_SECURITY()
         }
         properties {
-            githubProjectUrl(JENKINS_PUBLIC_GITHUB_BASEURL + jobConfig['url'])
+              githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR()
         concurrentBuild()
         parameters {
             labelParam('WORKER_LABEL') {
                 description('Select a Jenkins worker label for running this job')
-                defaultValue(jobConfig['workerLabel'])
+                defaultValue(jobConfig.workerLabel)
             }
         }
         scm {
             git {
                 remote {
-                    url(jobConfig['protocol'] + jobConfig['url'] + '.git')
+                    if (!jobConfig.open.toBoolean()) {
+                        url("git@github.com:edx/${jobConfig.repoName}.git")
+                    }
+                    else {
+                        url("https://github.com/edx/${jobConfig.repoName}.git")
+                    }
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
-                    if (!jobConfig['open'].toBoolean()) {
-                        credentials(jobConfig['credential'])
+                    if (!jobConfig.open.toBoolean()) {
+                        credentials('jenkins-worker')
                     }
                 }
                 branch('\${ghprbActualCommit}')
                 browser()
                 extensions {
+                    relativeTargetDirectory(jobConfig.repoName)
                     cloneOptions {
-                        reference("\$HOME/" + jobConfig['cloneReference'])
+                        // Use a reference clone for quicker clones. This is configured on jenkins workers via
+                        // (https://github.com/edx/configuration/blob/master/playbooks/roles/test_build_server/tasks/main.yml#L26)
+                        reference("\$HOME/edx-platform-clone")
                         timeout(10)
                     }
-                    relativeTargetDirectory(jobConfig['repoName'])
+                    cleanBeforeCheckout()
                 }
             }
         }
@@ -116,54 +161,54 @@ secretMap.each { jobConfigs ->
             pullRequest {
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
-                triggerPhrase(jobConfig['triggerPhrase'])
+                triggerPhrase(jobConfig.triggerPhrase)
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
                 extensions {
                     commitStatus {
-                        context(jobConfig['context'])
+                        context(jobConfig.context)
                     }
                 }
             }
         }
 
-        configure GHPRB_WHITELIST_BRANCH(jobConfig['whitelistBranchRegex'])
+        configure GHPRB_WHITELIST_BRANCH(jobConfig.whitelistBranchRegex)
 
         wrappers {
             timeout {
-               absolute(45)
-           }
-           timestamps()
-           colorizeOutput()
-           if (!jobConfig['open'].toBoolean()) {
-                sshAgent(jobConfig['credential'])
-           }
-           buildName('#${BUILD_NUMBER}: Javascript Tests')
-       }
-       steps {
-           shell("cd ${jobConfig['repoName']}; TEST_SUITE=js-unit ./scripts/all-tests.sh")
-       }
-       publishers {
-           archiveArtifacts {
-               pattern(archiveReports)
-               defaultExcludes()
-           }
-           cobertura ('edx-platform*/**/reports/**/coverage*.xml') {
-               failNoReports(true)
-               sourceEncoding('ASCII')
-               methodTarget(80, 0, 0)
-               lineTarget(80, 0, 0)
-               conditionalTarget(70, 0, 0)
-           }
-           publishHtml {
-               report('edx-platform*/reports') {
-                   reportFiles('diff_coverage_combined.html')
-                   reportName('Diff Coverage Report')
-                   keepAll()
-                   allowMissing()
-               }
-           }
-           archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
-       }
+                absolute(45)
+            }
+            timestamps()
+            colorizeOutput()
+            buildName('#${BUILD_NUMBER}: Javascript Tests')
+            if (!jobConfig.open.toBoolean()) {
+                sshAgent('jenkins-worker')
+            }
+        }
+        steps {
+            shell("cd ${jobConfig.repoName}; TEST_SUITE=js-unit ./scripts/all-tests.sh")
+        }
+        publishers {
+            archiveArtifacts {
+                pattern(archiveReports)
+                defaultExcludes()
+            }
+            cobertura ('edx-platform*/**/reports/**/coverage*.xml') {
+                failNoReports(true)
+                sourceEncoding('ASCII')
+                methodTarget(80, 0, 0)
+                lineTarget(80, 0, 0)
+                conditionalTarget(70, 0, 0)
+            }
+            publishHtml {
+                report('edx-platform*/reports') {
+                    reportFiles('diff_coverage_combined.html')
+                    reportName('Diff Coverage Report')
+                    keepAll()
+                    allowMissing()
+                }
+            }
+            archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
+        }
     }
 }

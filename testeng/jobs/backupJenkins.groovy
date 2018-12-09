@@ -26,7 +26,6 @@ catch (any) {
 /*
 Example secret YAML file used by this script
 Config:
-    jenkinsInstance : test
     volumeId : vol-123
     region : us-west.1
     accessKeyId : 123
@@ -40,7 +39,6 @@ secretMap.each { jobConfigs ->
 
     Map jobConfig = jobConfigs.getValue()
 
-    assert jobConfig.containsKey('jenkinsInstance')
     assert jobConfig.containsKey('volumeId')
     assert jobConfig.containsKey('region')
     assert jobConfig.containsKey('accessKeyId')
@@ -48,7 +46,7 @@ secretMap.each { jobConfigs ->
     assert jobConfig.containsKey('hipchat')
     assert jobConfig.containsKey('email')
 
-    job("backup-${jobConfig['jenkinsInstance']}-jenkins") {
+    job("backup-build-jenkins") {
 
         // private job
         authorization {
@@ -56,8 +54,7 @@ secretMap.each { jobConfigs ->
             permissionAll('edx')
         }
 
-        description('A regularly run job for creating snapshots of build jenkins master ' +
-                    ' and uploading them to Amazon s3')
+        description('Create an EC2 snapshot of the build jenkins data volume')
         // Keep logs longer than normal jenkins jobs
         logRotator {
             numToKeep(50)
@@ -65,32 +62,17 @@ secretMap.each { jobConfigs ->
         concurrentBuild(false)
         label('backup-runner')
 
-        // Configure the Exclusive Execution plugin, to reduce the amount of things in memory
-        // during snapshotting
-        configure { project ->
-            project / buildWrappers << 'hudson.plugins.execution.exclusive.ExclusiveBuildWrapper' {
-                // Do not wait for running jobs to complete before executing this job
-                // This is done because of locks when dealing with sub-jobs.
-                skipWaitOnRunningJobs true
-            }
-        }
-
-        // Run the jobs on the following schedule (to reduce interference with other jobs):
-        // Build Jenkins: Sunday 1AM
-        // Test Jenkins: Sunday 2AM
+        // Run the job daily at 1AM
         triggers {
-            if (jobConfig['jenkinsInstance'] == 'build') {
-                cron('0 1 * * 6')
-            }
-            // test jenkins
-            else {
-                cron('0 2 * * 6')
-            }
+            cron('0 1 * * *')
         }
 
+        // This should take < 10 seconds in most cases, as it is only
+        // kicking off the snapshot, not waiting for it to complete.
+        // Giving it enough time for the case that it needs to install new requirements.
         wrappers {
             timeout {
-                absolute(20)
+                absolute(5)
                 abortBuild()
             }
             timestamps()
@@ -126,7 +108,7 @@ secretMap.each { jobConfigs ->
             script += "pip install --exists-action w ${line}\n"
         }
         script += "aws ec2 create-snapshot --volume-id ${jobConfig['volumeId']} " +
-                  "--description 'Automatic ${jobConfig['jenkinsInstance']} jenkins snapshot'" +
+                  "--description 'Data volume snapshot from the backup-build-jenkins job'" +
                   "> \${WORKSPACE}/snapshot-out.log\n"
         script += "cat \${WORKSPACE}/snapshot-out.log"
         steps {
