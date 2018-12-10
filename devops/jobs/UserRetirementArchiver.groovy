@@ -18,7 +18,6 @@ This job expects the following credentials to be defined on the folder:
 */
 package devops.jobs
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_access_controls
-import static org.edx.jenkins.dsl.UserRetirementConstants.common_closures_extra
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_multiscm
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_parameters
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_publishers
@@ -47,11 +46,12 @@ class UserRetirementArchiver {
             // First we write the DSL statements which should be common to ALL user retirement jobs.
             ////
 
-            common_closures_extra(extraVars)
             authorization common_access_controls(extraVars)
             triggers common_triggers(extraVars)
             wrappers common_wrappers(extraVars)
             publishers common_publishers(extraVars)
+            disabled(extraVars.get('DISABLED'))  // Jobs may be disabled for testing/rollout.
+            checkoutRetryCount(5)  // Retry cloning repositories.
 
             ////
             // Now, everything which follows is custom to this particular job.

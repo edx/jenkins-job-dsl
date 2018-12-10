@@ -138,11 +138,4 @@ class UserRetirementConstants {
             }
         }
     }
-
-    public static def common_closures_extra = { extraVars ->
-        return {
-            disabled(extraVars.get('DISABLED'))  // Jobs may be disabled for testing/rollout.
-            checkoutRetryCount(5)  // Retry cloning repositories.
-        }
-    }
 }
