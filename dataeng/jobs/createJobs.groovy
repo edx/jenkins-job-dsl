@@ -36,6 +36,7 @@ import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEventsJob
 import static analytics.DeployCluster.job as DeployClusterJob
+import static analytics.LoadVideoToVertica.job as LoadVideoToVerticaJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -95,6 +96,7 @@ def taskMap = [
     UPDATE_USERS_JOB: UpdateUsersJob,
     ENROLLMENT_VALIDATION_EVENTS_JOB: EnrollmentValidationEventsJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
+    LOAD_VIDEO_TO_VERTICA_JOB: LoadVideoToVerticaJob,
 ]
 
 for (task in taskMap) {
