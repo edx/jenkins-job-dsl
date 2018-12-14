@@ -30,7 +30,7 @@ branchList.each { branch ->
 
     listView("${branch}-master-tests") {
         if (branch == "edx-platform" ) {
-            description('Jobs for running tests pushes to master branch of the edx-platform')
+            description('Jobs for running tests on pushes to master branch of edx-platform')
         }
         else {
             description("Jobs for running tests on commits pushed onto the " +
@@ -58,7 +58,7 @@ listView("edx-platform-pipeline-pr-tests") {
 }
 
 listView("edx-platform-pipeline-master-tests") {
-    description('Pipeline Jobs for running tests pushes to master branch of the edx-platform')
+    description('Pipeline Jobs for running tests on pushes to master branch of edx-platform')
 
     jobs {
         regex("edx-platform-.*-pipeline-master")

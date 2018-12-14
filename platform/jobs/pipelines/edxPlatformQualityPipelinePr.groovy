@@ -2,8 +2,6 @@ package platform
 
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 /* stdout logger */
 Map config = [:]
