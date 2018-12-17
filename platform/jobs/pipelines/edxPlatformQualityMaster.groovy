@@ -1,8 +1,6 @@
 package platform
 
-import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
 
 // This is the job DSL responsible for creating the main pipeline job.
 pipelineJob('edx-platform-quality-pipeline-master') {
