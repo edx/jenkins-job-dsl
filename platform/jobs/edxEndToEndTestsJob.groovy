@@ -17,16 +17,18 @@ PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map mailingListMap = [:]
-Map ghprbMap = [:]
 Map securityGroupMap = [:]
+Map ghprbMap = [
+    admin: ['alexei.kornienko@raccoongang.com'],
+    userWhiteList: ['alexei.kornienko@raccoongang.com'],
+    orgWhiteList: ['raccoongang'],
+]
 try {
     out.println('Parsing secret YAML file')
     String mailingListSecretContents  = new File("${MAILING_LIST_SECRET}").text
-    String ghprbConfigContents = new File("${GHPRB_SECRET}").text
     String securityGroupConfigContents = new File("${SECURITY_GROUP_SECRET}").text
     Yaml yaml = new Yaml()
     mailingListMap = yaml.load(mailingListSecretContents)
-    ghprbMap = yaml.load(ghprbConfigContents)
     securityGroupMap = yaml.load(securityGroupConfigContents)
     out.println('Successfully parsed secret YAML file')
 }
