@@ -59,14 +59,10 @@ Map publicJobConfig = [
     repoName: 'edx-platform'
 ]
 
-Map privateJobConfig = [
-    open : false,
-    jobName : 'edx-platform-quality-diff_private',
-    subsetJob: 'edx-platform-test-subset_private',
-    repoName: 'edx-platform-private'
-]
 
-List jobConfigs = [ publicJobConfig, privateJobConfig ]
+List jobConfigs = [
+    publicJobConfig,
+]
 
 jobConfigs.each { jobConfig ->
 

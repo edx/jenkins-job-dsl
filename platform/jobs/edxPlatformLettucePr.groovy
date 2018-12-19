@@ -47,17 +47,6 @@ Map publicJobConfig = [ open : true,
                         defaultTestengBranch: 'master'
                         ]
 
-Map privateJobConfig = [ open: false,
-                         jobName: 'edx-platform-lettuce-pr_private',
-                         subsetJob: 'edx-platform-test-subset_private',
-                         repoName: 'edx-platform-private',
-                         workerLabel: 'jenkins-worker',
-                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                         context: 'jenkins/lettuce',
-                         triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
-                         defaultTestengBranch: 'master'
-                         ]
-
 Map publicHawthornJobConfig = [ open: true,
                                jobName: 'hawthorn-lettuce-pr',
                                subsetJob: 'edx-platform-test-subset',
@@ -68,17 +57,6 @@ Map publicHawthornJobConfig = [ open: true,
                                triggerPhrase: /.*hawthorn\W+run\W+lettuce.*/,
                                defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                ]
-
-Map privateHawthornJobConfig = [ open: false,
-                                jobName: 'hawthorn-lettuce-pr_private',
-                                subsetJob: 'edx-platform-test-subset_private',
-                                repoName: 'edx-platform-private',
-                                workerLabel: 'hawthorn-jenkins-worker',
-                                whitelistBranchRegex: /open-release\/hawthorn.master/,
-                                context: 'jenkins/hawthorn/lettuce',
-                                triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
-                                defaultTestengBranch: 'origin/open-release/hawthorn.master'
-                                ]
 
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-lettuce-pr',
@@ -91,17 +69,6 @@ Map publicGinkgoJobConfig = [ open: true,
                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
                               ]
 
-Map privateGinkgoJobConfig = [ open: false,
-                               jobName: 'ginkgo-lettuce-pr_private',
-                               subsetJob: 'edx-platform-test-subset_private',
-                               repoName: 'edx-platform-private',
-                               workerLabel: 'ginkgo-jenkins-worker',
-                               whitelistBranchRegex: /open-release\/ginkgo.master/,
-                               context: 'jenkins/ginkgo/lettuce',
-                               triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
-                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
-                               ]
-
 Map publicFicusJobConfig = [ open: true,
                              jobName: 'ficus-lettuce-pr',
                              subsetJob: 'edx-platform-test-subset',
@@ -112,17 +79,6 @@ Map publicFicusJobConfig = [ open: true,
                              triggerPhrase: /.*ficus\W+run\W+lettuce.*/,
                              defaultTestengBranch: 'origin/open-release/ficus.master'
                              ]
-
-Map privateFicusJobConfig = [ open: false,
-                              jobName: 'ficus-lettuce-pr_private',
-                              subsetJob: 'edx-platform-test-subset_private',
-                              repoName: 'edx-platform-private',
-                              workerLabel: 'ficus-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ficus.master/,
-                              context: 'jenkins/ficus/lettuce',
-                              triggerPhrase: /.*ficus\W+run\W+lettuce.*/,
-                              defaultTestengBranch: 'origin/open-release/ficus.master'
-                              ]
 
 Map python3JobConfig = [ open : true,
                         jobName : 'edx-platform-python3-lettuce-pr',
@@ -138,13 +94,9 @@ Map python3JobConfig = [ open : true,
                         ]
 
 List jobConfigs = [ publicJobConfig,
-                    privateJobConfig,
                     publicHawthornJobConfig,
-                    privateHawthornJobConfig,
                     publicGinkgoJobConfig,
-                    privateGinkgoJobConfig,
                     publicFicusJobConfig,
-                    privateFicusJobConfig,
                     python3JobConfig
                     ]
 

@@ -57,20 +57,6 @@ Map publicJobConfig = [
     diffJob: 'edx-platform-quality-diff'
 ]
 
-Map privateJobConfig = [
-    open: false,
-    jobName: 'edx-platform-quality-flow-pr_private',
-    subsetJob: 'edx-platform-test-subset_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/quality',
-    triggerPhrase: /.*jenkins\W+run\W+quality.*/,
-    defaultTestengBranch: 'master',
-    targetBranch: 'origin/security-release',
-    diffJob: 'edx-platform-quality-diff_private'
-]
-
 Map hawthornJobConfig = [
     open: true,
     jobName: 'hawthorn-quality-flow-pr',
@@ -103,7 +89,6 @@ Map python3JobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    privateJobConfig,
     hawthornJobConfig,
     python3JobConfig
 ]

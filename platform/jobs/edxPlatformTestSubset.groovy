@@ -32,16 +32,8 @@ Map publicJobConfig = [
     cloneReference : 'edx-platform-clone/.git'
 ]
 
-Map privateJobConfig = [
-    open : false,
-    jobName : 'edx-platform-test-subset_private',
-    url : 'edx/edx-platform-private',
-    cloneReference : 'edx-platform-private-clone/.git'
-]
-
 List jobConfigs = [
     publicJobConfig,
-    privateJobConfig
 ]
 
 stringParams = [

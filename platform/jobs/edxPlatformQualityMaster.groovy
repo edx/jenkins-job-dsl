@@ -53,18 +53,6 @@ Map publicJobConfig = [
     defaultBranch : 'master'
 ]
 
-Map privateJobConfig = [
-    open: false,
-    jobName: 'edx-platform-quality-flow-master_private',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
-    context: 'jenkins/quality',
-    defaultTestengBranch: 'master',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
-]
-
 Map hawthornJobConfig = [
     open: true,
     jobName: 'hawthorn-quality-flow-master',
@@ -79,7 +67,6 @@ Map hawthornJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    privateJobConfig,
     hawthornJobConfig
 ]
 

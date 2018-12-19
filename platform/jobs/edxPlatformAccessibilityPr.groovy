@@ -42,30 +42,10 @@ Map publicJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+a11y.*/
 ]
 
-Map privateJobConfig = [
-    open: false,
-    jobName: 'edx-platform-accessibility-pr_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/a11y',
-    triggerPhrase: /.*jenkins\W+run\W+a11y.*/
-]
-
 Map publicHawthornJobConfig = [
     open: true,
     jobName: 'hawthorn-accessibility-pr',
     repoName: 'edx-platform',
-    workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.master/,
-    context: 'jenkins/hawthorn/a11y',
-    triggerPhrase: /.*hawthorn\W+run\W+a11y.*/
-]
-
-Map privateHawthornJobConfig = [
-    open: false,
-    jobName: 'hawthorn-accessibility-pr_private',
-    repoName: 'edx-platform-private',
     workerLabel: 'hawthorn-jenkins-worker',
     whitelistBranchRegex: /open-release\/hawthorn.master/,
     context: 'jenkins/hawthorn/a11y',
@@ -82,30 +62,10 @@ Map publicGinkgoJobConfig = [
     triggerPhrase: /.*ginkgo\W+run\W+a11y.*/
 ]
 
-Map privateGinkgoJobConfig = [
-    open: false,
-    jobName: 'ginkgo-accessibility-pr_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'ginkgo-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ginkgo.master/,
-    context: 'jenkins/ginkgo/a11y',
-    triggerPhrase: /.*ginkgo\W+run\W+a11y.*/
-]
-
 Map publicFicusJobConfig = [
     open: true,
     jobName: 'ficus-accessibility-pr',
     repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ficus.master/,
-    context: 'jenkins/ficus/a11y',
-    triggerPhrase: /.*ficus\W+run\W+a11y.*/
-]
-
-Map privateFicusJobConfig = [
-    open: false,
-    jobName: 'ficus-accessibility-pr_private',
-    repoName: 'edx-platform-private',
     workerLabel: 'ficus-jenkins-worker',
     whitelistBranchRegex: /open-release\/ficus.master/,
     context: 'jenkins/ficus/a11y',
@@ -126,13 +86,9 @@ Map python3JobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    privateJobConfig,
     publicHawthornJobConfig,
-    privateHawthornJobConfig,
     publicGinkgoJobConfig,
-    privateGinkgoJobConfig,
     publicFicusJobConfig,
-    privateFicusJobConfig,
     python3JobConfig
 ]
 

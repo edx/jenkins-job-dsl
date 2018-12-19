@@ -51,30 +51,10 @@ Map publicJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+js.*/
 ]
 
-Map privateJobConfig = [
-    open: false,
-    jobName: 'edx-platform-js-pr_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/js',
-    triggerPhrase: /.*jenkins\W+run\W+js.*/
-]
-
 Map publicHawthornJobConfig = [
     open: true,
     jobName: 'hawthorn-js-pr',
     repoName: 'edx-platform',
-    workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.master/,
-    context: 'jenkins/hawthorn/js',
-    triggerPhrase: /.*hawthorn\W+run\W+js.*/
-]
-
-Map privateHawthornJobConfig = [
-    open: false,
-    jobName: 'hawthorn-js-pr_private',
-    repoName: 'edx-platform-private',
     workerLabel: 'hawthorn-jenkins-worker',
     whitelistBranchRegex: /open-release\/hawthorn.master/,
     context: 'jenkins/hawthorn/js',
@@ -91,30 +71,10 @@ Map publicGinkgoJobConfig = [
     triggerPhrase: /.*ginkgo\W+run\W+js.*/
 ]
 
-Map privateGinkgoJobConfig = [
-    open: false,
-    jobName: 'ginkgo-js-pr_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'ginkgo-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ginkgo.master/,
-    context: 'jenkins/ginkgo/js',
-    triggerPhrase: /.*ginkgo\W+run\W+js.*/
-]
-
 Map publicFicusJobConfig = [
     open: true,
     jobName: 'ficus-js-pr',
     repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ficus.master/,
-    context: 'jenkins/ficus/js',
-    triggerPhrase: /.*ficus\W+run\W+js.*/
-]
-
-Map privateFicusJobConfig = [
-    open: false,
-    jobName: 'ficus-js-pr_private',
-    repoName: 'edx-platform-private',
     workerLabel: 'ficus-jenkins-worker',
     whitelistBranchRegex: /open-release\/ficus.master/,
     context: 'jenkins/ficus/js',
@@ -135,13 +95,9 @@ Map python3JobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    privateJobConfig,
     publicHawthornJobConfig,
-    privateHawthornJobConfig,
     publicGinkgoJobConfig,
-    privateGinkgoJobConfig,
     publicFicusJobConfig,
-    privateFicusJobConfig,
     python3JobConfig
 ]
 

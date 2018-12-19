@@ -119,16 +119,7 @@ Map publicJobConfig = [ open : true,
                         timeout: 20
                         ]
 
-Map privateJobConfig = [ open : false,
-                        jobName : 'edx-platform-unit-coverage_private',
-                        subsetJob: 'edx-platform-test-subset_private',
-                        repoName: 'edx-platform-private',
-                        workerLabel: 'coverage-worker',
-                        timeout: 45
-                        ]
-
 List jobConfigs = [ publicJobConfig,
-                    privateJobConfig
                     ]
 
 /* Iterate over the job configurations */

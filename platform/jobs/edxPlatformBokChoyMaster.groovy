@@ -41,18 +41,6 @@ Map publicJobConfig = [
     defaultBranch : 'master'
 ]
 
-Map privateJobConfig = [
-    open: false,
-    jobName: 'edx-platform-bok-choy-master_private',
-    subsetJob: 'edx-platform-test-subset_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
-    context: 'jenkins/bokchoy',
-    defaultTestengBranch: 'master',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
-]
-
 Map publicHawthornJobConfig = [
     open: true,
     jobName: 'hawthorn-bok-choy-master',
@@ -91,7 +79,6 @@ Map publicFicusJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    privateJobConfig,
     publicHawthornJobConfig,
     publicGinkgoJobConfig,
     publicFicusJobConfig
