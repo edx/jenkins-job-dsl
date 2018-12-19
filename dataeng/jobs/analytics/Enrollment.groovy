@@ -16,6 +16,9 @@ class Enrollment {
                 parameters common_parameters(allVars, env_config)
                 parameters from_date_interval_parameter(allVars)
                 parameters to_date_interval_parameter(allVars)
+                parameters {
+                    stringParam('EXTRA_ARGS', env_config.get('EXTRA_ARGS', ''), '')
+                }
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
