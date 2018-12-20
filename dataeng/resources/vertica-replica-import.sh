@@ -12,4 +12,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --marker-schema $MARKER_SCHEMA \
  --overwrite \
  ${EXCLUDE_FIELD} \
- ${EXCLUDE}
+ ${EXCLUDE} \
+ ${EXTRA_ARGS}

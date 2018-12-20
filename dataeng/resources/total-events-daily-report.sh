@@ -14,4 +14,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --interval $DAY_TO_REPORT_DATE_FORMATTED \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --report $S3_DIR/reports/$DAY_TO_REPORT_DATE_FORMATTED \
-  --counts $S3_DIR/counts/$DAY_TO_REPORT_DATE_FORMATTED/
+  --counts $S3_DIR/counts/$DAY_TO_REPORT_DATE_FORMATTED/ \
+  $EXTRA_ARGS

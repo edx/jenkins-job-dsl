@@ -8,4 +8,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   BuildFinancialReportsTask --local-scheduler \
     --import-date $(date +%Y-%m-%d -d "$TO_DATE") \
     --schema $OUTPUT_SCHEMA \
-    --n-reduce-tasks $NUM_REDUCE_TASKS
+    --n-reduce-tasks $NUM_REDUCE_TASKS \
+    $EXTRA_ARGS
+

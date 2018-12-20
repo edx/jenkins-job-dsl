@@ -14,7 +14,6 @@ class SqlScripts {
             stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
             stringParam('SCRIPTS_REPO', allVars.get('SCRIPTS_REPO_URL'))
             stringParam('SCRIPTS_BRANCH', 'origin/master')
-            stringParam('EXTRA_ARGS', '')
         }
     }
 

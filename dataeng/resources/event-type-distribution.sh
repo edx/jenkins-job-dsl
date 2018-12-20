@@ -13,4 +13,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --interval $(date +%Y-%m-%d -d "$FROM_DATE")-$(date +%Y-%m-%d -d "$TO_DATE") \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --credentials $CREDENTIALS \
-  --events-list-file-path $EVENTS_LIST
+  --events-list-file-path $EVENTS_LIST \
+  $EXTRA_ARGS

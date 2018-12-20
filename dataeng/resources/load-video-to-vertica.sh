@@ -8,4 +8,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --schema $SCHEMA \
  --credentials $CREDENTIALS \
  --marker-schema $MARKER_SCHEMA \
- --overwrite
+ --overwrite \
+ $EXTRA_ARGS
+

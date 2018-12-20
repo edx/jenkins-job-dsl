@@ -8,4 +8,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --events-list-file-path $EVENTS_LIST \
   --warehouse-path $OUTPUT_URL \
   --credentials $CREDENTIALS \
-  --schema $SCHEMA
+  --schema $SCHEMA \
+  $EXTRA_ARGS
+

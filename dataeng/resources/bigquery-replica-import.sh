@@ -11,5 +11,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --database $DATABASE \
  ${EXCLUDE} \
  ${EXCLUDE_FIELD} \
- --overwrite
-
+ --overwrite \
+ ${EXTRA_ARGS}

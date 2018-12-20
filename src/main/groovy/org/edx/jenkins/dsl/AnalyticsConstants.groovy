@@ -85,6 +85,7 @@ class AnalyticsConstants {
             stringParam('TASKS_REPO', 'https://github.com/edx/edx-analytics-pipeline.git', 'Git repo containing the analytics pipeline tasks.')
             stringParam('TASK_USER', allVars.get('TASK_USER'), 'User which runs the analytics task on the EMR cluster.')
             booleanParam('TERMINATE', true, 'Terminate the EMR cluster after running the analytics task?')
+            stringParam('EXTRA_ARGS', env.get('EXTRA_ARGS', allVars.get('EXTRA_ARGS', '')), 'Extra arguments that will be passed to tasks.')
         }
         // secure_scm_parameters provides variables required by run-automated-task.sh.
         return parameters >> AnalyticsConstants.secure_scm_parameters(allVars) >> AnalyticsConstants.emr_cluster_parameters(allVars, env)

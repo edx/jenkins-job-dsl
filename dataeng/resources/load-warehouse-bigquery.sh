@@ -7,4 +7,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --date $(date +%Y-%m-%d -d "$TO_DATE") \
   --dataset-id $DATASET \
   --credentials $CREDENTIALS \
-  --overwrite
+  --overwrite \
+  $EXTRA_ARGS
