@@ -8,7 +8,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 
 class LoadVideoToVertica {
-    public static def video_to_vertica_job = { dslFactory, allVars ->
+    public static def job = { dslFactory, allVars ->
         dslFactory.job("load-video-to-vertica") {
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
