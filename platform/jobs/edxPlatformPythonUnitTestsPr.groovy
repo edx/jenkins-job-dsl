@@ -50,22 +50,6 @@ catch (any) {
 //                       github. Default behavior: triggered by comments AND pull request updates
 //                       ]
 
-// Individual Job Configurations
-Map publicJobConfig = [ open: true,
-                        jobName: 'edx-platform-python-unittests-pr',
-                        flowWorkerLabel: 'flow-worker-python',
-                        subsetJob: 'edx-platform-test-subset',
-                        repoName: 'edx-platform',
-                        runCoverage: true,
-                        coverageJob: 'edx-platform-unit-coverage',
-                        workerLabel: 'jenkins-worker',
-                        whitelistBranchRegex: /^((?!open-release\/).)*$/,
-                        context: 'jenkins/python',
-                        triggerPhrase: /.*jenkins\W+run\W+python.*/,
-                        targetBranch: 'origin/master',
-                        defaultTestengBranch: 'master'
-                        ]
-
 Map privateJobConfig = [ open: false,
                          jobName: 'edx-platform-python-unittests-pr_private',
                          flowWorkerLabel: 'flow-worker-python',
@@ -111,66 +95,6 @@ Map privateHawthornJobConfig = [ open: false,
                                 defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                 ]
 
-Map publicGinkgoJobConfig = [ open: true,
-                              jobName: 'ginkgo-python-unittests-pr',
-                              flowWorkerLabel: 'flow-worker-python',
-                              subsetJob: 'edx-platform-test-subset',
-                              repoName: 'edx-platform',
-                              runCoverage: true,
-                              coverageJob: 'edx-platform-unit-coverage',
-                              workerLabel: 'ginkgo-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ginkgo.master/,
-                              context: 'jenkins/ginkgo/python',
-                              triggerPhrase: /.*ginkgo\W+run\W+python.*/,
-                              targetBranch: 'origin/open-release/ginkgo.master',
-                              defaultTestengBranch: 'origin/open-release/ginkgo.master'
-                              ]
-
-Map privateGinkgoJobConfig = [ open: false,
-                               jobName: 'ginkgo-python-unittests-pr_private',
-                               flowWorkerLabel: 'flow-worker-python',
-                               subsetJob: 'edx-platform-test-subset_private',
-                               repoName: 'edx-platform-private',
-                               runCoverage: true,
-                               coverageJob: 'edx-platform-unit-coverage_private',
-                               workerLabel: 'ginkgo-jenkins-worker',
-                               whitelistBranchRegex: /open-release\/ginkgo.master/,
-                               context: 'jenkins/ginkgo/python',
-                               triggerPhrase: /.*ginkgo\W+run\W+python.*/,
-                               targetBranch: 'origin/security/release',
-                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
-                               ]
-
-Map publicFicusJobConfig = [ open: true,
-                             jobName: 'ficus-python-unittests-pr',
-                             flowWorkerLabel: 'flow-worker-python',
-                             subsetJob: 'edx-platform-test-subset',
-                             repoName: 'edx-platform',
-                             runCoverage: true,
-                             coverageJob: 'edx-platform-unit-coverage',
-                             workerLabel: 'ficus-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ficus.master/,
-                             context: 'jenkins/ficus/python',
-                             triggerPhrase: /.*ficus\W+run\W+python.*/,
-                             targetBranch: 'origin/open-release/ficus.master',
-                             defaultTestengBranch: 'origin/open-release/ficus.master'
-                             ]
-
-Map privateFicusJobConfig = [ open: false,
-                              jobName: 'ficus-python-unittests-pr_private',
-                              flowWorkerLabel: 'flow-worker-python',
-                              subsetJob: 'edx-platform-test-subset_private',
-                              repoName: 'edx-platform-private',
-                              runCoverage: true,
-                              coverageJob: 'edx-platform-unit-coverage_private',
-                              workerLabel: 'ficus-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ficus.master/,
-                              context: 'jenkins/ficus/python',
-                              triggerPhrase: /.*ficus\W+run\W+python.*/,
-                              targetBranch: 'origin/security-release',
-                              defaultTestengBranch: 'origin/open-release/ficus.master'
-                              ]
-
 Map python3JobConfig = [ open: true,
                          jobName: 'edx-platform-python3-unittests-pr',
                          flowWorkerLabel: 'flow-worker-python',
@@ -188,14 +112,9 @@ Map python3JobConfig = [ open: true,
                          toxEnv: 'py35-django111'
                          ]
 
-List jobConfigs = [ publicJobConfig,
-                    privateJobConfig,
+List jobConfigs = [ privateJobConfig,
                     publicHawthornJobConfig,
                     privateHawthornJobConfig,
-                    publicGinkgoJobConfig,
-                    privateGinkgoJobConfig,
-                    publicFicusJobConfig,
-                    privateFicusJobConfig,
                     python3JobConfig
                     ]
 

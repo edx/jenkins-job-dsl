@@ -36,8 +36,8 @@ Map publicBokchoyJobConfig = [
 Map publicLettuceJobConfig = [
     jobName: 'edx-platform-lettuce-pipeline-pr',
     context: 'jenkins/lettuce',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+pipeline\W+lettuce.*/,
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce'
 ]
@@ -45,8 +45,8 @@ Map publicLettuceJobConfig = [
 Map publicPythonJobConfig = [
     jobName: 'edx-platform-python-pipeline-pr',
     context: 'jenkins/python',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+pipeline\W+python.*/,
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python'
 ]

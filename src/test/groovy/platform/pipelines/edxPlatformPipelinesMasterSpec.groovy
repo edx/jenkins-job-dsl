@@ -14,7 +14,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 
-class edxPlatformMasterJobSpec extends Specification {
+class edxPlatformPipelinesMasterJobSpec extends Specification {
 
     @Shared
     @ClassRule
@@ -35,7 +35,7 @@ class edxPlatformMasterJobSpec extends Specification {
         loader = new DslScriptLoader(jm)
 
         when:
-        File dslScriptPath = new File("platform/jobs/${dslFile}")
+        File dslScriptPath = new File("platform/jobs/pipelines/${dslFile}")
         GeneratedItems generatedItems = loader.runScript(dslScriptPath.text)
 
         then:
@@ -44,13 +44,6 @@ class edxPlatformMasterJobSpec extends Specification {
 
         where:
         dslFile                                   | numJobs
-        'edxPlatformAccessibilityMaster.groovy'   | 5
-        'edxPlatformBokChoyMaster.groovy'         | 5
-        'edxPlatformJsMaster.groovy'              | 5
-        'edxPlatformLettuceMaster.groovy'         | 2
-        'edxPlatformPythonUnitTestsMaster.groovy' | 2
-        'edxPlatformQualityMaster.groovy'         | 3
-        'edxPlatformQualityDiff.groovy'           | 2
-        'edxPlatformUnitCoverage.groovy'          | 2
+        'edxPlatformPipelineMaster.groovy'        | 4
     }
 }
