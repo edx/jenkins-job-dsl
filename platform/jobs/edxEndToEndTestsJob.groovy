@@ -199,7 +199,7 @@ jobConfigs.each { jobConfig ->
 
         if (jobConfig.trigger == 'ghprb' || jobConfig.trigger == 'merge') {
             properties {
-                githubProjectUrl('https://github.com/edx/edx-e2e-tests')
+                githubProjectUrl('https://github.com/raccoongang/edx-e2e-tests')
             }
         }
 
