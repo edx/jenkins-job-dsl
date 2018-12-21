@@ -61,8 +61,8 @@ Map privateJobConfig = [
     workerLabel: 'jenkins-worker',
     context: 'jenkins/quality',
     defaultTestengBranch: 'master',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
+    refSpec : '+refs/heads/security-release:refs/remotes/origin/security-release',
+    defaultBranch : 'security-release'
 ]
 
 Map hawthornJobConfig = [
@@ -103,7 +103,7 @@ jobConfigs.each { jobConfig ->
             env('SUBSET_JOB', jobConfig.subsetJob)
             env('REPO_NAME', jobConfig.repoName)
             env('DIFF_JOB', jobConfig.diffJob)
-            env('TARGET_BRANCH', 'origin/master')
+            env('TARGET_BRANCH', jobConfig.defaultBranch)
         }
         parameters {
             stringParam('WORKER_LABEL', jobConfig.workerLabel, 'Jenkins worker for running the test subset jobs')
