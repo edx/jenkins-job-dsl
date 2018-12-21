@@ -44,6 +44,9 @@ class UserRetirementConstants {
             buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
             buildName('#${BUILD_NUMBER}, ' + extraVars.get('ENVIRONMENT_DEPLOYMENT'))
             timestamps()
+            environmentVariables {
+                env('ENVIRONMENT_DEPLOYMENT', extraVars.get('ENVIRONMENT_DEPLOYMENT'))
+            }
         }
     }
 
