@@ -49,8 +49,8 @@ Map privateJobConfig = [
     workerLabel: 'jenkins-worker',
     context: 'jenkins/bokchoy',
     defaultTestengBranch: 'master',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
+    refSpec : '+refs/heads/security-release:refs/remotes/origin/security-release',
+    defaultBranch : 'security-release'
 ]
 
 Map publicHawthornJobConfig = [
