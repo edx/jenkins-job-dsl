@@ -19,7 +19,7 @@ class LoadEvents {
                 stringParam('OUTPUT_URL', allVars.get('OUTPUT_URL'), '')
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'), '')
                 stringParam('EVENTS_LIST', allVars.get('EVENTS_LIST'), '')
-                stringParam('EXTRA_ARGS', allVars.get('EXTRA_ARGS'), '')
+                stringParam('EVENT_RECORD_TYPE', allVars.get('EVENT_RECORD_TYPE', ''), '')
             }
             multiscm common_multiscm(allVars)
             triggers common_triggers(allVars)
@@ -85,7 +85,7 @@ class LoadEvents {
                 stringParam('OUTPUT_URL', allVars.get('OUTPUT_URL'), '')
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'), '')
                 stringParam('EVENTS_LIST', allVars.get('EVENTS_LIST'), '')
-                stringParam('EXTRA_ARGS', allVars.get('EXTRA_ARGS', '--event-record-type JsonEventRecord'), '')
+                stringParam('EVENT_RECORD_TYPE', allVars.get('EVENT_RECORD_TYPE', '--event-record-type JsonEventRecord'), '')
             }
             multiscm common_multiscm(allVars)
             triggers common_triggers(allVars)
@@ -119,14 +119,6 @@ class LoadEvents {
             parameters {
                 stringParam('OUTPUT_URL', allVars.get('OUTPUT_URL', ''))
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS', ''))
-                stringParam('EXTRA_ARGS', allVars.get('EXTRA_ARGS', ''),
-                '' + $/
-  Examples:
-
-  * --event-record-type JsonEventRecord
-  * --max-bad-records=1
-  * --overwrite
-  /$)
                 stringParam('DATASET', allVars.get('DATASET', ''))
             }
             multiscm common_multiscm(allVars)

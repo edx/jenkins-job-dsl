@@ -19,8 +19,9 @@ aws s3 rm --recursive $dest || true
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   AnswerDistributionWorkflow --local-scheduler \
   --src $src --dest $dest --name $name --output-root $OUTPUT_URL \
-  --include '[\"*tracking.log*20131*.gz\",\"*tracking.log*2014*.gz\",\"*tracking.log*2015*.gz\",\"*tracking.log*2016*.gz\",\"*tracking.log*2017*.gz\",\"*tracking.log*2018*.gz\"]' \
+  --include '[\"*tracking.log*20131*.gz\",\"*tracking.log*2014*.gz\",\"*tracking.log*2015*.gz\",\"*tracking.log*2016*.gz\",\"*tracking.log*2017*.gz\",\"*tracking.log*2018*.gz\",\"*tracking.log*2019*.gz\"]' \
   --manifest "$manifest" --base-input-format "org.edx.hadoop.input.ManifestTextInputFormat" --lib-jar $LIB_JAR \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --marker $dest/marker \
-  --credentials $CREDENTIALS
+  --credentials $CREDENTIALS \
+  $EXTRA_ARGS

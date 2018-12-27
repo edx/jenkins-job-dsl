@@ -21,7 +21,6 @@ class Enterprise {
                 parameters common_parameters(allVars, job_config)
                 parameters {
                     stringParam('REPORT_DATE', allVars.get('REPORT_DATE'), '')
-                    stringParam('EXTRA_ARGS', allVars.get('EXTRA_ARGS'), '')
                 }
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars)

@@ -15,4 +15,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --output-suffix $OUTPUT_SUFFIX \
   --num-mappers $(( ($NUM_TASK_CAPACITY + 1) * 2 )) \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
-  --verbose
+  --verbose \
+  $EXTRA_ARGS
+

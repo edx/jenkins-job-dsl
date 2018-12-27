@@ -9,4 +9,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --gcp-credentials $GCP_CREDENTIALS \
  ${RUN_DATE} \
  ${OVERWRITE} \
- ${EXCLUDE}
+ ${EXCLUDE} \
+ ${EXTRA_ARGS}
+

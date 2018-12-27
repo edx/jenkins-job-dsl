@@ -14,7 +14,8 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --output-root $OUTPUT_ROOT/$INTERVAL \
   --interval $INTERVAL \
   --credentials $CREDENTIALS \
-  --n-reduce-tasks $NUM_REDUCE_TASKS
+  --n-reduce-tasks $NUM_REDUCE_TASKS \
+  $EXTRA_ARGS
 
 pip install awscli
 

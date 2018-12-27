@@ -7,7 +7,7 @@ fi
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   ModuleEngagementWorkflowTask --local-scheduler \
      --date $(date +%Y-%m-%d -d "$TO_DATE") \
-     --indexing-tasks 5 \
      --throttle 0.5 \
-     --n-reduce-tasks $NUM_REDUCE_TASKS
+     --n-reduce-tasks $NUM_REDUCE_TASKS \
+     $EXTRA_ARGS
 
