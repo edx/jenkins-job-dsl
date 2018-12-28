@@ -11,6 +11,7 @@ class VerticaDiskUsageMonitor {
                 stringParam('TOOLS_BRANCH', 'origin/master', '')
                 stringParam('THRESHOLD', allVars.get('THRESHOLD'), 'Utilization threshold for alarm.')
                 stringParam('CONFIG_FILE_PATH', allVars.get('CONFIG_FILE_PATH'))
+                stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
             }
             logRotator common_log_rotator(allVars)
             multiscm {
