@@ -1,6 +1,8 @@
+#!/bin/bash
+
 cd $WORKSPACE/configuration/util/jenkins/
 
-pip install -r requirements-missingalerts.txt
+pip install -r check_celery_progress/requirements.txt
 
 . util/jenkins/assume-role.sh
 # Assume the role
