@@ -27,8 +27,8 @@ catch (any) {
 Map publicBokchoyJobConfig = [
     jobName: 'edx-platform-bokchoy-pipeline-pr',
     context: 'jenkins/bokchoy',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+pipeline\W+bokchoy.*/,
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy'
 ]
@@ -54,8 +54,8 @@ Map publicPythonJobConfig = [
 Map publicQualityJobConfig = [
     jobName: 'edx-platform-quality-pipeline-pr',
     context: 'jenkins/quality',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+pipeline\W+quality.*/,
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality'
 ]
