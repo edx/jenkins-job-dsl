@@ -26,7 +26,7 @@ class  MissingNewRelicAlerts {
                     }
 
                     triggers {
-                        cron("0 0 * * 0")
+                        cron("H 0 * * 0")
                     }
 
                     multiscm {
