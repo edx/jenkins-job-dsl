@@ -1,36 +1,89 @@
 package platform
 
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 Map publicBokchoyJobConfig = [
+    open: true,
     jobName: 'edx-platform-bokchoy-pipeline-master',
+    repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy'
+    jenkinsFileName: 'bokchoy',
+    branch: 'master'
+]
+
+Map privateBokchoyJobConfig = [
+    open: false,
+    jobName: 'edx-platform-bokchoy-pipeline-master_private',
+    repoName: 'edx-platform-private',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy',
+    branch: 'security-release'
 ]
 
 Map publicLettuceJobConfig = [
+    open: true,
     jobName: 'edx-platform-lettuce-pipeline-master',
+    repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce'
+    jenkinsFileName: 'lettuce',
+    branch: 'master'
+]
+
+Map privateLettuceJobConfig = [
+    open: false,
+    jobName: 'edx-platform-lettuce-pipeline-master_private',
+    repoName: 'edx-platform-private',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'lettuce',
+    branch: 'security-release'
 ]
 
 Map publicPythonJobConfig = [
+    open: true,
     jobName: 'edx-platform-python-pipeline-master',
+    repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python'
+    jenkinsFileName: 'python',
+    branch: 'master'
+]
+
+Map privatePythonJobConfig = [
+    open: false,
+    jobName: 'edx-platform-python-pipeline-master_private',
+    repoName: 'edx-platform-private',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    branch: 'security-release'
 ]
 
 Map publicQualityJobConfig = [
+    open: true,
     jobName: 'edx-platform-quality-pipeline-master',
+    repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality'
+    jenkinsFileName: 'quality',
+    branch: 'master'
+]
+
+Map privateQualityJobConfig = [
+    open: false,
+    jobName: 'edx-platform-quality-pipeline-master_private',
+    repoName: 'edx-platform-private',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    branch: 'security-release'
 ]
 
 List jobConfigs = [
     publicBokchoyJobConfig,
+    privateBokchoyJobConfig,
     publicLettuceJobConfig,
+    privateLettuceJobConfig,
     publicPythonJobConfig,
-    publicQualityJobConfig
+    privatePythonJobConfig,
+    publicQualityJobConfig,
+    privateQualityJobConfig
 ]
 
 /* Iterate over the job configurations */
@@ -41,7 +94,14 @@ jobConfigs.each { jobConfig ->
 
         definition {
 
+            if (!jobConfig.open.toBoolean()) {
+                authorization GENERAL_PRIVATE_JOB_SECURITY()
+            }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
+            environmentVariables(
+                REPO_NAME: "${jobConfig.repoName}",
+                BRANCH_NAME: "${jobConfig.branch}"
+            )
 
             triggers {
                 githubPush()
@@ -67,8 +127,8 @@ jobConfigs.each { jobConfig ->
                         remote {
                             credentials('jenkins-worker')
                             github('edx/edx-platform', 'ssh', 'github.com')
-                            refspec('+refs/heads/master:refs/remotes/origin/master')
-                            branch('master')
+                            refspec("+refs/heads/${jobConfig.branch}:refs/remotes/origin/${jobConfig.branch}")
+                            branch(jobConfig.branch)
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package platform
 
 import org.yaml.snakeyaml.Yaml
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
 /* stdout logger */
@@ -25,7 +26,20 @@ catch (any) {
 }
 
 Map publicBokchoyJobConfig = [
+    open: true,
     jobName: 'edx-platform-bokchoy-pipeline-pr',
+    repoName: 'edx-platform',
+    context: 'jenkins/bokchoy',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy'
+]
+
+Map privateBokchoyJobConfig = [
+    open: false,
+    jobName: 'edx-platform-bokchoy-pipeline-pr_private',
+    repoName: 'edx-platform-private',
     context: 'jenkins/bokchoy',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
@@ -34,7 +48,20 @@ Map publicBokchoyJobConfig = [
 ]
 
 Map publicLettuceJobConfig = [
+    open: true,
     jobName: 'edx-platform-lettuce-pipeline-pr',
+    repoName: 'edx-platform',
+    context: 'jenkins/lettuce',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'lettuce'
+]
+
+Map privateLettuceJobConfig = [
+    open: false,
+    jobName: 'edx-platform-lettuce-pipeline-pr_private',
+    repoName: 'edx-platform-private',
     context: 'jenkins/lettuce',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
@@ -43,16 +70,42 @@ Map publicLettuceJobConfig = [
 ]
 
 Map publicPythonJobConfig = [
+    open: true,
     jobName: 'edx-platform-python-pipeline-pr',
+    repoName: 'edx-platform',
     context: 'jenkins/python',
-    onlyTriggerPhrase: false,
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python'
+]
+
+Map privatePythonJobConfig = [
+    open: false,
+    jobName: 'edx-platform-python-pipeline-pr_private',
+    repoName: 'edx-platform-private',
+    context: 'jenkins/python',
+    onlyTriggerPhrase: true,
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python'
 ]
 
 Map publicQualityJobConfig = [
+    open: true,
     jobName: 'edx-platform-quality-pipeline-pr',
+    repoName: 'edx-platform',
+    context: 'jenkins/quality',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+run\W+quality.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality'
+]
+
+Map privateQualityJobConfig = [
+    open: false,
+    jobName: 'edx-platform-quality-pipeline-pr_private',
+    repoName: 'edx-platform-private',
     context: 'jenkins/quality',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
@@ -62,9 +115,13 @@ Map publicQualityJobConfig = [
 
 List jobConfigs = [
     publicBokchoyJobConfig,
+    privateBokchoyJobConfig,
     publicLettuceJobConfig,
+    privateLettuceJobConfig,
     publicPythonJobConfig,
-    publicQualityJobConfig
+    privatePythonJobConfig,
+    publicQualityJobConfig,
+    privateQualityJobConfig
 ]
 
 /* Iterate over the job configurations */
@@ -75,7 +132,13 @@ jobConfigs.each { jobConfig ->
 
         definition {
 
+            if (!jobConfig.open.toBoolean()) {
+                authorization GENERAL_PRIVATE_JOB_SECURITY()
+            }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
+            environmentVariables(
+                REPO_NAME: "${jobConfig.repoName}"
+            )
 
             triggers {
                 githubPullRequest {
