@@ -37,6 +37,7 @@ import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEventsJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
+import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -97,6 +98,7 @@ def taskMap = [
     ENROLLMENT_VALIDATION_EVENTS_JOB: EnrollmentValidationEventsJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     LOAD_INSIGHTS_TO_VERTICA_JOB: LoadInsightsToVerticaJob,
+    LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
 ]
 
 for (task in taskMap) {
