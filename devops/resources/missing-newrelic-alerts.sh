@@ -1,9 +1,9 @@
 #!/bin/bash
 
-cd $WORKSPACE/configuration/util/jenkins/
+cd $WORKSPACE/configuration/util/jenkins/missing_alerts_checker
 
-pip install -r check_celery_progress/requirements.txt
-. ./assume-role.sh
+pip install -r requirements.txt
+. ../assume-role.sh
 
 # Assume the role
 set +x

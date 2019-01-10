@@ -11,7 +11,7 @@ class  MissingNewRelicAlerts {
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/missing-new-relic-alerts-${deployment}") {
                     parameters {
                         stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')
-                        stringParam('CONFIGURATION_BRANCH', 'missing_newrelic_alerts')
+                        stringParam('CONFIGURATION_BRANCH', 'master')
                     }
 
                     wrappers common_wrappers
