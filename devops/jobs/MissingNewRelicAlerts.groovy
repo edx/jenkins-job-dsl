@@ -30,7 +30,7 @@ class  MissingNewRelicAlerts {
                     }
 
                     environmentVariables {
-                        env('DEFAULT_AWS_REGION', extraVars.get('REGION'))
+                        env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                     }
 
                     multiscm {
