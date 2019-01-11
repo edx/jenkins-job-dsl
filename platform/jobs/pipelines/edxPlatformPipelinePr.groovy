@@ -3,6 +3,7 @@ package platform
 import org.yaml.snakeyaml.Yaml
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
 
 /* stdout logger */
 Map config = [:]
@@ -135,6 +136,9 @@ jobConfigs.each { jobConfig ->
             if (!jobConfig.open.toBoolean()) {
                 authorization GENERAL_PRIVATE_JOB_SECURITY()
             }
+            properties {
+                githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
+            }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}"
@@ -156,6 +160,8 @@ jobConfigs.each { jobConfig ->
                 }
             }
 
+            configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)
+
             cpsScm {
                 scm {
                     git {
@@ -175,7 +181,7 @@ jobConfigs.each { jobConfig ->
                         }
                         remote {
                             credentials('jenkins-worker')
-                            github('edx/edx-platform', 'ssh', 'github.com')
+                            github("edx/${jobConfig.repoName}", 'ssh', 'github.com')
                             refspec('+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
                             branch('\${sha1}')
                         }

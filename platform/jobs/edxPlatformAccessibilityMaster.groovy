@@ -45,8 +45,8 @@ Map privateJobConfig = [
     repoName: 'edx-platform-private',
     workerLabel: 'jenkins-worker',
     context: 'jenkins/a11y',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
+    refSpec : '+refs/heads/security-release:refs/remotes/origin/security-release',
+    defaultBranch : 'security-release'
 ]
 
 Map hawthornJobConfig = [

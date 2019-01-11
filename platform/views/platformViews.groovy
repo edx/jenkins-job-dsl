@@ -56,3 +56,12 @@ listView("edx-platform-pipeline-pr-tests") {
     }
     columns DEFAULT_VIEW.call()
 }
+
+listView("edx-platform-private-tests") {
+    description('Jobs for running tests on edx-platform-private')
+
+    jobs {
+        regex(".*_private")
+    }
+    columns DEFAULT_VIEW.call()
+}
