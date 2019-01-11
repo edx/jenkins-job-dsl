@@ -2,7 +2,7 @@
 
 cd $WORKSPACE/configuration/util/jenkins/missing_alerts_checker
 
-export AWS_DEFAULT_REGION=${REGION}
+export AWS_DEFAULT_REGION=${DEFAULT_AWS_REGION}
 pip install -r requirements.txt
 . ../assume-role.sh
 
