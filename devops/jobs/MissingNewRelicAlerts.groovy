@@ -29,6 +29,10 @@ class  MissingNewRelicAlerts {
                         cron("H 0 * * 0")
                     }
 
+                    environmentVariables {
+                        env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
+                    }
+
                     multiscm {
                         git {
                             remote {
