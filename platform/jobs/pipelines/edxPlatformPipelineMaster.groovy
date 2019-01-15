@@ -2,6 +2,7 @@ package platform
 
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
 
 Map publicBokchoyJobConfig = [
     open: true,
@@ -126,7 +127,7 @@ jobConfigs.each { jobConfig ->
                         }
                         remote {
                             credentials('jenkins-worker')
-                            github('edx/edx-platform', 'ssh', 'github.com')
+                            github("edx/${jobConfig.repoName}", 'ssh', 'github.com')
                             refspec("+refs/heads/${jobConfig.branch}:refs/remotes/origin/${jobConfig.branch}")
                             branch(jobConfig.branch)
                         }
