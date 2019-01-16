@@ -59,7 +59,7 @@ Map publicBokchoyPython3JobConfig = [
     onlyTriggerPhrase: true,
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy'
+    jenkinsFileName: 'bokchoy',
     toxEnv: 'py35-django111'
 ]
 
