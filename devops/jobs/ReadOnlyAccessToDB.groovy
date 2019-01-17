@@ -25,7 +25,7 @@ class ReadOnlyAccessToDB {
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment,bastion_config ->
-                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/read-only-access-to-${environment}-${deployment}-db") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/access-to-${environment}-${deployment}-bastion") {
                        
                     logRotator common_logrotator
                     wrappers common_wrappers
@@ -86,7 +86,7 @@ class ReadOnlyAccessToDB {
                             systemSitePackages(false)
 
                             command(
-                                dslFactory.readFileFromWorkspace("devops/resources/read-only-access-to-db.sh")
+                                dslFactory.readFileFromWorkspace("devops/resources/access-to-bastion.sh")
                             )
                         }
                     }
