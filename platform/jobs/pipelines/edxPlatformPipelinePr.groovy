@@ -30,6 +30,7 @@ Map publicBokchoyJobConfig = [
     open: true,
     jobName: 'edx-platform-bokchoy-pipeline-pr',
     repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/bokchoy',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
@@ -41,6 +42,7 @@ Map privateBokchoyJobConfig = [
     open: false,
     jobName: 'edx-platform-bokchoy-pipeline-pr_private',
     repoName: 'edx-platform-private',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/bokchoy',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
@@ -48,10 +50,24 @@ Map privateBokchoyJobConfig = [
     jenkinsFileName: 'bokchoy'
 ]
 
+Map publicBokchoyPython3JobConfig = [
+    open : true,
+    jobName : 'edx-platform-python3-bokchoy-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/py35-django111.5/bokchoy',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+bokchoy.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy',
+    toxEnv: 'py35-django111'
+]
+
 Map publicLettuceJobConfig = [
     open: true,
     jobName: 'edx-platform-lettuce-pipeline-pr',
     repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/lettuce',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
@@ -63,9 +79,23 @@ Map privateLettuceJobConfig = [
     open: false,
     jobName: 'edx-platform-lettuce-pipeline-pr_private',
     repoName: 'edx-platform-private',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/lettuce',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'lettuce'
+]
+
+Map publicLettucePython3JobConfig = [
+    open : true,
+    jobName : 'edx-platform-python3-lettuce-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/py35-django111.5/lettuce',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+lettuce.*/,
+    toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce'
 ]
@@ -74,6 +104,7 @@ Map publicPythonJobConfig = [
     open: true,
     jobName: 'edx-platform-python-pipeline-pr',
     repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python',
     onlyTriggerPhrase: true,
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
@@ -85,9 +116,23 @@ Map privatePythonJobConfig = [
     open: false,
     jobName: 'edx-platform-python-pipeline-pr_private',
     repoName: 'edx-platform-private',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python',
     onlyTriggerPhrase: true,
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python'
+]
+
+Map publicPythonPython3JobConfig = [
+    open: true,
+    jobName: 'edx-platform-python3-python-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/py35-django111.5/python',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+python.*/,
+    toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python'
 ]
@@ -96,6 +141,7 @@ Map publicQualityJobConfig = [
     open: true,
     jobName: 'edx-platform-quality-pipeline-pr',
     repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/quality',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
@@ -107,6 +153,7 @@ Map privateQualityJobConfig = [
     open: false,
     jobName: 'edx-platform-quality-pipeline-pr_private',
     repoName: 'edx-platform-private',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/quality',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
@@ -114,15 +161,32 @@ Map privateQualityJobConfig = [
     jenkinsFileName: 'quality'
 ]
 
+Map publicQualityPython3JobConfig = [
+    open : true,
+    jobName : 'edx-platform-python3-quality-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/py35-django111/quality',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+quality.*/,
+    toxEnv: 'py35-django111',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality'
+]
+
 List jobConfigs = [
     publicBokchoyJobConfig,
     privateBokchoyJobConfig,
+    publicBokchoyPython3JobConfig,
     publicLettuceJobConfig,
     privateLettuceJobConfig,
+    publicLettucePython3JobConfig,
     publicPythonJobConfig,
     privatePythonJobConfig,
+    publicPythonPython3JobConfig,
     publicQualityJobConfig,
-    privateQualityJobConfig
+    privateQualityJobConfig,
+    publicQualityPython3JobConfig
 ]
 
 /* Iterate over the job configurations */
@@ -141,7 +205,8 @@ jobConfigs.each { jobConfig ->
             }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
             environmentVariables(
-                REPO_NAME: "${jobConfig.repoName}"
+                REPO_NAME: "${jobConfig.repoName}",
+                TOX_ENV: "${jobConfig.toxEnv}"
             )
 
             triggers {
@@ -152,6 +217,7 @@ jobConfigs.each { jobConfig ->
                     onlyTriggerPhrase(jobConfig.onlyTriggerPhrase)
                     userWhitelist(ghprbMap['userWhiteList'])
                     orgWhitelist(ghprbMap['orgWhiteList'])
+                    whiteListTargetBranches([jobConfig.whitelistBranchRegex])
                     extensions {
                         commitStatus {
                             context(jobConfig.context)
