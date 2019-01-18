@@ -132,6 +132,18 @@ Manage Jenkins -> Configure System -> Python installations
 
     Check Install automatically
 
+5. Weird shell errors, like Illegal option -o pipefail
+
+You may get error output like this.
+
+    + set -exuo pipefail
+    /tmp/shiningpanda3607488247320642839.sh: 3: set: Illegal option -o pipefail
+    Build step 'Virtualenv Builder' marked build as failure
+
+In the docker container /bin/sh is dash instead of bash. Jenkins assumes that
+it's bash. To fix this go to Manage Jenkins -> Configure System and set
+"Shell executable" to "/bin/bash"
+
 ## WIP: Updating the Tools Jenkins Docker Image
 
 The [edxops/tools_jenkins](https://hub.docker.com/r/edxops/tools_jenkins/) image is used in the Docker steps above. The required plugins have been pre-installed on the container. Feel free to install additional plugins. If you'd like to add or modify Jenkins plugins, follow the steps below.
