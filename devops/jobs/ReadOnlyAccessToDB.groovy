@@ -41,10 +41,6 @@ class ReadOnlyAccessToDB {
                                     'Git repo containing edX configuration.')
                         stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                                 'e.g. tagname or origin/branchname')
-                        stringParam('CONFIGURATION_SECURE_REPO', extraVars.get('CONFIGURATION_SECURE_REPO',"git@github.com:edx-ops/${deployment}-secure.git"),
-                                'Secure Git repo .')
-                        stringParam('CONFIGURATION_SECURE_BRANCH', extraVars.get('CONFIGURATION_SECURE_BRANCH', 'master'),
-                                'e.g. tagname or origin/branchname')
                         stringParam('CONFIGURATION_INTERNAL_REPO', extraVars.get('CONFIGURATION_INTERNAL_REPO',"git@github.com:edx/${deployment}-internal.git"),
                                 'Secure Git repo .')
                         stringParam('CONFIGURATION_INTERNAL_BRANCH', extraVars.get('CONFIGURATION_INTERNAL_BRANCH', 'master'),
@@ -61,20 +57,6 @@ class ReadOnlyAccessToDB {
                                 cleanAfterCheckout()
                                 pruneBranches()
                                 relativeTargetDirectory('configuration')
-                            }
-                        }
-                        git {
-                            remote {
-                                url('$CONFIGURATION_SECURE_REPO')
-                                branch('$CONFIGURATION_SECURE_BRANCH')
-                                if (gitCredentialId) {
-                                    credentials(gitCredentialId)
-                                }
-                            }
-                            extensions {
-                                cleanAfterCheckout()
-                                pruneBranches()
-                                relativeTargetDirectory('configuration-secure')
                             }
                         }
                         git {
