@@ -45,6 +45,10 @@ class ReadOnlyAccessToDB {
                                 'Secure Git repo .')
                         stringParam('CONFIGURATION_SECURE_BRANCH', extraVars.get('CONFIGURATION_SECURE_BRANCH', 'master'),
                                 'e.g. tagname or origin/branchname')
+                        stringParam('CONFIGURATION_INTERNAL_REPO', extraVars.get('CONFIGURATION_INTERNAL_REPO',"git@github.com:edx/${deployment}-internal.git"),
+                                'Secure Git repo .')
+                        stringParam('CONFIGURATION_INTERNAL_BRANCH', extraVars.get('CONFIGURATION_INTERNAL_BRANCH', 'master'),
+                                'e.g. tagname or origin/branchname')
                     }
 
                     multiscm{
@@ -73,9 +77,25 @@ class ReadOnlyAccessToDB {
                                 relativeTargetDirectory('configuration-secure')
                             }
                         }
+                        git {
+                            remote {
+                                url('$CONFIGURATION_INTERNAL_REPO')
+                                branch('$CONFIGURATION_INTERNAL_BRANCH')
+                                if (gitCredentialId) {
+                                    credentials(gitCredentialId)
+                                }
+                            }
+                            extensions {
+                                cleanAfterCheckout()
+                                pruneBranches()
+                                relativeTargetDirectory('configuration-internal')
+                            }
+                        }
                     }
 
                     environmentVariables {
+                        env('ENVIRONMENT', environment)
+                        env('DEPLOYMENT', deployment)
                         env('BASTION_HOST', bastion_config.get('bastion_host'))
                         env('USERS_YAML', bastion_config.get('bastion_user_yaml'))
                     }
