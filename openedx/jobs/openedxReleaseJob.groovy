@@ -1,11 +1,14 @@
 package openedx
 
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_TEAM_SECURITY
 
 // This is the job DSL responsible for creating the main pipeline job.
 pipelineJob('openedx-release-ci') {
 
     definition {
+
+        authorization JENKINS_PUBLIC_TEAM_SECURITY.call(['edx*open-source-team', 'edx*testeng'])
 
         parameters {
             stringParam('OPENEDX_RELEASE_NAME', 'test-release',
