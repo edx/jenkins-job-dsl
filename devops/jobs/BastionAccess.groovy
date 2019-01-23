@@ -1,5 +1,6 @@
 /*
  Variables consumed for this job:
+      FOLER_NAME: folder, default is bastion_access
       DEPLOYMENTS: 
         environments:
           environment 

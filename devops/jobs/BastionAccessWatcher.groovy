@@ -1,24 +1,19 @@
 /*
 
- This job checks out the app permissions repository and checks for merges to master with github webhooks. Upon a merge to master,
- it will trigger a build of the app-permissions-runner job (below). The app-permissions-runner job is what actually calls the script
+ This job checks out the ${deployment}-internal repository and checks for merges to master with github webhooks. Upon a merge to master,
+ it will trigger a build of the bastion-access jobs (below). The bastion-access jobs are what actually calls the script
  to run the ansible.
 
  Variables without defaults are marked (required)
 
- Variables consumed for this job and for the app-permission-runner job:
+ Variables consumed for this job and for the bastion-access-* jobs:
     * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
-    * FOLER_NAME: folder, default is User-Mananagement
+    * FOLER_NAME: folder, default is bastion_access
     * DEPLOYMENTS: (required)
         environments:
           - environment (required)
-    * ACCESS_CONTROL: list of users to give access to
-        - user
-    * USER: user to run ansible (required)
-    * DEPLOYMENT_KEY: ssh key that should be defined on the folder (required)
     * NOTIFY_ON_FAILURE: alert@example.com
-    * APP_PERMISSION_REPO: app permissions git repository (required)
-    * APP_PERMISSION_BRANCH: branch of app permissions for the webhook to watch, default is master
+    * CONFIGURATION_INTERNAL_BRANCH: branch of ${deployment}-internal for the webhook to watch, default is master
 
 */
 
