@@ -15,7 +15,7 @@ def job = job('configuration-watcher') {
             }
         }
     }
-    // polls configuration repository for changes every 4 minutes
+    // polls configuration repository for changes every 10 minutes
     triggers {
         scm('H/10 * * * *')
     }
