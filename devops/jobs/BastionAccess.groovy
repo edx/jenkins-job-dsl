@@ -1,5 +1,6 @@
 /*
  Variables consumed for this job:
+      FOLER_NAME: folder, default is bastion_access
       DEPLOYMENTS: 
         environments:
           environment 
@@ -18,14 +19,14 @@ import static org.edx.jenkins.dsl.Constants.common_logrotator
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 
 
-class ReadOnlyAccessToDB {
+class BastionAccess {
 
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
-            configuration.environments.each { environment,bastion_config ->
-                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/access-to-${environment}-${deployment}-bastion") {
+            configuration.environments.each { environment, bastion_config ->
+                dslFactory.job(extraVars.get("FOLDER_NAME","bastion_access") + "/bastion-access-${environment}-${deployment}") {
                        
                     logRotator common_logrotator
                     wrappers common_wrappers
@@ -75,6 +76,11 @@ class ReadOnlyAccessToDB {
                         }
                     }
 
+                    // Check github every 30 minutes
+                    triggers {
+                        scm('H/30 * * * *')
+                    }
+
                     environmentVariables {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
@@ -88,7 +94,7 @@ class ReadOnlyAccessToDB {
                             systemSitePackages(false)
 
                             command(
-                                dslFactory.readFileFromWorkspace("devops/resources/access-to-bastion.sh")
+                                dslFactory.readFileFromWorkspace("devops/resources/bastion-access.sh")
                             )
                         }
                     }
