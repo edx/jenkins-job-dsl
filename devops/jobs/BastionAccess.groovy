@@ -76,6 +76,11 @@ class BastionAccess {
                         }
                     }
 
+                    // Check github every 30 minutes
+                    triggers {
+                        scm('H/30 * * * *')
+                    }
+
                     environmentVariables {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
