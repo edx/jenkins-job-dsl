@@ -106,7 +106,7 @@ Map publicPythonJobConfig = [
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python',
-    onlyTriggerPhrase: true,
+    onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python'
@@ -118,7 +118,7 @@ Map privatePythonJobConfig = [
     repoName: 'edx-platform-private',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python',
-    onlyTriggerPhrase: true,
+    onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python'
