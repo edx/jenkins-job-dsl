@@ -35,6 +35,7 @@ job('edx-platform-test-notifier') {
         credentialsBinding {
             string('GITHUB_TOKEN', 'GITHUB_STATUS_OAUTH_TOKEN')
         }
+        buildName('#${BUILD_NUMBER} Platform PR: ${ENV,var="PR_NUMBER"}')
     }
 
     steps {
