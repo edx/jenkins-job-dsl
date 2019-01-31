@@ -232,6 +232,7 @@ jobConfigs.each { jobConfig ->
                 scm {
                     git {
                         extensions {
+                            cleanBeforeCheckout()
                             cloneOptions {
                                 honorRefspec(true)
                                 noTags(true)
