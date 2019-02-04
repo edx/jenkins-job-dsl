@@ -34,7 +34,7 @@ fi
 
 for i in `find $WORKSPACE -name "*.yml" | sed '/ansible/d'`
   do
-    /usr/bin/python2.7 -c "import sys,yaml; yaml.load(open('$i'))" $i > /dev/null
+    /usr/bin/python2.7 -c "import sys,yaml; yaml.load_all(open('$i'))" $i > /dev/null
     if [[ $? -ne 0 ]]; then
       echo "ERROR parsing $i"
       FAIL=1
