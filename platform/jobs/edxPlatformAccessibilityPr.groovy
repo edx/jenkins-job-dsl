@@ -80,46 +80,6 @@ Map privateHawthornJobConfig = [
     triggerPhrase: /.*hawthorn\W+run\W+a11y.*/
 ]
 
-Map publicGinkgoJobConfig = [
-    open: true,
-    jobName: 'ginkgo-accessibility-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'ginkgo-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ginkgo.master/,
-    context: 'jenkins/ginkgo/a11y',
-    triggerPhrase: /.*ginkgo\W+run\W+a11y.*/
-]
-
-Map privateGinkgoJobConfig = [
-    open: false,
-    jobName: 'ginkgo-accessibility-pr_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'ginkgo-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ginkgo.master/,
-    context: 'jenkins/ginkgo/a11y',
-    triggerPhrase: /.*ginkgo\W+run\W+a11y.*/
-]
-
-Map publicFicusJobConfig = [
-    open: true,
-    jobName: 'ficus-accessibility-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ficus.master/,
-    context: 'jenkins/ficus/a11y',
-    triggerPhrase: /.*ficus\W+run\W+a11y.*/
-]
-
-Map privateFicusJobConfig = [
-    open: false,
-    jobName: 'ficus-accessibility-pr_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'ficus-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ficus.master/,
-    context: 'jenkins/ficus/a11y',
-    triggerPhrase: /.*ficus\W+run\W+a11y.*/
-]
-
 Map python3JobConfig = [
     open : true,
     jobName : 'edx-platform-python3-accessibility-pr',
@@ -137,10 +97,6 @@ List jobConfigs = [
     privateJobConfig,
     publicHawthornJobConfig,
     privateHawthornJobConfig,
-    publicGinkgoJobConfig,
-    privateGinkgoJobConfig,
-    publicFicusJobConfig,
-    privateFicusJobConfig,
     python3JobConfig
 ]
 
