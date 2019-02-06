@@ -98,6 +98,7 @@ class SandboxTermination{
                 env("NOOP", extraVars.get("NOOP", false))
                 env("AWS_REGION", extraVars.get("AWS_REGION", "us-east-1"))
                 env("HIPCHAT_ROOM", extraVars.get("HIPCHAT_ROOM"))
+                env("SNITCH", extraVars.get("SNITCH"))
             }
 
             steps {
