@@ -79,7 +79,7 @@ jobConfigs.each { jobConfig ->
         if (!jobConfig.open.toBoolean()) {
             authorization {
                 blocksInheritance(true)
-                permissionAll('edx')
+                permissionAll('raccoongang')
                 permission('hudson.model.Item.Discover', 'anonymous')
             }
         }

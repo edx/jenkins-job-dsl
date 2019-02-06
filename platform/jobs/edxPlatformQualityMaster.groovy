@@ -143,7 +143,7 @@ jobConfigs.each { jobConfig ->
 
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-        predefinedPropsMap.put('GITHUB_ORG', 'edx')
+        predefinedPropsMap.put('GITHUB_ORG', 'raccoongang')
         predefinedPropsMap.put('CONTEXT', jobConfig.context)
         steps { //trigger GitHub-Build-Status and run accessibility tests
             predefinedPropsMap.put('GITHUB_REPO', jobConfig.repoName)

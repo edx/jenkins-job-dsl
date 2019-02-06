@@ -25,7 +25,7 @@ pipelineJob('User Retirement Pipeline') {
     // but customer support can read and discover.
     authorization {
         blocksInheritance(true)
-        List membersWithFullControl = ['edx/platform-team']
+        List membersWithFullControl = ['raccoongang/DevOps']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }

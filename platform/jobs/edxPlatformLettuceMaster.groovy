@@ -112,7 +112,7 @@ jobConfigs.each { jobConfig ->
         multiscm {
             git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
                     credentials('jenkins-worker')
                 }
@@ -149,7 +149,7 @@ jobConfigs.each { jobConfig ->
 
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-        predefinedPropsMap.put('GITHUB_ORG', 'edx')
+        predefinedPropsMap.put('GITHUB_ORG', 'raccoongang')
         predefinedPropsMap.put('CONTEXT', jobConfig.context)
 
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-lettuce-master.groovy')

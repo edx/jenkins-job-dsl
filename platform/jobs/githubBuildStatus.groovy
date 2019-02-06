@@ -16,7 +16,7 @@ jobStringParameters = [
     ],
     [
         name: 'GITHUB_REPO',
-        description: 'Name of the GitHub repo (e.g., for github.com/edx/edx-platform, the value is "edx-platform"',
+        description: 'Name of the GitHub repo (e.g., for github.com/raccoongang/edx-platform, the value is "edx-platform"',
         default: ''
 
     ],

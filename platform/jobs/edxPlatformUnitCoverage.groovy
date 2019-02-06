@@ -145,7 +145,7 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     credentials('jenkins-worker')
                 }

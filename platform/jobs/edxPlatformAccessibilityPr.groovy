@@ -14,11 +14,19 @@ config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
-Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
-    orgWhiteList: ['raccoongang'],
-]
+Map ghprbMap = [:]
+try {
+    out.println('Parsing secret YAML file')
+    String ghprbConfigContents = new File("${GHPRB_SECRET}").text
+    Yaml yaml = new Yaml()
+    ghprbMap = yaml.load(ghprbConfigContents)
+    out.println('Successfully parsed secret YAML file')
+}
+catch (any) {
+    out.println('Jenkins DSL: Error parsing secret YAML file')
+    out.println('Exiting with error code 1')
+    return 1
+}
 
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
 // Map exampleConfig = [
@@ -117,7 +125,7 @@ jobConfigs.each { jobConfig ->
         scm {
            git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     credentials('jenkins-worker')
                 }

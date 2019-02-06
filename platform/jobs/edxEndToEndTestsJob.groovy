@@ -18,11 +18,7 @@ PrintStream out = config['out']
 /* Map to hold the k:v pairs parsed from the secret file */
 Map mailingListMap = [:]
 Map securityGroupMap = [:]
-Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
-    orgWhiteList: ['raccoongang'],
-]
+Map ghprbMap = [:]
 try {
     out.println('Parsing secret YAML file')
     String mailingListSecretContents  = new File("${MAILING_LIST_SECRET}").text
@@ -182,7 +178,7 @@ jobConfigs.each { jobConfig ->
 
         authorization {
             blocksInheritance(true)
-            permissionAll('edx')
+            permissionAll('raccoongang')
             permission('hudson.model.Item.Discover', 'anonymous')
             // grant additional permissions to bots
             if (jobConfig.trigger == 'pipeline') {
@@ -211,7 +207,7 @@ jobConfigs.each { jobConfig ->
 
         parameters {
             if (jobConfig.testSuite == 'e2e') {
-                stringParam('COURSE_ORG', 'edx', 'Organization name of the course')
+                stringParam('COURSE_ORG', 'raccoongang', 'Organization name of the course')
                 stringParam('COURSE_NUMBER', jobConfig.courseNumber, 'Course number')
                 stringParam('COURSE_RUN', 'fall', 'Term in which course will run')
                 stringParam('COURSE_DISPLAY_NAME', 'E2E Test Course', 'Display name of the course')
@@ -329,7 +325,7 @@ jobConfigs.each { jobConfig ->
             if (jobConfig.trigger == 'merge') {
                 Map <String, String> predefinedPropsMap  = [:]
                 predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-                predefinedPropsMap.put('GITHUB_ORG', 'edx')
+                predefinedPropsMap.put('GITHUB_ORG', 'raccoongang')
                 predefinedPropsMap.put('CONTEXT', jobConfig.context)
                 predefinedPropsMap.put('GITHUB_REPO', 'edx-e2e-tests')
                 predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
