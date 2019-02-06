@@ -238,10 +238,16 @@ jobConfigs.each { jobConfig ->
                                 noTags(true)
                                 shallow(true)
                             }
+                            // To speed up builds, do a sparse checkout of just
+                            // the files needed to run the pipeline. However, in
+                            // case old branches/forks trigger this job, check
+                            // out the 'scripts' directory to avoid the case
+                            // where Jenkins tries to do a sparse check out of
+                            // non-existent files (and corrupts the git state)
                             sparseCheckoutPaths {
                                 sparseCheckoutPaths {
                                     sparseCheckoutPath {
-                                        path(jobConfig.jenkinsFileDir)
+                                        path('scripts')
                                     }
                                 }
                             }
