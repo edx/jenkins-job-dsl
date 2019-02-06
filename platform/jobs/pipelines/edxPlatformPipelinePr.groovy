@@ -236,7 +236,7 @@ jobConfigs.each { jobConfig ->
                             // following hash in their ancestry. The hash
                             // is from the creation of `scripts/Jenkinsfiles`
                             choosingStrategy {
-                                ancestry(365, '84d780e68197b0ec7a27b4807527e01dbfd62b43')
+                                ancestry(365, '5c88962d24540136676318271e55275f073d22c0')
                             }
                             cleanBeforeCheckout()
                             cloneOptions {
