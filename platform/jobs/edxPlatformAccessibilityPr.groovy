@@ -43,7 +43,7 @@ catch (any) {
 Map publicJobConfig = [
     open : true,
     jobName : 'edx-platform-accessibility-pr',
-    repoName : 'edx-platform',
+    repoName : 'edx-platform-test',
     workerLabel: 'jenkins-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/a11y',
@@ -53,7 +53,7 @@ Map publicJobConfig = [
 Map publicHawthornJobConfig = [
     open: true,
     jobName: 'hawthorn-accessibility-pr',
-    repoName: 'edx-platform',
+    repoName: 'edx-platform-test',
     workerLabel: 'hawthorn-jenkins-worker',
     whitelistBranchRegex: /open-release\/hawthorn.master/,
     context: 'jenkins/hawthorn/a11y',
@@ -63,7 +63,7 @@ Map publicHawthornJobConfig = [
 Map publicGinkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-accessibility-pr',
-    repoName: 'edx-platform',
+    repoName: 'edx-platform-test',
     workerLabel: 'ginkgo-jenkins-worker',
     whitelistBranchRegex: /open-release\/ginkgo.master/,
     context: 'jenkins/ginkgo/a11y',
@@ -73,7 +73,7 @@ Map publicGinkgoJobConfig = [
 Map publicFicusJobConfig = [
     open: true,
     jobName: 'ficus-accessibility-pr',
-    repoName: 'edx-platform',
+    repoName: 'edx-platform-test',
     workerLabel: 'ficus-jenkins-worker',
     whitelistBranchRegex: /open-release\/ficus.master/,
     context: 'jenkins/ficus/a11y',
@@ -83,7 +83,7 @@ Map publicFicusJobConfig = [
 Map python3JobConfig = [
     open : true,
     jobName : 'edx-platform-python3-accessibility-pr',
-    repoName : 'edx-platform',
+    repoName : 'edx-platform-test',
     workerLabel: 'jenkins-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python3.5/a11y',

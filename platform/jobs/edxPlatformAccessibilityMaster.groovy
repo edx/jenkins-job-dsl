@@ -32,7 +32,7 @@ PrintStream out = config['out']
 Map publicJobConfig = [
     open: true,
     jobName: 'edx-platform-accessibility-master',
-    repoName: 'edx-platform',
+    repoName: 'edx-platform-test',
     workerLabel: 'jenkins-worker',
     context: 'jenkins/a11y',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
@@ -42,7 +42,7 @@ Map publicJobConfig = [
 Map hawthornJobConfig = [
     open: true,
     jobName: 'hawthorn-accessibility-master',
-    repoName: 'edx-platform',
+    repoName: 'edx-platform-test',
     workerLabel: 'hawthorn-jenkins-worker',
     context: 'jenkins/hawthorn/a11y',
     refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
@@ -52,7 +52,7 @@ Map hawthornJobConfig = [
 Map ginkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-accessibility-master',
-    repoName: 'edx-platform',
+    repoName: 'edx-platform-test',
     workerLabel: 'ginkgo-jenkins-worker',
     context: 'jenkins/ginkgo/a11y',
     refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
@@ -62,7 +62,7 @@ Map ginkgoJobConfig = [
 Map ficusJobConfig = [
     open: true,
     jobName: 'ficus-accessibility-master',
-    repoName: 'edx-platform',
+    repoName: 'edx-platform-test',
     workerLabel: 'ficus-jenkins-worker',
     context: 'jenkins/ficus/a11y',
     refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',

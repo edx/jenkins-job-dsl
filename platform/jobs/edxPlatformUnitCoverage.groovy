@@ -114,7 +114,7 @@ stringParams = [
 Map publicJobConfig = [ open : true,
                         jobName : 'edx-platform-unit-coverage',
                         subsetJob: 'edx-platform-test-subset',
-                        repoName: 'edx-platform',
+                        repoName: 'edx-platform-test',
                         workerLabel: 'coverage-worker',
                         timeout: 20
                         ]

@@ -56,7 +56,7 @@ Map publicJobConfig = [
     open : true,
     jobName : 'edx-platform-quality-diff',
     subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform'
+    repoName: 'edx-platform-test'
 ]
 
 
