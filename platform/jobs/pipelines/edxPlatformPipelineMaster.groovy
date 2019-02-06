@@ -99,6 +99,7 @@ jobConfigs.each { jobConfig ->
                 authorization GENERAL_PRIVATE_JOB_SECURITY()
             }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
+            label('jenkins-worker')
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 BRANCH_NAME: "${jobConfig.branch}"
