@@ -164,7 +164,6 @@ jobConfigs.each { jobConfig ->
             }
         }
         wrappers {
-            sshAgent('jenkins-worker')
             timeout {
                 absolute(jobConfig.timeout)
                 writeDescription("Timed out at ${jobConfig.timeout} minutes")
@@ -172,9 +171,6 @@ jobConfigs.each { jobConfig ->
             }
             timestamps()
             colorizeOutput('gnome-terminal')
-            if (!jobConfig.open.toBoolean()) {
-                sshAgent('jenkins-worker')
-            }
             buildName('#\${BUILD_NUMBER}: \${GIT_REVISION,length=8}')
             // Inject CodeCov token so that public jobs can report coverage
             if (jobConfig.open.toBoolean()) {

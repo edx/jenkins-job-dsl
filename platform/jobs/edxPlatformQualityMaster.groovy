@@ -133,7 +133,6 @@ jobConfigs.each { jobConfig ->
                absolute(90)
             }
             timestamps()
-            sshAgent('jenkins-worker')
             preBuildCleanup {
                 includePattern(archiveReports)
                 deleteDirectories()

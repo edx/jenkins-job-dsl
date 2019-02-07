@@ -142,7 +142,6 @@ jobConfigs.each { jobConfig ->
         triggers { githubPush() }
         wrappers {
             timestamps()
-            sshAgent('jenkins-worker')
         }
 
         Map <String, String> predefinedPropsMap  = [:]

@@ -131,7 +131,6 @@ jobConfigs.each { jobConfig ->
             environmentVariables {
                 groovy(readFileFromWorkspace('platform/resources/mapEnvVars.groovy'))
             }
-            sshAgent('jenkins-worker')
             buildName('#\${BUILD_NUMBER}: \${ENV,var=\"TEST_SUITE\"} \${ENV,var=\"SHARD\"}')
             credentialsBinding {
                 string('AWS_ACCESS_KEY_ID', 'DB_CACHE_ACCESS_KEY_ID')

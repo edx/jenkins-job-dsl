@@ -170,7 +170,6 @@ jobConfigs.each { jobConfig ->
            }
            timestamps()
            colorizeOutput('gnome-terminal')
-           sshAgent('jenkins-worker')
            credentialsBinding {
                string('AWS_ACCESS_KEY_ID', 'DB_CACHE_ACCESS_KEY_ID')
                string('AWS_SECRET_ACCESS_KEY', 'DB_CACHE_SECRET_ACCESS_KEY')

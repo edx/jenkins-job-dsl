@@ -180,7 +180,6 @@ jobConfigs.each { jobConfig ->
             timestamps()
             colorizeOutput()
             buildName('#${BUILD_NUMBER}: Javascript Tests')
-            sshAgent('jenkins-worker')
         }
         steps {
             shell("cd ${jobConfig.repoName}; TEST_SUITE=js-unit ./scripts/all-tests.sh")

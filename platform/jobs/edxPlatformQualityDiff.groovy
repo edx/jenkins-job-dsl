@@ -116,7 +116,6 @@ jobConfigs.each { jobConfig ->
                 includePattern(deleteReports)
                 deleteDirectories()
             }
-            sshAgent('jenkins-worker')
             buildName('#\${BUILD_NUMBER}: \${GIT_REVISION,length=8}')
         }
         steps {

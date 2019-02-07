@@ -127,7 +127,6 @@ jobConfigs.each { jobConfig ->
             }
             timestamps()
             colorizeOutput()
-            sshAgent('jenkins-worker')
             buildName('#${BUILD_NUMBER}: JS Tests')
         }
 
