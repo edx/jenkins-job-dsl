@@ -17,7 +17,7 @@ job('edx-platform-test-notifier') {
     }
 
     logRotator JENKINS_PUBLIC_LOG_ROTATOR()
-    label('flow-worker-bokchoy || flow-worker-python || flow-worker-quality || flow-worker-lettuce')
+    label('coverage-worker || jenkins-worker')
     concurrentBuild()
 
     scm {
