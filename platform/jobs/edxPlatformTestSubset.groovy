@@ -28,7 +28,7 @@ Map exampleConfig = [
 Map publicJobConfig = [
     open : true,
     jobName : 'edx-platform-test-subset',
-    url : 'raccoongang/edx-platform',
+    url : 'raccoongang/edx-platform-test',
     cloneReference : 'edx-platform-clone/.git'
 ]
 
