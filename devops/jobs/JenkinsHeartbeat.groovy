@@ -20,7 +20,7 @@ class JenkinsHeartbeat{
                 cron("H/5 * * * *")
             }
             steps {
-                shell('curl https://nosnch.in/35fcaf3a31')
+                shell('curl ' + extraVars.get('SNITCH'))
             }
 
         }
