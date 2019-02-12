@@ -67,13 +67,11 @@ dependencies {
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}"
     testCompile "org.jenkins-ci.plugins:job-dsl:${jobDslVersion}@jar"
     testCompile 'org.jenkins-ci.plugins:structs:1.14@jar'
-    testCompile 'com.cloudbees.plugins:build-flow-plugin:0.20@jar'
     testCompile 'org.jgrapht:jgrapht-jdk1.5:0.7.3'
     testCompile 'org.jenkins-ci.plugins:cloudbees-folder:5.18@jar'
     testCompile 'org.jvnet.hudson.plugins:hipchat:0.1.9@jar'
 
     // Plugins to install in test instance
-    testPlugins 'com.cloudbees.plugins:build-flow-plugin:0.20'
     testPlugins 'org.jenkins-ci.plugins:build-user-vars-plugin:1.5'
     testPlugins 'org.jenkins-ci.plugins:build-timeout:1.19'
     testPlugins 'org.jenkins-ci.plugins:cobertura:1.12.1'
