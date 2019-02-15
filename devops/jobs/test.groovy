@@ -43,20 +43,18 @@ class CreateSandbox {
             }
 
             multiscm {
-                git { 
-                 remote
-                 { 
-                     url('https://github.com/mckinseyacademy/mcka_apros.git') 
-                     branch('development')  
-                 } 
-                 extensions { 
-                    cleanAfterCheckout() 
-                    pruneBranches() 
-                    relativeTargetDirectory('mcka_apros') 
-                 } }
+                git {
+                    remote {
+                        url('https://github.com/mckinseyacademy/mcka_apros.git')
+                        branch('development')
+                    }
+                    extensions {
+                        cleanAfterCheckout()
+                        pruneBranches()
+                        relativeTargetDirectory('mcka_apros')
+                    }
+                }
             }
-
-
 
             parameters {
                 booleanParam("recreate",true,"Checking this option will terminate an existing instance if it already exists and start over from scratch")
