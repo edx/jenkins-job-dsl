@@ -15,9 +15,9 @@ set -x
 
 cd playbooks
 
-environments=(loadtest stage prod)
+environments=(stage prod)
 
-#update report replica for loadtest, stage and prod edx
+#update report replica for stage and prod edx
 for environment in ${environments[@]}; do
     ansible-playbook -i ./ec2.py --limit tag_Name_tools-edx-gp tools-gp.yml -e@../../edx-internal/ansible/vars/edx.yml -e@../../edx-internal/ansible/vars/${environment}-edx.yml \
         -e@../../edx-secure/ansible/vars/edx.yml -e@../../edx-secure/ansible/vars/${environment}-edx.yml -e@../../edx-secure/ansible/vars/ad_hoc_reporting_replica_db_hosts.yml \
