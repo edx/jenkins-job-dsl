@@ -1,5 +1,5 @@
-class CreateSandbox {
-    public static def job = { dslFactory ->
+job ('CreateSandbox') {
+     def job = { dslFactory ->
         def jobName = "CreateSandbox"
         return dslFactory.job("Sandboxes" + "/${jobName}") {
 			logRotator {
