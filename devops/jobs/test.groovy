@@ -1,32 +1,87 @@
-job ('CreateSandbox') {
-     def job = { dslFactory ->
-        def jobName = "CreateSandbox"
+/*
+
+    Variables consumed from the EXTRA_VARS input to your seed job in addition
+    to those listed in the seed job.
+
+    * FOLDER_NAME: "Sandboxes"
+    * BASIC_AUTH_USER
+    * BASIC_AUTH_PASS
+    * ACCESS_CONTROL: List of orgs / orgs*teams who get github access
+    * CONFIGURATION_SECURE_REPO (required)
+    * CONFIGURATION_INTERNAL_REPO (required)
+    * SSH_KEYPAIR_NAME (required)
+
+    Credentials should be set up inside your FOLDER_NAME. Be sure your Jenkins Credential
+    uses the id specified in this list or the created job will be unable to find the Credential.
+
+    sandbox-jenkins-aws-credentials: file with key/secret in boto config format
+    sandbox-role-arn: the role to aws sts assume-role
+    sandbox-ssh-keys: ssh keypair used to log in to the sandbox and run ansible, usually equivalent to SSH_KEYPAIR_NAME
+    sandbox-secure-credentials: an ssh key usable to fetch secure sandbox configuration (often a github deploy key)
+
+
+*/
+package devops.jobs
+
+import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
+import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
+
+class CreateSandbox {
+    public static def job = { dslFactory ->
+        def jobName =  "CreateSandbox"
         return dslFactory.job("Sandboxes" + "/${jobName}") {
-			logRotator {
+
+            wrappers common_wrappers
+
+            wrappers {
+                buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
+            }
+
+
+            logRotator {
                 daysToKeep(5)
             }
 
             multiscm {
-
-                git {
-                    remote {
-                        url('https://github.com/mckinseyacademy/mcka_apros.git')
-                        branch('development')
-
-                    }
-                    extensions {
-                        cleanAfterCheckout()
-                        pruneBranches()
-                        relativeTargetDirectory('mcka_apros')
-                    }
-                }
+                git { 
+                 remote
+                 { 
+                     url('https://github.com/mckinseyacademy/mcka_apros.git') 
+                     branch('development')  
+                 } 
+                 extensions { 
+                    cleanAfterCheckout() 
+                    pruneBranches() 
+                    relativeTargetDirectory('mcka_apros') 
+                 } }
             }
 
 
 
             parameters {
                 booleanParam("recreate",true,"Checking this option will terminate an existing instance if it already exists and start over from scratch")
-
+                stringParam("dns_name","",
+                        "DNS name, if left blank will default to your github username. \
+                         One reason you might want to override this field is if you are building a sandbox for review or a specific task. \
+                         If setting this, you probably want to also set name_tag below. \
+                         For example, if you are building a sandbox for pull request 1234 put in 'pr1234' which will setup the sandbox <i>pr1234.sandbox.edx.org</i>.<br /> \
+                         <b>If you are building a sandbox for yourself leave this blank</b><b>Do not use underscores</b>")
+                stringParam("name_tag","",
+                        "This name tag uniquely identifies your sandbox.  <b>If a box already exists with this name tag, it will be terminated.</b><br /> \
+                         If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag.")
+                stringParam("sandbox_platform_name","","sets EDXAPP_PLATFORM_NAME, by default it will take your github username/sandbox dns name as value")
+                stringParam("sandbox_life","7","Number of day(s) sandbox will be online(between 1 to 30)")
+                booleanParam("VERBOSE",false,"Whether to run ansible in verbose mode.  Useful if debugging a sandbox failure")
+                stringParam("configuration_version","master","")
+                stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
+                            "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
+                stringParam("configuration_secure_version","master","")
+                stringParam("configuration_internal_version","master","")
+                booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
+                booleanParam("testcourses",true,"")
+                booleanParam("performance_course",true,"")
+                booleanParam("demo_test_course",true,"")
+                booleanParam("edx_demo_course",true,"")
 
                 booleanParam("edxapp",true,"")
                 stringParam("edxapp_version","master","")
@@ -161,7 +216,7 @@ job ('CreateSandbox') {
                 virtualenv {
                     nature("shell")
                     systemSitePackages(false)
-					shell("echo 'hello world'")
+
                     command(dslFactory.readFileFromWorkspace("devops/resources/create-sandbox.sh"))
 
                 }
