@@ -1,13 +1,13 @@
 #!/bin/bash
 
-cd $WORKSPACE/configuration
+cd $WORKSPACE/configuration/util/jenkins/rds_alarms_checker
 
 pip install -r requirements.txt
-. util/jenkins/assume-role.sh
+. ../assume-role.sh
 
 # Assume the role
 set +x
 assume-role ${ROLE_ARN}
 set -x
 
-python util/jenkins/missing_rds_alarms.py
+python missing_rds_alarms.py --deploy ${DEPLOYMENT}
