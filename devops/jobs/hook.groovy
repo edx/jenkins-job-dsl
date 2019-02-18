@@ -1,5 +1,5 @@
-import devops.jobs.test
+import devops.jobs.CreateSandbox1
 
 
 
-devops.jobs.test.CreateSandbox1.job()
+CreateSandbox1.job()
