@@ -1,5 +1,4 @@
-package devops.jobs
-import jobs.test
+import devops.jobs.test
 
 
 test.job()
