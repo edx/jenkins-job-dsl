@@ -1,5 +1,5 @@
 
-package devops.jobs
+package devops.jobs.test
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
