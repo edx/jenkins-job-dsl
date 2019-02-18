@@ -31,13 +31,6 @@ class CreateSandbox {
         def jobName =  "CreateSandbox"
         return dslFactory.job("Sandboxes" + "/${jobName}") {
 
-            wrappers common_wrappers
-
-            wrappers {
-                buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
-            }
-
-
             logRotator {
                 daysToKeep(5)
             }
