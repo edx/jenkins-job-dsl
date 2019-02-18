@@ -2,4 +2,4 @@ import devops.jobs.test
 
 
 
-CreateSandbox1.job()
+devops.jobs.test.CreateSandbox1.job()
