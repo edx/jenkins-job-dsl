@@ -1,26 +1,4 @@
-/*
 
-    Variables consumed from the EXTRA_VARS input to your seed job in addition
-    to those listed in the seed job.
-
-    * FOLDER_NAME: "Sandboxes"
-    * BASIC_AUTH_USER
-    * BASIC_AUTH_PASS
-    * ACCESS_CONTROL: List of orgs / orgs*teams who get github access
-    * CONFIGURATION_SECURE_REPO (required)
-    * CONFIGURATION_INTERNAL_REPO (required)
-    * SSH_KEYPAIR_NAME (required)
-
-    Credentials should be set up inside your FOLDER_NAME. Be sure your Jenkins Credential
-    uses the id specified in this list or the created job will be unable to find the Credential.
-
-    sandbox-jenkins-aws-credentials: file with key/secret in boto config format
-    sandbox-role-arn: the role to aws sts assume-role
-    sandbox-ssh-keys: ssh keypair used to log in to the sandbox and run ansible, usually equivalent to SSH_KEYPAIR_NAME
-    sandbox-secure-credentials: an ssh key usable to fetch secure sandbox configuration (often a github deploy key)
-
-
-*/
 package devops.jobs
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
