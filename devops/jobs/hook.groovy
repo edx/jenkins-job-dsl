@@ -1,4 +1,4 @@
 import devops.jobs.test
 
 
-test()
+test(dslFactory)
