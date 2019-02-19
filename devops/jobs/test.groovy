@@ -6,7 +6,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
 class test {
     public static def job = { dslFactory ->
-        def jobName =  "CreateSandbox"
+        def jobName =  "test"
         return dslFactory.job("Sandboxes" + "/${jobName}") {
 
             logRotator {
