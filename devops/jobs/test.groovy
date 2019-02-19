@@ -121,7 +121,6 @@ class test {
 
                 stringParam("aws_account","sandbox","")
 
-                stringParam("keypair",extraVars.get('SSH_KEYPAIR_NAME'),"")
 
                 choiceParam("root_ebs_size",
                             ["50",
@@ -149,10 +148,6 @@ class test {
                 stringParam("vpc_subnet_id","","")
 
                 booleanParam("basic_auth",true,"")
-
-                stringParam("auth_user",extraVars.get('BASIC_AUTH_USER',''),"")
-
-                stringParam("auth_pass",extraVars.get('BASIC_AUTH_PASS',''),"")
 
                 booleanParam("enable_automatic_auth_for_testing",false,"This enables the /auto_auth endpoint which facilitates generating fake users.  This is typically required for running load tests.")
 
