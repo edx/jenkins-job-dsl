@@ -1,5 +1,4 @@
-import devops.jobs.test
+import devops.jobs
 
-def myJob = job('example')
 
 test.job()
