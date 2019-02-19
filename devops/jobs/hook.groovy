@@ -1,4 +1,5 @@
 import devops.jobs.test
 
-t= new test()
-t.job()
+def myJob = job('example')
+
+test.job(myJob)
