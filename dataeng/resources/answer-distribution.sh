@@ -24,4 +24,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --marker $dest/marker \
   --credentials $CREDENTIALS \
+  --insert-chunk-size 1000 \
+  --use-temp-table-for-overwrite \
   $EXTRA_ARGS
