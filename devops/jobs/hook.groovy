@@ -1,4 +1,4 @@
-import devops.jobs.test.job as createSandboxJob
+import static devops.jobs.test.job as createSandboxJob
 
 
 createSandboxJob(this)
