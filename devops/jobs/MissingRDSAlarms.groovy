@@ -6,7 +6,9 @@ class  MissingRDSAlarms {
         assert extraVars.containsKey("DEPLOYMENTS") : "Please define DEPLOYMENTS. It should be list of strings."
         assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list of string"
 
-        extraVars.get('DEPLOYMENTS').each { deployment ->
+        extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
+            configuration.environments.each { environment, rds_config ->
+
 
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/missing-rds-alarms-${deployment}") {
                     parameters {
@@ -28,9 +30,15 @@ class  MissingRDSAlarms {
                         cron("H H * * *")
                     }
 
+                    def whitelist = ""
+                    rds_config.rds.each { dbs ->
+                        whitelist = "${whitelist}--whitelist ${dbs} "
+                    }
+
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                         env('DEPLOYMENT', deployment)
+                        env('WHITELIST', whitelist)
                     }
 
                     multiscm {
@@ -62,6 +70,7 @@ class  MissingRDSAlarms {
 
                     }
                 }
+	    }
         }
     }
 }

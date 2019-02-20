@@ -10,4 +10,9 @@ set +x
 assume-role ${ROLE_ARN}
 set -x
 
-python missing_rds_alarms.py --deploy ${DEPLOYMENT}
+if [[ ! -v WHITELIST ]]; then
+    WHITELIST=""
+fi
+
+python missing_rds_alarms.py --deploy ${DEPLOYMENT} ${WHITELIST}
+
