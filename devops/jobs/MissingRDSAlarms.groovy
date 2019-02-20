@@ -37,7 +37,6 @@ class  MissingRDSAlarms {
 
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
-                        env('DEPLOYMENT', deployment)
                         env('WHITELIST', whitelist)
                     }
 
