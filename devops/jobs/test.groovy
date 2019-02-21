@@ -4,7 +4,7 @@ package devops.jobs
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
-class test {
+class CreateAprosSandbox {
     public static def job = { dslFactory ->
         def jobName =  "test"
         return dslFactory.job("${jobName}") {
