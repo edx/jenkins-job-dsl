@@ -13,7 +13,7 @@ class  MissingRDSAlarms {
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/missing-rds-alarms-${deployment}") {
                     parameters {
                         stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')
-                        stringParam('CONFIGURATION_BRANCH', 'ihassan/OPS-3506_missing_rds_cloudwatch_alarms')
+                        stringParam('CONFIGURATION_BRANCH', 'master')
                     }
 
                     wrappers common_wrappers
