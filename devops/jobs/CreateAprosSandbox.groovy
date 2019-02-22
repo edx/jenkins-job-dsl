@@ -87,12 +87,6 @@ class CreateAprosSandbox {
                 booleanParam("demo",false,"")
                 stringParam("demo_version","master","")
 
-                booleanParam("discovery",false,"")
-                stringParam("discovery_version","master","")
-
-                booleanParam("credentials",false,"")
-                stringParam("credentials_version","master","")
-
                 booleanParam("set_whitelabel",false,
                              "Check this in order to create a Sandbox with whitelabel themes automatically set.")
                 stringParam("themes_version","master","")
