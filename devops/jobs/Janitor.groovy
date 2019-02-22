@@ -8,9 +8,9 @@
                 s3_log_bucket: name of bucket to log things being cleaned (required)
                 aws_cleaner: space separated string of names of cleaner instances you want to execute on this deployment (required)
         * NOOP: boolean value to perform no operations, default is false
-        * SYSADMIN_REPO: repository containing python script with cleaner instances (required)
+        * JENKINS_DSL_INTERNAL_REPO: repository containing python script with cleaner instances (required)
         * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
-        * SYSADMIN_BRANCH: default is master
+        * JENKINS_DSL_INTERNAL_BRANCH: default is master
         * CONFIGURATION_REPO: name of config repo, default is https://github.com/edx/configuration.git
         * CONFIGURATION_BRANCH: default is master
         * NOTIFY_ON_FAILURE: alert@example.com
@@ -45,7 +45,7 @@ class Janitor {
                     }
                 }
 
-                assert extraVars.containsKey('SYSADMIN_REPO') : 'Please define a system administration repo where the janitor script is located.'
+                assert extraVars.containsKey('JENKINS_DSL_INTERNAL_REPO') : 'Please define a repo where the janitor script is located.'
 
                 def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
 
@@ -54,9 +54,9 @@ class Janitor {
                             'Git repo containing edX configuration.')
                     stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
-                    stringParam('SYSADMIN_REPO', extraVars.get('SYSADMIN_REPO'),
-                            'Git repo containing sysadmin configuration which contains the janitor script.')
-                    stringParam('SYSADMIN_BRANCH', extraVars.get('SYSADMIN_BRANCH', 'master'),
+                    stringParam('JENKINS_DSL_INTERNAL_REPO', extraVars.get('JENKINS_DSL_INTERNAL_REPO'),
+                            'Git repo containing JENKINS_DSL_INTERNAL_REPO configuration which contains the janitor script.')
+                    stringParam('JENKINS_DSL_INTERNAL_BRANCH', extraVars.get('JENKINS_DSL_INTERNAL_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
                 }
 
@@ -74,8 +74,8 @@ class Janitor {
                     }
                     git {
                         remote {
-                            url('$SYSADMIN_REPO')
-                            branch('$SYSADMIN_BRANCH')
+                            url('$JENKINS_DSL_INTERNAL_REPO')
+                            branch('$JENKINS_DSL_INTERNAL_BRANCH')
                             if (gitCredentialId) {
                                 credentials(gitCredentialId)
                             }
@@ -83,7 +83,7 @@ class Janitor {
                         extensions {
                             cleanAfterCheckout()
                             pruneBranches()
-                            relativeTargetDirectory('sysadmin')
+                            relativeTargetDirectory('jenkins-job-dsl-internal')
                         }
                     }
                 }
