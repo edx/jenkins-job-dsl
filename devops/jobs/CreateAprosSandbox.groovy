@@ -16,6 +16,17 @@ class CreateAprosSandbox {
             multiscm {
                 git {
                     remote {
+                        url('$configuration_source_repo')
+                        branch('$configuration_version')
+                    }
+                    extensions {
+                        cleanAfterCheckout()
+                        pruneBranches()
+                        relativeTargetDirectory('configuration')
+                    }
+                }
+                git {
+                    remote {
                         url('https://github.com/mckinseyacademy/mcka_apros.git')
                         branch('development')
                     }
