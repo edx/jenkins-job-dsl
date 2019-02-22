@@ -55,63 +55,17 @@ class CreateAprosSandbox {
                 stringParam("configuration_version","master","")
                 stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
-                stringParam("configuration_secure_version","master","")
-                stringParam("configuration_internal_version","master","")
+
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
-                booleanParam("testcourses",true,"")
-                booleanParam("performance_course",true,"")
-                booleanParam("demo_test_course",true,"")
-                booleanParam("edx_demo_course",true,"")
+
 
                 booleanParam("edxapp",true,"")
                 stringParam("edxapp_version","master","")
-                stringParam("edx_platform_repo","https://github.com/edx/edx-platform.git",
+                stringParam("edx_platform_repo","https://github.com/edx-solutions/edx-platform.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
 
                 booleanParam("forum",true,"")
                 stringParam("forum_version","master","")
-
-                booleanParam("ecommerce",true,"")
-                stringParam("ecommerce_version","master","")
-
-                booleanParam("notifier",false,"")
-                stringParam("notifier_version","master","")
-
-                booleanParam("xqueue",false,"")
-                stringParam("xqueue_version","master","")
-
-                booleanParam("xserver",false,"")
-                stringParam("xserver_version","master","")
-
-                booleanParam("ecommerce_worker",true,"")
-                stringParam("ecommerce_worker_version","master","")
-
-                booleanParam("certs",false,"")
-                stringParam("certs_version","master","")
-
-                booleanParam("analyticsapi",false,"")
-                stringParam("analytics_api_version","master","")
-
-                booleanParam("insights",false,"")
-                stringParam("insights_version","master","")
-
-                booleanParam("demo",false,"")
-                stringParam("demo_version","master","")
-
-                booleanParam("set_whitelabel",false,
-                             "Check this in order to create a Sandbox with whitelabel themes automatically set.")
-                stringParam("themes_version","master","")
-
-                booleanParam("journals",false,"Journals service")
-                stringParam("journals_version","master","")
-
-                booleanParam("video_pipeline",false,
-                             "video_pipeline and video_encode_worker must be selected for video pipeline to work")
-                stringParam("video_pipeline_version","master","")
-
-                booleanParam("video_encode_worker",false,
-                             "video_pipeline and video_encode_worker must be selected for video pipeline to work")
-                stringParam("video_encode_worker_version","master","")
 
                 choiceParam("server_type",
                             ["full_edx_installation",
@@ -146,7 +100,7 @@ class CreateAprosSandbox {
 
                 stringParam("environment","sandbox","")
 
-                stringParam("instance_type","r5.large","We have reservations for the default size to keep costs down, please don't change this to something larger without talking to devops")
+                stringParam("instance_type","t2.micro","We have reservations for the default size to keep costs down, please don't change this to something larger without talking to devops")
 
                 stringParam("ami","","Leave blank to use the default ami for your server type.")
 
@@ -186,7 +140,7 @@ class CreateAprosSandbox {
                     nature("shell")
                     systemSitePackages(false)
 
-                    command(dslFactory.readFileFromWorkspace("devops/resources/create-sandbox.sh"))
+                    command(dslFactory.readFileFromWorkspace("devops/resources/create-apros-sandbox.sh"))
 
                 }
 
