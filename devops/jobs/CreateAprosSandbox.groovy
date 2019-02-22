@@ -140,7 +140,7 @@ class CreateAprosSandbox {
                     nature("shell")
                     systemSitePackages(false)
 
-                    command(dslFactory.readFileFromWorkspace("devops/resources/create-apros-sandbox.sh"))
+                    command(dslFactory.readFileFromWorkspace("devops/resources/create-sandbox.sh"))
 
                 }
 
