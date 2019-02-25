@@ -44,7 +44,7 @@ class edxPlatformMasterJobSpec extends Specification {
 
         where:
         dslFile                                   | numJobs
-        'edxPlatformAccessibilityMaster.groovy'   | 5
-        'edxPlatformJsMaster.groovy'              | 5
+        'edxPlatformAccessibilityMaster.groovy'   | 4
+        'edxPlatformJsMaster.groovy'              | 4
     }
 }

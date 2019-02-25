@@ -3,7 +3,8 @@ package platform
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 
 List<String> branchList = [ "edx-platform", // Represents all non-release testing
-                            "hawthorn"
+                            "hawthorn",
+                            "ironwood"
                             ]
 
 branchList.each { branch ->
@@ -44,13 +45,13 @@ branchList.each { branch ->
         columns DEFAULT_VIEW.call()
     }
 
-}
+    listView("${branch}-private-tests") {
+        description('Jobs for running tests on edx-platform-private')
 
-listView("edx-platform-private-tests") {
-    description('Jobs for running tests on edx-platform-private')
-
-    jobs {
-        regex(".*_private")
+        jobs {
+            regex("${branch}-.*_private")
+        }
+        columns DEFAULT_VIEW.call()
     }
-    columns DEFAULT_VIEW.call()
+
 }
