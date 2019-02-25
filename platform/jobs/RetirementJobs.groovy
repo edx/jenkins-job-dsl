@@ -110,6 +110,10 @@ job('user-retirement-driver') {
     logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
 
     wrappers {
+        timeout {
+            absolute(60)  // 1 hour
+            failBuild()
+        }
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
         buildName('#${BUILD_NUMBER}, ${ENV,var="RETIREMENT_USERNAME"}')
         timestamps()
@@ -238,6 +242,10 @@ job('user-retirement-collector') {
     logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
 
     wrappers {
+        timeout {
+            absolute(60*24)  // 24 hours
+            failBuild()
+        }
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
         buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
         timestamps()
@@ -404,6 +412,10 @@ job('retirement-partner-reporter') {
     logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
 
     wrappers {
+        timeout {
+            absolute(60*24)  // 24 hours
+            failBuild()
+        }
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
         buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
         timestamps()
@@ -538,6 +550,10 @@ job('retirement-partner-report-cleanup') {
     logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
 
     wrappers {
+        timeout {
+            absolute(60*24)  // 24 hours
+            failBuild()
+        }
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
         buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
         timestamps()
