@@ -63,6 +63,30 @@ Map publicBokchoyPython3JobConfig = [
     toxEnv: 'py35-django111'
 ]
 
+Map publicBokchoyIronwoodJobConfig = [
+    open: true,
+    jobName: 'ironwood-bokchoy-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/bokchoy',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*ironwood\W+run\W+bokchoy.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy'
+]
+
+Map privateBokchoyIronwoodJobConfig = [
+    open: false,
+    jobName: 'ironwood-bokchoy-pipeline-pr_private',
+    repoName: 'edx-platform-private',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/bokchoy',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*ironwood\W+run\W+bokchoy.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy'
+]
+
 Map publicLettuceJobConfig = [
     open: true,
     jobName: 'edx-platform-lettuce-pipeline-pr',
@@ -96,6 +120,30 @@ Map publicLettucePython3JobConfig = [
     onlyTriggerPhrase: true,
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+lettuce.*/,
     toxEnv: 'py35-django111',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'lettuce'
+]
+
+Map publicLettuceIronwoodJobConfig = [
+    open: true,
+    jobName: 'ironwood-lettuce-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/lettuce',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*ironwood\W+run\W+lettuce.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'lettuce'
+]
+
+Map privateLettuceIronwoodJobConfig = [
+    open: false,
+    jobName: 'ironwood-lettuce-pipeline-pr_private',
+    repoName: 'edx-platform-private',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/lettuce',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*ironwood\W+run\W+lettuce.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce'
 ]
@@ -137,6 +185,30 @@ Map publicPythonPython3JobConfig = [
     jenkinsFileName: 'python'
 ]
 
+Map publicPythonIronwoodJobConfig = [
+    open: true,
+    jobName: 'ironwood-python-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/python',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*ironwood\W+run\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python'
+]
+
+Map privatePythonIronwoodJobConfig = [
+    open: false,
+    jobName: 'ironwood-python-pipeline-pr_private',
+    repoName: 'edx-platform-private',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/python',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*ironwood\W+run\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python'
+]
+
 Map publicQualityJobConfig = [
     open: true,
     jobName: 'edx-platform-quality-pipeline-pr',
@@ -174,19 +246,51 @@ Map publicQualityPython3JobConfig = [
     jenkinsFileName: 'quality'
 ]
 
+Map publicQualityIronwoodJobConfig = [
+    open: true,
+    jobName: 'ironwood-quality-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/quality',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*ironwood\W+run\W+quality.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality'
+]
+
+Map privateQualityIronwoodJobConfig = [
+    open: false,
+    jobName: 'ironwood-quality-pipeline-pr_private',
+    repoName: 'edx-platform-private',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/quality',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*ironwood\W+run\W+quality.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality'
+]
+
 List jobConfigs = [
     publicBokchoyJobConfig,
     privateBokchoyJobConfig,
     publicBokchoyPython3JobConfig,
+    publicBokchoyIronwoodJobConfig,
+    privateBokchoyIronwoodJobConfig,
     publicLettuceJobConfig,
     privateLettuceJobConfig,
     publicLettucePython3JobConfig,
+    publicLettuceIronwoodJobConfig,
+    privateLettuceIronwoodJobConfig,
     publicPythonJobConfig,
     privatePythonJobConfig,
     publicPythonPython3JobConfig,
+    publicPythonIronwoodJobConfig,
+    privatePythonIronwoodJobConfig,
     publicQualityJobConfig,
     privateQualityJobConfig,
-    publicQualityPython3JobConfig
+    publicQualityPython3JobConfig,
+    publicQualityIronwoodJobConfig,
+    privateQualityIronwoodJobConfig
 ]
 
 /* Iterate over the job configurations */

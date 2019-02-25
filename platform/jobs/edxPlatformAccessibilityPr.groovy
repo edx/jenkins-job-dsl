@@ -92,12 +92,34 @@ Map python3JobConfig = [
     toxEnv: 'py35-django111'
 ]
 
+Map publicIronwoodJobConfig = [
+    open: true,
+    jobName: 'ironwood-accessibility-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'ironwood-jenkins-worker',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/a11y',
+    triggerPhrase: /.*ironwood\W+run\W+a11y.*/
+]
+
+Map privateIronwoodJobConfig = [
+    open: false,
+    jobName: 'ironwood-accessibility-pr_private',
+    repoName: 'edx-platform-private',
+    workerLabel: 'ironwood-jenkins-worker',
+    whitelistBranchRegex: /open-release\/ironwood.master/,
+    context: 'jenkins/ironwood/a11y',
+    triggerPhrase: /.*ironwood\W+run\W+a11y.*/
+]
+
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
     publicHawthornJobConfig,
     privateHawthornJobConfig,
-    python3JobConfig
+    python3JobConfig,
+    publicIronwoodJobConfig,
+    privateIronwoodJobConfig
 ]
 
 /* Iterate over the job configurations */

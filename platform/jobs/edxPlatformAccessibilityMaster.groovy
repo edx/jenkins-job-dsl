@@ -59,32 +59,21 @@ Map hawthornJobConfig = [
     defaultBranch : 'refs/heads/open-release/hawthorn.master'
 ]
 
-Map ginkgoJobConfig = [
+Map ironwoodJobConfig = [
     open: true,
-    jobName: 'ginkgo-accessibility-master',
+    jobName: 'ironwood-accessibility-master',
     repoName: 'edx-platform',
-    workerLabel: 'ginkgo-jenkins-worker',
-    context: 'jenkins/ginkgo/a11y',
-    refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
-    defaultBranch : 'refs/heads/open-release/ginkgo.master'
-]
-
-Map ficusJobConfig = [
-    open: true,
-    jobName: 'ficus-accessibility-master',
-    repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    context: 'jenkins/ficus/a11y',
-    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
-    defaultBranch : 'refs/heads/open-release/ficus.master'
+    workerLabel: 'ironwood-jenkins-worker',
+    context: 'jenkins/ironwood/a11y',
+    refSpec : '+refs/heads/open-release/ironwood.master:refs/remotes/origin/open-release/ironwood.master',
+    defaultBranch : 'refs/heads/open-release/ironwood.master'
 ]
 
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
     hawthornJobConfig,
-    ginkgoJobConfig,
-    ficusJobConfig
+    ironwoodJobConfig
 ]
 
 jobConfigs.each { jobConfig ->

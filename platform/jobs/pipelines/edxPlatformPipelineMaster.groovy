@@ -22,6 +22,15 @@ Map privateBokchoyJobConfig = [
     branch: 'security-release'
 ]
 
+Map ironwoodBokchoyJobConfig = [
+    open: true,
+    jobName: 'ironwood-bokchoy-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy',
+    branch: 'refs/heads/open-release/ironwood.master'
+]
+
 Map publicLettuceJobConfig = [
     open: true,
     jobName: 'edx-platform-lettuce-pipeline-master',
@@ -38,6 +47,15 @@ Map privateLettuceJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce',
     branch: 'security-release'
+]
+
+Map ironwoodLettuceJobConfig = [
+    open: true,
+    jobName: 'ironwood-lettuce-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'lettuce',
+    branch: 'refs/heads/open-release/ironwood.master'
 ]
 
 Map publicPythonJobConfig = [
@@ -58,6 +76,15 @@ Map privatePythonJobConfig = [
     branch: 'security-release'
 ]
 
+Map ironwoodPythonJobConfig = [
+    open: true,
+    jobName: 'ironwood-python-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    branch: 'refs/heads/open-release/ironwood.master'
+]
+
 Map publicQualityJobConfig = [
     open: true,
     jobName: 'edx-platform-quality-pipeline-master',
@@ -76,15 +103,28 @@ Map privateQualityJobConfig = [
     branch: 'security-release'
 ]
 
+Map ironwoodQualityJobConfig = [
+    open: true,
+    jobName: 'ironwood-quality-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    branch: 'refs/heads/open-release/ironwood.master'
+]
+
 List jobConfigs = [
     publicBokchoyJobConfig,
     privateBokchoyJobConfig,
+    ironwoodBokchoyJobConfig,
     publicLettuceJobConfig,
     privateLettuceJobConfig,
+    ironwoodLettuceJobConfig,
     publicPythonJobConfig,
     privatePythonJobConfig,
+    ironwoodPythonJobConfig,
     publicQualityJobConfig,
-    privateQualityJobConfig
+    privateQualityJobConfig,
+    ironwoodQualityJobConfig
 ]
 
 /* Iterate over the job configurations */
