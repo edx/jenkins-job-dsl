@@ -13,7 +13,7 @@ pip install -r requirements.txt
 assume-role ${ROLE_ARN}
 
 cd $WORKSPACE/jenkins-job-dsl-internal
-cd util
+cd util/sandbox_terminate
 pip install -r requirements.txt
 
 extra_args=""
