@@ -80,6 +80,7 @@ class CreateAprosSandbox {
 
                 stringParam("aws_account","sandbox","")
 
+                stringParam("keypair",extraVars.get('SSH_KEYPAIR_NAME'),"")
 
                 choiceParam("root_ebs_size",
                             ["50",
