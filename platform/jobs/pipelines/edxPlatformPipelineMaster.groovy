@@ -28,7 +28,7 @@ Map ironwoodBokchoyJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    branch: 'refs/heads/open-release/ironwood.master'
+    branch: 'open-release/ironwood.master'
 ]
 
 Map publicLettuceJobConfig = [
@@ -55,7 +55,7 @@ Map ironwoodLettuceJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce',
-    branch: 'refs/heads/open-release/ironwood.master'
+    branch: 'open-release/ironwood.master'
 ]
 
 Map publicPythonJobConfig = [
@@ -82,7 +82,7 @@ Map ironwoodPythonJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    branch: 'refs/heads/open-release/ironwood.master'
+    branch: 'open-release/ironwood.master'
 ]
 
 Map publicQualityJobConfig = [
@@ -109,7 +109,7 @@ Map ironwoodQualityJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    branch: 'refs/heads/open-release/ironwood.master'
+    branch: 'open-release/ironwood.master'
 ]
 
 List jobConfigs = [
