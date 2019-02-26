@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.to_date_interval_parameter
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 
 class EnrollmentValidationEvents {
     public static def job = { dslFactory, allVars ->
@@ -24,6 +25,7 @@ class EnrollmentValidationEvents {
                         ' files as being "normal".)')
                 }
                 multiscm common_multiscm(allVars)
+                triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)
                 publishers {
