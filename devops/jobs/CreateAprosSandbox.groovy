@@ -5,9 +5,9 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
 class CreateAprosSandbox {
-    public static def job = { dslFactory ->
-        def jobName =  "CreateAprosSandbox"
-        return dslFactory.job("${jobName}") {
+    public static def job = { dslFactory, extraVars ->
+        def jobName = extraVars.get("SANDBOX_JOB_NAME", "CreateAprosSandbox")
+        return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/${jobName}") {
 
             logRotator {
                 daysToKeep(5)
@@ -60,7 +60,7 @@ class CreateAprosSandbox {
 
 
                 booleanParam("edxapp",true,"")
-                stringParam("edxapp_version","master","")
+                stringParam("edxapp_version","development","")
                 stringParam("edx_platform_repo","https://github.com/edx-solutions/edx-platform.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
 
