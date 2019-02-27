@@ -4,8 +4,8 @@
  Variables consumed for this job:
     * NOOP: boolean value to perform no operations, default is false
     * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
-    * SYSADMIN_REPO: repository containing sandbox termination python script (required)
-    * SYSADMIN_BRANCH: default is master
+    * JENKINS_DSL_INTERNAL_REPO: repository containing sandbox termination python script (required)
+    * JENKINS_DSL_INTERNAL_REPO_BRANCH: default is master
     * CONFIGURATION_REPO: name of config repo, default is https://github.com/edx/configuration.git
     * CONFIGURATION_BRANCH: default is master
     * CONFIGURAITON_INTERNAL_REPO: Git repo containing internal overrides, default is git@github.com:edx/edx-internal.git
@@ -43,7 +43,7 @@ class SandboxTermination{
                 }
             }
 
-            assert extraVars.containsKey('SYSADMIN_REPO') : "Please define a system admin repo where the sandbox termination script is located"
+            assert extraVars.containsKey('JENKINS_DSL_INTERNAL_REPO') : "Please define a repo where the sandbox termination script is located"
 
             def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
 
@@ -52,9 +52,9 @@ class SandboxTermination{
                             'Git repo containing edX configuration.')
                 stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                         'e.g. tagname or origin/branchname')
-                stringParam('SYSADMIN_REPO', extraVars.get('SYSADMIN_REPO'),
-                        'Git repo containing sysadmin configuration which contains the sandbox termination script.')
-                stringParam('SYSADMIN_BRANCH', extraVars.get('SYSADMIN_BRANCH', 'master'),
+                stringParam('JENKINS_DSL_INTERNAL_REPO', extraVars.get('JENKINS_DSL_INTERNAL_REPO'),
+                        'Git repo containing the sandbox termination script.')
+                stringParam('JENKINS_DSL_INTERNAL_BRANCH', extraVars.get('JENKINS_DSL_INTERNAL_BRANCH', 'master'),
                         'e.g. tagname or origin/branchname')
             }
 
@@ -72,8 +72,8 @@ class SandboxTermination{
                 }
                 git {
                     remote {
-                        url('$SYSADMIN_REPO')
-                        branch('$SYSADMIN_BRANCH')
+                        url('$JENKINS_DSL_INTERNAL_REPO')
+                        branch('$JENKINS_DSL_INTERNAL_BRANCH')
                         if (gitCredentialId) {
                             credentials(gitCredentialId)
                         }
@@ -81,7 +81,7 @@ class SandboxTermination{
                     extensions {
                         cleanAfterCheckout()
                         pruneBranches()
-                        relativeTargetDirectory('sysadmin')
+                        relativeTargetDirectory('jenkins-job-dsl-internal')
                     }
                 }
             }
