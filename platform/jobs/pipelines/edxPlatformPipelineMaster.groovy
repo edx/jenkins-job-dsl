@@ -10,7 +10,8 @@ Map publicBokchoyJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    branch: 'master'
+    branch: 'master',
+    context: 'jenkins/bokchoy'
 ]
 
 Map privateBokchoyJobConfig = [
@@ -19,7 +20,8 @@ Map privateBokchoyJobConfig = [
     repoName: 'edx-platform-private',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    branch: 'security-release'
+    branch: 'security-release',
+    context: 'jenkins/bokchoy'
 ]
 
 Map ironwoodBokchoyJobConfig = [
@@ -28,7 +30,8 @@ Map ironwoodBokchoyJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    branch: 'open-release/ironwood.master'
+    branch: 'open-release/ironwood.master',
+    context: 'jenkins/ironwood/bokchoy'
 ]
 
 Map publicLettuceJobConfig = [
@@ -37,7 +40,8 @@ Map publicLettuceJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce',
-    branch: 'master'
+    branch: 'master',
+    context: 'jenkins/lettuce'
 ]
 
 Map privateLettuceJobConfig = [
@@ -46,7 +50,8 @@ Map privateLettuceJobConfig = [
     repoName: 'edx-platform-private',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce',
-    branch: 'security-release'
+    branch: 'security-release',
+    context: 'jenkins/lettuce'
 ]
 
 Map ironwoodLettuceJobConfig = [
@@ -55,7 +60,8 @@ Map ironwoodLettuceJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce',
-    branch: 'open-release/ironwood.master'
+    branch: 'open-release/ironwood.master',
+    context: 'jenkins/ironwood/lettuce'
 ]
 
 Map publicPythonJobConfig = [
@@ -64,7 +70,8 @@ Map publicPythonJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    branch: 'master'
+    branch: 'master',
+    context: 'jenkins/python'
 ]
 
 Map privatePythonJobConfig = [
@@ -73,7 +80,8 @@ Map privatePythonJobConfig = [
     repoName: 'edx-platform-private',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    branch: 'security-release'
+    branch: 'security-release',
+    context: 'jenkins/python'
 ]
 
 Map ironwoodPythonJobConfig = [
@@ -82,7 +90,8 @@ Map ironwoodPythonJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    branch: 'open-release/ironwood.master'
+    branch: 'open-release/ironwood.master',
+    context: 'jenkins/ironwood/python'
 ]
 
 Map publicQualityJobConfig = [
@@ -91,7 +100,8 @@ Map publicQualityJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    branch: 'master'
+    branch: 'master',
+    context: 'jenkins/quality'
 ]
 
 Map privateQualityJobConfig = [
@@ -100,7 +110,8 @@ Map privateQualityJobConfig = [
     repoName: 'edx-platform-private',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    branch: 'security-release'
+    branch: 'security-release',
+    context: 'jenkins/quality'
 ]
 
 Map ironwoodQualityJobConfig = [
@@ -109,7 +120,8 @@ Map ironwoodQualityJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    branch: 'open-release/ironwood.master'
+    branch: 'open-release/ironwood.master',
+    context: 'jenkins/ironwood/quality'
 ]
 
 List jobConfigs = [
@@ -142,7 +154,8 @@ jobConfigs.each { jobConfig ->
             label('jenkins-worker')
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
-                BRANCH_NAME: "${jobConfig.branch}"
+                BRANCH_NAME: "${jobConfig.branch}",
+                GITHUB_CONTEXT: "${jobConfig.context}"
             )
 
             triggers {
