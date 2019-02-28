@@ -15,4 +15,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --report $S3_DIR/reports/$DAY_TO_REPORT_DATE_FORMATTED \
   --counts $S3_DIR/counts/$DAY_TO_REPORT_DATE_FORMATTED/ \
+  --TotalEventsDailyTask-source "$SOURCES" \
   $EXTRA_ARGS

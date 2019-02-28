@@ -12,6 +12,7 @@ class TotalEventsDailyReport {
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters {
+                stringParam('SOURCES', allVars.get('SOURCES'))
                 stringParam('DAY_TO_REPORT', allVars.get('DAY_TO_REPORT'), '')
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'), '')
                 stringParam('S3_DIR', allVars.get('S3_DIR'), '')
