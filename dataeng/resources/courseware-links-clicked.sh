@@ -9,4 +9,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
      --interval $(date +%Y-%m-%d -d "$FROM_DATE")-$(date +%Y-%m-%d -d "$TO_DATE") \
      --output-root s3://edx-analytics-scratch/output/prod/links_clicked/ \
      --n-reduce-tasks $NUM_REDUCE_TASKS \
+     --source "$SOURCE" \
      $EXTRA_ARGS

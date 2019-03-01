@@ -37,4 +37,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --environment ${ENVIRONMENT} \
  ${ONLY_ORGS} \
  --n-reduce-tasks ${NUM_REDUCE_TASKS} \
+ --source "$SOURCE" \
  ${EXTRA_ARGS}

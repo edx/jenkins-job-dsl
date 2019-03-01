@@ -14,4 +14,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --credentials $CREDENTIALS \
   --events-list-file-path $EVENTS_LIST \
+  --source "$SOURCE" \
   $EXTRA_ARGS

@@ -13,6 +13,7 @@ class EventTypeDistribution {
         dslFactory.job("event-type-distribution") {
             logRotator common_log_rotator(allVars)
             parameters {
+                stringParam('SOURCE', allVars.get('PRODUCTION_EVENT_LOGS_SOURCE'), '')
                 stringParam('OUTPUT_URL', allVars.get('OUTPUT_URL'), '')
                 stringParam('EVENTS_LIST', allVars.get('EVENTS_LIST'), '')
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'), '')
