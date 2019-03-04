@@ -19,6 +19,7 @@ class EventExportIncremental {
                 parameters from_date_interval_parameter(allVars)
                 parameters to_date_interval_parameter(allVars)
                 parameters {
+                    stringParam('SOURCE', env_config.get('EVENT_LOGS_SOURCE'), '')
                     stringParam('OUTPUT_ROOT', allVars.get('OUTPUT_ROOT'))
                     stringParam('EXPORTER_CONFIG', 'config.yaml', 'Exporter configuration relative to analytics-secure/analytics-exporter')
                     stringParam('ONLY_ORGS', '', "i.e. --org-id [\"FooX\",\"BarX\"]")

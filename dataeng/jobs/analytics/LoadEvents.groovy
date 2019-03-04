@@ -16,6 +16,7 @@ class LoadEvents {
             parameters from_date_interval_parameter(allVars)
             parameters to_date_interval_parameter(allVars)
             parameters {
+                stringParam('SOURCE', allVars.get('PRODUCTION_EVENT_LOGS_SOURCE'), '')
                 stringParam('OUTPUT_URL', allVars.get('OUTPUT_URL'), '')
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'), '')
                 stringParam('EVENTS_LIST', allVars.get('EVENTS_LIST'), '')
@@ -82,6 +83,7 @@ class LoadEvents {
             parameters from_date_interval_parameter(allVars)
             parameters to_date_interval_parameter(allVars)
             parameters {
+                stringParam('SOURCE', allVars.get('PRODUCTION_EVENT_LOGS_SOURCE'), '')
                 stringParam('OUTPUT_URL', allVars.get('OUTPUT_URL'), '')
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'), '')
                 stringParam('EVENTS_LIST', allVars.get('EVENTS_LIST'), '')

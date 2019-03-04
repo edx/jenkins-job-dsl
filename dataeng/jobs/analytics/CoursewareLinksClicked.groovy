@@ -15,6 +15,9 @@ class CoursewareLinksClicked {
             parameters common_parameters(allVars)
             parameters from_date_interval_parameter(allVars)
             parameters to_date_interval_parameter(allVars)
+            parameters {
+                stringParam('SOURCE', allVars.get('PRODUCTION_EVENT_LOGS_SOURCE'), '')
+            }
             multiscm common_multiscm(allVars)
             triggers common_triggers(allVars)
             wrappers common_wrappers(allVars)

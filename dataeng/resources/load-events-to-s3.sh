@@ -7,5 +7,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --n-reduce-tasks $NUM_TASK_CAPACITY \
   --events-list-file-path $EVENTS_LIST \
   --warehouse-path $OUTPUT_URL \
+  --TrackingEventRecordDataTask-source "$SOURCE"
   $EVENT_RECORD_TYPE \
   $EXTRA_ARGS
