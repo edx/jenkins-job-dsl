@@ -4,7 +4,7 @@ import static org.edx.jenkins.dsl.Constants.common_wrappers
 class  CheckRDSSlowQueryLogs {
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey("DEPLOYMENTS") : "Please define DEPLOYMENTS. It should be list of strings."
-        assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list of string"
+        assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
 
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment, inner_config ->
@@ -27,7 +27,7 @@ class  CheckRDSSlowQueryLogs {
                     }
 
                     triggers {
-                        cron("H * * * *")
+                        cron('H H/4 * * * ')
                     }
 
                     def whitelist = ""
@@ -38,11 +38,6 @@ class  CheckRDSSlowQueryLogs {
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                         env('WHITELIST', whitelist)
-                    }
-
-
-                    environmentVariables {
-                        env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                     }
 
                     multiscm {
@@ -60,6 +55,7 @@ class  CheckRDSSlowQueryLogs {
                     }
                     steps {
                         virtualenv {
+                            pythonName('System-CPython-2.7')
                             nature("shell")
                             systemSitePackages(false)
 
