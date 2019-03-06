@@ -11,5 +11,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --interval $(date +%Y-%m-%d -d "$FROM_DATE")-$(date +%Y-%m-%d -d "$TO_DATE") \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --overwrite-mysql \
+  --EnrollmentByGenderMysqlTask-use-temp-table-for-overwrite \
   $EXTRA_ARGS
 
