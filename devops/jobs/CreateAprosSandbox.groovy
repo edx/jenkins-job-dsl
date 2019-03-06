@@ -7,7 +7,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 class CreateAprosSandbox {
     public static def job = { dslFactory, extraVars ->
         def jobName = extraVars.get("SANDBOX_JOB_NAME", "CreateAprosSandbox")
-        return dslFactory.job("${jobName}") {
+        return dslFactory.job(extraVars.get("FOLDER_NAME", "Sandboxes") + "/${jobName}") {
 
             logRotator {
                 daysToKeep(5)
