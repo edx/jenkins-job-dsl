@@ -28,6 +28,21 @@ pipelineJob('edx-app-android-build') {
     
     description('Build the edX Android app and archive it on Jenkins')
 
+    authorization {
+        blocksInheritance(true)
+        // Tools team manages this job
+        permissionAll('edx*testeng')
+        // Android developers can view and trigger this job
+        List developerTeams = ['edx*edx-mobile-push']
+        developerTeams.each { team ->
+            permission('hudson.model.Item.Read', team)
+            permission('hudson.model.Item.Discover', team)
+            permission('hudson.model.Item.Workspace', team)
+            permission('hudson.model.Item.Build', team)
+            permission('hudson.model.Item.Cancel', team)
+        }
+    }
+
     definition {
 
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
