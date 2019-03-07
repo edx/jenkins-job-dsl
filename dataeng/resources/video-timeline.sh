@@ -8,4 +8,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   InsertToMysqlAllVideoTask --local-scheduler \
   --interval $(date +%Y-%m-%d -d "$FROM_DATE")-$(date +%Y-%m-%d -d "$TO_DATE") \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
+  --InsertToMysqlVideoTimelineTask-use-temp-table-for-overwrite \
   $EXTRA_ARGS
