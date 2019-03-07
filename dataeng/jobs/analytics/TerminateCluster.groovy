@@ -10,7 +10,7 @@ class TerminateCluster {
             parameters {
                 stringParam('CLUSTER_NAME', ' ', 'Name of the EMR cluster to terminate.')
                 stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
-                stringParam('BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
+                stringParam('CONFIG_BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
             }
             multiscm analytics_configuration_scm(allVars)
             steps {
