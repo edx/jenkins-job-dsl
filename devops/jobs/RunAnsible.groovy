@@ -38,10 +38,6 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 class RunAnsible {
     public static job(DslFactory dslFactory, String jobName, String environment, String deployment, Map extraVars) {
         return dslFactory.job(extraVars.get("FOLDER_NAME") + "/${environment}-${deployment}-${jobName}") {
-            // Disabled until https://openedx.atlassian.net/browse/DE-752 is resolved
-            disabled()
-            description('Disabled until <a href=https://openedx.atlassian.net/browse/DE-752>DE-752</a> is resolved.')
-
             // These 3 don't have defaults
             assert extraVars.containsKey('SSH_AGENT_KEY') : "Please define SSH_AGENT_KEY"
             assert extraVars.containsKey('CLUSTER') : "Please define CLUSTER"
