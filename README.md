@@ -84,3 +84,17 @@ shared constants directly in your DSL script.
 Constant | Purpose | Use
 ------------ | ------------- | -------------
 credential | Allow access to private git repositories | In the credential() function in the Git Scm Context
+
+### Disabling a job
+
+If a job is causing problems and you want to disable it and add the reason to the
+job description you can use code like the following.
+
+```groovy
+    return dslFactory.job(extraVars.get("FOLDER_NAME") + "/${environment}-${deployment}-${jobName}") {
+        ...
+        // Disabled until https://example.atlassian.net/browse/EX-123 is resolved
+        disabled()
+        description('Disabled until <a href=https://example.atlassian.net/browse/EX-123>EX-123</a> is resolved.')
+        ...
+```
