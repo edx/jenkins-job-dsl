@@ -123,9 +123,9 @@ class CreateAprosSandbox {
             // Todo: Need to remove below 3 parameters after testing
             parameters {
 
-                stringParam("Build Number","{{ BUILD_NUMBER }}", "")
-                stringParam("Build User ID","{{ BUILD_USER_ID }}", "")
-                stringParam("WORKSPACE","{{ WORKSPACE }}", "")
+                stringParam("Build Number","${BUILD_NUMBER}", "")
+                stringParam("Build User ID","${BUILD_USER_ID}", "")
+                stringParam("WORKSPACE","${WORKSPACE}", "")
                 booleanParam("recreate",true,"Checking this option will terminate an existing instance if it already exists and start over from scratch")
                 stringParam("dns_name","",
                         "DNS name, if left blank will default to your github username. \
