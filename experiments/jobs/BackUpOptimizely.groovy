@@ -62,8 +62,8 @@ class BackUpOptimizely {
 
 
                     triggers {
-                        // Trigger twice a day
-                        cron("H 0,12 * * *")
+                        // Trigger every hour
+                        cron("H * * * *")
                     }
 
                     steps {
@@ -79,10 +79,10 @@ class BackUpOptimizely {
                         }
                     }
 
-                // Not gonna notify on failures until we solve the clean commit issue.
-                //publishers {
-                //        mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
-                //}
+                // Alert on call revenue engineer on failure.
+                publishers {
+                        mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
+                }
         }
     }
 
