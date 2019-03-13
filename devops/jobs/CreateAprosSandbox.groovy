@@ -107,9 +107,9 @@ class CreateAprosSandbox {
                 }
                 */
                 // Todo: Uncomment below url and remove uncommented one
+                // url(extraVars.get('CONFIGURATION_INTERNAL_REPO',''))
                 git {
                     remote {
-                        #url(extraVars.get('CONFIGURATION_INTERNAL_REPO',''))
                         url('https://github.com/edx/sandbox-internal.git')
                         branch('$configuration_internal_version')
                         credentials('sandbox-secure-credentials')
