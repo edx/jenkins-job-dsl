@@ -6,7 +6,7 @@ class CHECKTABLESIZE {
         assert extraVars.containsKey("DEPLOYMENTS") : "Please define DEPLOYMENTS. It should be list of strings."
         assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list of string"
 
-        extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
+        extraVars.get('DEPLOYMENTS').each { deployment ->
 
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/table-size-monitoring-${deployment}") {
                     parameters {
@@ -18,6 +18,8 @@ class CHECKTABLESIZE {
 
                     wrappers {
                         credentialsBinding {
+                            string("USERNAME", "${deployment}-table-size-username")
+                            string("PASSWORD", "${deployment}-table-size-password")
                             file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-table-size-monitoring"
                             string("ROLE_ARN", variable)
@@ -30,8 +32,6 @@ class CHECKTABLESIZE {
 
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
-                        env('USERNAME', extraVars.get('USERNAME'))
-                        env('PASSWORD', configuration.get('PASSWORD'))
                     }
 
                     multiscm {
