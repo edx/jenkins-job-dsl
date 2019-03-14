@@ -32,6 +32,7 @@ class CHECKTABLESIZE {
 
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
+                        env('THRESHOLD', extraVars.get('THRESHOLD'))
                     }
 
                     multiscm {

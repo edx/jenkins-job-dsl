@@ -10,4 +10,4 @@ set +x
 assume-role ${ROLE_ARN}
 set -x
 
-python check_table_size.py  --username ${USERNAME} --password ${PASSWORD}
+python check_table_size.py  --username ${USERNAME} --password ${PASSWORD} --threshold ${THRESHOLD}
