@@ -37,16 +37,6 @@ class CreateSandbox {
                 buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
             }
 
-            publishers {
-                archiveArtifacts('timing.ansible.log')
-            }
-
-            wrappers {
-                environmentVariables {
-                    env('ANSIBLE_TIMER_LOG', '${WORKSPACE}/timing.ansible.log')
-                }
-            }
-
             def access_control = extraVars.get('ACCESS_CONTROL',[])
             access_control.each { acl ->
                 common_read_permissions.each { perm ->
