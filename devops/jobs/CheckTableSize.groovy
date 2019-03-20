@@ -6,7 +6,9 @@ class CHECKTABLESIZE {
         assert extraVars.containsKey("DEPLOYMENTS") : "Please define DEPLOYMENTS. It should be list of strings."
         assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list of string"
 
-        extraVars.get('DEPLOYMENTS').each { deployment ->
+        extraVars.get('DEPLOYMENTS').each { deployment , configuration ->
+            configuration.environments.each { environment, rds_config ->
+
 
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/table-size-monitoring-${deployment}") {
                     parameters {
@@ -30,9 +32,15 @@ class CHECKTABLESIZE {
                         cron("H * * * *")
                     }
 
+                    def rdsthreshold = ""
+                    redis_config.rds.each { rds, threshold ->
+                        rdsthreshold = "${rdsthreshold}--rdsthreshold ${rds} ${threshold} "
+                    }
+
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                         env('THRESHOLD', extraVars.get('THRESHOLD'))
+                        env('RDSTHRESHOLD', rdsthreshold)
                     }
 
                     multiscm {
