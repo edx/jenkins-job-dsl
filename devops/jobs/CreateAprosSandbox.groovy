@@ -165,6 +165,54 @@ class CreateAprosSandbox {
                 stringParam("forum_source_repo","https://github.com/edx-solutions/cs_comments_service.git",
                             "Building a sandbox for edx-solutions (fork) repo.")
 
+                booleanParam("ecommerce",true,"")
+                stringParam("ecommerce_version","master","")
+
+                booleanParam("notifier",false,"")
+                stringParam("notifier_version","master","")
+
+                booleanParam("xqueue",false,"")
+                stringParam("xqueue_version","master","")
+
+                booleanParam("xserver",false,"")
+                stringParam("xserver_version","master","")
+
+                booleanParam("ecommerce_worker",true,"")
+                stringParam("ecommerce_worker_version","master","")
+
+                booleanParam("certs",false,"")
+                stringParam("certs_version","master","")
+
+                booleanParam("analyticsapi",false,"")
+                stringParam("analytics_api_version","master","")
+
+                booleanParam("insights",false,"")
+                stringParam("insights_version","master","")
+
+                booleanParam("demo",false,"")
+                stringParam("demo_version","master","")
+
+                booleanParam("discovery",false,"")
+                stringParam("discovery_version","master","")
+
+                booleanParam("credentials",false,"")
+                stringParam("credentials_version","master","")
+
+                booleanParam("set_whitelabel",false,
+                             "Check this in order to create a Sandbox with whitelabel themes automatically set.")
+                stringParam("themes_version","master","")
+
+                booleanParam("journals",false,"Journals service")
+                stringParam("journals_version","master","")
+
+                booleanParam("video_pipeline",false,
+                             "video_pipeline and video_encode_worker must be selected for video pipeline to work")
+                stringParam("video_pipeline_version","master","")
+
+                booleanParam("video_encode_worker",false,
+                             "video_pipeline and video_encode_worker must be selected for video pipeline to work")
+                stringParam("video_encode_worker_version","master","")
+
                 choiceParam("server_type",
                             ["full_edx_installation",
                              "full_edx_installation_from_scratch",
