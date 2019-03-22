@@ -35,7 +35,7 @@ class ReplaceUsernames {
 
                 wrappers {
                     credentialsBinding {
-                        def variable = "tools-edx-jenkins-username-replacement-${deployment}-config"
+                        def variable = "tools-edx-jenkins-username-replacement-${environment}-config"
                         file('USERNAME_REPLACEMENT_CONFIG_FILE',variable)
                     }
                 }
