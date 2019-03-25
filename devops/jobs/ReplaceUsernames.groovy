@@ -65,9 +65,13 @@ class ReplaceUsernames {
 
                 /* Build Steps */
                 steps {
-                    shell(
-                        dslFactory.readFileFromWorkspace('devops/resources/replace-usernames.sh')
-                    )
+                    virtualenv {
+                        pythonName('System-CPython-3.5')
+                        name('username-replacement')
+                        nature('shell')
+                        systemSitePackages(false)
+                        command(dslFactory.readFileFromWorkspace('devops/resources/replace-usernames.sh'))
+                    }
                 }
 
                 /* Post Build Steps */
