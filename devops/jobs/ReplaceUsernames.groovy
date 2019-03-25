@@ -26,7 +26,7 @@ class ReplaceUsernames {
         assert !(extraVars.get('ENVIRONMENTS') instanceof String) : "Make sure ENVIRONMENTS is a list and not a string"
 
         extraVars.get('ENVIRONMENTS').each { environment ->
-            dslFactory.job("${environment}-replace-usernames") {
+            dslFactory.job("Enterprise/" + "${environment}-replace-usernames") {
                 parameters {
                     stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                     fileParam(
