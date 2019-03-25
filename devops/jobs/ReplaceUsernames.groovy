@@ -7,6 +7,8 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_WORKER
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_GITHUB_BASEURL
+import static org.edx.jenkins.dsl.Constants.common_wrappers
+import static org.edx.jenkins.dsl.Constants.common_logrotator
 
 /*
 A config file with the following data will need to be available at the location specified in credentialsBidning below :
