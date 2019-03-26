@@ -20,5 +20,5 @@ pip install -r requirements.txt
 
 # Call the script to replace the usernames for all users in the CSV file.
 python scripts/replace_usernames.py \
-    --config_file=$USERNAME_REPLACEMENT_CONFIG_FILE
+    --config_file=$USERNAME_REPLACEMENT_CONFIG_FILE \
     --username_replacement_csv=$WORKSPACE/username_replacements.csv
