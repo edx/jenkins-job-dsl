@@ -30,11 +30,6 @@ class CreateAprosSandbox {
 
             wrappers {
                 buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
-                buildInDocker {
-                    image('edxops/jenkins_build:latest')
-                    volume('jenkins_build:/var/lib/jenkins', 'jenkins_build:/var/lib/jenkins')
-                    verbose()
-                }
             }
 
             publishers {
@@ -291,13 +286,12 @@ class CreateAprosSandbox {
             concurrentBuild()
 
             steps {
-
+                shell('docker exec -it jenkins_build /bin/bash')
                 virtualenv {
                     nature("shell")
                     systemSitePackages(false)
 
                     command(dslFactory.readFileFromWorkspace("devops/resources/create-sandbox.sh"))
-
                 }
 
             }
