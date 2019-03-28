@@ -16,4 +16,4 @@ if [[ ! -v RDSTHRESHOLD ]]; then
     RDSTHRESHOLD=""
 fi
 
-python check_table_size.py  --username ${USERNAME} --password ${PASSWORD} --threshold ${THRESHOLD} ${RDSTHRESHOLD}
+python check_table_size.py  --threshold ${THRESHOLD} ${RDSTHRESHOLD}

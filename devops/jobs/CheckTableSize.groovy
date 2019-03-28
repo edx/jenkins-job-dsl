@@ -20,8 +20,7 @@ class CHECKTABLESIZE {
 
                     wrappers {
                         credentialsBinding {
-                            string("USERNAME", "${deployment}-table-size-username")
-                            string("PASSWORD", "${deployment}-table-size-password")
+                            usernamePassword("USERNAME", "PASSWORD", "${deployment}-table-size-credentials")
                             file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-table-size-monitoring"
                             string("ROLE_ARN", variable)
@@ -33,7 +32,7 @@ class CHECKTABLESIZE {
                     }
 
                     def rdsthreshold = ""
-                    redis_config.rds.each { rds, threshold ->
+                    rds_config.rds.each { rds, threshold ->
                         rdsthreshold = "${rdsthreshold}--rdsthreshold ${rds} ${threshold} "
                     }
 
