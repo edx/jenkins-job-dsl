@@ -286,7 +286,6 @@ class CreateAprosSandbox {
             concurrentBuild()
 
             steps {
-                shell('docker exec -it jenkins_build /bin/bash')
                 virtualenv {
                     nature("shell")
                     systemSitePackages(false)
