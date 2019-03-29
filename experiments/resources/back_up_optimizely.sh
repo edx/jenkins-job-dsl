@@ -19,5 +19,5 @@ cd $WORKSPACE/optimizely-experiments
 py-opt-cli pull
 
 git add -A
-git diff --quiet || git commit -am "history commit job # ${BUILD_ID}"
+git diff --cached --quiet || git commit -am "history commit job # ${BUILD_ID}"
 git push origin HEAD:history
