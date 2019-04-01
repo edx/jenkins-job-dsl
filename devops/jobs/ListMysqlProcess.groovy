@@ -6,9 +6,10 @@ class ListMysqlProcess {
         assert extraVars.containsKey("DEPLOYMENTS") : "Please define DEPLOYMENTS. It should be list of strings."
         assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list of string"
 
-        extraVars.get('DEPLOYMENTS').each { deployment ->
+        extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
+            configuration.environments.each { environment ->
 
-                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/list-mysql-process-${deployment}") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/list-mysql-process-${environment}-${deployment}") {
                     parameters {
                         stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')
                         stringParam('CONFIGURATION_BRANCH', 'master')
@@ -18,8 +19,7 @@ class ListMysqlProcess {
 
                     wrappers {
                         credentialsBinding {
-                            string("USERNAME", "${deployment}-list-mysql-process-username")
-                            string("PASSWORD", "${deployment}-list-mysql-process-password")
+                            usernamePassword("USERNAME", "PASSWORD", "${environment}-${deployment}-list-mysql-process-credentials")
                             file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-list-mysql-process"
                             string("ROLE_ARN", variable)

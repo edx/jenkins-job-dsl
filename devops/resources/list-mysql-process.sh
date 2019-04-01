@@ -10,4 +10,4 @@ set +x
 assume-role ${ROLE_ARN}
 set -x
 
-python list_mysql_process.py  --username ${USERNAME} --password ${PASSWORD}
+python list_mysql_process.py
