@@ -39,6 +39,7 @@ import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTrackingLogsJob
+import static analytics.MonitorBigqueryEventLoading.job as MonitorBigqueryEventLoadingJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -101,6 +102,7 @@ def taskMap = [
     LOAD_INSIGHTS_TO_VERTICA_JOB: LoadInsightsToVerticaJob,
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
     AGGREGATE_DAILY_TRACKING_LOGS_JOB: AggregateDailyTrackingLogsJob,
+    MONITOR_BIGQUERY_EVENT_LOADING_JOB: MonitorBigqueryEventLoadingJob,
 ]
 
 for (task in taskMap) {
@@ -171,6 +173,7 @@ listView('Tools') {
         name('emr-cost-reporter')
         name('update-users')
         name('vertica-disk-usage-monitor')
+        name('monitor-bigquery-loading')
     }
     columns DEFAULT_VIEW.call()
 }
