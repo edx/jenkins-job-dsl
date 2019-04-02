@@ -1,5 +1,6 @@
 package devops.jobs
 import static org.edx.jenkins.dsl.Constants.common_wrappers
+import static org.edx.jenkins.dsl.Constants.common_logrotator
 
 class ListMysqlProcess {
     public static def job = { dslFactory, extraVars ->
@@ -16,6 +17,7 @@ class ListMysqlProcess {
                     }
 
                     wrappers common_wrappers
+                    logRotator common_logrotator
 
                     wrappers {
                         credentialsBinding {
