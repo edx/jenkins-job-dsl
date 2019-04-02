@@ -79,7 +79,7 @@ class ReplaceUsernames {
                 publishers {
                     /* Save CSV from python script as artifact to be downloaded/viewed */
                     archiveArtifacts {
-                        pattern('username_replacement_results.csv')
+                        pattern('tubular/username_replacement_results.csv')
                         allowEmpty()
                         defaultExcludes()
                     }
