@@ -314,6 +314,10 @@ jobConfigs.each { jobConfig ->
                 TOX_ENV: "${jobConfig.toxEnv}"
             )
 
+            if (jobConfig.context == 'jenkins/lettuce' or jobConfig == 'jenkins/py35-django111.5/lettuce') {
+                disabled()
+            }
+
             triggers {
                 githubPullRequest {
                     admins(ghprbMap['admin'])

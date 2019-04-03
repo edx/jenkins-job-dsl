@@ -158,6 +158,10 @@ jobConfigs.each { jobConfig ->
                 GITHUB_CONTEXT: "${jobConfig.context}"
             )
 
+            if (jobConfig.context == 'jenkins/lettuce') {
+                disabled()
+            }
+
             triggers {
                 githubPush()
             }
