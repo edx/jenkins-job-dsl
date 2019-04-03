@@ -314,7 +314,7 @@ jobConfigs.each { jobConfig ->
                 TOX_ENV: "${jobConfig.toxEnv}"
             )
 
-            if (jobConfig.context == 'jenkins/lettuce' || jobConfig == 'jenkins/py35-django111.5/lettuce') {
+            if (jobConfig.context == 'jenkins/lettuce' || jobConfig.context == 'jenkins/py35-django111.5/lettuce') {
                 disabled()
             }
 
