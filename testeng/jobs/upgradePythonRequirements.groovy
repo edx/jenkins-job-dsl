@@ -39,7 +39,7 @@ jobConfigs.each { jobConfig ->
                 remote {
                     url('https://github.com/edx/testeng-ci.git')
                 }
-                branch('youngstrom/update-github-scripts')
+                branch('master')
                 extensions {
                     cleanBeforeCheckout()
                     relativeTargetDirectory('testeng-ci')
