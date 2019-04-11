@@ -34,26 +34,6 @@ Map ironwoodBokchoyJobConfig = [
     context: 'jenkins/ironwood/bokchoy'
 ]
 
-Map publicLettuceJobConfig = [
-    open: true,
-    jobName: 'edx-platform-lettuce-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce',
-    branch: 'master',
-    context: 'jenkins/lettuce'
-]
-
-Map privateLettuceJobConfig = [
-    open: false,
-    jobName: 'edx-platform-lettuce-pipeline-master_private',
-    repoName: 'edx-platform-private',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce',
-    branch: 'security-release',
-    context: 'jenkins/lettuce'
-]
-
 Map ironwoodLettuceJobConfig = [
     open: true,
     jobName: 'ironwood-lettuce-pipeline-master',
@@ -128,8 +108,6 @@ List jobConfigs = [
     publicBokchoyJobConfig,
     privateBokchoyJobConfig,
     ironwoodBokchoyJobConfig,
-    publicLettuceJobConfig,
-    privateLettuceJobConfig,
     ironwoodLettuceJobConfig,
     publicPythonJobConfig,
     privatePythonJobConfig,
