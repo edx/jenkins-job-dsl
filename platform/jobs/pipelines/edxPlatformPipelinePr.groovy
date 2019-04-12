@@ -87,43 +87,6 @@ Map privateBokchoyIronwoodJobConfig = [
     jenkinsFileName: 'bokchoy'
 ]
 
-Map publicLettuceJobConfig = [
-    open: true,
-    jobName: 'edx-platform-lettuce-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/lettuce',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce'
-]
-
-Map privateLettuceJobConfig = [
-    open: false,
-    jobName: 'edx-platform-lettuce-pipeline-pr_private',
-    repoName: 'edx-platform-private',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/lettuce',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run\W+lettuce.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce'
-]
-
-Map publicLettucePython3JobConfig = [
-    open : true,
-    jobName : 'edx-platform-python3-lettuce-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/py35-django111.5/lettuce',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+lettuce.*/,
-    toxEnv: 'py35-django111',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce'
-]
-
 Map publicLettuceIronwoodJobConfig = [
     open: true,
     jobName: 'ironwood-lettuce-pipeline-pr',
@@ -276,9 +239,6 @@ List jobConfigs = [
     publicBokchoyPython3JobConfig,
     publicBokchoyIronwoodJobConfig,
     privateBokchoyIronwoodJobConfig,
-    publicLettuceJobConfig,
-    privateLettuceJobConfig,
-    publicLettucePython3JobConfig,
     publicLettuceIronwoodJobConfig,
     privateLettuceIronwoodJobConfig,
     publicPythonJobConfig,
