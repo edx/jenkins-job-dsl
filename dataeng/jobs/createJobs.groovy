@@ -19,6 +19,7 @@ import static analytics.SqlScripts.multiple_scripts_job as SqlScriptsJob
 import static analytics.SqlScripts.single_script_job as SingleSqlScriptJob
 import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
 import static analytics.LoadWarehouse.bigquery_job as LoadWarehouseBigQueryJob
+import static analytics.LoadWarehouse.snowflake_job as LoadWarehouseSnowflakeJob
 import static analytics.LoadEvents.load_events_to_s3_job as LoadEventsToS3Job
 import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVerticaJob
 import static analytics.LoadEvents.load_json_events_to_s3_job as LoadJsonEventsToS3Job
@@ -40,6 +41,7 @@ import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTrackingLogsJob
 import static analytics.MonitorBigqueryEventLoading.job as MonitorBigqueryEventLoadingJob
+import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -80,6 +82,7 @@ def taskMap = [
     SQL_SCRIPTS_JOB: SqlScriptsJob,
     SINGLE_SQL_SCRIPT_JOB: SingleSqlScriptJob,
     LOAD_WAREHOUSE_VERTICA_JOB: LoadWarehouseVerticaJob,
+    LOAD_WAREHOUSE_SNOWFLAKE_JOB: LoadWarehouseSnowflakeJob,
     LOAD_WAREHOUSE_BIGQUERY_JOB: LoadWarehouseBigQueryJob,
     LOAD_EVENTS_TO_S3_JOB: LoadEventsToS3Job,
     LOAD_EVENTS_TO_VERTICA_JOB: LoadEventsToVerticaJob,
@@ -103,6 +106,7 @@ def taskMap = [
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
     AGGREGATE_DAILY_TRACKING_LOGS_JOB: AggregateDailyTrackingLogsJob,
     MONITOR_BIGQUERY_EVENT_LOADING_JOB: MonitorBigqueryEventLoadingJob,
+    LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
 ]
 
 for (task in taskMap) {

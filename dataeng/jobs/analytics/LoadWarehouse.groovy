@@ -24,6 +24,7 @@ class LoadWarehouse {
             publishers common_publishers(allVars)
             publishers {
                 downstream("load-warehouse-bigquery", 'SUCCESS')
+                downstream("load-warehouse-snowflake", 'SUCCESS')
             }
             steps {
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/load-warehouse-vertica.sh'))
@@ -51,5 +52,26 @@ class LoadWarehouse {
             }
         }
     }
-}
 
+    public static def snowflake_job = { dslFactory, allVars ->
+        dslFactory.job("load-warehouse-snowflake") {
+            logRotator common_log_rotator(allVars)
+            parameters common_parameters(allVars)
+            parameters to_date_interval_parameter(allVars)
+            parameters {
+                stringParam('WAREHOUSE', allVars.get('WAREHOUSE'))
+                stringParam('ROLE', allVars.get('ROLE'))
+                stringParam('DATABASE', allVars.get('DATABASE'))
+                stringParam('SCHEMA', allVars.get('SCHEMA'))
+                stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
+            }
+            multiscm common_multiscm(allVars)
+            wrappers common_wrappers(allVars)
+            publishers common_publishers(allVars)
+            steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/load-warehouse-snowflake.sh'))
+            }
+        }
+    }
+
+}
