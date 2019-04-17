@@ -71,6 +71,7 @@ class CHECKTABLESIZE {
 
                     }
                 }
-        }
-    }
+           }
+       }
+   }
 }
