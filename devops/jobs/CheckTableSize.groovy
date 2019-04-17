@@ -1,7 +1,7 @@
 package devops.jobs
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 
-class CHECKTABLESIZE {
+class CheckTableSize {
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey("DEPLOYMENTS") : "Please define DEPLOYMENTS. It should be list of strings."
         assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list of string"
