@@ -10,7 +10,7 @@ class ListMysqlProcess {
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment ->
 
-                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/list-mysql-process-${environment}-${deployment}") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/list-mysql-process-${deployment}-${environment}") {
                     parameters {
                         stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')
                         stringParam('CONFIGURATION_BRANCH', 'master')
@@ -21,7 +21,7 @@ class ListMysqlProcess {
 
                     wrappers {
                         credentialsBinding {
-                            usernamePassword("USERNAME", "PASSWORD", "${environment}-${deployment}-list-mysql-process-credentials")
+                            usernamePassword("USERNAME", "PASSWORD", "${deployment}-${environment}-list-mysql-process-credentials")
                             file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-list-mysql-process"
                             string("ROLE_ARN", variable)
