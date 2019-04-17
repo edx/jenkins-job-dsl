@@ -20,4 +20,5 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
 pip install awscli
 
 MAX_FILE_SIZE=`aws s3 ls $OUTPUT_ROOT/$INTERVAL/ | cut -b20-30 | grep -v PRE | sort -nr | head -1`
-if [ -n "$MAX_FILE_SIZE" ] && [ "$MAX_FILE_SIZE" -gt "$FILE_THRESHOLD" ]; then echo "OVER" "THRESHOLD"; fi
+aws s3 ls $OUTPUT_ROOT/$INTERVAL/
+if [ -n "$MAX_FILE_SIZE" ] && [ "$MAX_FILE_SIZE" -gt "$FILE_THRESHOLD" ]; then echo "OVER THRESHOLD $MAX_FILE_SIZE > $FILE_THRESHOLD"; fi

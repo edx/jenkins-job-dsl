@@ -27,12 +27,12 @@ class EnrollmentValidationEvents {
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
-                publishers common_publishers(allVars)
                 publishers {
                     postBuildTask {
                         task('OVER THRESHOLD', 'exit 1', true)
                     }
                 }
+                publishers common_publishers(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/enrollment-validation-events.sh'))
                 }
