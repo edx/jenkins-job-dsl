@@ -64,7 +64,8 @@ secretMap.each { jobConfigs ->
                         [ 'jenkins_worker.json',
                           'webpagetest.json',
                           'jenkins_worker_simple.json',
-                          'jenkins_worker_android.json'
+                          'jenkins_worker_android.json',
+                          'jenkins_worker_codejail.json'
                         ],
                         'Json file (in util/packer) specifying how to build ' +
                         'the new AMI.')
