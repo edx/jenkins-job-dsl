@@ -34,6 +34,7 @@ class ListMysqlProcess {
 
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
+                        env('ENVIRONMENT', environment)
                     }
 
                     multiscm {
