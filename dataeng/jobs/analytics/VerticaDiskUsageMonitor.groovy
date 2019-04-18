@@ -27,12 +27,12 @@ class VerticaDiskUsageMonitor {
             wrappers {
                 timestamps()
             }
-            publishers common_publishers(allVars)
             publishers {
                 postBuildTask {
                     task('Error we are approaching our license usage capacity', 'exit 1', true, true)
                 }
             }
+            publishers common_publishers(allVars)
             steps {
                 virtualenv {
                     nature("shell")
