@@ -64,6 +64,7 @@ class JenkinsPublicConstants {
         it /
             publishers /
             'jenkins.plugins.slack.SlackNotifier' {
+                botUser true
                 startNotification false
                 notifySuccess false
                 notifyAborted true
