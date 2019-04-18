@@ -30,12 +30,12 @@ class EventExportIncremental {
 
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
-                publishers common_publishers(allVars)
                 publishers {
                     postBuildTask {
                         task('org with Errors=', 'exit 1', true)
                     }
                 }
+                publishers common_publishers(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/event-export-incremental.sh'))
                     if (env_config.get('SNITCH')) {
