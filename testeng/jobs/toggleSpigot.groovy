@@ -108,6 +108,7 @@ secretMap.each { jobConfigs ->
             mailer(jobConfig['email'])
             configure {
                 it / publishers / 'jenkins.plugins.slack.SlackNotifier' {
+                    botUser true
                     startNotification false
                     notifySuccess true
                     notifyAborted false
