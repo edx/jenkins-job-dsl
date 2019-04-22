@@ -1,13 +1,33 @@
 package testeng
 
+// This script generates multiple jobs to run make upgrade across different repos
+// Map exampleConfig = [
+//     org: Github organization,
+//     repoName: Github repository,
+//     cronValue: How often to run the job,
+//     githubUserReviewers: Comma separated list of Githuhb users that should be tagged on PR's, e.g.: user1,user2,user3
+//     githubTeamReviewers: Comma separated list of Github teams that should be tagged on PR's, e.g.: team1,team2,team3
+// ]
+
 Map edxPlatform = [
     org: 'edx',
     repoName: 'edx-platform',
-    cronValue: '@daily'
+    cronValue: '@daily',
+    githubUserReviewers: '',
+    githubTeamReviewers: 'testeng'
+]
+
+Map djangoConfigModels = [
+    org: 'edx',
+    repoName: 'django-config-models',
+    cronValue: '@weekly',
+    githubUserReviewers: 'feanil',
+    githubTeamReviewers: 'testeng'
 ]
 
 List jobConfigs = [
-    edxPlatform
+    edxPlatform,
+    djangoConfigModels
 ]
 
 /* Iterate over the job configurations */
@@ -22,7 +42,9 @@ jobConfigs.each { jobConfig ->
         label('jenkins-worker')
         environmentVariables(
             REPO_NAME: "${jobConfig.repoName}",
-            ORG: "${jobConfig.org}"
+            ORG: "${jobConfig.org}",
+            PR_USER_REVIEWERS: "${jobConfig.githubUserReviewers}",
+            PR_TEAM_REVIEWERS: "${jobConfig.githubTeamReviewers}"
         )
         multiscm {
             git {
