@@ -25,9 +25,18 @@ Map djangoConfigModels = [
     githubTeamReviewers: 'testeng'
 ]
 
+Map completion = [
+    org: 'edx',
+    repoName: 'completion',
+    cronValue: '@weekly',
+    githubUserReviewers: 'feanil',
+    githubTeamReviewers: 'testeng'
+]
+
 List jobConfigs = [
     edxPlatform,
-    djangoConfigModels
+    djangoConfigModels,
+    completion
 ]
 
 /* Iterate over the job configurations */
