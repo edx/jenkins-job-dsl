@@ -10,4 +10,4 @@ set +x
 assume-role ${ROLE_ARN}
 set -x
 
-python export_slow_query_logs.py
+python export_slow_query_logs.py --environment ${ENVIRONMENT}
