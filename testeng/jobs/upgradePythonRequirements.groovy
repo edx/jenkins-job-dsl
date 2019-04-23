@@ -9,11 +9,11 @@ package testeng
 //     githubTeamReviewers: Comma separated list of Github teams that should be tagged on PR's, e.g.: team1,team2,team3
 // ]
 
-Map edxPlatform = [
+Map completion = [
     org: 'edx',
-    repoName: 'edx-platform',
-    cronValue: '@daily',
-    githubUserReviewers: '',
+    repoName: 'completion',
+    cronValue: '@weekly',
+    githubUserReviewers: 'feanil',
     githubTeamReviewers: 'testeng'
 ]
 
@@ -25,18 +25,18 @@ Map djangoConfigModels = [
     githubTeamReviewers: 'testeng'
 ]
 
-Map completion = [
+Map edxPlatform = [
     org: 'edx',
-    repoName: 'completion',
-    cronValue: '@weekly',
-    githubUserReviewers: 'feanil',
+    repoName: 'edx-platform',
+    cronValue: '@daily',
+    githubUserReviewers: '',
     githubTeamReviewers: 'testeng'
 ]
 
 List jobConfigs = [
-    edxPlatform,
+    completion,
     djangoConfigModels,
-    completion
+    edxPlatform,
 ]
 
 /* Iterate over the job configurations */
