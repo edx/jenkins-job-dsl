@@ -55,7 +55,6 @@ jobConfigs.each { jobConfig ->
                 githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
             }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
-            label('codejail-worker')
 
             triggers {
                 githubPullRequest {
@@ -65,7 +64,6 @@ jobConfigs.each { jobConfig ->
                     onlyTriggerPhrase(jobConfig.onlyTriggerPhrase)
                     userWhitelist(ghprbMap['userWhiteList'])
                     orgWhitelist(ghprbMap['orgWhiteList'])
-                    whiteListTargetBranches([jobConfig.whitelistBranchRegex])
                     extensions {
                         commitStatus {
                             context(jobConfig.context)
