@@ -9,7 +9,7 @@ class ExportRDSSlowQueryLogs {
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment ->
 
-                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/export-slow-query-logs-${environment}-${deployment}") {
+                dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/export-slow-query-logs-${deployment}-${environment}") {
                     parameters {
                         stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')
                         stringParam('CONFIGURATION_BRANCH', 'master')
@@ -19,7 +19,7 @@ class ExportRDSSlowQueryLogs {
 
                     wrappers {
                         credentialsBinding {
-                            usernamePassword("USERNAME", "PASSWORD", "${environment}-${deployment}-export-slow-logs-credentials")
+                            usernamePassword("USERNAME", "PASSWORD", "${deployment}-${environment}-export-slow-logs-credentials")
                             file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-export-slow-query-logs"
                             string("ROLE_ARN", variable)
@@ -32,6 +32,7 @@ class ExportRDSSlowQueryLogs {
 
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
+                        env('ENVIRONMENT', environment)
                     }
 
                     multiscm {
