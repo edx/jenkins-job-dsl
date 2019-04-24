@@ -74,6 +74,10 @@ class JenkinsPublicConstants {
                 notifyFailure true
                 notifyBackToNormal true
                 notifyRepeatedFailure true
+                includeTestSummary false
+                includeFailedTests false
+                matrixTriggerMode ONLY_CONFIGURATIONS
+                commitInfoChoice NONE
             }
     }
   }

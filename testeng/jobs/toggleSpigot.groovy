@@ -118,9 +118,13 @@ secretMap.each { jobConfigs ->
                     notifyFailure false
                     notifyBackToNormal false
                     notifyRepeatedFailure false
+                    includeTestSummary false
+                    includeFailedTests false
                     includeCustomMessage true
                     customMessage '@here The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)'
                     room 'TestEngineering'
+                    matrixTriggerMode ONLY_CONFIGURATIONS
+                    commitInfoChoice NONE
                 }
             }
         }
