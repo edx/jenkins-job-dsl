@@ -26,6 +26,7 @@ class AppPermissionsRunner {
 
                     wrappers {
                         credentialsBinding {
+                            string('GIT_TOKEN',"edx_git_bot_token")
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                             string('ROLE_ARN', "find-active-instances-${deployment}-role-arn")
                         }
@@ -61,6 +62,10 @@ class AppPermissionsRunner {
                                 'Git repo containing edx app permissions')
                         stringParam('APP_PERMISSIONS_BRANCH', extraVars.get('APP_PERMISSIONS_BRANCH', 'master'),
                                 'e.g. tagname or origin/branchname')
+                        stringParam('TUBULAR_REPO', extraVars.get('TUBULAR_REPO'),
+                                'Git repo containing tubular')
+                        stringParam('TUBULAR_BRANCH', extraVars.get('TUBULAR_BRANCH', 'master'),
+                                'e.g. tagname or origin/branchname')
                     }
                     
                     multiscm{ 
@@ -89,6 +94,17 @@ class AppPermissionsRunner {
                                 relativeTargetDirectory('app-permissions')
                             }
                         }
+                       git {
+                            remote {
+                                url('$TUBULAR_REPO')
+                                branch('$TUBULAR_BRANCH')
+                            }
+                            extensions {
+                                cleanAfterCheckout()
+                                pruneBranches()
+                                relativeTargetDirectory('tubular')
+                            }
+                        }
                     }
 
                     environmentVariables {
@@ -96,6 +112,7 @@ class AppPermissionsRunner {
                         env('DEPLOYMENT', deployment)
                         env('USER', extraVars.get('USER', 'ubuntu'))
                     }
+
 
                     steps {
                         virtualenv {
@@ -105,6 +122,36 @@ class AppPermissionsRunner {
                             command(
                                 dslFactory.readFileFromWorkspace("devops/resources/run-app-permissions.sh")
                             )
+                        }
+                       conditionalSteps {
+                           condition {
+                               status('SUCCESS','SUCCESS')
+                           }
+                           steps {
+                               virtualenv {
+                                   nature("shell")
+                                   systemSitePackages(false)
+
+                                   command(
+                                       dslFactory.readFileFromWorkspace("devops/resources/app-permission-runner-success.sh")
+                                   )
+                               }
+                           }
+                        }
+                       conditionalSteps {
+                           condition {
+                               status('FAILURE','FAILURE')
+                           }
+                           steps {
+                               virtualenv {
+                                   nature("shell")
+                                   systemSitePackages(false)
+
+                                   command(
+                                       dslFactory.readFileFromWorkspace("devops/resources/app-permission-runner-failure.sh")
+                                   )
+                               }
+                           }
                         }
                     }
 

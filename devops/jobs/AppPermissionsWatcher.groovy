@@ -81,6 +81,7 @@ class AppPermissionsWatcher{
 
             triggers merge_to_master_trigger(repo_branch)
 
+
             steps{
                 extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
                     configuration.environments.each { environment ->
