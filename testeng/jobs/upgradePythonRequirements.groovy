@@ -9,11 +9,35 @@ package testeng
 //     githubTeamReviewers: Comma separated list of Github teams that should be tagged on PR's, e.g.: team1,team2,team3
 // ]
 
+Map bokchoy = [
+    org: 'edx',
+    repoName: 'bok-choy',
+    cronValue: '@weekly',
+    githubUserReviewers: '',
+    githubTeamReviewers: 'testeng'
+]
+
 Map completion = [
     org: 'edx',
     repoName: 'completion',
     cronValue: '@weekly',
     githubUserReviewers: 'feanil',
+    githubTeamReviewers: 'testeng'
+]
+
+Map cookiecutterDjangoApp = [
+    org: 'edx',
+    repoName: 'cookiecutter-django-app',
+    cronValue: '@weekly',
+    githubUserReviewers: '',
+    githubTeamReviewers: 'testeng'
+]
+
+Map devstack = [
+    org: 'edx',
+    repoName: 'devstack',
+    cronValue: '@weekly',
+    githubUserReviewers: '',
     githubTeamReviewers: 'testeng'
 ]
 
@@ -33,10 +57,22 @@ Map edxPlatform = [
     githubTeamReviewers: 'testeng'
 ]
 
+Map testengCI = [
+    org: 'edx',
+    repoName: 'testeng-ci',
+    cronValue: '@weekly',
+    githubUserReviewers: '',
+    githubTeamReviewers: 'testeng'
+]
+
 List jobConfigs = [
+    bokchoy,
     completion,
+    cookiecutterDjangoApp,
+    devstack,
     djangoConfigModels,
     edxPlatform,
+    testengCI,
 ]
 
 /* Iterate over the job configurations */
