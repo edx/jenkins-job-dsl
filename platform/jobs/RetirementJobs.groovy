@@ -53,7 +53,7 @@ job('user-retirement-driver') {
     authorization {
         blocksInheritance(true)
         // Only core teams have full control of the retirement driver.
-        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
+        List membersWithFullControl = ['edx*edx-data-engineering', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
@@ -199,7 +199,7 @@ job('user-retirement-collector') {
     authorization {
         blocksInheritance(true)
         // Only core teams can run the retirement collector directly.
-        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
+        List membersWithFullControl = ['edx*edx-data-engineering', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
@@ -377,7 +377,7 @@ job('retirement-partner-reporter') {
     authorization {
         blocksInheritance(true)
         // Only core teams have full control of the reporter.
-        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
+        List membersWithFullControl = ['edx*edx-data-engineering', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
@@ -515,7 +515,7 @@ job('retirement-partner-report-cleanup') {
     authorization {
         blocksInheritance(true)
         // Only core teams have full control of the reporter.
-        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
+        List membersWithFullControl = ['edx*edx-data-engineering', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
@@ -651,7 +651,7 @@ job('user-retirement-bulk-status') {
     authorization {
         blocksInheritance(true)
         // Only core teams can run the retirement collector directly.
-        List membersWithFullControl = ['edx*platform-team', 'edx*testeng', 'edx*devops']
+        List membersWithFullControl = ['edx*edx-data-engineering', 'edx*testeng', 'edx*devops']
         membersWithFullControl.each { emp ->
             permissionAll(emp)
         }
