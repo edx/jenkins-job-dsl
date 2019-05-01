@@ -119,6 +119,10 @@ class ImageBuilder {
                     }
                 }
 
+                triggers {
+                    cron("H H * * H")
+                }
+
                 steps {
                     // run the build-push-app shell script in a virtual environment called venv
                     virtualenv {
