@@ -8,6 +8,8 @@ package testeng
 //     githubUserReviewers: Comma separated list of Githuhb users that should be tagged on PR's, e.g.: user1,user2,user3
 //     githubTeamReviewers: Comma separated list of Github teams that should be tagged on PR's, e.g.: team1,team2,team3
 // ]
+//
+// For more information: https://openedx.atlassian.net/wiki/spaces/TE/pages/989135321/Adding+repositories+for+auto+python+dependency+management
 
 Map bokchoy = [
     org: 'edx',
