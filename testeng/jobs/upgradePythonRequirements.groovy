@@ -49,12 +49,28 @@ Map djangoConfigModels = [
     githubTeamReviewers: 'testeng'
 ]
 
+Map edxOrganizations = [
+    org: 'edx',
+    repoName: 'edx-organizations',
+    cronValue: '@weekly',
+    githubUserReviewers: 'feanil',
+    githubTeamReviewers: 'testeng'
+]
+
 Map edxPlatform = [
     org: 'edx',
     repoName: 'edx-platform',
     cronValue: '@daily',
     githubUserReviewers: '',
     githubTeamReviewers: 'testeng'
+]
+
+Map edxProctoring = [
+    org: 'edx',
+    repoName: 'edx-proctoring',
+    cronValue: '@weekly',
+    githubUserReviewers: 'feanil',
+    githubTeamReviewers: 'testeng,Masters-dahlia'
 ]
 
 Map testengCI = [
@@ -71,7 +87,9 @@ List jobConfigs = [
     cookiecutterDjangoApp,
     devstack,
     djangoConfigModels,
+    edxOrganizations,
     edxPlatform,
+    edxProctoring,
     testengCI,
 ]
 
