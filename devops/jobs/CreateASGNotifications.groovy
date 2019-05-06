@@ -55,12 +55,12 @@ class CreateASGNotifications {
                     }
 
                     triggers {
-                     //   scm('H/30 * * * *')
+                        scm('H * * * *')
                     }
 
                     steps {
                         virtualenv {
-                            pythonName('System-CPython-3.5')
+                            pythonName('System-CPython-2.7')
                             nature("shell")
                             systemSitePackages(false)
 
