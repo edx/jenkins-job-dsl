@@ -55,7 +55,7 @@ class CreateASGNotifications {
                     }
 
                     triggers {
-                        scm('H * * * *')
+                        cron('H * * * *')
                     }
 
                     steps {
