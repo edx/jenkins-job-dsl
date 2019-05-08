@@ -5,80 +5,90 @@ package testeng
 //     org: Github organization,
 //     repoName: Github repository,
 //     cronValue: How often to run the job,
-//     githubUserReviewers: Comma separated list of Githuhb users that should be tagged on PR's, e.g.: user1,user2,user3
-//     githubTeamReviewers: Comma separated list of Github teams that should be tagged on PR's, e.g.: team1,team2,team3
+//     githubUserReviewers: List of Github users that should be tagged on PR's, e.g.: ['user1', 'user2']
+//     githubTeamReviewers: List of Github teams that should be tagged on PR's, e.g.: ['team1']
+//     emails: List of emails that should be notified when job fails, e.g.: ['email1', 'email2']
 // ]
 
 Map bokchoy = [
     org: 'edx',
     repoName: 'bok-choy',
     cronValue: '@weekly',
-    githubUserReviewers: '',
-    githubTeamReviewers: 'testeng'
+    githubUserReviewers: [],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
 ]
 
 Map completion = [
     org: 'edx',
     repoName: 'completion',
     cronValue: '@weekly',
-    githubUserReviewers: 'feanil',
-    githubTeamReviewers: 'testeng'
+    githubUserReviewers: ['feanil'],
+    githubTeamReviewers: ['testeng'],
+    emails: ['feanil@edx.org', 'testeng@edx.org']
 ]
 
 Map cookiecutterDjangoApp = [
     org: 'edx',
     repoName: 'cookiecutter-django-app',
     cronValue: '@weekly',
-    githubUserReviewers: '',
-    githubTeamReviewers: 'testeng'
+    githubUserReviewers: [],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
 ]
 
 Map devstack = [
     org: 'edx',
     repoName: 'devstack',
     cronValue: '@weekly',
-    githubUserReviewers: '',
-    githubTeamReviewers: 'testeng'
+    githubUserReviewers: [],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
 ]
 
 Map djangoConfigModels = [
     org: 'edx',
     repoName: 'django-config-models',
     cronValue: '@weekly',
-    githubUserReviewers: 'feanil',
-    githubTeamReviewers: 'testeng'
+    githubUserReviewers: ['feanil'],
+    githubTeamReviewers: ['testeng'],
+    emails: ['feanil@edx.org', 'testeng@edx.org']
 ]
 
 Map edxOrganizations = [
     org: 'edx',
     repoName: 'edx-organizations',
     cronValue: '@weekly',
-    githubUserReviewers: 'feanil',
-    githubTeamReviewers: 'testeng'
+    githubUserReviewers: ['feanil'],
+    githubTeamReviewers: ['testeng'],
+    emails: ['feanil@edx.org', 'testeng@edx.org']
 ]
 
 Map edxPlatform = [
     org: 'edx',
     repoName: 'edx-platform',
     cronValue: '@daily',
-    githubUserReviewers: '',
-    githubTeamReviewers: 'testeng'
+    githubUserReviewers: [],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
 ]
 
 Map edxProctoring = [
     org: 'edx',
     repoName: 'edx-proctoring',
     cronValue: '@weekly',
-    githubUserReviewers: 'feanil',
-    githubTeamReviewers: 'testeng,Masters-dahlia'
+    githubUserReviewers: ['feanil'],
+    githubTeamReviewers: ['testeng', 'Masters-dahlia'],
+    emails: ['feanil@edx.org', 'testeng@edx.org', 'masters-dahlia@edx.org']
 ]
 
 Map testengCI = [
     org: 'edx',
     repoName: 'testeng-ci',
     cronValue: '@weekly',
-    githubUserReviewers: '',
-    githubTeamReviewers: 'testeng'
+    githubUserReviewers: [],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
 ]
 
 List jobConfigs = [
@@ -104,10 +114,10 @@ jobConfigs.each { jobConfig ->
         concurrentBuild(false)
         label('jenkins-worker')
         environmentVariables(
-            REPO_NAME: "${jobConfig.repoName}",
-            ORG: "${jobConfig.org}",
-            PR_USER_REVIEWERS: "${jobConfig.githubUserReviewers}",
-            PR_TEAM_REVIEWERS: "${jobConfig.githubTeamReviewers}"
+            REPO_NAME: jobConfig.repoName,
+            ORG: jobConfig.org,
+            PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(","),
+            PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(",")
         )
         multiscm {
             git {
@@ -117,7 +127,7 @@ jobConfigs.each { jobConfig ->
                 branch('master')
                 extensions {
                     cleanBeforeCheckout()
-                    relativeTargetDirectory("${jobConfig.repoName}")
+                    relativeTargetDirectory(jobConfig.repoName)
                 }
             }
             git {
@@ -132,7 +142,7 @@ jobConfigs.each { jobConfig ->
             }
         }
         triggers {
-            cron("${jobConfig.cronValue}")
+            cron(jobConfig.cronValue)
         }
 
         wrappers {
@@ -148,6 +158,10 @@ jobConfigs.each { jobConfig ->
 
         steps {
            shell(readFileFromWorkspace('testeng/resources/upgrade-python-requirements.sh'))
+        }
+
+        publishers {
+            mailer(jobConfig.emails.join(" "))
         }
     }
 
