@@ -137,6 +137,7 @@ jobConfigs.each { jobConfig ->
                 stringParam(param.name, param.default, param.description)
             }
         }
+	disabled()
         concurrentBuild(true)
         label(jobConfig.workerLabel)
         environmentVariables {

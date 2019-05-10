@@ -92,6 +92,7 @@ jobConfigs.each { jobConfig ->
             githubProjectUrl("https://github.com/raccoongang/${jobConfig.repoName}/")
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
+	disabled()
         concurrentBuild()
         parameters {
             labelParam('WORKER_LABEL') {

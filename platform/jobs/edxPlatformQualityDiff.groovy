@@ -7,7 +7,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTA
 
 String deleteReports = 'reports/**/*,test_root/log/*.log,'
 deleteReports += 'edx-platform*/reports/**/*,edx-platform*/test_root/log/*.log,'
-
+disabled()
 stringParams = [
     [
         name: 'sha1',

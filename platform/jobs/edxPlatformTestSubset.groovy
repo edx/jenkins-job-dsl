@@ -94,7 +94,7 @@ jobConfigs.each { jobConfig ->
                 defaultValue(JENKINS_PUBLIC_WORKER)
             }
         }
-
+	disabled()
         concurrentBuild(true)
 
         /*  configure project to pull from a github repo */
