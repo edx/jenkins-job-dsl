@@ -16,14 +16,12 @@ class AppPermissionsFailure {
                         }
                     }
 
-
-                    environmentVariables {
-                        env('ENVIRONMENT', environment)
-                        env('DEPLOYMENT', deployment)
-                        env('GIT_PREVIOUS_COMMIT_1', GIT_PREVIOUS_COMMIT_1)
-                        env('GIT_COMMIT_1', GIT_COMMIT_1)
+                    parameters {
+                        stringParam('ENVIRONMENT')
+                        stringParam('DEPLOYMENT')
+                        stringParam('GIT_PREVIOUS_COMMIT_1')
+                        stringParam('GIT_COMMIT_1')
                     }
-
 
                     steps {
                         virtualenv {
