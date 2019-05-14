@@ -157,10 +157,19 @@ class AppPermissionsRunner {
 
                     if (extraVars.get('NOTIFY_ON_FAILURE')){
                         publishers {
-                            mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
+                            downstreamParameterized {
+                                 trigger('Notify Fail PRs') {
+                                    condition('FAILED')
+                                    parameters {
+                                        predefinedProp('ENVIRONMENT', environment)
+                                        predefinedProp('DEPLOYMENT', deployment)
+                                        predefinedProp('GIT_PREVIOUS_COMMIT_1', '${GIT_PREVIOUS_COMMIT_1}')
+                                        predefinedProp('GIT_COMMIT_1', '${GIT_COMMIT_1}')
+                                    }
+                                 }
+                            }
                         }
                     }
-
                 }
             }
         }
