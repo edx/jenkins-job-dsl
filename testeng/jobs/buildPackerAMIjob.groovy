@@ -94,9 +94,8 @@ secretMap.each { jobConfigs ->
             }
         }
 
-        // Run job every 2 hours
         triggers {
-            cron('H H/2 * * *')
+            cron('@daily')
         }
 
         wrappers {
