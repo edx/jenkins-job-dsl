@@ -49,14 +49,6 @@ List jobConfigs = [
         extraMembersCanBuild: [],
         cron: '0 7 * * *',  // 08:00 UTC every day.
         disabled: false
-    ],
-    [
-        downstreamJobName: 'retirement-partner-report-cleanup',
-        triggerJobNamePrefix: 'retirement-partner-report-cleanup-trigger',
-        environmentDeployment: 'prod-edge',
-        extraMembersCanBuild: [],
-        cron: '30 7 * * *',  // 08:30 UTC every day.
-        disabled: false
     ]
 ]
 
