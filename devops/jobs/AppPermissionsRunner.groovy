@@ -138,38 +138,27 @@ class AppPermissionsRunner {
                                }
                            }
                         }
-                       conditionalSteps {
-                           condition {
-                               status('FAILURE','FAILURE')
-                           }
-                           steps {
-                               virtualenv {
-                                   nature("shell")
-                                   systemSitePackages(false)
-
-                                   command(
-                                       dslFactory.readFileFromWorkspace("devops/resources/app-permission-runner-failure.sh")
-                                   )
-                               }
-                           }
-                        }
                     }
 
-                    if (extraVars.get('NOTIFY_ON_FAILURE')){
-                        publishers {
-                            downstreamParameterized {
-                                 trigger('Notify Fail PRs') {
-                                    condition('FAILED')
-                                    parameters {
-                                        predefinedProp('ENVIRONMENT', environment)
-                                        predefinedProp('DEPLOYMENT', deployment)
-                                        predefinedProp('GIT_PREVIOUS_COMMIT_1', '${GIT_PREVIOUS_COMMIT_1}')
-                                        predefinedProp('GIT_COMMIT_1', '${GIT_COMMIT_1}')
-                                    }
+                    publishers {
+                        downstreamParameterized {
+                             trigger('app-permissions-failure') {
+                                 condition('FAILED')
+                                 parameters {
+                                     predefinedProp('ENVIRONMENT', environment)
+                                     predefinedProp('DEPLOYMENT', deployment)
+                                     predefinedProp('GIT_PREVIOUS_COMMIT_1', '${GIT_PREVIOUS_COMMIT_1}')
+                                     predefinedProp('GIT_COMMIT_1', '${GIT_COMMIT_1}')
                                  }
                             }
                         }
-                    }
+                        if (extraVars.get('NOTIFY_ON_FAILURE')){
+                            publishers {
+                               mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
+                            }
+                        }
+
+                   }
                 }
             }
         }
