@@ -16,7 +16,18 @@ pip install -e .
 env
 
 cd $WORKSPACE/optimizely-experiments
-py-opt-cli pull
+
+# Retry 5 times before giving up on optimizely
+for i in {1..5}
+do
+    # Don't sleep the first time through the loop
+    [ $i -gt 1 ] && sleep 300
+
+    # Save the return-code of the pull command
+    py-opt-cli pull && s=0 && break || s=$?
+done
+# Fail the build with the return code of the pull command if it failed after 5 retries
+(exit $s)
 
 git add -A
 git diff --cached --quiet || git commit -am "history commit job # ${BUILD_ID}"
