@@ -55,6 +55,15 @@ Map djangoConfigModels = [
     emails: ['feanil@edx.org', 'testeng@edx.org']
 ]
 
+Map ecommerce = [
+    org: 'edx',
+    repoName: 'ecommerce',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['testeng', 'edx/rev-team'],
+    emails: ['revenue-squad-alert@edx.opsgenie.net', 'testeng@edx.org']
+]
+
 Map edxOrganizations = [
     org: 'edx',
     repoName: 'edx-organizations',
@@ -91,12 +100,15 @@ Map testengCI = [
     emails: ['testeng@edx.org']
 ]
 
+
+
 List jobConfigs = [
     bokchoy,
     completion,
     cookiecutterDjangoApp,
     devstack,
     djangoConfigModels,
+    ecommerce,
     edxOrganizations,
     edxPlatform,
     edxProctoring,
