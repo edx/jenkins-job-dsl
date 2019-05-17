@@ -21,7 +21,23 @@ class AppPermissionsFailure {
                  stringParam('DEPLOYMENT')
                  stringParam('GIT_PREVIOUS_COMMIT_1')
                  stringParam('GIT_COMMIT_1')
+                 stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
              }
+
+
+            scm{
+                git {
+                    remote {
+                        url('https://github.com/edx/tubular.git')
+                        branch('$TUBULAR_BRANCH')
+                    }
+                    extensions {
+                        cleanAfterCheckout()
+                        pruneBranches()
+                        relativeTargetDirectory('tubular')
+                    }
+                }
+            }
 
              steps {
                  virtualenv {
