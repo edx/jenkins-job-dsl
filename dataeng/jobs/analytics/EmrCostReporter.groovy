@@ -12,6 +12,7 @@ class EmrCostReporter {
                 stringParam('THRESHOLD', allVars.get('THRESHOLD'), 'Number of dollars "budgeted".  Going over this threshold will cause the job to fail.')
                 stringParam('WEEKLY_JOB_THRESHOLD_ADJUSTMENT', allVars.get('WEEKLY_JOB_THRESHOLD_ADJUSTMENT'), '')
                 stringParam('GRAPHITE_HOST', allVars.get('GRAPHITE_HOST'), '')
+                stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             logRotator common_log_rotator(allVars)
             multiscm {
