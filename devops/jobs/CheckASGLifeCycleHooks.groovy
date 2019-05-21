@@ -60,9 +60,7 @@ class CheckASGLifeCycleHooks {
                             remote {
                                 url('$SYSADMIN_REPO')
                                 branch('$SYSADMIN_BRANCH')
-                                if (gitCredentialId) {
-                                    credentials(extraVars.get('SECURE_GIT_CREDENTIALS'))
-                                }
+                                credentials(extraVars.get('SECURE_GIT_CREDENTIALS'))
                             }
                             extensions {
                                 cleanAfterCheckout()
