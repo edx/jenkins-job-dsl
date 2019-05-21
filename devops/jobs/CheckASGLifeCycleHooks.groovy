@@ -33,7 +33,7 @@ class CheckASGLifeCycleHooks {
                     /* Only keep the builds for one day since it runs every thirty minutes.
                     */
                     parameters {
-                        stringParam('SYSADMIN_REPO', 'https://github.com/edx-ops/sysadmin.git')
+                        stringParam('SYSADMIN_REPO', 'git@github.com:edx-ops/sysadmin.git')
                         stringParam('SYSADMIN_BRANCH', 'master')
                     }
 
