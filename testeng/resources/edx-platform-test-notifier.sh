@@ -8,4 +8,4 @@ echo "Installing python requirements..."
 pip install -q -r requirements/base.txt
 
 echo "Running test notifier script..."
-python jenkins/edx_platform_test_notifier.py --pr_number $PR_NUMBER
+python jenkins/edx_platform_test_notifier.py --repo $REPO --pr_number $PR_NUMBER
