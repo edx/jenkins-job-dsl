@@ -229,7 +229,7 @@ jobConfigs.each { jobConfig ->
             }
             archiveJunit(JENKINS_PUBLIC_JUNIT_REPORTS)
             if (jobConfig.repoName == "edx-platform") {
-                downstreamParameterized JENKINS_EDX_PLATFORM_TEST_NOTIFIER.call("${jobConfig.repoName}", "${ghprbPullId}")
+                downstreamParameterized JENKINS_EDX_PLATFORM_TEST_NOTIFIER.call("${jobConfig.repoName}", '${ghprbPullId}')
             }
         }
     }
