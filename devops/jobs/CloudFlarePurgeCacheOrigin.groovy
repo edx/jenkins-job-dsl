@@ -25,15 +25,19 @@ class CloudFlarePurgeCacheOrigin {
 
 
             parameters {
-                stringParam("ORIGIN", extraVars.get('ORIGIN'),"origin")
+                stringParam("ORIGIN", extraVars.get('ORIGIN'),
+                "The origin, for example https://edx.org, https://stage.edx.org or https://cmeonline.hms.harvard.edu. Be sure you know what you're doing if you make this blank.")
                 choiceParam("SITE",
                             ["https://edx-video.net",
                              "https://edx-cdn.org",
                              "https://edx.org",
                             ],
-                            "Site for which you want to purge cache")
-                stringParam("BUCKET", "edx-course-videos","")
+                            "The Site that you want to purge cache of. Look at the domain fields of https://github.com/edx/terraform/blob/master/cloudflare/main.tf for examples.")
+                stringParam("BUCKET", "edx-course-videos",
+                "The bucket that you want to purge the cache of. Look at the value fields of https://github.com/edx/terraform/blob/master/cloudflare/main.tf for examples.")
+                booleanParam("CONFIRM_PURGE",false, "Check this in order to pruge cache for the site")
             }
+
 
             wrappers {
                     credentialsBinding {
