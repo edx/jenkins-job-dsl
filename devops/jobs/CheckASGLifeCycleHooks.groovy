@@ -35,6 +35,8 @@ class CheckASGLifeCycleHooks {
                     parameters {
                         stringParam('SYSADMIN_REPO', 'git@github.com:edx-ops/sysadmin.git')
                         stringParam('SYSADMIN_BRANCH', 'master')
+                        stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')
+                        stringParam('CONFIGURATION_BRANCH', 'master')
                     }
 
                     logRotator {
@@ -51,6 +53,13 @@ class CheckASGLifeCycleHooks {
                         cron("H/30 * * * *")
                     }
 
+                    wrappers {
+                        credentialsBinding {
+                            file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
+                            string('ROLE_ARN', "check-lifecycle-hooks-${deployment}-role-arn")
+                        }
+                    }
+
                     parameters common_parameters(extraVars)
 
                     multiscm common_multiscm(extraVars)
@@ -60,6 +69,18 @@ class CheckASGLifeCycleHooks {
                             remote {
                                 url('$SYSADMIN_REPO')
                                 branch('$SYSADMIN_BRANCH')
+                                credentials(extraVars.get('SECURE_GIT_CREDENTIALS'))
+                            }
+                            extensions {
+                                cleanAfterCheckout()
+                                pruneBranches()
+                                relativeTargetDirectory('sysadmin')
+                            }
+                        }
+                        git {
+                            remote {
+                                url('$CONFIGURATION_REPO')
+                                branch('$CONFIGURATION_BRANCH')
                                 credentials(extraVars.get('SECURE_GIT_CREDENTIALS'))
                             }
                             extensions {

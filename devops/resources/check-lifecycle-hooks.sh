@@ -1,11 +1,15 @@
 #!/bin/bash
 set -euox pipefail
 
+cd $WORKSPACE/configuration
+. util/jenkins/assume-role.sh
+
 cd $WORKSPACE/sysadmin
 pip install -r requirements.txt
+export AWS_DEFAULT_REGION=us-east-1
 
-if [ -z "${DEPLOYMENT}" ] || [ -z "${ASG}" ] || [ -z "${REGION}" ]; then
-   exit 1
-else
+: ${ASG?"Need to set ASG"}
 
-python aws-management/check-lifecycle-hooks.py --asg ${ASG} --hook GetTrackingLogs --profile ${DEPLOYMENT}
+assume-role ${ROLE_ARN}
+
+python aws-management/check-lifecycle-hooks.py --asg ${ASG} --hook GetTrackingLogs
