@@ -1,9 +1,15 @@
 #!/bin/bash
 #set -exuo pipefail
 
+env
+set -x
+
 cd $WORKSPACE/configuration
 pip install -r util/cloudflare/by_origin_purger/requirements.txt
-env
+pip install -r requirements.txt
+. util/jenkins/assume-role.sh
+
+assume-role ${ROLE_ARN}
 
 aws s3 ls s3://${BUCKET} --recursive | awk '{print $4}' > targets
 
