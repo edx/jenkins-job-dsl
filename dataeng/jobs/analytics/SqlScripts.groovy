@@ -37,6 +37,13 @@ class SqlScripts {
 
     public static def single_script_job = { dslFactory, allVars ->
         dslFactory.job("single-sql-script") {
+            authorization {
+                allVars.get('USER_ROLES').each { github_id, roles ->
+                    roles.each {
+                        role -> permission(role, github_id)
+                    }
+                }
+            }
             logRotator common_log_rotator(allVars)
             parameters SqlScripts.sql_script_params(allVars)
             parameters {
