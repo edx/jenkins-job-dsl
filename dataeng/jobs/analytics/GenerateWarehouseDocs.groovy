@@ -6,6 +6,9 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 class GenerateWarehouseDocs {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('generate-warehouse-docs') {
+            // This job is no longer working, due to permissions issues on JIRA API.  Disable for now, until final decision is made.
+            disabled(true)
+
             parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('TOOLS_REPO', allVars.get('TOOLS_REPO_URL'), '')
