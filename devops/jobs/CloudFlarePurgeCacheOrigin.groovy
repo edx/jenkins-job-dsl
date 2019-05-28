@@ -23,7 +23,6 @@ class CloudFlarePurgeCacheOrigin {
             wrappers common_wrappers
             logRotator common_logrotator
 
-
             parameters {
                 stringParam("ORIGIN", extraVars.get('ORIGIN'),
                 "The origin, for example https://edx.org, https://stage.edx.org or https://cmeonline.hms.harvard.edu. Be sure you know what you're doing if you make this blank.")
@@ -38,12 +37,15 @@ class CloudFlarePurgeCacheOrigin {
                 booleanParam("CONFIRM_PURGE",false, "Check this in order to pruge cache for the site")
             }
 
-
             wrappers {
                     credentialsBinding {
                         string('AUTH_KEY', 'AUTH_KEY')
+                        file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
+                        def variable = "tools_jenkins_s3_cloudflare_target"
+                        string("ROLE_ARN", variable)
                     }
             }
+
             environmentVariables {
 	        env('ZONE_ID', extraVars.get('ZONE_ID'))
 	        env('EMAIL', extraVars.get('EMAIL'))
