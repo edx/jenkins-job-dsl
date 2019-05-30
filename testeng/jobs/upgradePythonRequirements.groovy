@@ -87,7 +87,7 @@ Map edxPlatform = [
     repoName: 'edx-platform',
     cronValue: '@daily',
     githubUserReviewers: [],
-    githubTeamReviewers: ['platform-core', testeng'],
+    githubTeamReviewers: ['platform-core', 'testeng'],
     emails: ['testeng@edx.org']
 ]
 
