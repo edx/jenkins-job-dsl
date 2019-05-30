@@ -25,7 +25,7 @@ catch (any) {
 }
 
 pipelineJob('edx-app-android-build') {
-    
+
     description('Build the edX Android app and archive it on Jenkins')
 
     authorization {
