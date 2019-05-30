@@ -55,6 +55,15 @@ Map djangoConfigModels = [
     emails: ['feanil@edx.org', 'testeng@edx.org']
 ]
 
+Map djangoUserTasks = [
+    org: 'edx',
+    repoName: 'django-user-tasks',
+    cronValue: '@weekly',
+    githubUserReviewers: ['jmbowman'],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
+]
+
 Map ecommerce = [
     org: 'edx',
     repoName: 'ecommerce',
@@ -78,7 +87,7 @@ Map edxPlatform = [
     repoName: 'edx-platform',
     cronValue: '@daily',
     githubUserReviewers: [],
-    githubTeamReviewers: ['testeng'],
+    githubTeamReviewers: ['platform-core', testeng'],
     emails: ['testeng@edx.org']
 ]
 
@@ -91,6 +100,15 @@ Map edxProctoring = [
     emails: ['feanil@edx.org', 'testeng@edx.org', 'masters-dahlia@edx.org']
 ]
 
+Map opaqueKeys = [
+    org: 'edx',
+    repoName: 'opaque-keys',
+    cronValue: '@weekly',
+    githubUserReviewers: ['cpennington'],
+    githubTeamReviewers: ['platform-core'],
+    emails: ['testeng@edx.org']
+]
+
 Map testengCI = [
     org: 'edx',
     repoName: 'testeng-ci',
@@ -100,6 +118,14 @@ Map testengCI = [
     emails: ['testeng@edx.org']
 ]
 
+Map xblock = [
+    org: 'edx',
+    repoName: 'XBlock',
+    cronValue: '@weekly',
+    githubUserReviewers: ['cpennington'],
+    githubTeamReviewers: ['platform-core'],
+    emails: ['testeng@edx.org']
+]
 
 
 List jobConfigs = [
@@ -108,11 +134,14 @@ List jobConfigs = [
     cookiecutterDjangoApp,
     devstack,
     djangoConfigModels,
+    djangoUserTasks,
     ecommerce,
     edxOrganizations,
     edxPlatform,
     edxProctoring,
+    opaqueKeys,
     testengCI,
+    xblock,
 ]
 
 /* Iterate over the job configurations */
