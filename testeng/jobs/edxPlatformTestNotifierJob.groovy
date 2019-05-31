@@ -12,8 +12,10 @@ job('edx-platform-test-notifier') {
     authorization GENERAL_PRIVATE_JOB_SECURITY()
 
     parameters {
+        stringParam('REPO', "edx-platform",
+                    'Github repository of PR')
         stringParam('PR_NUMBER', null,
-                    'edx-platform PR number to comment')
+                    'PR number')
     }
 
     logRotator JENKINS_PUBLIC_LOG_ROTATOR()

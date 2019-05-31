@@ -98,11 +98,12 @@ class JenkinsPublicConstants {
                                                               'javascript_xunit*.xml,edx-platform*/reports/a11y/**/xunit.xml,' +
                                                               '**/reports/bok_choy/**/xunit.xml'
 
-    public static final Closure JENKINS_EDX_PLATFORM_TEST_NOTIFIER = { prNumber ->
+    public static final Closure JENKINS_EDX_PLATFORM_TEST_NOTIFIER = { repo, prNumber ->
         return {
             trigger('edx-platform-test-notifier') {
                 condition('ALWAYS')
                 parameters {
+                    predefinedProp('REPO', repo)
                     predefinedProp('PR_NUMBER', prNumber)
                 }
             }
