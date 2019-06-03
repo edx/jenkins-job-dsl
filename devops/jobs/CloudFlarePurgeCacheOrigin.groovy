@@ -47,7 +47,9 @@ class CloudFlarePurgeCacheOrigin {
             }
 
             environmentVariables {
-	        env('ZONE_ID', extraVars.get('ZONE_ID'))
+	        env('EDX_ZONE_ID', extraVars.get('ZONE_ID'))
+	        env('EDX_CDN_ZONE_ID', extraVars.get('EDX_CDN_ZONE_ID'))
+	        env('EDX_VIDEO_ZONE_ID', extraVars.get('EDX_VIDEO_ZONE_ID'))
 	        env('EMAIL', extraVars.get('EMAIL'))
             }
 
