@@ -1,5 +1,4 @@
 #!/bin/bash
-#set -exuo pipefail
 
 env
 set -x
@@ -12,6 +11,14 @@ pip install -r requirements.txt
 assume-role ${ROLE_ARN}
 
 aws s3 ls s3://${BUCKET} --recursive | awk '{print $4}' > targets
+
+if [[ "${SITE}" = "https://edx.org" ]]; then
+ZONE_ID=${EDX_ZONE_ID}
+elif [[ "${SITE}" = "https://edx-cdn.org" ]]; then
+ZONE_ID=${EDX_CDN_ZONE_ID}
+elif [[ "${SITE}" = "https://edx-video.net" ]]; then
+ZONE_ID=${EDX_VIDEO_ZONE_ID}
+fi
 
 if ${CONFIRM_PURGE}; then
 python util/cloudflare/by_origin_purger/purger.py\
