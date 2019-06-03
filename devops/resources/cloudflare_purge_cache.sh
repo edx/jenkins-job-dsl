@@ -22,7 +22,7 @@ fi
 
 if ${CONFIRM_PURGE}; then
 python util/cloudflare/by_origin_purger/purger.py\
-    --cloudflare_zone_id $ZONE_ID\
+    --cloudflare_zone_id ${ZONE_ID}\
     --cloudflare_api_key ${AUTH_KEY}\
     --cloudflare_site_url ${SITE}\
     --cloudflare_email ${EMAIL}\
@@ -30,7 +30,7 @@ python util/cloudflare/by_origin_purger/purger.py\
     --target_path targets --confirm
 else
 python util/cloudflare/by_origin_purger/purger.py\
-    --cloudflare_zone_id $ZONE_ID\
+    --cloudflare_zone_id ${ZONE_ID}\
     --cloudflare_api_key ${AUTH_KEY}\
     --cloudflare_site_url ${SITE}\
     --cloudflare_email ${EMAIL}\
