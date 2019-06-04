@@ -72,11 +72,12 @@ dependencies {
     testCompile 'org.jvnet.hudson.plugins:hipchat:0.1.9@jar'
 
     // Plugins to install in test instance
+    testPlugins 'org.jenkins-ci.plugins:aws-credentials:1.24'
     testPlugins 'org.jenkins-ci.plugins:build-user-vars-plugin:1.5'
     testPlugins 'org.jenkins-ci.plugins:build-timeout:1.19'
     testPlugins 'org.jenkins-ci.plugins:cobertura:1.12.1'
     testPlugins 'org.jenkins-ci.plugins:copyartifact:1.39'
-    testPlugins 'org.jenkins-ci.plugins:credentials:2.1.18'
+    testPlugins 'org.jenkins-ci.plugins:credentials:2.1.19'
     testPlugins 'org.jenkins-ci.plugins:junit:1.26'
     testPlugins 'org.jenkins-ci.plugins:matrix-auth:1.5'
     testPlugins 'org.jenkins-ci.plugins:multiple-scms:0.6'
