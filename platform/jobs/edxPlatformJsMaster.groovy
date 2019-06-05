@@ -52,16 +52,6 @@ Map privateJobConfig = [
     defaultBranch : 'security-release'
 ]
 
-Map hawthornJobConfig = [
-    open: true,
-    jobName: 'hawthorn-js-master',
-    repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
-    context: 'jenkins/hawthorn/js',
-    refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
-    defaultBranch : 'refs/heads/open-release/hawthorn.master'
-]
-
 Map ironwoodJobConfig = [
     open: true,
     jobName: 'ironwood-js-master',
@@ -75,7 +65,6 @@ Map ironwoodJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    hawthornJobConfig,
     ironwoodJobConfig
 ]
 

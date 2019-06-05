@@ -69,26 +69,6 @@ Map privateJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+js.*/
 ]
 
-Map publicHawthornJobConfig = [
-    open: true,
-    jobName: 'hawthorn-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.master/,
-    context: 'jenkins/hawthorn/js',
-    triggerPhrase: /.*hawthorn\W+run\W+js.*/
-]
-
-Map privateHawthornJobConfig = [
-    open: false,
-    jobName: 'hawthorn-js-pr_private',
-    repoName: 'edx-platform-private',
-    workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.master/,
-    context: 'jenkins/hawthorn/js',
-    triggerPhrase: /.*hawthorn\W+run\W+js.*/
-]
-
 Map python3JobConfig = [
     open : true,
     jobName : 'edx-platform-python3-js-pr',
@@ -124,8 +104,6 @@ Map privateIronwoodJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    publicHawthornJobConfig,
-    privateHawthornJobConfig,
     python3JobConfig,
     publicIronwoodJobConfig,
     privateIronwoodJobConfig
