@@ -22,8 +22,6 @@ class buildPackerAMIjobSpec extends Specification {
     @Shared JobManagement jm
 
     @Shared File dslScript = new File('testeng/jobs/buildPackerAMIjob.groovy')
-    @Shared String baseSecretPath = 'src/test/resources/testeng/secrets'
-    @Shared String secretVar = 'BUILD_PACKER_AMI_SECRET'
 
     @Shared List pList = [ 'com.cloudbees.plugins.credentials.CredentialsProvider.Delete:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:edx',
@@ -36,62 +34,6 @@ class buildPackerAMIjobSpec extends Specification {
                                 'hudson.model.Item.Cancel:edx', 'hudson.model.Item.Delete:edx',
                                 'hudson.model.Run.Update:edx',
                                 'com.cloudbees.plugins.credentials.CredentialsProvider.Update:edx' ]
-    /*
-    * Helper function: loadSecret
-    * return a JenkinsJobManagement object containing a mapping of secret variables to secret values
-    */
-    JenkinsJobManagement loadSecret(secretKey, secretValue) {
-        Map<String,String> envVars = [:]
-        envVars.put(secretKey, secretValue)
-        JenkinsJobManagement jjm = new JenkinsJobManagement(System.out, envVars, new File('.'))
-        jjm
-    }
-
-    /*
-    * TODO: condense this into a shared helper
-    * Helper function: loadSecrets
-    * return a JenkinsJobManagement object containing a mapping of secret variables to secret values
-    */
-    JenkinsJobManagement loadSecrets(envVars) {
-        JenkinsJobManagement jjm = new JenkinsJobManagement(System.out, envVars, new File('.'))
-        jjm
-    }
-
-    /**
-    * Using an evironment variable that points to a non-existent secret file, ensure that no
-    * jobs are created.
-    **/
-    void 'test non-existent secret file is handled correctly'() {
-
-        setup:
-        String secretPath = baseSecretPath + '/non-existent-file.yml'
-        jm =  loadSecret(secretVar, secretPath)
-        loader = new DslScriptLoader(jm)
-
-        when:
-        GeneratedItems generatedItems = loader.runScript(dslScript.text)
-
-        then:
-        generatedItems.jobs.size() == 0
-    }
-
-    /**
-    * Using an invalid yaml secret, ensure that the appropriate exceptions are thrown, and
-    * that no jobs are created.
-    **/
-    void 'test invalid yaml is handled correctly'() {
-
-        setup:
-        String secretPath = baseSecretPath + '/corrupt-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
-        loader = new DslScriptLoader(jm)
-
-        when:
-        GeneratedItems generatedItems = loader.runScript(dslScript.text)
-
-        then:
-        generatedItems.jobs.size() == 0
-    }
 
     /**
     * Run the DSL script and verify that no exceptions were thrown by the dslScriptRunner
@@ -99,8 +41,7 @@ class buildPackerAMIjobSpec extends Specification {
     void 'test no exceptions are thrown'() {
 
         setup:
-        String secretPath = baseSecretPath + '/build-packer-ami-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
+        JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
         loader = new DslScriptLoader(jm)
 
         when:
@@ -108,7 +49,6 @@ class buildPackerAMIjobSpec extends Specification {
 
         then:
         noExceptionThrown()
-
     }
 
     /**
@@ -117,8 +57,7 @@ class buildPackerAMIjobSpec extends Specification {
     void 'test jobs are private'() {
 
         setup:
-        String secretPath = baseSecretPath + '/build-packer-ami-secret.yml'
-        jm =  loadSecret(secretVar, secretPath)
+        JenkinsJobManagement jm = new JenkinsJobManagement(System.out, [:], new File('.'))
         loader = new DslScriptLoader(jm)
 
         when:
@@ -129,7 +68,7 @@ class buildPackerAMIjobSpec extends Specification {
         Node prop = project.childNodes().find { it.name == 'properties' }
         Node privacyBlock = prop.childNodes().find { it.name == 'hudson.security.AuthorizationMatrixProperty' }
         privacyBlock.childNodes().any { it.name == 'blocksInheritance' && it.text() == 'true' }
-        ArrayList<Node> permissions = privacyBlock.childNodes().findAll { it.name == 'permission' } 
+        ArrayList<Node> permissions = privacyBlock.childNodes().findAll { it.name == 'permission' }
         permissions.each { pList.contains(it.text()) }
 
     }
