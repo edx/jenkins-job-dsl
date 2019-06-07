@@ -50,7 +50,7 @@ class CheckCeleryProgress {
                         credentialsBinding {
                             string('OPSGENIE_API_KEY', 'check-celery-progress-integration-api-key')
                         }
-                      }
+                    }
 
                     def config_internal_repo = "git@github.com:edx/${deployment}-internal.git"
                     def config_secure_repo = "git@github.com:edx-ops/${deployment}-secure.git" 
