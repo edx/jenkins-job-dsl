@@ -50,6 +50,11 @@ class CheckCeleryProgress {
                         credentialsBinding {
                             string('OPSGENIE_API_KEY', 'check-celery-progress-integration-api-key')
                         }
+                        credentialsBinding {
+                            file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
+                            def variable = "redis-monitoring-${deployment}-role-arn"
+                            string('ROLE_ARN', variable)
+                        }
                     }
 
                     def config_internal_repo = "git@github.com:edx/${deployment}-internal.git"
