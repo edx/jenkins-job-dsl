@@ -89,10 +89,8 @@ jobConfigs.each { jobConfig ->
             //permission('hudson.model.Item.Discover', 'edx/customer-support')
         }
 
-        // jenkins-worker is way overkill for this job, but it'll do for now.
-        // TODO: either create a new lightweight worker label, or wait until we
-        // convert this job to use Pipelines.
-        label('jenkins-worker')
+        // retirement-workers are configured to only execute one build at a time
+        label('retirement-worker')
 
         // Disallow this job to have simultaneous instances building at the same
         // time.  This might help prevent race conditions related to triggering

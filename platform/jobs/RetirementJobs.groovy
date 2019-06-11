@@ -79,11 +79,8 @@ job('user-retirement-driver') {
         //permission('hudson.model.Item.Discover', 'edx/customer-support')
     }
 
-    // The jenkins-worker is intended for platform workers, but they'll work
-    // well for this job, at least for now.  Specifically, this label is
-    // configured to disallow more than one simultaneous job per instance, and
-    // generally there are always available jenkins-worker instances idling.
-    label('jenkins-worker')
+    // retirement-workers are configured to only execute one build at a time
+    label('retirement-worker')
 
     // Allow this job to have simultaneous instances running at the same time
     // in general, but use the throttle-concurrents plugin to limit only one
@@ -215,11 +212,8 @@ job('user-retirement-collector') {
         //permission('hudson.model.Item.Discover', 'edx/customer-support')
     }
 
-    // The jenkins-worker is intended for platform workers, but they'll work
-    // well for this job, at least for now.  Specifically, this label is
-    // configured to disallow more than one simultaneous job per instance, and
-    // generally there are always available jenkins-worker instances idling.
-    label('jenkins-worker')
+    // retirement-workers are configured to only execute one build at a time
+    label('retirement-worker')
 
     // Allow this job to have simultaneous builds at the same time in general,
     // but use the throttle-concurrents plugin to limit only one instance of
@@ -389,10 +383,8 @@ job('retirement-partner-reporter') {
         }
     }
 
-    // This label is configured to disallow more than one simultaneous job
-    // per instance, and generally there are always available jenkins-worker
-    // instances idling.
-    label('jenkins-worker')
+    // retirement-workers are configured to only execute one build at a time
+    label('retirement-worker')
 
     // Only one of these jobs should be running at a time per environment
     concurrentBuild(true)
@@ -527,10 +519,8 @@ job('retirement-partner-report-cleanup') {
         }
     }
 
-    // This label is configured to disallow more than one simultaneous job
-    // per instance, and generally there are always available jenkins-worker
-    // instances idling.
-    label('jenkins-worker')
+    // retirement-workers are configured to only execute one build at a time
+    label('retirement-worker')
 
     // Only one of these jobs should be running at a time per environment
     concurrentBuild(true)
@@ -663,11 +653,8 @@ job('user-retirement-bulk-status') {
         }
     }
 
-    // The jenkins-worker is intended for platform workers, but they'll work
-    // well for this job, at least for now.  Specifically, this label is
-    // configured to disallow more than one simultaneous job per instance, and
-    // generally there are always available jenkins-worker instances idling.
-    label('jenkins-worker')
+    // retirement-workers are configured to only execute one build at a time
+    label('retirement-worker')
 
     // Only one of these should run at a time.
     concurrentBuild(false)
