@@ -15,4 +15,6 @@ if [[ ! -v THRESHOLDS ]]; then
     THRESHOLDS=""
 fi
 
+. ../assume-role.sh
+assume-role ${ROLE_ARN}
 python ./check_celery_progress.py --opsgenie-api-key ${OPSGENIE_API_KEY} --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --host ${REDIS_HOST} ${THRESHOLDS}
