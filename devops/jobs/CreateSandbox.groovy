@@ -171,6 +171,9 @@ class CreateSandbox {
                 booleanParam("journals",false,"Journals service")
                 stringParam("journals_version","master","")
 
+                booleanParam("registrar",false,"Enable the Registrar service")
+                stringParam("registrar_version","master","")
+
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
                 stringParam("video_pipeline_version","master","")
