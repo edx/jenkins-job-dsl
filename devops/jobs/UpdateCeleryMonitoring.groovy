@@ -52,7 +52,7 @@ class UpdateCeleryMonitoring {
                             def variable = "redis-monitoring-${deployment}-role-arn"
                             string('ROLE_ARN', variable)
                         }
-                    }
+                      }
 
                     def config_internal_repo = "git@github.com:edx/${deployment}-internal.git"
                     def config_secure_repo = "git@github.com:edx-ops/${deployment}-secure.git" 
