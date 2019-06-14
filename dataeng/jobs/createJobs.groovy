@@ -17,6 +17,7 @@ import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
 import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
 import static analytics.SqlScripts.multiple_scripts_job as SqlScriptsJob
 import static analytics.SqlScripts.single_script_job as SingleSqlScriptJob
+import static analytics.LoadAffiliateWindowToWarehouse.job as LoadAffiliateWindowWarehouseJob
 import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
 import static analytics.LoadWarehouse.bigquery_job as LoadWarehouseBigQueryJob
 import static analytics.LoadWarehouse.snowflake_job as LoadWarehouseSnowflakeJob
@@ -82,6 +83,7 @@ def taskMap = [
     GENERATE_WAREHOUSE_DOCS_JOB: GenerateWarehouseDocsJob,
     SQL_SCRIPTS_JOB: SqlScriptsJob,
     SINGLE_SQL_SCRIPT_JOB: SingleSqlScriptJob,
+    LOAD_AFFILIATE_WINDOW_JOB: LoadAffiliateWindowWarehouseJob,
     LOAD_WAREHOUSE_VERTICA_JOB: LoadWarehouseVerticaJob,
     LOAD_WAREHOUSE_SNOWFLAKE_JOB: LoadWarehouseSnowflakeJob,
     LOAD_WAREHOUSE_BIGQUERY_JOB: LoadWarehouseBigQueryJob,
@@ -166,6 +168,7 @@ listView('Warehouse') {
         name('finance-report')
         name('payments-validation')
         name('generate-warehouse-docs')
+        name('affiliate-window')
         regex('.+read-replica-import|load-.+|vertica-to-bigquery.+|.*sql-script.*')
     }
     columns DEFAULT_VIEW.call()
