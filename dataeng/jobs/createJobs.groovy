@@ -42,6 +42,7 @@ import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalytic
 import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTrackingLogsJob
 import static analytics.MonitorBigqueryEventLoading.job as MonitorBigqueryEventLoadingJob
 import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
+import static analytics.LoadGoogleSpreadsheetToWarehouse.job as LoadGoogleSpreadsheetToWarehouseJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -107,6 +108,7 @@ def taskMap = [
     AGGREGATE_DAILY_TRACKING_LOGS_JOB: AggregateDailyTrackingLogsJob,
     MONITOR_BIGQUERY_EVENT_LOADING_JOB: MonitorBigqueryEventLoadingJob,
     LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
+    LOAD_GOOGLE_SPREADSHEET_TO_WAREHOUSE_JOB: LoadGoogleSpreadsheetToWarehouseJob,
 ]
 
 for (task in taskMap) {
