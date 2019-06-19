@@ -16,4 +16,10 @@ if [[ ! -v RDSTHRESHOLD ]]; then
     RDSTHRESHOLD=""
 fi
 
-python check_table_size.py  --threshold ${THRESHOLD} ${RDSTHRESHOLD}
+# Set RDSIGNORE if not set in job, need because we're setting -u
+# Otherwise we get an error "RDSIGNORE: unbound variable"
+if [[ ! -v RDSIGNORE ]]; then
+    RDSIGNORE=""
+fi
+
+python check_table_size.py  --threshold ${THRESHOLD} ${RDSTHRESHOLD} ${RDSIGNORE}
