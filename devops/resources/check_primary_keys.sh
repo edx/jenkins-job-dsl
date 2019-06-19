@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $WORKSPACE/configuration/util/jenkins/check_table_size
+cd $WORKSPACE/configuration/util/jenkins/primary_keys
 
 pip install -r requirements.txt
 . ../assume-role.sh
