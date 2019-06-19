@@ -53,7 +53,7 @@ Map publicJobConfig = [
     open : true,
     jobName : 'edx-platform-js-pr',
     repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/js',
     triggerPhrase: /.*jenkins\W+run\W+js.*/
@@ -63,7 +63,7 @@ Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-js-pr_private',
     repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/js',
     triggerPhrase: /.*jenkins\W+run\W+js.*/
@@ -73,7 +73,7 @@ Map python3JobConfig = [
     open : true,
     jobName : 'edx-platform-python3-js-pr',
     repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python3.5/js',
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+js.*/,
