@@ -7,7 +7,7 @@ class CheckPrimaryKeys {
         assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list of string"
 
         extraVars.get('DEPLOYMENTS').each { deployment , configuration ->
-            configuration.environments.each { environment, rds_config ->
+            configuration.environments.each { environment ->
 
 
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/check-prmiary-keys-for-${deployment}") {
