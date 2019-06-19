@@ -36,7 +36,7 @@ Map publicJobConfig = [
     open: true,
     jobName: 'edx-platform-js-master',
     repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'js-worker',
     context: 'jenkins/js',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master'
@@ -46,7 +46,7 @@ Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-js-master_private',
     repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'js-worker',
     context: 'jenkins/js',
     refSpec : '+refs/heads/security-release:refs/remotes/origin/security-release',
     defaultBranch : 'security-release'
