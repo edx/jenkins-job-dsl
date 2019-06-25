@@ -8,29 +8,29 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 
 class SqlScripts {
 
-    public static def sql_script_params = { allVars ->
+    public static def sql_script_params = { allVars, env=[:] ->
         return {
-            stringParam('SCHEMA', allVars.get('SCHEMA'))
+            stringParam('SCHEMA', env.get('SCHEMA', allVars.get('SCHEMA')))
             stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
             stringParam('SCRIPTS_REPO', allVars.get('SCRIPTS_REPO_URL'))
             stringParam('SCRIPTS_BRANCH', 'origin/master')
+            stringParam('SCRIPTS_CONFIG', env.get('SCRIPTS_CONFIG', ''))
         }
     }
 
     public static def multiple_scripts_job = { dslFactory, allVars ->
-        dslFactory.job("sql-scripts") {
-            logRotator common_log_rotator(allVars)
-            parameters SqlScripts.sql_script_params(allVars)
-            parameters common_parameters(allVars)
-            multiscm common_multiscm(allVars)
-            triggers common_triggers(allVars)
-            wrappers common_wrappers(allVars)
-            publishers common_publishers(allVars)
-            publishers {
-                downstream('generate-warehouse-docs', 'SUCCESS')
-            }
-            steps {
-                shell(dslFactory.readFileFromWorkspace('dataeng/resources/sql-scripts.sh'))
+        allVars.get('ENVIRONMENTS').each { environment, env_config ->
+            dslFactory.job("sql-scripts-$environment") {
+                logRotator common_log_rotator(allVars)
+                parameters SqlScripts.sql_script_params(allVars, env_config)
+                parameters common_parameters(allVars, env_config)
+                multiscm common_multiscm(allVars)
+                triggers common_triggers(allVars, env_config)
+                wrappers common_wrappers(allVars)
+                publishers common_publishers(allVars)
+                steps {
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/sql-scripts.sh'))
+                }
             }
         }
     }
