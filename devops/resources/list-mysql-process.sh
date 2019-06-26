@@ -10,4 +10,10 @@ set +x
 assume-role ${ROLE_ARN}
 set -x
 
-python list_mysql_process.py --environment ${ENVIRONMENT}
+# Set RDSIGNORE if not set in job, need because we're setting -u
+# Otherwise we get an error "RDSIGNORE: unbound variable"
+if [[ ! -v RDSIGNORE ]]; then
+    RDSIGNORE=""
+fi
+
+python list_mysql_process.py --environment ${ENVIRONMENT} ${RDSIGNORE}
