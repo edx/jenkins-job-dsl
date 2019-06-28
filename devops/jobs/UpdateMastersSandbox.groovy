@@ -19,9 +19,9 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 
-class UpdateSandboxDegrees {
+class UpdateMastersSandbox {
   public static def job = { dslFactory, extraVars ->
-    return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/UpdateSandboxDegrees") {
+    return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/UpdateMastersSandbox") {
 
       description(
         "Sync a Sandbox's Discovery instance with production catalog data for an Organization, "
@@ -82,7 +82,7 @@ class UpdateSandboxDegrees {
         virtualenv {
           nature("shell")
             systemSitePackages(false)
-            command(dslFactory.readFileFromWorkspace("devops/resources/update-sandbox-degrees.sh"))
+            command(dslFactory.readFileFromWorkspace("devops/resources/update-masters-sandbox.sh"))
         }
       }
     }
