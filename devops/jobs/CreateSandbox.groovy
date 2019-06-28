@@ -128,8 +128,6 @@ class CreateSandbox {
                 stringParam("edx_platform_repo","https://github.com/edx/edx-platform.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
 
-            }
-            parameters {
                 booleanParam("forum",true,"")
                 stringParam("forum_version","master","")
 
@@ -176,11 +174,11 @@ class CreateSandbox {
                 booleanParam("registrar",false,"Enable the Registrar service")
                 stringParam("registrar_version","master","")
                 stringParam("registrar_user_email","registrar@example.com",
-                            "Email (and username) for user of Registrar. Ignore this setting if Registrar is disabled.")
+                            "Email (and username) for user to be created in Registrar. Ignore this setting if Registrar is disabled.")
                 stringParam("registrar_org_key","edX",
-                            "Key of Organization to be created on Registrar. Must match key in Discovery. Ignore this setting if Registrar is disabled.")
+                            "Key for Organization to be created in Registrar. Must match key in Discovery catalog. Ignore this setting if Registrar is disabled.")
                 booleanParam("registrar_load_prod_data",false,
-                            "Check this box to sync Organization's data from production Discovery and create Course Overviews in LMS.")
+                            "Check this box to sync Organization's production catalog data and create course overviews in LMS. Ignore this setting if Registrar is disabled.")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
