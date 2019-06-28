@@ -1,7 +1,4 @@
 
-echo "$sandbox ${org_key}"
-exit
-
 set -xe
 
 pip install --upgrade pip
