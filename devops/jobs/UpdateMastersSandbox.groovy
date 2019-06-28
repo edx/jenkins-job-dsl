@@ -65,14 +65,14 @@ class UpdateMastersSandbox {
         stringParam("sandbox",'${BUILD_USER_ID}.sandbox.edx.org',"Optional - Only change this if you want to give access to a sandbox other than your default sandbox")
         stringParam("org_key","edX",'Key of the Organization whose catalog data will be synced with production.')
         textParam("program_key_map",
-                  "b12075a1-a039-4983-abf8-f31f125c4695,my-groovy-program."
-                  + "6d5989e1-70c0-475f-8e28-302bb7e1a1cd,another-groovy-program"
-                  + "40e4b95c-ae35-4f4b-ac10-0980df5e153c,the-grooviest-program",
+                  "b12075a1-a039-4983-abf8-f31f125c4695:my-groovy-program,"
+                  + "6d5989e1-70c0-475f-8e28-302bb7e1a1cd:another-groovy-program"
+                  + "40e4b95c-ae35-4f4b-ac10-0980df5e153c:the-grooviest-program",
                   "Mapping from program UUIDs to desired external program keys. "
                   + "Omitted programs will have their keys default to their marketing slug, "
                   + "as set in Discovery. "
-                  + "Separate each UUID from its external keys with a comma, "
-                  + "and separate UUID-key pairs with periods."
+                  + "Separate each UUID from its external key with a colon, "
+                  + "and separate UUID-key pairs with commas."
         )
       }
 
