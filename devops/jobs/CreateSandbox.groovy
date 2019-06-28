@@ -173,6 +173,12 @@ class CreateSandbox {
 
                 booleanParam("registrar",false,"Enable the Registrar service")
                 stringParam("registrar_version","master","")
+                stringParam("registrar_user_email","registrar@example.com",
+                            "Email (and username) for user of Registrar. Ignore this setting if Registrar is disabled.")
+                stringParam("registrar_org_key","edX",
+                            "Key of Organization to be created on Registrar. Must match key in Discovery. Ignore this setting if Registrar is disabled.")
+                stringParam("registrar_load_prod_data","edX",
+                            "Check this box to sync Organization's data from production Discovery and create Course Overviews in LMS.")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
