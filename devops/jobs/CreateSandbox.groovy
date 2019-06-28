@@ -179,7 +179,7 @@ class CreateSandbox {
                             "Email (and username) for user of Registrar. Ignore this setting if Registrar is disabled.")
                 stringParam("registrar_org_key","edX",
                             "Key of Organization to be created on Registrar. Must match key in Discovery. Ignore this setting if Registrar is disabled.")
-                boolParam("registrar_load_prod_data",false,
+                booleanParam("registrar_load_prod_data",false,
                             "Check this box to sync Organization's data from production Discovery and create Course Overviews in LMS.")
 
                 booleanParam("video_pipeline",false,
