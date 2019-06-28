@@ -1,5 +1,4 @@
 /*
-
    This job takes a sandbox name and an Organization key and creates a UpdateMastersSandbox job, which:
    * Syncs the sandbox's Discovery instance with production catalog data for the Organization
    * Refresh its LMS catalog cache
@@ -27,10 +26,10 @@ class UpdateMastersSandbox {
     return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/UpdateMastersSandbox") {
 
       description(
-        "Sync a Sandbox's Discovery instance with production catalog data for an Organization, " +
-        "refresh the LMS catalog cache, " +
-        "generate any missing course overviews on LMS, " +
-        "and add any missing programs to Registrar." +
+        "Sync a Sandbox's Discovery instance with production catalog data for an Organization, "
+        + "refresh the LMS catalog cache, "
+        + "generate any missing course overviews on LMS, "
+        + "and add any missing programs to Registrar."
       )
 
       wrappers common_wrappers
