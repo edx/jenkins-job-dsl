@@ -62,7 +62,8 @@ class UpdateMastersSandbox {
       }
 
       parameters {
-        stringParam("sandbox",'${BUILD_USER_ID}.sandbox.edx.org',"Optional - Only change this if you want to give access to a sandbox other than your default sandbox")
+        stringParam("sandbox",'CHANGEME.sandbox.edx.org',
+                    "DNS name of sandbox to update. The sandbox must have been built with Registrar enabled.")
         stringParam("org_key","edX",'Key of the Organization whose catalog data will be synced with production.')
         textParam("program_key_map",
                   "b12075a1-a039-4983-abf8-f31f125c4695:my-groovy-program,"
