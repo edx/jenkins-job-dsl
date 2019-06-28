@@ -59,8 +59,8 @@ class UpdateMastersSandbox {
       }
 
       parameters {
-        stringParam("sandbox",'${BUILD_USER_ID}.sandbox.edx.org',"<b>Optional</b> - Only change this if you want to give access to a sandbox other than your default sandbox")
-        stringParam("org_key",'Key of the Organization whose catalog data will be synced with production.')
+        stringParam("sandbox",'${BUILD_USER_ID}.sandbox.edx.org',"Optional - Only change this if you want to give access to a sandbox other than your default sandbox")
+        stringParam("org_key","edX",'Key of the Organization whose catalog data will be synced with production.')
       }
 
       properties {
