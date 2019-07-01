@@ -49,6 +49,7 @@ class SqlScripts {
             parameters {
                 stringParam('SOURCE_SCRIPT', '', 'Path to the source script, relative to the root of the repository. Most scripts just require a script name.')
                 stringParam('SCRIPT_NAME')
+                stringParam('NOTIFY', '', 'Space separated list of emails to send notifications to.')
             }
             parameters common_parameters(allVars)
             multiscm common_multiscm(allVars)
