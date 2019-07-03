@@ -21,6 +21,13 @@ class SqlScripts {
     public static def multiple_scripts_job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("sql-scripts-$environment") {
+                authorization {
+                    allVars.get('USER_ROLES').each { github_id, roles ->
+                        roles.each {
+                            role -> permission(role, github_id)
+                        }
+                    }
+                }
                 logRotator common_log_rotator(allVars)
                 parameters SqlScripts.sql_script_params(allVars, env_config)
                 parameters common_parameters(allVars, env_config)
