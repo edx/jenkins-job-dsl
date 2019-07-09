@@ -170,4 +170,14 @@ This text may reference other parameters in the task as shell variables, e.g.  $
             }
         }
     }
+
+    public static def common_authorization = { allVars ->
+        return {
+            allVars.get('USER_ROLES').each { github_id, roles ->
+                roles.each {
+                    role -> permission(role, github_id)
+                }
+            }
+        }
+    }
 }

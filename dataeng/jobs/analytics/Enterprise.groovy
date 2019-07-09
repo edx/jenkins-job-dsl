@@ -5,18 +5,13 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 
 class Enterprise {
     public static def job = { dslFactory, allVars ->
         allVars.get('JOBS').each { job, job_config ->
             dslFactory.job("enterprise-$job") {
-                authorization {
-                    allVars.get('USER_ROLES').each { github_id, roles ->
-                        roles.each {
-                            permission(it, github_id)     // it is an implicit parameter corresponding to the current element
-                        }
-                    }
-                }
+                authorization common_authorization(allVars)
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, job_config)
                 parameters {
