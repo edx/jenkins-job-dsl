@@ -20,14 +20,21 @@ class VerticaToBigquerySchemaCopy {
                     stringParam('VERTICA_CREDENTIALS', schema_config.get('VERTICA_CREDENTIALS', allVars.get('VERTICA_CREDENTIALS')), 'The path to the Vertica credentials file.')
                     stringParam('GCP_CREDENTIALS', schema_config.get('GCP_CREDENTIALS', allVars.get('GCP_CREDENTIALS')), 'The path to the GCP credentials file.')
                     stringParam('EXCLUDE', schema_config.get('EXCLUDE', allVars.get('EXCLUDE')), 'as an example: --exclude [\"f_user_activity\",\"d_user_course_certificate\",\"d_user_course\"]')
-                    stringParam('RUN_DATE', schema_config.get('RUN_DATE', allVars.get('RUN_DATE')), 'Leave empty to use the current date.  Set value by: --date 2018-04-24')
+                    stringParam('RUN_DATE', schema_config.get('RUN_DATE', allVars.get('RUN_DATE', 'today')), 'Run date for the job. A string that can be parsed by the GNU coreutils "date" utility.')
                 }
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars, schema_config)
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)
                 publishers {
-                    downstream("load-vertica-$schema-schema-to-snowflake", 'SUCCESS')
+                    downstreamParameterized {
+                        trigger("load-vertica-$schema-schema-to-snowflake") {
+                            condition('SUCCESS')
+                            parameters {
+                                predefinedProp('RUN_DATE', '${RUN_DATE}')
+                            }
+                        }
+                    }
                 }
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/vertica-to-bigquery-schema-copy.sh'))

@@ -4,7 +4,7 @@ env
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  VerticaSchemaToSnowflakeTask --local-scheduler \
- ${RUN_DATE} \
+ --date $(date +%Y-%m-%d -d "$RUN_DATE") \
  ${OVERWRITE} \
  --credentials $SNOWFLAKE_CREDENTIALS \
  --warehouse $WAREHOUSE \
