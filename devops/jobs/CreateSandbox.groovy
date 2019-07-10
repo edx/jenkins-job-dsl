@@ -4,7 +4,7 @@
     to those listed in the seed job.
 
     * FOLDER_NAME: "Sandboxes"
-    * BASIC_AUTH_USER 
+    * BASIC_AUTH_USER
     * BASIC_AUTH_PASS
     * ACCESS_CONTROL: List of orgs / orgs*teams who get github access
     * CONFIGURATION_SECURE_REPO (required)
@@ -169,10 +169,6 @@ class CreateSandbox {
                 booleanParam("set_whitelabel",false,
                              "Check this in order to create a Sandbox with whitelabel themes automatically set.")
                 stringParam("themes_version","master","")
-
-                booleanParam("journals",false,"Journals service")
-                stringParam("journals_version","master","")
-
                 booleanParam("registrar",false,"Enable the Registrar service, along with the Program Manager micro-frontend")
                 stringParam("registrar_version","master","")
                 stringParam("registrar_user_email","registrar@example.com",
@@ -181,7 +177,7 @@ class CreateSandbox {
                             "Key for Organization to be created in Registrar. Must match key in Discovery catalog. Ignore this setting if Registrar is disabled.")
                 stringParam("program_manager_version","master",
                             "The repository version of the frontend-app-program-manager")
-                
+
                 booleanParam("learner_portal",false,"Learner Portal")
                 stringParam("learner_portal_version","master","The version for the frontend-app-learner-portal")
 
