@@ -17,6 +17,11 @@
 
    This job expects the sandbox-ssh-keys credential to contain an ssh key it can user
    to access any sandbox.
+
+   This job also expects sandbox-masters-automation-client-credentials
+   to be a string in the format client_id:client_secret, giving the masters sandbox
+   ansible task the ability to pull data from the production catalog API.
+
 */
 package devops.jobs
 
@@ -36,6 +41,12 @@ class UpdateMastersSandbox {
       )
 
       wrappers common_wrappers
+
+      wrappers {
+          credentialsBinding {
+              string('MASTERS_AUTOMATION_CLIENT_CREDENTIALS', 'sandbox-masters-automation-client-credentials')
+          }
+      }
 
       def access_control = extraVars.get('ACCESS_CONTROL',[])
       access_control.each { acl ->
