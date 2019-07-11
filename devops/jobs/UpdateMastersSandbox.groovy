@@ -18,8 +18,8 @@
    This job expects the sandbox-ssh-keys credential to contain an ssh key it can user
    to access any sandbox.
 
-   This job also expects sandbox-masters-automation-client-credentials
-   to be a string in the format client_id:client_secret, giving the masters sandbox
+   This job also expects the strings sandbox-masters-automation-client-id and
+   sandbox-masters-automation-client-secret to be set, giving the masters sandbox
    ansible task the ability to pull data from the production catalog API.
 
 */
@@ -44,7 +44,8 @@ class UpdateMastersSandbox {
 
       wrappers {
           credentialsBinding {
-              string('MASTERS_AUTOMATION_CLIENT_CREDENTIALS', 'sandbox-masters-automation-client-credentials')
+              string('MASTERS_AUTOMATION_CLIENT_ID', 'sandbox-masters-automation-client-id')
+              string('MASTERS_AUTOMATION_CLIENT_SECRET', 'sandbox-masters-automation-client-secret')
           }
       }
 
@@ -75,16 +76,14 @@ class UpdateMastersSandbox {
       parameters {
         stringParam("sandbox",'CHANGEME.sandbox.edx.org',
                     "DNS name of sandbox to update. The sandbox must have been built with Registrar enabled.")
-        stringParam("org_key","edX",'Key of the Organization whose catalog data will be synced with production.')
-        textParam("program_key_map",
-                  "b12075a1-a039-4983-abf8-f31f125c4695:my-groovy-program,"
-                  + "6d5989e1-70c0-475f-8e28-302bb7e1a1cd:another-groovy-program,"
-                  + "40e4b95c-ae35-4f4b-ac10-0980df5e153c:the-grooviest-program",
-                  "Mapping from program UUIDs to desired external program keys. "
-                  + "Omitted programs will have their keys default to their marketing slug, "
-                  + "as set in Discovery. "
-                  + "Separate each UUID from its external key with a colon, "
-                  + "and separate UUID-key pairs with commas."
+        textParam("program_uuids",
+                  "b12075a1-a039-4983-abf8-f31f125c4695,"
+                  + "6d5989e1-70c0-475f-8e28-302bb7e1a1cd:this-is-an-external-key,"
+                  + "40e4b95c-ae35-4f4b-ac10-0980df5e153c:and-another-external-key",
+                  "List of UUIDs for programs that will be loaded from production Discovery. "
+                  + "Separate program UUIDs with commas. "
+                  + "You may set a program's external by appending ':external_key'"
+                  + "to the UUID."
         )
       }
 

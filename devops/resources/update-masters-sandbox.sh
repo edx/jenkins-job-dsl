@@ -6,11 +6,12 @@ pip install -r requirements.txt
 
 cd playbooks
 
-PARAMS="organization_key=${org_key}"
-CREDENTIALS="client_credentials=${MASTERS_AUTOMATION_CLIENT_CREDENTIALS}"
+PARAMS="program_uuids=${program_uuids}"
+CREDENTIALS="client_id=${MASTERS_AUTOMATION_CLIENT_ID} client_secret=${MASTERS_AUTOMATION_CLIENT_SECRET}"
 MORE_VARS="give_sudo=true USER_FAIL_MISSING_KEYS=true"
 
-if [ -z "${MASTERS_AUTOMATION_CLIENT_CREDENTIALS}" ] || \
+if [ -z "${MASTERS_AUTOMATION_CLIENT_ID}" ] || \
+   [ -z "${MASTERS_AUTOMATION_CLIENT_SECRET}" ] || \
    [ -z "${SSH_USER}" ] || \
    [ -z "${USER}" ] || \
    [ "${USER}" == "jenkins" ]; \
