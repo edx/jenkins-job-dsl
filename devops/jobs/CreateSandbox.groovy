@@ -179,6 +179,9 @@ class CreateSandbox {
                             "Key for Organization to be created in Registrar. Must match key in Discovery catalog. Ignore this setting if Registrar is disabled.")
                 stringParam("program_manager_version","master",
                             "The repository version of the frontend-app-program-manager")
+                
+                booleanParam("learner_portal",false,"Learner Portal")
+                stringParam("learner_portal_version","master","The version for the frontend-app-learner-portal")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
