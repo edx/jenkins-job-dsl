@@ -28,7 +28,7 @@ catch (any) {
 
 Map publicBokchoyJobConfig = [
     open: true,
-    jobName: 'edx-platform-bokchoy-pipeline-pr',
+    jobName: 'edx-platform-bokchoy-pipeline-pr-wtw',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/bokchoy-wtw',
@@ -40,7 +40,7 @@ Map publicBokchoyJobConfig = [
 
 Map publicPythonJobConfig = [
     open: true,
-    jobName: 'edx-platform-python-pipeline-pr',
+    jobName: 'edx-platform-python-pipeline-pr-wtw',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python-wtw',
