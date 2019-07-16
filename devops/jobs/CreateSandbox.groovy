@@ -171,7 +171,7 @@ class CreateSandbox {
                 booleanParam("journals",false,"Journals service")
                 stringParam("journals_version","master","")
 
-                booleanParam("registrar",false,"Enable the Registrar service")
+                booleanParam("registrar",false,"Enable the Registrar service, along with the Program Manager micro-frontend")
                 stringParam("registrar_version","master","")
                 stringParam("registrar_user_email","registrar@example.com",
                             "Email (and username) for user to be created in Registrar. Ignore this setting if Registrar is disabled.")
