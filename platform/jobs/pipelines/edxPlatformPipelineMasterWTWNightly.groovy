@@ -10,7 +10,8 @@ Map wtwBokchoyJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    branch: 'master'
+    branch: 'master',
+    context: 'jenkins/bokchoy-contexts'
 ]
 
 Map wtwPythonJobConfig = [
@@ -19,7 +20,8 @@ Map wtwPythonJobConfig = [
     repoName: 'edx-platform',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    branch: 'master'
+    branch: 'master',
+    context: 'jenkins/python-contexts'
 ]
 
 List jobConfigs = [
@@ -38,7 +40,8 @@ jobConfigs.each { jobConfig ->
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 BRANCH_NAME: "${jobConfig.branch}",
-                PYTEST_CONTEXTS: "true"
+                PYTEST_CONTEXTS: "true",
+                GITHUB_CONTEXT: "${jobConfig.context}"
             )
 
             triggers {
