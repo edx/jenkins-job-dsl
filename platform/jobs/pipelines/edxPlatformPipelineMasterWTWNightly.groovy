@@ -35,7 +35,6 @@ jobConfigs.each { jobConfig ->
 
         definition {
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
-            label('jenkins-worker')
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 BRANCH_NAME: "${jobConfig.branch}",

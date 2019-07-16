@@ -70,7 +70,6 @@ jobConfigs.each { jobConfig ->
                 githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
             }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
-            label('jenkins-worker')
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 TOX_ENV: "${jobConfig.toxEnv}",
