@@ -11,14 +11,11 @@ CREDENTIALS="client_id=${MASTERS_AUTOMATION_CLIENT_ID} client_secret=${MASTERS_A
 MORE_VARS="give_sudo=true USER_FAIL_MISSING_KEYS=true"
 
 if [ -z "${MASTERS_AUTOMATION_CLIENT_ID}" ] || \
-   [ -z "${MASTERS_AUTOMATION_CLIENT_SECRET}" ] || \
-   [ -z "${SSH_USER}" ] || \
-   [ -z "${USER}" ] || \
-   [ "${USER}" == "jenkins" ]; \
+   [ -z "${MASTERS_AUTOMATION_CLIENT_SECRET}" ]; \
 then
    exit 1
 else
-   ansible-playbook --user ${SSH_USER} \
+   ansible-playbook --user ubuntu \
                     -i "$sandbox," \
                     -e "${PARAMS} ${CREDENTIALS} ${MORE_VARS}" \
                     masters_sandbox_update.yml

@@ -13,7 +13,6 @@
 
    * FOLDER_NAME: "Sandboxes"
    * ACCESS_CONTROL: List of org or org*team from GitHub who get access to the jobs
-   * SSH_USER: ssh username that we can use to access the sandbox and sudo to add a user
 
    This job expects the sandbox-ssh-keys credential to contain an ssh key it can user
    to access any sandbox.
@@ -98,10 +97,6 @@ class UpdateMastersSandbox {
 
       wrappers {
         sshAgent('sandbox-ssh-keys')
-      }
-
-      environmentVariables {
-        env('SSH_USER',extraVars.get('SSH_USER','ubuntu'))
       }
 
       steps {
