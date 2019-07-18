@@ -73,8 +73,10 @@ class UpdateMastersSandbox {
       }
 
       parameters {
-        stringParam("sandbox",'CHANGEME.sandbox.edx.org',
-                    "DNS name of sandbox to update. The sandbox must have been built with Registrar enabled.")
+        stringParam("dns_name","univ-of-change-me",
+                    "DNS name of sandbox to update. The sandbox must have been built with Registrar enabled. "
+                    + "Example: if your sandbox is unseen.sandbox.edx.org, enter 'unseen' here."
+        )
         textParam("program_uuids",
                   "b12075a1-a039-4983-abf8-f31f125c4695,"
                   + "6d5989e1-70c0-475f-8e28-302bb7e1a1cd:this-is-an-external-key,"
