@@ -86,6 +86,10 @@ class AnalyticsConstants {
             stringParam('TASK_USER', allVars.get('TASK_USER'), 'User which runs the analytics task on the EMR cluster.')
             booleanParam('TERMINATE', true, 'Terminate the EMR cluster after running the analytics task?')
             stringParam('EXTRA_ARGS', env.get('EXTRA_ARGS', allVars.get('EXTRA_ARGS', '')), 'Extra arguments that will be passed to tasks.')
+            stringParam('PYTHON_VERSION',
+                        env.get('PYTHON_VERSION',
+                        allVars.get('PYTHON_VERSION')),
+                        'Path to a specific python interpreter inside the EMR cluster that will be used to run pipelines tasks.')
         }
         // secure_scm_parameters provides variables required by run-automated-task.sh.
         return parameters >> AnalyticsConstants.secure_scm_parameters(allVars) >> AnalyticsConstants.emr_cluster_parameters(allVars, env)
