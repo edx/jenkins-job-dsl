@@ -55,12 +55,12 @@ Map publicBokchoyPython3JobConfig = [
     jobName : 'edx-platform-python3-bokchoy-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/py36-django111.5/bokchoy',
+    context: 'jenkins/py35-django111.5/bokchoy',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+py36-django111\W+bokchoy.*/,
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    toxEnv: 'py36-django111'
+    toxEnv: 'py35-django111'
 ]
 
 Map publicBokchoyIronwoodJobConfig = [
@@ -140,10 +140,10 @@ Map publicPythonPython3JobConfig = [
     jobName: 'edx-platform-python3-python-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/py36-django111.5/python',
+    context: 'jenkins/py35-django111.5/python',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+py36-django111\W+python.*/,
-    toxEnv: 'py36-django111',
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+python.*/,
+    toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python'
 ]
@@ -201,10 +201,10 @@ Map publicQualityPython3JobConfig = [
     jobName : 'edx-platform-python3-quality-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/py36-django111/quality',
+    context: 'jenkins/py35-django111/quality',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+py36-django111\W+quality.*/,
-    toxEnv: 'py36-django111',
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+quality.*/,
+    toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality'
 ]
