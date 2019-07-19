@@ -55,7 +55,7 @@ class CreateSandbox {
             }
 
             logRotator {
-                daysToKeep(5)
+                daysToKeep(30)
             }
 
             multiscm {
