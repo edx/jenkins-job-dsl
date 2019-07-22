@@ -23,7 +23,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 class CreateSandboxCI {
   public static def jobs = { dslFactory, extraVars ->
 
-    ["Hourly","Daily"].each { type ->
+    ["Hourly","Daily", "MastersWeekly"].each { type ->
       dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/SandboxCI" + type) {
         wrappers common_wrappers
         logRotator common_logrotator
@@ -52,20 +52,70 @@ class CreateSandboxCI {
                 booleanParam('VERBOSE',true)
                 // Once we resolve the mismatched Elastic Search versions, enable discovery
                 //booleanParam('course_discovery',true)
-                if (type == 'Daily') {
-                  predefinedProp('server_type', 'full_edx_installation_from_scratch')
-                  predefinedProp('dns_name','int-nightly')
-                  predefinedProp('name_tag','continuous-integration-nightly')
-                } else {
+                if (type == 'Hourly') {
                   predefinedProp('dns_name','int')
                   booleanParam('reconfigure',true)
                   booleanParam('recreate',false)
                   predefinedProp('name_tag','continuous-integration')
                   booleanParam('ecommerce_worker',true)
                   booleanParam('credentials',true)
+                } else if (type == 'Daily') {
+                  predefinedProp('server_type', 'full_edx_installation_from_scratch')
+                  predefinedProp('dns_name','int-nightly')
+                  predefinedProp('name_tag','continuous-integration-nightly')
+
+                // Masters integration environment weekly CI.
+                // Monitored by Registrar supporting team:
+                // https://github.com/edx/registrar/blob/master/openedx.yaml
+                } else if (type == 'MastersWeekly') {
+                  predefinedProp('dns_name','masters-weekly')
+                  predefinedProp('name_tag','masters-weekly')
+
+                  // Define to 30 because:
+                  // * This will be re-built every week anyway
+                  // * We want real Masters integration boxes to be able to use
+                  //   these parameters as defaults.
+                  predefinedProp('sandbox_life','30')
+
+                  // Explicitly define required services, even those with
+                  // acceptable defaults, in case the defaults change.
+                  // We want this build to be as consistent as possible.
+                  booleanParam("edxapp",true)
+                  booleanParam("ecommerce",true)
+                  booleanParam("discovery",true)
+                  booleanParam("registrar",true)
+                  booleanParam("learner_portal",true)
+                  booleanParam('testcourses',false)
+                  booleanParam('performance_course',false)
+                  booleanParam("demo_test_course",false)
+                  booleanParam("edx_demo_course",false)
+                  booleanParam("forum",false)
+                  booleanParam("notifier",false)
+                  booleanParam("xqueue",false)
+                  booleanParam("ecommerce_worker",false)
+                  booleanParam("certs",false)
+                  booleanParam("analyticsapi",false)
+                  booleanParam("insights",false)
+                  booleanParam("demo",false)
+                  booleanParam("credentials",false)
+                  booleanParam("set_whitelabel",false)
+                  booleanParam("journals",false)
+                  booleanParam("video_pipeline",false)
+                  booleanParam("video_encode_worker",false)
                 }
               }
             }
+            if (type == 'MastersWeekly') {
+              trigger(extraVars.get("FOLDER_NAME","Sandboxes") + "/UpdateMastersSandbox") {
+                block {
+                  buildStepFailure('FAILURE')
+                  failure('FAILURE')
+                  unstable('UNSTABLE')
+                }
+                parameters {
+                  predefinedProp('dns_name','masters-weekly')
+                }
+              }
           }
           shell('curl '+extraVars.get(type.toUpperCase()+"_SNITCH"))
         }

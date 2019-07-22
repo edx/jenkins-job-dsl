@@ -78,9 +78,7 @@ class UpdateMastersSandbox {
                     + "Example: if your sandbox is unseen.sandbox.edx.org, enter 'unseen' here."
         )
         textParam("program_uuids",
-                  "b12075a1-a039-4983-abf8-f31f125c4695,"
-                  + "6d5989e1-70c0-475f-8e28-302bb7e1a1cd:this-is-an-external-key,"
-                  + "40e4b95c-ae35-4f4b-ac10-0980df5e153c:and-another-external-key",
+                  "ef82b8e2-49ed-45b0-982d-c836deef507b:special-masters",
                   "List of UUIDs for programs that will be loaded from production Discovery. "
                   + "Separate program UUIDs with commas. "
                   + "You may set a program's external by appending ':external_key'"
