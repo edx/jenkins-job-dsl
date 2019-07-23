@@ -23,7 +23,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 class CreateSandboxCI {
   public static def jobs = { dslFactory, extraVars ->
 
-    ["Hourly","Daily", "MastersWeekly"].each { type ->
+    ["Hourly", "Daily", "MastersWeekly"].each { type ->
       dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/SandboxCI" + type) {
         wrappers common_wrappers
         logRotator common_logrotator
@@ -116,6 +116,7 @@ class CreateSandboxCI {
                   predefinedProp('dns_name','masters-weekly')
                 }
               }
+            }
           }
           shell('curl '+extraVars.get(type.toUpperCase()+"_SNITCH"))
         }
