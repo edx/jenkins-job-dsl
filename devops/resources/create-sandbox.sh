@@ -1,8 +1,5 @@
 #!/bin/bash
 
-env
-exit 0
-
 set -ex
 cd configuration
 pip install -r requirements.txt

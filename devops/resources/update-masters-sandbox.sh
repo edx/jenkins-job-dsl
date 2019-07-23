@@ -1,7 +1,4 @@
 
-env
-exit 0
-
 set -xe
 
 pip install --upgrade pip
