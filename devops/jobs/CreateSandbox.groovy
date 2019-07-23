@@ -37,7 +37,7 @@ class CreateSandbox {
                 buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
             }
 
-            def access_control = extraVars.get('ACCESS_CONTROL',[])
+            /*def access_control = extraVars.get('ACCESS_CONTROL',[])
             access_control.each { acl ->
                 common_read_permissions.each { perm ->
                     authorization {
@@ -94,7 +94,7 @@ class CreateSandbox {
                         relativeTargetDirectory('configuration-internal')
                     }
                 }
-            }
+            }*/
 
 
 

@@ -40,7 +40,7 @@ class UpdateMastersSandbox {
       )
 
       wrappers common_wrappers
-
+      /*
       wrappers {
           credentialsBinding {
               string('MASTERS_AUTOMATION_CLIENT_ID', 'sandbox-masters-automation-client-id')
@@ -71,7 +71,7 @@ class UpdateMastersSandbox {
           }
         }
       }
-
+      */
       parameters {
         stringParam("dns_name","univ-of-change-me",
                     "DNS name of sandbox to update. The sandbox must have been built with Registrar enabled. "
@@ -94,10 +94,11 @@ class UpdateMastersSandbox {
       }
 
       concurrentBuild()
-
+      /*
       wrappers {
         sshAgent('sandbox-ssh-keys')
       }
+      */
 
       steps {
         virtualenv {
