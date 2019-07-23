@@ -105,7 +105,9 @@ class CreateSandboxCI {
                 }
               }
             }
-            if (type == 'MastersWeekly') {
+          }
+          if (type == 'MastersWeekly') {
+            downstreamParameterized {
               trigger(extraVars.get("FOLDER_NAME","Sandboxes") + "/UpdateMastersSandbox") {
                 block {
                   buildStepFailure('FAILURE')
