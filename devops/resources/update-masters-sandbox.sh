@@ -1,6 +1,6 @@
 
 env
-exit 0
+exit 1
 
 set -xe
 
