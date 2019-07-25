@@ -47,15 +47,16 @@ are NOT using the Git plugin here.)
     3. Repeat for jenkins-job-dsl and edx-internal (and possibly edge-internal).
     4. For each repository add an additional behaviour and check them out into a subdirectory of the same name i.e. jenkins-job-dsl-internal
        EXCEPT for jenkins-job-dsl, do not check this out into a subdirectory.
-4. Add a **Invoke Gradle scrip** job
+4. Add a **Invoke Gradle script** build step
     1. Select Use Graddle Wrapper
     1. check 'Make gradlew executable'
     2. check 'From Root Build Script Dir'
     3. tasks: 'clean libs'
 5. Add a **Process Job DSLs** build step and configure it using the settings below. Remember to click the *Advanced*
 button to expose the final fields.
-    1. DSL Scripts: jenkins-job-dsl-internal/jobs/tools-edx-jenkins.edx.org/createMonitoringJobs.groovy
-       if you wanted to create an entry for monitoring jobs (You may need to change this to your particular seeding job)
+    1. DSL Scripts: The path to your seed job DSL script.
+       For example, `jenkins-job-dsl-internal/jobs/tools-edx-jenkins.edx.org/createSandboxJobs.groovy`
+       if you wanted to create an entry for sandbox jobs.
     2. Action for existing jobs and views: Unchecked
     3. Action for removed jobs: Delete
     4. Action for removed views: Ignore
@@ -63,7 +64,11 @@ button to expose the final fields.
     6. Additional classpath: Click on the down-arrow to get a text box and enter the classpath specified by your seed job.
     7. Fail build if a plugin must be installed or update: checked
     8. Mark build as unstable when using deprecated features: checked
-4. Save the job, and Build it with Parameters.
+6. Look at the docstring of seed job script that you referenced in the previous step,
+   and follow any additional steps it specifies.
+   For example, `createSandboxJobs.groovy` requires you to modify the **Additional Classpath**
+   setting.
+7. Save the job, and Build it with Parameters.
 
 ### Common Problems
 
@@ -74,7 +79,7 @@ button to expose the final fields.
        import org.yaml.snakeyaml.error.YAMLException
        ^
 
-Under advanced (On the far right of the UI) for 'Process Job DSLs' you need to add the valid groovy class path that is required to locate your groovy files.. this is new line delimited, and might look like the following:
+Under advanced (On the far right of the UI) for 'Process Job DSLs' you need to add the valid groovy class path that is required to locate your groovy files. It is new line delimited, and might look like the following:
 
     jenkins-job-dsl-internal/src/main/groovy/
     jenkins-job-dsl-internal/lib/*.jar
