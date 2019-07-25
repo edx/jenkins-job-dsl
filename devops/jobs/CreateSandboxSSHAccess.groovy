@@ -70,7 +70,7 @@ class CreateSandboxSSHAccess {
         sshAgent('sandbox-ssh-keys')
       }
 
-      authenticationToken(extraVars.get('JENKINS_SANDBOX_JOB_KEY', 'S@nD80%'))
+      authenticationToken(extraVars.get('JENKINS_SANDBOX_JOB_KEY'))
 
       environmentVariables {
         env('SSH_USER',extraVars.get('SSH_USER','ubuntu'))
