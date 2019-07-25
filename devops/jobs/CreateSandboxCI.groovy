@@ -1,18 +1,17 @@
 /*
-   This create a SandboxCIHourly and SandboxCIDaily job that run the CreateSandbox job,
-   targetting an int and int-nightly sandbox for testing.  It's assumed you will seed this
-   at the same time you seed CreateSandbox, since any interface changes will require updating
-   these jobs.
+   This creates a SandboxCIHourly, SandboxCIDaily, and SandboxCIMastersWeekly job
+   that runs the CreateSandbox job, targeting an int, int-nightly, and masters-weekly sandbox for testing.
+   It's assumed you will seed this at the same time you seed CreateSandbox,
+   since any interface changes will require updating these jobs.
 
    Variables consumed from the EXTRA_VARS input to your seed job in addition
    to those listed in the seed job.
 
    * FOLDER_NAME: "Sandboxes"
    * ACCESS_CONTROL: List of org or org*team from GitHub who get access to the jobs
-   * HOURLY_SNITCH: URL of the snitch for the hourly CI job
-   * DAILY_SNITCH: UTL of the snitch for the daily CI job
+   * {DAILY,HOURLY,MASTERSWEEKLY}_SNITCH: URLs of the snitches for each job
+   * {DAILY,HOURLY,MASTERSWEEKLY}_SCHEDULE: When to run jobs, cron-formatted.
    * NOTIFY_ON_FAILURE: email address for failures
-
 */
 package devops.jobs
 
