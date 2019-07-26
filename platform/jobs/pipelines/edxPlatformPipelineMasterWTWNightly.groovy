@@ -40,7 +40,7 @@ jobConfigs.each { jobConfig ->
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 BRANCH_NAME: "${jobConfig.branch}",
-                PYTEST_CONTEXTS: "true",
+                COLLECT_WHO_TESTS_WHAT: "true",
                 GITHUB_CONTEXT: "${jobConfig.context}"
             )
 
