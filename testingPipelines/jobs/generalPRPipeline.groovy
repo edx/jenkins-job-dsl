@@ -24,20 +24,39 @@ catch (any) {
     return 1
 }
 
-Map codejailJobConfig = [
+Map codejail27JobConfig = [
     open: true,
-    jobName: 'codejail-pr',
+    jobName: 'codejail-python-2-pr',
     repoName: 'codejail',
-    context: 'jenkins',
+    context: 'jenkins/python2',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run.*/,
+    triggerPhrase: /.*jenkins\W+test\W+python\W+2.*/,
     jenkinsFileDir: '.',
-    jenkinsFileName: 'Jenkinsfile'
+    jenkinsFileName: 'Jenkinsfile',
+    environmentVariables: [
+        'TOX_ENV': 'py27',
+        'PYTHON_VERSION': '2.7'
+    ]
 ]
 
+Map codejail35JobConfig = [
+    open: true,
+    jobName: 'codejail-python-3-pr',
+    repoName: 'codejail',
+    context: 'jenkins/python3',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+test\W+python\W+3.*/,
+    jenkinsFileDir: '.',
+    jenkinsFileName: 'Jenkinsfile',
+    environmentVariables: [
+        'TOX_ENV': 'py35',
+        'PYTHON_VERSION': '3.5'
+    ]
+]
 
 List jobConfigs = [
-    codejailJobConfig
+    codejail27JobConfig,
+    codejail35JobConfig
 ]
 
 /* Iterate over the job configurations */
@@ -55,6 +74,8 @@ jobConfigs.each { jobConfig ->
                 githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
             }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
+            environmentVariables jobConfig.environmentVariables
+            
 
             triggers {
                 githubPullRequest {
