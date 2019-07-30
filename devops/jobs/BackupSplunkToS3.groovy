@@ -42,7 +42,7 @@ class BackupSplunkToS3{
                 env("s3_bucket", extraVars.get("S3_BUCKET"))
                 env("host_ip", extraVars.get("HOST_IP"))
                 env("splunk_host", extraVars.get("SPLUNK_HOST"))
-                env("splunk_backup_dir", extraVars.get("SPLUNK_BACKUP_DIR:"))
+                env("splunk_backup_dir", extraVars.get("SPLUNK_BACKUP_DIR"))
             }
 
             steps {
