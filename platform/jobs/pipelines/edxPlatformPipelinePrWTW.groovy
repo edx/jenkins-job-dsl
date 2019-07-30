@@ -73,7 +73,7 @@ jobConfigs.each { jobConfig ->
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 TOX_ENV: "${jobConfig.toxEnv}",
-                WHO_TESTS_WHAT: "true"
+                FILTER_WHO_TESTS_WHAT: "true"
             )
 
             triggers {
