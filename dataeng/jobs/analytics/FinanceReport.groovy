@@ -27,6 +27,8 @@ class FinanceReport {
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters {
+                // Override EMR_RELEASE_LABEL for this job.
+                stringParam('EMR_RELEASE_LABEL', allVars.get('EMR_RELEASE_LABEL'))
                 stringParam('MERCHANT_ID', allVars.get('MERCHANT_ID'))
                 stringParam('OUTPUT_ROOT', allVars.get('OUTPUT_ROOT'))
                 stringParam('RUN_DATE', allVars.get('RUN_DATE'))
