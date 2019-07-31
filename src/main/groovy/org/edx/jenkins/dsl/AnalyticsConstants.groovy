@@ -81,7 +81,7 @@ class AnalyticsConstants {
             stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
             stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             stringParam('SECURE_CONFIG', env.get('SECURE_CONFIG', allVars.get('SECURE_CONFIG', 'analytics-tasks/prod-edx.cfg')), '')
-            stringParam('TASKS_BRANCH', '$ANALYTICS_PIPELINE_RELEASE', 'e.g. tagname or origin/branchname,  e.g. origin/master or $ANALYTICS_PIPELINE_RELEASE')
+            stringParam('TASKS_BRANCH', allVars.get('TASKS_BRANCH', '$ANALYTICS_PIPELINE_RELEASE'), 'e.g. tagname or origin/branchname,  e.g. origin/master or $ANALYTICS_PIPELINE_RELEASE')
             stringParam('TASKS_REPO', 'https://github.com/edx/edx-analytics-pipeline.git', 'Git repo containing the analytics pipeline tasks.')
             stringParam('TASK_USER', allVars.get('TASK_USER'), 'User which runs the analytics task on the EMR cluster.')
             booleanParam('TERMINATE', true, 'Terminate the EMR cluster after running the analytics task?')
@@ -114,7 +114,7 @@ This text may reference other parameters in the task as shell variables, e.g.  $
     // Include this whenever secure_scm() is used, or when run-automated-task.sh is executed in a shell command.
     public static def secure_scm_parameters = { allVars ->
         return {
-            stringParam('SECURE_BRANCH', '$ANALYTICS_SECURE_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_SECURE_RELEASE when released.')
+            stringParam('SECURE_BRANCH', allVars.get('SECURE_BRANCH', '$ANALYTICS_SECURE_RELEASE'), 'e.g. tagname or origin/branchname, or $ANALYTICS_SECURE_RELEASE when released.')
             stringParam('SECURE_REPO', allVars.get('SECURE_REPO_URL'), '')
         }
     }

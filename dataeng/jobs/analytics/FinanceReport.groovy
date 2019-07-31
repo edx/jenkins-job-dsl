@@ -22,6 +22,30 @@ class FinanceReport {
         }
     }
 
+    public static def cybersource_pull_job = { dslFactory, allVars ->
+        dslFactory.job("cybersource-pull") {
+            logRotator common_log_rotator(allVars)
+            parameters common_parameters(allVars)
+            parameters {
+                // Override EMR_RELEASE_LABEL for this job.
+                stringParam('EMR_RELEASE_LABEL', allVars.get('EMR_RELEASE_LABEL'))
+                stringParam('MERCHANT_ID', allVars.get('MERCHANT_ID'))
+                stringParam('OUTPUT_ROOT', allVars.get('OUTPUT_ROOT'))
+                stringParam('RUN_DATE', allVars.get('RUN_DATE'))
+            }
+            multiscm common_multiscm(allVars)
+            triggers common_triggers(allVars)
+            wrappers common_wrappers(allVars)
+            publishers common_publishers(allVars)
+            publishers {
+                downstream("finance-report", 'SUCCESS')
+            }
+            steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/cybersource-pull.sh'))
+            }
+        }
+    }
+
     public static def finance_report_job = { dslFactory, allVars ->
         dslFactory.job("finance-report") {
             logRotator common_log_rotator(allVars)
@@ -31,7 +55,6 @@ class FinanceReport {
                 stringParam('OUTPUT_SCHEMA', 'finance', '')
             }
             multiscm common_multiscm(allVars)
-            triggers common_triggers(allVars)
             wrappers common_wrappers(allVars)
             publishers common_publishers(allVars)
             publishers {
