@@ -31,7 +31,8 @@ class VerticaToBigquerySchemaCopy {
                         trigger("load-vertica-$schema-schema-to-snowflake") {
                             condition('SUCCESS')
                             parameters {
-                                predefinedProp('RUN_DATE', '${RUN_DATE}')
+                                // The contents of this file are generated as part of the script in the build step.
+                                propertiesFile('${WORKSPACE}/downstream.properties')
                             }
                         }
                     }
