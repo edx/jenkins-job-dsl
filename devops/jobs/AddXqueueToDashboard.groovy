@@ -43,7 +43,7 @@ class AddXqueueToDashboard {
 
                     wrappers {
                         credentialsBinding {
-                            def variable = "redis-monitoring-${deployment}-role-arn"
+                            def variable = "update-xqueue-dashboard-edx-role-arn"
                             string('ROLE_ARN', variable)
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         }
@@ -56,10 +56,10 @@ class AddXqueueToDashboard {
                     extraVars['CONFIGURATION_SECURE_REPO'] = config_secure_repo
 
                     if (environment == 'prod'){
-                         extraVars['NOTIFY_ON_FAILURE'] = 'aali@edx.org'
+                         extraVars['NOTIFY_ON_FAILURE'] = 'devops@edx.org'
                     }
                     else{
-                        extraVars['NOTIFY_ON_FAILURE'] = 'aali@edx.org'
+                        extraVars['NOTIFY_ON_FAILURE'] = 'devops+non-critical@edx.org'
                     }
 
                     properties {
