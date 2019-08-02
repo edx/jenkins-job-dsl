@@ -31,7 +31,7 @@ class CheckPrimaryKeys {
                     }
 
                     triggers {
-                        cron("H H H * *")
+                        cron("H H * * 1")
                     }
 
                     def rdsignore = ""
