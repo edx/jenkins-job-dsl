@@ -105,7 +105,8 @@ class CreateSandbox {
                          One reason you might want to override this field is if you are building a sandbox for review or a specific task. \
                          If setting this, you probably want to also set name_tag below. \
                          For example, if you are building a sandbox for pull request 1234 put in 'pr1234' which will setup the sandbox <i>pr1234.sandbox.edx.org</i>.<br /> \
-                         <b>If you are building a sandbox for yourself leave this blank</b><b>Do not use underscores</b>")
+                         <b>If you are building a sandbox for yourself leave this blank.</b> <br /> \
+                         <b>Do not use hyphens or underscores</b>.")
                 stringParam("name_tag","",
                         "This name tag uniquely identifies your sandbox.  <b>If a box already exists with this name tag, it will be terminated.</b><br /> \
                          If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag.")
