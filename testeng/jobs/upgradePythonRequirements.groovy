@@ -46,6 +46,15 @@ Map courseDiscovery = [
     emails: ['mterry@edx.org', 'testeng@edx.org']
 ]
 
+Map credentials = [
+    org: 'edx',
+    repoName: 'credentials',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['masters-neem'],
+    emails: ['masters-neem@edx.org']
+]
+
 Map devstack = [
     org: 'edx',
     repoName: 'devstack',
@@ -118,6 +127,15 @@ Map opaqueKeys = [
     emails: ['testeng@edx.org']
 ]
 
+Map registrar = [
+    org: 'edx',
+    repoName: 'registrar',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['masters-neem'],
+    emails: ['masters-neem@edx.org']
+]
+
 Map testengCI = [
     org: 'edx',
     repoName: 'testeng-ci',
@@ -142,6 +160,7 @@ List jobConfigs = [
     completion,
     cookiecutterDjangoApp,
     courseDiscovery,
+    credentials,
     devstack,
     djangoConfigModels,
     djangoUserTasks,
@@ -150,6 +169,7 @@ List jobConfigs = [
     edxPlatform,
     edxProctoring,
     opaqueKeys,
+    registrar,
     testengCI,
     xblock,
 ]
