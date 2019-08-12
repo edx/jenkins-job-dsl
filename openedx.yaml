@@ -1,6 +1,9 @@
 # This file describes this Open edX repo, as described in OEP-2:
 # https://open-edx-proposals.readthedocs.io/en/latest/oep-0002-bp-repo-metadata.html#specification
-
-oeps: {}
-owner: edx/testeng
+owner: jdmulloy
+supporting_teams:
+    - edx/devops
+    - edx/testeng
+oeps:
+  oep-2: true
 tags: [tools]
