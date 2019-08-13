@@ -1,6 +1,6 @@
 sudo: false
 language: groovy
-jdk: oraclejdk8
+jdk: oraclejdk9
 script:
     - export CI_SYSTEM='travis'
     - ./gradlew check --stacktrace --info
