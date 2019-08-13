@@ -148,7 +148,3 @@ test {
     inputs.files sourceSets.jobs.groovy.srcDirs
     systemProperty 'buildDirectory', project.buildDir.absolutePath
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '5.1.1'
-}
