@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/edx/jenkins-job-dsl.svg?branch=master)](https://travis-ci.org/edx/jenkins-job-dsl)
+
 # jenkins-job-dsl
 
 ## File structure
