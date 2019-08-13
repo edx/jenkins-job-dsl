@@ -118,6 +118,15 @@ Map edxProctoring = [
     emails: ['feanil@edx.org', 'testeng@edx.org', 'masters-dahlia@edx.org']
 ]
 
+Map edxSphinxTheme = [
+    org: 'edx',
+    repoName: 'edx-sphinx-theme',
+    cronValue: '@weekly',
+    githubUserReviewers: ['jmbowman'],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
+]
+
 Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
@@ -168,6 +177,7 @@ List jobConfigs = [
     edxOrganizations,
     edxPlatform,
     edxProctoring,
+    edxSphinxTheme,
     opaqueKeys,
     registrar,
     testengCI,
