@@ -37,6 +37,15 @@ Map cookiecutterDjangoApp = [
     emails: ['testeng@edx.org']
 ]
 
+Map cookiecutterDjangoIda = [
+    org: 'edx',
+    repoName: 'cookiecutter-django-ida',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
+]
+
 Map courseDiscovery = [
     org: 'edx',
     repoName: 'course-discovery',
@@ -168,6 +177,7 @@ List jobConfigs = [
     bokchoy,
     completion,
     cookiecutterDjangoApp,
+    cookiecutterDjangoIda,
     courseDiscovery,
     credentials,
     devstack,
