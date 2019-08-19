@@ -60,7 +60,8 @@ Map publicBokchoyPython3JobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    toxEnv: 'py35-django111'
+    toxEnv: 'py35-django111',
+    pythonVersion: '3.5'
 ]
 
 Map publicBokchoyIronwoodJobConfig = [
@@ -145,7 +146,8 @@ Map publicPythonPython3JobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+python.*/,
     toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python'
+    jenkinsFileName: 'python',
+    pythonVersion: '3.5'
 ]
 
 Map publicPythonIronwoodJobConfig = [
@@ -206,7 +208,8 @@ Map publicQualityPython3JobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+quality.*/,
     toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality'
+    jenkinsFileName: 'quality',
+    pythonVersion: '3.5'
 ]
 
 Map publicQualityIronwoodJobConfig = [
@@ -271,6 +274,7 @@ jobConfigs.each { jobConfig ->
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 TOX_ENV: "${jobConfig.toxEnv}"
+                PYTHON_VERSION: "${jobConfig.pythonVersion}"
             )
 
             triggers {
