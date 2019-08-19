@@ -273,7 +273,7 @@ jobConfigs.each { jobConfig ->
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
-                TOX_ENV: "${jobConfig.toxEnv}"
+                TOX_ENV: "${jobConfig.toxEnv}",
                 PYTHON_VERSION: "${jobConfig.pythonVersion}"
             )
 
