@@ -4,6 +4,7 @@ package testeng
 // Map exampleConfig = [
 //     org: Github organization,
 //     repoName: Github repository,
+//     pythonVersion: The version of python under which to run pip-compile.  If multiple versions are supported by the repo, use the oldest one
 //     cronValue: How often to run the job,
 //     githubUserReviewers: List of Github users that should be tagged on PR's, e.g.: ['user1', 'user2']
 //     githubTeamReviewers: List of Github teams that should be tagged on PR's, e.g.: ['team1']
@@ -13,6 +14,7 @@ package testeng
 Map bokchoy = [
     org: 'edx',
     repoName: 'bok-choy',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['testeng'],
@@ -22,6 +24,7 @@ Map bokchoy = [
 Map completion = [
     org: 'edx',
     repoName: 'completion',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['testeng'],
@@ -31,6 +34,7 @@ Map completion = [
 Map cookiecutterDjangoApp = [
     org: 'edx',
     repoName: 'cookiecutter-django-app',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['testeng'],
@@ -40,6 +44,7 @@ Map cookiecutterDjangoApp = [
 Map courseDiscovery = [
     org: 'edx',
     repoName: 'course-discovery',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: ['mikix'],
     githubTeamReviewers: ['testeng'],
@@ -49,6 +54,7 @@ Map courseDiscovery = [
 Map credentials = [
     org: 'edx',
     repoName: 'credentials',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-neem'],
@@ -58,6 +64,7 @@ Map credentials = [
 Map devstack = [
     org: 'edx',
     repoName: 'devstack',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['testeng'],
@@ -67,6 +74,7 @@ Map devstack = [
 Map djangoConfigModels = [
     org: 'edx',
     repoName: 'django-config-models',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['testeng'],
@@ -76,6 +84,7 @@ Map djangoConfigModels = [
 Map djangoUserTasks = [
     org: 'edx',
     repoName: 'django-user-tasks',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['jmbowman'],
     githubTeamReviewers: ['testeng'],
@@ -85,6 +94,7 @@ Map djangoUserTasks = [
 Map ecommerce = [
     org: 'edx',
     repoName: 'ecommerce',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['testeng', 'edx/rev-team'],
@@ -94,6 +104,7 @@ Map ecommerce = [
 Map edxOrganizations = [
     org: 'edx',
     repoName: 'edx-organizations',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['testeng'],
@@ -103,6 +114,7 @@ Map edxOrganizations = [
 Map edxPlatform = [
     org: 'edx',
     repoName: 'edx-platform',
+    pythonVersion: '2.7',
     cronValue: '@daily',
     githubUserReviewers: [],
     githubTeamReviewers: ['platform-core', 'testeng'],
@@ -112,6 +124,7 @@ Map edxPlatform = [
 Map edxProctoring = [
     org: 'edx',
     repoName: 'edx-proctoring',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['testeng', 'Masters-dahlia'],
@@ -121,6 +134,7 @@ Map edxProctoring = [
 Map edxSphinxTheme = [
     org: 'edx',
     repoName: 'edx-sphinx-theme',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['jmbowman'],
     githubTeamReviewers: ['testeng'],
@@ -130,6 +144,7 @@ Map edxSphinxTheme = [
 Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core'],
@@ -139,6 +154,7 @@ Map opaqueKeys = [
 Map registrar = [
     org: 'edx',
     repoName: 'registrar',
+    pythonVersion: '3.6',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-neem'],
@@ -148,6 +164,7 @@ Map registrar = [
 Map testengCI = [
     org: 'edx',
     repoName: 'testeng-ci',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['testeng'],
@@ -157,6 +174,7 @@ Map testengCI = [
 Map xblock = [
     org: 'edx',
     repoName: 'XBlock',
+    pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core'],
@@ -197,6 +215,7 @@ jobConfigs.each { jobConfig ->
         environmentVariables(
             REPO_NAME: jobConfig.repoName,
             ORG: jobConfig.org,
+            PYTHON_VERSION: jobConfig.pythonVersion,
             PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(","),
             PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(",")
         )

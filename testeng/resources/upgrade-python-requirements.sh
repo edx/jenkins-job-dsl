@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-virtualenv upgrade_venv -q
+rm -rf upgrade_venv
+virtualenv --python=python$PYTHON_VERSION upgrade_venv -q
 source upgrade_venv/bin/activate
 
 echo "Getting current sha..."
