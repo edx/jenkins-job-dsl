@@ -15,8 +15,8 @@ make upgrade
 echo "Running script to create PR..."
 cd ../testeng-ci
 pip install -r requirements/base.txt
-cd jenkins
-python upgrade_python_requirements.py --sha=$CURRENT_SHA --repo_root="../../$REPO_NAME" --org=$ORG --user_reviewers=$PR_USER_REVIEWERS --team_reviewers=$PR_TEAM_REVIEWERS
+python -m jenkins.upgrade_python_requirements --sha=$CURRENT_SHA --repo_root="../$REPO_NAME" --org=$ORG --user_reviewers=$PR_USER_REVIEWERS --team_reviewers=$PR_TEAM_REVIEWERS
 
 deactivate
+cd ..
 rm -rf upgrade_venv
