@@ -4,8 +4,8 @@
  Variables consumed for this job:
     * DEPLOYMENTS (required)
         - deployment
-    * FROM_ADDRESS: email address to send notifications that certificates are expiring
-    * TO_ADDRESS: email address that sends the mail
+    * FROM_ADDRESS: email address that sends the mail
+    * TO_ADDRESS: email address to send notifications that certificates are expiring
     * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
     * SYSADMIN_REPO: repository containing SSL expiration check python script (required)
     * SYSADMIN_BRANCH: default is master
