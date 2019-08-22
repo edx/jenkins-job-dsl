@@ -10,4 +10,10 @@ set +x
 assume-role ${ROLE_ARN}
 set -x
 
-python missing_alerts_checker.py --new-relic-api-key ${NEW_RELIC_API_KEY}
+# Set IGNORE_LIST if not set in job, need because we're setting -u
+# Otherwise we get an error "IGNORE_LIST: unbound variable"
+if [[ ! -v IGNORE_LIST ]]; then
+    IGNORE_LIST=""
+fi
+
+python missing_alerts_checker.py --new-relic-api-key ${NEW_RELIC_API_KEY} ${IGNORE_LIST}
