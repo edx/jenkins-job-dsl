@@ -29,8 +29,14 @@ class  MissingNewRelicAlerts {
                         cron("H 0 * * 0")
                     }
 
+                    def ignore_list = ""
+                    extraVars.get('IGNORE_LIST').each { ignore ->
+                        ignore_list = "${ignore_list}-i ${ignore} "
+                    }
+
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
+                        env('IGNORE_LIST', ignore_list)
                     }
 
                     multiscm {
@@ -48,6 +54,7 @@ class  MissingNewRelicAlerts {
                     }
                     steps {
                         virtualenv {
+                            pythonName('System-CPython-3.6')
                             nature("shell")
                             systemSitePackages(false)
 
