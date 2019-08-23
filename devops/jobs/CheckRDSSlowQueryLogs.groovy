@@ -27,7 +27,7 @@ class  CheckRDSSlowQueryLogs {
                     }
 
                     triggers {
-                        cron('H H * * * ')
+                        cron('H 13 * * 1-5 ')
                     }
 
                     def whitelist = ""
