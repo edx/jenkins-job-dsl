@@ -27,7 +27,7 @@ class  CheckRDSSlowQueryLogs {
                     }
 
                     triggers {
-                        cron('H H/4 * * * ')
+                        cron('H H * * * ')
                     }
 
                     def whitelist = ""
@@ -55,7 +55,7 @@ class  CheckRDSSlowQueryLogs {
                     }
                     steps {
                         virtualenv {
-                            pythonName('System-CPython-2.7')
+                            pythonName('System-CPython-3.6')
                             nature("shell")
                             systemSitePackages(false)
 
