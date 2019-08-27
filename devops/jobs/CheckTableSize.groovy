@@ -74,8 +74,21 @@ class CheckTableSize {
                     }
 
                     publishers {
-                        mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
-
+                        extendedEmail {
+                            recipientList(extraVars.get('NOTIFY_ON_FAILURE'))
+                            triggers {
+                                 failure {
+                                     attachBuildLog(false)  // build log contains PII!
+                                     compressBuildLog(false)  // build log contains PII!
+                                     subject('Failed build: ${JOB_NAME} #${BUILD_NUMBER}')
+                                     content('Jenkins job: ${JOB_NAME} failed. \nFor' + " ${deployment} " + 'Environment. \n\nSee ${BUILD_URL} for details.')
+                                     contentType('text/plain')
+                                     sendTo {
+                                         recipientList()
+                                     }
+                                 }
+                            }
+                        }
                     }
                 }
            }
