@@ -141,6 +141,16 @@ Map edxSphinxTheme = [
     emails: ['testeng@edx.org']
 ]
 
+Map edxToggles = [
+    org: 'edx',
+    repoName: 'edx-toggles',
+    pythonVersion: '2.7',
+    cronValue: '@weekly',
+    githubUserReviewers: ['estute'],
+    githubTeamReviewers: ['testeng'],
+    emails: ['testeng@edx.org']
+]
+
 Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
@@ -196,6 +206,7 @@ List jobConfigs = [
     edxPlatform,
     edxProctoring,
     edxSphinxTheme,
+    edxToggles,
     opaqueKeys,
     registrar,
     testengCI,
