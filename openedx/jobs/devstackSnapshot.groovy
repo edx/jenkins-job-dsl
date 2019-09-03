@@ -15,6 +15,10 @@ pipelineJob('devstack-snapshot') {
 
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
 
+        triggers {
+            cron('@weekly')
+        }
+
         cpsScm {
             scm {
                 git {
