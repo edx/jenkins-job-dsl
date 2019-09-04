@@ -11,7 +11,8 @@ Map wtwBokchoyJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
     branch: 'master',
-    context: 'jenkins/bokchoy-contexts'
+    context: 'jenkins/bokchoy-contexts',
+    pythonVersion: '2.7',
 ]
 
 Map wtwPythonJobConfig = [
@@ -21,7 +22,8 @@ Map wtwPythonJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
     branch: 'master',
-    context: 'jenkins/python-contexts'
+    context: 'jenkins/python-contexts',
+    pythonVersion: '2.7',
 ]
 
 List jobConfigs = [
