@@ -46,6 +46,17 @@ class VerticaReplicaImport {
                 multiscm common_multiscm(allVars)
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)
+                publishers {
+                    downstreamParameterized {
+                        trigger("snowflake-${db.toLowerCase()}-read-replica-import") {
+                            condition('SUCCESS')
+                            parameters {
+                                // The contents of this file are generated as part of the script in the build step.
+                                propertiesFile('${WORKSPACE}/downstream.properties')
+                            }
+                        }
+                    }
+                }
                 triggers common_triggers(allVars, db_config)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/vertica-replica-import.sh'))
