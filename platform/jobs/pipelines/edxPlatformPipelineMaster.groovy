@@ -11,7 +11,8 @@ Map publicBokchoyJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
     branch: 'master',
-    context: 'jenkins/bokchoy'
+    context: 'jenkins/bokchoy',
+    pythonVersion: '2.7',
 ]
 
 Map privateBokchoyJobConfig = [
@@ -21,7 +22,8 @@ Map privateBokchoyJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
     branch: 'security-release',
-    context: 'jenkins/bokchoy'
+    context: 'jenkins/bokchoy',
+    pythonVersion: '2.7',
 ]
 
 Map ironwoodBokchoyJobConfig = [
@@ -31,7 +33,8 @@ Map ironwoodBokchoyJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
     branch: 'open-release/ironwood.master',
-    context: 'jenkins/ironwood/bokchoy'
+    context: 'jenkins/ironwood/bokchoy',
+    pythonVersion: '2.7',
 ]
 
 Map ironwoodLettuceJobConfig = [
@@ -41,7 +44,8 @@ Map ironwoodLettuceJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'lettuce',
     branch: 'open-release/ironwood.master',
-    context: 'jenkins/ironwood/lettuce'
+    context: 'jenkins/ironwood/lettuce',
+    pythonVersion: '2.7',
 ]
 
 Map publicPythonJobConfig = [
@@ -51,7 +55,8 @@ Map publicPythonJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
     branch: 'master',
-    context: 'jenkins/python'
+    context: 'jenkins/python',
+    pythonVersion: '2.7',
 ]
 
 Map privatePythonJobConfig = [
@@ -61,7 +66,8 @@ Map privatePythonJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
     branch: 'security-release',
-    context: 'jenkins/python'
+    context: 'jenkins/python',
+    pythonVersion: '2.7',
 ]
 
 Map ironwoodPythonJobConfig = [
@@ -71,7 +77,8 @@ Map ironwoodPythonJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
     branch: 'open-release/ironwood.master',
-    context: 'jenkins/ironwood/python'
+    context: 'jenkins/ironwood/python',
+    pythonVersion: '2.7',
 ]
 
 Map publicQualityJobConfig = [
@@ -81,7 +88,8 @@ Map publicQualityJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
     branch: 'master',
-    context: 'jenkins/quality'
+    context: 'jenkins/quality',
+    pythonVersion: '2.7',
 ]
 
 Map privateQualityJobConfig = [
@@ -91,7 +99,8 @@ Map privateQualityJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
     branch: 'security-release',
-    context: 'jenkins/quality'
+    context: 'jenkins/quality',
+    pythonVersion: '2.7',
 ]
 
 Map ironwoodQualityJobConfig = [
@@ -101,7 +110,8 @@ Map ironwoodQualityJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
     branch: 'open-release/ironwood.master',
-    context: 'jenkins/ironwood/quality'
+    context: 'jenkins/ironwood/quality',
+    pythonVersion: '2.7',
 ]
 
 List jobConfigs = [

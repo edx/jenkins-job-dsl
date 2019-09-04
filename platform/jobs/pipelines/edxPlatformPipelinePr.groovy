@@ -35,7 +35,8 @@ Map publicBokchoyJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy'
+    jenkinsFileName: 'bokchoy',
+    pythonVersion: '2.7',
 ]
 
 Map privateBokchoyJobConfig = [
@@ -47,7 +48,8 @@ Map privateBokchoyJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy'
+    jenkinsFileName: 'bokchoy',
+    pythonVersion: '2.7',
 ]
 
 Map publicBokchoyPython3JobConfig = [
@@ -61,7 +63,7 @@ Map publicBokchoyPython3JobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
     toxEnv: 'py35-django111',
-    pythonVersion: '3.5'
+    pythonVersion: '3.5',
 ]
 
 Map publicBokchoyIronwoodJobConfig = [
@@ -73,7 +75,8 @@ Map publicBokchoyIronwoodJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*ironwood\W+run\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy'
+    jenkinsFileName: 'bokchoy',
+    pythonVersion: '2.7',
 ]
 
 Map privateBokchoyIronwoodJobConfig = [
@@ -85,7 +88,8 @@ Map privateBokchoyIronwoodJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*ironwood\W+run\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy'
+    jenkinsFileName: 'bokchoy',
+    pythonVersion: '2.7',
 ]
 
 Map publicLettuceIronwoodJobConfig = [
@@ -97,7 +101,8 @@ Map publicLettuceIronwoodJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*ironwood\W+run\W+lettuce.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce'
+    jenkinsFileName: 'lettuce',
+    pythonVersion: '2.7',
 ]
 
 Map privateLettuceIronwoodJobConfig = [
@@ -109,7 +114,8 @@ Map privateLettuceIronwoodJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*ironwood\W+run\W+lettuce.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce'
+    jenkinsFileName: 'lettuce',
+    pythonVersion: '2.7',
 ]
 
 Map publicPythonJobConfig = [
@@ -121,7 +127,8 @@ Map publicPythonJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python'
+    jenkinsFileName: 'python',
+    pythonVersion: '2.7',
 ]
 
 Map privatePythonJobConfig = [
@@ -133,7 +140,8 @@ Map privatePythonJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python'
+    jenkinsFileName: 'python',
+    pythonVersion: '2.7',
 ]
 
 Map publicPythonPython3JobConfig = [
@@ -147,7 +155,7 @@ Map publicPythonPython3JobConfig = [
     toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5'
+    pythonVersion: '3.5',
 ]
 
 Map publicPythonIronwoodJobConfig = [
@@ -159,7 +167,8 @@ Map publicPythonIronwoodJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*ironwood\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python'
+    jenkinsFileName: 'python',
+    pythonVersion: '2.7',
 ]
 
 Map privatePythonIronwoodJobConfig = [
@@ -171,7 +180,8 @@ Map privatePythonIronwoodJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*ironwood\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python'
+    jenkinsFileName: 'python',
+    pythonVersion: '2.7',
 ]
 
 Map publicQualityJobConfig = [
@@ -183,7 +193,8 @@ Map publicQualityJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality'
+    jenkinsFileName: 'quality',
+    pythonVersion: '2.7',
 ]
 
 Map privateQualityJobConfig = [
@@ -195,7 +206,8 @@ Map privateQualityJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality'
+    jenkinsFileName: 'quality',
+    pythonVersion: '2.7',
 ]
 
 Map publicQualityPython3JobConfig = [
@@ -209,7 +221,7 @@ Map publicQualityPython3JobConfig = [
     toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    pythonVersion: '3.5'
+    pythonVersion: '3.5',
 ]
 
 Map publicQualityIronwoodJobConfig = [
@@ -221,7 +233,8 @@ Map publicQualityIronwoodJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*ironwood\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality'
+    jenkinsFileName: 'quality',
+    pythonVersion: '2.7',
 ]
 
 Map privateQualityIronwoodJobConfig = [
@@ -233,7 +246,8 @@ Map privateQualityIronwoodJobConfig = [
     onlyTriggerPhrase: false,
     triggerPhrase: /.*ironwood\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality'
+    jenkinsFileName: 'quality',
+    pythonVersion: '2.7',
 ]
 
 List jobConfigs = [
