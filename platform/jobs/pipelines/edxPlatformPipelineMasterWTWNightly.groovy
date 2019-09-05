@@ -43,7 +43,8 @@ jobConfigs.each { jobConfig ->
                 REPO_NAME: "${jobConfig.repoName}",
                 BRANCH_NAME: "${jobConfig.branch}",
                 COLLECT_WHO_TESTS_WHAT: "true",
-                GITHUB_CONTEXT: "${jobConfig.context}"
+                GITHUB_CONTEXT: "${jobConfig.context}",
+                PYTHON_VERSION: "${jobConfig.pythonVersion}"
             )
 
             triggers {
