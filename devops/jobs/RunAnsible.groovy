@@ -119,6 +119,7 @@ class RunAnsible {
 
             steps {
                 virtualenv {
+                    pythonName('System-CPython-3.5')
                     name(jobName)
                     nature('shell')
                     command(dslFactory.readFileFromWorkspace('devops/resources/run-ansible.sh'))

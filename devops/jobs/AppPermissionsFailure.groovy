@@ -41,6 +41,7 @@ class AppPermissionsFailure {
 
              steps {
                  virtualenv {
+                     pythonName('System-CPython-3.5')
                      nature("shell")
                      systemSitePackages(false)
                      command(
