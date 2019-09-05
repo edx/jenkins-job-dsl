@@ -142,7 +142,8 @@ jobConfigs.each { jobConfig ->
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 BRANCH_NAME: "${jobConfig.branch}",
-                GITHUB_CONTEXT: "${jobConfig.context}"
+                GITHUB_CONTEXT: "${jobConfig.context}",
+                PYTHON_VERSION: "${jobConfig.pythonVersion}"
             )
 
             triggers {
