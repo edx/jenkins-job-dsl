@@ -129,12 +129,14 @@ class CreateSandbox {
                 stringParam("edxapp_version","master","")
                 stringParam("edx_platform_repo","https://github.com/edx/edx-platform.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
+                booleanParam("edxapp_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy edxapp config file from configuration internal repo.")
 
                 booleanParam("forum",true,"")
                 stringParam("forum_version","master","")
 
                 booleanParam("ecommerce",true,"")
                 stringParam("ecommerce_version","master","")
+                booleanParam("ecommerce_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce config file from configuration internal repo.")
 
                 booleanParam("notifier",false,"")
                 stringParam("notifier_version","master","")
@@ -147,30 +149,36 @@ class CreateSandbox {
 
                 booleanParam("ecommerce_worker",true,"")
                 stringParam("ecommerce_worker_version","master","")
+                booleanParam("ecommerce_worker_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce_worker config file from configuration internal repo.")
 
                 booleanParam("certs",false,"")
                 stringParam("certs_version","master","")
 
                 booleanParam("analyticsapi",false,"")
                 stringParam("analytics_api_version","master","")
+                booleanParam("analytics_api_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy analytics_api config file from configuration internal repo.")
 
                 booleanParam("insights",false,"")
                 stringParam("insights_version","master","")
+                booleanParam("insights_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy insights config file from configuration internal repo.")
 
                 booleanParam("demo",false,"")
                 stringParam("demo_version","master","")
 
                 booleanParam("discovery",false,"")
                 stringParam("discovery_version","master","")
+                booleanParam("discovery_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy discovery config file from configuration internal repo.")
 
                 booleanParam("credentials",false,"")
                 stringParam("credentials_version","master","")
+                booleanParam("credentials_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy credentials config file from configuration internal repo.")
 
                 booleanParam("set_whitelabel",false,
                              "Check this in order to create a Sandbox with whitelabel themes automatically set.")
                 stringParam("themes_version","master","")
                 booleanParam("registrar",false,"Enable the Registrar service, along with the Program Manager micro-frontend")
                 stringParam("registrar_version","master","")
+                booleanParam("registrar_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy registrar config file from configuration internal repo.")
                 stringParam("registrar_user_email","registrar@example.com",
                             "Email (and username) for user to be created in Registrar. Ignore this setting if Registrar is disabled.")
                 stringParam("registrar_org_key","edX",
