@@ -57,7 +57,7 @@ class ExportRDSSlowQueryLogs {
                     }
                     steps {
                         virtualenv {
-                            pythonName('System-CPython-3.5')
+                            pythonName('System-CPython-3.6')
                             nature("shell")
                             systemSitePackages(false)
 
