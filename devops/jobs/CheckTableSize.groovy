@@ -64,7 +64,7 @@ class CheckTableSize {
                     }
                     steps {
                         virtualenv {
-                            pythonName('System-CPython-3.6')
+                            pythonName('System-CPython-2.7')
                             nature("shell")
                             systemSitePackages(false)
 
