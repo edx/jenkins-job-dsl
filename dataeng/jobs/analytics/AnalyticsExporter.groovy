@@ -185,6 +185,8 @@ class AnalyticsExporter {
                 timestamps()
             }
 
+            publishers common_publishers(allVars)
+
             steps {
                 virtualenv {
                     nature("shell")
@@ -203,8 +205,11 @@ class AnalyticsExporter {
                 downstreamParameterized {
                     trigger('analytics-exporter-worker') {
                         block {
+                            // Mark this build step as FAILURE if at least one of the downstream builds were marked FAILED.
                             buildStepFailure('FAILURE')
+                            // Mark this entire build as FAILURE if at least one of the downstream builds were marked FAILED.
                             failure('FAILURE')
+                            // Mark this entire build as UNSTABLE if at least one of the downstream builds were marked UNSTABLE.
                             unstable('UNSTABLE')
                         }
                         parameters {
