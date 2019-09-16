@@ -112,6 +112,7 @@ class ConfigurationWatcher {
             // run the trigger-builds shell script in a virtual environment called venv
             steps {
                 virtualenv {
+                    pythonName('System-CPython-3.6')
                     name('venv')
                     nature('shell')
                     command dslFactory.readFileFromWorkspace('devops/resources/trigger-builds.sh')

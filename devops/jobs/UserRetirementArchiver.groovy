@@ -84,7 +84,7 @@ class UserRetirementArchiver {
 
             steps {
                 virtualenv {
-                    pythonName('System-CPython-3.5')
+                    pythonName('System-CPython-3.6')
                     name('user-retirement-archiver')
                     nature('shell')
                     systemSitePackages(false)
