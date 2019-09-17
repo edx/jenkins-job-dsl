@@ -118,6 +118,8 @@ class AnalyticsEmailOptin {
                 timestamps()
             }
 
+            publishers common_publishers(allVars)
+
             steps {
                 virtualenv {
                     nature("shell")
