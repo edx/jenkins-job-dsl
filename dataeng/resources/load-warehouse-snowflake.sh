@@ -7,7 +7,7 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --date $(date +%Y-%m-%d -d "$TO_DATE") \
  --warehouse $WAREHOUSE \
  --role $ROLE \
- --database $DATABASE \
+ --sf-database $DATABASE \
  --schema $SCHEMA \
  --credentials $CREDENTIALS \
  --overwrite

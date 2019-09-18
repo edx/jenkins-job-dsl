@@ -3,15 +3,15 @@
 env
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
- VerticaSchemaToSnowflakeTask --local-scheduler \
+ ImportMysqlDatabaseToSnowflakeSchemaTask --local-scheduler \
  --date $(date +%Y-%m-%d -d "$RUN_DATE") \
- ${OVERWRITE} \
  --credentials $SNOWFLAKE_CREDENTIALS \
  --warehouse $WAREHOUSE \
  --role $ROLE \
- --sf-database $DATABASE \
+ --sf-database $SNOWFLAKE_DATABASE \
  --schema $SCHEMA \
- --vertica-schema-name $VERTICA_SCHEMA_NAME \
- --vertica-credentials $VERTICA_CREDENTIALS \
- --vertica-warehouse-name $VERTICA_WAREHOUSE_NAME \
+ --db-credentials $DB_CREDENTIALS \
+ --database $DATABASE \
+ --overwrite \
+ ${EXCLUDE_FIELD} \
  ${EXCLUDE}
