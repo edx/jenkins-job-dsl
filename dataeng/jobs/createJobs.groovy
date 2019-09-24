@@ -46,6 +46,7 @@ import static analytics.MonitorBigqueryEventLoading.job as MonitorBigqueryEventL
 import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
 import static analytics.LoadGoogleSpreadsheetToWarehouse.job as LoadGoogleSpreadsheetToWarehouseJob
 import static analytics.SnowflakeReplicaImport.job as SnowflakeReplicaImportJob
+import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -115,6 +116,7 @@ def taskMap = [
     LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
     LOAD_GOOGLE_SPREADSHEET_TO_WAREHOUSE_JOB: LoadGoogleSpreadsheetToWarehouseJob,
     SNOWFLAKE_REPLICA_IMPORT_JOB: SnowflakeReplicaImportJob,
+    LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
 ]
 
 for (task in taskMap) {
