@@ -19,6 +19,7 @@ import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
 import static analytics.SqlScripts.multiple_scripts_job as SqlScriptsJob
 import static analytics.SqlScripts.single_script_job as SingleSqlScriptJob
 import static analytics.LoadAffiliateWindowToWarehouse.job as LoadAffiliateWindowWarehouseJob
+import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
 import static analytics.LoadWarehouse.bigquery_job as LoadWarehouseBigQueryJob
 import static analytics.LoadWarehouse.snowflake_job as LoadWarehouseSnowflakeJob
@@ -95,6 +96,7 @@ def taskMap = [
     LOAD_EVENTS_TO_VERTICA_JOB: LoadEventsToVerticaJob,
     LOAD_JSON_EVENTS_TO_S3_JOB: LoadJsonEventsToS3Job,
     LOAD_JSON_EVENTS_TO_BIGQUERY_JOB: LoadJsonEventsToBigqueryJob,
+    SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
     VERTICA_REPLICA_IMPORT_JOB: VerticaReplicaImportJob,
     VERTICA_TO_BIGQUERY_SCHEMA_COPY_JOB: VerticaToBigquerySchemaCopyJob,
     BACKUP_VERTICA_JOB: BackupVerticaJob,
@@ -175,6 +177,7 @@ listView('Warehouse') {
         name('payments-validation')
         name('generate-warehouse-docs')
         name('affiliate-window')
+        name('snowflake-schema-builder')
         regex('.+read-replica-import|load-.+|vertica-to-bigquery.+|.*sql-script.*')
     }
     columns DEFAULT_VIEW.call()
