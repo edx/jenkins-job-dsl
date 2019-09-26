@@ -28,7 +28,6 @@ import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVer
 import static analytics.LoadEvents.load_json_events_to_s3_job as LoadJsonEventsToS3Job
 import static analytics.LoadEvents.load_json_events_to_bigquery_job as LoadJsonEventsToBigqueryJob
 import static analytics.VerticaReplicaImport.job as VerticaReplicaImportJob
-import static analytics.VerticaToBigquerySchemaCopy.job as VerticaToBigquerySchemaCopyJob
 import static analytics.BackupVertica.job as BackupVerticaJob
 import static analytics.TotalEventsDailyReport.job as TotalEventsDailyReportJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
@@ -44,7 +43,9 @@ import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTrackingLogsJob
 import static analytics.MonitorBigqueryEventLoading.job as MonitorBigqueryEventLoadingJob
+import static analytics.VerticaSchemaToS3.job as VerticaSchemaToS3Job
 import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
+import static analytics.LoadVerticaSchemaToBigquery.job as LoadVerticaSchemaToBigqueryJob
 import static analytics.LoadGoogleSpreadsheetToWarehouse.job as LoadGoogleSpreadsheetToWarehouseJob
 import static analytics.SnowflakeReplicaImport.job as SnowflakeReplicaImportJob
 import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
@@ -98,7 +99,6 @@ def taskMap = [
     LOAD_JSON_EVENTS_TO_BIGQUERY_JOB: LoadJsonEventsToBigqueryJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
     VERTICA_REPLICA_IMPORT_JOB: VerticaReplicaImportJob,
-    VERTICA_TO_BIGQUERY_SCHEMA_COPY_JOB: VerticaToBigquerySchemaCopyJob,
     BACKUP_VERTICA_JOB: BackupVerticaJob,
     TOTAL_EVENTS_DAILY_REPORT_JOB: TotalEventsDailyReportJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
@@ -115,7 +115,9 @@ def taskMap = [
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
     AGGREGATE_DAILY_TRACKING_LOGS_JOB: AggregateDailyTrackingLogsJob,
     MONITOR_BIGQUERY_EVENT_LOADING_JOB: MonitorBigqueryEventLoadingJob,
+    VERTICA_SCHEMA_TO_S3_JOB: VerticaSchemaToS3Job,
     LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
+    LOAD_VERTICA_SCHEMA_TO_BIGQUERY_JOB: LoadVerticaSchemaToBigqueryJob,
     LOAD_GOOGLE_SPREADSHEET_TO_WAREHOUSE_JOB: LoadGoogleSpreadsheetToWarehouseJob,
     SNOWFLAKE_REPLICA_IMPORT_JOB: SnowflakeReplicaImportJob,
     LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
@@ -178,7 +180,7 @@ listView('Warehouse') {
         name('generate-warehouse-docs')
         name('affiliate-window')
         name('snowflake-schema-builder')
-        regex('.+read-replica-import|load-.+|vertica-to-bigquery.+|.*sql-script.*')
+        regex('.+read-replica-import|load-.+|vertica-schema-to.+|.*sql-script.*')
     }
     columns DEFAULT_VIEW.call()
 }

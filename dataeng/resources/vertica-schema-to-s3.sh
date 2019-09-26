@@ -10,10 +10,9 @@ INTERPOLATED_RUN_DATE="$(date +%Y-%m-%d -d "$RUN_DATE")"
 echo "RUN_DATE=${INTERPOLATED_RUN_DATE}" > "${WORKSPACE}/downstream.properties"
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
- VerticaSchemaToBigQueryTask --local-scheduler \
+ ExportVerticaSchemaToS3Task --local-scheduler \
  --vertica-schema-name $SCHEMA \
  --vertica-credentials $VERTICA_CREDENTIALS \
- --gcp-credentials $GCP_CREDENTIALS \
  --date "$INTERPOLATED_RUN_DATE" \
  ${OVERWRITE} \
  ${EXCLUDE} \
