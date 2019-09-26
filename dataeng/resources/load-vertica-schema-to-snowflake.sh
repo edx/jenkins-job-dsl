@@ -3,7 +3,7 @@
 env
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
- VerticaSchemaToSnowflakeTask --local-scheduler \
+ LoadVerticaSchemaFromS3ToSnowflakeTask --local-scheduler \
  --date $(date +%Y-%m-%d -d "$RUN_DATE") \
  ${OVERWRITE} \
  --credentials $SNOWFLAKE_CREDENTIALS \
