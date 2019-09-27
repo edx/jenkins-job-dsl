@@ -9,5 +9,7 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --role $ROLE \
  --sf-database $DATABASE \
  --schema $SCHEMA \
+ --scratch-schema $SCRATCH_SCHEMA \
+ --run-id $BUILD_ID \
  --credentials $CREDENTIALS \
  --overwrite

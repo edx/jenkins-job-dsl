@@ -10,6 +10,8 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --role $ROLE \
  --sf-database $SNOWFLAKE_DATABASE \
  --schema $SCHEMA \
+ --scratch-schema $SCRATCH_SCHEMA \
+ --run-id $BUILD_ID \
  --db-credentials $DB_CREDENTIALS \
  --database $DATABASE \
  --overwrite \
