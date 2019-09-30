@@ -64,7 +64,6 @@ class LoadWarehouse {
                 stringParam('DATABASE', allVars.get('DATABASE'))
                 stringParam('SCHEMA', allVars.get('SCHEMA'))
                 stringParam('SCRATCH_SCHEMA', allVars.get('SCRATCH_SCHEMA'))
-                stringParam('RUN_ID', allVars.get('RUN_ID'))
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
             }
             multiscm common_multiscm(allVars)
