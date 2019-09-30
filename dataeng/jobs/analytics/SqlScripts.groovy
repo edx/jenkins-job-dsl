@@ -30,6 +30,15 @@ class SqlScripts {
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)
+                if (env_config.containsKey('DOWNSTREAM_JOBS_TO_TRIGGER')) {
+                    publishers {
+                        downstreamParameterized {
+                            trigger(env_config.get('DOWNSTREAM_JOBS_TO_TRIGGER')) {
+                                condition('SUCCESS')
+                            }
+                        }
+                    }
+                }
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/sql-scripts.sh'))
                 }

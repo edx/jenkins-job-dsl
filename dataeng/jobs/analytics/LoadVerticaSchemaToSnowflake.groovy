@@ -4,7 +4,6 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 
 class LoadVerticaSchemaToSnowflake {
     public static def job = { dslFactory, allVars ->

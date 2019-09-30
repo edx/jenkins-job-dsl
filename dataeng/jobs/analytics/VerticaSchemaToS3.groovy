@@ -1,12 +1,9 @@
 package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_parameters
-import static org.edx.jenkins.dsl.AnalyticsConstants.from_date_interval_parameter
-import static org.edx.jenkins.dsl.AnalyticsConstants.to_date_interval_parameter
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 
 class VerticaSchemaToS3 {
     public static def job = { dslFactory, allVars ->
@@ -22,7 +19,6 @@ class VerticaSchemaToS3 {
                     stringParam('RUN_DATE', schema_config.get('RUN_DATE', allVars.get('RUN_DATE', 'today')), 'Run date for the job. A string that can be parsed by the GNU coreutils "date" utility.')
                 }
                 multiscm common_multiscm(allVars)
-                triggers common_triggers(allVars, schema_config)
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)
                 publishers {
