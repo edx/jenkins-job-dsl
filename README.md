@@ -2,6 +2,16 @@
 
 # jenkins-job-dsl
 
+This repository conatins Jenkins Job DSL code for generating Jenkins jobs on several edx.org Jenkins servers including tools-edx-jenkins and build.testeng.edx.org. It has a companion private repo for generating the Jobs on the edx.org Jenkins servers. Usage of this code without that repo may be difficult.
+
+## Code Status
+
+This code is in active development.
+
+## Contributing
+
+While this repo is open source in the hopes that it would be useful, it's heavily entanged with a private repo to the point where, practically it doesn't work without the private repo. While open to PRs, it's impractical for anyone outsied edx to use it.
+
 ## File structure
 
     .
