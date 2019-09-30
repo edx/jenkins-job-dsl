@@ -21,7 +21,7 @@ class SnowflakeReplicaImport {
                     stringParam('ROLE', db_config.get('ROLE', allVars.get('ROLE')))
                     stringParam('SNOWFLAKE_DATABASE', db_config.get('SNOWFLAKE_DATABASE', allVars.get('SNOWFLAKE_DATABASE')))
                     stringParam('SCHEMA', db_config.get('SCHEMA', allVars.get('SCHEMA')), 'Schema')
-                    stringParam('SCRATCH_SCHEMA', schema_config.get('SCRATCH_SCHEMA', allVars.get('SCRATCH_SCHEMA')), 'Scratch schema name - temporary loading location.')
+                    stringParam('SCRATCH_SCHEMA', db_config.get('SCRATCH_SCHEMA', allVars.get('SCRATCH_SCHEMA')), 'Scratch schema name - temporary loading location.')
                     stringParam('DB_CREDENTIALS', db_config.get('DB_CREDENTIALS'), 'Credentials for reading from MySQL database.')
                     stringParam('DATABASE', db_config.get('DATABASE'), 'Name of MySQL database to copy from.')
                     stringParam('EXCLUDE_FIELD', db_config.get('EXCLUDE_FIELD'), 'List of regular expressions matching field names that should not be copied.')
