@@ -30,14 +30,12 @@ class SqlScripts {
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)
-		# If SCHEMA_EXPORTS_TO_TRIGGER exists, then string together the
-		# (or just do that in the config file. And see if we can
-		# add this clause only if it exists.
-		# IF env_config.contains('DOWNSTREAM_JOBS_TO_TRIGGER')) {
-                publishers {
-                    downstreamParameterized {
-                        trigger(env_config.get('DOWNSTREAM_JOBS_TO_TRIGGER')) {
-                            condition('SUCCESS')
+                if (env_config.containsKey('DOWNSTREAM_JOBS_TO_TRIGGER')) {
+                    publishers {
+                        downstreamParameterized {
+                            trigger(env_config.get('DOWNSTREAM_JOBS_TO_TRIGGER')) {
+                                condition('SUCCESS')
+                            }
                         }
                     }
                 }
