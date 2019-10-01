@@ -32,11 +32,7 @@ class SqlScripts {
                 publishers common_publishers(allVars)
                 if (env_config.containsKey('DOWNSTREAM_JOBS_TO_TRIGGER')) {
                     publishers {
-                        downstreamParameterized {
-                            trigger(env_config.get('DOWNSTREAM_JOBS_TO_TRIGGER')) {
-                                condition('SUCCESS')
-                            }
-                        }
+                        downstream(env_config.get('DOWNSTREAM_JOBS_TO_TRIGGER'), 'SUCCESS')
                     }
                 }
                 steps {
