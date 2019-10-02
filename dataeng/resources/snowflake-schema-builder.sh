@@ -16,7 +16,7 @@ branchname="builder_$now"
 git checkout -b "$branchname"
 
 # Run the dbt script to update schemas and sql
-python tools/dbt_schema_builder/schema_builder.py build --schemas $SCHEMAS --project $DBT_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/analytics-tasks/
+python tools/dbt_schema_builder/schema_builder.py build --schemas $SCHEMAS --project $DBT_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
 # Check if any files are added, deleted, or changed. If so, commit them and create a PR.
 if [[ -z $(git status -s) ]]
