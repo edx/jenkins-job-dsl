@@ -2,6 +2,26 @@
 
 # jenkins-job-dsl
 
+This repository conatins Jenkins Job DSL code for generating Jenkins jobs on several edx.org Jenkins servers including
+tools-edx-jenkins and build.testeng.edx.org. It has a companion private repo for generating the Jobs on the edx.org
+Jenkins servers. Usage of this code without that repo may be difficult.
+
+## Code Status
+
+This code is in active development.
+
+## Contributing
+
+While this repo is open source in the hopes that it would be useful, it's heavily entanged with a private repo to the
+point where, practically it doesn't work without the private repo. While open to PRs, it's impractical for anyone
+outside edx to use it.
+
+## Getting Started
+
+### Running a local Jenkins for development
+See [README-Hacking](README-Hacking.md) for details on how to spin up a local docker container with
+an environment similar to one you would find on the TestEng "Build Jenkins" or DevOps "Tools Jenkins".
+
 ## File structure
 
     .
@@ -23,15 +43,10 @@
     │           └──<other_project>
     └── build.gradle                    # build file
 
-## Running a local Jenkins for development
-
-See [README-Hacking](README-Hacking.md) for details on how to spin up a local docker container with
-an environment similar to one you would find on the TestEng "Build Jenkins" or DevOps "Tools Jenkins".
-
 ## Testing
 
 ### Spec Testing
-DSL jobs can be tested using the [Spock test framework](http://spockframework.github.io/spock/docs/1.0/index.html). 
+DSL jobs can be tested using the [Spock test framework](http://spockframework.github.io/spock/docs/1.0/index.html).
 
 To run all of the test specs:
 `./gradlew test`
@@ -51,8 +66,22 @@ etc...
 
 ## Writing DSLs
 
+### Disabling a job
+
+If a job is causing problems and you want to disable it and add the reason to the
+job description you can use code like the following.
+
+```groovy
+    return dslFactory.job(extraVars.get("FOLDER_NAME") + "/${environment}-${deployment}-${jobName}") {
+        ...
+        // Disabled until https://example.atlassian.net/browse/EX-123 is resolved
+        disabled()
+        description('Disabled until <a href=https://example.atlassian.net/browse/EX-123>EX-123</a> is resolved.')
+        ...
+```
+
 ### Example Job
-An example job can be found [here](platform/jobs/exampleJob.groovy). 
+An example job can be found [here](platform/jobs/exampleJob.groovy).
 
 ### Credentials and Secrets
 
@@ -87,16 +116,3 @@ Constant | Purpose | Use
 ------------ | ------------- | -------------
 credential | Allow access to private git repositories | In the credential() function in the Git Scm Context
 
-### Disabling a job
-
-If a job is causing problems and you want to disable it and add the reason to the
-job description you can use code like the following.
-
-```groovy
-    return dslFactory.job(extraVars.get("FOLDER_NAME") + "/${environment}-${deployment}-${jobName}") {
-        ...
-        // Disabled until https://example.atlassian.net/browse/EX-123 is resolved
-        disabled()
-        description('Disabled until <a href=https://example.atlassian.net/browse/EX-123>EX-123</a> is resolved.')
-        ...
-```
