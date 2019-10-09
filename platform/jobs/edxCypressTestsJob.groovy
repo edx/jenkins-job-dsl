@@ -52,8 +52,8 @@ Map cypressMergeJob = [
 ]
 
 List jobConfigs = [
-    cypressPipelineJob
-    cypressPrJob
+    cypressPipelineJob,
+    cypressPrJob,
     cypressMergeJob
 ]
 
