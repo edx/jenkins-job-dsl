@@ -66,16 +66,28 @@ jobConfigs.each { jobConfig ->
 
         description(jobConfig.description)
 
-        definition {
+        authorization {
+            blocksInheritance(true)
+            permissionAll('edx')
+            permission('hudson.model.Item.Discover', 'anonymous')
+            // grant additional permissions to bots
+            if (jobConfig.trigger == 'pipeline') {
+                List<String> permissionList = [ 'hudson.model.Item.Read',
+                                                'hudson.model.Item.Workspace',
+                                                'hudson.model.Item.Discover',
+                                                'hudson.model.Item.Build',
+                                                'hudson.model.Item.Cancel' ]
+                permissionList.each { perm ->
+                    permission(perm, securityGroupMap['e2eSecurityGroup'])
+                }
+            }
+        }
 
-            if (!jobConfig.open.toBoolean()) {
-                authorization GENERAL_PRIVATE_JOB_SECURITY()
-            }
+        if (jobConfig.trigger == 'ghprb' || jobConfig.trigger == 'merge') {
             properties {
-                githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
+                githubProjectUrl('https://github.com/edx/${jobConfig.repoName}')
             }
-            logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
-            environmentVariables jobConfig.environmentVariables
+        }
             
 
             // enable triggers for the PR jobs
@@ -115,34 +127,21 @@ jobConfigs.each { jobConfig ->
             }
         }
 
-            configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)
-
-            cpsScm {
-                scm {
-                    git {
-                        extensions {
-                            cleanBeforeCheckout()
-                            cloneOptions {
-                                honorRefspec(true)
-                                noTags(true)
-                                shallow(true)
-                            }
-                        }
-                        remote {
-                            credentials('jenkins-worker')
-                            github("edx/${jobConfig.repoName}", 'ssh', 'github.com')
-                            refspec('+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
-                            if (jobConfig.trigger == 'merge') {
-                                branch(jobConfig.branch)
-                            }
-                            else {
-                                branch('\${sha1}')
-                            }
-                        }
-                    }
+        scm {
+            git {
+                remote {
+                    url('https://github.com/edx/${jobConfig.repoName}.git')
+                    refspec(jobConfig.refspec)
                 }
-                scriptPath(jobConfig.jenkinsFileDir + '/' + jobConfig.jenkinsFileName)
+                if (jobConfig.trigger == 'merge') {
+                    branch(jobConfig.branch)
+                }
+                else {
+                    branch('\${sha1}'))
+                }
             }
+        }
+        scriptPath(jobConfig.jenkinsFileDir + '/' + jobConfig.jenkinsFileName)
         }
     }
 }
