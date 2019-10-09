@@ -137,7 +137,7 @@ jobConfigs.each { jobConfig ->
                     branch(jobConfig.branch)
                 }
                 else {
-                    branch('\${sha1}'))
+                    branch('\${sha1}')
                 }
             }
         }
