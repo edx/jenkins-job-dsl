@@ -11,18 +11,18 @@ PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map ghprbMap = [:]
-try {
-    out.println('Parsing secret YAML file')
-    String ghprbConfigContents = new File("${GHPRB_SECRET}").text
-    Yaml yaml = new Yaml()
-    ghprbMap = yaml.load(ghprbConfigContents)
-    out.println('Successfully parsed secret YAML file')
-}
-catch (any) {
-    out.println('Jenkins DSL: Error parsing secret YAML file')
-    out.println('Exiting with error code 1')
-    return 1
-}
+// try {
+//     out.println('Parsing secret YAML file')
+//     String ghprbConfigContents = new File("${GHPRB_SECRET}").text
+//     Yaml yaml = new Yaml()
+//     ghprbMap = yaml.load(ghprbConfigContents)
+//     out.println('Successfully parsed secret YAML file')
+// }
+// catch (any) {
+//     out.println('Jenkins DSL: Error parsing secret YAML file')
+//     out.println('Exiting with error code 1')
+//     return 1
+// }
 
 Map cypressPipelineJob = [
     open: true,
@@ -74,79 +74,6 @@ List jobConfigs = [
     cypressPrJob,
     cypressMergeJob
 ]
-
-/* Iterate over the job configurations */
-jobConfigs.each { jobConfig ->
-    job(jobConfig.jobName) {
-
-        description(jobConfig.description)
-
-        authorization {
-            blocksInheritance(true)
-            permissionAll('edx')
-        }
-
-        if (jobConfig.trigger == 'ghprb' || jobConfig.trigger == 'merge') {
-            properties {
-                githubProjectUrl('https://github.com/edx/${jobConfig.repoName}')
-            }
-        }
-            
-
-            // enable triggers for the PR jobs
-        if (jobConfig.trigger == 'ghprb') {
-            triggers {
-                githubPullRequest {
-                    admins(ghprbMap['admin'])
-                    useGitHubHooks()
-                    triggerPhrase(jobConfig.triggerPhrase)
-                    userWhitelist(ghprbMap['userWhiteList'])
-                    orgWhitelist(ghprbMap['orgWhiteList'])
-                    whiteListTargetBranches([jobConfig.branchRegex])
-                    extensions {
-                        commitStatus {
-                            context(jobConfig.context)
-                        }
-                    }
-                }
-            }
-            configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)
-        }
-        // enable triggers for merge jobs
-        else if (jobConfig.trigger == 'merge') {
-            triggers {
-                // due to a bug or misconfiguration, jobs with branches with
-                // slashes are indiscriminately triggered by pushes to other branches.
-                // For more information, see:
-                // https://openedx.atlassian.net/browse/TE-1921
-                // for commits merging into master, trigger jobs via github pushes
-                if (!jobConfig.deprecated) {
-                    githubPush()
-                }
-                // for merges to other non-master branches, poll instead
-                else {
-                    scm('@hourly')
-                }
-            }
-        }
-
-        scm {
-            git {
-                remote {
-                    url('https://github.com/edx/${jobConfig.repoName}.git')
-                    refspec(jobConfig.refspec)
-                }
-                if (jobConfig.trigger == 'merge') {
-                    branch(jobConfig.branch)
-                }
-                else {
-                    branch('\${sha1}')
-                }
-            }
-        }
-    }
-}
-
 
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
