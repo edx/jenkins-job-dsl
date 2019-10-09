@@ -69,18 +69,6 @@ jobConfigs.each { jobConfig ->
         authorization {
             blocksInheritance(true)
             permissionAll('edx')
-            permission('hudson.model.Item.Discover', 'anonymous')
-            // grant additional permissions to bots
-            if (jobConfig.trigger == 'pipeline') {
-                List<String> permissionList = [ 'hudson.model.Item.Read',
-                                                'hudson.model.Item.Workspace',
-                                                'hudson.model.Item.Discover',
-                                                'hudson.model.Item.Build',
-                                                'hudson.model.Item.Cancel' ]
-                permissionList.each { perm ->
-                    permission(perm, securityGroupMap['e2eSecurityGroup'])
-                }
-            }
         }
 
         if (jobConfig.trigger == 'ghprb' || jobConfig.trigger == 'merge') {
