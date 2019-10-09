@@ -129,7 +129,6 @@ jobConfigs.each { jobConfig ->
                 }
             }
         }
-        scriptPath(jobConfig.jenkinsFileDir + '/' + jobConfig.jenkinsFileName)
     }
 }
 
