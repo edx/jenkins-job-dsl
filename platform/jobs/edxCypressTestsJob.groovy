@@ -9,6 +9,10 @@ Binding bindings = getBinding()
 config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
+/* Map to hold the k:v pairs parsed from the secret file */
+Map mailingListMap = [:]
+Map ghprbMap = [:]
+
 Map cypressPipelineJob = [
     open: true,
     jobName: 'cypress-tests',
