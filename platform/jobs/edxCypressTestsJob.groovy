@@ -61,7 +61,7 @@ List jobConfigs = [
 jobConfigs.each { jobConfig ->
 
     // This is the job DSL responsible for creating the main pipeline job.
-jJob(jobConfig.jobName) {
+Job(jobConfig.jobName) {
 
         description(jobConfig.description)
 
