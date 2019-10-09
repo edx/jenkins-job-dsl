@@ -59,9 +59,7 @@ List jobConfigs = [
 
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
-
-    // This is the job DSL responsible for creating the main pipeline job.
-Job(jobConfig.jobName) {
+    job(jobConfig.jobName) {
 
         description(jobConfig.description)
 
