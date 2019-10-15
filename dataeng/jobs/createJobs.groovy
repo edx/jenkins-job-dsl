@@ -50,6 +50,7 @@ import static analytics.LoadGoogleSpreadsheetToWarehouse.job as LoadGoogleSpread
 import static analytics.SnowflakeReplicaImport.job as SnowflakeReplicaImportJob
 import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
+import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -123,6 +124,7 @@ def taskMap = [
     SNOWFLAKE_REPLICA_IMPORT_JOB: SnowflakeReplicaImportJob,
     LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
+    DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
 ]
 
 for (task in taskMap) {
