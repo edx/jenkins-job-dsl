@@ -66,7 +66,7 @@ etc...
 
 ## Writing DSLs
 
-### Disabling a job
+### Disabling a Job
 
 If a job is causing problems and you want to disable it and add the reason to the
 job description you can use code like the following.
@@ -89,7 +89,7 @@ Several techniques for managing credentials and secrets are discussed here
 
 https://openedx.atlassian.net/wiki/display/TE/Jenkins+secrets+management+with+Job+DSL
 
-### Shared Constants:
+### Shared Constants
 
 In addition to the yaml parsing techniques in the wiki link above, you can also manage
 shared constants directly in your DSL script.
@@ -115,4 +115,20 @@ shared constants directly in your DSL script.
 Constant | Purpose | Use
 ------------ | ------------- | -------------
 credential | Allow access to private git repositories | In the credential() function in the Git Scm Context
+
+### Structure
+
+TL;DR Making a new job? Make it look like [this one](https://github.com/edx/jenkins-job-dsl/blob/master/testeng/jobs/backupJenkins.groovy#L47) NOT like [this one](https://github.com/edx/jenkins-job-dsl/blob/master/dataeng/jobs/analytics/AggregateDailyTrackingLogs.groovy#L11).
+
+There are two common ways to write jobs:
+1: The Build jenkins jobs are often flattened (as shown in [backupJenkins.groovy](https://github.com/edx/jenkins-job-dsl/blob/master/testeng/jobs/backupJenkins.groovy#L47) ) or if there are many jobs that are similar you can loop over a list of Maps like we do in [upgradePythonRequirements.groovy](https://github.com/edx/jenkins-job-dsl/blob/master/testeng/jobs/upgradePythonRequirements.groovy#L206). This has the benefit of keeping all the logic in one file and being easy to understand.
+2: DevOps and Data Engineering jenkins jobs have often wrapped jobs in classes (as shown in [AggregateDailyTrackingLogs.groovy](https://github.com/edx/jenkins-job-dsl/blob/master/dataeng/jobs/analytics/AggregateDailyTrackingLogs.groovy#L11)). This paradigm has the benefit of allowing you to import the class in multiple places to be DRYer. There are also a few places where we link configuration to static functions from classes like we do in [createJobs.groovy](https://github.com/edx/jenkins-job-dsl/blob/master/dataeng/jobs/createJobs.groovy).
+
+In general we would like to transition away from using classes in order to make it easier for people to reason about our code. To that end, please use the first methodology when possible.
+
+### Gotchas
+
+1: As of this writing Tools Jenkins has not been upgraded to Jenkins 2 and does not support pipelines.
+2: As of this writing our Build and Data Engineering instances define credentials globally and do not use seed jobs that deploy jobs into separate folders with separate credentials.
+3: We want to reduce the number of git checkouts so that our jobs can still run when Github is down, especially for jobs that are triggered frequently.
 
