@@ -14,12 +14,10 @@
     * AWS_REGION: region of running sandbox instances, default is us-east-1
     * NOTIFY_ON_FAILURE: alert@example.com
     * FOLDER_NAME: folder
-    * HIPCHAT_ROOM: name of the room to send hipchat notifications (required)
 
  This job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
     launch-sandboxes-role-arn: the role to aws sts assume-role
-    hipchat-api-key: hipchat token
  
 */
 
@@ -38,7 +36,6 @@ class SandboxTermination{
                 credentialsBinding{
                     file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                     string('ROLE_ARN', "launch-sandboxes-role-arn")
-                    string('HIPCHAT_API_KEY', "hipchat-api-key")
                     string('EDX_GIT_BOT_TOKEN', "edx_git_bot_token")
                 }
             }
@@ -91,13 +88,11 @@ class SandboxTermination{
             }
 
             assert extraVars.containsKey('ROUTE53_ZONE') : "Please define a route53 zone"
-            assert extraVars.containsKey('HIPCHAT_ROOM') : "Please define a hipchat room to send notifications to"
 
             environmentVariables{
                 env("ROUTE53_ZONE", extraVars.get("ROUTE53_ZONE"))
                 env("NOOP", extraVars.get("NOOP", false))
                 env("AWS_REGION", extraVars.get("AWS_REGION", "us-east-1"))
-                env("HIPCHAT_ROOM", extraVars.get("HIPCHAT_ROOM"))
                 env("SNITCH", extraVars.get("SNITCH"))
             }
 
