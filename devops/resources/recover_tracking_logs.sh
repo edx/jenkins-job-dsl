@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 cd $WORKSPACE/configuration
 pip install -r requirements.txt
