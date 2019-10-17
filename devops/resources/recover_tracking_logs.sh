@@ -1,4 +1,11 @@
 #!/bin/bash
+
+cd $WORKSPACE/configuration
+pip install -r requirements.txt
+. util/jenkins/assume-role.sh
+
+cd $WORKSPACE/private-configuration
+
 echo "Getting instances with missing tracking logs" >&2
 INSTANCES=$(aws s3 ls --recursive s3://${BUCKET}/logs/tracking | grep -v '\.gz$' | grep -v '0 logs' | sort -n | awk '{print $1"_"$2","$4}')
 echo "Finished getting instances" >&2
@@ -16,7 +23,7 @@ for INSTANCE in $INSTANCES; do
         IP=$(aws ec2 describe-snapshots --snapshot-id ${SNAPSHOT_ID} --query 'Snapshots[*].Tags[?Key==`hostname`].Value' --output text | sed 's/ip-//' | sed 's/-/./g')
         echo "Recovering tracking logs for instance ${INSTANCE_ID} IP:${IP} From:${DATE}" >&2
         set -x
-        ansible-playbook sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAPSHOT_ID}\", \"s3_path\": \"s3://edx-prod-edx/${S3_PREFIX}/${INSTANCE_ID}-${IP}/\"}]}" -clocal
+        echo ansible-playbook sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAPSHOT_ID}\", \"s3_path\": \"s3://edx-prod-edx/${S3_PREFIX}/${INSTANCE_ID}-${IP}/\"}]}" -clocal
         set +x
     else
         echo "Unable to find snapshot for instance ${INSTANCE_ID} IP:${IP} From:${DATE}" >&2
