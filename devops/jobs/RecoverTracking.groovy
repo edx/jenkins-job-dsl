@@ -59,7 +59,7 @@ class RecoverTracking {
 //                    }
 
                     parameters{
-                        stringParam('BUCKET', inner_config.get('bucket')
+                        stringParam('BUCKET', inner_config.get('bucket'),
                                 'Git repo containing edX configuration.')
                         stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
                                 'Git repo containing edX configuration.')
