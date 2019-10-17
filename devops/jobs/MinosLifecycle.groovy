@@ -99,7 +99,7 @@ class MinosLifecycle {
                             command(dslFactory.readFileFromWorkspace("devops/resources/retire-instances-in-terminating-wait.sh"))
                         }
 
-                        String snitch =  inner_config.get('snitch','')
+                        String snitch = inner_config.get('snitch','')
                         if (snitch) {
                             shell("curl $snitch")
                         }
