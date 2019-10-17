@@ -59,8 +59,6 @@ class RecoverTracking {
 //                    }
 
                     parameters{
-                        stringParam('BUCKET', inner_config.get('bucket'),
-                                'Git repo containing edX configuration.')
                         stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
                                 'Git repo containing edX configuration.')
                         stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
@@ -70,6 +68,8 @@ class RecoverTracking {
                         stringParam('PRIVATE_CONFIGURATION_BRANCH', extraVars.get('PRIVATE_CONFIGURATION_BRANCH', 'master'),
                                 'e.g. tagname or origin/branchname')
                     }
+
+                    def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
 
                     multiscm{
                         git {
@@ -87,6 +87,9 @@ class RecoverTracking {
                             remote {
                                 url('$PRIVATE_CONFIGURATION_REPO')
                                 branch('$PRIVATE_CONFIGURATION_BRANCH')
+                                if (gitCredentialId) {
+                                    credentials(gitCredentialId)
+                                }
                             }
                             extensions {
                                 cleanAfterCheckout()
