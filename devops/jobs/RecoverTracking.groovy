@@ -54,9 +54,9 @@ class RecoverTracking {
                         }
                     }
 
-        #            triggers {
-        #                cron('H/5 * * * *')
-        #            }
+//                    triggers {
+//                        cron('H/5 * * * *')
+//                    }
 
                     parameters{
                         stringParam('BUCKET', inner_config.get('bucket')
