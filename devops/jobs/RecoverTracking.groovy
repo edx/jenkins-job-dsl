@@ -40,7 +40,7 @@ class RecoverTracking {
                     wrappers {
                         credentialsBinding{
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
-                            string('ROLE_ARN', "minos-lifecycle-${deployment}-role-arn")
+                            string('ROLE_ARN', "recover-tracking-logs-${deployment}-role-arn")
                         }
                         sshAgent(extraVars.get('SSH_ACCESS_CREDENTIALS'))
                     }
