@@ -10,7 +10,7 @@ assume-role ${ROLE_ARN}
 cd $WORKSPACE/private-configuration
 
 echo "Getting instances with missing tracking logs" >&2
-INSTANCES=$(aws s3 ls --recursive s3://${BUCKET}/logs/tracking | grep -v '\.gz$' | grep -v '0 logs' | sort -n | awk '{print $1"_"$2","$4}')
+INSTANCES=$(aws s3 ls --recursive s3://${BUCKET}/logs/tracking/ | grep -v '\.gz$' | grep -v '0 logs' | sort -n | awk '{print $1"_"$2","$4}')
 echo "Finished getting instances" >&2
 
 for INSTANCE in $INSTANCES; do
