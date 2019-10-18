@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-AWS_REGION=us-east-1
+export AWS_DEFAULT_REGION=us-east-1
 
 cd $WORKSPACE/configuration
 pip install -r requirements.txt
@@ -23,9 +23,9 @@ for INSTANCE in $INSTANCES; do
     S3_PREFIX=$(echo "${INSTANCE}" | cut -d , -f 2 | sed 's/\/i-.*$//')
     set +x
     echo "Looking for snapshot for instance ${INSTANCE_ID} IP:${IP} From:${DATE}" >&2
-    SNAPSHOT_ID=$(aws ec2 describe-snapshots --region ${AWS_REGION} --filters Name=tag-key,Values="instance-id" Name=tag-value,Values="${INSTANCE_ID}" --query 'Snapshots[*].SnapshotId' --output text)
+    SNAPSHOT_ID=$(aws ec2 describe-snapshots --filters Name=tag-key,Values="instance-id" Name=tag-value,Values="${INSTANCE_ID}" --query 'Snapshots[*].SnapshotId' --output text)
     if [ -n "${SNAPSHOT_ID}" ]; then
-        IP=$(aws ec2 describe-snapshots --region ${AWS_REGION} --snapshot-id ${SNAPSHOT_ID} --query 'Snapshots[*].Tags[?Key==`hostname`].Value' --output text | sed 's/ip-//' | sed 's/-/./g')
+        IP=$(aws ec2 describe-snapshots --snapshot-id ${SNAPSHOT_ID} --query 'Snapshots[*].Tags[?Key==`hostname`].Value' --output text | sed 's/ip-//' | sed 's/-/./g')
         echo "Recovering tracking logs for instance ${INSTANCE_ID} IP:${IP} From:${DATE}" >&2
         set -x
         echo ansible-playbook sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAPSHOT_ID}\", \"s3_path\": \"s3://edx-prod-edx/${S3_PREFIX}/${INSTANCE_ID}-${IP}/\"}]}" -clocal
