@@ -1,8 +1,11 @@
 #!/bin/bash
+set -e
 
 cd $WORKSPACE/configuration
 pip install -r requirements.txt
 . util/jenkins/assume-role.sh
+
+assume-role ${ROLE_ARN}
 
 cd $WORKSPACE/private-configuration
 
