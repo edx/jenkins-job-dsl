@@ -25,7 +25,7 @@ for INSTANCE in $INSTANCES; do
     if [ -n "${SNAPSHOT_ID}" ]; then
         IP=$(aws ec2 describe-snapshots --snapshot-id ${SNAPSHOT_ID} --query 'Snapshots[*].Tags[?Key==`hostname`].Value' --output text | sed 's/ip-//' | sed 's/-/./g')
         echo "Recovering tracking logs for instance ${INSTANCE_ID} IP:${IP} From:${DATE}" >&2
-        ansible-playbook -u ubuntu -vvv sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAPSHOT_ID}\", \"s3_path\": \"s3://edx-prod-edx/${S3_PREFIX}/${INSTANCE_ID}-${IP}/\"}]}" -clocal
+        ansible-playbook -u ubuntu -vvv sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAPSHOT_ID}\", \"s3_path\": \"s3://edx-prod-edx/${S3_PREFIX}/${INSTANCE_ID}-${IP}/\"}]}" -e "security_group_ids=${SG_ID}" -e "iam_profile=${IAM_PROFILE}" -clocal
     else
         echo "Unable to find snapshot for instance ${INSTANCE_ID} IP:${IP} From:${DATE}" >&2
     fi
