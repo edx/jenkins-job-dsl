@@ -2,6 +2,7 @@
 set -e
 
 export AWS_DEFAULT_REGION=us-east-1
+export ANSIBLE_HOST_KEY_CHECKING=False
 
 cd $WORKSPACE/configuration
 pip install -r requirements.txt
