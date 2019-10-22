@@ -104,7 +104,7 @@ class RecoverTracking {
                         env('AWS_REGION',extraVars.get('AWS_REGION','us-east-1'))
                         env('BUCKET', inner_config.get("bucket", "edx-${environment}-${deployment}"))
                         env('SG_ID', inner_config.get("security_group_id"))
-                        env('IAM_PROFILE', inner_config.get("iam_profile", "${environment}-${deployment}-edxapp))
+                        env('IAM_PROFILE', inner_config.get("iam_profile", "${environment}-${deployment}-edxapp"))
                     }
 
                     steps {
