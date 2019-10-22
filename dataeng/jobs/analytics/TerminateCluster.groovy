@@ -8,7 +8,7 @@ class TerminateCluster {
         dslFactory.job("terminate-cluster") {
             logRotator common_log_rotator(allVars)
             parameters {
-                stringParam('CLUSTER_NAME', ' ', 'Name of the EMR cluster to terminate.')
+                stringParam('CLUSTER_NAME', '', 'Name of the EMR cluster to terminate.')
                 stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
                 stringParam('CONFIG_BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
             }
