@@ -48,6 +48,10 @@ class MinosLifecycle {
                             string('ROLE_ARN', "minos-lifecycle-${deployment}-role-arn")
                         } 
                         sshAgent(extraVars.get('SSH_ACCESS_CREDENTIALS')) 
+                        timeout {
+                            absolute(15)  // 15 minutes
+                            failBuild()
+                        }
                     }
 
                     logRotator common_logrotator
@@ -129,6 +133,10 @@ class MinosLifecycle {
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                             string('ROLE_ARN', "minos-lifecycle-${deployment}-role-arn")
                         } 
+                        timeout {
+                            absolute(15)  // 15 minutes
+                            failBuild()
+                        }
                     }
                     
                     properties {
