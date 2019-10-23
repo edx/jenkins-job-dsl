@@ -17,6 +17,7 @@ echo "Finished getting instances" >&2
 
 for INSTANCE in $INSTANCES; do
     # Assume role every time so 1 hour token doesn't expire if the job runs for a long time
+    unassume-role
     assume-role ${ROLE_ARN}
     INSTANCE_ID=$(echo "${INSTANCE}" | cut -d / -f 4 | sed 's/-10.*//')
     DATE=$(echo "${INSTANCE}" | cut -d , -f 1)
