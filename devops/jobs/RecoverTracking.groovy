@@ -55,9 +55,9 @@ class RecoverTracking {
                         }
                     }
 
-//                    triggers {
-//                        cron('H/5 * * * *')
-//                    }
+                    triggers {
+                        cron('H H(15-19) * * *')
+                    }
 
                     parameters{
                         stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
