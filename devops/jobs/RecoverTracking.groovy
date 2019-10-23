@@ -37,6 +37,7 @@ class RecoverTracking {
 
                     assert extraVars.containsKey('SSH_ACCESS_CREDENTIALS') : "Please define SSH_ACCESS_CREDENTIALS"
                     assert inner_config.containsKey('security_group_id') : "Please define security_group_id"
+                    assert inner_config.containsKey('subnet_id') : "Please define subnet_id"
 
                     wrappers {
                         credentialsBinding{
@@ -106,6 +107,7 @@ class RecoverTracking {
                         env('AWS_REGION',extraVars.get('AWS_REGION','us-east-1'))
                         env('BUCKET', inner_config.get("bucket", "edx-${environment}-${deployment}"))
                         env('SG_ID', inner_config.get("security_group_id"))
+                        env('SUBNET_ID', inner_config.get("subnet_id"))
                         env('IAM_PROFILE', inner_config.get("iam_profile", "${environment}-${deployment}-edxapp"))
                     }
 
