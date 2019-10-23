@@ -14,7 +14,6 @@ class SnowflakeSchemaBuilder {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the Warehouse Transforms Repo.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of Warehouse Transforms to use.')
                 stringParam('SCHEMAS', allVars.get('SCHEMAS'), 'Snowflake schemas to work on')
-                stringParam('DBT_PROJECT', allVars.get('DBT_PROJECT'), 'dbt project in warehouse-transforms to work on.')
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'dbt profile from analytics-secure to work on.')
                 stringParam('DBT_TARGET', allVars.get('DBT_TARGET'), 'dbt target from analytics-secure to work on.')
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
