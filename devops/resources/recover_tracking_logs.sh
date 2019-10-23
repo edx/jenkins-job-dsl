@@ -16,6 +16,8 @@ INSTANCES=$(aws s3 ls --recursive s3://${BUCKET}/logs/tracking/ | grep -v '\.gz$
 echo "Finished getting instances" >&2
 
 for INSTANCE in $INSTANCES; do
+    # Assume role every time so 1 hour token doesn't expire if the job runs for a long time
+    assume-role ${ROLE_ARN}
     INSTANCE_ID=$(echo "${INSTANCE}" | cut -d / -f 4 | sed 's/-10.*//')
     DATE=$(echo "${INSTANCE}" | cut -d , -f 1)
     IP=$(echo "${INSTANCE}" | cut -d , -f 2 | sed 's/.*-10\./10./' | cut -d / -f 1)
@@ -25,7 +27,7 @@ for INSTANCE in $INSTANCES; do
     if [ -n "${SNAPSHOT_ID}" ]; then
         IP=$(aws ec2 describe-snapshots --snapshot-id ${SNAPSHOT_ID} --query 'Snapshots[*].Tags[?Key==`hostname`].Value' --output text | sed 's/ip-//' | sed 's/-/./g')
         echo "Recovering tracking logs for instance ${INSTANCE_ID} IP:${IP} From:${DATE}" >&2
-        ansible-playbook -u ubuntu -vvv sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAPSHOT_ID}\", \"s3_path\": \"s3://edx-prod-edx/${S3_PREFIX}/${INSTANCE_ID}-${IP}/\"}]}" -e "security_group_ids=${SG_ID}" -e "iam_profile=${IAM_PROFILE}" -clocal
+        ansible-playbook -u ubuntu -vvv sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAPSHOT_ID}\", \"s3_path\": \"s3://edx-prod-edx/${S3_PREFIX}/${INSTANCE_ID}-${IP}/\"}]}" -e "security_group_ids=${SG_ID}" -e "subnet_id=${SUBNET_ID}" -e "iam_profile=${IAM_PROFILE}" -clocal
     else
         echo "Unable to find snapshot for instance ${INSTANCE_ID} IP:${IP} From:${DATE}" >&2
     fi
