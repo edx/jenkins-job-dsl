@@ -46,7 +46,9 @@ class RecoverTracking {
                         sshAgent(extraVars.get('SSH_ACCESS_CREDENTIALS'))
                     }
 
-                    logRotator common_logrotator
+                    logRotator {
+                        daysToKeep(30)
+                    }
 
                     properties {
                         rebuild {
