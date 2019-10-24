@@ -57,8 +57,8 @@ Map credentials = [
     pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['masters-neem'],
-    emails: ['masters-neem@edx.org']
+    githubTeamReviewers: ['masters-devs'],
+    emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
 Map devstack = [
@@ -127,8 +127,8 @@ Map edxProctoring = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
-    githubTeamReviewers: ['testeng', 'Masters-dahlia'],
-    emails: ['feanil@edx.org', 'testeng@edx.org', 'masters-dahlia@edx.org']
+    githubTeamReviewers: ['masters-devs'],
+    emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
 Map edxSphinxTheme = [
@@ -157,8 +157,8 @@ Map registrar = [
     pythonVersion: '3.6',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['masters-neem'],
-    emails: ['masters-neem@edx.org']
+    githubTeamReviewers: ['masters-devs'],
+    emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
 Map testengCI = [
