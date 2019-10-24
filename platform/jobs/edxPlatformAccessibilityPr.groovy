@@ -44,7 +44,7 @@ Map publicJobConfig = [
     open : true,
     jobName : 'edx-platform-accessibility-pr',
     repoName : 'edx-platform',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/a11y',
     triggerPhrase: /.*jenkins\W+run\W+a11y.*/
@@ -54,7 +54,7 @@ Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-accessibility-pr_private',
     repoName: 'edx-platform-private',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/a11y',
     triggerPhrase: /.*jenkins\W+run\W+a11y.*/
@@ -64,7 +64,7 @@ Map python3JobConfig = [
     open : true,
     jobName : 'edx-platform-python3-accessibility-pr',
     repoName : 'edx-platform',
-    workerLabel: 'jenkins-worker',
+    workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python3.5/a11y',
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+a11y.*/,
