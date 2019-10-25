@@ -9,7 +9,7 @@ pip install -r tools/dbt_schema_builder/requirements.txt
 cd $DBT_PROJECT
 dbt clean
 
-cd $WORKSPACE/warehouse-transforms
+cd $WORKSPACE/warehouse-transforms/app_views_project
 
 dbt run --models tag:$MODEL_TAG --project $DBT_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
