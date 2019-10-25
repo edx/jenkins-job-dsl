@@ -18,8 +18,6 @@ branchname="builder_$now"
 git checkout -b "$branchname"
 
 # Run the dbt script to update schemas and sql
-cd $WORKSPACE/warehouse-transforms/warehouse_transforms_project
-python $WORKSPACE/warehouse-transforms/tools/dbt_schema_builder/schema_builder.py build --raw-schemas $SCHEMAS --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 cd $WORKSPACE/warehouse-transforms/app_views_project
 python $WORKSPACE/warehouse-transforms/tools/dbt_schema_builder/schema_builder.py build --raw-schemas $SCHEMAS --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
