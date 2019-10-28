@@ -190,8 +190,9 @@ class CreateSandbox {
                 stringParam("video_encode_worker_version","master","")
 
                 choiceParam("server_type",
-                            ["full_edx_installation",
-                             "full_edx_installation_from_scratch",
+                            [
+                            "full_edx_installation_from_scratch",
+                            "full_edx_installation",
                              "ubuntu_16.04",
                             ],
                             "Type of AMI we should boot before updating the selected roles above")

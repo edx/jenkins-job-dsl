@@ -52,6 +52,7 @@ class CreateSandboxCI {
                 // Once we resolve the mismatched Elastic Search versions, enable discovery
                 //booleanParam('course_discovery',true)
                 if (type == 'Hourly') {
+                  predefinedProp('server_type', 'full_edx_installation_from_scratch')
                   predefinedProp('dns_name','int')
                   booleanParam('reconfigure',true)
                   booleanParam('recreate',false)
