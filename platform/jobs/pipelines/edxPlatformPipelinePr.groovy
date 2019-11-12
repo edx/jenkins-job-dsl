@@ -216,7 +216,7 @@ Map publicQualityPython3JobConfig = [
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/py35-django111/quality',
-    onlyTriggerPhrase: true,
+    onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+quality.*/,
     toxEnv: 'py35-django111',
     jenkinsFileDir: 'scripts/Jenkinsfiles',
