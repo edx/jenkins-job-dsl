@@ -58,7 +58,7 @@ Map publicBokchoyPython3JobConfig = [
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/py35-django111/bokchoy',
-    onlyTriggerPhrase: true,
+    onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
