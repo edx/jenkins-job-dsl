@@ -57,6 +57,7 @@ Map python3JobConfig = [
     context: 'jenkins/python3.5/a11y',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     toxEnv: 'py35-django111'
+]
 
 Map ironwoodJobConfig = [
     open: true,
