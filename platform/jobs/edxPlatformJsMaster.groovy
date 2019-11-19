@@ -52,6 +52,16 @@ Map privateJobConfig = [
     defaultBranch : 'security-release'
 ]
 
+Map python3JobConfig = [
+    open : true,
+    jobName : 'edx-platform-python3-js-master',
+    repoName: 'edx-platform',
+    workerLabel: 'js-worker',
+    context: 'jenkins/python3.5/js',
+    refSpec : '+refs/heads/master:refs/remotes/origin/master',
+    toxEnv: 'py35-django111'
+]
+
 Map ironwoodJobConfig = [
     open: true,
     jobName: 'ironwood-js-master',
@@ -65,6 +75,7 @@ Map ironwoodJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
+    python3JobConfig,
     ironwoodJobConfig
 ]
 
@@ -82,6 +93,9 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
+        environmentVariables {
+            env('TOX_ENV', jobConfig.toxEnv)
+        }
         parameters {
             labelParam('WORKER_LABEL') {
                 description('Select a Jenkins worker label for running this job')

@@ -26,6 +26,18 @@ Map privateBokchoyJobConfig = [
     pythonVersion: '2.7',
 ]
 
+Map publicBokchoyPython3JobConfig = [
+    open : true,
+    jobName : 'edx-platform-python3-bokchoy-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy',
+    branch: 'master',
+    context: 'jenkins/py35-django111/bokchoy',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django111',
+]
+
 Map ironwoodBokchoyJobConfig = [
     open: true,
     jobName: 'ironwood-bokchoy-pipeline-master',
@@ -70,6 +82,18 @@ Map privatePythonJobConfig = [
     pythonVersion: '2.7',
 ]
 
+Map publicPythonPython3JobConfig = [
+    open: true,
+    jobName: 'edx-platform-python3-python-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    branch: 'master',
+    context: 'jenkins/py35-django111/python',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django111',
+]
+
 Map ironwoodPythonJobConfig = [
     open: true,
     jobName: 'ironwood-python-pipeline-master',
@@ -103,6 +127,18 @@ Map privateQualityJobConfig = [
     pythonVersion: '2.7',
 ]
 
+Map publicQualityPython3JobConfig = [
+    open : true,
+    jobName : 'edx-platform-python3-quality-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    branch: 'master',
+    context: 'jenkins/py35-django111/quality',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django111',
+]
+
 Map ironwoodQualityJobConfig = [
     open: true,
     jobName: 'ironwood-quality-pipeline-master',
@@ -117,13 +153,16 @@ Map ironwoodQualityJobConfig = [
 List jobConfigs = [
     publicBokchoyJobConfig,
     privateBokchoyJobConfig,
+    publicBokchoyPython3JobConfig,
     ironwoodBokchoyJobConfig,
     ironwoodLettuceJobConfig,
     publicPythonJobConfig,
     privatePythonJobConfig,
+    publicPythonPython3JobConfig,
     ironwoodPythonJobConfig,
     publicQualityJobConfig,
     privateQualityJobConfig,
+    publicQualityPython3JobConfig,
     ironwoodQualityJobConfig
 ]
 
@@ -143,6 +182,7 @@ jobConfigs.each { jobConfig ->
                 REPO_NAME: "${jobConfig.repoName}",
                 BRANCH_NAME: "${jobConfig.branch}",
                 GITHUB_CONTEXT: "${jobConfig.context}",
+                TOX_ENV: "${jobConfig.toxEnv}",
                 PYTHON_VERSION: "${jobConfig.pythonVersion}"
             )
 
