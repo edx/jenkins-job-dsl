@@ -56,6 +56,7 @@ Map python3JobConfig = [
     workerLabel: 'jenkins-worker',
     context: 'jenkins/python3.5/a11y',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
+    defaultBranch : 'master',
     toxEnv: 'py35-django111'
 ]
 
