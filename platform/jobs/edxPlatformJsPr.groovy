@@ -76,9 +76,9 @@ Map python3JobConfig = [
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python3.5/js',
-    triggerPhrase: /.*jenkins\W+run\W+py36-django111\W+js.*/,
+    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+js.*/,
     commentOnly: true,
-    toxEnv: 'py36-django111'
+    toxEnv: 'py35-django111'
 ]
 
 Map publicIronwoodJobConfig = [
