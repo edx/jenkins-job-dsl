@@ -77,7 +77,6 @@ Map python3JobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python3.5/js',
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+js.*/,
-    commentOnly: true,
     toxEnv: 'py35-django111'
 ]
 
