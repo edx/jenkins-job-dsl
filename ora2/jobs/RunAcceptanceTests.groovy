@@ -17,9 +17,9 @@ class RunAcceptanceTests {
             description('Run ORA2 acceptance tests on a sandbox.')
             logRotator{
                 daysToKeep(10)
-                numToKeep(1)
-                artifactDaysToKeep(1)
-                artifactNumToKeep(1)
+                numToKeep(10)
+                artifactDaysToKeep(10)
+                artifactNumToKeep(10)
             }
             properties {
                 githubProjectProperty {
