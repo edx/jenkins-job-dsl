@@ -163,6 +163,9 @@ class CreateSandbox {
                 booleanParam("discovery",false,"")
                 stringParam("discovery_version","master","")
 
+                booleanParam("notes",false,"")
+                stringParam("notes_version","master","")
+
                 booleanParam("credentials",false,"")
                 stringParam("credentials_version","master","")
 
