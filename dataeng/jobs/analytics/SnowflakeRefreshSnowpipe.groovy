@@ -10,21 +10,23 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 
 
-// If you want to configure another table to a Snowpipe, create a config map
-// here and add it to the jobConfigs list.
-Map eventSnowpipeConfig = [
-    NAME: 'refresh-snowpipe-event-loader',
-    PIPE_NAME: 'snowpipe_event_loader',
-    TABLE_NAME: 'json_event_records',
-    DELAY: 120,
-    LIMIT: 7
-]
-List jobConfigs = [
-    eventSnowpipeConfig
-]
 
 class SnowflakeRefreshSnowpipe {
+
     public static def job = { dslFactory, allVars ->
+
+        // If you want to configure another table to a Snowpipe, create a config map
+        // here and add it to the jobConfigs list.
+        Map eventSnowpipeConfig = [
+            NAME: 'refresh-snowpipe-event-loader',
+            PIPE_NAME: 'snowpipe_event_loader',
+            TABLE_NAME: 'json_event_records',
+            DELAY: '120',
+            LIMIT: '7'
+        ]
+        List jobConfigs = [
+            eventSnowpipeConfig
+        ]
 
         jobConfigs.each { jobConfig ->
 
