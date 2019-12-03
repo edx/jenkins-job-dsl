@@ -238,6 +238,9 @@ jobConfigs.each { jobConfig ->
                 if (jobConfig.testSuite == 'microsites') {
                     extensions {
                         relativeTargetDirectory('edx-e2e-tests')
+                        if (jobConfig.trigger == 'pipeline') {
+                            shallow(true)
+                        }
                     }
                 }
             }
