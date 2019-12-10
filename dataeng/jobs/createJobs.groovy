@@ -52,6 +52,7 @@ import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoa
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.SnowflakeRefreshSnowpipe.job as SnowflakeRefreshSnowpipeJob
+import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -127,6 +128,7 @@ def taskMap = [
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
     DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
     SNOWFLAKE_REFRESH_SNOWPIPE_JOB: SnowflakeRefreshSnowpipeJob,
+    EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
 ]
 
 for (task in taskMap) {
