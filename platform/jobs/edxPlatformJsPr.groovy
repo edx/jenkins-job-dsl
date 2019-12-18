@@ -56,7 +56,8 @@ Map publicJobConfig = [
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/js',
-    triggerPhrase: /.*jenkins\W+run\W+js.*/
+    triggerPhrase: /.*jenkins\W+run\W+js.*/,
+    pythonVersion: '3.5',
 ]
 
 Map privateJobConfig = [
@@ -66,18 +67,8 @@ Map privateJobConfig = [
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/js',
-    triggerPhrase: /.*jenkins\W+run\W+js.*/
-]
-
-Map python3JobConfig = [
-    open : true,
-    jobName : 'edx-platform-python3-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'js-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python3.5/js',
-    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+js.*/,
-    toxEnv: 'py35-django111'
+    triggerPhrase: /.*jenkins\W+run\W+js.*/,
+    pythonVersion: '3.5',
 ]
 
 Map publicIronwoodJobConfig = [
@@ -103,7 +94,6 @@ Map privateIronwoodJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    python3JobConfig,
     publicIronwoodJobConfig,
     privateIronwoodJobConfig
 ]
@@ -123,6 +113,7 @@ jobConfigs.each { jobConfig ->
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
         environmentVariables {
+            env('PYTHON_VERSION', jobConfig.pythonVersion),
             env('TOX_ENV', jobConfig.toxEnv)
         }
         parameters {
