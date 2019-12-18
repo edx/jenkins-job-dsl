@@ -113,7 +113,7 @@ jobConfigs.each { jobConfig ->
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
         environmentVariables {
-            env('PYTHON_VERSION', jobConfig.pythonVersion),
+            env('PYTHON_VERSION', jobConfig.pythonVersion)
             env('TOX_ENV', jobConfig.toxEnv)
         }
         parameters {
