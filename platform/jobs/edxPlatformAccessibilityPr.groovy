@@ -47,7 +47,8 @@ Map publicJobConfig = [
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/a11y',
-    triggerPhrase: /.*jenkins\W+run\W+a11y.*/
+    triggerPhrase: /.*jenkins\W+run\W+a11y.*/,
+    pythonVersion: '3.5',
 ]
 
 Map privateJobConfig = [
