@@ -181,6 +181,16 @@ Map xblock = [
     emails: ['testeng@edx.org']
 ]
 
+Map xqueue = [
+    org: 'edx',
+    repoName: 'xqueue',
+    pythonVersion: '3.5',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['sustaining-team'],
+    emails: ['sustaining-escalations@edx.org']
+]
+
 
 List jobConfigs = [
     bokchoy,
@@ -200,6 +210,7 @@ List jobConfigs = [
     registrar,
     testengCI,
     xblock,
+    xqueue,
 ]
 
 /* Iterate over the job configurations */
