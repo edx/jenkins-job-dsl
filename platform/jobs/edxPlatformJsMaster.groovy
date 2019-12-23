@@ -39,7 +39,8 @@ Map publicJobConfig = [
     workerLabel: 'js-worker',
     context: 'jenkins/js',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
+    defaultBranch : 'master',
+    pythonVersion: '3.5',
 ]
 
 Map privateJobConfig = [
@@ -49,18 +50,8 @@ Map privateJobConfig = [
     workerLabel: 'js-worker',
     context: 'jenkins/js',
     refSpec : '+refs/heads/security-release:refs/remotes/origin/security-release',
-    defaultBranch : 'security-release'
-]
-
-Map python3JobConfig = [
-    open : true,
-    jobName : 'edx-platform-python3-js-master',
-    repoName: 'edx-platform',
-    workerLabel: 'js-worker',
-    context: 'jenkins/python3.5/js',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master',
-    toxEnv: 'py35-django111'
+    defaultBranch : 'security-release',
+    pythonVersion: '3.5',
 ]
 
 Map ironwoodJobConfig = [
@@ -76,7 +67,6 @@ Map ironwoodJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    python3JobConfig,
     ironwoodJobConfig
 ]
 
@@ -95,6 +85,7 @@ jobConfigs.each { jobConfig ->
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
         environmentVariables {
+            env('PYTHON_VERSION', jobConfig.pythonVersion)
             env('TOX_ENV', jobConfig.toxEnv)
         }
         parameters {

@@ -44,6 +44,6 @@ class edxPlatformPipelinesMasterJobSpec extends Specification {
 
         where:
         dslFile                                   | numJobs
-        'edxPlatformPipelineMaster.groovy'        | 13
+        'edxPlatformPipelineMaster.groovy'        | 10
     }
 }

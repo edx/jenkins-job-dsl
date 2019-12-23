@@ -47,7 +47,8 @@ Map publicJobConfig = [
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/a11y',
-    triggerPhrase: /.*jenkins\W+run\W+a11y.*/
+    triggerPhrase: /.*jenkins\W+run\W+a11y.*/,
+    pythonVersion: '3.5',
 ]
 
 Map privateJobConfig = [
@@ -57,18 +58,8 @@ Map privateJobConfig = [
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/a11y',
-    triggerPhrase: /.*jenkins\W+run\W+a11y.*/
-]
-
-Map python3JobConfig = [
-    open : true,
-    jobName : 'edx-platform-python3-accessibility-pr',
-    repoName : 'edx-platform',
-    workerLabel: 'js-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python3.5/a11y',
-    triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+a11y.*/,
-    toxEnv: 'py35-django111'
+    triggerPhrase: /.*jenkins\W+run\W+a11y.*/,
+    pythonVersion: '3.5',
 ]
 
 Map publicIronwoodJobConfig = [
@@ -94,7 +85,6 @@ Map privateIronwoodJobConfig = [
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    python3JobConfig,
     publicIronwoodJobConfig,
     privateIronwoodJobConfig
 ]
@@ -113,6 +103,7 @@ jobConfigs.each { jobConfig ->
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
         environmentVariables {
+            env('PYTHON_VERSION', jobConfig.pythonVersion)
             env('TOX_ENV', jobConfig.toxEnv)
         }
         parameters {
@@ -179,18 +170,10 @@ jobConfigs.each { jobConfig ->
            shell("cd ${jobConfig.repoName}; TEST_SUITE=a11y bash scripts/accessibility-tests.sh")
        }
        publishers {
-           publishHtml {
-               report("${jobConfig.repoName}/reports/pa11ycrawler/html") {
-               reportName('HTML Report')
-               allowMissing()
-               keepAll()
-               }
-           }
            archiveArtifacts {
                pattern(JENKINS_PUBLIC_JUNIT_REPORTS)
                pattern('edx-platform*/test_root/log/**/*.png')
                pattern('edx-platform*/test_root/log/**/*.log')
-               pattern('edx-platform*/reports/pa11ycrawler/**/*')
                allowEmpty()
                defaultExcludes()
            }

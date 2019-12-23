@@ -11,7 +11,7 @@ Map publicBokchoyJobConfig = [
     jenkinsFileName: 'bokchoy',
     branch: 'master',
     context: 'jenkins/bokchoy',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
 ]
 
 Map privateBokchoyJobConfig = [
@@ -22,19 +22,7 @@ Map privateBokchoyJobConfig = [
     jenkinsFileName: 'bokchoy',
     branch: 'security-release',
     context: 'jenkins/bokchoy',
-    pythonVersion: '2.7',
-]
-
-Map publicBokchoyPython3JobConfig = [
-    open : true,
-    jobName : 'edx-platform-python3-bokchoy-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    branch: 'master',
-    context: 'jenkins/py35-django111/bokchoy',
     pythonVersion: '3.5',
-    toxEnv: 'py35-django111',
 ]
 
 Map ironwoodBokchoyJobConfig = [
@@ -67,7 +55,7 @@ Map publicPythonJobConfig = [
     jenkinsFileName: 'python',
     branch: 'master',
     context: 'jenkins/python',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
 ]
 
 Map privatePythonJobConfig = [
@@ -78,19 +66,7 @@ Map privatePythonJobConfig = [
     jenkinsFileName: 'python',
     branch: 'security-release',
     context: 'jenkins/python',
-    pythonVersion: '2.7',
-]
-
-Map publicPythonPython3JobConfig = [
-    open: true,
-    jobName: 'edx-platform-python3-python-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    branch: 'master',
-    context: 'jenkins/py35-django111/python',
     pythonVersion: '3.5',
-    toxEnv: 'py35-django111',
 ]
 
 Map ironwoodPythonJobConfig = [
@@ -112,7 +88,7 @@ Map publicQualityJobConfig = [
     jenkinsFileName: 'quality',
     branch: 'master',
     context: 'jenkins/quality',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
 ]
 
 Map privateQualityJobConfig = [
@@ -123,19 +99,7 @@ Map privateQualityJobConfig = [
     jenkinsFileName: 'quality',
     branch: 'security-release',
     context: 'jenkins/quality',
-    pythonVersion: '2.7',
-]
-
-Map publicQualityPython3JobConfig = [
-    open : true,
-    jobName : 'edx-platform-python3-quality-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    branch: 'master',
-    context: 'jenkins/py35-django111/quality',
     pythonVersion: '3.5',
-    toxEnv: 'py35-django111',
 ]
 
 Map ironwoodQualityJobConfig = [
@@ -152,16 +116,13 @@ Map ironwoodQualityJobConfig = [
 List jobConfigs = [
     publicBokchoyJobConfig,
     privateBokchoyJobConfig,
-    publicBokchoyPython3JobConfig,
     ironwoodBokchoyJobConfig,
     ironwoodLettuceJobConfig,
     publicPythonJobConfig,
     privatePythonJobConfig,
-    publicPythonPython3JobConfig,
     ironwoodPythonJobConfig,
     publicQualityJobConfig,
     privateQualityJobConfig,
-    publicQualityPython3JobConfig,
     ironwoodQualityJobConfig
 ]
 
