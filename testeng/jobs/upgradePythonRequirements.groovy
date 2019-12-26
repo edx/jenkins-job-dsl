@@ -114,7 +114,7 @@ Map edxOrganizations = [
 Map edxPlatform = [
     org: 'edx',
     repoName: 'edx-platform',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@daily',
     githubUserReviewers: [],
     githubTeamReviewers: ['platform-core', 'testeng'],
