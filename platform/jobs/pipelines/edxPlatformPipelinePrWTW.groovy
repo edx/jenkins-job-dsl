@@ -36,7 +36,7 @@ Map publicBokchoyJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+wtw\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
 ]
 
 Map publicPythonJobConfig = [
@@ -49,7 +49,7 @@ Map publicPythonJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+wtw\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
 ]
 
 List jobConfigs = [
