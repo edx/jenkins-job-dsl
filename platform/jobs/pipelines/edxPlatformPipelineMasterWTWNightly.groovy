@@ -12,7 +12,7 @@ Map wtwBokchoyJobConfig = [
     jenkinsFileName: 'bokchoy',
     branch: 'master',
     context: 'jenkins/bokchoy-contexts',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
 ]
 
 Map wtwPythonJobConfig = [
@@ -23,7 +23,7 @@ Map wtwPythonJobConfig = [
     jenkinsFileName: 'python',
     branch: 'master',
     context: 'jenkins/python-contexts',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
 ]
 
 List jobConfigs = [
