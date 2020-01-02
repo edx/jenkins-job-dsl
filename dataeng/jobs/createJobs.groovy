@@ -54,6 +54,7 @@ import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.SnowflakeRefreshSnowpipe.job as SnowflakeRefreshSnowpipeJob
 import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
+import static analytics.ProgramEnrollmentReports.job as ProgramEnrollmentReportsJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -131,6 +132,7 @@ def taskMap = [
     SNOWFLAKE_REFRESH_SNOWPIPE_JOB: SnowflakeRefreshSnowpipeJob,
     EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
+    PROGRAM_ENROLLMENT_REPORTS_JOB: ProgramEnrollmentReportsJob,
 ]
 
 for (task in taskMap) {
