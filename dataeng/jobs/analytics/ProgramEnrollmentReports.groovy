@@ -1,4 +1,3 @@
-
 package analytics
 
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
