@@ -61,8 +61,6 @@ class SnowflakeExpirePasswords {
                     }
                 }
                 if (!jobConfig['MANUAL']) {
-                    // Keep this job disabled until January
-                    disabled(true)
                     triggers common_triggers(allVars)
                 }
                 wrappers {
