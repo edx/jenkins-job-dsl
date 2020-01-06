@@ -34,7 +34,7 @@ Map completion = [
 Map cookiecutterDjangoApp = [
     org: 'edx',
     repoName: 'cookiecutter-django-app',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['testeng'],
