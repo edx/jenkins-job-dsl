@@ -174,6 +174,7 @@ job('user-retirement-driver') {
             name('user-retirement-driver')
             nature('shell')
             command(readFileFromWorkspace('platform/resources/user-retirement-driver.sh'))
+            pythonName('PYTHON_3.5')
         }
     }
 
@@ -309,6 +310,7 @@ job('user-retirement-collector') {
             name('user-retirement-collector')
             nature('shell')
             command(readFileFromWorkspace('platform/resources/user-retirement-collector.sh'))
+            pythonName('PYTHON_3.5')
         }
         // This takes as input the properties files created in the previous
         // step, and triggers user-retirement-driver jobs per file.
@@ -472,6 +474,7 @@ job('retirement-partner-reporter') {
             name('retirement-partner-reporter')
             nature('shell')
             command(readFileFromWorkspace('platform/resources/retirement-partner-reporter.sh'))
+            pythonName('PYTHON_3.5')
         }
     }
 
@@ -599,6 +602,7 @@ job('retirement-partner-report-cleanup') {
             name('retirement-partner-report-cleanup')
             nature('shell')
             command(readFileFromWorkspace('platform/resources/retirement-partner-report-cleanup.sh'))
+            pythonName('PYTHON_3.5')
         }
     }
 
@@ -722,6 +726,7 @@ job('user-retirement-bulk-status') {
             name('user-retirement-bulk-status')
             nature('shell')
             command(readFileFromWorkspace('platform/resources/user-retirement-bulk-status.sh'))
+            pythonName('PYTHON_3.5')
         }
     }
     publishers {
