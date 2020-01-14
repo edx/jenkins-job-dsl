@@ -2,7 +2,7 @@
 env
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
- LoadGoogleSpreadsheetsToWarehouseWorkflow --local-scheduler \
+ LoadGoogleSpreadsheetsToVerticaWorkflow --local-scheduler \
  --date $(date +%Y-%m-%d -d "$TO_DATE") \
  --google-credentials $GOOGLE_CREDENTIALS \
  --overwrite

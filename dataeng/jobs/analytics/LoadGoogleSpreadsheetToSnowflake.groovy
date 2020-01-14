@@ -8,9 +8,9 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 
-class LoadGoogleSpreadsheetToWarehouse {
+class LoadGoogleSpreadsheetToSnowflake {
     public static def job = { dslFactory, allVars ->
-        dslFactory.job("load-google-spreadsheet-to-warehouse") {
+        dslFactory.job("load-google-spreadsheet-to-snowflake") {
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
@@ -23,7 +23,7 @@ class LoadGoogleSpreadsheetToWarehouse {
             wrappers common_wrappers(allVars)
             publishers common_publishers(allVars)
             steps {
-                shell(dslFactory.readFileFromWorkspace('dataeng/resources/load-google-spreadsheet.sh'))
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/load-google-spreadsheet-snowflake.sh'))
             }
         }
     }
