@@ -9,7 +9,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 
 
 
-class ProgramReports {
+class ProgramEnrollmentReports {
 
     public static def job = { dslFactory, allVars ->
 
@@ -21,8 +21,8 @@ class ProgramReports {
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters {
-                stringParam('OUTPUT_ROOT', env_config.get('OUTPUT_ROOT'), 'Report output location')
-                stringParam('VERTICA_CREDENTIALS', allVars.get('VERTICA_CREDENTIALS')), 'The path to the Vertica credentials file.')
+                stringParam('OUTPUT_ROOT', allVars.get('OUTPUT_ROOT'), 'Report output location')
+                stringParam('VERTICA_CREDENTIALS', allVars.get('VERTICA_CREDENTIALS'), 'The path to the Vertica credentials file.')
             }
  
             multiscm common_multiscm(allVars)
