@@ -19,8 +19,8 @@ class SnowflakeRefreshSnowpipe {
         // here and add it to the jobConfigs list.
         Map eventSnowpipeConfig = [
             NAME: 'refresh-snowpipe-event-loader',
-            PIPE_NAME: 'snowpipe_event_loader',
-            TABLE_NAME: 'json_event_records',
+            PIPE_NAME: 'prod.events.prod_edx_snowpipe_event_loader',
+            TABLE_NAME: 'prod.events.tracking_log_events_raw',
             DELAY: '120',
             LIMIT: '7'
         ]
