@@ -17,6 +17,9 @@ class LoadGoogleSpreadsheetToSnowflake {
             parameters to_date_interval_parameter(allVars)
             parameters {
                 stringParam('GOOGLE_CREDENTIALS', allVars.get('GOOGLE_CREDENTIALS'))
+                stringParam('SNOWFLAKE_CREDENTIALS', allVars.get('SNOWFLAKE_CREDENTIALS'), 'The path to the Snowflake user credentials file.')
+                stringParam('SNOWFLAKE_WAREHOUSE', allVars.get('SNOWFLAKE_WAREHOUSE'), 'The warehouse to use for loading data into Snowflake.')
+                stringParam('SNOWFLAKE_ROLE', allVars.get('SNOWFLAKE_ROLE'), 'The role to use for loading data into Snowflake.')
             }
             multiscm common_multiscm(allVars)
             triggers common_triggers(allVars)
