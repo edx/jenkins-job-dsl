@@ -51,6 +51,45 @@ Map publicJobConfig = [
     pythonVersion: '3.5',
 ]
 
+Map django20JobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.0-accessibility-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'js-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.0/a11y',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django20\W+a11y.*/,
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django20',
+]
+
+Map django21JobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.1-accessibility-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'js-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.1/a11y',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django21\W+a11y.*/,
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django21',
+]
+
+Map django22JobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.2-accessibility-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'js-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.2/a11y',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django22\W+a11y.*/,
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django22',
+]
+
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-accessibility-pr_private',
@@ -84,6 +123,9 @@ Map privateIronwoodJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
+    django20JobConfig,
+    django21JobConfig,
+    django22JobConfig,
     privateJobConfig,
     publicIronwoodJobConfig,
     privateIronwoodJobConfig
@@ -139,7 +181,7 @@ jobConfigs.each { jobConfig ->
                 admins(ghprbMap['admin'])
                 useGitHubHooks()
                 triggerPhrase(jobConfig.triggerPhrase)
-                if (jobConfig.commentOnly) {
+                if (jobConfig.onlyTriggerPhrase) {
                     onlyTriggerPhrase(true)
                 }
                 userWhitelist(ghprbMap['userWhiteList'])

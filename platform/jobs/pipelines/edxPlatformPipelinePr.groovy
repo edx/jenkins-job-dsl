@@ -39,6 +39,48 @@ Map publicBokchoyJobConfig = [
     pythonVersion: '3.5',
 ]
 
+Map django20BokchoyJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.0-bokchoy-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.0/bokchoy',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django20\W+bokchoy.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django20',
+]
+
+Map django21BokchoyJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.1-bokchoy-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.1/bokchoy',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django21\W+bokchoy.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django21',
+]
+
+Map django22BokchoyJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.2-bokchoy-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.2/bokchoy',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django22\W+bokchoy.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'bokchoy',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django22',
+]
+
 Map privateBokchoyJobConfig = [
     open: false,
     jobName: 'edx-platform-bokchoy-pipeline-pr_private',
@@ -117,6 +159,48 @@ Map publicPythonJobConfig = [
     pythonVersion: '3.5',
 ]
 
+Map django20PythonJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.0-python-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.0/python',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django20\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django20',
+]
+
+Map django21PythonJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.1-python-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.1/python',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django21\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django21',
+]
+
+Map django22PythonJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.2-python-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.2/python',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django22\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django22',
+]
+
 Map privatePythonJobConfig = [
     open: false,
     jobName: 'edx-platform-python-pipeline-pr_private',
@@ -169,6 +253,48 @@ Map publicQualityJobConfig = [
     pythonVersion: '3.5',
 ]
 
+Map django20QualityJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.0-quality-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.0/quality',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django20\W+quality.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django20',
+]
+
+Map django21QualityJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.1-quality-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.1/quality',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django21\W+quality.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django21',
+]
+
+Map django22QualityJobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.2-quality-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.2/quality',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django22\W+quality.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django22',
+]
+
 Map privateQualityJobConfig = [
     open: false,
     jobName: 'edx-platform-quality-pipeline-pr_private',
@@ -210,16 +336,25 @@ Map privateQualityIronwoodJobConfig = [
 
 List jobConfigs = [
     publicBokchoyJobConfig,
+    django20BokchoyJobConfig,
+    django21BokchoyJobConfig,
+    django22BokchoyJobConfig,
     privateBokchoyJobConfig,
     publicBokchoyIronwoodJobConfig,
     privateBokchoyIronwoodJobConfig,
     publicLettuceIronwoodJobConfig,
     privateLettuceIronwoodJobConfig,
     publicPythonJobConfig,
+    django20PythonJobConfig,
+    django21PythonJobConfig,
+    django22PythonJobConfig,
     privatePythonJobConfig,
     publicPythonIronwoodJobConfig,
     privatePythonIronwoodJobConfig,
     publicQualityJobConfig,
+    django20QualityJobConfig,
+    django21QualityJobConfig,
+    django22QualityJobConfig,
     privateQualityJobConfig,
     publicQualityIronwoodJobConfig,
     privateQualityIronwoodJobConfig
