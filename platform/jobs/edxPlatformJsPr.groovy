@@ -60,6 +60,45 @@ Map publicJobConfig = [
     pythonVersion: '3.5',
 ]
 
+Map django20JobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.0-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'js-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.0/js',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django20\W+js.*/,
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django20',
+]
+
+Map django21JobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.1-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'js-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.1/js',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django21\W+js.*/,
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django21',
+]
+
+Map django22JobConfig = [
+    open: true,
+    jobName: 'edx-platform-django-2.2-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'js-worker',
+    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    context: 'jenkins/django-2.2/js',
+    onlyTriggerPhrase: true,
+    triggerPhrase: /.*jenkins\W+run\W+django22\W+js.*/,
+    pythonVersion: '3.5',
+    toxEnv: 'py35-django22',
+]
+
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-js-pr_private',
@@ -93,6 +132,9 @@ Map privateIronwoodJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
+    django20JobConfig,
+    django21JobConfig,
+    django22JobConfig,
     privateJobConfig,
     publicIronwoodJobConfig,
     privateIronwoodJobConfig
@@ -150,7 +192,7 @@ jobConfigs.each { jobConfig ->
                 userWhitelist(ghprbMap['userWhiteList'])
                 orgWhitelist(ghprbMap['orgWhiteList'])
                 triggerPhrase(jobConfig.triggerPhrase)
-                if (jobConfig.commentOnly) {
+                if (jobConfig.onlyTriggerPhrase) {
                     onlyTriggerPhrase(true)
                 }
                 whiteListTargetBranches([jobConfig.whitelistBranchRegex])
