@@ -15,9 +15,6 @@ class ProgramEnrollmentReports {
 
         dslFactory.job('program-enrollment-reports') {
 
-            // disabled until downstream reporting work is complete
-            disabled(true)
-
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters {
