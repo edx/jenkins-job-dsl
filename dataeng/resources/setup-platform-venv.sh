@@ -2,6 +2,7 @@
 
 # Install requirements
 pushd edx-platform
+pip install "setuptools<45"
 make requirements
 popd
 
