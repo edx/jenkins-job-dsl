@@ -151,6 +151,7 @@ class AppPermissionsRunner {
                                      predefinedProp('DEPLOYMENT', deployment)
                                      predefinedProp('GIT_PREVIOUS_COMMIT_1', '${GIT_PREVIOUS_COMMIT_1}')
                                      predefinedProp('GIT_COMMIT_1', '${GIT_COMMIT_1}')
+                                     predefinedProp('UPSTREAM_BUILD_URL', '${BUILD_URL}')
                                  }
                             }
                         }
