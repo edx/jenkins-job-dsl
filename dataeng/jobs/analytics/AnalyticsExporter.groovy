@@ -28,6 +28,7 @@ class AnalyticsExporter {
                     extensions {
                         pruneBranches()
                         relativeTargetDirectory('edx-platform')
+                        cleanBeforeCheckout()
                     }
                 }
                 git {
@@ -63,6 +64,7 @@ class AnalyticsExporter {
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv.sh")
                     )
+                    clear(true)
                 }
                 virtualenv {
                     nature("shell")
@@ -70,6 +72,7 @@ class AnalyticsExporter {
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/run-course-exporter.sh")
                     )
+                    clear(true)
                 }
             }
         }
@@ -153,6 +156,7 @@ class AnalyticsExporter {
                     extensions {
                         pruneBranches()
                         relativeTargetDirectory('edx-platform')
+                        cleanBeforeCheckout()
                     }
                 }
                 git {
@@ -194,6 +198,7 @@ class AnalyticsExporter {
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv-legacy.sh")
                     )
+                    clear(true)
                 }
                 virtualenv {
                     nature("shell")
@@ -201,6 +206,7 @@ class AnalyticsExporter {
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/setup-exporter.sh")
                     )
+                    clear(true)
                 }
 
                 downstreamParameterized {
