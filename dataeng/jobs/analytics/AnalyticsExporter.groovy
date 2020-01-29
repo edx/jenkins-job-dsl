@@ -62,7 +62,7 @@ class AnalyticsExporter {
                 virtualenv {
                     nature("shell")
                     command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv.sh")
+                        dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv-legacy.sh")
                     )
                     clear(true)
                 }

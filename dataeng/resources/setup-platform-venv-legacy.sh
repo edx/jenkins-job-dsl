@@ -6,6 +6,7 @@
 
 # Install requirements
 pushd edx-platform
+pip install "setuptools<45"
 pip install --exists-action w -r requirements/edx/pre.txt
 pip install --exists-action w -r requirements/edx/django.txt
 pip install --exists-action w -r requirements/edx/base.txt
