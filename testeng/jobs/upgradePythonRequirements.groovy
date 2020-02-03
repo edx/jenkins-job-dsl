@@ -51,7 +51,7 @@ Map courseDiscovery = [
     emails: ['mterry@edx.org']
 ]
 
-Map credentials = [
+Map credentialsRepo = [
     org: 'edx',
     repoName: 'credentials',
     pythonVersion: '3.5',
@@ -227,7 +227,7 @@ List jobConfigs = [
     completion,
     cookiecutterDjangoApp,
     courseDiscovery,
-    credentials,
+    credentialsRepo,
     devstack,
     djangoConfigModels,
     djangoUserTasks,
@@ -266,6 +266,7 @@ jobConfigs.each { jobConfig ->
         multiscm {
             git {
                 remote {
+                    credentials('jenkins-worker')
                     url("https://github.com/edx/${jobConfig.repoName}.git")
                 }
                 branch('master')
