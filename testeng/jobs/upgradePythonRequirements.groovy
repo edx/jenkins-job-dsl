@@ -267,7 +267,7 @@ jobConfigs.each { jobConfig ->
             git {
                 remote {
                     credentials('jenkins-worker')
-                    url("https://github.com/edx/${jobConfig.repoName}.git")
+                    url("git@github.com:edx/${jobConfig.repoName}.git")
                 }
                 branch('master')
                 extensions {
