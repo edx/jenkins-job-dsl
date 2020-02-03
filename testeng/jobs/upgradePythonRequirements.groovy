@@ -126,7 +126,7 @@ Map edxOrganizations = [
     repoName: 'edx-organizations',
     pythonVersion: '2.7',
     cronValue: '@weekly',
-    githubUserReviewers: ['feanil'],
+    githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
 ]
