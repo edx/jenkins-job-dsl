@@ -17,8 +17,8 @@ Map bokchoy = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['testeng'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map completion = [
@@ -26,9 +26,9 @@ Map completion = [
     repoName: 'completion',
     pythonVersion: '2.7',
     cronValue: '@weekly',
-    githubUserReviewers: ['feanil'],
-    githubTeamReviewers: ['testeng'],
-    emails: ['feanil@edx.org', 'testeng@edx.org']
+    githubUserReviewers: [],
+    githubTeamReviewers: ['masters-devs'],
+    emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
 Map cookiecutterDjangoApp = [
@@ -37,8 +37,8 @@ Map cookiecutterDjangoApp = [
     pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['testeng'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map courseDiscovery = [
@@ -47,8 +47,8 @@ Map courseDiscovery = [
     pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: ['mikix'],
-    githubTeamReviewers: ['testeng'],
-    emails: ['mterry@edx.org', 'testeng@edx.org']
+    githubTeamReviewers: ['course-discovery-admins'],
+    emails: ['mterry@edx.org']
 ]
 
 Map credentials = [
@@ -67,8 +67,8 @@ Map devstack = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['testeng'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map djangoConfigModels = [
@@ -77,8 +77,8 @@ Map djangoConfigModels = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
-    githubTeamReviewers: ['testeng'],
-    emails: ['feanil@edx.org', 'testeng@edx.org']
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map djangoUserTasks = [
@@ -87,18 +87,38 @@ Map djangoUserTasks = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['jmbowman'],
-    githubTeamReviewers: ['testeng'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map ecommerce = [
     org: 'edx',
     repoName: 'ecommerce',
+    pythonVersion: '3.5',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['edx/rev-team'],
+    emails: ['revenue-squad-alert@edx.opsgenie.net']
+]
+
+Map edxGomatic = [
+    org: 'edx',
+    repoName: 'edx-gomatic',
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['testeng', 'edx/rev-team'],
-    emails: ['revenue-squad-alert@edx.opsgenie.net', 'testeng@edx.org']
+    githubTeamReviewers: ['devops'],
+    emails: ['devops@edx.org']
+]
+
+Map edxNotesApi = [
+    org: 'edx',
+    repoName: 'edx-notes-api',
+    pythonVersion: '3.5',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['devops'],
+    emails: ['devops@edx.org']
 ]
 
 Map edxOrganizations = [
@@ -106,9 +126,9 @@ Map edxOrganizations = [
     repoName: 'edx-organizations',
     pythonVersion: '2.7',
     cronValue: '@weekly',
-    githubUserReviewers: ['feanil'],
-    githubTeamReviewers: ['testeng'],
-    emails: ['feanil@edx.org', 'testeng@edx.org']
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map edxPlatform = [
@@ -117,14 +137,14 @@ Map edxPlatform = [
     pythonVersion: '3.5',
     cronValue: '@daily',
     githubUserReviewers: [],
-    githubTeamReviewers: ['platform-core', 'testeng'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['platform-core', 'arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map edxProctoring = [
     org: 'edx',
     repoName: 'edx-proctoring',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['masters-devs'],
@@ -137,8 +157,8 @@ Map edxSphinxTheme = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['jmbowman'],
-    githubTeamReviewers: ['testeng'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map opaqueKeys = [
@@ -147,8 +167,18 @@ Map opaqueKeys = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['cpennington'],
-    githubTeamReviewers: ['platform-core'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['platform-core', 'arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
+Map portalDesigner = [
+    org: 'edx',
+    repoName: 'portal-designer',
+    pythonVersion: '3.5',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['masters-devs'],
+    emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
 Map registrar = [
@@ -167,8 +197,8 @@ Map testengCI = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['testeng'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map xblock = [
@@ -177,8 +207,8 @@ Map xblock = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: ['cpennington'],
-    githubTeamReviewers: ['platform-core'],
-    emails: ['testeng@edx.org']
+    githubTeamReviewers: ['platform-core', 'arch-bom'],
+    emails: ['arch-bom@edx.org']
 ]
 
 Map xqueue = [
@@ -202,11 +232,14 @@ List jobConfigs = [
     djangoConfigModels,
     djangoUserTasks,
     ecommerce,
+    edxGomatic,
+    edxNotesApi,
     edxOrganizations,
     edxPlatform,
     edxProctoring,
     edxSphinxTheme,
     opaqueKeys,
+    portalDesigner,
     registrar,
     testengCI,
     xblock,
