@@ -32,9 +32,6 @@ class SnowflakeRefreshSnowpipe {
 
             dslFactory.job(jobConfig['NAME']) {
 
-                // This job should be disabled until the rest of the work in DE-1779 is complete!
-                disabled(true)
-
                 logRotator common_log_rotator(allVars)
                 parameters secure_scm_parameters(allVars)
                 parameters {
