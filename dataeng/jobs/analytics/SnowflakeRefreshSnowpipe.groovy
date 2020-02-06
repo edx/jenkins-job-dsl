@@ -21,6 +21,7 @@ class SnowflakeRefreshSnowpipe {
             NAME: 'refresh-snowpipe-event-loader',
             PIPE_NAME: 'prod.events.prod_edx_snowpipe_event_loader',
             TABLE_NAME: 'prod.events.tracking_log_events_raw',
+            SCHEMA: 'prod.events',
             DELAY: '120',
             LIMIT: '7'
         ]
@@ -39,6 +40,7 @@ class SnowflakeRefreshSnowpipe {
                     stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analtyics tools repo to use.')
                     stringParam('PIPE_NAME', jobConfig['PIPE_NAME'], 'Name of Snowflake snowpipe to refresh')
                     stringParam('TABLE_NAME', jobConfig['TABLE_NAME'], 'Name of Snowflake table that receives snowpipe data')
+                    stringParam('SCHEMA', jobConfig['SCHEMA'], 'Schema which contains the Snowpipe and loaded table in format <db>.<schema>')
                     stringParam('DELAY', jobConfig['DELAY'], 'Time (in seconds) to wait between issuing commands')
                     stringParam('LIMIT', jobConfig['LIMIT'], 'Minimum number of expected data files in the copy history for the snowpipe')
                 }

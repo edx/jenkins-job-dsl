@@ -9,6 +9,7 @@ python refresh_snowpipe.py \
     --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
     --passphrase_path $WORKSPACE/analytics-secure/$PASSPHRASE_PATH \
     --user $USER \
+    --schema $SCHEMA \
     --account $ACCOUNT \
     --pipe_name $PIPE_NAME \
     --table_name $TABLE_NAME \
