@@ -43,6 +43,7 @@ class SnowflakeRefreshSnowpipe {
                     stringParam('SCHEMA', jobConfig['SCHEMA'], 'Schema which contains the Snowpipe and loaded table in format <db>.<schema>')
                     stringParam('DELAY', jobConfig['DELAY'], 'Time (in seconds) to wait between issuing commands')
                     stringParam('LIMIT', jobConfig['LIMIT'], 'Minimum number of expected data files in the copy history for the snowpipe')
+                    stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
                 }
                 environmentVariables {
                     env('KEY_PATH', allVars.get('KEY_PATH'))
