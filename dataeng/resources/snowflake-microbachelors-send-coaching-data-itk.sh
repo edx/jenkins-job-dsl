@@ -5,14 +5,14 @@ set -ex
 cd $WORKSPACE/analytics-tools/snowflake
 pip install -r requirements/microbachelors.txt
 
-# Run the script twice. Once for the student report, then again for the Course report
+# run the script twice to generate student and course reports for ITK
 python send_coaching_data_itk.py \
     --key_path $KEY_PATH \
     --passphrase_path $PASSPHRASE_PATH \
     --user $USER \
     --account $ACCOUNT \
     --report-type student \
-    --send True
+    --send False
 
 python send_coaching_data_itk.py \
     --key_path $KEY_PATH \
@@ -20,4 +20,4 @@ python send_coaching_data_itk.py \
     --user $USER \
     --account $ACCOUNT \
     --report-type course \
-    --send True
+    --send False
