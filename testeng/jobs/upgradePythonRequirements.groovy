@@ -7,9 +7,19 @@ package testeng
 //     pythonVersion: The version of python under which to run pip-compile.  If multiple versions are supported by the repo, use the oldest one
 //     cronValue: How often to run the job,
 //     githubUserReviewers: List of Github users that should be tagged on PR's, e.g.: ['user1', 'user2']
-//     githubTeamReviewers: List of Github teams that should be tagged on PR's, e.g.: ['team1']
+//     githubTeamReviewers: List of Github teams that should be tagged on PR's, e.g.: ['team1'].  IMPORTANT NOTE: the teams must have explicit write access to the repository
 //     emails: List of emails that should be notified when job fails, e.g.: ['email1', 'email2']
 // ]
+
+Map apiDocTools = [
+    org: 'edx',
+    repoName: 'api-doc-tools',
+    pythonVersion: '3.5',
+    cronValue: '@weekly',
+    githubUserReviewers: [''],
+    githubTeamReviewers: ['teaching-and-learning'],
+    emails: ['ned@edx.org']
+]
 
 Map bokchoy = [
     org: 'edx',
@@ -74,7 +84,7 @@ Map devstack = [
 Map djangoConfigModels = [
     org: 'edx',
     repoName: 'django-config-models',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['arch-bom'],
@@ -97,8 +107,28 @@ Map ecommerce = [
     pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['edx/rev-team'],
+    githubTeamReviewers: ['ecommerce'],
     emails: ['revenue-squad-alert@edx.opsgenie.net']
+]
+
+Map edxAnalyticsDashboard = [
+    org: 'edx',
+    repoName: 'edx-analytics-dashboard',
+    pythonVersion: '2.7',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['edx-data-engineering'],
+    emails: ['data-engineering@edx.org']
+]
+
+Map edxAnalyticsDataApi = [
+    org: 'edx',
+    repoName: 'edx-analytics-data-api',
+    pythonVersion: '2.7',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['edx-data-engineering'],
+    emails: ['data-engineering@edx.org']
 ]
 
 Map edxGomatic = [
@@ -151,12 +181,22 @@ Map edxProctoring = [
     emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
+Map edxRestApiClient = [
+    org: 'edx',
+    repoName: 'edx-rest-api-client',
+    pythonVersion: '3.5',
+    cronValue: '@weekly',
+    githubUserReviewers: [''],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map edxSphinxTheme = [
     org: 'edx',
     repoName: 'edx-sphinx-theme',
     pythonVersion: '2.7',
     cronValue: '@weekly',
-    githubUserReviewers: ['jmbowman'],
+    githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
 ]
@@ -169,6 +209,16 @@ Map opaqueKeys = [
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
     emails: ['arch-bom@edx.org']
+]
+
+Map openEdxStats = [
+    org: 'edx',
+    repoName: 'openedxstats',
+    pythonVersion: '2.7',
+    cronValue: '@weekly',
+    githubUserReviewers: [''],
+    githubTeamReviewers: ['teaching-and-learning'],
+    emails: ['ned@edx.org']
 ]
 
 Map portalDesigner = [
@@ -211,6 +261,16 @@ Map xblock = [
     emails: ['arch-bom@edx.org']
 ]
 
+Map xblockUtils = [
+    org: 'edx',
+    repoName: 'xblock-utils',
+    pythonVersion: '2.7',
+    cronValue: '@weekly',
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map xqueue = [
     org: 'edx',
     repoName: 'xqueue',
@@ -223,6 +283,7 @@ Map xqueue = [
 
 
 List jobConfigs = [
+    apiDocTools,
     bokchoy,
     completion,
     cookiecutterDjangoApp,
@@ -232,17 +293,22 @@ List jobConfigs = [
     djangoConfigModels,
     djangoUserTasks,
     ecommerce,
+    edxAnalyticsDashboard,
+    edxAnalyticsDataApi,
     edxGomatic,
     edxNotesApi,
     edxOrganizations,
     edxPlatform,
     edxProctoring,
+    edxRestApiClient,
     edxSphinxTheme,
     opaqueKeys,
+    openEdxStats,
     portalDesigner,
     registrar,
     testengCI,
     xblock,
+    xblockUtils,
     xqueue,
 ]
 
