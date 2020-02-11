@@ -11,7 +11,7 @@ python send_coaching_data_itk.py \
     --passphrase_path $PASSPHRASE_PATH \
     --user $USER \
     --account $ACCOUNT \
-    --report-type student \
+    --report_type student \
     --send False
 
 python send_coaching_data_itk.py \
@@ -19,5 +19,5 @@ python send_coaching_data_itk.py \
     --passphrase_path $PASSPHRASE_PATH \
     --user $USER \
     --account $ACCOUNT \
-    --report-type course \
+    --report_type course \
     --send False
