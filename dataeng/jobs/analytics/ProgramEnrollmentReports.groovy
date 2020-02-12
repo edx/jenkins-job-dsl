@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 
 
 
@@ -21,7 +22,7 @@ class ProgramEnrollmentReports {
                 stringParam('OUTPUT_ROOT', allVars.get('OUTPUT_ROOT'), 'Report output location')
                 stringParam('VERTICA_CREDENTIALS', allVars.get('VERTICA_CREDENTIALS'), 'The path to the Vertica credentials file.')
             }
- 
+            authorization common_authorization(allVars)
             multiscm common_multiscm(allVars)
             triggers common_triggers(allVars)
             wrappers common_wrappers(allVars)
