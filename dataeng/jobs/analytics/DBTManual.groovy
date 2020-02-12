@@ -10,7 +10,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 class DBTManual{
     public static def job = { dslFactory, allVars ->
         dslFactory.job("dbt-manual"){
-            authorization common_authorization(env_config)
+            authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
