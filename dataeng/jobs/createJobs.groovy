@@ -52,6 +52,7 @@ import static analytics.SnowflakeReplicaImport.job as SnowflakeReplicaImportJob
 import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
+import static analytics.DBTManual.job as DBTManualJob
 import static analytics.SnowflakeRefreshSnowpipe.job as SnowflakeRefreshSnowpipeJob
 import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
@@ -132,6 +133,7 @@ def taskMap = [
     LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
     DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
+    DBT_MANUAL_JOB: DBTManualJob,
     SNOWFLAKE_REFRESH_SNOWPIPE_JOB: SnowflakeRefreshSnowpipeJob,
     EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
