@@ -30,7 +30,7 @@ job('plan-plugin-upgrade-path') {
         )
         stringParam(
             'TARGET_CONFIG_PLUGIN_FILE',
-            'base-configuration/playbooks/roles/jenkins_build/defaults/main.yml',
+            'target-configuration/playbooks/roles/jenkins_build/defaults/main.yml',
             '.'
         )
         stringParam(
@@ -63,7 +63,7 @@ job('plan-plugin-upgrade-path') {
             }
             branch('\${TARGET_CONFIG_BRANCH}')
             extensions {
-                relativeTargetDirectory('new-configuration')
+                relativeTargetDirectory('target-configuration')
             }
         }
     }
