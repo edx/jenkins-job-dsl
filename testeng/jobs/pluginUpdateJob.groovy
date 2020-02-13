@@ -43,7 +43,7 @@ job('plan-plugin-upgrade-path') {
             remote {
                 url('https://github.com/edx/jenkins-configuration.git')
             }
-            branch("${JENKINS_CONFIG_BRANCH}")
+            branch('\${JENKINS_CONFIG_BRANCH}')
             extensions {
                 relativeTargetDirectory('jenkins-configuration')
             }
@@ -52,7 +52,7 @@ job('plan-plugin-upgrade-path') {
             remote {
                 url('https://github.com/edx/configuration.git')
             }
-            branch("${BASE_CONFIG_BRANCH}")
+            branch('\${BASE_CONFIG_BRANCH}')
             extensions {
                 relativeTargetDirectory('base-configuration')
             }
@@ -61,7 +61,7 @@ job('plan-plugin-upgrade-path') {
             remote {
                 url('https://github.com/edx/configuration.git')
             }
-            branch("${TARGET_CONFIG_BRANCH}")
+            branch('\${TARGET_CONFIG_BRANCH}')
             extensions {
                 relativeTargetDirectory('new-configuration')
             }
