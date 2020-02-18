@@ -34,7 +34,7 @@ Map bokchoy = [
 Map completion = [
     org: 'edx',
     repoName: 'completion',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
