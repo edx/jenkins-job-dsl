@@ -234,7 +234,7 @@ Map portalDesigner = [
 Map registrar = [
     org: 'edx',
     repoName: 'registrar',
-    pythonVersion: '3.6',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
