@@ -5,7 +5,7 @@ that queries Snowflake for MicroBachelors learner data and transmits it to edX's
 
 package analytics
 
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
+import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
@@ -17,7 +17,7 @@ class SnowflakeMicrobachelorsITK {
 
     public static def job = { dslFactory, allVars ->
         dslFactory.job('snowflake-microbachelors-send-coaching-data-itk') {
-            logRotator common_log_rotator(allVars)
+            logRotator common_logrotator
             authorization common_authorization(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
@@ -30,7 +30,6 @@ class SnowflakeMicrobachelorsITK {
                 env('USER', allVars.get('USER'))
                 env('ACCOUNT', allVars.get('ACCOUNT'))
             }
-            logRotator common_log_rotator(allVars)
             multiscm secure_scm(allVars) << {
                 git {
                     remote {
@@ -49,7 +48,14 @@ class SnowflakeMicrobachelorsITK {
             wrappers {
                 timestamps()
             }
-            publishers common_publishers(allVars)
+            publishers {
+                archiveArtifacts {
+                    // job normally will generate two unique CSV files, each ending with timestamps as part of the file name
+                    pattern('analytics-tools/snowflake/*.csv')
+                    allowEmpty()
+                    defaultExcludes()
+                }
+            }
             steps {
                 virtualenv {
                     pythonName('PYTHON_3.7')
