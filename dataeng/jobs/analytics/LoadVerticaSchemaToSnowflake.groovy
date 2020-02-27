@@ -21,9 +21,7 @@ class LoadVerticaSchemaToSnowflake {
                     stringParam('SCHEMA', schema_config.get('SCHEMA', allVars.get('SCHEMA')), 'Schema')
                     stringParam('SCRATCH_SCHEMA', schema_config.get('SCRATCH_SCHEMA', allVars.get('SCRATCH_SCHEMA')), 'Scratch schema name - temporary loading location.')
                     stringParam('VERTICA_SCHEMA_NAME', schema_config.get('VERTICA_SCHEMA_NAME', allVars.get('VERTICA_SCHEMA_NAME')), 'Vertica Schema')
-                    stringParam('VERTICA_CREDENTIALS', schema_config.get('VERTICA_CREDENTIALS', allVars.get('VERTICA_CREDENTIALS')), 'The path to the Vertica credentials file.')
                     stringParam('VERTICA_WAREHOUSE_NAME', schema_config.get('VERTICA_WAREHOUSE_NAME', allVars.get('VERTICA_WAREHOUSE_NAME')), '')
-                    stringParam('EXCLUDE', schema_config.get('EXCLUDE', allVars.get('EXCLUDE')), 'as an example: --exclude [\"f_user_activity\",\"d_user_course_certificate\",\"d_user_course\"]')
                 }
                 multiscm common_multiscm(allVars)
                 wrappers common_wrappers(allVars)

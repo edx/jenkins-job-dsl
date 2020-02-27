@@ -3,7 +3,7 @@
 env
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
- LoadVerticaSchemaFromS3ToSnowflakeTask --local-scheduler \
+LoadVerticaSchemaFromS3WithMetadataToSnowflakeTask --local-scheduler \
  --date $(date +%Y-%m-%d -d "$RUN_DATE") \
  ${OVERWRITE} \
  --credentials $SNOWFLAKE_CREDENTIALS \
@@ -14,6 +14,4 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --scratch-schema $SCRATCH_SCHEMA \
  --run-id $BUILD_ID \
  --vertica-schema-name $VERTICA_SCHEMA_NAME \
- --vertica-credentials $VERTICA_CREDENTIALS \
- --vertica-warehouse-name $VERTICA_WAREHOUSE_NAME \
- ${EXCLUDE}
+ --vertica-warehouse-name $VERTICA_WAREHOUSE_NAME
