@@ -354,7 +354,7 @@ job('user-retirement-collector') {
                     attachBuildLog(false)  // build log contains PII!
                     compressBuildLog(false)  // build log contains PII!
                     subject('Failed build: user-retirement-collector #${BUILD_NUMBER}')
-                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
+                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.\n\nTo fix the failure, see https://openedx.atlassian.net/wiki/spaces/DE/pages/251495968/When+Jobs+Fail#WhenJobsFail-user-retirement-collector')
                     contentType('text/plain')
                     sendTo {
                         recipientList()
@@ -491,7 +491,7 @@ job('retirement-partner-reporter') {
                     attachBuildLog(false)  // build log contains PII!
                     compressBuildLog(false)  // build log contains PII!
                     subject('Failed build: retirement-partner-reporter #${BUILD_NUMBER}')
-                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
+                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.\n\nTo fix the failure, see https://openedx.atlassian.net/wiki/spaces/DE/pages/1077608460/Runbook+How+to+fix+a+failed+retirement-partner-reporter+run')
                     contentType('text/plain')
                     sendTo {
                         recipientList()
