@@ -312,6 +312,7 @@ List jobConfigs = [
     edxProctoring,
     edxRestApiClient,
     edxSphinxTheme,
+    edxVal,
     opaqueKeys,
     openEdxStats,
     portalDesigner,
