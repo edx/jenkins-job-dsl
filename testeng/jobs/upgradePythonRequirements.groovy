@@ -201,6 +201,16 @@ Map edxSphinxTheme = [
     emails: ['arch-bom@edx.org']
 ]
 
+Map edxVal= [
+    org: 'edx',
+    repoName: 'edx-val',
+    pythonVersion: '3.5',
+    cronValue: '@weekly',
+    githubUserReviewers: [''],
+    githubTeamReviewers: ['sustaining-vulcans'],
+    emails: ['sustaining-vulcans@edx.org']
+]
+
 Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
