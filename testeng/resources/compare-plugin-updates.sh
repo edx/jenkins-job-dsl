@@ -14,4 +14,4 @@ export PLUGIN_CONFIG=../${TARGET_CONFIG_PLUGIN_FILE}
 export PLUGIN_CONFIG_KEY=${TARGET_CONFIG_PLUGIN_KEY}
 make clean plugins show
 
-python scripts/compare_installed_plugins base-installed-plugins new-installed-plugins
+python scripts/compare_installed_plugins.py base-installed-plugins new-installed-plugins
