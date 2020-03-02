@@ -240,9 +240,8 @@ listView('Backups') {
 
 listView('dbt') {
     jobs {
-        regex('dbt-.*')
         name('snowflake-schema-builder')
-        regex('warehouse-transforms-.*')
+        regex('dbt-.*|warehouse-transforms-.*')
     }
     columns DEFAULT_VIEW.call()
 }
