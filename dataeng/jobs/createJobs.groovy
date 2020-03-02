@@ -237,3 +237,12 @@ listView('Backups') {
     }
     columns DEFAULT_VIEW.call()
 }
+
+listView('dbt') {
+    jobs {
+        regex('dbt-.*')
+        name('snowflake-schema-builder')
+        regex('warehouse-transforms-.*')
+    }
+    columns DEFAULT_VIEW.call()
+}
