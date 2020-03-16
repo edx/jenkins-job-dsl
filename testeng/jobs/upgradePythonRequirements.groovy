@@ -74,7 +74,7 @@ Map credentialsRepo = [
 Map devstack = [
     org: 'edx',
     repoName: 'devstack',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
