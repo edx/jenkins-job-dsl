@@ -7,7 +7,7 @@ class AnalyticsEmailOptin {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('analytics-email-optin-worker') {
             parameters {
-                stringParam('NOTIFICATION_EMAILS')
+                stringParam('NOTIFY')
                 stringParam('MASTER_WORKSPACE')
                 stringParam('ORG_CONFIG_PATH')
                 stringParam('GPG_KEYS_PATH')
@@ -67,7 +67,7 @@ class AnalyticsEmailOptin {
                 stringParam('CONFIG_FILENAME','default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EMAIL_OPTIN_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the email opt-in data.')
                 stringParam('OUTPUT_PREFIX','email-opt-in-', 'Optional prefix to prepend to output filename.')
-                stringParam('NOTIFICATION_EMAILS', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'),
+                stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'),
                         'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER','',
                         'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 201x-0x-0x" if that is when the CWSM dump took place, typically the preceding Sunday.  (Leave off quotes.)')
@@ -144,7 +144,7 @@ class AnalyticsEmailOptin {
                         }
                         parameters {
                             predefinedProp('MASTER_WORKSPACE', '${WORKSPACE}')
-                            predefinedProp('NOTIFICATION_EMAILS', '${NOTIFICATION_EMAILS}')
+                            predefinedProp('NOTIFY', '${NOTIFY}')
                         }
                         parameterFactories {
                             fileBuildParameterFactory {
