@@ -224,7 +224,7 @@ Map opaqueKeys = [
 Map openEdxStats = [
     org: 'edx',
     repoName: 'openedxstats',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [''],
     githubTeamReviewers: ['teaching-and-learning'],
