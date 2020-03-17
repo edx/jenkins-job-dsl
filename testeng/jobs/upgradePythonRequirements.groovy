@@ -274,7 +274,7 @@ Map xblock = [
 Map xblockUtils = [
     org: 'edx',
     repoName: 'xblock-utils',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
