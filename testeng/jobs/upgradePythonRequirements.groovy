@@ -18,6 +18,7 @@ Map apiDocTools = [
     cronValue: '@weekly',
     githubUserReviewers: [''],
     githubTeamReviewers: ['teaching-and-learning'],
+    systemRequirements: [],
     emails: ['ned@edx.org']
 ]
 
@@ -28,6 +29,7 @@ Map bokchoy = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -38,6 +40,7 @@ Map completion = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
+    systemRequirements: [],
     emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
@@ -48,6 +51,7 @@ Map cookiecutterDjangoApp = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -58,6 +62,7 @@ Map courseDiscovery = [
     cronValue: '@weekly',
     githubUserReviewers: ['mikix'],
     githubTeamReviewers: ['course-discovery-admins'],
+    systemRequirements: [],
     emails: ['mterry@edx.org']
 ]
 
@@ -68,6 +73,7 @@ Map credentialsRepo = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
+    systemRequirements: [],
     emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
@@ -78,6 +84,7 @@ Map devstack = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -88,6 +95,7 @@ Map djangoConfigModels = [
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -98,6 +106,7 @@ Map djangoUserTasks = [
     cronValue: '@weekly',
     githubUserReviewers: ['jmbowman'],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -108,6 +117,7 @@ Map ecommerce = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['ecommerce'],
+    systemRequirements: [],
     emails: ['revenue-squad-alert@edx.opsgenie.net']
 ]
 
@@ -118,6 +128,7 @@ Map edxAnalyticsDashboard = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-data-engineering'],
+    systemRequirements: [],
     emails: ['data-engineering@edx.org']
 ]
 
@@ -128,6 +139,7 @@ Map edxAnalyticsDataApi = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-data-engineering'],
+    systemRequirements: [],
     emails: ['data-engineering@edx.org']
 ]
 
@@ -138,6 +150,7 @@ Map edxGomatic = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['devops'],
+    systemRequirements: [],
     emails: ['devops@edx.org']
 ]
 
@@ -148,6 +161,7 @@ Map edxNotesApi = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['devops'],
+    systemRequirements: [],
     emails: ['devops@edx.org']
 ]
 
@@ -158,6 +172,7 @@ Map edxOrganizations = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -168,6 +183,7 @@ Map edxPlatform = [
     cronValue: '@daily',
     githubUserReviewers: [],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -178,6 +194,7 @@ Map edxProctoring = [
     cronValue: '@weekly',
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['masters-devs'],
+    systemRequirements: [],
     emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
@@ -188,6 +205,7 @@ Map edxRestApiClient = [
     cronValue: '@weekly',
     githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -198,6 +216,7 @@ Map edxSphinxTheme = [
     cronValue: '@weekly',
     githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -208,6 +227,7 @@ Map edxVal= [
     cronValue: '@weekly',
     githubUserReviewers: [''],
     githubTeamReviewers: ['sustaining-vulcans'],
+    systemRequirements: [],
     emails: ['sustaining-vulcans@edx.org']
 ]
 
@@ -218,6 +238,7 @@ Map opaqueKeys = [
     cronValue: '@weekly',
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -226,6 +247,7 @@ Map openEdxStats = [
     repoName: 'openedxstats',
     pythonVersion: '3.5',
     cronValue: '@weekly',
+    systemRequirements: ['libpq-dev'],
     githubUserReviewers: [''],
     githubTeamReviewers: ['teaching-and-learning'],
     emails: ['ned@edx.org']
@@ -238,6 +260,7 @@ Map portalDesigner = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
+    systemRequirements: [],
     emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
@@ -248,6 +271,7 @@ Map registrar = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
+    systemRequirements: [],
     emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
@@ -258,6 +282,7 @@ Map testengCI = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -268,6 +293,7 @@ Map xblock = [
     cronValue: '@weekly',
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -278,6 +304,7 @@ Map xblockUtils = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
+    systemRequirements: [],
     emails: ['arch-bom@edx.org']
 ]
 
@@ -288,6 +315,7 @@ Map xqueue = [
     cronValue: '@weekly',
     githubUserReviewers: [],
     githubTeamReviewers: ['sustaining-team'],
+    systemRequirements: [],
     emails: ['sustaining-escalations@edx.org']
 ]
 
@@ -338,7 +366,8 @@ jobConfigs.each { jobConfig ->
             ORG: jobConfig.org,
             PYTHON_VERSION: jobConfig.pythonVersion,
             PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(","),
-            PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(",")
+            PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(","),
+            SYSTEM_REQUIREMENTS: jobConfig.systemRequirements.join(" ")
         )
         multiscm {
             git {

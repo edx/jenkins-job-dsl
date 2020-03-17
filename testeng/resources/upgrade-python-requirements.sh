@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+if [ -z "$SYSTEM_REQUIREMENTS" ]
+then
+    echo "No system requirements to install."
+else
+    echo "Installing system requirements..."
+    apt-get install $SYSTEM_REQUIREMENTS
+fi
+
 rm -rf upgrade_venv
 virtualenv --python=python$PYTHON_VERSION upgrade_venv -q
 source upgrade_venv/bin/activate
