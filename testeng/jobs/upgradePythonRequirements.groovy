@@ -94,7 +94,7 @@ Map djangoConfigModels = [
 Map djangoUserTasks = [
     org: 'edx',
     repoName: 'django-user-tasks',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: '@weekly',
     githubUserReviewers: ['jmbowman'],
     githubTeamReviewers: ['arch-bom'],
