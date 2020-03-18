@@ -38,21 +38,6 @@ class ExpireVerticaPassword {
                 timestamps()
             }
             publishers common_publishers(allVars)
-            publishers {
-                extendedEmail {
-                    recipientList('$NOTIFY_LIST')
-                    defaultSubject('You Vertica password has expired')
-                    defaultContent('This is to inform you that you Vertica password has expired. ' +
-                    'Please use vsql to set a new password.')
-                    triggers {
-                        success {
-                            sendTo {
-                                recipientList()
-                            }
-                        }
-                    }
-                }
-            }
             steps {
                 virtualenv {
                     pythonName('PYTHON_3.7')
@@ -61,9 +46,6 @@ class ExpireVerticaPassword {
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/expire-vertica-password.sh")
                     )
-                }
-                environmentVariables {
-                    propertiesFile('propsfile')
                 }
             }
         }
