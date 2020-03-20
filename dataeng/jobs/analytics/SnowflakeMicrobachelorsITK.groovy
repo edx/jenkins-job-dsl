@@ -44,7 +44,9 @@ class SnowflakeMicrobachelorsITK {
                     }
                 }
             }
-            triggers common_triggers(allVars)
+            triggers {
+                cron('0 6 * * 1-5')
+            }
             wrappers {
                 timestamps()
             }
