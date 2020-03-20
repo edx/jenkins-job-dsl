@@ -7,7 +7,7 @@ cd $WORKSPACE/warehouse-transforms
 pip install -r tools/dbt_schema_builder/requirements.txt
 
 
-cd $WORKSPACE/warehouse-transforms/warehouse_transforms_project
+cd $WORKSPACE/warehouse-transforms/projects/reporting
 
 dbt clean
 dbt deps

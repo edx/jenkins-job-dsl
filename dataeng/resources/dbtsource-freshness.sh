@@ -7,7 +7,7 @@ cd $WORKSPACE/warehouse-transforms
 # To install right version of dbt
 pip install -r tools/dbt_schema_builder/requirements.txt
 
-cd $WORKSPACE/warehouse-transforms/warehouse_transforms_project
+cd $WORKSPACE/warehouse-transforms/projects/reporting
 
 dbt clean
 
