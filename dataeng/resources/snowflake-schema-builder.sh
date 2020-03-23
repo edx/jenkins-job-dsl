@@ -5,9 +5,9 @@ set -ex
 cd $WORKSPACE/warehouse-transforms
 pip install -r tools/dbt_schema_builder/requirements.txt
 
-cd $WORKSPACE/warehouse-transforms/app_views_project
+cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
 dbt clean
-cd $WORKSPACE/warehouse-transforms/warehouse_transforms_project
+cd $WORKSPACE/warehouse-transforms/projects/$DESTINATION_PROJECT
 dbt clean
 
 cd $WORKSPACE/warehouse-transforms
@@ -17,9 +17,9 @@ now=$(date +%d_%m_%Y_%H_%M_%S)
 branchname="builder_$now"
 git checkout -b "$branchname"
 
-# Run the dbt script to update schemas and sql
-cd $WORKSPACE/warehouse-transforms/app_views_project
-python $WORKSPACE/warehouse-transforms/tools/dbt_schema_builder/schema_builder.py build --raw-schemas $SCHEMAS --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+# Run the dbt script to update schemas and sql, from the source project directory (necessary for dbt to run)
+cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
+python $WORKSPACE/warehouse-transforms/tools/dbt_schema_builder/schema_builder.py build --raw-schemas $SCHEMAS --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
 # Check if any files are added, deleted, or changed. If so, commit them and create a PR.
 if [[ -z $(git status -s) ]]
