@@ -49,11 +49,11 @@ for SNAPSHOT in ${SNAPSHOTS}; do
     echo "Checking Snapshot-ID:${SNAP_ID} Instance:${INSTANCE_ID} IP:${IP} Date:${DATE}"
     # Redirect to /dev/null because grep -q causes aws cli to complain about a broken pipe when grep stops early
     if aws s3 ls s3://${BUCKET}/logs/tracking/${SG}/${INSTANCE_ID}-${IP}/tracking.log | grep ' 0 tracking.log' > /dev/null; then
-        echo "Synced Snapshot-ID:${SNAP_ID} Instance:${INSTANCE_ID} IP:${IP} Date:${DATE}"
+        echo "Already Synced Snapshot-ID:${SNAP_ID} Instance:${INSTANCE_ID} IP:${IP} Date:${DATE}"
     else
         echo "Not Synced Snapshot-ID:${SNAP_ID} Instance:${INSTANCE_ID} IP:${IP} Date:${DATE}"
         echo "Recovering tracking logs from Snapshot ID:${SNAP_ID} Instance:${INSTANCE_ID} IP:${IP} From:${DATE}"
-        echo ansible-playbook -u ubuntu -vvv sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAP_ID}\", \"s3_path\": \"s3://edx-prod-edx/logs/tracking/${SG}/${INSTANCE_ID}-${IP}/\"}]}" -e "security_group_ids=${SG_ID}" -e "subnet_id=${SUBNET_ID}" -e "iam_profile=${IAM_PROFILE}" -clocal
+        ansible-playbook -u ubuntu -vvv sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAP_ID}\", \"s3_path\": \"s3://edx-prod-edx/logs/tracking/${SG}/${INSTANCE_ID}-${IP}/\"}]}" -e "security_group_ids=${SG_ID}" -e "subnet_id=${SUBNET_ID}" -e "iam_profile=${IAM_PROFILE}" -clocal
     fi
     echo
 done
