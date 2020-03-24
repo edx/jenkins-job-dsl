@@ -29,6 +29,11 @@ class SnowflakeMicrobachelorsITK {
                 env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
                 env('USER', allVars.get('USER'))
                 env('ACCOUNT', allVars.get('ACCOUNT'))
+                env('SFTP_HOSTNAME', allVars.get('SFTP_HOSTNAME'))
+                env('SFTP_USER', allVars.get('SFTP_USER'))
+                env('SFTP_PASSWORD', allVars.get('SFTP_PASSWORD'))
+                env('SFTP_STUDENT_PATH', allVars.get('SFTP_STUDENT_PATH'))
+                env('SFTP_COURSE_PATH', allVars.get('SFTP_COURSE_PATH'))
             }
             multiscm secure_scm(allVars) << {
                 git {
