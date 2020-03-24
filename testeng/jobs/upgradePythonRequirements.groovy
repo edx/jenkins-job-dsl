@@ -257,8 +257,8 @@ Map testengCI = [
     pythonVersion: '2.7',
     cronValue: '@weekly',
     githubUserReviewers: [],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    githubTeamReviewers: ['devops'],
+    emails: ['devops@edx.org']
 ]
 
 Map xblock = [
