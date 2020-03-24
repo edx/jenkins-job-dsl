@@ -53,7 +53,7 @@ for SNAPSHOT in ${SNAPSHOTS}; do
     else
         echo "Not Synced Snapshot-ID:${SNAP_ID} Instance:${INSTANCE_ID} IP:${IP} Date:${DATE}"
         echo "Recovering tracking logs from Snapshot ID:${SNAP_ID} Instance:${INSTANCE_ID} IP:${IP} From:${DATE}"
-        echo ansible-playbook -u ubuntu -vvv sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAP_ID}\", \"s3_path\": \"s3://edx-prod-edx/logs/tracking/${SG}/${INSTANCE_ID}-${IP}/\"}]}" -e "security_group_ids=${SG_ID}" -e "subnet_id=${SUBNET_ID}" -e "iam_profile=${IAM_PROFILE}" -clocal
+        ansible-playbook -u ubuntu -vvv sync_tracking_logs.yml -e "{\"snapshots\": [{\"id\": \"${SNAP_ID}\", \"s3_path\": \"s3://edx-prod-edx/logs/tracking/${SG}/${INSTANCE_ID}-${IP}/\"}]}" -e "security_group_ids=${SG_ID}" -e "subnet_id=${SUBNET_ID}" -e "iam_profile=${IAM_PROFILE}" -clocal
     fi
     echo
 done
