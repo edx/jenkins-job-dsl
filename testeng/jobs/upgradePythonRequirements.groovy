@@ -132,7 +132,7 @@ Map edxAnalyticsDashboard = [
 Map edxAnalyticsDataApi = [
     org: 'edx',
     repoName: 'edx-analytics-data-api',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-data-engineering'],
