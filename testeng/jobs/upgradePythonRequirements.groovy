@@ -13,7 +13,7 @@ package testeng
 
 // Cron values for: midnight-7:59am ET, Sunday-Thursday (times are in UTC)
 // See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
-def cronOffHoursBusinessWeek = '* H(4-11) * * H(0-4)'
+def cronOffHoursBusinessWeek = 'H H(4-11) * * H(0-4)'
 
 Map apiDocTools = [
     org: 'edx',
