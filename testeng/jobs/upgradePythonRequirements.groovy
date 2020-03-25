@@ -122,7 +122,7 @@ Map ecommerce = [
 Map edxAnalyticsDashboard = [
     org: 'edx',
     repoName: 'edx-analytics-dashboard',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-data-engineering'],
