@@ -31,8 +31,8 @@ job('build-packer-ami') {
                     'What should we do with the AMI if it is ' +
                     'successfully built? (Hint: delete means you are ' +
                     'just testing the process.)')
-        stringParam('JENKINS_WORKER_AMI', 'ami-aa2ea6d0',
-                    'Base ami on which to run the Packer script')
+        stringParam('JENKINS_WORKER_AMI', '',
+                    'Override Base ami on which to run the Packer script')
     }
 
     logRotator JENKINS_PUBLIC_LOG_ROTATOR()
