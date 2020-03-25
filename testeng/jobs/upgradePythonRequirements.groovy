@@ -11,15 +11,19 @@ package testeng
 //     emails: List of emails that should be notified when job fails, e.g.: ['email1', 'email2']
 // ]
 
-// Cron values for: midnight-7:59am ET, Sunday-Thursday (times are in UTC)
+// Cron value for once per week, sometime during: midnight-7:59am ET, Sunday-Thursday (times are in UTC)
 // See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
-def cronOffHoursBusinessWeek = 'H H(4-11) * * H(0-4)'
+def cronOffHoursBusinessWeekday = 'H H(4-11) * * H(0-4)'
+
+// Cron value for daily, sometime during: midnight-7:59am ET, Sunday-Thursday (times are in UTC)
+// See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
+def cronOffHoursBusinessDaily = 'H H(4-11) * * 0-4'
 
 Map apiDocTools = [
     org: 'edx',
     repoName: 'api-doc-tools',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['teaching-and-learning'],
     emails: ['ned@edx.org']
@@ -29,7 +33,7 @@ Map bokchoy = [
     org: 'edx',
     repoName: 'bok-choy',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -39,7 +43,7 @@ Map completion = [
     org: 'edx',
     repoName: 'completion',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
     emails: ['masters-requirements-update@edx.opsgenie.net']
@@ -49,7 +53,7 @@ Map cookiecutterDjangoApp = [
     org: 'edx',
     repoName: 'cookiecutter-django-app',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -59,7 +63,7 @@ Map courseDiscovery = [
     org: 'edx',
     repoName: 'course-discovery',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['mikix'],
     githubTeamReviewers: ['course-discovery-admins'],
     emails: ['mterry@edx.org']
@@ -69,7 +73,7 @@ Map credentialsRepo = [
     org: 'edx',
     repoName: 'credentials',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
     emails: ['masters-requirements-update@edx.opsgenie.net']
@@ -79,7 +83,7 @@ Map devstack = [
     org: 'edx',
     repoName: 'devstack',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -89,7 +93,7 @@ Map djangoConfigModels = [
     org: 'edx',
     repoName: 'django-config-models',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -99,7 +103,7 @@ Map djangoUserTasks = [
     org: 'edx',
     repoName: 'django-user-tasks',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['jmbowman'],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -109,7 +113,7 @@ Map ecommerce = [
     org: 'edx',
     repoName: 'ecommerce',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['ecommerce'],
     emails: ['revenue-squad-alert@edx.opsgenie.net']
@@ -119,7 +123,7 @@ Map edxAnalyticsDashboard = [
     org: 'edx',
     repoName: 'edx-analytics-dashboard',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-data-engineering'],
     emails: ['data-engineering@edx.org']
@@ -129,7 +133,7 @@ Map edxAnalyticsDataApi = [
     org: 'edx',
     repoName: 'edx-analytics-data-api',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-data-engineering'],
     emails: ['data-engineering@edx.org']
@@ -139,7 +143,7 @@ Map edxGomatic = [
     org: 'edx',
     repoName: 'edx-gomatic',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['devops'],
     emails: ['devops@edx.org']
@@ -149,7 +153,7 @@ Map edxNotesApi = [
     org: 'edx',
     repoName: 'edx-notes-api',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['devops'],
     emails: ['devops@edx.org']
@@ -159,7 +163,7 @@ Map edxOrganizations = [
     org: 'edx',
     repoName: 'edx-organizations',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -169,7 +173,7 @@ Map edxPlatform = [
     org: 'edx',
     repoName: 'edx-platform',
     pythonVersion: '3.5',
-    cronValue: '@daily',
+    cronValue: cronOffHoursBusinessDaily,
     githubUserReviewers: [],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -179,7 +183,7 @@ Map edxProctoring = [
     org: 'edx',
     repoName: 'edx-proctoring',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['masters-devs'],
     emails: ['masters-requirements-update@edx.opsgenie.net']
@@ -189,7 +193,7 @@ Map edxRestApiClient = [
     org: 'edx',
     repoName: 'edx-rest-api-client',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -199,7 +203,7 @@ Map edxSphinxTheme = [
     org: 'edx',
     repoName: 'edx-sphinx-theme',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -209,7 +213,7 @@ Map edxVal= [
     org: 'edx',
     repoName: 'edx-val',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['sustaining-vulcans'],
     emails: ['sustaining-vulcans@edx.org']
@@ -219,7 +223,7 @@ Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -229,7 +233,7 @@ Map openEdxStats = [
     org: 'edx',
     repoName: 'openedxstats',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['teaching-and-learning'],
     emails: ['ned@edx.org']
@@ -239,7 +243,7 @@ Map portalDesigner = [
     org: 'edx',
     repoName: 'portal-designer',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
     emails: ['masters-requirements-update@edx.opsgenie.net']
@@ -249,7 +253,7 @@ Map registrar = [
     org: 'edx',
     repoName: 'registrar',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
     emails: ['masters-requirements-update@edx.opsgenie.net']
@@ -259,7 +263,7 @@ Map testengCI = [
     org: 'edx',
     repoName: 'testeng-ci',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['devops'],
     emails: ['devops@edx.org']
@@ -269,7 +273,7 @@ Map xblock = [
     org: 'edx',
     repoName: 'XBlock',
     pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -279,7 +283,7 @@ Map xblockUtils = [
     org: 'edx',
     repoName: 'xblock-utils',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
     emails: ['arch-bom@edx.org']
@@ -289,7 +293,7 @@ Map xqueue = [
     org: 'edx',
     repoName: 'xqueue',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeek,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['sustaining-team'],
     emails: ['sustaining-escalations@edx.org']
