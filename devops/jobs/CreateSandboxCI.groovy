@@ -55,7 +55,7 @@ class CreateSandboxCI {
                   predefinedProp('server_type', 'full_edx_installation_from_scratch')
                   predefinedProp('dns_name','int')
                   booleanParam('reconfigure',true)
-                  booleanParam('recreate',false)
+                  booleanParam('recreate',true)
                   predefinedProp('name_tag','continuous-integration')
                   booleanParam('ecommerce_worker',true)
                   booleanParam('credentials',true)
@@ -63,6 +63,7 @@ class CreateSandboxCI {
                   predefinedProp('server_type', 'full_edx_installation_from_scratch')
                   predefinedProp('dns_name','int-nightly')
                   predefinedProp('name_tag','continuous-integration-nightly')
+                  booleanParam('recreate',true)
 
                 // Masters integration environment weekly CI.
                 // Monitored by Registrar supporting team:
