@@ -11,13 +11,13 @@ package testeng
 //     emails: List of emails that should be notified when job fails, e.g.: ['email1', 'email2']
 // ]
 
-// Cron value for once per week, sometime during: midnight-7:59am ET, Sunday-Thursday (times are in UTC)
+// Cron value for once per week, sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
 // See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
-def cronOffHoursBusinessWeekday = 'H H(4-11) * * H(0-4)'
+def cronOffHoursBusinessWeekday = 'H H(4-11) * * H(1-5)'
 
-// Cron value for daily, sometime during: midnight-7:59am ET, Sunday-Thursday (times are in UTC)
+// Cron value for daily, sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
 // See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
-def cronOffHoursBusinessDaily = 'H H(4-11) * * 0-4'
+def cronOffHoursBusinessDaily = 'H H(4-11) * * 1-5'
 
 Map apiDocTools = [
     org: 'edx',
