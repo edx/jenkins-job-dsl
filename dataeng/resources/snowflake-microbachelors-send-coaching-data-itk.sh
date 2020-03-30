@@ -15,7 +15,7 @@ python send_coaching_data_itk.py \
     --user $USER \
     --account $ACCOUNT \
     --report_type student \
-    --send False \
+    --send True \
     --sftp_credentials_file $WORKSPACE/itk_sftp.json \
     --sftp_path $SFTP_STUDENT_PATH
 
@@ -25,8 +25,6 @@ python send_coaching_data_itk.py \
     --user $USER \
     --account $ACCOUNT \
     --report_type course \
-    --send False \
+    --send True \
     --sftp_credentials_file $WORKSPACE/itk_sftp.json \
     --sftp_path $SFTP_COURSE_PATH
-
-
