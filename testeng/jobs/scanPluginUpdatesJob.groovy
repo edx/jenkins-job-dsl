@@ -30,6 +30,11 @@ job('scan-plugin-updates') {
     }
 
     wrappers {
+        credentialsBinding {
+            string('DEVOPS_SUPPORT_EMAIL', 'DEVOPS_SUPPORT_EMAIL_ACCOUNT')
+            string('JIRA_USER', 'JIRA_USER')
+            string('JIRA_API_TOKEN', 'JIRA_API_TOKEN')
+        }
         timestamps()
     }
 
@@ -42,8 +47,6 @@ job('scan-plugin-updates') {
     }
 
     publishers {
-        mailer('testeng@edx.org')
-        configure GENERAL_SLACK_STATUS()
+        mailer('${DEVOPS_SUPPORT_EMAIL}')
     }
-
 }
