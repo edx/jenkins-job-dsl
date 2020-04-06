@@ -22,7 +22,12 @@ class WarehouseTransforms{
                     stringParam('DBT_PROFILE', env_config.get('DBT_PROFILE', allVars.get('DBT_PROFILE')), 'dbt profile from analytics-secure to work on.')
                     stringParam('DBT_TARGET', env_config.get('DBT_TARGET', allVars.get('DBT_TARGET')), 'dbt target from analytics-secure to work on.')
                     stringParam('TEST_SOURCES_FIRST', env_config.get('TEST_SOURCES_FIRST', 'true'), 'Set to \'true\' to perform source testing first. All other values test sources post-run.')
-                    stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
+                    if (environment.equalsIgnoreCase("microbachelors")) {
+                        // send alerts for the microbachelors data-mart warehouse-transforms job to aperture team first
+                        stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY_APERTURE'), 'Space separated list of emails to send notifications to.')
+                    } else {
+                        stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
+                    }
                 }
                 multiscm secure_scm(allVars) << {
                     git {
@@ -55,4 +60,3 @@ class WarehouseTransforms{
         }
     }
 }
-
