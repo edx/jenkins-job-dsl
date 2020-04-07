@@ -84,7 +84,7 @@ Map django22JobConfig = [
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/django-2.2/a11y',
-    onlyTriggerPhrase: true,
+    onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+django22\W+a11y.*/,
     pythonVersion: '3.5',
     toxEnv: 'py35-django22',
