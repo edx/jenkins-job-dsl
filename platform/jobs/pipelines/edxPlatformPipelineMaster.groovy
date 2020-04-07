@@ -143,9 +143,11 @@ List jobConfigs = [
     ironwoodBokchoyJobConfig,
     ironwoodLettuceJobConfig,
     publicPythonJobConfig,
+    django22PythonJobConfig,
     privatePythonJobConfig,
     ironwoodPythonJobConfig,
     publicQualityJobConfig,
+    django22QualityJobConfig,
     privateQualityJobConfig,
     ironwoodQualityJobConfig
 ]
