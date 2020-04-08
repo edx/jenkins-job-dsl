@@ -9,8 +9,8 @@ pip install -r tools/dbt_schema_builder/requirements.txt
 
 cd $WORKSPACE/warehouse-transforms/projects/reporting
 
-dbt clean
-dbt deps
+dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 dbt seed --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
 # Source testing *before* model-building can be enabled/disabled with this envvar.

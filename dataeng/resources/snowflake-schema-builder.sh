@@ -6,9 +6,9 @@ cd $WORKSPACE/warehouse-transforms
 pip install -r tools/dbt_schema_builder/requirements.txt
 
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
-dbt clean
+dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 cd $WORKSPACE/warehouse-transforms/projects/$DESTINATION_PROJECT
-dbt clean
+dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 cd $WORKSPACE/warehouse-transforms
 
