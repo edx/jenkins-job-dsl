@@ -5,7 +5,6 @@ that queries Snowflake for MicroBachelors learner data and transmits it to edX's
 
 package analytics
 
-import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
@@ -17,7 +16,10 @@ class SnowflakeMicrobachelorsITK {
 
     public static def job = { dslFactory, allVars ->
         dslFactory.job('snowflake-microbachelors-send-coaching-data-itk') {
-            logRotator common_logrotator
+            logRotator {
+                daysToKeep(30)
+                artifactDaysToKeep(7)
+            }
             authorization common_authorization(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
