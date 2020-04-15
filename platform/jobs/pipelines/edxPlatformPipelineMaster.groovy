@@ -58,18 +58,6 @@ Map publicPythonJobConfig = [
     pythonVersion: '3.5',
 ]
 
-Map django22PythonJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-2.2-python-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    branch: 'master',
-    context: 'jenkins/django-2.2/python',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django22',
-]
-
 Map privatePythonJobConfig = [
     open: false,
     jobName: 'edx-platform-python-pipeline-master_private',
@@ -103,18 +91,6 @@ Map publicQualityJobConfig = [
     pythonVersion: '3.5',
 ]
 
-Map django22QualityJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-2.2-quality-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    branch: 'master',
-    context: 'jenkins/django-2.2/quality',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django22',
-]
-
 Map privateQualityJobConfig = [
     open: false,
     jobName: 'edx-platform-quality-pipeline-master_private',
@@ -143,11 +119,9 @@ List jobConfigs = [
     ironwoodBokchoyJobConfig,
     ironwoodLettuceJobConfig,
     publicPythonJobConfig,
-    django22PythonJobConfig,
     privatePythonJobConfig,
     ironwoodPythonJobConfig,
     publicQualityJobConfig,
-    django22QualityJobConfig,
     privateQualityJobConfig,
     ironwoodQualityJobConfig
 ]

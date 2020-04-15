@@ -43,18 +43,6 @@ Map publicJobConfig = [
     pythonVersion: '3.5',
 ]
 
-Map django22JobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-2.2-js-master',
-    repoName: 'edx-platform',
-    workerLabel: 'js-worker',
-    context: 'jenkins/django-2.2/js',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django22',
-]
-
 Map privateJobConfig = [
     open: false,
     jobName: 'edx-platform-js-master_private',
@@ -78,7 +66,6 @@ Map ironwoodJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    django22JobConfig,
     privateJobConfig,
     ironwoodJobConfig
 ]
