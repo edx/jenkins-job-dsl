@@ -60,43 +60,29 @@ Map publicJobConfig = [
     pythonVersion: '3.5',
 ]
 
-Map django20JobConfig = [
+Map python38JobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.0-js-pr',
+    jobName: 'edx-platform-python-3.8-js-pr',
     repoName: 'edx-platform',
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.0/js',
+    context: 'jenkins/python-3.8/js',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django20\W+js.*/,
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django20',
+    triggerPhrase: /.*jenkins\W+run\W+python38\W+js.*/,
+    pythonVersion: '3.8',
 ]
 
-Map django21JobConfig = [
+Map django30JobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.1-js-pr',
+    jobName: 'edx-platform-django-3.0-js-pr',
     repoName: 'edx-platform',
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.1/js',
+    context: 'jenkins/django-3.0/js',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django21\W+js.*/,
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django21',
-]
-
-Map django22JobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-2.2-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'js-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.2/js',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run\W+django22\W+js.*/,
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django22',
+    triggerPhrase: /.*jenkins\W+run\W+django30\W+js.*/,
+    pythonVersion: '3.8',
+    toxEnv: 'py38-django30',
 ]
 
 Map privateJobConfig = [
@@ -132,9 +118,8 @@ Map privateIronwoodJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    django20JobConfig,
-    django21JobConfig,
-    django22JobConfig,
+    python38JobConfig,
+    django30JobConfig,
     privateJobConfig,
     publicIronwoodJobConfig,
     privateIronwoodJobConfig

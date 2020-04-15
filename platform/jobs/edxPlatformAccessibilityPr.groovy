@@ -51,43 +51,29 @@ Map publicJobConfig = [
     pythonVersion: '3.5',
 ]
 
-Map django20JobConfig = [
+Map python38JobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.0-accessibility-pr',
+    jobName: 'edx-platform-python-3.8-accessibility-pr',
     repoName: 'edx-platform',
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.0/a11y',
+    context: 'jenkins/python-3.8/a11y',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django20\W+a11y.*/,
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django20',
+    triggerPhrase: /.*jenkins\W+run\W+python38\W+a11y.*/,
+    pythonVersion: '3.8',
 ]
 
-Map django21JobConfig = [
+Map django30JobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.1-accessibility-pr',
+    jobName: 'edx-platform-django-3.0-accessibility-pr',
     repoName: 'edx-platform',
     workerLabel: 'js-worker',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.1/a11y',
+    context: 'jenkins/django-3.0/a11y',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django21\W+a11y.*/,
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django21',
-]
-
-Map django22JobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-2.2-accessibility-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'js-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.2/a11y',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run\W+django22\W+a11y.*/,
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django22',
+    triggerPhrase: /.*jenkins\W+run\W+django30\W+a11y.*/,
+    pythonVersion: '3.8',
+    toxEnv: 'py38-django30',
 ]
 
 Map privateJobConfig = [
@@ -123,9 +109,8 @@ Map privateIronwoodJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    django20JobConfig,
-    django21JobConfig,
-    django22JobConfig,
+    python38JobConfig,
+    django30JobConfig,
     privateJobConfig,
     publicIronwoodJobConfig,
     privateIronwoodJobConfig

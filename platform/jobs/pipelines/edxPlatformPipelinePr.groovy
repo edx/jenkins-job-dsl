@@ -39,46 +39,32 @@ Map publicBokchoyJobConfig = [
     pythonVersion: '3.5',
 ]
 
-Map django20BokchoyJobConfig = [
+Map python38BokchoyJobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.0-bokchoy-pipeline-pr',
+    jobName: 'edx-platform-python-3.8-bokchoy-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.0/bokchoy',
+    context: 'jenkins/python-3.8/bokchoy',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django20\W+bokchoy.*/,
+    triggerPhrase: /.*jenkins\W+run\W+python38\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django20',
+    pythonVersion: '3.8',
+    toxEnv: 'py38-django22',
 ]
 
-Map django21BokchoyJobConfig = [
+Map django30BokchoyJobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.1-bokchoy-pipeline-pr',
+    jobName: 'edx-platform-django-3.0-bokchoy-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.1/bokchoy',
+    context: 'jenkins/django-3.0/bokchoy',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django21\W+bokchoy.*/,
+    triggerPhrase: /.*jenkins\W+run\W+django30\W+bokchoy.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'bokchoy',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django21',
-]
-
-Map django22BokchoyJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-2.2-bokchoy-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.2/bokchoy',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django22\W+bokchoy.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django22',
+    pythonVersion: '3.8',
+    toxEnv: 'py38-django30',
 ]
 
 Map privateBokchoyJobConfig = [
@@ -159,46 +145,31 @@ Map publicPythonJobConfig = [
     pythonVersion: '3.5',
 ]
 
-Map django20PythonJobConfig = [
+Map python38PythonJobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.0-python-pipeline-pr',
+    jobName: 'edx-platform-python-3.8-python-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.0/python',
+    context: 'jenkins/python-3.8/python',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django20\W+python.*/,
+    triggerPhrase: /.*jenkins\W+run\W+python38\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django20',
+    pythonVersion: '3.8',
 ]
 
-Map django21PythonJobConfig = [
+Map django30PythonJobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.1-python-pipeline-pr',
+    jobName: 'edx-platform-django-3.0-python-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.1/python',
+    context: 'jenkins/django-3.0/python',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django21\W+python.*/,
+    triggerPhrase: /.*jenkins\W+run\W+django30\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django21',
-]
-
-Map django22PythonJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-2.2-python-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.2/python',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run\W+django22\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django22',
+    pythonVersion: '3.8',
+    toxEnv: 'py38-django30',
 ]
 
 Map privatePythonJobConfig = [
@@ -253,46 +224,31 @@ Map publicQualityJobConfig = [
     pythonVersion: '3.5',
 ]
 
-Map django20QualityJobConfig = [
+Map python38QualityJobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.0-quality-pipeline-pr',
+    jobName: 'edx-platform-python-3.8-quality-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.0/quality',
+    context: 'jenkins/python-3.8/quality',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django20\W+quality.*/,
+    triggerPhrase: /.*jenkins\W+run\W+python38\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django20',
+    pythonVersion: '3.8',
 ]
 
-Map django21QualityJobConfig = [
+Map django30QualityJobConfig = [
     open: true,
-    jobName: 'edx-platform-django-2.1-quality-pipeline-pr',
+    jobName: 'edx-platform-django-3.0-quality-pipeline-pr',
     repoName: 'edx-platform',
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.1/quality',
+    context: 'jenkins/django-3.0/quality',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django21\W+quality.*/,
+    triggerPhrase: /.*jenkins\W+run\W+django30\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django21',
-]
-
-Map django22QualityJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-2.2-quality-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-2.2/quality',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run\W+django22\W+quality.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
-    toxEnv: 'py35-django22',
+    pythonVersion: '3.8',
+    toxEnv: 'py38-django30',
 ]
 
 Map privateQualityJobConfig = [
@@ -336,25 +292,22 @@ Map privateQualityIronwoodJobConfig = [
 
 List jobConfigs = [
     publicBokchoyJobConfig,
-    django20BokchoyJobConfig,
-    django21BokchoyJobConfig,
-    django22BokchoyJobConfig,
+    python38BokchoyJobConfig,
+    django30BokchoyJobConfig,
     privateBokchoyJobConfig,
     publicBokchoyIronwoodJobConfig,
     privateBokchoyIronwoodJobConfig,
     publicLettuceIronwoodJobConfig,
     privateLettuceIronwoodJobConfig,
     publicPythonJobConfig,
-    django20PythonJobConfig,
-    django21PythonJobConfig,
-    django22PythonJobConfig,
+    python38PythonJobConfig,
+    django30PythonJobConfig,
     privatePythonJobConfig,
     publicPythonIronwoodJobConfig,
     privatePythonIronwoodJobConfig,
     publicQualityJobConfig,
-    django20QualityJobConfig,
-    django21QualityJobConfig,
-    django22QualityJobConfig,
+    python38QualityJobConfig,
+    django30QualityJobConfig,
     privateQualityJobConfig,
     publicQualityIronwoodJobConfig,
     privateQualityIronwoodJobConfig
