@@ -5,6 +5,9 @@ rm -rf upgrade_venv
 virtualenv --python=python$PYTHON_VERSION upgrade_venv -q
 source upgrade_venv/bin/activate
 
+echo "Upgrading pip..."
+pip install pip==20.0.2
+
 echo "Getting current sha..."
 cd $REPO_NAME
 export CURRENT_SHA=$(git rev-parse HEAD)
