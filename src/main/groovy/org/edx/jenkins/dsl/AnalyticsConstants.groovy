@@ -109,6 +109,7 @@ class AnalyticsConstants {
             textParam('EXTRA_VARS', allVars.get('EMR_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
 This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
             stringParam('NUM_TASK_CAPACITY', env.get('NUM_TASK_CAPACITY', allVars.get('NUM_TASK_CAPACITY')), 'Number of EMR instance capacity to use for this job.')
+            stringParam('EBS_ROOT_VOLUME_SIZE', env.get('EBS_ROOT_VOLUME_SIZE', allVars.get('EBS_ROOT_VOLUME_SIZE')), 'Size of the root volume for instances in the cluster.')
         }
     }
     // Include this whenever secure_scm() is used, or when run-automated-task.sh is executed in a shell command.
