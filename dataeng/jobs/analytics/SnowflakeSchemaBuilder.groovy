@@ -14,6 +14,7 @@ class SnowflakeSchemaBuilder {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the Warehouse Transforms Repo.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of Warehouse Transforms to use.')
                 stringParam('SCHEMAS', allVars.get('SCHEMAS'), 'Snowflake schemas to work on')
+                stringParam('RAW_SUFFIXES', allVars.get('RAW_SUFFIXES'), 'List of suffixes to remove from Schema name')
                 stringParam('SOURCE_PROJECT', allVars.get('SOURCE_PROJECT'), 'The dbt project where the models will be generated and run, relative to the "projects" directory.')
                 stringParam('DESTINATION_PROJECT', allVars.get('DESTINATION_PROJECT'), 'The dbt project that will use the generated sources, relative to the "projects" directory.')
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'dbt profile from analytics-secure to work on.')
