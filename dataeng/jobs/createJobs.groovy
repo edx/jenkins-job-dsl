@@ -59,6 +59,7 @@ import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.ProgramEnrollmentReports.job as ProgramEnrollmentReportsJob
 import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelorsITKJob
+import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -141,6 +142,7 @@ def taskMap = [
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     PROGRAM_ENROLLMENT_REPORTS_JOB: ProgramEnrollmentReportsJob,
     SNOWFLAKE_MICROBACHELORS_ITK_JOB: SnowflakeMicrobachelorsITKJob,
+    STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,
 ]
 
 for (task in taskMap) {
@@ -215,6 +217,7 @@ listView('Tools') {
         name('update-users')
         name('vertica-disk-usage-monitor')
         name('monitor-bigquery-loading')
+        name('stitch-snowflake-lag-monitor')
     }
     columns DEFAULT_VIEW.call()
 }
