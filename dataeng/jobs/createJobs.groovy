@@ -220,7 +220,7 @@ listView('Tools') {
         name('vertica-disk-usage-monitor')
         name('monitor-bigquery-loading')
         name('stitch-snowflake-lag-monitor')
-        nane('snowflake-public-grants-cleaner')
+        name('snowflake-public-grants-cleaner')
     }
     columns DEFAULT_VIEW.call()
 }
