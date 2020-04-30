@@ -222,7 +222,7 @@ Map edxVal= [
 Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
