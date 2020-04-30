@@ -99,6 +99,7 @@ class SSLExpirationCheck{
 
                 steps {
                     virtualenv {
+                        pythonName('System-CPython-3.6')
                         nature("shell")
                         systemSitePackages(false)
 
