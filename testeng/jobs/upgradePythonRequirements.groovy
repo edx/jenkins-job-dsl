@@ -272,7 +272,7 @@ Map testengCI = [
 Map xblock = [
     org: 'edx',
     repoName: 'XBlock',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
