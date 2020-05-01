@@ -101,7 +101,7 @@ class CheckASGLifeCycleHooks {
 
                     steps {
                         virtualenv {
-                            pythonName('System-CPython-2.7')
+                            pythonName('System-CPython-3.6')
                             nature("shell")
                             systemSitePackages(false)
                             command(
