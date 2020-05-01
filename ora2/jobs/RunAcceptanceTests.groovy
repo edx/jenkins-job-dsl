@@ -66,6 +66,7 @@ class RunAcceptanceTests {
                     env('TEST_HOST', '${SANDBOX_HOST}')
                 }
                 virtualenv {
+                    pythonName('System-CPython-3.6')
                     name('shell')
                     command(
                         dslFactory.readFileFromWorkspace('ora2/resources/run-ora2-acceptance-tests.sh')

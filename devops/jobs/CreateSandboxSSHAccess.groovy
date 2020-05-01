@@ -78,6 +78,7 @@ class CreateSandboxSSHAccess {
 
       steps {
         virtualenv {
+          pythonName('System-CPython-3.6')
           nature("shell")
             systemSitePackages(false)
             command(dslFactory.readFileFromWorkspace("devops/resources/create-sandbox-ssh-access.sh"))

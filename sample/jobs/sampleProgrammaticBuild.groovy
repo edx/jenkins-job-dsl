@@ -23,6 +23,7 @@ def job = job('configuration-watcher') {
     // run the trigger-builds shell script in a virtual environment called venv
     steps {
         virtualenv {
+            pythonName('System-CPython-3.X')
             name('venv')
             nature('shell')
             command readFileFromWorkspace('sample/resources/trigger-builds.sh')
