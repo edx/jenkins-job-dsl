@@ -219,6 +219,16 @@ Map edxVal= [
     emails: ['sustaining-vulcans@edx.org']
 ]
 
+Map edxWhen= [
+    org: 'edx',
+    repoName: 'edx-when',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: ['davestgermain'],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
@@ -321,6 +331,7 @@ List jobConfigs = [
     edxRestApiClient,
     edxSphinxTheme,
     edxVal,
+    edxWhen,
     opaqueKeys,
     openEdxStats,
     portalDesigner,
