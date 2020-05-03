@@ -249,6 +249,16 @@ Map portalDesigner = [
     emails: ['masters-requirements-update@edx.opsgenie.net']
 ]
 
+Map pytestRepoHealth = [
+    org: 'edx',
+    repoName: 'pytest-repo-health',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: ['jinder1s'],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map registrar = [
     org: 'edx',
     repoName: 'registrar',
@@ -324,6 +334,7 @@ List jobConfigs = [
     opaqueKeys,
     openEdxStats,
     portalDesigner,
+    pytestRepoHealth,
     registrar,
     testengCI,
     xblock,
