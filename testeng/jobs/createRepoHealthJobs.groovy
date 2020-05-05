@@ -18,7 +18,7 @@ List targetRepos = ['pytest-repo-health',
 
 targetRepos.each { target_repo ->
 
-    job("RepoHealth/${target_repo}") {
+    job("${target_repo}") {
         description('Generate a report listing repository structure standard compliance accross edX repos')
         concurrentBuild(false)
         environmentVariables(
