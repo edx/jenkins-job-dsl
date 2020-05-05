@@ -5,9 +5,8 @@
 
 package testeng
 
-def pytest_repo_health_gitURL = 'git@github.com:edx/pytest-repo-health.git'
-def edx_repo_health_gitURL = 'git@github.com:edx/edx-repo-health.git'
-def destination_repo_health_gitURL = "git@github.com:edx/repo-tools-data.git"
+def pytest_repo_health_gitURL = 'https://github.com/edx/pytest-repo-health'
+def edx_repo_health_gitURL = 'https://github.com/edx/edx-repo-health'
 def githubUserReviewers = []
 def githubTeamReviewers = ['git@github.com:edx/platform-core', 'arch-bom']
 List targetRepos = ['pytest-repo-health',
@@ -51,7 +50,7 @@ targetRepos.each { target_repo ->
             git {
                 remote {
                     credentials('edx-secure')
-                    url("git@github.com:edx/${target_repo}.git")
+                    url("https://github.com/edx/${target_repo}")
                 }
                 branch('*/master')
                 browser()
