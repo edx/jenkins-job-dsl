@@ -26,19 +26,6 @@ catch (any) {
     return 1
 }
 
-Map publicBokchoyJobConfig = [
-    open: true,
-    jobName: 'edx-platform-bokchoy-pipeline-pr-wtw',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/bokchoy-wtw',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+wtw\W+bokchoy.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    pythonVersion: '3.5',
-]
-
 Map publicPythonJobConfig = [
     open: true,
     jobName: 'edx-platform-python-pipeline-pr-wtw',
@@ -53,7 +40,6 @@ Map publicPythonJobConfig = [
 ]
 
 List jobConfigs = [
-    publicBokchoyJobConfig,
     publicPythonJobConfig
 ]
 

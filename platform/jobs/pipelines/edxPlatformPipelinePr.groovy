@@ -26,60 +26,6 @@ catch (any) {
     return 1
 }
 
-Map publicBokchoyJobConfig = [
-    open: true,
-    jobName: 'edx-platform-bokchoy-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/bokchoy',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    pythonVersion: '3.5',
-]
-
-Map python38BokchoyJobConfig = [
-    open: true,
-    jobName: 'edx-platform-python-3.8-bokchoy-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python-3.8/bokchoy',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+python38\W+bokchoy.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    pythonVersion: '3.8',
-    toxEnv: 'py38-django22',
-]
-
-Map django30BokchoyJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-3.0-bokchoy-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-3.0/bokchoy',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django30\W+bokchoy.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    pythonVersion: '3.8',
-    toxEnv: 'py38-django30',
-]
-
-Map privateBokchoyJobConfig = [
-    open: false,
-    jobName: 'edx-platform-bokchoy-pipeline-pr_private',
-    repoName: 'edx-platform-private',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/bokchoy',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    pythonVersion: '3.5',
-]
-
 Map publicBokchoyIronwoodJobConfig = [
     open: true,
     jobName: 'ironwood-bokchoy-pipeline-pr',
@@ -291,10 +237,6 @@ Map privateQualityIronwoodJobConfig = [
 ]
 
 List jobConfigs = [
-    publicBokchoyJobConfig,
-    python38BokchoyJobConfig,
-    django30BokchoyJobConfig,
-    privateBokchoyJobConfig,
     publicBokchoyIronwoodJobConfig,
     privateBokchoyIronwoodJobConfig,
     publicLettuceIronwoodJobConfig,
