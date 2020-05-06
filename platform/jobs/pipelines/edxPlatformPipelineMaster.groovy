@@ -3,28 +3,6 @@ package platform
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
-Map publicBokchoyJobConfig = [
-    open: true,
-    jobName: 'edx-platform-bokchoy-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    branch: 'master',
-    context: 'jenkins/bokchoy',
-    pythonVersion: '3.5',
-]
-
-Map privateBokchoyJobConfig = [
-    open: false,
-    jobName: 'edx-platform-bokchoy-pipeline-master_private',
-    repoName: 'edx-platform-private',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    branch: 'security-release',
-    context: 'jenkins/bokchoy',
-    pythonVersion: '3.5',
-]
-
 Map ironwoodBokchoyJobConfig = [
     open: true,
     jobName: 'ironwood-bokchoy-pipeline-master',
@@ -114,8 +92,6 @@ Map ironwoodQualityJobConfig = [
 ]
 
 List jobConfigs = [
-    publicBokchoyJobConfig,
-    privateBokchoyJobConfig,
     ironwoodBokchoyJobConfig,
     ironwoodLettuceJobConfig,
     publicPythonJobConfig,

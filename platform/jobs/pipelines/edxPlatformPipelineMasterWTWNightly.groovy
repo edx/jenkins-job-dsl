@@ -4,17 +4,6 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SEC
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
 
-Map wtwBokchoyJobConfig = [
-    open: true,
-    jobName: 'edx-platform-bokchoy-pipeline-master-wtw',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    branch: 'master',
-    context: 'jenkins/bokchoy-contexts',
-    pythonVersion: '3.5',
-]
-
 Map wtwPythonJobConfig = [
     open: true,
     jobName: 'edx-platform-python-pipeline-master-wtw',
@@ -27,7 +16,6 @@ Map wtwPythonJobConfig = [
 ]
 
 List jobConfigs = [
-    wtwBokchoyJobConfig,
     wtwPythonJobConfig,
 ]
 
