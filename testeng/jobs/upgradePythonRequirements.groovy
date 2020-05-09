@@ -71,6 +71,16 @@ Map configuration = [
      alwaysNotify: false
 ]
 
+Map ccxKeys = [
+    org: 'edx',
+    repoName: 'ccx-keys',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map completion = [
     org: 'edx',
     repoName: 'completion',
@@ -486,6 +496,7 @@ Map xqueue = [
 List jobConfigs = [
     apiDocTools,
     bokchoy,
+    ccxKeys,
     coachingPlugin,
     completion,
     configuration,
