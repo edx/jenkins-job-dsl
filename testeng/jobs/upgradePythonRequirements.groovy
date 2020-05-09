@@ -39,6 +39,16 @@ Map bokchoy = [
     emails: ['arch-bom@edx.org']
 ]
 
+Map codejail = [
+    org: 'edx',
+    repoName: 'codejail'
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: ['netbat'],
+    githubTeamReviewers: ['teaching-and-learning'],
+    emails: ['ned@edx.org']
+]
+
 Map completion = [
     org: 'edx',
     repoName: 'completion',
@@ -303,6 +313,7 @@ Map xqueue = [
 List jobConfigs = [
     apiDocTools,
     bokchoy,
+    codejail,
     completion,
     cookiecutterDjangoApp,
     courseDiscovery,
