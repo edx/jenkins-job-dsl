@@ -39,6 +39,16 @@ Map bokchoy = [
     emails: ['arch-bom@edx.org']
 ]
 
+Map configuration = [
+    org: 'edx',
+    repoName: 'configuration',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: ['fredsmith'],
+    githubTeamReviewers: ['devops'],
+    emails: ['devops@edx.org']
+]
+
 Map completion = [
     org: 'edx',
     repoName: 'completion',
@@ -304,6 +314,7 @@ List jobConfigs = [
     apiDocTools,
     bokchoy,
     completion,
+    configuration,
     cookiecutterDjangoApp,
     courseDiscovery,
     credentialsRepo,
