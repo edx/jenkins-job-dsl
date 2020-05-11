@@ -40,7 +40,11 @@ class WarehouseTransforms{
                 }
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
-                publishers common_publishers(allVars)
+                publishers common_publishers(allVars) << {
+                    env_config.get('DOWNSTREAM_JOBS', []).each { downstream_job_name ->
+                        downstream(downstream_job_name)
+                    }
+                }
                 steps {
                     virtualenv {
                         pythonName('PYTHON_3.7')
