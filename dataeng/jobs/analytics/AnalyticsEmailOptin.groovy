@@ -86,6 +86,7 @@ class AnalyticsEmailOptin {
                     extensions {
                         pruneBranches()
                         relativeTargetDirectory('edx-platform')
+                        cleanBeforeCheckout()
                     }
                 }
                 git {
@@ -127,6 +128,7 @@ class AnalyticsEmailOptin {
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv.sh")
                     )
+                    clear(true)
                 }
                 virtualenv {
                     nature("shell")
@@ -134,6 +136,7 @@ class AnalyticsEmailOptin {
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/setup-exporter-email-optin.sh")
                     )
+                    clear(true)
                 }
                 downstreamParameterized {
                     trigger('analytics-email-optin-worker') {
