@@ -44,5 +44,13 @@ if [[ -n "${BECOME_USER}" ]]; then
   ANSIBLE_BECOME=" --become --become-user=${BECOME_USER} "
 fi
 
+#SOME_THING_THAT_CHECKS_FOR_FLAG_FILE
+# only run docker shim command if 1) flag file exists 2) the shim args exist
+if [[ SOME_CONDITIONAL_HERE && -n "${ANSIBLE_MODULE_ARGS_SHIM}" ]]; then
+  command_args="${ANSIBLE_MODULE_ARGS_SHIM}"
+else
+  command_args="${ANSIBLE_MODULE_ARGS}"
+fi
+
 ansible ${ANSIBLE_PATTERN} ${ANSIBLE_INVENTORY} -u ${ANSIBLE_SSH_USER} ${ANSIBLE_BECOME} -m ${ANSIBLE_MODULE_NAME} \
--a "${ANSIBLE_MODULE_ARGS}"
+-a "${command_args}"
