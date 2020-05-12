@@ -113,7 +113,7 @@ class RunAnsible {
                 env("BECOME_USER", extraVars.get('BECOME_USER',''))
                 env('ANSIBLE_MODULE_NAME', extraVars.get('MODULE_NAME','shell'))
                 env('ANSIBLE_MODULE_ARGS', extraVars.get('MODULE_ARGS'))
-                env('ANSIBLE_MODULE_ARGS_SHIM', extraVars.get('MODULE_ARGS_SHIM'))
+                env('ANSIBLE_MODULE_ARGS_SHIM', extraVars.get('MODULE_ARGS_SHIM',''))
                 env('PATTERN', extraVars.get('PATTERN',''))
                 env('INVENTORY', extraVars.get('INVENTORY',''))
                 env('CUSTOM_INVENTORY', extraVars.get('CUSTOM_INVENTORY',''))
