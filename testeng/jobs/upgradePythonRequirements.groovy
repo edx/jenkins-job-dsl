@@ -32,7 +32,7 @@ Map apiDocTools = [
 Map bokchoy = [
     org: 'edx',
     repoName: 'bok-choy',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
@@ -212,7 +212,7 @@ Map edxRestApiClient = [
 Map edxSphinxTheme = [
     org: 'edx',
     repoName: 'edx-sphinx-theme',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
