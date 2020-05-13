@@ -44,9 +44,13 @@ if [[ -n "${BECOME_USER}" ]]; then
   ANSIBLE_BECOME=" --become --become-user=${BECOME_USER} "
 fi
 
-#SOME_THING_THAT_CHECKS_FOR_FLAG_FILE
-# only run docker shim command if 1) flag file exists 2) the shim args exist
-if [[ SOME_CONDITIONAL_HERE && -n "${ANSIBLE_MODULE_ARGS_SHIM}" ]]; then
+# Test if docker shim flag file is present
+shim_enabled=true
+ansible ${ANSIBLE_PATTERN} ${ANSIBLE_INVENTORY} -u ${ANSIBLE_SSH_USER} ${ANSIBLE_BECOME} -m ${ANSIBLE_MODULE_NAME} \
+-a 'test -f /edx/etc/docker_shim_enabled' || echo "Docker shim is not enabled."; shim_enabled=false
+
+# Use docker shim command if flag file is present
+if [[ "$shim_enabled" == "true" ]]; then
   command_args="${ANSIBLE_MODULE_ARGS_SHIM}"
 else
   command_args="${ANSIBLE_MODULE_ARGS}"
