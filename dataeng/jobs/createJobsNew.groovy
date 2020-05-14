@@ -1,0 +1,130 @@
+import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
+import org.yaml.snakeyaml.Yaml
+import org.yaml.snakeyaml.error.YAMLException
+
+def globals = binding.variables
+String commonVarsDir = globals.get('COMMON_VARS_DIR')
+String commonVarsFilePath = commonVarsDir + 'common.yaml'
+Map commonConfigMap = [:]
+
+try {
+    out.println('Parsing secret YAML file')
+    String commonConfigContents = readFileFromWorkspace(commonVarsFilePath)
+    Yaml yaml = new Yaml()
+    commonConfigMap = yaml.load(commonConfigContents)
+    out.println('Successfully parsed secret YAML file')
+
+}  catch (YAMLException e) {
+    throw new IllegalArgumentException("Unable to parse ${commonVarsFilePath}: ${e.message}")
+}
+
+def taskMap = [
+    // Add jobs here as they are ported from the old analytics Jenkins server.
+]
+
+for (task in taskMap) {
+    def extraVarsFileName = task.key + '_EXTRA_VARS.yaml'
+    def extraVarsFilePath = commonVarsDir + extraVarsFileName
+    Map extraVars = [:]
+    try {
+        String extraVarsContents = readFileFromWorkspace(extraVarsFilePath)
+        Yaml yaml = new Yaml()
+        extraVars = yaml.load(extraVarsContents)
+    }
+    catch (Exception e) {
+        out.println("File $extraVarsFileName does not exist.")
+    }
+
+    task.value(this, commonConfigMap + extraVars)
+}
+
+listView('Production') {
+    description('Only for production jobs.')
+    jobs {
+        regex('.+production')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Edge') {
+    description('Only for Edge jobs.')
+    jobs {
+        regex('.+edge')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Release') {
+    description('Jobs that are used for testing release candidates.')
+    jobs {
+        regex('.+release')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Exporter') {
+    description('Jobs that are used for exporting course data.')
+    jobs {
+        regex('analytics-.+')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Warehouse') {
+    jobs {
+        name('event-type-distribution')
+        name('courseware-links-clicked')
+        name('finance-report')
+        name('payments-validation')
+        name('generate-warehouse-docs')
+        name('affiliate-window')
+        name('snowflake-schema-builder')
+        regex('refresh-snowpipe-.*')
+        regex('.+read-replica-import|load-.+|vertica-schema-to.+|.*sql-script.*')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Tools') {
+    jobs {
+        name('data_engineering_seed_job')
+        name('deploy-cluster')
+        name('terminate-cluster')
+        name('emr-cost-reporter')
+        name('update-users')
+        name('vertica-disk-usage-monitor')
+        name('monitor-bigquery-loading')
+        name('stitch-snowflake-lag-monitor')
+        name('snowflake-public-grants-cleaner')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Stage') {
+    jobs {
+        regex('.+stage')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Enterprise') {
+    jobs {
+        regex('enterprise.+')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Backups') {
+    jobs {
+        regex('.*backup.*')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('dbt') {
+    jobs {
+        name('snowflake-schema-builder')
+        regex('dbt-.*|warehouse-transforms-.*')
+    }
+    columns DEFAULT_VIEW.call()
+}
