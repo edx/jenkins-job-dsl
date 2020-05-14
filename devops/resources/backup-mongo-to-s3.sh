@@ -31,5 +31,6 @@ bash util/clone-mongo/clone-mongo.sh  \
 aws s3 cp --recursive $WORKSPACE/${JOB_NAME}/${BUILD_ID} s3://edx-mongohq/jenkins-backups/${ENVIRONMENT}-${DEPLOYMENT}/${BUILD_ID}/
 
 rm -rf $WORKSPACE/${JOB_NAME}/${BUILD_ID}/*
+rmdir $WORKSPACE/${JOB_NAME}/${BUILD_ID}
 
 curl ${SNITCH}
