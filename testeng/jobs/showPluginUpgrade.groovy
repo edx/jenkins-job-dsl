@@ -21,7 +21,7 @@ job('show-jenkins-plugin-updates') {
     logRotator JENKINS_PUBLIC_LOG_ROTATOR()
     label('coverage-worker')
 
-    scm {
+    multiscm {
         git {
             remote {
                 url('https://github.com/edx/configuration')
