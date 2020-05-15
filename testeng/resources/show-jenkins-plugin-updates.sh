@@ -4,13 +4,13 @@ cd jenkins-configuration
 source local_env.sh.sample
 
 # Write the plugins installed by the base configuration branch to 'base_installed_plugins'
-export PLUGIN_CONFIG="../configuration-base/${PLUGIN_CONFIG_FILE}"
+export PLUGIN_CONFIG="${WORKSPACE}/configuration-base/${PLUGIN_CONFIG_FILE}"
 export PLUGIN_CONFIG_KEY="${PLUGIN_CONFIG_KEY}"
 make clean.ws plugins
 mv installed_plugins base_installed_plugins
 
 # Write the plugins installed by the target configuration branch to 'target_installed_plugins'
-export PLUGIN_CONFIG="../configuration-target/${PLUGIN_CONFIG_FILE}"
+export PLUGIN_CONFIG="${WORKSPACE}/configuration-target/${PLUGIN_CONFIG_FILE}"
 export PLUGIN_CONFIG_KEY="${PLUGIN_CONFIG_KEY}"
 make clean.ws plugins
 mv installed_plugins target_installed_plugins
