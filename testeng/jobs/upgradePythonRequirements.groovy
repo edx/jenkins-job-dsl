@@ -212,7 +212,7 @@ Map edxRestApiClient = [
 Map edxSphinxTheme = [
     org: 'edx',
     repoName: 'edx-sphinx-theme',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
