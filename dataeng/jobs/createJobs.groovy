@@ -253,3 +253,24 @@ listView('dbt') {
     }
     columns DEFAULT_VIEW.call()
 }
+
+listView('Deprecated') {
+    jobs {
+        regex('DEPRECATED-.*')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+listView('Current') {
+    jobs {
+        regex('(?!DEPRECATED-).*')
+    }
+    columns DEFAULT_VIEW.call()
+}
+
+// Manually add jobs that are not captured in DSL to this view
+listView('Custom') {
+    jobs {
+    }
+    columns DEFAULT_VIEW.call()
+}
