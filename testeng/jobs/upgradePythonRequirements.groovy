@@ -32,7 +32,7 @@ Map apiDocTools = [
 Map bokchoy = [
     org: 'edx',
     repoName: 'bok-choy',
-    pythonVersion: '2.7',
+    pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
