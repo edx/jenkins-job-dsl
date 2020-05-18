@@ -8,7 +8,8 @@ package testeng
 //     cronValue: How often to run the job,
 //     githubUserReviewers: List of Github users that should be tagged on PR's, e.g.: ['user1', 'user2']
 //     githubTeamReviewers: List of Github teams that should be tagged on PR's, e.g.: ['team1'].  IMPORTANT NOTE: the teams must have explicit write access to the repository
-//     emails: List of emails that should be notified when job fails, e.g.: ['email1', 'email2']
+//     emails: List of emails that should be notified on completion, e.g.: ['email1', 'email2']
+//     alwaysNotify: Boolean, whether we send an email notification even when the job succeeded rather than just on failure (the default)
 // ]
 
 // Cron value for once per week, sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
@@ -36,7 +37,8 @@ Map bokchoy = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map configuration = [
@@ -46,7 +48,8 @@ Map configuration = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['fredsmith'],
     githubTeamReviewers: ['devops'],
-    emails: ['devops@edx.org']
+    emails: ['devops@edx.org'],
+     alwaysNotify: false
 ]
 
 Map completion = [
@@ -56,7 +59,8 @@ Map completion = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
-    emails: ['masters-requirements-update@edx.opsgenie.net']
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
 ]
 
 Map cookiecutterDjangoApp = [
@@ -66,7 +70,8 @@ Map cookiecutterDjangoApp = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map courseDiscovery = [
@@ -76,7 +81,8 @@ Map courseDiscovery = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['mikix'],
     githubTeamReviewers: ['course-discovery-admins'],
-    emails: ['mterry@edx.org']
+    emails: ['mterry@edx.org'],
+    alwaysNotify: false
 ]
 
 Map credentialsRepo = [
@@ -86,7 +92,8 @@ Map credentialsRepo = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
-    emails: ['masters-requirements-update@edx.opsgenie.net']
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
 ]
 
 Map devstack = [
@@ -96,7 +103,8 @@ Map devstack = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map djangoConfigModels = [
@@ -106,7 +114,8 @@ Map djangoConfigModels = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['feanil'],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map djangoUserTasks = [
@@ -116,7 +125,8 @@ Map djangoUserTasks = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['jmbowman'],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map ecommerce = [
@@ -166,7 +176,8 @@ Map edxNotesApi = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['devops'],
-    emails: ['devops@edx.org']
+    emails: ['devops@edx.org'],
+    alwaysNotify: false
 ]
 
 Map edxOrganizations = [
@@ -176,7 +187,8 @@ Map edxOrganizations = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map edxPlatform = [
@@ -186,7 +198,8 @@ Map edxPlatform = [
     cronValue: cronOffHoursBusinessDaily,
     githubUserReviewers: [],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map edxProctoring = [
@@ -194,9 +207,10 @@ Map edxProctoring = [
     repoName: 'edx-proctoring',
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: ['feanil'],
+    githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
-    emails: ['masters-requirements-update@edx.opsgenie.net']
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
 ]
 
 Map edxRestApiClient = [
@@ -206,7 +220,8 @@ Map edxRestApiClient = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map edxSphinxTheme = [
@@ -216,7 +231,8 @@ Map edxSphinxTheme = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map edxVal= [
@@ -226,7 +242,8 @@ Map edxVal= [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['sustaining-vulcans'],
-    emails: ['sustaining-vulcans@edx.org']
+    emails: ['sustaining-vulcans@edx.org'],
+    alwaysNotify: false
 ]
 
 Map opaqueKeys = [
@@ -236,7 +253,8 @@ Map opaqueKeys = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map openEdxStats = [
@@ -246,7 +264,8 @@ Map openEdxStats = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
     githubTeamReviewers: ['teaching-and-learning'],
-    emails: ['ned@edx.org']
+    emails: ['ned@edx.org'],
+    alwaysNotify: false
 ]
 
 Map portalDesigner = [
@@ -256,7 +275,8 @@ Map portalDesigner = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
-    emails: ['masters-requirements-update@edx.opsgenie.net']
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
 ]
 
 Map registrar = [
@@ -266,7 +286,8 @@ Map registrar = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs'],
-    emails: ['masters-requirements-update@edx.opsgenie.net']
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
 ]
 
 Map testengCI = [
@@ -276,7 +297,8 @@ Map testengCI = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['devops'],
-    emails: ['devops@edx.org']
+    emails: ['devops@edx.org'],
+    alwaysNotify: false
 ]
 
 Map xblock = [
@@ -286,7 +308,8 @@ Map xblock = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['cpennington'],
     githubTeamReviewers: ['platform-core', 'arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map xblockUtils = [
@@ -296,7 +319,8 @@ Map xblockUtils = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arch-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map xqueue = [
@@ -306,9 +330,9 @@ Map xqueue = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['sustaining-team'],
-    emails: ['sustaining-escalations@edx.org']
+    emails: ['sustaining-escalations@edx.org'],
+    alwaysNotify: false
 ]
-
 
 List jobConfigs = [
     apiDocTools,
@@ -356,8 +380,8 @@ jobConfigs.each { jobConfig ->
             REPO_NAME: jobConfig.repoName,
             ORG: jobConfig.org,
             PYTHON_VERSION: jobConfig.pythonVersion,
-            PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(","),
-            PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(",")
+            PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(','),
+            PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(',')
         )
         multiscm {
             git {
@@ -402,7 +426,13 @@ jobConfigs.each { jobConfig ->
         }
 
         publishers {
-            mailer(jobConfig.emails.join(" "))
+            jobConfig.alwaysNotify ? extendedEmail {
+                triggers {
+                    always {
+                        recipientList(jobConfig.emails.join(' '))
+                    }
+                }
+            } : mailer(jobConfig.emails.join(' '))
         }
     }
 
