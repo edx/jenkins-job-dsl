@@ -41,6 +41,16 @@ Map bokchoy = [
     alwaysNotify: false
 ]
 
+Map coachingPlugin = [
+    org: 'edx',
+    repoName: 'platform-plugin-coaching',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['edx-aperture'],
+    emails: ['aperture-alerts@edx.org']
+]
+
 Map configuration = [
     org: 'edx',
     repoName: 'configuration',
@@ -94,6 +104,16 @@ Map credentialsRepo = [
     githubTeamReviewers: ['masters-devs'],
     emails: ['masters-requirements-update@edx.opsgenie.net'],
     alwaysNotify: true
+]
+
+Map demographics = [
+    org: 'edx',
+    repoName: 'demographics',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['edx-aperture'],
+    emails: ['aperture-alerts@edx.org']
 ]
 
 Map devstack = [
@@ -337,11 +357,13 @@ Map xqueue = [
 List jobConfigs = [
     apiDocTools,
     bokchoy,
+    coachingPlugin,
     completion,
     configuration,
     cookiecutterDjangoApp,
     courseDiscovery,
     credentialsRepo,
+    demographics,
     devstack,
     djangoConfigModels,
     djangoUserTasks,
