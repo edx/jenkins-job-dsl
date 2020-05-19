@@ -179,6 +179,16 @@ Map edxAnalyticsDataApi = [
     emails: ['data-engineering@edx.org']
 ]
 
+Map edxBulkGrades = [
+    org: 'edx',
+    repoName: 'edx-bulk-grades',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: ['mattcarter'],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map edxGomatic = [
     org: 'edx',
     repoName: 'edx-gomatic',
@@ -370,6 +380,7 @@ List jobConfigs = [
     ecommerce,
     edxAnalyticsDashboard,
     edxAnalyticsDataApi,
+    edxBulkGrades,
     edxGomatic,
     edxNotesApi,
     edxOrganizations,
