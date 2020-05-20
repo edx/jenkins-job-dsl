@@ -138,6 +138,16 @@ Map djangoConfigModels = [
     alwaysNotify: false
 ]
 
+Map djangoLangPrefMiddleware = [
+    org: 'edx',
+    repoName: 'django-lang-pref-middleware',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map djangoUserTasks = [
     org: 'edx',
     repoName: 'django-user-tasks',
@@ -376,6 +386,7 @@ List jobConfigs = [
     demographics,
     devstack,
     djangoConfigModels,
+    djangoLangPrefMiddleware,
     djangoUserTasks,
     ecommerce,
     edxAce,
