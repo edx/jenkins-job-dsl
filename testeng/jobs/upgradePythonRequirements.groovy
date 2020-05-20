@@ -159,6 +159,16 @@ Map ecommerce = [
     emails: ['revenue-squad-alert@edx.opsgenie.net']
 ]
 
+Map edxAce = [
+    org: 'edx',
+    repoName: 'edx-ace',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map edxAnalyticsDashboard = [
     org: 'edx',
     repoName: 'edx-analytics-dashboard',
@@ -368,6 +378,7 @@ List jobConfigs = [
     djangoConfigModels,
     djangoUserTasks,
     ecommerce,
+    edxAce,
     edxAnalyticsDashboard,
     edxAnalyticsDataApi,
     edxGomatic,
