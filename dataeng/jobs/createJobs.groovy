@@ -55,8 +55,6 @@ import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.DBTManual.job as DBTManualJob
 import static analytics.DBTDocs.job as DBTDocsJob
 import static analytics.SnowflakeRefreshSnowpipe.job as SnowflakeRefreshSnowpipeJob
-import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
-import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.ProgramEnrollmentReports.job as ProgramEnrollmentReportsJob
 import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelorsITKJob
 import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
@@ -139,8 +137,6 @@ def taskMap = [
     DBT_MANUAL_JOB: DBTManualJob,
     DBT_DOCS_JOB: DBTDocsJob,
     SNOWFLAKE_REFRESH_SNOWPIPE_JOB: SnowflakeRefreshSnowpipeJob,
-    EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
-    SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     PROGRAM_ENROLLMENT_REPORTS_JOB: ProgramEnrollmentReportsJob,
     SNOWFLAKE_MICROBACHELORS_ITK_JOB: SnowflakeMicrobachelorsITKJob,
     STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,

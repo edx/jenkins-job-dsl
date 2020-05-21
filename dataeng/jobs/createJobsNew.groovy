@@ -1,3 +1,5 @@
+import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
+import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -20,6 +22,8 @@ try {
 
 def taskMap = [
     // Add jobs here as they are ported from the old analytics Jenkins server.
+    EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
+    SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
 ]
 
 for (task in taskMap) {
