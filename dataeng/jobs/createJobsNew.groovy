@@ -1,3 +1,4 @@
+import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
@@ -22,6 +23,7 @@ try {
 
 def taskMap = [
     // Add jobs here as they are ported from the old analytics Jenkins server.
+    EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
 ]

@@ -33,7 +33,6 @@ import static analytics.TotalEventsDailyReport.job as TotalEventsDailyReportJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import static analytics.LoadCourseStructure.job as LoadCourseStructureJob
 import static analytics.Enterprise.job as EnterpriseJob
-import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
@@ -116,7 +115,6 @@ def taskMap = [
     LOAD_COURSE_STRUCTURE_JOB: LoadCourseStructureJob,
     ENTERPRISE_JOB: EnterpriseJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
-    EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     ENROLLMENT_VALIDATION_EVENTS_JOB: EnrollmentValidationEventsJob,
