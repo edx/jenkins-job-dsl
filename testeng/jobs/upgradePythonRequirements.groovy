@@ -485,6 +485,14 @@ jobConfigs.each { jobConfig ->
                 triggers {
                     always {
                         recipientList(jobConfig.emails.join(' '))
+                        content('''\
+                        If the job succeeded, grab the PR link and merge it.
+                        If the job failed, we need to fix that.
+
+                        $BUILD_URL
+
+                        $BUILD_LOG
+                        '''.stripIndent())
                     }
                 }
             } : mailer(jobConfig.emails.join(' '))
