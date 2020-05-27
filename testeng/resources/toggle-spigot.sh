@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-virtualenv toggle_venv -q
+virtualenv --python=python$PYTHON_VERSION toggle_venv -q
 source toggle_venv/bin/activate
 
 echo "Installing python requirements..."
