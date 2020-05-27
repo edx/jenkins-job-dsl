@@ -15,6 +15,7 @@
     BECOME_USER: If you are sudoing using ansible, this sets ansible's become
     MODULE_NAME: What ansible module to run, defaults to shell
     MODULE_ARGS: Arguments for the ansible module, must be specified
+    MODULE_ARGS_SHIM: Arguments for the ansible module using docker shim
     PATTERN: host pattern consumed by ansible (normally an argument to ec2.py)
     INVENTORY: ansible inventory - defaults to ec2.py
     CUSTOM_INVENTORY: if you want to run a custom program to generate an inventory, set this and it will override INVENTORY
@@ -112,6 +113,7 @@ class RunAnsible {
                 env("BECOME_USER", extraVars.get('BECOME_USER',''))
                 env('ANSIBLE_MODULE_NAME', extraVars.get('MODULE_NAME','shell'))
                 env('ANSIBLE_MODULE_ARGS', extraVars.get('MODULE_ARGS'))
+                env('ANSIBLE_MODULE_ARGS_SHIM', extraVars.get('MODULE_ARGS_SHIM',''))
                 env('PATTERN', extraVars.get('PATTERN',''))
                 env('INVENTORY', extraVars.get('INVENTORY',''))
                 env('CUSTOM_INVENTORY', extraVars.get('CUSTOM_INVENTORY',''))
