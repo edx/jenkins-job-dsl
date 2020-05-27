@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-virtualenv venv
+virtualenv --python=python$PYTHON_VERSION venv
 . venv/bin/activate
 
 echo "Installing python requirements..."
