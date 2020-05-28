@@ -47,7 +47,9 @@ fi
 # Test if docker shim flag file is present
 shim_enabled=true
 ansible ${ANSIBLE_PATTERN} ${ANSIBLE_INVENTORY} -u ${ANSIBLE_SSH_USER} ${ANSIBLE_BECOME} -m ${ANSIBLE_MODULE_NAME} \
--a 'test -f /edx/etc/docker_shim_enabled' || echo "Docker shim is not enabled."; shim_enabled=false
+-a 'test -f /edx/etc/docker_shim_enabled' || shim_enabled=false
+
+echo "Docker shim enabled? $shim_enabled"
 
 # Use docker shim command if flag file is present
 if [[ "$shim_enabled" == "true" ]]; then
