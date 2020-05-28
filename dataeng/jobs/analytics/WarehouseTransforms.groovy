@@ -21,7 +21,9 @@ class WarehouseTransforms{
                     stringParam('DBT_PROJECT', env_config.get('DBT_PROJECT', allVars.get('DBT_PROJECT')), 'dbt project in warehouse-transforms to work on.')
                     stringParam('DBT_PROFILE', env_config.get('DBT_PROFILE', allVars.get('DBT_PROFILE')), 'dbt profile from analytics-secure to work on.')
                     stringParam('DBT_TARGET', env_config.get('DBT_TARGET', allVars.get('DBT_TARGET')), 'dbt target from analytics-secure to work on.')
-                    stringParam('TEST_SOURCES_FIRST', env_config.get('TEST_SOURCES_FIRST', 'true'), 'Set to \'true\' to perform source testing first. All other values test sources post-run.')
+                    stringParam('SKIP_TESTS', env_config.get('SKIP_TESTS', 'false'), 'Set to \'true\' to skip all tests. All other values will allow tests to run given the other configuration values.')
+                    stringParam('SKIP_SEED', env_config.get('SKIP_SEED', 'false'), 'Set to \'true\' to skip the dbt seed step. All other values will cause the seed step to be run.')
+                    stringParam('TEST_SOURCES_FIRST', env_config.get('TEST_SOURCES_FIRST', 'true'), 'Set to \'true\' to perform source testing first (if SKIP_TESTS is false). All other values test sources post-run.')
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                 }
                 multiscm secure_scm(allVars) << {
