@@ -12,7 +12,7 @@ cd $WORKSPACE/warehouse-transforms/projects/reporting
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
-if [ "$SKIP_SEED" = 'true' ]
+if [ "$SKIP_SEED" != 'true' ]
 then
   dbt seed --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 fi
