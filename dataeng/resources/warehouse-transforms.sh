@@ -11,10 +11,14 @@ cd $WORKSPACE/warehouse-transforms/projects/reporting
 
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-dbt seed --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+
+if [ $SKIP_SEED = 'true' ]
+then
+  dbt seed --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+fi
 
 # Source testing *before* model-building can be enabled/disabled with this envvar.
-if [ $TEST_SOURCES_FIRST = 'true' ]
+if [ $TEST_SOURCES_FIRST = 'true' ] && [ $SKIP_TESTS != 'true' ]
 then
     # Run the source tests, sadly not just the ones upstream from this tag
     dbt test --models source:* --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
@@ -23,11 +27,12 @@ fi
 # Compile/build all models with this tag.
 dbt run --models tag:$MODEL_TAG --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
-if [ $TEST_SOURCES_FIRST = 'true' ]
+if [ $TEST_SOURCES_FIRST = 'true' ] && [ $SKIP_TESTS != 'true' ]
 then
     # Run the tests for this tag, but exclude sources since we just tested them
     dbt test --models tag:$MODEL_TAG --exclude source:* --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
-else
+elif [ $SKIP_TESTS != 'true' ]
+then
     # Run the tests for this tag, including sources.
     dbt test --models tag:$MODEL_TAG --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 fi
