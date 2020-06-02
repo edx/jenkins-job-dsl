@@ -1,6 +1,11 @@
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
+import static analytics.DeployCluster.job as DeployClusterJob
+import static analytics.TerminateCluster.job as TerminateClusterJob
+import static analytics.UpdateUsers.job as UpdateUsersJob
+import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
+import static analytics.BackupVertica.job as BackupVerticaJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -26,6 +31,11 @@ def taskMap = [
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
+    DEPLOY_CLUSTER_JOB: DeployClusterJob,
+    TERMINATE_CLUSTER_JOB: TerminateClusterJob,
+    BACKUP_VERTICA_JOB: BackupVerticaJob,
+    UPDATE_USERS_JOB: UpdateUsersJob,
+    VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
 ]
 
 for (task in taskMap) {

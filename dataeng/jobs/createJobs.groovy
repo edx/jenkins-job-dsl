@@ -28,16 +28,11 @@ import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVer
 import static analytics.LoadEvents.load_json_events_to_s3_job as LoadJsonEventsToS3Job
 import static analytics.LoadEvents.load_json_events_to_bigquery_job as LoadJsonEventsToBigqueryJob
 import static analytics.VerticaReplicaImport.job as VerticaReplicaImportJob
-import static analytics.BackupVertica.job as BackupVerticaJob
 import static analytics.TotalEventsDailyReport.job as TotalEventsDailyReportJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import static analytics.LoadCourseStructure.job as LoadCourseStructureJob
 import static analytics.Enterprise.job as EnterpriseJob
-import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
-import static analytics.UpdateUsers.job as UpdateUsersJob
-import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEventsJob
-import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTrackingLogsJob
@@ -108,17 +103,12 @@ def taskMap = [
     LOAD_JSON_EVENTS_TO_BIGQUERY_JOB: LoadJsonEventsToBigqueryJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
     VERTICA_REPLICA_IMPORT_JOB: VerticaReplicaImportJob,
-    BACKUP_VERTICA_JOB: BackupVerticaJob,
     TOTAL_EVENTS_DAILY_REPORT_JOB: TotalEventsDailyReportJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
     LOAD_COURSE_STRUCTURE_JOB: LoadCourseStructureJob,
     ENTERPRISE_JOB: EnterpriseJob,
-    TERMINATE_CLUSTER_JOB: TerminateClusterJob,
-    VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
-    UPDATE_USERS_JOB: UpdateUsersJob,
     ENROLLMENT_VALIDATION_EVENTS_JOB: EnrollmentValidationEventsJob,
-    DEPLOY_CLUSTER_JOB: DeployClusterJob,
     LOAD_INSIGHTS_TO_VERTICA_JOB: LoadInsightsToVerticaJob,
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
     AGGREGATE_DAILY_TRACKING_LOGS_JOB: AggregateDailyTrackingLogsJob,
