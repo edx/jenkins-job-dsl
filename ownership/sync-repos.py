@@ -13,10 +13,9 @@ from github3.exceptions import NotFoundError
 from itertools import groupby
 import re
 
-def bail(message):
-    raise KnownError(message)
 
 class KnownError(Exception):
+    """Known exception cases where we won't need a stack trace."""
     def __init__(self, message):
         super().__init__(message)
         self.message = message
@@ -46,7 +45,10 @@ def main(github_username, token_file, spreadsheet_csv):
         repos_gh = list(fetch_github(hub, orgs))
         repos_ss = list(fetch_spreadsheet(spreadsheet_csv, orgs))
 
-        run_compare(hub, orgs, repos_gh, repos_ss)
+        actions = run_compare(hub, orgs, repos_gh, repos_ss)
+
+        # For now, just make recommendations, don't make changes.
+        report_actions(actions)
     except KnownError as e:
         print(e.message)
 
@@ -55,6 +57,15 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
     # List of actions to recommend at end of run.
     #
     # This list will *grow* as the comparison progresses.
+    #
+    # Each action is a dictionary with at least the following keys, and
+    # possibly others depending on the action:
+    # - action: The type of action, such as 'add_row' or 'move_repo_unsupported'
+    # - repo: The full name of the repo on Github ("org/name") related to this
+    #   action
+    # - why: Description of why this action is recommended
+    #
+    # Actions relating to an existing row on the spreadsheet have a row_id key.
     actions = []
 
     # For any archived repos, we don't want them in the spreadsheet
@@ -64,7 +75,7 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
     for r in archived:
         actions.append({
             'action': 'move_repo_unsupported',
-            'name': r['name'],
+            'repo': r['name'],
             'why': ("Repo has been archived but is still in a main org "
                     "rather than edx-unsupported")
         })
@@ -84,7 +95,7 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
         for uniq_dup_name in set(names_ss_dup):
             row_ids = [str(r['row_id']) for r in repos_ss if r['name'] == uniq_dup_name]
             error_lines.append("%s on rows %s" % (uniq_dup_name, ', '.join(row_ids)))
-        bail(error_lines)
+        raise KnownError(error_lines)
 
     # Mismatched names in both directions.
     #
@@ -99,7 +110,7 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
     def recommend_delete_row(name, why, more_data=None):
         actions.append({
             'action': 'delete_row',
-            'name': name,
+            'repo': name,
             'row_id': find_row_by_name(name)['row_id'],
             'why': why,
             **(more_data or {})
@@ -110,7 +121,8 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
     # moved or archived
     for ss_name in names_only_ss.copy():
         try:
-            found_repo = hub.repository(*ss_name.split('/', 2))
+            (ss_repo_org, ss_repo_shortname) = ss_name.split('/', 2)
+            found_repo = hub.repository(ss_repo_org, ss_repo_shortname)
         except NotFoundError:
             found_repo = None
         if not found_repo:
@@ -124,13 +136,14 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
         else:
             new_name = str(found_repo).lower()
             if [r for r in repos_ss if r['name'] == new_name]:
-                bail("Manual intervention required: A repo that has moved "
-                     "exists in the spreadsheet under both its old name "
-                     "and its new name. %s -> %s"
+                raise KnownError(
+                    "Manual intervention required: A repo that has moved "
+                    "exists in the spreadsheet under both its old name "
+                    "and its new name. %s -> %s"
                      % (ss_name, new_name))
             actions.append({
                 'action': 'rename_row',
-                'name': ss_name,
+                'repo': ss_name,
                 'new_name': new_name,
                 'row_id': find_row_by_name(ss_name)['row_id'],
                 'why': ("Repo has been renamed, and is not already in the "
@@ -145,16 +158,17 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
     for gh_name in names_only_gh.copy():
         actions.append({
             'action': 'add_row',
-            'name': gh_name,
+            'repo': gh_name,
             'why': "Repo present in Github but not spreadsheet"
         })
         names_only_gh.remove(gh_name)
 
     # Make sure nothing is unaccounted for before presenting recommendations.
     if names_only_gh or names_only_ss:
-        bail("Failed to convert all mismatches between Github and spreadsheet "
-             "into actions! Github remaining = %s; spreadsheet remaining = %s"
-             % (names_only_gh, names_only_ss))
+        raise KnownError(
+            "Failed to convert all mismatches between Github and spreadsheet "
+            "into actions! Github remaining = %s; spreadsheet remaining = %s"
+            % (names_only_gh, names_only_ss))
 
     # Ensure actions don't have any internal conflicts. It might be OK
     # if the same *name* comes up twice; for example, we might want to
@@ -167,12 +181,17 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
         if not row_id:
             continue
         if row_id in seen_row_ids:
-            bail("Possible bug in script: Was going to suggest multiple "
-                 "actions for row %s: %s"
-                 % (row_id, [r for r in actions if r.get('row_id') == row_id]))
+            raise KnownError(
+                "Possible bug in script: Was going to suggest multiple "
+                "actions for row %s: %s"
+                % (row_id, [r for r in actions if r.get('row_id') == row_id]))
         seen_row_ids.add(row_id)
 
-    # For now, just make recommendations, don't make changes.
+    return actions
+
+
+def report_actions(actions):
+    """Report the recommended actions without making changes."""
     if actions:
         print("Recommendations:")
 
@@ -183,13 +202,13 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
             for action in group:
                 data = action.copy()
                 del data['action']
-                del data['name']
+                del data['repo']
                 del data['why']
                 if data:
                     data_str = " " + str(data)
                 else:
                     data_str = ""
-                print("- %s%s" % (action['name'], data_str))
+                print("- %s%s" % (action['repo'], data_str))
     else:
         print("No changes required. ✔")
 
@@ -237,19 +256,22 @@ def fetch_spreadsheet(spreadsheet_csv, orgs):
                     url_name = match.groupdict()['name'].lower()
                     repo_name = url_org + '/' + url_name
                 else:
-                    bail("Cannot parse Github repo URL on spreadsheet row %s: %s"
-                         % (row_id, url))
+                    raise KnownError(
+                        "Cannot parse Github repo URL on spreadsheet row %s: %s"
+                        % (row_id, url))
 
                 if repo_short_name != url_name:
-                    bail("On row %s, repo name '%s' does not match URL %s"
-                         % (row_id, repo_short_name, url))
+                    raise KnownError(
+                        "On row %s, repo name '%s' does not match URL %s"
+                        % (row_id, repo_short_name, url))
 
                 if url_org not in orgs:
-                    bail("Row %s has a repo in an org that isn't being scanned: %s"
-                         % (row_id, url))
+                    raise KnownError(
+                        "Row %s has a repo in an org that isn't being scanned: %s"
+                        % (row_id, url))
 
                 yield {'name': repo_name,
                        'row_id': row_id}
 
 if __name__ == '__main__':
-    main()
+    main(auto_envvar_prefix='SYNC_REPOS')
