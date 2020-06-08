@@ -36,7 +36,7 @@ then
     if [ "$TEST_SOURCES_FIRST" = 'true' ]
     then
         # Exclude the sources from testing, since they were already tested pre-'dbt run'.
-        exclude_models="$exclude_models 'source:*'"
+        exclude_models="$exclude_models source:*"
     fi
 
     if [ "$MODEL_TAG" = 'daily' ]
