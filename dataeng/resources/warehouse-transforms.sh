@@ -27,12 +27,30 @@ fi
 # Compile/build all models with this tag.
 dbt run --models tag:$MODEL_TAG --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
-if [ "$TEST_SOURCES_FIRST" = 'true' ] && [ "$SKIP_TESTS" != 'true' ]
+if [ "$SKIP_TESTS" != 'true' ]
 then
-    # Run the tests for this tag, but exclude sources since we just tested them
-    dbt test --models tag:$MODEL_TAG --exclude source:* --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
-elif [ "$SKIP_TESTS" != 'true' ]
-then
-    # Run the tests for this tag, including sources.
-    dbt test --models tag:$MODEL_TAG --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+    # By default, exclude no models from testing.
+    exclude_models=""
+    exclude_param=""
+
+    if [ "$TEST_SOURCES_FIRST" = 'true' ]
+    then
+        # Exclude the sources from testing, since they were already tested pre-'dbt run'.
+        exclude_models="$exclude_models 'source:*'"
+    fi
+
+    if [ "$MODEL_TAG" = 'daily' ]
+    then
+        # For 'daily' models, exclude these two models from finrep that inexplicably are tested when testing those models.
+        exclude_models="$exclude_models finrep_map_organization_course_courserun finrep_report_royalty_dimension"
+    fi
+
+    if [ "$exclude_models" != "" ]
+    then
+        # If models were excluded, add the leading exclude parameter.
+        exclude_param="--exclude $exclude_models"
+    fi
+
+    # Run all tests which haven't been excluded.
+    dbt test --models tag:$MODEL_TAG $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 fi
