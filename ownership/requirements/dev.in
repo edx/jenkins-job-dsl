@@ -1,0 +1,5 @@
+# Additional requirements for development of this application
+-c constraints.txt
+
+-r pip-tools.txt           # pip-tools and its dependencies, for managing requirements files
+-r base.txt                # Core dependencies
