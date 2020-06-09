@@ -209,15 +209,15 @@ def report_actions(actions):
             print()
             print("Action: %s -- %s" % (action_name, why))
             for action in group:
-                data = action.copy()
-                del data['action']
-                del data['repo']
-                del data['why']
-                if data:
-                    data_str = " " + str(data)
+                # Extract a dictionary of all the remaining keys that
+                # aren't being pulled out explicitly for display, such
+                # as row numbers and new repo locations
+                extra = {k: v for k, v in action.items() if k not in {'action', 'repo', 'why'}}
+                if extra:
+                    extra_str = " " + str(extra)
                 else:
-                    data_str = ""
-                print("- %s%s" % (action['repo'], data_str))
+                    extra_str = ""
+                print("- %s%s" % (action['repo'], extra_str))
     else:
         print("No changes required. ✔")
 
