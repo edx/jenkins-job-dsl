@@ -1,0 +1,5 @@
+# Core requirements for using this application
+-c constraints.txt
+
+click                      # Pleasant command line interface
+github3.py                 # Github auth and API
