@@ -6,13 +6,13 @@ tracking spreadsheet and the actual list of repositories in a
 collection of Github organizations.
 """
 
-import csv
 from itertools import groupby
 import re
 
 import click
 import github3
 from github3.exceptions import NotFoundError
+import gspread
 
 
 class KnownError(Exception):
@@ -27,25 +27,39 @@ class KnownError(Exception):
     help="Username corresponding to the Github access token"
 )
 @click.option(
-    '--token-file',
+    '--github-token-file',
     help=("File containing Github token with repo scope on applicable orgs.\n"
           "(Recommend using a Bash process substitution.)")
 )
 @click.option(
-    '--spreadsheet-csv',
-    help="Ownership spreadsheet CSV data (for local testing)"
+    '--google-creds-file',
+    help="JSON file containing Google API credentials"
 )
-def main(github_username, token_file, spreadsheet_csv):
+@click.option(
+    '--spreadsheet-url',
+    help="Ownership spreadsheet URL"
+)
+@click.option(
+    '--spreadsheet-worksheet-name',
+    help="The name of the worksheet (tab) to use on the ownership spreadsheet"
+)
+def main(github_username, github_token_file, google_creds_file, spreadsheet_url, spreadsheet_worksheet_name):
     """CLI entry point."""
     orgs = ['edx', 'edx-solutions', 'edx-ops']
 
-    with open(token_file, 'r') as tf:
+    # Authenticate to Github
+    with open(github_token_file, 'r') as tf:
         token = tf.readline().rstrip('\n')
     hub = github3.login(github_username, token)
 
+    # Authenticate to Google
+    worksheet = gspread.service_account(filename=google_creds_file) \
+                       .open_by_url(spreadsheet_url) \
+                       .worksheet(spreadsheet_worksheet_name)
+
     try:
         repos_gh = list(fetch_github(hub, orgs))
-        repos_ss = list(fetch_spreadsheet(spreadsheet_csv, orgs))
+        repos_ss = list(fetch_spreadsheet(worksheet, orgs))
 
         actions = run_compare(hub, orgs, repos_gh, repos_ss)
 
@@ -234,7 +248,7 @@ def fetch_github(hub, orgs):
             yield {'name': str(repo).lower(),
                    'archived': repo.archived}
 
-def fetch_spreadsheet(spreadsheet_csv, orgs):
+def fetch_spreadsheet(worksheet, orgs):
     """
     Generator for repos found in spreadsheet, as dicts:
 
@@ -243,44 +257,34 @@ def fetch_spreadsheet(spreadsheet_csv, orgs):
 
     Raises an exception if any entries are not in provided orgs.
     """
-    if spreadsheet_csv:
-        with open(spreadsheet_csv, 'r') as csvf:
-            reader = csv.reader(csvf)
-            # Figure out which columns are which
-            header = next(reader)
-            name_idx = header.index('repo name')
-            url_idx = header.index('repo url')
-            for row_id, line in enumerate(reader, start=2):
-                repo_short_name = line[name_idx].lower()
+    # Start numbering at row 2; headers are spreadsheet row 1
+    for row_id, row in enumerate(worksheet.get_all_records(), start=2):
+        repo_short_name = row['repo name'].lower()
 
-                # Watch out for empty row at the end
-                if not repo_short_name:
-                    continue
+        # Make sure the repo is unambiguous
+        url = row['repo url']
+        match = re.match(r'^https://github\.com/(?P<org>[^/]+)/(?P<name>[^/]+)/?$', url)
+        if match:
+            url_org = match.groupdict()['org'].lower()
+            url_name = match.groupdict()['name'].lower()
+            repo_name = url_org + '/' + url_name
+        else:
+            raise KnownError(
+                "Cannot parse Github repo URL on spreadsheet row %s: %s"
+                % (row_id, url))
 
-                # Make sure the repo is unambiguous
-                url = line[url_idx]
-                match = re.match(r'^https://github\.com/(?P<org>[^/]+)/(?P<name>[^/]+)/?$', url)
-                if match:
-                    url_org = match.groupdict()['org'].lower()
-                    url_name = match.groupdict()['name'].lower()
-                    repo_name = url_org + '/' + url_name
-                else:
-                    raise KnownError(
-                        "Cannot parse Github repo URL on spreadsheet row %s: %s"
-                        % (row_id, url))
+        if repo_short_name != url_name:
+            raise KnownError(
+                "On row %s, repo name '%s' does not match URL %s"
+                % (row_id, repo_short_name, url))
 
-                if repo_short_name != url_name:
-                    raise KnownError(
-                        "On row %s, repo name '%s' does not match URL %s"
-                        % (row_id, repo_short_name, url))
+        if url_org not in orgs:
+            raise KnownError(
+                "Row %s has a repo in an org that isn't being scanned: %s"
+                % (row_id, url))
 
-                if url_org not in orgs:
-                    raise KnownError(
-                        "Row %s has a repo in an org that isn't being scanned: %s"
-                        % (row_id, url))
-
-                yield {'name': repo_name,
-                       'row_id': row_id}
+        yield {'name': repo_name,
+               'row_id': row_id}
 
 if __name__ == '__main__':
     main(auto_envvar_prefix='SYNC_REPOS')

@@ -2,4 +2,5 @@
 -c constraints.txt
 
 click                      # Pleasant command line interface
-github3.py                 # Github auth and API
+github3.py                 # Github client
+gspread                    # Google Docs Spreadsheets client
