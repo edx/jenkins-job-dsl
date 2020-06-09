@@ -6,12 +6,13 @@ tracking spreadsheet and the actual list of repositories in a
 collection of Github organizations.
 """
 
-import click
 import csv
-import github3
-from github3.exceptions import NotFoundError
 from itertools import groupby
 import re
+
+import click
+import github3
+from github3.exceptions import NotFoundError
 
 
 class KnownError(Exception):
@@ -35,6 +36,7 @@ class KnownError(Exception):
     help="Ownership spreadsheet CSV data (for local testing)"
 )
 def main(github_username, token_file, spreadsheet_csv):
+    """CLI entry point."""
     orgs = ['edx', 'edx-solutions', 'edx-ops']
 
     with open(token_file, 'r') as tf:
@@ -54,18 +56,24 @@ def main(github_username, token_file, spreadsheet_csv):
 
 
 def run_compare(hub, orgs, repos_gh, repos_ss):
+    """
+    Compare repository lists from Github and spreadsheet and return a list of
+    recommended actions for reconciling the lists.
+
+    Each action is a dictionary with at least the following keys, and
+    possibly others depending on the action:
+
+    - action: The type of action, such as 'add_row' or 'move_repo_unsupported'
+    - repo: The full name of the repo on Github ("org/name") related to this
+      action
+    - why: Description of why this action is recommended
+
+    Actions relating to an existing row on the spreadsheet have a row_id key.
+
+    """
     # List of actions to recommend at end of run.
     #
     # This list will *grow* as the comparison progresses.
-    #
-    # Each action is a dictionary with at least the following keys, and
-    # possibly others depending on the action:
-    # - action: The type of action, such as 'add_row' or 'move_repo_unsupported'
-    # - repo: The full name of the repo on Github ("org/name") related to this
-    #   action
-    # - why: Description of why this action is recommended
-    #
-    # Actions relating to an existing row on the spreadsheet have a row_id key.
     actions = []
 
     # For any archived repos, we don't want them in the spreadsheet
@@ -106,8 +114,9 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
 
     def find_row_by_name(repo_name):
         return next(filter(lambda r: r['name'] == repo_name, repos_ss))
-    
+
     def recommend_delete_row(name, why, more_data=None):
+        """Add an action recommending a row delete."""
         actions.append({
             'action': 'delete_row',
             'repo': name,
@@ -115,7 +124,7 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
             'why': why,
             **(more_data or {})
         })
-        names_only_ss.remove(ss_name)
+        names_only_ss.remove(name)
 
     # First, if a repo is only in the spreadsheet, check if it was
     # moved or archived
@@ -151,7 +160,7 @@ def run_compare(hub, orgs, repos_gh, repos_ss):
             })
             names_only_ss.remove(ss_name)
             names_only_gh.remove(new_name)
-    
+
     # Now check ones that are only in Github. We've already filtered
     # out archived repos and removed any that are pending a rename on
     # the spreadsheet.
