@@ -68,7 +68,7 @@ Map completion = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['masters-devs'],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
     alwaysNotify: true
 ]
@@ -101,7 +101,7 @@ Map credentialsRepo = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['masters-devs'],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
     alwaysNotify: true
 ]
@@ -258,7 +258,7 @@ Map edxProctoring = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['masters-devs'],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
     alwaysNotify: true
 ]
@@ -324,7 +324,7 @@ Map portalDesigner = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['masters-devs'],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
     alwaysNotify: true
 ]
@@ -335,7 +335,7 @@ Map registrar = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['masters-devs'],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
     alwaysNotify: true
 ]
