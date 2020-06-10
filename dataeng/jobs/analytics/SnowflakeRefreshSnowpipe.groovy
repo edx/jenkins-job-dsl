@@ -17,7 +17,7 @@ class SnowflakeRefreshSnowpipe {
 
         // If you want to configure another table to a Snowpipe, create a config map
         // here and add it to the jobConfigs list.
-        Map eventSnowpipeConfig = [
+        Map trackingProdLogEventSnowpipeConfig = [
             NAME: 'refresh-snowpipe-event-loader',
             PIPE_NAME: 'prod.events.prod_edx_snowpipe_event_loader',
             TABLE_NAME: 'prod.events.tracking_log_events_raw',
@@ -25,8 +25,17 @@ class SnowflakeRefreshSnowpipe {
             DELAY: '120',
             LIMIT: '7'
         ]
+        Map segmentProdLogEventSnowpipeConfig = [
+            NAME: 'refresh-snowpipe-segment-prod-event-loader',
+            PIPE_NAME: 'prod.segment_events_raw.prod_segment_snowpipe_event_s3_pipe',
+            TABLE_NAME: 'prod.segment_events_raw.segment_log_events_raw',
+            SCHEMA: 'prod.segment_events_raw',
+            DELAY: '120',
+            LIMIT: '7'
+        ]
         List jobConfigs = [
-            eventSnowpipeConfig
+            trackingProdLogEventSnowpipeConfig,
+            segmentProdLogEventSnowpipeConfig
         ]
 
         jobConfigs.each { jobConfig ->
