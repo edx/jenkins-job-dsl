@@ -4,11 +4,13 @@ The simplest way to get started with local development edx-related jenkins servi
 These containers are pre-configured to run Jenkins. The `docker-compose.yml` file in the root of this repository
 contains the configuration necessary to bring a containers online with the proper ports exposed, and volumes shared.
 
-Execute this command from the root of the repository:
+Set up a local development environment by entering a Python 3 virtualenv
+at the root of the repository and running `make requirements`
+(installs docker-compose). Then start a service:
 
     $ make docker.run.<name_of_jenkins_service>
 
-Where `<name_of_jenkins_service>` corresponds to services specified in docker-compose.yml (e.g. jenkins_tools, jenkins_build, etc.).
+Where `<name_of_jenkins_service>` corresponds to services specified in docker-compose.yml (e.g. `jenkins_tools`, `jenkins_build`, etc.).
 
 A volume will be created for the container, which contains all of the configuration for Jenkins and will persist between
 container stops and starts. For the `jenkins_tools` container, however, plugin updates or installs will cause the

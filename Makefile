@@ -8,7 +8,7 @@ ifneq (, $(shell which docker-compose))
     DOCKER_SERVICES := $(shell docker-compose config --services)
 endif
 
-.PHONY: help clean docker.clean $(DOCKER_SERVICES:%=docker.run.%) $(DOCKER_SERVICES:%=docker.stop.%) $(DOCKER_SERVICES:%=docker.running.%) $(DOCKER_SERVICES:%=docker.configure.%)
+.PHONY: help requirements upgrade clean docker.clean $(DOCKER_SERVICES:%=docker.run.%) $(DOCKER_SERVICES:%=docker.stop.%) $(DOCKER_SERVICES:%=docker.running.%) $(DOCKER_SERVICES:%=docker.configure.%)
 
 help:
 	@echo 'Makefile for launching and configuring edX-related jenkins services.'
@@ -26,6 +26,16 @@ help:
 	@echo '    docker.configure.$$service  configure the specified jenkins service container'
 	@echo ''
 	@echo '$$service can be one of the services specified in docker-compose.yml'
+
+requirements: ## Install requirements
+	pip install -qr requirements/pip-tools.txt
+	pip-sync requirements/base.txt
+
+upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
+upgrade: ## Upgrade requirements with pip-tools
+	pip install -qr requirements/pip-tools.txt
+	pip-compile --upgrade -o requirements/pip-tools.txt requirements/pip-tools.in
+	pip-compile --upgrade -o requirements/base.txt requirements/base.in
 
 clean: docker.clean
 
