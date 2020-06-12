@@ -5,7 +5,6 @@ import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
-import static analytics.BackupVertica.job as BackupVerticaJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -33,7 +32,6 @@ def taskMap = [
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
-    BACKUP_VERTICA_JOB: BackupVerticaJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
 ]
