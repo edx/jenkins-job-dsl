@@ -53,6 +53,7 @@ import static analytics.ProgramEnrollmentReports.job as ProgramEnrollmentReports
 import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelorsITKJob
 import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
 import static analytics.SnowflakePublicGrantsCleaner.job as SnowflakePublicGrantsCleanerJob
+import static analytics.BackupVertica.job as BackupVerticaJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -129,6 +130,7 @@ def taskMap = [
     SNOWFLAKE_MICROBACHELORS_ITK_JOB: SnowflakeMicrobachelorsITKJob,
     STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,
     SNOWFLAKE_PUBLIC_GRANTS_CLEANER_JOB: SnowflakePublicGrantsCleanerJob,
+    BACKUP_VERTICA_JOB: BackupVerticaJob,
 ]
 
 for (task in taskMap) {
