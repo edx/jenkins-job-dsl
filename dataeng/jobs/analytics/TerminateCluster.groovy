@@ -16,7 +16,7 @@ class TerminateCluster {
             steps {
                 virtualenv {
                     nature("shell")
-                    command('EXTRA_VARS="name=$CLUSTER_NAME" make terminate.emr')
+                    command('EXTRA_VARS="name=$CLUSTER_NAME" cd $WORKSPACE/analytics-configuration && make terminate.emr')
                 }
             }
         }
