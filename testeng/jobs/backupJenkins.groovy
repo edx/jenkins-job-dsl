@@ -113,7 +113,7 @@ secretMap.each { jobConfigs ->
             virtualenv {
                 clear()
                 name('venv')
-                pythonName('System-CPython-3.5')
+                pythonName('PYTHON_3.5')
                 nature('shell')
                 command(script)
             }
