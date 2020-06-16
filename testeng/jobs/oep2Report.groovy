@@ -35,7 +35,7 @@ job('oep2-report') {
     steps {
         virtualenv {
             name('oep-venv')
-            pythonName('System-CPython-3.5')
+            pythonName('PYTHON_3.5')
             nature('shell')
             clear(true)
             command(readFileFromWorkspace('testeng/resources/create-oep-report.sh'))
