@@ -68,7 +68,7 @@ Map python38JobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/python-3.8/js',
     onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+python38\W+js.*/,
+    triggerPhrase: /.*jenkins\W+run\W+py38\W+js.*/,
     pythonVersion: '3.8',
 ]
 
