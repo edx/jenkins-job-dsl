@@ -131,6 +131,7 @@ class AnalyticsEmailOptin {
                 virtualenv {
                     nature("shell")
                     name("analytics-exporter")
+                    pythonName('PYTHON_3.5')
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/setup-exporter-email-optin.sh")
                     )
