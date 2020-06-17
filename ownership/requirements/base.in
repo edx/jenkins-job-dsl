@@ -1,6 +1,0 @@
-# Core requirements for using this application
--c constraints.txt
-
-click                      # Pleasant command line interface
-github3.py                 # Github client
-gspread                    # Google Docs Spreadsheets client
