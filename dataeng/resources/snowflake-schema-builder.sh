@@ -7,7 +7,9 @@ pip install --upgrade dbt-schema-builder
 
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-cd $WORKSPACE/warehouse-transforms/projects/$DESTINATION_PROJECT
+
+# DESTINATION_PROJECT is always relative to SOURCE_PROJECT
+cd $DESTINATION_PROJECT
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 cd $WORKSPACE/warehouse-transforms

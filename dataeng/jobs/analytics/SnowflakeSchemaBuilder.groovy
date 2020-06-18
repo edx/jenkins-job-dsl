@@ -16,7 +16,7 @@ class SnowflakeSchemaBuilder {
                 stringParam('SCHEMAS', allVars.get('SCHEMAS'), 'Snowflake schemas to work on')
                 stringParam('RAW_SUFFIXES', allVars.get('RAW_SUFFIXES'), 'List of suffixes to remove from Schema name')
                 stringParam('SOURCE_PROJECT', allVars.get('SOURCE_PROJECT'), 'The dbt project where the models will be generated and run, relative to the "projects" directory.')
-                stringParam('DESTINATION_PROJECT', allVars.get('DESTINATION_PROJECT'), 'The dbt project that will use the generated sources, relative to the "projects" directory.')
+                stringParam('DESTINATION_PROJECT', allVars.get('DESTINATION_PROJECT'), 'The dbt project that will use the generated sources, relative to the SOURCE_PROJECT.')
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'dbt profile from analytics-secure to work on.')
                 stringParam('DBT_TARGET', allVars.get('DBT_TARGET'), 'dbt target from analytics-secure to work on.')
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
