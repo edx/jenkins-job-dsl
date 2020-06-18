@@ -351,6 +351,17 @@ Map testengCI = [
     alwaysNotify: false
 ]
 
+Map videoEncodeManager = [
+    org: 'edx',
+    repoName: 'video-encode-manager',
+    pythonVersion: '3.6',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['vem-devel'],
+    emails: ['azarembok@edx.org', 'dsheraz@edx.org', 'zamir@edx.org'],
+    alwaysNotify: false
+]
+
 Map xblock = [
     org: 'edx',
     repoName: 'XBlock',
@@ -416,6 +427,7 @@ List jobConfigs = [
     portalDesigner,
     registrar,
     testengCI,
+    videoEncodeManager,
     xblock,
     xblockUtils,
     xqueue,
