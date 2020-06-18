@@ -30,7 +30,7 @@ Map codejail35JobConfig = [
     repoName: 'codejail',
     context: 'jenkins/python35',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+test\W+python\W+35.*/,
+    triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
@@ -45,7 +45,7 @@ Map codejail38JobConfig = [
     repoName: 'codejail',
     context: 'jenkins/python38',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+test\W+python\W+38.*/,
+    triggerPhrase: /.*jenkins\W+run\W+py38\W+python.*/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
