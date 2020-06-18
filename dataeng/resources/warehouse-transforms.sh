@@ -4,7 +4,7 @@ set -ex
 # Setup
 cd $WORKSPACE/warehouse-transforms
 # To install right version of dbt
-pip install -r tools/dbt_schema_builder/requirements.txt
+pip install -r requirements.txt
 
 
 cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT
