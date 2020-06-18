@@ -42,7 +42,7 @@ then
     if [ "$MODEL_TAG" = 'daily' ]
     then
         # For 'daily' models, exclude these two models from finrep that inexplicably are tested when testing those models.
-        exclude_models="$exclude_models finrep_map_organization_course_courserun finrep_report_royalty_dimension"
+        exclude_models="$exclude_models finrep_map_organization_course_courserun finrep_royalty_order_dimension"
     fi
 
     if [ "$exclude_models" != "" ]
