@@ -3,7 +3,7 @@ set -ex
 
 # Setup
 cd $WORKSPACE/warehouse-transforms
-pip install dbt-schema-builder
+pip install --upgrade dbt-schema-builder
 
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
