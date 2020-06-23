@@ -3,7 +3,6 @@ import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.AnswerDistribution.job as AnswerDistributionJob
 import static analytics.BackupVertica.job as BackupVerticaJob
-import static analytics.BigqueryReplicaImport.job as BigqueryReplicaImportJob
 import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
 import static analytics.DBTDocs.job as DBTDocsJob
 import static analytics.DBTManual.job as DBTManualJob
@@ -24,19 +23,14 @@ import static analytics.LoadAffiliateWindowToWarehouse.job as LoadAffiliateWindo
 import static analytics.LoadCourseStructure.job as LoadCourseStructureJob
 import static analytics.LoadEvents.load_events_to_s3_job as LoadEventsToS3Job
 import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVerticaJob
-import static analytics.LoadEvents.load_json_events_to_bigquery_job as LoadJsonEventsToBigqueryJob
-import static analytics.LoadEvents.load_json_events_to_s3_job as LoadJsonEventsToS3Job
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static analytics.LoadGoogleSpreadsheetToSnowflake.job as LoadGoogleSpreadsheetToSnowflakeJob
 import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
 import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
-import static analytics.LoadVerticaSchemaToBigquery.job as LoadVerticaSchemaToBigqueryJob
 import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
-import static analytics.LoadWarehouse.bigquery_job as LoadWarehouseBigQueryJob
 import static analytics.LoadWarehouse.snowflake_job as LoadWarehouseSnowflakeJob
 import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
-import static analytics.MonitorBigqueryEventLoading.job as MonitorBigqueryEventLoadingJob
 import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
 import static analytics.SnowflakeDemographicsCleanup.job as SnowflakeDemographicsCleanupJob
 import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelorsITKJob
@@ -80,7 +74,6 @@ def taskMap = [
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
     BACKUP_VERTICA_JOB: BackupVerticaJob,
-    BIGQUERY_REPLICA_IMPORT_JOB: BigqueryReplicaImportJob,
     COURSEWARE_LINKS_CLICKED_JOB: CoursewareLinksClickedJob,
     CYBERSOURCE_PULL_JOB: CybersourcePullJob,
     DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
@@ -103,16 +96,11 @@ def taskMap = [
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
     LOAD_GOOGLE_SPREADSHEET_TO_SNOWFLAKE_JOB: LoadGoogleSpreadsheetToSnowflakeJob,
     LOAD_INSIGHTS_TO_VERTICA_JOB: LoadInsightsToVerticaJob,
-    LOAD_JSON_EVENTS_TO_BIGQUERY_JOB: LoadJsonEventsToBigqueryJob,
-    LOAD_JSON_EVENTS_TO_S3_JOB: LoadJsonEventsToS3Job,
     LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
-    LOAD_VERTICA_SCHEMA_TO_BIGQUERY_JOB: LoadVerticaSchemaToBigqueryJob,
     LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
-    LOAD_WAREHOUSE_BIGQUERY_JOB: LoadWarehouseBigQueryJob,
     LOAD_WAREHOUSE_SNOWFLAKE_JOB: LoadWarehouseSnowflakeJob,
     LOAD_WAREHOUSE_VERTICA_JOB: LoadWarehouseVerticaJob,
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
-    MONITOR_BIGQUERY_EVENT_LOADING_JOB: MonitorBigqueryEventLoadingJob,
     PAYMENTS_VALIDATION_JOB: PaymentsValidationJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
     SINGLE_SQL_SCRIPT_JOB: SingleSqlScriptJob,
@@ -204,7 +192,6 @@ listView('Tools') {
         name('emr-cost-reporter')
         name('update-users')
         name('vertica-disk-usage-monitor')
-        name('monitor-bigquery-loading')
         name('stitch-snowflake-lag-monitor')
         name('snowflake-public-grants-cleaner')
         name('snowflake-demographics-cleanup')

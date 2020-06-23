@@ -23,7 +23,7 @@ class VerticaSchemaToS3 {
                 publishers common_publishers(allVars)
                 publishers {
                     downstreamParameterized {
-                        trigger("load-vertica-schema-to-snowflake-$schema,load-vertica-schema-to-bigquery-$schema") {
+                        trigger("load-vertica-schema-to-snowflake-$schema") {
                             condition('SUCCESS')
                             parameters {
                                 // The contents of this file are generated as part of the script in the build step.
