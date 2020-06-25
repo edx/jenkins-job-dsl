@@ -41,7 +41,6 @@ import static analytics.VerticaSchemaToS3.job as VerticaSchemaToS3Job
 import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
 import static analytics.LoadVerticaSchemaToBigquery.job as LoadVerticaSchemaToBigqueryJob
 import static analytics.LoadGoogleSpreadsheetToSnowflake.job as LoadGoogleSpreadsheetToSnowflakeJob
-import static analytics.LoadGoogleSpreadsheetToVertica.job as LoadGoogleSpreadsheetToVerticaJob
 import static analytics.SnowflakeReplicaImport.job as SnowflakeReplicaImportJob
 import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
@@ -118,7 +117,6 @@ def taskMap = [
     LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
     LOAD_VERTICA_SCHEMA_TO_BIGQUERY_JOB: LoadVerticaSchemaToBigqueryJob,
     LOAD_GOOGLE_SPREADSHEET_TO_SNOWFLAKE_JOB: LoadGoogleSpreadsheetToSnowflakeJob,
-    LOAD_GOOGLE_SPREADSHEET_TO_VERTICA_JOB: LoadGoogleSpreadsheetToVerticaJob,
     SNOWFLAKE_REPLICA_IMPORT_JOB: SnowflakeReplicaImportJob,
     LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
