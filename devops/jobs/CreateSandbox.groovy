@@ -105,9 +105,9 @@ class CreateSandbox {
                          One reason you might want to override this field is if you are building a sandbox for review or a specific task. \
                          If setting this, you probably want to also set name_tag below. \
                          For example, if you are building a sandbox for pull request 1234 put in 'pr1234' which will setup the sandbox <i>pr1234.sandbox.edx.org</i>.<br /> \
-                         <b>Do not use hyphens or underscores here.</b> <br /> \
+                         <b>Do not use underscores here.</b> <br /> \
                          If you are building a sandbox for yourself, you may leave this blank <b>unless</b> your GitHub \
-                         username contains underscores or hyphens. <br />")
+                         username contains underscores. <br />")
                 stringParam("name_tag","",
                         "This name tag uniquely identifies your sandbox.  <b>If a box already exists with this name tag, it will be terminated.</b><br /> \
                          If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag.")
@@ -117,8 +117,10 @@ class CreateSandbox {
                 stringParam("configuration_version","master","")
                 stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
-                stringParam("configuration_secure_version","master","")
-                stringParam("configuration_internal_version","master","")
+                stringParam("configuration_secure_version","master",
+                            "Select an alternative branch of sandbox-secure configuration repo")
+                stringParam("configuration_internal_version","master",
+                            "Select an alternative branch of sandbox-internal configuration repo")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
                 booleanParam("testcourses",true,"")
                 booleanParam("performance_course",true,"")
