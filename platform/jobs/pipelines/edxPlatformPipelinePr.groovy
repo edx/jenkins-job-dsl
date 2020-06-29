@@ -279,7 +279,9 @@ jobConfigs.each { jobConfig ->
                     admins(ghprbMap['admin'])
                     useGitHubHooks()
                     triggerPhrase(jobConfig.triggerPhrase)
-                    onlyTriggerPhrase(jobConfig.onlyTriggerPhrase)
+                    if (jobConfig.onlyTriggerPhrase) {
+                        onlyTriggerPhrase(true)
+                    }
                     userWhitelist(ghprbMap['userWhiteList'])
                     orgWhitelist(ghprbMap['orgWhiteList'])
                     whiteListTargetBranches([jobConfig.whitelistBranchRegex])
