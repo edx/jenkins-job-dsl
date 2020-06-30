@@ -359,6 +359,16 @@ Map portalDesigner = [
     alwaysNotify: true
 ]
 
+Map pytestRepoHealth = [
+    org: 'edx',
+    repoName: 'pytest-repo-health',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: ['jinder1s'],
+    githubTeamReviewers: ['arch-bom'],
+    emails: ['arch-bom@edx.org']
+]
+
 Map registrar = [
     org: 'edx',
     repoName: 'registrar',
@@ -461,6 +471,7 @@ List jobConfigs = [
     opaqueKeys,
     openEdxStats,
     portalDesigner,
+    pytestRepoHealth,
     registrar,
     testengCI,
     videoEncodeManager,
