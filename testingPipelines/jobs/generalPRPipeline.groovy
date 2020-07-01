@@ -41,11 +41,11 @@ Map codejail27JobConfig = [
 
 Map codejail35JobConfig = [
     open: true,
-    jobName: 'codejail-python-3-pr',
+    jobName: 'codejail-python-3.5-pr',
     repoName: 'codejail',
-    context: 'jenkins/python3',
+    context: 'jenkins/python3.5',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+test\W+python\W+3.*/,
+    triggerPhrase: /.*jenkins\W+test\W+python\W+3\.5/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
@@ -54,9 +54,25 @@ Map codejail35JobConfig = [
     ]
 ]
 
+Map codejail38JobConfig = [
+    open: true,
+    jobName: 'codejail-python-3.8-pr',
+    repoName: 'codejail',
+    context: 'jenkins/python3.8',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+test\W+python\W+3\.8/,
+    jenkinsFileDir: '.',
+    jenkinsFileName: 'Jenkinsfile',
+    environmentVariables: [
+        'TOX_ENV': 'py38',
+        'PYTHON_VERSION': '3.8'
+    ]
+]
+
 List jobConfigs = [
     codejail27JobConfig,
-    codejail35JobConfig
+    codejail35JobConfig,
+    codejail38JobConfig
 ]
 
 /* Iterate over the job configurations */
