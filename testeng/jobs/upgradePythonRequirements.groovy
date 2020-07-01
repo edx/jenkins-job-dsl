@@ -39,8 +39,8 @@ Map bokchoy = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -86,8 +86,8 @@ Map cookiecutterDjangoApp = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -133,8 +133,8 @@ Map devstack = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -145,8 +145,8 @@ Map djangoConfigModels = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['feanil'],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -157,8 +157,8 @@ Map djangoLangPrefMiddleware = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org']
 ]
 
 Map djangoUserTasks = [
@@ -168,8 +168,8 @@ Map djangoUserTasks = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['jmbowman'],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -191,8 +191,8 @@ Map edxAce = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org']
 ]
 
 Map edxAnalyticsDashboard = [
@@ -225,7 +225,7 @@ Map edxEnterprise = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['georgebabey'],
     githubTeamReviewers: ['business-enterprise-team'],
-    emails: ['arch-bom@edx.org']
+    emails: ['arbi-bom@edx.org']
 ]
 
 Map edxGomatic = [
@@ -258,8 +258,8 @@ Map edxOrganizations = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -270,8 +270,8 @@ Map edxPlatform = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessDaily,
     githubUserReviewers: [],
-    githubTeamReviewers: ['platform-core', 'arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['platform-core', 'arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -294,8 +294,8 @@ Map edxRestApiClient = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -306,8 +306,8 @@ Map edxSphinxTheme = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -340,8 +340,8 @@ Map opaqueKeys = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['cpennington'],
-    githubTeamReviewers: ['platform-core', 'arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['platform-core', 'arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -422,8 +422,8 @@ Map xblock = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['cpennington'],
-    githubTeamReviewers: ['platform-core', 'arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['platform-core', 'arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
@@ -434,8 +434,8 @@ Map xblockUtils = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
