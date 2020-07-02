@@ -79,9 +79,9 @@ Map completion = [
     alwaysNotify: true
 ]
 
-Map cookiecutterDjangoApp = [
+Map cookiecutters = [
     org: 'edx',
-    repoName: 'cookiecutter-django-app',
+    repoName: 'edx-cookiecutters',
     targetBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
@@ -457,7 +457,7 @@ List jobConfigs = [
     coachingPlugin,
     completion,
     configuration,
-    cookiecutterDjangoApp,
+    cookiecutters,
     courseDiscovery,
     credentialsRepo,
     demographics,
