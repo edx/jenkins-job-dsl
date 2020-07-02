@@ -57,6 +57,10 @@ class LoadEvents {
 
     public static def load_events_to_vertica_job = { dslFactory, allVars ->
         dslFactory.job("load-events-to-vertica") {
+
+            // DENG-317
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters from_date_interval_parameter(allVars)
