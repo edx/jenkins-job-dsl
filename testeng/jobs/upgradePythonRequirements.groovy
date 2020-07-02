@@ -16,14 +16,14 @@ package testeng
 // Cron value for once per week, sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
 // See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
 def cronOffHoursBusinessWeekday = 'H H(4-11) * * H(1-5)'
-// Cron value for once per week, sometime during: 5am-12:59pm Pakistan Time, Monday-Friday (times are in UTC)
-def cronOffHoursBusinessWeekdayLahore = 'H H(0-7) * * H(1-5)'
+// Cron value for once per week, sometime during: 5am-09:59am Pakistan Time, Monday-Friday (times are in UTC)
+def cronOffHoursBusinessWeekdayLahore = 'H H(0-5) * * H(1-5)'
 
 // Cron value for daily, sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
 // See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
 def cronOffHoursBusinessDaily = 'H H(4-11) * * 1-5'
-// Cron value for daily, sometime during: 5am-12:59pm Pakistan Time, Monday-Friday (times are in UTC)
-def cronOffHoursBusinessDailyLahore = 'H H(0-7) * * 1-5'
+// Cron value for daily, sometime during: 5am-09:59am Pakistan Time, Monday-Friday (times are in UTC)
+def cronOffHoursBusinessDailyLahore = 'H H(0-5) * * 1-5'
 
 Map apiDocTools = [
     org: 'edx',
