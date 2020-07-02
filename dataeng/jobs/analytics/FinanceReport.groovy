@@ -48,6 +48,10 @@ class FinanceReport {
 
     public static def finance_report_job = { dslFactory, allVars ->
         dslFactory.job("finance-report") {
+
+            // DENG-317
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters to_date_interval_parameter(allVars)
