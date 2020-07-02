@@ -22,10 +22,6 @@ class SqlScripts {
     public static def multiple_scripts_job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("sql-scripts-$environment") {
-
-                // DENG-317
-                disabled(true)
-
                 authorization common_authorization(allVars)
                 logRotator common_log_rotator(allVars)
                 parameters SqlScripts.sql_script_params(allVars, env_config)

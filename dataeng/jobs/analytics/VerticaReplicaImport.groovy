@@ -11,10 +11,6 @@ class VerticaReplicaImport {
     public static def job = { dslFactory, allVars ->
         allVars.get('VERTICA_READ_REPLICA_IMPORTS').each { db, db_config ->
             dslFactory.job("${db.toLowerCase()}-read-replica-import") {
-
-                // DENG-317
-                disabled(true)
-
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, db_config)
                 parameters {

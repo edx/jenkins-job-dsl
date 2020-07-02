@@ -11,10 +11,6 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 class EventTypeDistribution {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("event-type-distribution") {
-
-            // DENG-317
-            disabled(true)
-
             logRotator common_log_rotator(allVars)
             parameters {
                 stringParam('SOURCE', allVars.get('PRODUCTION_EVENT_LOGS_SOURCE'), '')
