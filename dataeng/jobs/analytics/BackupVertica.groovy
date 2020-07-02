@@ -8,6 +8,10 @@ class BackupVertica {
     public static def job = { dslFactory, allVars ->
         allVars.get('VERTICA_BACKUPS').each { backup, backup_config ->
             dslFactory.job("backup-vertica-$backup") {
+
+                // DENG-633
+                disabled(true)
+
                 logRotator common_log_rotator(backup_config)
                 publishers common_publishers(backup_config)
                 triggers common_triggers(backup_config)

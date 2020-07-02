@@ -6,6 +6,10 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 class VerticaDiskUsageMonitor {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('vertica-disk-usage-monitor') {
+
+            // DENG-633
+            disabled(true)
+
             parameters {
                 stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')
                 stringParam('TOOLS_BRANCH', 'origin/master', '')

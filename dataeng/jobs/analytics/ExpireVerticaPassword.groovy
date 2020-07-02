@@ -10,6 +10,10 @@ class ExpireVerticaPassword {
     public static def job = { dslFactory, allVars ->
 
         dslFactory.job('expire-vertica-password') {
+
+            // DENG-633
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             parameters {
                 stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')

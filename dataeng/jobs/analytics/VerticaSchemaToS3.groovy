@@ -9,6 +9,10 @@ class VerticaSchemaToS3 {
     public static def job = { dslFactory, allVars ->
         allVars.get('VERTICA_SCHEMAS').each { schema, schema_config ->
             dslFactory.job("vertica-schema-to-s3-$schema") {
+
+                // DENG-633
+                disabled(true)
+
                 logRotator common_log_rotator(allVars, schema_config)
                 parameters common_parameters(allVars, schema_config)
                 parameters {

@@ -10,6 +10,10 @@ class VerticaReplicaImportFromS3 {
     public static def job = { dslFactory, allVars ->
         allVars.get('VERTICA_READ_REPLICA_IMPORTS').each { db, db_config ->
             dslFactory.job("vertica-${db.toLowerCase()}-read-replica-import-from-s3") {
+
+                // DENG-633
+                disabled(true)
+
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, db_config)
                 parameters {

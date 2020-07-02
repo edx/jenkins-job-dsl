@@ -10,6 +10,10 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 class LoadWarehouse {
     public static def vertica_job = { dslFactory, allVars ->
         dslFactory.job("load-warehouse") {
+
+            // DENG-633
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             multiscm common_multiscm(allVars)
             triggers common_triggers(allVars)

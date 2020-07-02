@@ -11,6 +11,10 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 class CoursewareLinksClicked {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("courseware-links-clicked") {
+
+            // DENG-633
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters from_date_interval_parameter(allVars)

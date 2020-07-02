@@ -10,6 +10,10 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 class LoadGoogleAnalyticsPermissions {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("load-google-analytics-permissions") {
+
+            // DENG-633
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters to_date_interval_parameter(allVars)
