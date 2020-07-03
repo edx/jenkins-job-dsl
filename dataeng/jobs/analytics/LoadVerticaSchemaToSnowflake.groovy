@@ -9,10 +9,6 @@ class LoadVerticaSchemaToSnowflake {
     public static def job = { dslFactory, allVars ->
         allVars.get('VERTICA_SCHEMAS').each { schema, schema_config ->
             dslFactory.job("load-vertica-schema-to-snowflake-$schema") {
-
-                // DENG-317
-                disabled(true)
-
                 logRotator common_log_rotator(allVars, schema_config)
                 parameters common_parameters(allVars, schema_config)
                 parameters {

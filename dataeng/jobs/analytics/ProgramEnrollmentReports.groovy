@@ -16,9 +16,6 @@ class ProgramEnrollmentReports {
 
         dslFactory.job('program-enrollment-reports') {
 
-            // DENG-317
-            disabled(true)
-
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters {
