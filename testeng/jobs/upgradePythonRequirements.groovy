@@ -226,7 +226,7 @@ Map edxEnterprise = [
     repoName: 'edx-enterprise',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
+    cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['georgebabey'],
     githubTeamReviewers: ['business-enterprise-team'],
     emails: ['arbi-bom@edx.org']
