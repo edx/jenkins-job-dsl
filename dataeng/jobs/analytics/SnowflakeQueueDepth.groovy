@@ -17,7 +17,7 @@ This job runs every 5 minutes using the Snowflake task automation user.
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
-                stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
+                stringParam('ANALYTICS_TOOLS_URL', allVars.get('TOOLS_REPO_URL'), 'URL for the analytics tools repo.')
                 stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
             }
             environmentVariables {
