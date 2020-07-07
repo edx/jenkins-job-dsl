@@ -18,13 +18,11 @@ This job runs every 5 minutes using the Snowflake task automation user.
             parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('ANALYTICS_TOOLS_URL', allVars.get('TOOLS_REPO_URL'), 'URL for the analytics tools repo.')
-                stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
+                stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
             }
             environmentVariables {
-                env('KEY_PATH', allVars.get('KEY_PATH'))
-                env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
-                env('SNOWFLAKE_USER', allVars.get('SNOWFLAKE_USER'))
-                env('SNOWFLAKE_ACCOUNT', allVars.get('SNOWFLAKE_ACCOUNT'))
+                env('SNOWFLAKE_USER', 'SNOWFLAKE_TASK_AUTOMATION_USER')
+                env('SNOWFLAKE_ACCOUNT', 'edx.us-east-1')
             }
             multiscm secure_scm(allVars) << {
                 git {
