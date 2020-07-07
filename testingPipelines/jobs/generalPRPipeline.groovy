@@ -24,21 +24,6 @@ catch (any) {
     return 1
 }
 
-Map codejail27JobConfig = [
-    open: true,
-    jobName: 'codejail-python-2-pr',
-    repoName: 'codejail',
-    context: 'jenkins/python2',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+test\W+python\W+2.*/,
-    jenkinsFileDir: '.',
-    jenkinsFileName: 'Jenkinsfile',
-    environmentVariables: [
-        'TOX_ENV': 'py27',
-        'PYTHON_VERSION': '2.7'
-    ]
-]
-
 Map codejail35JobConfig = [
     open: true,
     jobName: 'codejail-python-3.5-pr',
@@ -70,7 +55,6 @@ Map codejail38JobConfig = [
 ]
 
 List jobConfigs = [
-    codejail27JobConfig,
     codejail35JobConfig,
     codejail38JobConfig
 ]
