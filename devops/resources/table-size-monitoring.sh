@@ -23,3 +23,5 @@ if [[ ! -v RDSIGNORE ]]; then
 fi
 
 python check_table_size.py  --threshold ${THRESHOLD} ${RDSTHRESHOLD} ${RDSIGNORE}
+
+curl -X GET 'https://api.opsgenie.com/v2/heartbeats/table-size-monitoring-'${DEPLOYMENT}'/ping' -H 'Authorization: GenieKey '${GENIE_KEY}
