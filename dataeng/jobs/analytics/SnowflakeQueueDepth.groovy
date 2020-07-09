@@ -7,9 +7,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 
 class SnowflakeQueueDepth {
-"""
-This job runs every 5 minutes using the Snowflake task automation user.
-"""
+
     public static def job = { dslFactory, allVars ->
 
         dslFactory.job("collect-queue-depth") {
