@@ -105,9 +105,10 @@ class CreateSandbox {
                          One reason you might want to override this field is if you are building a sandbox for review or a specific task. \
                          If setting this, you probably want to also set name_tag below. \
                          For example, if you are building a sandbox for pull request 1234 put in 'pr1234' which will setup the sandbox <i>pr1234.sandbox.edx.org</i>.<br /> \
-                         <b>Do not use underscores here.</b> <br /> \
+                         <b>Do not use hyphens or underscores here.</b> <br /> \
                          If you are building a sandbox for yourself, you may leave this blank <b>unless</b> your GitHub \
-                         username contains underscores. <br />")
+                         username contains underscores (which are invalid for domain names in URLs) \
+                         or hyphens (which have broken some IDAs in sandboxes in the past). <br />")
                 stringParam("name_tag","",
                         "This name tag uniquely identifies your sandbox.  <b>If a box already exists with this name tag, it will be terminated.</b><br /> \
                          If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag.")
