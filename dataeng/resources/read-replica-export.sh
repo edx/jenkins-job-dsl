@@ -10,13 +10,12 @@ INTERPOLATED_RUN_DATE="$(date +%Y-%m-%d -d "$TO_DATE")"
 echo "RUN_DATE=${INTERPOLATED_RUN_DATE}" > "${WORKSPACE}/downstream.properties"
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
- ImportMysqlDatabaseFromS3ToVerticaSchemaTask --local-scheduler \
+ ExportMysqlDatabaseToS3Task --local-scheduler \
  --date $(date +%Y-%m-%d -d "$TO_DATE") \
- --schema $SCHEMA \
- --credentials $CREDENTIALS \
+ --db-credentials $DB_CREDENTIALS \
  --database $DATABASE \
- --marker-schema $MARKER_SCHEMA \
  --overwrite \
+ ${EXCLUDE_FIELD} \
  ${INCLUDE} \
  ${EXCLUDE} \
  ${EXTRA_ARGS}

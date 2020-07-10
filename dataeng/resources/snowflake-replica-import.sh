@@ -3,7 +3,7 @@
 env
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
- ImportMysqlDatabaseToSnowflakeSchemaTask --local-scheduler \
+ ImportMysqlDatabaseFromS3ToSnowflakeSchemaTask --local-scheduler \
  --date $(date +%Y-%m-%d -d "$RUN_DATE") \
  --credentials $SNOWFLAKE_CREDENTIALS \
  --warehouse $WAREHOUSE \
@@ -12,8 +12,8 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
  --schema $SCHEMA \
  --scratch-schema $SCRATCH_SCHEMA \
  --run-id $BUILD_ID \
- --db-credentials $DB_CREDENTIALS \
  --database $DATABASE \
  --overwrite \
- ${EXCLUDE_FIELD} \
- ${EXCLUDE}
+ ${INCLUDE} \
+ ${EXCLUDE} \
+ ${EXTRA_ARGS}

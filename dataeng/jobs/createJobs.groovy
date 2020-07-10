@@ -27,7 +27,7 @@ import static analytics.LoadEvents.load_events_to_s3_job as LoadEventsToS3Job
 import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVerticaJob
 import static analytics.LoadEvents.load_json_events_to_s3_job as LoadJsonEventsToS3Job
 import static analytics.LoadEvents.load_json_events_to_bigquery_job as LoadJsonEventsToBigqueryJob
-import static analytics.VerticaReplicaImport.job as VerticaReplicaImportJob
+import static analytics.VerticaReplicaImportFromS3.job as VerticaReplicaImportFromS3Job
 import static analytics.TotalEventsDailyReport.job as TotalEventsDailyReportJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import static analytics.LoadCourseStructure.job as LoadCourseStructureJob
@@ -41,7 +41,7 @@ import static analytics.VerticaSchemaToS3.job as VerticaSchemaToS3Job
 import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
 import static analytics.LoadVerticaSchemaToBigquery.job as LoadVerticaSchemaToBigqueryJob
 import static analytics.LoadGoogleSpreadsheetToSnowflake.job as LoadGoogleSpreadsheetToSnowflakeJob
-import static analytics.SnowflakeReplicaImport.job as SnowflakeReplicaImportJob
+import static analytics.SnowflakeReplicaImportFromS3.job as SnowflakeReplicaImportFromS3Job
 import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
@@ -53,6 +53,7 @@ import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelor
 import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
 import static analytics.SnowflakePublicGrantsCleaner.job as SnowflakePublicGrantsCleanerJob
 import static analytics.BackupVertica.job as BackupVerticaJob
+import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -102,7 +103,7 @@ def taskMap = [
     LOAD_JSON_EVENTS_TO_S3_JOB: LoadJsonEventsToS3Job,
     LOAD_JSON_EVENTS_TO_BIGQUERY_JOB: LoadJsonEventsToBigqueryJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
-    VERTICA_REPLICA_IMPORT_JOB: VerticaReplicaImportJob,
+    VERTICA_REPLICA_IMPORT_FROM_S3_JOB: VerticaReplicaImportFromS3Job,
     TOTAL_EVENTS_DAILY_REPORT_JOB: TotalEventsDailyReportJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
@@ -117,7 +118,7 @@ def taskMap = [
     LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
     LOAD_VERTICA_SCHEMA_TO_BIGQUERY_JOB: LoadVerticaSchemaToBigqueryJob,
     LOAD_GOOGLE_SPREADSHEET_TO_SNOWFLAKE_JOB: LoadGoogleSpreadsheetToSnowflakeJob,
-    SNOWFLAKE_REPLICA_IMPORT_JOB: SnowflakeReplicaImportJob,
+    SNOWFLAKE_REPLICA_IMPORT_FROM_S3_JOB: SnowflakeReplicaImportFromS3Job,
     LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
     DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
@@ -129,6 +130,7 @@ def taskMap = [
     STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,
     SNOWFLAKE_PUBLIC_GRANTS_CLEANER_JOB: SnowflakePublicGrantsCleanerJob,
     BACKUP_VERTICA_JOB: BackupVerticaJob,
+    READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
 ]
 
 for (task in taskMap) {
