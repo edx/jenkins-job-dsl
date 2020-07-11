@@ -6,6 +6,10 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 class MonitorBigqueryEventLoading {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("monitor-bigquery-loading") {
+
+            // BigQuery deprecation
+            disabled(true)
+            
             logRotator common_log_rotator(allVars)
             parameters {
                 stringParam('TOOLS_REPO', allVars.get('TOOLS_REPO_URL'), '')

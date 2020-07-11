@@ -11,6 +11,10 @@ class BigqueryReplicaImport {
     public static def job = { dslFactory, allVars ->
         allVars.get('BQ_READ_REPLICA_IMPORTS').each { db, db_config ->
             dslFactory.job("bigquery-${db.toLowerCase()}-read-replica-import") {
+
+                // BigQuery deprecation
+                disabled(true)
+
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, db_config)
                 parameters {
