@@ -291,6 +291,18 @@ Map edxProctoring = [
     alwaysNotify: true
 ]
 
+Map edxRepoHealth = [
+    org: 'edx',
+    repoName: 'edx-repo-health',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
+]
+
 Map edxRestApiClient = [
     org: 'edx',
     repoName: 'edx-rest-api-client',
@@ -355,7 +367,7 @@ Map openEdxStats = [
     targetBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [''],
+    githubUserReviewers: [],
     githubTeamReviewers: ['teaching-and-learning'],
     emails: ['ned@edx.org'],
     alwaysNotify: false
@@ -376,11 +388,13 @@ Map portalDesigner = [
 Map pytestRepoHealth = [
     org: 'edx',
     repoName: 'pytest-repo-health',
+    targetBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: ['jinder1s'],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map registrar = [
@@ -479,6 +493,7 @@ List jobConfigs = [
     edxOrganizations,
     edxPlatform,
     edxProctoring,
+    edxRepoHealth,
     edxRestApiClient,
     edxSphinxTheme,
     edxVal,
