@@ -82,20 +82,6 @@ Map pipelineJob = [ name: 'edx-e2e-tests',
                     junitReportPath: 'reports/*.xml'
                     ]
 
-// The microsites-staging-tests job is run automatically on every deployment of the edx-platform
-// from the gocd pipeline.
-Map micrositesPipelineJob = [ name: 'microsites-staging-tests',
-                    deprecated: false,
-                    testSuite: 'microsites',
-                    worker: 'jenkins-worker',
-                    trigger: 'pipeline',
-                    branch: '*/master',
-                    refspec: '+refs/heads/master:refs/remotes/origin/master',
-                    description: 'Run microsites tests against GoCD deployments',
-                    testScript: 'edx-e2e-tests/jenkins/white_label.sh',
-                    junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
-                    ]
-
 // Pull Request Triggered Jobs
 
 // The edx-e2e-tests-pr job is run on every PR to the edx-e2e-tests repo. This
@@ -116,23 +102,6 @@ Map prJob = [ name: 'edx-e2e-tests-pr',
               junitReportPath: 'reports/*.xml'
               ]
 
-// The microsites-staging-tests-pr job is run on every PR into the edx-e2e-tests
-// repo. This is used for development of the microsites tests themselves
-Map micrositesPrJob = [ name: 'microsites-staging-tests-pr',
-                        deprecated: false,
-                        testSuite: 'microsites',
-                        worker: 'jenkins-worker',
-                        trigger: 'ghprb',
-                        triggerPhrase: /.*jenkins\W+run\W+microsites.*/,
-                        branch: '${ghprbActualCommit}',
-                        refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
-                        branchRegex: '^(?!kashif/white_label).*$', // PRs targeting any branch except kashif/white-label
-                        description: 'Verify the quality of changes made to the microsite tests',
-                        testScript: 'edx-e2e-tests/jenkins/white_label.sh',
-                        context: 'jenkins/microsites',
-                        junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
-                        ]
-
 // Merge Triggered Jobs
 
 // The edx-e2e-tests-merge job is run on every merge into master for the edx-e2e-tests repo.
@@ -150,27 +119,9 @@ Map mergeJob = [  name: 'edx-e2e-tests-merge',
                   junitReportPath: 'reports/*.xml'
                   ]
 
-// The microsites-staging-tests-merge job is run on every merge into master in the edx-e2e-tests
-// repo.
-Map micrositesMergeJob = [  name: 'microsites-staging-tests-merge',
-                            deprecated: false,
-                            testSuite: 'microsites',
-                            worker: 'jenkins-worker',
-                            trigger: 'merge',
-                            branch: '*/master',
-                            refspec: '+refs/heads/master:refs/remotes/origin/master',
-                            description: 'Verify the quality of changes made to the microsite tests',
-                            testScript: 'edx-e2e-tests/jenkins/white_label.sh',
-                            context: 'jenkins/microsites',
-                            junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
-                            ]
-
 List jobConfigs = [ pipelineJob,
-                    micrositesPipelineJob,
                     prJob,
-                    micrositesPrJob,
                     mergeJob,
-                    micrositesMergeJob
                     ]
 
 jobConfigs.each { jobConfig ->
@@ -235,11 +186,6 @@ jobConfigs.each { jobConfig ->
                     branch('\${E2E_BRANCH}')
                 }
                 browser()
-                if (jobConfig.testSuite == 'microsites') {
-                    extensions {
-                        relativeTargetDirectory('edx-e2e-tests')
-                    }
-                }
             }
         }
 
@@ -293,20 +239,8 @@ jobConfigs.each { jobConfig ->
                 string('ACCESS_TOKEN', 'MICROSITES_ACCESS_TOKEN')
                 string('GLOBAL_PASSWORD', 'MICROSITES_GLOBAL_PASSWORD')
                 string('STAFF_USER_EMAIL', 'MICROSITES_STAFF_USER_EMAIL')
-                // environment variables used exclusively by different test suites,
-                // separated to avoid clobbering concurrent tests
-                if (jobConfig.testSuite == 'microsites') {
-                    string('TEST_EMAIL_SERVICE', 'MICROSITES_TEST_EMAIL_SERVICE')
-                    string('TEST_EMAIL_ACCOUNT', 'MICROSITES_TEST_EMAIL_ACCOUNT')
-                    string('TEST_EMAIL_PASSWORD', 'MICROSITES_TEST_EMAIL_PASSWORD')
-                    string('OAUTH_CLIENT_ID', 'MICROSITES_OAUTH_CLIENT_ID')
-                    string('OAUTH_CLIENT_SECRET', 'MICROSITES_OAUTH_CLIENT_SECRET')
-                }
-                // values used for the main
-                else if (jobConfig.testSuite == 'e2e') {
-                    string('USER_LOGIN_EMAIL', 'USER_LOGIN_EMAIL')
-                    string('USER_LOGIN_PASSWORD', 'USER_LOGIN_PASSWORD')
-                }
+                string('USER_LOGIN_EMAIL', 'USER_LOGIN_EMAIL')
+                string('USER_LOGIN_PASSWORD', 'USER_LOGIN_PASSWORD')
             }
         }
 
@@ -343,17 +277,9 @@ jobConfigs.each { jobConfig ->
                 // to be cloned into a `edx-e2e-tests` directory. Once we merge this
                 // branch into master, we can normalize the workspace structure
                 // for this job
-                if (jobConfig.testSuite == 'microsites') {
-                    pattern('edx-e2e-tests/reports/*.xml')
-                    pattern('edx-e2e-tests/log/*')
-                    pattern('edx-e2e-tests/screenshots/*')
-                    pattern('edx-e2e-tests/certs/screenshots/baseline/*')
-                }
-                else {
-                    pattern('reports/*.xml')
-                    pattern('log/*')
-                    pattern('screenshots/*')
-                }
+                pattern('reports/*.xml')
+                pattern('log/*')
+                pattern('screenshots/*')
             }
             if (jobConfig.trigger == 'pipeline') {
                 mailer(mailingListMap['e2e_test_mailing_list'])
