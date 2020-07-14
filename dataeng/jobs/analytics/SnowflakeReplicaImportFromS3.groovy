@@ -7,10 +7,10 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 
-class SnowflakeReplicaImport {
+class SnowflakeReplicaImportFromS3 {
     public static def job = { dslFactory, allVars ->
         allVars.get('SNOWFLAKE_READ_REPLICA_IMPORTS').each { db, db_config ->
-            dslFactory.job("snowflake-${db.toLowerCase()}-read-replica-import") {
+            dslFactory.job("snowflake-${db.toLowerCase()}-read-replica-import-from-s3") {
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, db_config)
                 parameters {
@@ -22,9 +22,8 @@ class SnowflakeReplicaImport {
                     stringParam('SNOWFLAKE_DATABASE', db_config.get('SNOWFLAKE_DATABASE', allVars.get('SNOWFLAKE_DATABASE')))
                     stringParam('SCHEMA', db_config.get('SCHEMA', allVars.get('SCHEMA')), 'Schema')
                     stringParam('SCRATCH_SCHEMA', db_config.get('SCRATCH_SCHEMA', allVars.get('SCRATCH_SCHEMA')), 'Scratch schema name - temporary loading location.')
-                    stringParam('DB_CREDENTIALS', db_config.get('DB_CREDENTIALS'), 'Credentials for reading from MySQL database.')
                     stringParam('DATABASE', db_config.get('DATABASE'), 'Name of MySQL database to copy from.')
-                    stringParam('EXCLUDE_FIELD', db_config.get('EXCLUDE_FIELD'), 'List of regular expressions matching field names that should not be copied.')
+                    stringParam('INCLUDE', db_config.get('INCLUDE'), 'List of regular expressions matching table names that should be copied.')
                     stringParam('EXCLUDE', db_config.get('EXCLUDE'), 'List of regular expressions matching table names that should not be copied.')
                 }
                 multiscm common_multiscm(allVars)
