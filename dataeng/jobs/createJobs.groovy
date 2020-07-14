@@ -191,7 +191,7 @@ listView('Warehouse') {
         name('affiliate-window')
         name('snowflake-schema-builder')
         regex('refresh-snowpipe-.*')
-        regex('.+read-replica-import|load-.+|vertica-schema-to.+|.*sql-script.*|.+read-replica-export-to-s3')
+        regex('.+read-replica-(import|export)-(to|from)-s3|load-.+|vertica-schema-to.+|.*sql-script.*')
     }
     columns DEFAULT_VIEW.call()
 }
