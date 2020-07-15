@@ -4,7 +4,7 @@ package testeng
 // Map exampleConfig = [
 //     org: Github organization,
 //     repoName: Github repository,
-//     targetBranch: the default branch of the repository. Ideally, this should be 'main'
+//     defaultBranch: the default branch of the repository. Ideally, this should be 'main'
 //     pythonVersion: The version of python under which to run pip-compile.  If multiple versions are supported by the repo, use the oldest one
 //     cronValue: How often to run the job,
 //     githubUserReviewers: List of Github users that should be tagged on PR's, e.g.: ['user1', 'user2']
@@ -28,7 +28,7 @@ def cronOffHoursBusinessDailyLahore = 'H H(0-5) * * 1-5'
 Map apiDocTools = [
     org: 'edx',
     repoName: 'api-doc-tools',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -39,7 +39,7 @@ Map apiDocTools = [
 Map bokchoy = [
     org: 'edx',
     repoName: 'bok-choy',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -51,7 +51,7 @@ Map bokchoy = [
 Map coachingPlugin = [
     org: 'edx',
     repoName: 'platform-plugin-coaching',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -62,7 +62,7 @@ Map coachingPlugin = [
 Map configuration = [
     org: 'edx',
     repoName: 'configuration',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['fredsmith'],
@@ -74,7 +74,7 @@ Map configuration = [
 Map completion = [
     org: 'edx',
     repoName: 'completion',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -86,7 +86,7 @@ Map completion = [
 Map cookiecutters = [
     org: 'edx',
     repoName: 'edx-cookiecutters',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -98,7 +98,7 @@ Map cookiecutters = [
 Map courseDiscovery = [
     org: 'edx',
     repoName: 'course-discovery',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['mikix'],
@@ -110,7 +110,7 @@ Map courseDiscovery = [
 Map credentialsRepo = [
     org: 'edx',
     repoName: 'credentials',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -122,7 +122,7 @@ Map credentialsRepo = [
 Map demographics = [
     org: 'edx',
     repoName: 'demographics',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.6',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -133,7 +133,7 @@ Map demographics = [
 Map devstack = [
     org: 'edx',
     repoName: 'devstack',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -145,7 +145,7 @@ Map devstack = [
 Map djangoConfigModels = [
     org: 'edx',
     repoName: 'django-config-models',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: ['feanil'],
@@ -157,7 +157,7 @@ Map djangoConfigModels = [
 Map djangoLangPrefMiddleware = [
     org: 'edx',
     repoName: 'django-lang-pref-middleware',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -168,7 +168,7 @@ Map djangoLangPrefMiddleware = [
 Map djangoUserTasks = [
     org: 'edx',
     repoName: 'django-user-tasks',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: ['jmbowman'],
@@ -180,7 +180,7 @@ Map djangoUserTasks = [
 Map ecommerce = [
     org: 'edx',
     repoName: 'ecommerce',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -191,7 +191,7 @@ Map ecommerce = [
 Map edxAce = [
     org: 'edx',
     repoName: 'edx-ace',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -202,7 +202,7 @@ Map edxAce = [
 Map edxAnalyticsDashboard = [
     org: 'edx',
     repoName: 'edx-analytics-dashboard',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -213,7 +213,7 @@ Map edxAnalyticsDashboard = [
 Map edxAnalyticsDataApi = [
     org: 'edx',
     repoName: 'edx-analytics-data-api',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -224,7 +224,7 @@ Map edxAnalyticsDataApi = [
 Map edxEnterprise = [
     org: 'edx',
     repoName: 'edx-enterprise',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: ['georgebabey'],
@@ -235,7 +235,7 @@ Map edxEnterprise = [
 Map edxGomatic = [
     org: 'edx',
     repoName: 'edx-gomatic',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '2.7',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -246,7 +246,7 @@ Map edxGomatic = [
 Map edxNotesApi = [
     org: 'edx',
     repoName: 'edx-notes-api',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -258,7 +258,7 @@ Map edxNotesApi = [
 Map edxOrganizations = [
     org: 'edx',
     repoName: 'edx-organizations',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -270,7 +270,7 @@ Map edxOrganizations = [
 Map edxPlatform = [
     org: 'edx',
     repoName: 'edx-platform',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessDailyLahore,
     githubUserReviewers: [],
@@ -282,7 +282,7 @@ Map edxPlatform = [
 Map edxProctoring = [
     org: 'edx',
     repoName: 'edx-proctoring',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -294,7 +294,7 @@ Map edxProctoring = [
 Map edxRepoHealth = [
     org: 'edx',
     repoName: 'edx-repo-health',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -306,7 +306,7 @@ Map edxRepoHealth = [
 Map edxRestApiClient = [
     org: 'edx',
     repoName: 'edx-rest-api-client',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [''],
@@ -318,7 +318,7 @@ Map edxRestApiClient = [
 Map edxSphinxTheme = [
     org: 'edx',
     repoName: 'edx-sphinx-theme',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [''],
@@ -342,7 +342,7 @@ Map edxToggles = [
 Map edxVal= [
     org: 'edx',
     repoName: 'edx-val',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [''],
@@ -366,7 +366,7 @@ Map notifier = [
 Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: ['cpennington'],
@@ -378,7 +378,7 @@ Map opaqueKeys = [
 Map openEdxStats = [
     org: 'edx',
     repoName: 'openedxstats',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -390,7 +390,7 @@ Map openEdxStats = [
 Map portalDesigner = [
     org: 'edx',
     repoName: 'portal-designer',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -402,7 +402,7 @@ Map portalDesigner = [
 Map pytestRepoHealth = [
     org: 'edx',
     repoName: 'pytest-repo-health',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -414,7 +414,7 @@ Map pytestRepoHealth = [
 Map registrar = [
     org: 'edx',
     repoName: 'registrar',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -426,7 +426,7 @@ Map registrar = [
 Map testengCI = [
     org: 'edx',
     repoName: 'testeng-ci',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '2.7',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -438,7 +438,7 @@ Map testengCI = [
 Map videoEncodeManager = [
     org: 'edx',
     repoName: 'video-encode-manager',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.6',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -450,7 +450,7 @@ Map videoEncodeManager = [
 Map xblock = [
     org: 'edx',
     repoName: 'XBlock',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: ['cpennington'],
@@ -462,7 +462,7 @@ Map xblock = [
 Map xblockUtils = [
     org: 'edx',
     repoName: 'xblock-utils',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
@@ -474,7 +474,7 @@ Map xblockUtils = [
 Map xqueue = [
     org: 'edx',
     repoName: 'xqueue',
-    targetBranch: "master",
+    defaultBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
@@ -530,6 +530,9 @@ jobConfigs.each { jobConfig ->
 
     job("${jobConfig.repoName}-upgrade-python-requirements") {
 
+        parameters {
+            stringParam("TargetBranch", "", "Target branch to run make upgrade")
+        }
         logRotator {
             daysToKeep(14)
         }
@@ -548,7 +551,12 @@ jobConfigs.each { jobConfig ->
                     credentials('jenkins-worker')
                     url("git@github.com:edx/${jobConfig.repoName}.git")
                 }
-                branch("${jobConfig.targetBranch}")
+                if ('$TargetBranch'){
+                    branch('$TargetBranch')
+                }
+                else{
+                    branch("${jobConfig.defaultBranch}")
+                }
                 extensions {
                     cleanBeforeCheckout()
                     relativeTargetDirectory(jobConfig.repoName)
