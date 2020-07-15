@@ -123,7 +123,7 @@ Map demographics = [
     org: 'edx',
     repoName: 'demographics',
     targetBranch: "master",
-    pythonVersion: '3.5',
+    pythonVersion: '3.6',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-aperture'],
