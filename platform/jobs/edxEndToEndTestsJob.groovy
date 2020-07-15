@@ -236,9 +236,6 @@ jobConfigs.each { jobConfig ->
                 // by this dsl script
                 string('BASIC_AUTH_USER', 'BASIC_AUTH_USER')
                 string('BASIC_AUTH_PASSWORD', 'BASIC_AUTH_PASSWORD')
-                string('ACCESS_TOKEN', 'MICROSITES_ACCESS_TOKEN')
-                string('GLOBAL_PASSWORD', 'MICROSITES_GLOBAL_PASSWORD')
-                string('STAFF_USER_EMAIL', 'MICROSITES_STAFF_USER_EMAIL')
                 string('USER_LOGIN_EMAIL', 'USER_LOGIN_EMAIL')
                 string('USER_LOGIN_PASSWORD', 'USER_LOGIN_PASSWORD')
             }
