@@ -1,7 +1,6 @@
 package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_parameters
-import static org.edx.jenkins.dsl.AnalyticsConstants.to_date_interval_parameter
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
@@ -14,6 +13,7 @@ class VerticaReplicaImportFromS3 {
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, db_config)
                 parameters {
+                    stringParam('RUN_DATE', db_config.get('RUN_DATE', allVars.get('RUN_DATE', 'today')), 'Run date for the job. A string that can be parsed by the GNU coreutils "date" utility.')
                     stringParam('SCHEMA', db_config.get('SCHEMA'), 'Name of Vertica schema to write to.')
                     stringParam('MARKER_SCHEMA', db_config.get('MARKER_SCHEMA'))
                     stringParam('DATABASE', db_config.get('DATABASE'), 'Name of MySQL database to copy from.')
@@ -41,7 +41,6 @@ class VerticaReplicaImportFromS3 {
                     )
                     stringParam('CREDENTIALS', allVars.get('CREDENTIALS'), 'Credentials for writing to vertica.')
                 }
-                parameters to_date_interval_parameter(allVars)
                 multiscm common_multiscm(allVars)
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)
