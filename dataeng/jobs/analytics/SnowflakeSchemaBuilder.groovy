@@ -38,7 +38,7 @@ class SnowflakeSchemaBuilder {
             wrappers {
                 timestamps()
                 credentialsBinding {
-                    usernamePassword('GITHUB_USER', 'GITHUB_TOKEN', '2');
+                    usernamePassword('GITHUB_USER', 'GITHUB_TOKEN', 'GITHUB_USER_PASS_COMBO');
                 }
             }
             publishers common_publishers(allVars)
