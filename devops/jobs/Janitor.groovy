@@ -13,7 +13,6 @@
         * JENKINS_DSL_INTERNAL_BRANCH: default is master
         * CONFIGURATION_REPO: name of config repo, default is https://github.com/edx/configuration.git
         * CONFIGURATION_BRANCH: default is master
-        * NOTIFY_ON_FAILURE: alert@example.com
         * FOLDER_NAME: folder
 
 
@@ -42,6 +41,7 @@ class Janitor {
                     credentialsBinding {
                         file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         string('ROLE_ARN', "tools-jenkins-janitor-${deployment}-role-arn")
+                        string("GENIE_KEY", "opsgenie_heartbeat_key")
                     }
                 }
 
