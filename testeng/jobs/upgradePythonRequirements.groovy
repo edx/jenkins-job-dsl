@@ -368,7 +368,7 @@ Map openEdxStats = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['teaching-and-learning'],
+    githubTeamReviewers: [],
     emails: ['ned@edx.org'],
     alwaysNotify: false
 ]
