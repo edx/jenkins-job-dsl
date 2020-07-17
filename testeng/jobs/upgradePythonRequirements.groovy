@@ -31,8 +31,8 @@ Map apiDocTools = [
     targetBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [''],
-    githubTeamReviewers: ['teaching-and-learning'],
+    githubUserReviewers: [],
+    githubTeamReviewers: [],
     emails: ['ned@edx.org']
 ]
 
