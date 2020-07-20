@@ -21,7 +21,7 @@ git checkout -b "$branchname"
 
 # Run the dbt script to update schemas and sql, from the source project directory (necessary for dbt to run)
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
-dbt_schema_builder build --raw-schemas $SCHEMAS --raw-suffixes $RAW_SUFFIXES --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+dbt_schema_builder build --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
 # Check if any files are added, deleted, or changed. If so, commit them and create a PR.
 if [[ -z $(git status -s) ]]
