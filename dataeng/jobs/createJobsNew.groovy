@@ -2,6 +2,7 @@ import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.SnowflakeQueueDepth.job as SnowflakeQueueDepthJob
+import static analytics.SnowflakeCreditUsage.job as SnowflakeCreditUsageJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
@@ -31,7 +32,7 @@ def taskMap = [
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
-    SNOWFLAKE_QUEUE_DEPTH_JOB: SnowflakeQueueDepthJob,
+    SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeQueueDepthJob, SnowflakeCreditUsageJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,

@@ -10,18 +10,18 @@ class SnowflakeQueueDepth {
 
     public static def job = { dslFactory, allVars ->
 
-        dslFactory.job("collect-queue-depth") {
+        dslFactory.job("collect-credit-metrics"){
 
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
-                stringParam('ANALYTICS_TOOLS_URL', allVars.get('TOOLS_REPO_URL'), 'URL for the analytics tools repo.')
-                stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
+                stringParam("ANALYTICS_TOOLS_URL", allVars.get("TOOLS_REPO_URL"), "URL for the analytics tools repo.")
+                stringParam("ANALYTICS_TOOLS_BRANCH", allVars.get("TOOLS_BRANCH")
             }
             environmentVariables {
-                env('SNOWFLAKE_USER', 'SNOWFLAKE_TASK_AUTOMATION_USER')
-                env('SNOWFLAKE_ACCOUNT', 'edx.us-east-1')
-                env('METRIC_COLLECTION_SCRIPT', 'collect_queue_depth.py')
+                env("SNOWFLAKE_USER", "SNOWFLAKE_TASK_AUTOMATION_USER")
+                env("SNOWFLAKE_ACCOUNT", "edx.us-east-1")
+                env("METRIC_COLLECTION_SCRIPT", 'collect_credit_metrics.py')
             }
             multiscm secure_scm(allVars) << {
                 git {
@@ -38,15 +38,15 @@ class SnowflakeQueueDepth {
                 }
             }
             triggers {
-                cron("*/5 * * * *")
+                cron("0 * * * *")
             }
             wrappers {
                 timestamps()
             }
             publishers common_publishers(allVars)
             steps {
-                    virtualenv {
-                    pythonName('PYTHON_3.7')
+                virtualenv {
+                    pythonName("PYTHON_3.7")
                     nature("shell")
                     systemSitePackages(false)
                     command(
