@@ -30,6 +30,12 @@ class CreateSandboxCI {
             maxTotal(1)
         }
 
+        wrappers {
+            credentialsBinding {
+                string("GENIE_KEY", "opsgenie_heartbeat_key")
+            }
+        }
+
         def access_control = extraVars.get('ACCESS_CONTROL',[])
         access_control.each { acl ->
             common_read_permissions.each { perm ->
@@ -121,6 +127,7 @@ class CreateSandboxCI {
             }
           }
           shell('curl '+extraVars.get(type.toUpperCase()+"_SNITCH"))
+          shell('curl -X GET "https://api.opsgenie.com/v2/heartbeats/SandboxCI'+type+'/ping" -H "Authorization: GenieKey ${GENIE_KEY}"')
         }
 
         triggers {
