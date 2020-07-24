@@ -523,6 +523,8 @@ List jobConfigs = [
     xqueue,
 ]
 
+assert false
+
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
 
