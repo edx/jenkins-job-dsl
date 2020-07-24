@@ -296,7 +296,7 @@ Map edxRepoHealth = [
     repoName: 'edx-repo-health',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
+    cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
     githubTeamReviewers: ['arbi-bom'],
     emails: ['arbi-bom@edx.org'],
@@ -322,6 +322,18 @@ Map edxSphinxTheme = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [''],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
+]
+
+Map edxToggles = [
+    org: 'edx',
+    repoName: 'edx-toggles',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
     githubTeamReviewers: ['arbi-bom'],
     emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
@@ -390,7 +402,7 @@ Map pytestRepoHealth = [
     repoName: 'pytest-repo-health',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
+    cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
     githubTeamReviewers: ['arbi-bom'],
     emails: ['arbi-bom@edx.org'],
@@ -496,6 +508,7 @@ List jobConfigs = [
     edxRepoHealth,
     edxRestApiClient,
     edxSphinxTheme,
+    edxToggles,
     edxVal,
     notifier,
     opaqueKeys,
