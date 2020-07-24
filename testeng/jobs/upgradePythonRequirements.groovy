@@ -327,6 +327,18 @@ Map edxSphinxTheme = [
     alwaysNotify: false
 ]
 
+Map edxToggles = [
+    org: 'edx',
+    repoName: 'edx-toggles',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
+]
+
 Map edxVal= [
     org: 'edx',
     repoName: 'edx-val',
@@ -496,6 +508,7 @@ List jobConfigs = [
     edxRepoHealth,
     edxRestApiClient,
     edxSphinxTheme,
+    edxToggles,
     edxVal,
     notifier,
     opaqueKeys,
