@@ -351,14 +351,16 @@ Map edxVal= [
     alwaysNotify: false
 ]
 
-Map notifier= [
+Map notifier = [
     org: 'edx',
     repoName: 'notifier',
+    targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [''],
-    githubTeamReviewers: ['arch-bom'],
-    emails: ['arch-bom@edx.org']
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map opaqueKeys = [
