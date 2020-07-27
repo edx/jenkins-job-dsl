@@ -32,7 +32,7 @@ def taskMap = [
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
-    SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeQueueDepthJob, SnowflakeCreditUsageJob,
+    SNOWFLAKE_COLLECT_METRICS_JOB: [SnowflakeQueueDepthJob, SnowflakeCreditUsageJob],
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
@@ -51,8 +51,11 @@ for (task in taskMap) {
     catch (Exception e) {
         out.println("File $extraVarsFileName does not exist.")
     }
-
-    task.value(this, commonConfigMap + extraVars)
+    if (task.value instanceof List) {
+        task.value.forEach(this, commonConfigMap + extraVars)
+    } else {
+        task.value(this, commonConfigMap + extraVars)
+    }
 }
 
 listView('Production') {
