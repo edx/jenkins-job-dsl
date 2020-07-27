@@ -21,7 +21,15 @@ class Enrollment {
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)
                 publishers {
-                    downstream("module-engagement-$environment", 'SUCCESS')
+                    downstreamParameterized {
+                        trigger("module-engagement-$environment") {
+                            condition('SUCCESS')
+                            parameters {
+                                // The contents of this file are generated as part of the script in the build step.
+                                propertiesFile('${WORKSPACE}/downstream.properties')
+                            }
+                        }
+                    }
                 }
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/enrollment.sh'))

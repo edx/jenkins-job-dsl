@@ -6,6 +6,13 @@ fi
 
 env
 
+# Interpolate the TO_DATE now so that the downstream job is guaranteed to use
+# the same exact date as this job. Otherwise, if this job runs over a date
+# boundary, the downstream job would re-interpolate the value of 'yesterday' on
+# a different date.
+INTERPOLATED_TO_DATE="$(date +%Y-%m-%d -d "$TO_DATE")"
+echo "TO_DATE=${INTERPOLATED_TO_DATE}" > "${WORKSPACE}/downstream.properties"
+
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   ImportEnrollmentsIntoMysql --local-scheduler \
   --interval $(date +%Y-%m-%d -d "$FROM_DATE")-$(date +%Y-%m-%d -d "$TO_DATE") \
