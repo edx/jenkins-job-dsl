@@ -78,6 +78,10 @@ class LoadEvents {
 
     public static def load_json_events_to_s3_job = { dslFactory, allVars ->
         dslFactory.job("load-json-events-to-s3") {
+
+            // BigQuery deprecation
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters from_date_interval_parameter(allVars)
@@ -114,6 +118,10 @@ class LoadEvents {
 
     public static def load_json_events_to_bigquery_job = { dslFactory, allVars ->
         dslFactory.job("load-json-events-to-bigquery") {
+
+            // BigQuery deprecation
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters from_date_interval_parameter(allVars)

@@ -37,6 +37,10 @@ class LoadWarehouse {
 
     public static def bigquery_job = { dslFactory, allVars ->
         dslFactory.job("load-warehouse-bigquery") {
+
+            // BigQuery deprecation
+            disabled(true)
+
             logRotator common_log_rotator(allVars)
             parameters common_parameters(allVars)
             parameters to_date_interval_parameter(allVars)
