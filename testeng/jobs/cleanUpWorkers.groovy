@@ -19,7 +19,7 @@ job('clean-up-workers') {
         }
     }
 
-    triggers{
+    triggers {
         cron('H H/6 * * *')
     }
 

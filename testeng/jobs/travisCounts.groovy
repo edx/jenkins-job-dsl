@@ -25,7 +25,6 @@ job('travis-counts') {
         timestamps()
     }
 
-
     environmentVariables {
         env('PYTHON_VERSION', '3.5')
     }

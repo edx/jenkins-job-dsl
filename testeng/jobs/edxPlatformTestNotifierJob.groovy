@@ -1,7 +1,6 @@
 package testeng
 
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_MASKED_PASSWORD
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_SLACK_STATUS
 
@@ -12,7 +11,7 @@ job('edx-platform-test-notifier') {
     authorization GENERAL_PRIVATE_JOB_SECURITY()
 
     parameters {
-        stringParam('REPO', "edx-platform",
+        stringParam('REPO', 'edx-platform',
                     'Github repository of PR')
         stringParam('PR_NUMBER', null,
                     'PR number')
