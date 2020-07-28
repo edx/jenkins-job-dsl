@@ -11,11 +11,11 @@ class SnowflakeCollectMetrics {
     public static def job = { dslFactory, allVars ->
 
         Map SnowflakeWarehouseCreditConfig = [
-            NAME: "snowflake-collect-credit-metrics"
+            NAME: "snowflake-collect-credit-metrics",
             CRON: "0 * * * *"
         ]
         Map SnowflakeQueueDepthConfig = [
-            NAME: "snowflake-collect-queue-depth"
+            NAME: "snowflake-collect-queue-depth",
             CRON: "*/5 * * * *"
         ]
         List jobConfigs = [
