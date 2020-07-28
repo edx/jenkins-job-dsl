@@ -52,6 +52,7 @@ for (task in taskMap) {
     catch (Exception e) {
         out.println("File $extraVarsFileName does not exist.")
     }
+
     task.value(this, commonConfigMap + extraVars)
 }
 

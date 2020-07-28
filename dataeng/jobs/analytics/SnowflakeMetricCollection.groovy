@@ -6,16 +6,16 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 
-class SnowflakeQueueDepth {
+class SnowflakeCollectMetrics {
 
     public static def job = { dslFactory, allVars ->
 
         Map SnowflakeWarehouseCreditConfig = [
-            NAME: "collect_credit_metrics"
+            NAME: "snowflake-collect-credit-metrics"
             CRON: "0 * * * *"
         ]
         Map SnowflakeQueueDepthConfig = [
-            NAME: "collect_queue_depth"
+            NAME: "snowflake-collect-queue-depth"
             CRON: "*/5 * * * *"
         ]
         List jobConfigs = [
