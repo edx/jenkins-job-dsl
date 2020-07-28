@@ -69,9 +69,9 @@ job('build-packer-ami') {
             string('AWS_SECURITY_GROUP', 'PACKER_AWS_SECURITY_GROUP')
 
             amazonWebServicesCredentialsBinding {
-                accessKeyVariable("AWS_ACCESS_KEY_ID")
-                secretKeyVariable("AWS_SECRET_ACCESS_KEY")
-                credentialsId("JENKINS_EC2_CREDENTIALS")
+                accessKeyVariable('AWS_ACCESS_KEY_ID')
+                secretKeyVariable('AWS_SECRET_ACCESS_KEY')
+                credentialsId('JENKINS_EC2_CREDENTIALS')
             }
         }
     }

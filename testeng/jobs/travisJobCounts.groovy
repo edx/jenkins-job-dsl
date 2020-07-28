@@ -18,7 +18,7 @@ job('travis-job-counts') {
         }
     }
     triggers {
-        cron("H/10 * * * *")
+        cron('H/10 * * * *')
     }
 
     wrappers {
