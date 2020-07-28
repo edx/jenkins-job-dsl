@@ -19,7 +19,7 @@ class SnowflakeCollectMetrics {
             CRON: "*/5 * * * *"
         ]
         List jobConfigs = [
-            SnowflakeWarehouseCreditConfig
+            SnowflakeWarehouseCreditConfig,
             SnowflakeQueueDepthConfig
         ]
 
