@@ -162,24 +162,6 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         }
     }
 
-    public static def timeout_wrapper = { allVars ->
-        return {
-            timeout {
-                likelyStuck()
-                failBuild()
-            }
-        }
-    }
-
-    public static def terminate_cluster_post_build = { allVars ->
-        return {
-            postBuildTask {
-                // Run terminate cluster script only if the text `Build timed out` is found in log.
-                task('Build timed out', 'cd $WORKSPACE/analytics-configuration && EXTRA_VARS="name=$CLUSTER_NAME" make terminate.emr', true)
-            }
-        }
-    }
-
     public static def common_publishers = { allVars ->
         return {
             mailer('$NOTIFY')

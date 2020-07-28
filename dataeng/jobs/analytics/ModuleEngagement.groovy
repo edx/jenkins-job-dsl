@@ -5,8 +5,6 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.to_date_interval_parameter
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
-import static org.edx.jenkins.dsl.AnalyticsConstants.terminate_cluster_post_build
-import static org.edx.jenkins.dsl.AnalyticsConstants.timeout_wrapper
 
 class ModuleEngagement {
     public static def job = { dslFactory, allVars ->
@@ -17,9 +15,7 @@ class ModuleEngagement {
                 parameters to_date_interval_parameter(allVars)
                 multiscm common_multiscm(allVars)
                 wrappers common_wrappers(allVars)
-                wrappers timeout_wrapper(allVars)
                 publishers common_publishers(allVars)
-                publishers terminate_cluster_post_build(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/module-engagement.sh'))
                     if (env_config.get('SNITCH')) {
