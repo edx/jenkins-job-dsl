@@ -11,12 +11,12 @@ class SnowflakeCollectMetrics {
     public static def job = { dslFactory, allVars ->
 
         Map SnowflakeWarehouseCreditConfig = [
-            NAME: "snowflake-collect-credit-metrics",
-            CRON: "0 * * * *"
+            NAME: 'snowflake-collect-credit-metrics',
+            CRON: '0 * * * *'
         ]
         Map SnowflakeQueueDepthConfig = [
-            NAME: "snowflake-collect-queue-depth",
-            CRON: "*/5 * * * *"
+            NAME: 'snowflake-collect-queue-depth',
+            CRON: '*/5 * * * *'
         ]
         List jobConfigs = [
             SnowflakeWarehouseCreditConfig,
@@ -30,13 +30,13 @@ class SnowflakeCollectMetrics {
                 logRotator common_log_rotator(allVars)
                 parameters secure_scm_parameters(allVars)
                 parameters {
-                    stringParam("ANALYTICS_TOOLS_URL", allVars.get("TOOLS_REPO_URL"), "URL for the analytics tools repo.")
-                    stringParam("ANALYTICS_TOOLS_BRANCH", allVars.get("TOOLS_BRANCH"), , "Branch of analytics tools repo to use.")
+                    stringParam('ANALYTICS_TOOLS_URL', allVars.get('TOOLS_REPO_URL'), 'URL for the analytics tools repo.')
+                    stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('TOOLS_BRANCH'), , 'Branch of analytics tools repo to use.')
                 }
                 environmentVariables {
-                    env("SNOWFLAKE_USER", "SNOWFLAKE_TASK_AUTOMATION_USER")
-                    env("SNOWFLAKE_ACCOUNT", "edx.us-east-1")
-                    env("METRIC_NAME", jobConfig['NAME'])
+                    env('SNOWFLAKE_USER', 'SNOWFLAKE_TASK_AUTOMATION_USER')
+                    env('SNOWFLAKE_ACCOUNT', 'edx.us-east-1')
+                    env('METRIC_NAME', jobConfig['NAME'])
                 }
                 multiscm secure_scm(allVars) << {
                     git {
@@ -61,11 +61,11 @@ class SnowflakeCollectMetrics {
                 publishers common_publishers(allVars)
                 steps {
                     virtualenv {
-                        pythonName("PYTHON_3.7")
-                        nature("shell")
+                        pythonName('PYTHON_3.7')
+                        nature('shell')
                         systemSitePackages(false)
                         command(
-                            dslFactory.readFileFromWorkspace("dataeng/resources/snowflake-collect-metrics.sh")
+                            dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-collect-metrics.sh')
                         )
                     }
                 }
