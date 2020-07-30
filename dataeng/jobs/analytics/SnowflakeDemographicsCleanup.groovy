@@ -14,6 +14,7 @@ class SnowflakeDemographicsCleanup {
             parameters {
                 stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
                 stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
+                stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             environmentVariables {
                 env('KEY_PATH', allVars.get('KEY_PATH'))
