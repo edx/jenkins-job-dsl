@@ -1,19 +1,14 @@
 package analytics
 
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 
 
-
-class SnowflakePublicGrantsCleaner {
-    public static def job = { dslFactory, allVars ->
-        dslFactory.job("snowflake-public-grants-cleaner") {
+class SnowflakeDemographicsCleanup {
+    public static def job = { dslFactory, allVars -> 
+        dslFactory.job("snowflake-demographics-cleanup") {
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
@@ -40,7 +35,10 @@ class SnowflakePublicGrantsCleaner {
                     }
                 }
             }
-            triggers common_triggers(allVars)
+            triggers {
+                // Daily at 06:00
+                cron('H 6 * * *')
+            }
             wrappers {
                 timestamps()
             }
@@ -51,10 +49,10 @@ class SnowflakePublicGrantsCleaner {
                     nature("shell")
                     systemSitePackages(false)
                     command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/snowflake-public-grants-cleaner.sh")
+                        dslFactory.readFileFromWorkspace("dataeng/resources/snowflake-demographics-cleanup.sh")
                     )
                 }
-            }
+            }               
         }
     }
 }
