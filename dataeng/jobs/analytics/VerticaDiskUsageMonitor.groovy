@@ -7,7 +7,7 @@ class VerticaDiskUsageMonitor {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('vertica-disk-usage-monitor') {
             parameters {
-                stringParam('TOOLS_REPO', allVars.get('TOOLS_REPO_URL'), '')
+                stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')
                 stringParam('TOOLS_BRANCH', 'origin/master', '')
                 stringParam('THRESHOLD', allVars.get('THRESHOLD'), 'Utilization threshold for alarm.')
                 stringParam('CONFIG_FILE_PATH', allVars.get('CONFIG_FILE_PATH'))

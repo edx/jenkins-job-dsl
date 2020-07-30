@@ -7,7 +7,7 @@ class EmrCostReporter {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('emr-cost-reporter') {
             parameters {
-                stringParam('TOOLS_REPO', allVars.get('TOOLS_REPO_URL'), '')
+                stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')
                 stringParam('TOOLS_BRANCH', 'origin/master', '')
                 stringParam('THRESHOLD', allVars.get('THRESHOLD'), 'Number of dollars "budgeted".  Going over this threshold will cause the job to fail.')
                 stringParam('WEEKLY_JOB_THRESHOLD_ADJUSTMENT', allVars.get('WEEKLY_JOB_THRESHOLD_ADJUSTMENT'), '')
