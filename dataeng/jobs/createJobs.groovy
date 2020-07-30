@@ -44,6 +44,7 @@ import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelor
 import static analytics.SnowflakePublicGrantsCleaner.job as SnowflakePublicGrantsCleanerJob
 import static analytics.SnowflakeRefreshSnowpipe.job as SnowflakeRefreshSnowpipeJob
 import static analytics.SnowflakeReplicaImportFromS3.job as SnowflakeReplicaImportFromS3Job
+import static analytics.SnowflakeValidateStitch.job as SnowflakeValidateStitchJob
 import static analytics.SqlScripts.multiple_scripts_job as SqlScriptsJob
 import static analytics.SqlScripts.single_script_job as SingleSqlScriptJob
 import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
@@ -122,6 +123,7 @@ def taskMap = [
     SNOWFLAKE_PUBLIC_GRANTS_CLEANER_JOB: SnowflakePublicGrantsCleanerJob,
     SNOWFLAKE_REFRESH_SNOWPIPE_JOB: SnowflakeRefreshSnowpipeJob,
     SNOWFLAKE_REPLICA_IMPORT_FROM_S3_JOB: SnowflakeReplicaImportFromS3Job,
+    SNOWFLAKE_VALIDATE_STITCH_JOB: SnowflakeValidateStitchJob,
     SQL_SCRIPTS_JOB: SqlScriptsJob,
     STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,
     TOTAL_EVENTS_DAILY_REPORT_JOB: TotalEventsDailyReportJob,
