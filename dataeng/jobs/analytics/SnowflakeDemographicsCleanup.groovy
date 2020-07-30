@@ -13,7 +13,7 @@ class SnowflakeDemographicsCleanup {
             parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
-                stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analtyics tools repo to use.')
+                stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
             }
             environmentVariables {
                 env('KEY_PATH', allVars.get('KEY_PATH'))
@@ -36,7 +36,7 @@ class SnowflakeDemographicsCleanup {
                 }
             }
             triggers {
-                // Daily at 06:00
+                // Daily between 06:00 - 07:00
                 cron('H 6 * * *')
             }
             wrappers {
@@ -52,7 +52,7 @@ class SnowflakeDemographicsCleanup {
                         dslFactory.readFileFromWorkspace("dataeng/resources/snowflake-demographics-cleanup.sh")
                     )
                 }
-            }               
+            }
         }
     }
 }
