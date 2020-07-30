@@ -117,7 +117,7 @@ def taskMap = [
     PROGRAM_ENROLLMENT_REPORTS_JOB: ProgramEnrollmentReportsJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
     SINGLE_SQL_SCRIPT_JOB: SingleSqlScriptJob,
-    SNOWFLAKE_DEMOGRAPHICS_CLEANUP: SnowflakeDemographicsCleanupJob,
+    SNOWFLAKE_DEMOGRAPHICS_CLEANUP_JOB: SnowflakeDemographicsCleanupJob,
     SNOWFLAKE_MICROBACHELORS_ITK_JOB: SnowflakeMicrobachelorsITKJob,
     SNOWFLAKE_PUBLIC_GRANTS_CLEANER_JOB: SnowflakePublicGrantsCleanerJob,
     SNOWFLAKE_REFRESH_SNOWPIPE_JOB: SnowflakeRefreshSnowpipeJob,
@@ -207,6 +207,7 @@ listView('Tools') {
         name('monitor-bigquery-loading')
         name('stitch-snowflake-lag-monitor')
         name('snowflake-public-grants-cleaner')
+        name('snowflake-demographics-cleanup')
     }
     columns DEFAULT_VIEW.call()
 }
