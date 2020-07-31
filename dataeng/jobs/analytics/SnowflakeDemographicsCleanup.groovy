@@ -1,5 +1,6 @@
 package analytics
 
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
@@ -10,6 +11,7 @@ class SnowflakeDemographicsCleanup {
     public static def job = { dslFactory, allVars -> 
         dslFactory.job("snowflake-demographics-cleanup") {
             logRotator common_log_rotator(allVars)
+            authorization common_authorization(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
