@@ -23,12 +23,10 @@ class SnowflakeValidateStitch {
                 stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
                 stringParam('APP_NAME', '', 'Application name of tables to validate.')
                 stringParam('SQOOP_START_TIME', '', 'Application name of tables to validate.')
-            }
-            environmentVariables {
-                env('KEY_PATH', allVars.get('KEY_PATH'))
-                env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
-                env('USER', allVars.get('USER'))
-                env('ACCOUNT', allVars.get('ACCOUNT'))
+                stringParam('SNOWFLAKE_USER', 'SNOWFLAKE_TASK_AUTOMATION_USER')
+                stringParam('SNOWFLAKE_ACCOUNT', 'edx.us-east-1')
+                stringParam('SNOWFLAKE_KEY_PATH', 'snowflake/rsa_key_snowflake_task_automation_user.p8', 'Path to the encrypted private key file that corresponds to the SNOWFLAKE_USER, relative to the root of analytics-secure.')
+                stringParam('SNOWFLAKE_PASSPHRASE_PATH', 'snowflake/rsa_key_passphrase_snowflake_task_automation_user', 'Path to the private key decryption passphrase file that corresponds to the SNOWFLAKE_USER, relative to the root of analytics-secure.')
             }
             logRotator common_log_rotator(allVars)
             multiscm secure_scm(allVars) << {
