@@ -12,8 +12,8 @@ class ExpireVerticaPassword {
         dslFactory.job('expire-vertica-password') {
             logRotator common_log_rotator(allVars)
             parameters {
-                stringParam('TOOLS_REPO', allVars.get('TOOLS_REPO_URL'), '')
-                stringParam('TOOLS_BRANCH', allVars.get('TOOLS_BRANCH', 'origin/master'), 'e.g. tagname or origin/branchname')
+                stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')
+                stringParam('TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH', 'origin/master'), 'e.g. tagname or origin/branchname')
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
                 stringParam('EXCLUDE', allVars.get('EXCLUDE'))
                 stringParam('MAPPING', allVars.get('MAPPING'))

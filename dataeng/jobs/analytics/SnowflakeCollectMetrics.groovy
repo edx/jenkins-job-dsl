@@ -30,8 +30,8 @@ class SnowflakeCollectMetrics {
                 logRotator common_log_rotator(allVars)
                 parameters secure_scm_parameters(allVars)
                 parameters {
-                    stringParam('ANALYTICS_TOOLS_URL', allVars.get('TOOLS_REPO_URL'), 'URL for the analytics tools repo.')
-                    stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('TOOLS_BRANCH'), , 'Branch of analytics tools repo to use.')
+                    stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
+                    stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), , 'Branch of analytics tools repo to use.')
                 }
                 environmentVariables {
                     env('SNOWFLAKE_USER', 'SNOWFLAKE_TASK_AUTOMATION_USER')

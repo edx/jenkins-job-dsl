@@ -12,8 +12,8 @@ class MonitorBigqueryEventLoading {
             
             logRotator common_log_rotator(allVars)
             parameters {
-                stringParam('TOOLS_REPO', allVars.get('TOOLS_REPO_URL'), '')
-                stringParam('TOOLS_BRANCH', allVars.get('TOOLS_BRANCH'), 'e.g. tagname or origin/branchname')
+                stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')
+                stringParam('TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'e.g. tagname or origin/branchname')
                 stringParam('PARTITION_DATE', allVars.get('PARTITION_DATE'), 'DATE to check bigquery event loading.')
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
             }

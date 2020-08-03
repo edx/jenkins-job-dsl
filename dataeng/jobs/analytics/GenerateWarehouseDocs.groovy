@@ -11,8 +11,8 @@ class GenerateWarehouseDocs {
 
             parameters secure_scm_parameters(allVars)
             parameters {
-                stringParam('TOOLS_REPO', allVars.get('TOOLS_REPO_URL'), '')
-                stringParam('TOOLS_BRANCH', 'refs/remotes/origin/master', '')
+                stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')
+                stringParam('TOOLS_BRANCH', 'origin/master', '')
                 stringParam('DOCBOT_SCHEMATA', 'production,business_intelligence,finance,experimental_events_run14', 'CSV list of schemata to generate docs')
                 stringParam('DOCBOT_SPACE', 'DE', '')
                 stringParam('DOCBOT_ROOT_PAGE', 'Data Model Documentation', '')
