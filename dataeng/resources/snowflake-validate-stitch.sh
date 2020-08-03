@@ -10,10 +10,10 @@ cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
 python stitch_vs_sqoop_validation.py \
-    --key_path ${KEY_PATH} \
-    --passphrase_path ${PASSPHRASE_PATH} \
-    --user ${USER} \
-    --account ${ACCOUNT} \
+    --key_path $WORKSPACE/analytics-secure/${SNOWFLAKE_KEY_PATH} \
+    --passphrase_path $WORKSPACE/analytics-secure/${SNOWFLAKE_PASSPHRASE_PATH} \
+    --user ${SNOWFLAKE_USER} \
+    --account ${SNOWFLAKE_ACCOUNT} \
     --schema ${APP_NAME} \
     --begin_datetime ${COMPARISON_START_TIME} \
     --end_datetime ${COMPARISON_END_TIME}
