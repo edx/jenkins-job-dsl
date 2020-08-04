@@ -221,6 +221,17 @@ Map edxAnalyticsDataApi = [
     emails: ['data-engineering@edx.org']
 ]
 
+Map edxDjangoUtils = [
+    org: 'edx',
+    repoName: 'edx-django-utils',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org']
+]
+
 Map edxEnterprise = [
     org: 'edx',
     repoName: 'edx-enterprise',
@@ -501,6 +512,7 @@ List jobConfigs = [
     edxAce,
     edxAnalyticsDashboard,
     edxAnalyticsDataApi,
+    edxDjangoUtils,
     edxEnterprise,
     edxGomatic,
     edxNotesApi,
