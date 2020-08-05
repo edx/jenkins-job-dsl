@@ -10,7 +10,9 @@ class TestHassan {
                 stringParam('NOTIFY', '', '')
             }
             publishers {
-                mailer('$NOTIFY')
+                if (env.NOTIFY) {
+                    mailer('$NOTIFY')
+                }
             }
         }
     }
