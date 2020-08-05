@@ -9,7 +9,7 @@ env
 
 DAY_OF_WEEK=$(date +%u)
 MONDAY=1
-if [[ ${DAY_OF_WEEK} -eq ${MONDAY} -o ${FORCE} = "true" ]]; then
+if [[ ${DAY_OF_WEEK} -eq ${MONDAY} || ${FORCE} = "true" ]]; then
     # Prepare the downstream properties file:
     printf '' > "${WORKSPACE}/downstream.properties"  # Truncate the file first.
     echo "APP_NAME=${APP_NAME}" >> "${WORKSPACE}/downstream.properties"
