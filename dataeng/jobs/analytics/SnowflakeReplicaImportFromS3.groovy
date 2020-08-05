@@ -69,13 +69,11 @@ class SnowflakeReplicaImportFromS3 {
                 wrappers common_wrappers(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-replica-import.sh'))
-                }
-                postBuildSteps {
-                    // If we skipped today's run, set the current build to ABORTED so that we don't trigger stitch
-                    // validation.
                     conditionalSteps {
-                        condition { fileExists('${WORKSPACE}/build_skipped') }
-                        steps { setBuildResult('ABORTED') }
+                        condition { not { fileExists('build_skipped', BaseDir.WORKSPACE) } }
+                        // If the condition fails (i.e. not-not fileExists is equivalent to fileExists), set the build
+                        // status to unstable.
+                        runner('Unstable')
                     }
                 }
                 publishers common_publishers(allVars)
@@ -86,7 +84,9 @@ class SnowflakeReplicaImportFromS3 {
                             condition('SUCCESS')
                             parameters {
                                 // The contents of this file are generated as part of the script in the build step.
-                                propertiesFile('${WORKSPACE}/downstream.properties')
+                                // The second function argument (the boolean) is failTriggerOnMissing, meaning we should
+                                // not trigger if the parameters file is missing.
+                                propertiesFile('${WORKSPACE}/downstream.properties', true)
                             }
                         }
                     }
