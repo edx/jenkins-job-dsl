@@ -14,7 +14,7 @@ class TestHassan {
                          selectDays {
                              days {
                                  day {
-                                     day(1)
+                                     day(2)
                                      selected(true)
                                  }
                              }
