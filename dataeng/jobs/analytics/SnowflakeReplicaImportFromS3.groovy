@@ -1,95 +1,36 @@
 package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_parameters
+import static org.edx.jenkins.dsl.AnalyticsConstants.to_date_interval_parameter
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 
 class SnowflakeReplicaImportFromS3 {
     public static def job = { dslFactory, allVars ->
-
-        Map jobConfigs = [
-            CREDENTIALS: [
-                CLUSTER_NAME: 'ImportCredentialsReadReplicaSnowflakeFromS3',
-                SCHEMA: 'CREDENTIALS_RAW',
-                SCRATCH_SCHEMA: 'CREDENTIALS_SCRATCH_LOADING',
-                DATABASE: 'credentials',
-                INCLUDE: '',
-                EXCLUDE: '',
-            ],
-            LMS: [
-                CLUSTER_NAME: 'ImportLMSReadReplicaSnowflakeFromS3',
-                SCHEMA: 'LMS_RAW',
-                SCRATCH_SCHEMA: 'LMS_SCRATCH_LOADING',
-                DATABASE: 'wwc',
-                INCLUDE: '',
-                EXCLUDE: '--exclude ["student_passwordhistory",".*courseware_studentmodule.*","oauth.*","shoppingcart_orderitem","certificates_certificateinvalidation","certificates_certificategenerationhistory","enterprise_enterprisecustomerreportingconfiguration","social_auth_partial"]',
-            ],
-            DISCOVERY: [
-                CLUSTER_NAME: 'ImportDiscoveryReadReplicaSnowflakeFromS3',
-                SCHEMA: 'DISCOVERY_RAW',
-                SCRATCH_SCHEMA: 'DISCOVERY_SCRATCH_LOADING',
-                DATABASE: 'discovery',
-                INCLUDE: '',
-                EXCLUDE: '--exclude ["auth_.*","core_.*","django_.*","social_auth_.*","waffle_.*"]',
-            ],
-            ECOMMERCE: [
-                CLUSTER_NAME: 'ImportEcommerceReadReplicaSnowflakeFromS3',
-                SCHEMA: 'ECOMMERCE_RAW',
-                SCRATCH_SCHEMA: 'ECOMMERCE_SCRATCH_LOADING',
-                DATABASE: 'ecommerce',
-                INCLUDE: '',
-                EXCLUDE: '',
-            ],
-        ]
-
-        jobConfigs.each { appName, jobConfig ->
-            dslFactory.job("snowflake-${appName.toLowerCase()}-read-replica-import-from-s3") {
+        allVars.get('SNOWFLAKE_READ_REPLICA_IMPORTS').each { db, db_config ->
+            dslFactory.job("snowflake-${db.toLowerCase()}-read-replica-import-from-s3") {
                 logRotator common_log_rotator(allVars)
-                parameters common_parameters(allVars, jobConfig)
+                parameters common_parameters(allVars, db_config)
                 parameters {
-                    stringParam('RUN_DATE', 'today', 'Run date for the job. A string that can be parsed by the GNU coreutils "date" utility.')
-                    stringParam('OVERWRITE', '--overwrite', 'Set to: --overwrite if you want to enable overwrite.')
-                    stringParam('SNOWFLAKE_CREDENTIALS', allVars.get('SNOWFLAKE_CREDENTIALS'), 'The path to the Snowflake credentials file.')
-                    stringParam('WAREHOUSE', 'LOADING_SQOOP', 'The Snowflake warehouse to use.')
-                    stringParam('ROLE', 'PIPELINE_ETL_LOADER_ROLE', 'The Snowflake role to assume.')
-                    stringParam('SNOWFLAKE_DATABASE', 'PROD', 'The destination database in Snowflake.')
-                    stringParam('SCHEMA', jobConfig.get('SCHEMA'), 'The destination raw schema in Snowflake.')
-                    stringParam('SCRATCH_SCHEMA', jobConfig.get('SCRATCH_SCHEMA'), 'Scratch schema name - temporary loading location in Snowflake.')
-                    stringParam('DATABASE', jobConfig.get('DATABASE'), 'Name of MySQL database to copy from.')
-                    stringParam('INCLUDE', jobConfig.get('INCLUDE', ''), 'List of regular expressions matching table names that should be copied.')
-                    stringParam('EXCLUDE', jobConfig.get('EXCLUDE', ''), 'List of regular expressions matching table names that should not be copied.')
-                    stringParam('SQOOP_START_TIME', '', 'The start time of the upstream sqoop load (in ISO timestamp format).')
-                    booleanParam('FORCE', false, 'Force the job to run today, regardless of whether it is scheduled for today.')
-                }
-                environmentVariables {
-                    env('APP_NAME', appName)
+                    stringParam('RUN_DATE', db_config.get('RUN_DATE', allVars.get('RUN_DATE', 'today')), 'Run date for the job. A string that can be parsed by the GNU coreutils "date" utility.')
+                    stringParam('OVERWRITE', db_config.get('OVERWRITE', allVars.get('OVERWRITE')), 'Set to: --overwrite if you want to enable overwrite.')
+                    stringParam('SNOWFLAKE_CREDENTIALS', db_config.get('SNOWFLAKE_CREDENTIALS', allVars.get('SNOWFLAKE_CREDENTIALS')), 'The path to the Snowflake credentials file.')
+                    stringParam('WAREHOUSE', db_config.get('WAREHOUSE', allVars.get('WAREHOUSE')), '')
+                    stringParam('ROLE', db_config.get('ROLE', allVars.get('ROLE')))
+                    stringParam('SNOWFLAKE_DATABASE', db_config.get('SNOWFLAKE_DATABASE', allVars.get('SNOWFLAKE_DATABASE')))
+                    stringParam('SCHEMA', db_config.get('SCHEMA', allVars.get('SCHEMA')), 'Schema')
+                    stringParam('SCRATCH_SCHEMA', db_config.get('SCRATCH_SCHEMA', allVars.get('SCRATCH_SCHEMA')), 'Scratch schema name - temporary loading location.')
+                    stringParam('DATABASE', db_config.get('DATABASE'), 'Name of MySQL database to copy from.')
+                    stringParam('INCLUDE', db_config.get('INCLUDE'), 'List of regular expressions matching table names that should be copied.')
+                    stringParam('EXCLUDE', db_config.get('EXCLUDE'), 'List of regular expressions matching table names that should not be copied.')
                 }
                 multiscm common_multiscm(allVars)
                 wrappers common_wrappers(allVars)
+                publishers common_publishers(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-replica-import.sh'))
-                }
-                postBuildSteps {
-                    // If we skipped today's run, set the current build to ABORTED so that we don't trigger stitch
-                    // validation.
-                    conditionalSteps {
-                        condition { fileExists('${WORKSPACE}/build_skipped') }
-                        steps { setBuildResult('ABORTED') }
-                    }
-                }
-                publishers common_publishers(allVars)
-                publishers {
-                    downstreamParameterized {
-                        trigger("snowflake-validate-stitch" )
-                        {
-                            condition('SUCCESS')
-                            parameters {
-                                // The contents of this file are generated as part of the script in the build step.
-                                propertiesFile('${WORKSPACE}/downstream.properties')
-                            }
-                        }
-                    }
                 }
             }
         }
