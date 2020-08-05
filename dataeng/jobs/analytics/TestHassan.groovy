@@ -9,6 +9,9 @@ class TestHassan {
             parameters {
                 stringParam('NOTIFY', '', '')
             }
+            binding.variables.each {
+              println "${it.key} = ${it.value}"
+            }
             publishers {
                 if ('$NOTIFYNOTEXISTS') {
                     mailer('$NOTIFY')
