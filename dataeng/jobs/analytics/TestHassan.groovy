@@ -9,7 +9,9 @@ class TestHassan {
             parameters {
                 stringParam('NOTIFY', '', '')
             }
-            publishers common_publishers(allVars)
+            publishers {
+                mailer('$NOTIFY')
+            }
         }
     }
 }
