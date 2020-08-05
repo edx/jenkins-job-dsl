@@ -185,7 +185,7 @@ Map ecommerce = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['ecommerce'],
-    emails: ['revenue-squad-alert@edx.opsgenie.net']
+    emails: ['revenue-tasks@edx.org']
 ]
 
 Map edxAce = [
