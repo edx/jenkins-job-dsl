@@ -164,7 +164,8 @@ This text may reference other parameters in the task as shell variables, e.g.  $
 
     public static def common_publishers = { allVars ->
         return {
-            if (params.containsKey("NOTIFY")) {
+            if (NOTIFY.isEmpty()) {
+                NOTIFY='custom'
                 mailer('$NOTIFY')
             }
         }

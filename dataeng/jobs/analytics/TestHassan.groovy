@@ -7,7 +7,7 @@ class TestHassan {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("test-hassan-param") {
             parameters {
-                stringParam('NOTIFY', 'hassan@edx.org', '')
+                stringParam('NOTIFY', '', '')
             }
             publishers common_publishers(allVars)
         }
