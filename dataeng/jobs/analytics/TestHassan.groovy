@@ -12,3 +12,4 @@ class TestHassan {
             publishers common_publishers(allVars)
         }
     }
+}
