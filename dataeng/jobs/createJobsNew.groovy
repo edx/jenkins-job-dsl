@@ -7,6 +7,7 @@ import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
+import static analytics.TestHassan.job as TestHassanJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -29,7 +30,7 @@ try {
 
 def taskMap = [
     // Add jobs here as they are ported from the old analytics Jenkins server.
-    EMR_COST_REPORTER_JOB: EmrCostReporterJob,
+/*    EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
@@ -37,7 +38,8 @@ def taskMap = [
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
-    SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
+    SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,*/
+    TEST_HASSAN_JOB: TestHassanJob
 ]
 
 for (task in taskMap) {

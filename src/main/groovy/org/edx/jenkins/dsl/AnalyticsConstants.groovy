@@ -164,7 +164,9 @@ This text may reference other parameters in the task as shell variables, e.g.  $
 
     public static def common_publishers = { allVars ->
         return {
-            mailer('$NOTIFY')
+            if (getBinding().hasVariable("NOTIFY")) {
+                mailer('$NOTIFY')
+            }
         }
     }
 
