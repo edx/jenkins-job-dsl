@@ -11,7 +11,9 @@ class TestHassan {
                   condition {
                     dayCondition {
                       daySelector {
-                         SelectDays(1,true)
+                         SelectDays{
+                             Day(1,true)
+                         }
                       }
                       useBuildTime(false)
                     }
