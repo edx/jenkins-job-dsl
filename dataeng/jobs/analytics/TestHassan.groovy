@@ -10,8 +10,7 @@ class TestHassan {
             stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
           }
           publishers {
-            mailto = System.getenv("NOTIFY") ?: allVars.get('PAGER_NOTIFY')
-            mailer(mailto)
+            mailer(system.getenv("NOTIFY") ?: allVars.get('PAGER_NOTIFY')ailto)
           }
         }
     }
