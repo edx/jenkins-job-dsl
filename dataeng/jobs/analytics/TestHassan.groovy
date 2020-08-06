@@ -9,15 +9,17 @@ class TestHassan {
           parameters {
             stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
           }
-          flexiblePublish {
-            conditionalAction {
-              condition {
-                not {
-                  expression('$NOTIFY', '')
+          publishers {
+            flexiblePublish {
+              conditionalAction {
+                condition {
+                  not {
+                    expression('$NOTIFY', '')
+                  }
                 }
-              }
-              publishers {
-                mailer('$NOTIFY')
+                publishers {
+                  mailer('$NOTIFY')
+                }
               }
             }
           }
