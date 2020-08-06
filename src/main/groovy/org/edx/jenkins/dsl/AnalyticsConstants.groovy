@@ -162,9 +162,26 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         }
     }
 
+    // A `NOTIFY` parameter needs to exist in the job for which you want
+    // to trigger email notifications.
+    // Unless the job already includes `common_parameters`, a `NOTIFY`
+    // parameters needs to be defined for `common_publishers` to work.
     public static def common_publishers = { allVars ->
         return {
-            mailer('$NOTIFY')
+            flexiblePublish {
+                conditionalAction {
+                    condition {
+                        not {
+                            // method signature
+                            // stringsMatch(String arg1, String arg2, boolean ignoreCase)
+                            stringsMatch('$NOTIFY', '', false)
+                        }
+                    }
+                    publishers {
+                        mailer('$NOTIFY')
+                    }
+                }
+            }
         }
     }
 
