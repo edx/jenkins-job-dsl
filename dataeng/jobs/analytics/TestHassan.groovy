@@ -10,18 +10,8 @@ class TestHassan {
             stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
           }
           publishers {
-            flexiblePublish {
-              conditionalAction {
-                condition {
-                  not {
-                    expression('$NOTIFY', '')
-                  }
-                }
-                publishers {
-                  mailer('$NOTIFY')
-                }
-              }
-            }
+            mailto = System.getenv("NOTIFY") ?: allVars.get('PAGER_NOTIFY')
+            mailer(mailto)
           }
         }
     }
