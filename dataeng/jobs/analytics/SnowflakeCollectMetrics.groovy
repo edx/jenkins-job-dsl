@@ -37,6 +37,7 @@ class SnowflakeCollectMetrics {
                     env('SNOWFLAKE_USER', 'SNOWFLAKE_TASK_AUTOMATION_USER')
                     env('SNOWFLAKE_ACCOUNT', 'edx.us-east-1')
                     env('METRIC_NAME', jobConfig['NAME'])
+                    env('NOTIFY', 'analytics@edx.opsgenie.net analytics-alerts@edx.org')
                 }
                 multiscm secure_scm(allVars) << {
                     git {
