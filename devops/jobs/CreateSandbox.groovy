@@ -203,6 +203,9 @@ class CreateSandbox {
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
                 stringParam("video_encode_worker_version","master","")
 
+                booleanParam("prospectus",false,"Enable Prospectus, the edx catalog")
+                stringParam("prospectus_version","master","")
+                
                 choiceParam("server_type",
                             [
                             "full_edx_installation_from_scratch",
