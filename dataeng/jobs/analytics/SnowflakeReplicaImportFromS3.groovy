@@ -69,23 +69,16 @@ class SnowflakeReplicaImportFromS3 {
                 wrappers common_wrappers(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-replica-import.sh'))
-                    conditionalSteps {
-                        condition { not { fileExists('build_skipped', BaseDir.WORKSPACE) } }
-                        // If the condition fails (i.e. not-not fileExists is equivalent to fileExists), set the build
-                        // status to unstable.
-                        runner('Unstable')
-                    }
                 }
                 publishers common_publishers(allVars)
                 publishers {
                     downstreamParameterized {
-                        trigger("snowflake-validate-stitch" )
-                        {
+                        trigger("snowflake-validate-stitch") {
                             condition('SUCCESS')
                             parameters {
                                 // The contents of this file are generated as part of the script in the build step.
                                 // The second function argument (the boolean) is failTriggerOnMissing, meaning we should
-                                // not trigger if the parameters file is missing.
+                                // not trigger the downstream validation job if the parameters file is missing.
                                 propertiesFile('${WORKSPACE}/downstream.properties', true)
                             }
                         }
