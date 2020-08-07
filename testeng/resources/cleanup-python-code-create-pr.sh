@@ -20,7 +20,7 @@ pip install $PACKAGESTOINSTALL
 
 IFS=',' read -ra SCRIPTSTORUN <<< "$SCRIPTS"
 for element in "${SCRIPTSTORUN[@]}"; do
-  `echo $element`
+  `echo "$element"`
 done
 
 echo "Running script to create PR..."
