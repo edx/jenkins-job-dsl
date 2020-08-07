@@ -12,7 +12,7 @@ class AnalyticsExporter {
                 stringParam('PLATFORM_BRANCH', 'origin/zafft/analytics-exporter-settings-hotfix', 'Branch from the exporter repository. For tags use tags/[tag-name].')
                 stringParam('CONFIG_FILENAME', 'course_exporter.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', '', 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
-                stringParam('NOTIFICATION_EMAILS', '', 'Space separated list of emails to notify in case of failure.')
+                stringParam('NOTIFY', '', 'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER', '', 'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 202x-0x-0x" if that is when the CWSM dump took place.  (Leave off quotes.)')
                 stringParam('TASKS', '', 'Space separated list of tasks to process. Leave this blank to use the task list specified in the config file.  Specify here only if you are running tests of a specific task.')
             }
@@ -76,7 +76,7 @@ class AnalyticsExporter {
 
         dslFactory.job('analytics-exporter-worker') {
             parameters {
-                stringParam('NOTIFICATION_EMAILS')
+                stringParam('NOTIFY')
                 stringParam('MASTER_WORKSPACE')
                 stringParam('ORG_CONFIG_PATH')
                 stringParam('GPG_KEYS_PATH')
@@ -135,7 +135,7 @@ class AnalyticsExporter {
                 stringParam('PLATFORM_BRANCH', 'aed/analytics-exporter-settings-hotfix', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
-                stringParam('NOTIFICATION_EMAILS', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
+                stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER', '', 'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 202x-0x-0x" if that is when the CWSM dump took place.  (Leave off quotes.)')
                 stringParam('EXTRA_OPTIONS', '--exclude-task=OrgEmailOptInTask', 'e.g. --exclude-task=OrgEmailOptInTask')
                 stringParam('ORG_CONFIG', 'data-czar-keys/config.yaml', 'Path to the data-czar organization config file.')
@@ -215,7 +215,7 @@ class AnalyticsExporter {
                         }
                         parameters {
                             predefinedProp('MASTER_WORKSPACE', '${WORKSPACE}')
-                            predefinedProp('NOTIFICATION_EMAILS', '${NOTIFICATION_EMAILS}')
+                            predefinedProp('NOTIFY', '${NOTIFY}')
                         }
                         parameterFactories {
                             fileBuildParameterFactory {
