@@ -23,7 +23,7 @@ class SnowflakeReplicaImportFromS3 {
                 SCRATCH_SCHEMA: 'LMS_SCRATCH_LOADING',
                 DATABASE: 'wwc',
                 INCLUDE: '',
-                EXCLUDE: '--exclude ["student_passwordhistory",".*courseware_studentmodule.*","oauth.*","shoppingcart_orderitem","certificates_certificateinvalidation","certificates_certificategenerationhistory","enterprise_enterprisecustomerreportingconfiguration","social_auth_partial"]',
+                EXCLUDE: '--exclude [\\"student_passwordhistory\\",\\".*courseware_studentmodule.*\\",\\"oauth.*\\",\\"shoppingcart_orderitem\\",\\"certificates_certificateinvalidation\\",\\"certificates_certificategenerationhistory\\",\\"enterprise_enterprisecustomerreportingconfiguration\\",\\"social_auth_partial\\"]',
             ],
             DISCOVERY: [
                 CLUSTER_NAME: 'ImportDiscoveryReadReplicaSnowflakeFromS3',
@@ -31,7 +31,7 @@ class SnowflakeReplicaImportFromS3 {
                 SCRATCH_SCHEMA: 'DISCOVERY_SCRATCH_LOADING',
                 DATABASE: 'discovery',
                 INCLUDE: '',
-                EXCLUDE: '--exclude ["auth_.*","core_.*","django_.*","social_auth_.*","waffle_.*"]',
+                EXCLUDE: '--exclude [\\"auth_.*\\",\\"core_.*\\",\\"django_.*\\",\\"social_auth_.*\\",\\"waffle_.*\\"]',
             ],
             ECOMMERCE: [
                 CLUSTER_NAME: 'ImportEcommerceReadReplicaSnowflakeFromS3',
