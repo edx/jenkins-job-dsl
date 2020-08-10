@@ -27,6 +27,7 @@ class SnowflakeValidateStitch {
                 stringParam('SNOWFLAKE_ACCOUNT', 'edx.us-east-1')
                 stringParam('SNOWFLAKE_KEY_PATH', 'snowflake/rsa_key_snowflake_task_automation_user.p8', 'Path to the encrypted private key file that corresponds to the SNOWFLAKE_USER, relative to the root of analytics-secure.')
                 stringParam('SNOWFLAKE_PASSPHRASE_PATH', 'snowflake/rsa_key_passphrase_snowflake_task_automation_user', 'Path to the private key decryption passphrase file that corresponds to the SNOWFLAKE_USER, relative to the root of analytics-secure.')
+                stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             logRotator common_log_rotator(allVars)
             multiscm secure_scm(allVars) << {
