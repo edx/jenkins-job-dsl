@@ -48,6 +48,17 @@ Map bokchoy = [
     alwaysNotify: false
 ]
 
+Map cc2olx = [
+    org: 'edx',
+    repoName: 'cc2olx',
+    targetBranch: 'master',
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['edx-aperture'],
+    emails: ['aperture-alerts@edx.org'],
+]
+
 Map coachingPlugin = [
     org: 'edx',
     repoName: 'platform-plugin-coaching',
@@ -497,6 +508,7 @@ Map xqueue = [
 List jobConfigs = [
     apiDocTools,
     bokchoy,
+    cc2olx,
     coachingPlugin,
     completion,
     configuration,
