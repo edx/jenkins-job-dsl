@@ -90,7 +90,7 @@ Map completion = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    emails: ['always-available@edx.opsgenie.net'],
     alwaysNotify: true
 ]
 
