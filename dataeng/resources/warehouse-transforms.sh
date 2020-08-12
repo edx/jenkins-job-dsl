@@ -51,6 +51,13 @@ then
         exclude_models="$exclude_models source:*"
     fi
 
+    # This duplicates the code above to make sure we get any changes to exclude_models for the source tests.
+    if [ "$exclude_models" != "" ]
+    then
+        # If models were excluded, add the leading exclude parameter.
+        exclude_param="--exclude $exclude_models"
+    fi
+
     # Run all tests which haven't been excluded.
     dbt test --models tag:$MODEL_TAG $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 fi
