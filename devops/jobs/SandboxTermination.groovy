@@ -37,6 +37,7 @@ class SandboxTermination{
                     file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                     string('ROLE_ARN', "launch-sandboxes-role-arn")
                     string('EDX_GIT_BOT_TOKEN', "edx_git_bot_token")
+                    string("GENIE_KEY", "opsgenie_heartbeat_key")
                 }
             }
 
@@ -106,6 +107,11 @@ class SandboxTermination{
                         dslFactory.readFileFromWorkspace("devops/resources/sandbox-termination.sh")
                     )
 
+                }
+
+                String opsgenie_heartbeat_name = extraVars.get('OPSGENIE_HEARTBEAT_NAME','')
+                if (opsgenie_heartbeat_name) {
+                    shell("curl -X GET 'https://api.opsgenie.com/v2/heartbeats/$opsgenie_heartbeat_name/ping' -H 'Authorization: GenieKey  ${GENIE_KEY}'")
                 }
             }
 
