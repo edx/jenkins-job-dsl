@@ -107,6 +107,12 @@ class MinosLifecycle {
                         if (snitch) {
                             shell("curl $snitch")
                         }
+                        
+                        String heartbeat_name = inner_config.get('heartbeat_name', '')
+                        String heartbeat_api_key = extraVars.get('HEARTBEAT_API_KEY', '')
+                        if (heartbeat_name && heartbeat_api_key) {
+                            shell("curl -X GET ''https://api.opsgenie.com/v2/heartbeats/$heartbeat_name/ping' --header 'Authorization: GenieKey $heartbeat_api_key'")
+                        }
 
                         downstreamParameterized {
                             trigger("terminate-instances-that-have-been-verified-for-retirement-${environment}-${deployment}")
