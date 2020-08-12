@@ -91,6 +91,7 @@ class CreateSandboxCI {
                   booleanParam("discovery",true)
                   booleanParam("registrar",true)
                   booleanParam("learner_portal",true)
+                  booleanParam("prospectus",true)
                   booleanParam('testcourses',false)
                   booleanParam('performance_course',false)
                   booleanParam("demo_test_course",false)
