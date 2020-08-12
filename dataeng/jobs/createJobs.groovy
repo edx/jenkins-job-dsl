@@ -37,7 +37,6 @@ import static analytics.LoadWarehouse.snowflake_job as LoadWarehouseSnowflakeJob
 import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
 import static analytics.MonitorBigqueryEventLoading.job as MonitorBigqueryEventLoadingJob
-import static analytics.ProgramEnrollmentReports.job as ProgramEnrollmentReportsJob
 import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
 import static analytics.SnowflakeDemographicsCleanup.job as SnowflakeDemographicsCleanupJob
 import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelorsITKJob
@@ -115,7 +114,6 @@ def taskMap = [
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
     MONITOR_BIGQUERY_EVENT_LOADING_JOB: MonitorBigqueryEventLoadingJob,
     PAYMENTS_VALIDATION_JOB: PaymentsValidationJob,
-    PROGRAM_ENROLLMENT_REPORTS_JOB: ProgramEnrollmentReportsJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
     SINGLE_SQL_SCRIPT_JOB: SingleSqlScriptJob,
     SNOWFLAKE_DEMOGRAPHICS_CLEANUP_JOB: SnowflakeDemographicsCleanupJob,
