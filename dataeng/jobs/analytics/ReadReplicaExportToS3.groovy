@@ -73,7 +73,10 @@ class ReadReplicaExportToS3 {
                     if (db_config.get('SNITCH')) {
                         shell('curl https://nosnch.in/' + db_config.get('SNITCH'))
                     }
-                }
+                    if (db_config.get('OPSGENIE_HEARTBEAT_NAME') && allVars.get('OPSGENIE_HEARTBEAT_KEY')){
+                        shell("curl -X GET 'https://api.opsgenie.com/v2/heartbeats/" + db_config.get('OPSGENIE_HEARTBEAT_NAME') + "/ping' -H 'Authorization: GenieKey " + allVars.get('OPSGENIE_HEARTBEAT_KEY') + "'")
+                    }
+               }
             }
         }
     }
