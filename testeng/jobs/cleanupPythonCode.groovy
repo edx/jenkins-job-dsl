@@ -2,7 +2,7 @@ defaultBranch = 'master'
 
 org = 'edx'
 
-githubUserReviewers = ['']
+githubUserReviewers = ['mraarif']
 
 githubTeamReviewers = ['arbi-bom']
 
