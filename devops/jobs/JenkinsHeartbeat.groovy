@@ -16,11 +16,21 @@ class JenkinsHeartbeat{
             }
             wrappers common_wrappers
 
+            wrappers {
+                credentialsBinding {
+                    string("GENIE_KEY", "opsgenie_heartbeat_key")
+                }
+            }
+
             triggers {
                 cron("H/5 * * * *")
             }
             steps {
                 shell('curl ' + extraVars.get('SNITCH'))
+                String opsgenie_heartbeat_name = extraVars.get('OPSGENIE_HEARTBEAT_NAME','')
+                if (opsgenie_heartbeat_name) {
+                    shell("curl -X GET 'https://api.opsgenie.com/v2/heartbeats/$opsgenie_heartbeat_name/ping' -H 'Authorization: GenieKey  ${GENIE_KEY}'")
+                }
             }
 
         }
