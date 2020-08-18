@@ -19,6 +19,7 @@ class AppPermissionsFailure {
              parameters {
                  stringParam('ENVIRONMENT')
                  stringParam('DEPLOYMENT')
+                 stringParam('JOB_TYPE')
                  stringParam('GIT_PREVIOUS_COMMIT_1')
                  stringParam('GIT_COMMIT_1')
                  stringParam('UPSTREAM_BUILD_URL')

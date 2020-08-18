@@ -1,11 +1,11 @@
 /*
 
- This job checks out the app permissions repository and checks for merges to master with github webhooks. Upon a merge to master, 
- it will trigger a build of the app-permissions-runner job (below). The app-permissions-runner job is what actually calls the script 
+ This job checks out the app permissions repository and checks for merges to master with github webhooks. Upon a merge to master,
+ it will trigger a build of the app-permissions-runner job (below). The app-permissions-runner job is what actually calls the script
  to run the ansible.
- 
- Variables without defaults are marked (required) 
- 
+
+ Variables without defaults are marked (required)
+
  Variables consumed for this job and for the app-permission-runner job:
     * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
     * FOLER_NAME: folder, default is User-Mananagement
@@ -29,7 +29,7 @@ import static org.edx.jenkins.dsl.Constants.common_logrotator
 import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 import static org.edx.jenkins.dsl.DevopsConstants.merge_to_master_trigger
 
-class AppPermissionsWatcher{ 
+class AppPermissionsWatcher{
     public static def job = { dslFactory, extraVars ->
         dslFactory.job(extraVars.get("FOLDER_NAME","App-Permissions") + "/app-permissions-watcher") {
 
@@ -54,11 +54,11 @@ class AppPermissionsWatcher{
 
             def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
             def repo_branch = extraVars.get('APP_PERMISSIONS_BRANCH', 'master')
-            
-            // The urls for the repos and the branch names cannot be variables that are defined in the scm checkout because 
+
+            // The urls for the repos and the branch names cannot be variables that are defined in the scm checkout because
             // they are not defined until run time so the webhook cannot find them.
             // If you want to parameterize them, define them as variables within the job prior to the scm checkout (as done above)
-            scm{ 
+            scm{
                 git {
                     remote {
                         url('git@github.com:edx/app-permissions.git')
@@ -81,15 +81,17 @@ class AppPermissionsWatcher{
 
             triggers merge_to_master_trigger(repo_branch)
 
-
+            List jobTypes = ['groups', 'active-users', 'inactive-users']
             steps{
                 extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
                     configuration.environments.each { environment ->
-                        downstreamParameterized {
-                            trigger("app-permissions-runner-${environment}-${deployment}")
+                        jobTypes.each { jobType ->
+                            downstreamParameterized {
+                                trigger("app-permissions-runner-${environment}-${deployment}-${jobType}")
+                            }
                         }
                     }
-                }  
+                }
             }
 
         }
