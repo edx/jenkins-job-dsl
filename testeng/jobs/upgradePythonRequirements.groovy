@@ -232,6 +232,18 @@ Map edxAnalyticsDataApi = [
     emails: ['data-engineering@edx.org']
 ]
 
+Map edxBulkGrades = [
+    org: 'edx',
+    repoName: 'edx-bulk-grades',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
+]
+
 Map edxDjangoUtils = [
     org: 'edx',
     repoName: 'edx-django-utils',
@@ -275,6 +287,18 @@ Map edxNotesApi = [
     githubTeamReviewers: ['devops'],
     emails: ['devops@edx.org'],
     alwaysNotify: false
+]
+
+Map edxOra2 = [
+    org: 'edx',
+    repoName: 'edx-ora2',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
 ]
 
 Map edxOrganizations = [
@@ -445,6 +469,30 @@ Map registrar = [
     alwaysNotify: true
 ]
 
+Map staffGradedXBlock = [
+    org: 'edx',
+    repoName: 'staff_graded-xblock',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
+]
+
+Map superCSV = [
+    org: 'edx',
+    repoName: 'super-csv',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+    emails: ['masters-requirements-update@edx.opsgenie.net'],
+    alwaysNotify: true
+]
+
 Map testengCI = [
     org: 'edx',
     repoName: 'testeng-ci',
@@ -524,10 +572,12 @@ List jobConfigs = [
     edxAce,
     edxAnalyticsDashboard,
     edxAnalyticsDataApi,
+    edxBulkGrades,
     edxDjangoUtils,
     edxEnterprise,
     edxGomatic,
     edxNotesApi,
+    edxOra2,
     edxOrganizations,
     edxPlatform,
     edxProctoring,
@@ -542,6 +592,8 @@ List jobConfigs = [
     portalDesigner,
     pytestRepoHealth,
     registrar,
+    staffGradedXBlock,
+    superCSV,
     testengCI,
     videoEncodeManager,
     xblock,
