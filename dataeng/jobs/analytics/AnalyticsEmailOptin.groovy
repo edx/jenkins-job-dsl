@@ -5,6 +5,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class AnalyticsEmailOptin {
     public static def job = { dslFactory, allVars ->
+        description('A version of the Analytics Exporter job that only runs the OrgEmailOptInTask task.')
         dslFactory.job('analytics-email-optin-worker') {
             parameters {
                 stringParam('NOTIFY')
@@ -62,9 +63,9 @@ class AnalyticsEmailOptin {
                 stringParam('ORGS','*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH','environment/production',
                         'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name]. Should be environment/production.')
-                stringParam('PLATFORM_BRANCH','zafft/analytics-exporter-settings-hotfix',
-                        'Branch from the edx-platform repository. For tags use tags/[tag-name]. Should be release.')
-                stringParam('CONFIG_FILENAME','default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
+                stringParam('PLATFORM_BRANCH','tags/release-2020-09-08-16.55',
+                        'Branch from the edx-platform repository. For tags use tags/[tag-name]')
+                stringParam('EXPORTER_CONFIG_FILENAME','default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EMAIL_OPTIN_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the email opt-in data.')
                 stringParam('OUTPUT_PREFIX','email-opt-in-', 'Optional prefix to prepend to output filename.')
                 stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'),
@@ -112,7 +113,8 @@ class AnalyticsEmailOptin {
             }
 
             triggers{
-                cron('# Saturdays around 4 a.m. UTC\nH 4 * * 6')
+                // Saturdays around 4 a.m. UTC
+                cron('H 4 * * 6')
             }
 
             wrappers {
@@ -123,12 +125,14 @@ class AnalyticsEmailOptin {
 
             steps {
                 virtualenv {
+                    pythonName('PYTHON_3.7')
                     nature("shell")
                     command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv.sh")
+                        dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv-py3.sh")
                     )
                 }
                 virtualenv {
+                    // The exporter itself still runs python 2.
                     nature("shell")
                     name("analytics-exporter")
                     command(

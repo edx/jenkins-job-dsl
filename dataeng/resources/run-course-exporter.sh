@@ -13,7 +13,7 @@ source platform_venv
 
 # Configuration paths in analytics-secure
 SECURE_ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
-CONFIG_PATH=${SECURE_ROOT}/${CONFIG_FILENAME}
+CONFIG_PATH=${SECURE_ROOT}/${EXPORTER_CONFIG_FILENAME}
 
 DATE=$(date +%d ${DATE_MODIFIER})
 TODAY=$(date +%d)

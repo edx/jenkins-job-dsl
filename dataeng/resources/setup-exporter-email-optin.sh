@@ -3,13 +3,14 @@ mkdir -p /var/lib/jenkins/tmp/analytics-exporter/course-data
 
 # Install requirements into this (exporter) virtual environment
 pushd analytics-exporter/
+pip install 'setuptools<45'
 pip install -r github_requirements.txt
 pip install mysql-connector-python -e .
 popd
 
 # Configuration paths in analytics-secure
 SECURE_ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
-CONFIG_PATH=${SECURE_ROOT}/${CONFIG_FILENAME}
+CONFIG_PATH=${SECURE_ROOT}/${EXPORTER_CONFIG_FILENAME}
 GPG_KEYS_PATH=${WORKSPACE}/data-czar-keys
 
 # Save virtualenv location and configuration paths
