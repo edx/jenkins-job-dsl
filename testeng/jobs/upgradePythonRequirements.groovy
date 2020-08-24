@@ -618,11 +618,18 @@ jobConfigs.each { jobConfig ->
             PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(','),
             PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(',')
         )
+        parameters
+        {
+            stringParam('gitBranch', '', 'git branch to run python requirements upgrade')
+        }
         multiscm {
             git {
                 remote {
                     credentials('jenkins-worker')
                     url("git@github.com:edx/${jobConfig.repoName}.git")
+                }
+                if ('$params.gitBranch'){
+                    jobConfig.targetBranch = '$params.gitBranch'
                 }
                 branch("${jobConfig.targetBranch}")
                 extensions {
