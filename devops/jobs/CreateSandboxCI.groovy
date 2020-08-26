@@ -104,7 +104,6 @@ class CreateSandboxCI {
                   booleanParam("insights",false)
                   booleanParam("demo",false)
                   booleanParam("credentials",false)
-                  booleanParam("set_whitelabel",false)
                   booleanParam("journals",false)
                   booleanParam("video_pipeline",false)
                   booleanParam("video_encode_worker",false)

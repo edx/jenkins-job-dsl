@@ -179,8 +179,6 @@ class CreateSandbox {
                 stringParam("credentials_version","master","")
                 booleanParam("credentials_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy credentials config file from configuration internal repo.")
 
-                booleanParam("set_whitelabel",false,
-                             "Check this in order to create a Sandbox with whitelabel themes automatically set.")
                 stringParam("themes_version","master","")
                 booleanParam("registrar",false,"Enable the Registrar service, along with the Program Manager micro-frontend")
                 stringParam("registrar_version","master","")
