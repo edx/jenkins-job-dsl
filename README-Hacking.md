@@ -171,5 +171,7 @@ Run the following command to restart a Docker container running Jenkins with upd
 
 To verify that your plugins were added, connect to Jenkins and click on 'Manage Jenkins' in the side menu and select 'Manage Plugins'. You can then make sure that the plugins are visible under the 'Installed' tab.
 
+The docker images are built from master and pushed to Dockerhub by this [job](https://tools-edx-jenkins.edx.org/job/DockerCI/job/image-builders/job/tools_jenkins-image-builder/).
+
 Debugging tips:
 If buidling the new Docker image fails, make sure that the playbook contains the correct roles for the tasks that are being run.
