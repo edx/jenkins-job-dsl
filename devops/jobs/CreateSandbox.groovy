@@ -209,6 +209,7 @@ class CreateSandbox {
                             "full_edx_installation_from_scratch",
                             "full_edx_installation",
                              "ubuntu_18.04",
+                             "ubuntu_20.04",
                              "ubuntu_16.04",
                             ],
                             "Type of AMI we should boot before updating the selected roles above")
