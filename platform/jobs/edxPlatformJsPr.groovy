@@ -115,6 +115,16 @@ Map privateIronwoodJobConfig = [
     triggerPhrase: /.*ironwood\W+run\W+js.*/
 ]
 
+Map publicJuniperJobConfig = [
+    open: true,
+    jobName: 'juniper-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'juniper-jenkins-worker',
+    whitelistBranchRegex: /open-release\/juniper.master/,
+    context: 'jenkins/juniper/js',
+    triggerPhrase: /.*juniper\W+run\W+js.*/
+]
+
 List jobConfigs = [
     publicJobConfig,
     python38JobConfig,
@@ -122,6 +132,7 @@ List jobConfigs = [
     privateJobConfig,
     publicIronwoodJobConfig,
     privateIronwoodJobConfig
+    publicJuniperJobConfig,
 ]
 
 /* Iterate over the job configurations */
