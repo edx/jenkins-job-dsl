@@ -131,7 +131,7 @@ List jobConfigs = [
     django30JobConfig,
     privateJobConfig,
     publicIronwoodJobConfig,
-    privateIronwoodJobConfig
+    privateIronwoodJobConfig,
     publicJuniperJobConfig,
 ]
 
