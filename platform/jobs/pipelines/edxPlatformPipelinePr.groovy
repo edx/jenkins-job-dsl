@@ -277,7 +277,7 @@ List jobConfigs = [
     django30QualityJobConfig,
     privateQualityJobConfig,
     publicQualityIronwoodJobConfig,
-    privateQualityIronwoodJobConfig
+    privateQualityIronwoodJobConfig,
     publicQualityJuniperJobConfig,
 ]
 
