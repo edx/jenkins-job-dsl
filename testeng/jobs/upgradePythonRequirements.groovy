@@ -55,8 +55,8 @@ Map cc2olx = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: ['edx-aperture'],
-    emails: ['aperture-alerts@edx.org'],
+    githubTeamReviewers: ['masters-devs-cosmonauts'],
+    emails: ['masters-dev@edx.org'],
 ]
 
 Map coachingPlugin = [
