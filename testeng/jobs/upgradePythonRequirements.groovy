@@ -320,7 +320,7 @@ Map edxPlatform = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessDailyLahore,
     githubUserReviewers: [],
-    githubTeamReviewers: ['platform-core', 'arbi-bom'],
+    githubTeamReviewers: ['arbi-bom'],
     emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
@@ -416,7 +416,7 @@ Map opaqueKeys = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: ['cpennington'],
-    githubTeamReviewers: ['platform-core', 'arbi-bom'],
+    githubTeamReviewers: ['arbi-bom'],
     emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
@@ -524,7 +524,7 @@ Map xblock = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: ['cpennington'],
-    githubTeamReviewers: ['platform-core', 'arbi-bom'],
+    githubTeamReviewers: ['arbi-bom'],
     emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
