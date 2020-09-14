@@ -159,7 +159,7 @@ Map djangoConfigModels = [
     targetBranch: "master",
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: ['feanil'],
+    githubUserReviewers: [],
     githubTeamReviewers: ['arbi-bom'],
     emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
