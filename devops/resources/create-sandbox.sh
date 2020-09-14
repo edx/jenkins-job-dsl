@@ -2,7 +2,7 @@
 
 set -ex
 cd configuration
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 pip install awscli
 
 # we don't want to print out the temporary session keys
