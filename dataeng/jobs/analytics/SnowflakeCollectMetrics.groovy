@@ -16,7 +16,7 @@ class SnowflakeCollectMetrics {
         ]
         Map SnowflakeQueueDepthConfig = [
             NAME: 'snowflake-collect-queue-depth',
-            CRON: '*/5 * * * *'
+            CRON: '*/10 * * * *'
         ]
         List jobConfigs = [
             SnowflakeWarehouseCreditConfig,
@@ -37,6 +37,7 @@ class SnowflakeCollectMetrics {
                 environmentVariables {
                     env('SNOWFLAKE_USER', 'SNOWFLAKE_TASK_AUTOMATION_USER')
                     env('SNOWFLAKE_ACCOUNT', 'edx.us-east-1')
+                    env('SNOWFLAKE_WAREHOUSE', 'LOADING')
                     env('METRIC_NAME', jobConfig['NAME'])
                 }
                 multiscm secure_scm(allVars) << {
