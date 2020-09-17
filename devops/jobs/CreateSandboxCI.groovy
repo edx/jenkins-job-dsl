@@ -9,7 +9,6 @@
 
    * FOLDER_NAME: "Sandboxes"
    * ACCESS_CONTROL: List of org or org*team from GitHub who get access to the jobs
-   * {DAILY,HOURLY,MASTERSWEEKLY}_SNITCH: URLs of the snitches for each job
    * {DAILY,HOURLY,MASTERSWEEKLY}_SCHEDULE: When to run jobs, cron-formatted.
    * NOTIFY_ON_FAILURE: email address for failures
 */
@@ -125,7 +124,6 @@ class CreateSandboxCI {
               }
             }
           }
-          shell('curl '+extraVars.get(type.toUpperCase()+"_SNITCH"))
           shell('curl -X GET "https://api.opsgenie.com/v2/heartbeats/SandboxCI'+type+'/ping" -H "Authorization: GenieKey ${GENIE_KEY}"')
         }
 
