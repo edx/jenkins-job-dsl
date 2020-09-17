@@ -63,7 +63,7 @@ class AnalyticsEmailOptin {
                 stringParam('ORGS','*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH','environment/production',
                         'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name]. Should be environment/production.')
-                stringParam('PLATFORM_BRANCH','tags/release-2020-09-08-16.55',
+                stringParam('PLATFORM_BRANCH','tags/release-2020-09-17-15.06',
                         'Branch from the edx-platform repository. For tags use tags/[tag-name]')
                 stringParam('EXPORTER_CONFIG_FILENAME','default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EMAIL_OPTIN_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the email opt-in data.')
