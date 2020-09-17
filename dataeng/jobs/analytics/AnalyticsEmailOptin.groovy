@@ -5,8 +5,8 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class AnalyticsEmailOptin {
     public static def job = { dslFactory, allVars ->
-        description('A version of the Analytics Exporter job that only runs the OrgEmailOptInTask task.')
         dslFactory.job('analytics-email-optin-worker') {
+            description('A version of the Analytics Exporter job that only runs the OrgEmailOptInTask task.')
             parameters {
                 stringParam('NOTIFY')
                 stringParam('MASTER_WORKSPACE')
