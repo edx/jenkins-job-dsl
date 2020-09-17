@@ -32,5 +32,3 @@ aws s3 cp --recursive $WORKSPACE/${JOB_NAME}/${BUILD_ID} s3://edx-mongohq/jenkin
 
 rm -rf $WORKSPACE/${JOB_NAME}/${BUILD_ID}/*
 rmdir $WORKSPACE/${JOB_NAME}/${BUILD_ID}
-
-curl ${SNITCH}

@@ -11,7 +11,7 @@
         deployment:
           environments:
             environment (required)
-                snitch: snitch url (required)
+                opsgenie_heartbeat_name: opsgenie heartbeat name (required)
     * SSH_ACCESS_CREDENTIALS: ssh access credentials, should be defined on the folder (required)
     * CONFIGURATION_REPO: name of config repo, default is https://github.com/edx/configuration.git
     * CONFIGURATION_BRANCH: default is master
@@ -104,10 +104,6 @@ class MinosLifecycle {
                             command(dslFactory.readFileFromWorkspace("devops/resources/retire-instances-in-terminating-wait.sh"))
                         }
 
-                        String snitch = inner_config.get('snitch','')
-                        if (snitch) {
-                            shell("curl $snitch")
-                        }
                         
                         String opsgenie_heartbeat_name = inner_config.get('opsgenie_heartbeat_name', '')
                         if (opsgenie_heartbeat_name) {

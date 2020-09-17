@@ -102,7 +102,6 @@ class BackupMongoToS3 {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
                         env('IP_ADDRESSES', configuration.get('ip_addresses'))
-                        env('SNITCH', configuration.get('snitch'))
                     }
 
                     steps {

@@ -94,7 +94,6 @@ class SandboxTermination{
                 env("ROUTE53_ZONE", extraVars.get("ROUTE53_ZONE"))
                 env("NOOP", extraVars.get("NOOP", false))
                 env("AWS_REGION", extraVars.get("AWS_REGION", "us-east-1"))
-                env("SNITCH", extraVars.get("SNITCH"))
             }
 
             steps {

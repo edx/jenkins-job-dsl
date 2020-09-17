@@ -28,9 +28,6 @@ class LoadWarehouse {
             }
             steps {
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/load-warehouse-vertica.sh'))
-                if (allVars.get('SNITCH')) {
-                    shell('curl https://nosnch.in/' + allVars.get('SNITCH'))
-                }
                 if (allVars.get('OPSGENIE_HEARTBEAT_NAME') && allVars.get('OPSGENIE_HEARTBEAT_KEY')){
                     shell("curl -X GET 'https://api.opsgenie.com/v2/heartbeats/" + allVars.get('OPSGENIE_HEARTBEAT_NAME') + "/ping' -H 'Authorization: GenieKey " + allVars.get('OPSGENIE_HEARTBEAT_KEY') + "'")
                 }

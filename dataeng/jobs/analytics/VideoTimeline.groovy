@@ -22,9 +22,6 @@ class VideoTimeline {
                 publishers common_publishers(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/video-timeline.sh'))
-                    if (env_config.get('SNITCH')) {
-                        shell('curl https://nosnch.in/' + env_config.get('SNITCH'))
-                    }
                     if (env_config.get('OPSGENIE_HEARTBEAT_NAME') && allVars.get('OPSGENIE_HEARTBEAT_KEY')){
                         shell("curl -X GET 'https://api.opsgenie.com/v2/heartbeats/" + env_config.get('OPSGENIE_HEARTBEAT_NAME') + "/ping' -H 'Authorization: GenieKey " + allVars.get('OPSGENIE_HEARTBEAT_KEY') + "'")
                     }

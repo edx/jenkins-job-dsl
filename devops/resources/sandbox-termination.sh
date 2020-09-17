@@ -23,5 +23,3 @@ fi
 
 python terminate-sandbox.py $extra_args -z $ROUTE53_ZONE -r $AWS_REGION --edx_git_bot_token $EDX_GIT_BOT_TOKEN
 
-curl $SNITCH
-
