@@ -36,6 +36,18 @@ Map apiDocTools = [
     emails: ['ned@edx.org']
 ]
 
+Map authBackends = [
+    org: 'edx',
+    repoName: 'auth-backends',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
+]
+
 Map bokchoy = [
     org: 'edx',
     repoName: 'bok-choy',
@@ -244,6 +256,18 @@ Map edxBulkGrades = [
     alwaysNotify: true
 ]
 
+Map edxCeleryutils = [
+    org: 'edx',
+    repoName: 'edx-celeryutils',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
+]
+
 Map edxDjangoUtils = [
     org: 'edx',
     repoName: 'edx-django-utils',
@@ -253,6 +277,29 @@ Map edxDjangoUtils = [
     githubUserReviewers: [],
     githubTeamReviewers: ['arbi-bom'],
     emails: ['arbi-bom@edx.org']
+]
+
+Map edxDrfExtensions = [
+    org: 'edx',
+    repoName: 'edx-drf-extensions',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org']
+]
+
+Map edxE2eTests = [
+    org: 'edx',
+    repoName: 'edx-e2e-tests',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map edxEnterprise = [
@@ -335,6 +382,18 @@ Map edxProctoring = [
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
     alwaysNotify: true
+]
+
+Map edxRbac = [
+    org: 'edx',
+    repoName: 'edx-rbac',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
 ]
 
 Map edxRepoHealth = [
@@ -553,8 +612,21 @@ Map xqueue = [
     alwaysNotify: false
 ]
 
+Map xssUtils = [
+    org: 'edx',
+    repoName: 'xss-utils',
+    targetBranch: "master",
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
+]
+
 List jobConfigs = [
     apiDocTools,
+    authBackends,
     bokchoy,
     cc2olx,
     coachingPlugin,
@@ -573,7 +645,10 @@ List jobConfigs = [
     edxAnalyticsDashboard,
     edxAnalyticsDataApi,
     edxBulkGrades,
+    edxCeleryutils,
     edxDjangoUtils,
+    edxDrfExtensions,
+    edxE2eTests,
     edxEnterprise,
     edxGomatic,
     edxNotesApi,
@@ -581,6 +656,7 @@ List jobConfigs = [
     edxOrganizations,
     edxPlatform,
     edxProctoring,
+    edxRbac,
     edxRepoHealth,
     edxRestApiClient,
     edxSphinxTheme,
@@ -599,6 +675,7 @@ List jobConfigs = [
     xblock,
     xblockUtils,
     xqueue,
+    xssUtils,
 ]
 
 /* Iterate over the job configurations */
