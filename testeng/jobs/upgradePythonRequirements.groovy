@@ -103,7 +103,7 @@ Map completion = [
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['always-available@edx.opsgenie.net'],
-    alwaysNotify: true
+    alwaysNotify: false
 ]
 
 Map cookiecutters = [
