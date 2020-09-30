@@ -68,7 +68,7 @@ job('user-retirement-driver') {
             permission('hudson.model.Item.Discover', emp)
         }
         // Other engineering teams can view.
-        List extraMembersCanView = ['edx*learner']
+        List extraMembersCanView = ['edx*learner', 'bbaker6225']
         extraMembersCanView.each { emp ->
             permission('hudson.model.Item.Read', emp)
             permission('hudson.model.Item.Discover', emp)
@@ -202,7 +202,7 @@ job('user-retirement-collector') {
             permissionAll(emp)
         }
         // Other engineering teams can view.
-        List extraMembersCanView = ['edx*educator-all', 'edx*learner']
+        List extraMembersCanView = ['edx*educator-all', 'edx*learner', 'bbaker6225']
         extraMembersCanView.each { emp ->
             permission('hudson.model.Item.Read', emp)
             permission('hudson.model.Item.Discover', emp)
