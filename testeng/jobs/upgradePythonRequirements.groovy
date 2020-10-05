@@ -142,9 +142,8 @@ Map credentialsRepo = [
     pythonVersion: '3.5',
     cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
     githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-    alwaysNotify: true
+    githubTeamReviewers: ['edx-aperture'],
+    emails: ['aperture-alerts@edx.org'],
 ]
 
 Map demographics = [
