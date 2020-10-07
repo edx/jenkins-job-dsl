@@ -32,30 +32,33 @@ class AnalyticsEmailOptin {
 
             concurrentBuild()
 
-            multiscm {
-                git {
-                    remote {
-                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
-                        branch('*/master')
-                        credentials('1')
-                    }
-                    extensions {
-                        relativeTargetDirectory('config/baked-config-secure')
-                    }
-                }
-            }
-
             wrappers {
                 timestamps()
                 buildName('#${BUILD_NUMBER} ${ENV,var="ORG"}')
             }
 
+            credentialsBinding {
+                usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+            }
+
             steps {
+                virtualenv {
+                    pythonName('PYTHON_3.7')
+                    nature("shell")
+                    command(
+                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
+                    )
+                }
                 shell(dslFactory.readFileFromWorkspace("dataeng/resources/email-optin-worker.sh"))
             }
 
             publishers {
                 textFinder("Task OrgEmailOptInTask failed fatally", '', true, false, false)
+                // Cleanup the remote-config credentials.
+                wsCleanup {
+                    includePattern('remote-config/**')
+                    deleteDirectories(true)
+                }
             }
         }
         dslFactory.job('analytics-email-optin-master') {

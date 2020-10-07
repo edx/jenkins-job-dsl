@@ -42,20 +42,14 @@ class AnalyticsExporter {
                         relativeTargetDirectory('analytics-exporter')
                     }
                 }
-                git {
-                    remote {
-                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
-                        branch('*/master')
-                        credentials('1')
-                    }
-                    extensions {
-                        relativeTargetDirectory('config/baked-config-secure')
-                    }
-                }
             }
 
             wrappers {
                 timestamps()
+            }
+
+            credentialsBinding {
+                usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
             }
 
             steps {
@@ -64,6 +58,13 @@ class AnalyticsExporter {
                     nature("shell")
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv-py3.sh")
+                    )
+                }
+                virtualenv {
+                    pythonName('PYTHON_3.7')
+                    nature("shell")
+                    command(
+                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
                     )
                 }
                 virtualenv {
@@ -104,31 +105,36 @@ class AnalyticsExporter {
 
             concurrentBuild()
 
-            multiscm secure_scm(allVars) << {
-                git {
-                    remote {
-                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
-                        branch('*/master')
-                        credentials('1')
-                    }
-                    extensions {
-                        relativeTargetDirectory('config/baked-config-secure')
-                    }
-                }
-            }
+            multiscm secure_scm(allVars)
 
             wrappers {
                 timestamps()
                 buildName('#${BUILD_NUMBER} ${ENV,var="ORG"}')
             }
 
+            credentialsBinding {
+                usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+            }
+
             steps {
+                virtualenv {
+                    pythonName('PYTHON_3.7')
+                    nature("shell")
+                    command(
+                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
+                    )
+                }
                 shell(dslFactory.readFileFromWorkspace("dataeng/resources/org-exporter-worker.sh"))
             }
 
             publishers {
                 // Mark the build as 'unstable' if the text is found in 'console log'.
                 textFinder("\\[WARNING\\]", '', true, false, true)
+                // Cleanup the remote-config credentials.
+                wsCleanup {
+                    includePattern('remote-config/**')
+                    deleteDirectories(true)
+                }
             }
         }
 
