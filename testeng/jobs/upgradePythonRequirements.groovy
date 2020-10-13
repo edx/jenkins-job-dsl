@@ -500,7 +500,7 @@ Map portalDesigner = [
     org: 'edx',
     repoName: 'portal-designer',
     targetBranch: "master",
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
     cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
