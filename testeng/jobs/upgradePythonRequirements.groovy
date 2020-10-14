@@ -208,7 +208,7 @@ Map ecommerce = [
     org: 'edx',
     repoName: 'ecommerce',
     targetBranch: "master",
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['ecommerce'],
