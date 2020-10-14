@@ -230,7 +230,7 @@ Map edxAnalyticsDashboard = [
     org: 'edx',
     repoName: 'edx-analytics-dashboard',
     targetBranch: "master",
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-data-engineering'],
