@@ -5,7 +5,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class AnalyticsExporter {
     public static def job = { dslFactory, allVars ->
-        dslFactory.job('analytics-exporter-course') {
+        dslFactory.job('test-analytics-exporter-course') {
             description('The course-level one-off version of the Analytics Exporter job.  Use this to export only a single course rather than a whole org.  Mainly for RDX purposes.')
             parameters {
                 stringParam('COURSES', '', 'Space separated list of courses to process. E.g. --course=course-v1:BerkleeX+BMPR365_3x+1T2015')
@@ -88,7 +88,7 @@ class AnalyticsExporter {
             }
         }
 
-        dslFactory.job('analytics-exporter-worker') {
+        dslFactory.job('test-analytics-exporter-worker') {
             description('This is a worker/downstream job to the Analytics Exporter. It does all of the legwork of exporting/encrypting the data for a given org. See also: analytics-exporter-master.')
             parameters {
                 stringParam('NOTIFY')
@@ -159,7 +159,7 @@ class AnalyticsExporter {
             }
         }
 
-        dslFactory.job('analytics-exporter-master') {
+        dslFactory.job('test-analytics-exporter-master') {
             description('The Analytics Exporter weekly job, which exports tons of structure and state data for every course for every participating org and delivers them encrypted to our partners via S3.  Specifically, this sets up the shared edx-platform execution environment, fetches a list of all the orgs, then kicks off downstream analytics-exporter-worker jobs for each one that corresponds to a partner which is configured to receive export data.')
             parameters {
                 stringParam('ORGS', '*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
@@ -210,10 +210,10 @@ class AnalyticsExporter {
                 }
             }
 
-            triggers{
-                // Sundays around 10 a.m. UTC
-                cron('H 10 * * 0')
-            }
+            //triggers{
+            //    // Sundays around 10 a.m. UTC
+            //    cron('H 10 * * 0')
+            //}
 
             wrappers {
                 timestamps()
@@ -239,7 +239,7 @@ class AnalyticsExporter {
                 }
 
                 downstreamParameterized {
-                    trigger('analytics-exporter-worker') {
+                    trigger('test-analytics-exporter-worker') {
                         block {
                             // Mark this build step as FAILURE if at least one of the downstream builds were marked FAILED.
                             buildStepFailure('FAILURE')
