@@ -18,16 +18,27 @@ env | sort
 pip install asym-crypto-yaml
 
 assume_role () {
-    REMOTE_CONFIG_ROLE_ARN=$1
+    # Assume an AWS role.
+    #
+    # Args:
+    #   - str: The role ARN to assume.
+
+    # Do not print commands in this function since they may contain secrets.
+    set +x
+
+    ROLE_ARN=$1
     AWS_SESSION_NAME="$(date +"%s")_${USER}@$(hostname)"
-    RESULT=$(aws sts assume-role --role-arn "${REMOTE_CONFIG_ROLE_ARN}" --role-session-name ${AWS_SESSION_NAME:0:32})
+    RESULT=$(aws sts assume-role --role-arn "${ROLE_ARN}" --role-session-name ${AWS_SESSION_NAME:0:32})
     export AWS_ACCESS_KEY_ID=$(echo $RESULT | jq --raw-output .Credentials.AccessKeyId)
     export AWS_SECRET_ACCESS_KEY=$(echo $RESULT | jq --raw-output .Credentials.SecretAccessKey)
     export AWS_SESSION_TOKEN=$(echo $RESULT | jq --raw-output .Credentials.SessionToken)
-    echo "Successfully assumed role ${REMOTE_CONFIG_ROLE_ARN}" >&2
+    echo "Successfully assumed role ${ROLE_ARN}" >&2
+
+    # Re-enable printing of commands.
+    set -x
 }
 unassume_role () {
-    # Revert back to the instance role.
+    # Revert back to the instance default role.
     unset AWS_ACCESS_KEY_ID
     unset AWS_SECRET_ACCESS_KEY
     unset AWS_SESSION_TOKEN
@@ -43,32 +54,47 @@ unassume_role () {
 # * REMOTE_CONFIG_PROD_EDGE_ROLE_ARN
 # * REMOTE_CONFIG_PROD_EDGE_LMS
 # * REMOTE_CONFIG_PROD_EDGE_STUDIO
+#
+# And they must be loaded via the job DSL like so:
+#
+# environmentVariables {
+#     env('REMOTE_CONFIG_PROD_EDX_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDX_ROLE_ARN'))
+#     env('REMOTE_CONFIG_PROD_EDX_LMS', allVars.get('REMOTE_CONFIG_PROD_EDX_LMS'))
+#     env('REMOTE_CONFIG_PROD_EDX_STUDIO', allVars.get('REMOTE_CONFIG_PROD_EDX_STUDIO'))
+#     env('REMOTE_CONFIG_PROD_EDGE_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDGE_ROLE_ARN'))
+#     env('REMOTE_CONFIG_PROD_EDGE_LMS', allVars.get('REMOTE_CONFIG_PROD_EDGE_LMS'))
+#     env('REMOTE_CONFIG_PROD_EDGE_STUDIO', allVars.get('REMOTE_CONFIG_PROD_EDGE_STUDIO'))
+#     env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH'))
+#     env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION'))
+# }
 
 # Fetch the prod-edx encrypted remote-configs.
 mkdir -p ${WORKSPACE}/remote-config/prod-edx/
-assume_role(${PROD_EDX_REMOTE_CONFIG_ROLE_ARN})
-aws s3 cp ${PROD_EDX_REMOTE_CONFIG_LMS}    ${WORKSPACE}/remote-config/prod-edx/lms.encrypted.yml
-aws s3 cp ${PROD_EDX_REMOTE_CONFIG_STUDIO} ${WORKSPACE}/remote-config/prod-edx/studio.encrypted.yml
-unassume_role()
+assume_role ${REMOTE_CONFIG_PROD_EDX_ROLE_ARN}
+aws s3 cp ${REMOTE_CONFIG_PROD_EDX_LMS}    ${WORKSPACE}/remote-config/prod-edx/lms.encrypted.yml
+aws s3 cp ${REMOTE_CONFIG_PROD_EDX_STUDIO} ${WORKSPACE}/remote-config/prod-edx/studio.encrypted.yml
+unassume_role
 
 # Fetch the prod-edge encrypted remote-configs.
 mkdir -p ${WORKSPACE}/remote-config/prod-edge/
-assume_role(${PROD_EDGE_REMOTE_CONFIG_ROLE_ARN})
-aws s3 cp s3://${PROD_EDGE_REMOTE_CONFIG_LMS}    ${WORKSPACE}/remote-config/prod-edge/lms.encrypted.yml
-aws s3 cp s3://${PROD_EDGE_REMOTE_CONFIG_STUDIO} ${WORKSPACE}/remote-config/prod-edge/studio.encrypted.yml
-unassume_role()
+assume_role ${REMOTE_CONFIG_PROD_EDGE_ROLE_ARN}
+aws s3 cp ${REMOTE_CONFIG_PROD_EDGE_LMS}    ${WORKSPACE}/remote-config/prod-edge/lms.encrypted.yml
+aws s3 cp ${REMOTE_CONFIG_PROD_EDGE_STUDIO} ${WORKSPACE}/remote-config/prod-edge/studio.encrypted.yml
+unassume_role
 
 # Login to Vault.
 #
 # For this to work, any job that uses this script needs the following section:
 #
+# wrappers {
 #     credentialsBinding {
 #         usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
 #     }
-vault write -field=token auth/approle/role/jenkins/login \
+# }
+vault write -field=token auth/approle/login \
     role_id=${ANALYTICS_VAULT_ROLE_ID} \
     secret_id=${ANALYTICS_VAULT_SECRET_ID} \
-| vault login token=-
+| vault login -no-print token=-
 
 # For each deployment, fetch the appropriate decryption keys from Vault and decrypt lms and studio configs.
 for DEPLOYMENT in edx edge; do
