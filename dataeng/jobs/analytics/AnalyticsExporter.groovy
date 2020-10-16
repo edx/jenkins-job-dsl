@@ -10,7 +10,7 @@ class AnalyticsExporter {
             parameters {
                 stringParam('COURSES', '', 'Space separated list of courses to process. E.g. --course=course-v1:BerkleeX+BMPR365_3x+1T2015')
                 stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the analytics-exporter repository. For tags use tags/[tag-name].')
-                stringParam('PLATFORM_BRANCH', 'tags/release-2020-09-17-15.06', 'Branch from the exporter repository. For tags use tags/[tag-name].')
+                stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the exporter repository. For tags use tags/[tag-name].')
                 stringParam('EXPORTER_CONFIG_FILENAME', 'course_exporter.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', '', 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFY', '', 'Space separated list of emails to notify in case of failure.')
@@ -164,7 +164,7 @@ class AnalyticsExporter {
             parameters {
                 stringParam('ORGS', '*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name].')
-                stringParam('PLATFORM_BRANCH', 'tags/release-2020-09-17-15.06', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
+                stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('EXPORTER_CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
