@@ -10,7 +10,7 @@ class AnalyticsExporter {
             parameters {
                 stringParam('COURSES', '', 'Space separated list of courses to process. E.g. --course=course-v1:BerkleeX+BMPR365_3x+1T2015')
                 stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the analytics-exporter repository. For tags use tags/[tag-name].')
-                stringParam('PLATFORM_BRANCH', 'tags/release-2020-09-17-15.06', 'Branch from the exporter repository. For tags use tags/[tag-name].')
+                stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the exporter repository. For tags use tags/[tag-name].')
                 stringParam('EXPORTER_CONFIG_FILENAME', 'course_exporter.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', '', 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFY', '', 'Space separated list of emails to notify in case of failure.')
@@ -18,6 +18,17 @@ class AnalyticsExporter {
                 stringParam('TASKS', '', 'Space separated list of tasks to process. Leave this blank to use the task list specified in the config file.  Specify here only if you are running tests of a specific task.')
             }
             parameters secure_scm_parameters(allVars)
+
+            environmentVariables {
+                env('REMOTE_CONFIG_PROD_EDX_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDX_ROLE_ARN'))
+                env('REMOTE_CONFIG_PROD_EDX_LMS', allVars.get('REMOTE_CONFIG_PROD_EDX_LMS'))
+                env('REMOTE_CONFIG_PROD_EDX_STUDIO', allVars.get('REMOTE_CONFIG_PROD_EDX_STUDIO'))
+                env('REMOTE_CONFIG_PROD_EDGE_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDGE_ROLE_ARN'))
+                env('REMOTE_CONFIG_PROD_EDGE_LMS', allVars.get('REMOTE_CONFIG_PROD_EDGE_LMS'))
+                env('REMOTE_CONFIG_PROD_EDGE_STUDIO', allVars.get('REMOTE_CONFIG_PROD_EDGE_STUDIO'))
+                env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH'))
+                env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION'))
+            }
 
             multiscm secure_scm(allVars) << {
                 git {
@@ -42,20 +53,13 @@ class AnalyticsExporter {
                         relativeTargetDirectory('analytics-exporter')
                     }
                 }
-                git {
-                    remote {
-                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
-                        branch('*/master')
-                        credentials('1')
-                    }
-                    extensions {
-                        relativeTargetDirectory('config/baked-config-secure')
-                    }
-                }
             }
 
             wrappers {
                 timestamps()
+                credentialsBinding {
+                    usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+                }
             }
 
             steps {
@@ -64,6 +68,13 @@ class AnalyticsExporter {
                     nature("shell")
                     command(
                         dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv-py3.sh")
+                    )
+                }
+                virtualenv {
+                    pythonName('PYTHON_3.7')
+                    nature("shell")
+                    command(
+                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
                     )
                 }
                 virtualenv {
@@ -93,6 +104,18 @@ class AnalyticsExporter {
                 stringParam('EXTRA_OPTIONS')
             }
             parameters secure_scm_parameters(allVars)
+
+            environmentVariables {
+                env('REMOTE_CONFIG_PROD_EDX_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDX_ROLE_ARN'))
+                env('REMOTE_CONFIG_PROD_EDX_LMS', allVars.get('REMOTE_CONFIG_PROD_EDX_LMS'))
+                env('REMOTE_CONFIG_PROD_EDX_STUDIO', allVars.get('REMOTE_CONFIG_PROD_EDX_STUDIO'))
+                env('REMOTE_CONFIG_PROD_EDGE_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDGE_ROLE_ARN'))
+                env('REMOTE_CONFIG_PROD_EDGE_LMS', allVars.get('REMOTE_CONFIG_PROD_EDGE_LMS'))
+                env('REMOTE_CONFIG_PROD_EDGE_STUDIO', allVars.get('REMOTE_CONFIG_PROD_EDGE_STUDIO'))
+                env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH'))
+                env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION'))
+            }
+
             logRotator {
                 daysToKeep(30)
             }
@@ -104,31 +127,35 @@ class AnalyticsExporter {
 
             concurrentBuild()
 
-            multiscm secure_scm(allVars) << {
-                git {
-                    remote {
-                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
-                        branch('*/master')
-                        credentials('1')
-                    }
-                    extensions {
-                        relativeTargetDirectory('config/baked-config-secure')
-                    }
-                }
-            }
+            multiscm secure_scm(allVars)
 
             wrappers {
                 timestamps()
                 buildName('#${BUILD_NUMBER} ${ENV,var="ORG"}')
+                credentialsBinding {
+                    usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+                }
             }
 
             steps {
+                virtualenv {
+                    pythonName('PYTHON_3.7')
+                    nature("shell")
+                    command(
+                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
+                    )
+                }
                 shell(dslFactory.readFileFromWorkspace("dataeng/resources/org-exporter-worker.sh"))
             }
 
             publishers {
                 // Mark the build as 'unstable' if the text is found in 'console log'.
                 textFinder("\\[WARNING\\]", '', true, false, true)
+                // Cleanup the remote-config credentials.
+                wsCleanup {
+                    includePattern('remote-config/**')
+                    deleteDirectories(true)
+                }
             }
         }
 
@@ -137,7 +164,7 @@ class AnalyticsExporter {
             parameters {
                 stringParam('ORGS', '*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name].')
-                stringParam('PLATFORM_BRANCH', 'tags/release-2020-09-17-15.06', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
+                stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('EXPORTER_CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')

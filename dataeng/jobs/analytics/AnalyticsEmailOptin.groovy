@@ -21,6 +21,17 @@ class AnalyticsEmailOptin {
                 stringParam('PLATFORM_VENV')
             }
 
+            environmentVariables {
+                env('REMOTE_CONFIG_PROD_EDX_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDX_ROLE_ARN'))
+                env('REMOTE_CONFIG_PROD_EDX_LMS', allVars.get('REMOTE_CONFIG_PROD_EDX_LMS'))
+                env('REMOTE_CONFIG_PROD_EDX_STUDIO', allVars.get('REMOTE_CONFIG_PROD_EDX_STUDIO'))
+                env('REMOTE_CONFIG_PROD_EDGE_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDGE_ROLE_ARN'))
+                env('REMOTE_CONFIG_PROD_EDGE_LMS', allVars.get('REMOTE_CONFIG_PROD_EDGE_LMS'))
+                env('REMOTE_CONFIG_PROD_EDGE_STUDIO', allVars.get('REMOTE_CONFIG_PROD_EDGE_STUDIO'))
+                env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH'))
+                env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION'))
+            }
+
             logRotator {
                 daysToKeep(30)
             }
@@ -32,30 +43,32 @@ class AnalyticsEmailOptin {
 
             concurrentBuild()
 
-            multiscm {
-                git {
-                    remote {
-                        url(allVars.get('BAKED_CONFIG_SECURE_REPO_URL'))
-                        branch('*/master')
-                        credentials('1')
-                    }
-                    extensions {
-                        relativeTargetDirectory('config/baked-config-secure')
-                    }
-                }
-            }
-
             wrappers {
                 timestamps()
                 buildName('#${BUILD_NUMBER} ${ENV,var="ORG"}')
+                credentialsBinding {
+                    usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+                }
             }
 
             steps {
+                virtualenv {
+                    pythonName('PYTHON_3.7')
+                    nature("shell")
+                    command(
+                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
+                    )
+                }
                 shell(dslFactory.readFileFromWorkspace("dataeng/resources/email-optin-worker.sh"))
             }
 
             publishers {
                 textFinder("Task OrgEmailOptInTask failed fatally", '', true, false, false)
+                // Cleanup the remote-config credentials.
+                wsCleanup {
+                    includePattern('remote-config/**')
+                    deleteDirectories(true)
+                }
             }
         }
         dslFactory.job('analytics-email-optin-master') {
@@ -63,17 +76,7 @@ class AnalyticsEmailOptin {
                 stringParam('ORGS','*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH','environment/production',
                         'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name]. Should be environment/production.')
-
-                // Temporarily use a hash rather than a release tag because at the time of this DSL change the edxapp
-                // pipeline was stalled and could not create a release tag. The hash below IS ON MASTER and it
-                // corresponds to this PR: https://github.com/edx/edx-platform/pull/25011
-                //
-                // TODO: next week we should fetch the latest release tag and update that here and also in
-                // AnalyticsExporter.groovy.
-                //
-                //stringParam('PLATFORM_BRANCH','tags/release-2020-09-17-15.06', 'Branch from the edx-platform repository. For tags use tags/[tag-name]')
-                stringParam('PLATFORM_BRANCH','b111d05149945634ce60daccd984801a852a9d13', 'Branch from the edx-platform repository. For tags use tags/[tag-name]')
-
+                stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name]')
                 stringParam('EXPORTER_CONFIG_FILENAME','default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EMAIL_OPTIN_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the email opt-in data.')
                 stringParam('OUTPUT_PREFIX','email-opt-in-', 'Optional prefix to prepend to output filename.')
