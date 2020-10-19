@@ -20,9 +20,12 @@ def cronOffHoursBusinessWeekday = 'H H(4-11) * * H(1-5)'
 def cronOffHoursBusinessWeekdayLahore = 'H H(0-5) * * H(1-5)'
 
 // Cron value for twice per month sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
-def cronOffHoursBusinessWeekdayTwiceMonthly = 'H H(4-11) H/14 * H(1-5)'
+// This schedule is split into even and odd options which can be used to prevent early and mid-month dry spells
+def cronOffHoursBusinessWeekdayTwiceMonthlyEven = 'H H(4-11) 8-14,22-28 * H(1-5)'
 // same but for Lahore-appropriate times
-def cronOffHoursBusinessWeekdayLahoreTwiceMonthly = 'H H(0-5) H/14 * H(1-5)'
+def cronOffHoursBusinessWeekdayLahoreTwiceMonthlyEven = 'H H(0-5) 8-14,22-28 * H(1-5)'
+def cronOffHoursBusinessWeekdayTwiceMonthlyOdd = 'H H(4-11) 1-7,15-21 * H(1-5)'
+def cronOffHoursBusinessWeekdayLahoreTwiceMonthlyOdd = 'H H(0-5) 1-7,15-21 * H(1-5)'
 
 // Cron value for daily, sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
 // See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
@@ -70,7 +73,7 @@ Map cc2olx = [
     repoName: 'cc2olx',
     targetBranch: 'master',
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
     githubUserReviewers: [],
     githubTeamReviewers: ['masters-devs-cosmonauts'],
     emails: ['masters-requirements-update@edx.opsgenie.net'],
@@ -140,7 +143,7 @@ Map credentialsRepo = [
     repoName: 'credentials',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-aperture'],
     emails: ['aperture-alerts@edx.org'],
@@ -253,7 +256,7 @@ Map edxBulkGrades = [
     repoName: 'edx-bulk-grades',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
@@ -345,7 +348,7 @@ Map edxOra2 = [
     repoName: 'edx-ora2',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
@@ -381,7 +384,7 @@ Map edxProctoring = [
     repoName: 'edx-proctoring',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
@@ -501,7 +504,7 @@ Map portalDesigner = [
     repoName: 'portal-designer',
     targetBranch: "master",
     pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
@@ -525,7 +528,7 @@ Map registrar = [
     repoName: 'registrar',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
@@ -537,7 +540,7 @@ Map staffGradedXBlock = [
     repoName: 'staff_graded-xblock',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
@@ -549,7 +552,7 @@ Map superCSV = [
     repoName: 'super-csv',
     targetBranch: "master",
     pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthly,
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
     githubUserReviewers: [],
     githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
     emails: ['masters-requirements-update@edx.opsgenie.net'],
