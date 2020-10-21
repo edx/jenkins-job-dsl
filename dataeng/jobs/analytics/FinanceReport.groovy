@@ -61,11 +61,10 @@ class FinanceReport {
                 downstream("payments-validation", 'SUCCESS')
             }
             steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/finance-report.sh'))
-                if (allVars.get('OPSGENIE_HEARTBEAT_NAME') && allVars.get('OPSGENIE_HEARTBEAT_KEY')){
-                    shell("curl -X GET 'https://api.opsgenie.com/v2/heartbeats/" + allVars.get('OPSGENIE_HEARTBEAT_NAME') + "/ping' -H 'Authorization: GenieKey " + allVars.get('OPSGENIE_HEARTBEAT_KEY') + "'")
-                }
-          }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-disable-heartbeat.sh'))
+            }
         }
     }
 }
