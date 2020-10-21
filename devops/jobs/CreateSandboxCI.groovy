@@ -113,6 +113,12 @@ class CreateSandboxCI {
                   predefinedProp('server_type', 'full_edx_installation_from_scratch')
                   booleanParam('reconfigure',true)
                   booleanParam('recreate', true)
+                  predefinedProp('edxapp', false)
+                  predefinedProp('testcourses', false)
+                  predefinedProp('performance_course', false)
+                  predefinedProp('demo_test_course', false)
+                  predefinedProp('edx_demo_course', false)
+                  predefinedProp('forum', false)
                   predefinedProp('prospectus', true)
                 }
               }
