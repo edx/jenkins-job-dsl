@@ -9,7 +9,7 @@
 
    * FOLDER_NAME: "Sandboxes"
    * ACCESS_CONTROL: List of org or org*team from GitHub who get access to the jobs
-   * {DAILY,HOURLY,MASTERSWEEKLY,PROSPECTUSBIHOURLY}_SCHEDULE: When to run jobs, cron-formatted.
+   * {DAILY,HOURLY,MASTERSWEEKLY,PROSPECTUSEVERYTWOHOURS}_SCHEDULE: When to run jobs, cron-formatted.
    * NOTIFY_ON_FAILURE: email address for failures
 */
 package devops.jobs
@@ -21,7 +21,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 class CreateSandboxCI {
   public static def jobs = { dslFactory, extraVars ->
 
-    ["Hourly", "Daily", "MastersWeekly", "ProspectusBiHourly"].each { type ->
+    ["Hourly", "Daily", "MastersWeekly", "ProspectusEveryTwoHours"].each { type ->
       dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/SandboxCI" + type) {
         wrappers common_wrappers
         logRotator common_logrotator
@@ -106,20 +106,20 @@ class CreateSandboxCI {
                   booleanParam("journals",false)
                   booleanParam("video_pipeline",false)
                   booleanParam("video_encode_worker",false)
-                } else if (type == 'ProspectusBiHourly') {
-                  predefinedProp('dns_name','prospectus-bihourly')
-                  predefinedProp('name_tag','prospectus-bihourly')
+                } else if (type == 'ProspectusEveryTwoHours') {
+                  predefinedProp('dns_name','prospectus-every-two-hours')
+                  predefinedProp('name_tag','prospectus-every-two-hours')
 
                   predefinedProp('server_type', 'full_edx_installation_from_scratch')
-                  booleanParam('reconfigure',true)
                   booleanParam('recreate', true)
-                  predefinedProp('edxapp', false)
-                  predefinedProp('testcourses', false)
-                  predefinedProp('performance_course', false)
-                  predefinedProp('demo_test_course', false)
-                  predefinedProp('edx_demo_course', false)
-                  predefinedProp('forum', false)
-                  predefinedProp('prospectus', true)
+                  booleanParam('edxapp', false)
+                  booleanParam('testcourses', false)
+                  booleanParam('performance_course', false)
+                  booleanParam('demo_test_course', false)
+                  booleanParam('edx_demo_course', false)
+                  booleanParam('forum', false)
+                  booleanParam('prospectus', true)
+                  booleanParam('ecommerce', false)
                 }
               }
             }
