@@ -118,7 +118,7 @@ Map cookiecutters = [
     org: 'edx',
     repoName: 'edx-cookiecutters',
     targetBranch: "master",
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
     githubTeamReviewers: ['arbi-bom'],
