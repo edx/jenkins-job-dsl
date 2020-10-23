@@ -9,7 +9,7 @@
 
    * FOLDER_NAME: "Sandboxes"
    * ACCESS_CONTROL: List of org or org*team from GitHub who get access to the jobs
-   * {DAILY,HOURLY,MASTERSWEEKLY,PROSPECTUSEVERYTWOHOURS}_SCHEDULE: When to run jobs, cron-formatted.
+   * {DAILY,HOURLY,MASTERSWEEKLY,PROSPECTUSDAILY}_SCHEDULE: When to run jobs, cron-formatted.
    * NOTIFY_ON_FAILURE: email address for failures
 */
 package devops.jobs
