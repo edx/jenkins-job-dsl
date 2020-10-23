@@ -111,7 +111,7 @@ class CreateSandboxCI {
                   predefinedProp('name_tag','edx-rebrand')
 
                   predefinedProp('server_type', 'full_edx_installation_from_scratch')
-                  booleanParam('reconfigure', true)
+                  booleanParam('recreate', true)
                   booleanParam('edxapp', false)
                   booleanParam('testcourses', false)
                   booleanParam('performance_course', false)
