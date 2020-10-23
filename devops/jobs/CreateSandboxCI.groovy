@@ -21,7 +21,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 class CreateSandboxCI {
   public static def jobs = { dslFactory, extraVars ->
 
-    ["Hourly", "Daily", "MastersWeekly", "ProspectusEveryTwoHours"].each { type ->
+    ["Hourly", "Daily", "MastersWeekly", "ProspectusDaily"].each { type ->
       dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/SandboxCI" + type) {
         wrappers common_wrappers
         logRotator common_logrotator
@@ -106,12 +106,12 @@ class CreateSandboxCI {
                   booleanParam("journals",false)
                   booleanParam("video_pipeline",false)
                   booleanParam("video_encode_worker",false)
-                } else if (type == 'ProspectusEveryTwoHours') {
+                } else if (type == 'ProspectusDaily') {
                   predefinedProp('dns_name','edx-rebrand')
                   predefinedProp('name_tag','edx-rebrand')
 
                   predefinedProp('server_type', 'full_edx_installation_from_scratch')
-                  booleanParam('reconfigure', true)
+                  booleanParam('recreate', true)
                   booleanParam('edxapp', false)
                   booleanParam('testcourses', false)
                   booleanParam('performance_course', false)
