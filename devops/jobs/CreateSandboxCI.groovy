@@ -107,8 +107,8 @@ class CreateSandboxCI {
                   booleanParam("video_pipeline",false)
                   booleanParam("video_encode_worker",false)
                 } else if (type == 'ProspectusDaily') {
-                  predefinedProp('dns_name','edx-rebrand')
-                  predefinedProp('name_tag','edx-rebrand')
+                  predefinedProp('dns_name','prospectus-rebrand')
+                  predefinedProp('name_tag','prospectus-rebrand')
 
                   predefinedProp('server_type', 'full_edx_installation_from_scratch')
                   booleanParam('recreate', true)
