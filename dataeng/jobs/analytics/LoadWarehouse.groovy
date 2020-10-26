@@ -23,35 +23,12 @@ class LoadWarehouse {
             wrappers common_wrappers(allVars)
             publishers common_publishers(allVars)
             publishers {
-                downstream("load-warehouse-bigquery", 'SUCCESS')
                 downstream("load-warehouse-snowflake", 'SUCCESS')
             }
             steps {
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/load-warehouse-vertica.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-disable-heartbeat.sh'))
-            }
-        }
-    }
-
-    public static def bigquery_job = { dslFactory, allVars ->
-        dslFactory.job("load-warehouse-bigquery") {
-
-            // BigQuery deprecation
-            disabled(true)
-
-            logRotator common_log_rotator(allVars)
-            parameters common_parameters(allVars)
-            parameters to_date_interval_parameter(allVars)
-            parameters {
-                stringParam('DATASET', allVars.get('DATASET'))
-                stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
-            }
-            multiscm common_multiscm(allVars)
-            wrappers common_wrappers(allVars)
-            publishers common_publishers(allVars)
-            steps {
-                shell(dslFactory.readFileFromWorkspace('dataeng/resources/load-warehouse-bigquery.sh'))
             }
         }
     }

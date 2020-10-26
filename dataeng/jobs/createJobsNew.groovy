@@ -111,7 +111,6 @@ listView('Tools') {
         name('emr-cost-reporter')
         name('update-users')
         name('vertica-disk-usage-monitor')
-        name('monitor-bigquery-loading')
         name('stitch-snowflake-lag-monitor')
         name('snowflake-public-grants-cleaner')
     }
