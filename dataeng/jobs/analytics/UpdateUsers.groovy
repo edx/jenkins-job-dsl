@@ -18,7 +18,7 @@ class UpdateUsers {
             steps {
                 virtualenv {
                     nature("shell")
-                    command('make users.update')
+                    command('cd analytics-configuration; make users.update')
                 }
             }
         }
