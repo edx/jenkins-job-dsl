@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Enables an Opsgenie Heartbeat, while also setting the expected duration.
 #
 # Assumes that the heartbeat is already created in the Opsgenie settings here:

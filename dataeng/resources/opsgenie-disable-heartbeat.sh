@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Disables an Opsgenie Heartbeat.
 #
 # Assumes that the heartbeat is already created in the Opsgenie settings here:
