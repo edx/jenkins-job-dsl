@@ -14,13 +14,8 @@ class SnowflakeCollectMetrics {
             NAME: 'snowflake-collect-credit-metrics',
             CRON: '0 * * * *'
         ]
-        Map SnowflakeQueueDepthConfig = [
-            NAME: 'snowflake-collect-queue-depth',
-            CRON: '*/10 * * * *'
-        ]
         List jobConfigs = [
-            SnowflakeWarehouseCreditConfig,
-            SnowflakeQueueDepthConfig
+            SnowflakeWarehouseCreditConfig
         ]
 
         jobConfigs.each { jobConfig ->
