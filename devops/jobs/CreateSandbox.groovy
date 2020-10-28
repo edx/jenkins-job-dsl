@@ -142,9 +142,6 @@ class CreateSandbox {
                 stringParam("ecommerce_version","master","")
                 booleanParam("ecommerce_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce config file from configuration internal repo.")
 
-                booleanParam("notifier",false,"")
-                stringParam("notifier_version","master","")
-
                 booleanParam("xqueue",false,"")
                 stringParam("xqueue_version","master","")
 

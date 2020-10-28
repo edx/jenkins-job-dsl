@@ -95,7 +95,6 @@ class CreateSandboxCI {
                   booleanParam("demo_test_course",false)
                   booleanParam("edx_demo_course",false)
                   booleanParam("forum",false)
-                  booleanParam("notifier",false)
                   booleanParam("xqueue",false)
                   booleanParam("ecommerce_worker",false)
                   booleanParam("certs",false)
