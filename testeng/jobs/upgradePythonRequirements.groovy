@@ -461,19 +461,6 @@ Map edxVal= [
     githubTeamReviewers: ['sustaining-vulcans'],
     emails: ['sustaining-vulcans@edx.org'],
     alwaysNotify: false
-]
-
-Map notifier = [
-    org: 'edx',
-    repoName: 'notifier',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
 
 Map opaqueKeys = [
     org: 'edx',
@@ -669,7 +656,6 @@ List jobConfigs = [
     edxSphinxTheme,
     edxToggles,
     edxVal,
-    notifier,
     opaqueKeys,
     openEdxStats,
     portalDesigner,
