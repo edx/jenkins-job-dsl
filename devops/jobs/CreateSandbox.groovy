@@ -167,7 +167,8 @@ class CreateSandbox {
                 stringParam("demo_version","master","")
 
                 booleanParam("discovery",false,"")
-                stringParam("discovery_version","master","")
+                 /* TODO: discovery_version set to pre-ES7 commit by default. Change to master/main when we have updated sandboxes to handle ES7 properly. */
+                stringParam("discovery_version","4ecf6edc52a7e32996d606082a5f8e153a219b19","")
                 booleanParam("discovery_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy discovery config file from configuration internal repo.")
 
                 booleanParam("notes",false,"")
