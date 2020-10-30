@@ -106,11 +106,11 @@ Map completion = [
     org: 'edx',
     repoName: 'completion',
     targetBranch: "master",
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['always-available@edx.opsgenie.net'],
+    githubTeamReviewers: [],
+    emails: ['engage-squad-eng@edx.org'],
     alwaysNotify: false
 ]
 
@@ -222,11 +222,12 @@ Map edxAce = [
     org: 'edx',
     repoName: 'edx-ace',
     targetBranch: "master",
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
     cronValue: cronOffHoursBusinessWeekdayLahore,
     githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org']
+    githubTeamReviewers: [],
+    emails: ['engage-squad-eng@edx.org'],
+    alwaysNotify: false
 ]
 
 Map edxAnalyticsDashboard = [
@@ -461,6 +462,19 @@ Map edxVal= [
     githubTeamReviewers: ['sustaining-vulcans'],
     emails: ['sustaining-vulcans@edx.org'],
     alwaysNotify: false
+]
+
+Map edxWhen= [
+    org: 'edx',
+    repoName: 'edx-when',
+    targetBranch: "master",
+    pythonVersion: '3.8',
+    cronValue: cronOffHoursBusinessWeekday,
+    githubUserReviewers: [],
+    githubTeamReviewers: [],
+    emails: ['engage-squad-eng@edx.org'],
+    alwaysNotify: false
+]
 
 Map opaqueKeys = [
     org: 'edx',
