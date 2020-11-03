@@ -24,11 +24,11 @@ catch (any) {
     return 1
 }
 
-Map codejail35JobConfig = [
+Map codejail35TestsJobConfig = [
     open: true,
     jobName: 'codejail-python-3.5-pr',
     repoName: 'codejail',
-    context: 'jenkins/python3.5',
+    context: 'jenkins/python3.5/python',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+test\W+python\W+3\.5/,
     jenkinsFileDir: '.',
@@ -39,11 +39,11 @@ Map codejail35JobConfig = [
     ]
 ]
 
-Map codejail38JobConfig = [
+Map codejail38TestsJobConfig = [
     open: true,
     jobName: 'codejail-python-3.8-pr',
     repoName: 'codejail',
-    context: 'jenkins/python3.8',
+    context: 'jenkins/python3.8/python',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+test\W+python\W+3\.8/,
     jenkinsFileDir: '.',
@@ -54,9 +54,42 @@ Map codejail38JobConfig = [
     ]
 ]
 
+Map codejail35QualityJobConfig = [
+    open: true,
+    jobName: 'codejail-python-3.8-pr-quality',
+    repoName: 'codejail',
+    context: 'jenkins/python3.5/quality',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+quality\W+python\W+3\.5/,
+    jenkinsFileDir: '.',
+    jenkinsFileName: 'Jenkinsfile',
+    environmentVariables: [
+        'TOX_ENV': 'quality',
+        'PYTHON_VERSION': '3.5'
+    ]
+]
+
+Map codejail38QualityJobConfig = [
+    open: true,
+    jobName: 'codejail-python-3.8-pr-quality',
+    repoName: 'codejail',
+    context: 'jenkins/python3.8/quality',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*jenkins\W+quality\W+python\W+3\.8/,
+    jenkinsFileDir: '.',
+    jenkinsFileName: 'Jenkinsfile',
+    environmentVariables: [
+        'TOX_ENV': 'quality',
+        'PYTHON_VERSION': '3.8'
+    ]
+]
+
+
 List jobConfigs = [
-    codejail35JobConfig,
-    codejail38JobConfig
+    codejail35TestsJobConfig,
+    codejail38TestsJobConfig,
+    codejail35QualityJobConfig,
+    codejail38QualityJobConfig
 ]
 
 /* Iterate over the job configurations */
