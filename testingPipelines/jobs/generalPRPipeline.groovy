@@ -26,11 +26,11 @@ catch (any) {
 
 Map codejail35TestsJobConfig = [
     open: true,
-    jobName: 'codejail-python-3.5-pr',
+    jobName: 'codejail-python-3.5-pr-tests',
     repoName: 'codejail',
-    context: 'jenkins/python3.5/python',
+    context: 'jenkins/python3.5/tests',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+test\W+python\W+3\.5/,
+    triggerPhrase: /.*jenkins\W+run\W+py35\W+tests.*/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
@@ -41,11 +41,11 @@ Map codejail35TestsJobConfig = [
 
 Map codejail38TestsJobConfig = [
     open: true,
-    jobName: 'codejail-python-3.8-pr',
+    jobName: 'codejail-python-3.8-pr-tests',
     repoName: 'codejail',
-    context: 'jenkins/python3.8/python',
+    context: 'jenkins/python3.8/tests',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+test\W+python\W+3\.8/,
+    triggerPhrase: /.*jenkins\W+run\W+py38\W+tests.*/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
@@ -56,11 +56,11 @@ Map codejail38TestsJobConfig = [
 
 Map codejail35QualityJobConfig = [
     open: true,
-    jobName: 'codejail-python-3.8-pr-quality',
+    jobName: 'codejail-python-3.5-pr-quality',
     repoName: 'codejail',
     context: 'jenkins/python3.5/quality',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+quality\W+python\W+3\.5/,
+    triggerPhrase: /.*jenkins\W+run\W+py35\W+quality.*/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
@@ -75,7 +75,7 @@ Map codejail38QualityJobConfig = [
     repoName: 'codejail',
     context: 'jenkins/python3.8/quality',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+quality\W+python\W+3\.8/,
+    triggerPhrase: /.*jenkins\W+run\W+py38\W+quality.*/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
