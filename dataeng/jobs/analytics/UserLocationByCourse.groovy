@@ -14,12 +14,6 @@ class UserLocationByCourse {
                 logRotator common_log_rotator(allVars, env_config)
                 parameters common_parameters(allVars, env_config)
                 parameters to_date_interval_parameter(allVars)
-                environmentVariables {
-                    env('OPSGENIE_HEARTBEAT_NAME', env_config.get('OPSGENIE_HEARTBEAT_NAME'))
-                    env('OPSGENIE_HEARTBEAT_CONFIG_KEY', allVars.get('OPSGENIE_HEARTBEAT_CONFIG_KEY'))
-                    env('OPSGENIE_HEARTBEAT_DURATION_NUM', env_config.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
-                    env('OPSGENIE_HEARTBEAT_DURATION_UNIT', env_config.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
-                }
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
