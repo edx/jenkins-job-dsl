@@ -11,9 +11,6 @@
 # OPSGENIE_HEARTBEAT_DURATION_NUM: Specifies how often a heartbeat message should be expected.
 # OPSGENIE_HEARTBEAT_DURATION_UNIT: Interval specified as minutes, hours or days.
 
-set -ex
-
-env
 
 OPSGENIE_HEARTBEAT_API_URL="https://api.opsgenie.com/v2/heartbeats"
 
@@ -21,8 +18,6 @@ if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && \
    [ -n "$OPSGENIE_HEARTBEAT_CONFIG_KEY" ] &&  \
    [ -n "$OPSGENIE_HEARTBEAT_DURATION_NUM" ] && \
    [ -n "$OPSGENIE_HEARTBEAT_DURATION_UNIT" ]; then
-
-    echo "Enabling Opsgenie heartbeat for $OPSGENIE_HEARTBEAT_NAME"
 
     AUTH_HEADER="Authorization: GenieKey $OPSGENIE_HEARTBEAT_CONFIG_KEY"
     JSON_HEADER="Content-Type: application/json"
