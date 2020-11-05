@@ -16,6 +16,12 @@ class BackupVertica {
                     textParam('BACKUP_CMD', backup_config.get('VERTICA_BACKUP_CMD'), '')
                     stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
                 }
+                environmentVariables {
+                    env('OPSGENIE_HEARTBEAT_NAME', allVars.get('OPSGENIE_HEARTBEAT_NAME'))
+                    env('OPSGENIE_HEARTBEAT_CONFIG_KEY', allVars.get('OPSGENIE_HEARTBEAT_CONFIG_KEY'))
+                    env('OPSGENIE_HEARTBEAT_DURATION_NUM', allVars.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
+                    env('OPSGENIE_HEARTBEAT_DURATION_UNIT', allVars.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
+                }
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/backup-vertica.sh'))

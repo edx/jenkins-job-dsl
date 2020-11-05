@@ -54,6 +54,12 @@ class FinanceReport {
             parameters {
                 stringParam('OUTPUT_SCHEMA', 'finance', '')
             }
+            environmentVariables {
+                env('OPSGENIE_HEARTBEAT_NAME', allVars.get('OPSGENIE_HEARTBEAT_NAME'))
+                env('OPSGENIE_HEARTBEAT_CONFIG_KEY', allVars.get('OPSGENIE_HEARTBEAT_CONFIG_KEY'))
+                env('OPSGENIE_HEARTBEAT_DURATION_NUM', allVars.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
+                env('OPSGENIE_HEARTBEAT_DURATION_UNIT', allVars.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
+            }
             multiscm common_multiscm(allVars)
             wrappers common_wrappers(allVars)
             publishers common_publishers(allVars)
