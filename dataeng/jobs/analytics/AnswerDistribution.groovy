@@ -19,12 +19,6 @@ class AnswerDistribution {
                     stringParam('LIB_JAR', env_config.get('LIB_JAR', allVars.get('LIB_JAR')), '')
                 }
                 parameters common_parameters(allVars, env_config)
-                environmentVariables {
-                    env('OPSGENIE_HEARTBEAT_NAME', env_config.get('OPSGENIE_HEARTBEAT_NAME'))
-                    env('OPSGENIE_HEARTBEAT_CONFIG_KEY', allVars.get('OPSGENIE_HEARTBEAT_CONFIG_KEY'))
-                    env('OPSGENIE_HEARTBEAT_DURATION_NUM', env_config.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
-                    env('OPSGENIE_HEARTBEAT_DURATION_UNIT', env_config.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
-                }
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)

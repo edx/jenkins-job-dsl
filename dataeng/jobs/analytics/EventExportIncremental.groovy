@@ -37,7 +37,9 @@ class EventExportIncremental {
                 }
                 publishers common_publishers(allVars)
                 steps {
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/event-export-incremental.sh'))
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-disable-heartbeat.sh'))
                 }
             }
         }
