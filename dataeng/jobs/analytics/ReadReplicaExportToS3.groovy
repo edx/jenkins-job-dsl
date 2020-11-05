@@ -51,6 +51,12 @@ class ReadReplicaExportToS3 {
                     )
                 }
                 parameters to_date_interval_parameter(allVars)
+                environmentVariables {
+                    env('OPSGENIE_HEARTBEAT_NAME', db_config.get('OPSGENIE_HEARTBEAT_NAME'))
+                    env('OPSGENIE_HEARTBEAT_CONFIG_KEY', allVars.get('OPSGENIE_HEARTBEAT_CONFIG_KEY'))
+                    env('OPSGENIE_HEARTBEAT_DURATION_NUM', db_config.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
+                    env('OPSGENIE_HEARTBEAT_DURATION_UNIT', db_config.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
+                }
                 multiscm common_multiscm(allVars)
                 wrappers common_wrappers(allVars)
                 publishers common_publishers(allVars)

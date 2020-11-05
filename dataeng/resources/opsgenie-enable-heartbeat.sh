@@ -19,6 +19,8 @@ if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && \
    [ -n "$OPSGENIE_HEARTBEAT_DURATION_NUM" ] && \
    [ -n "$OPSGENIE_HEARTBEAT_DURATION_UNIT" ]; then
 
+    echo "Enabling Opsgenie heartbeat for $OPSGENIE_HEARTBEAT_NAME"
+
     AUTH_HEADER="Authorization: GenieKey $OPSGENIE_HEARTBEAT_CONFIG_KEY"
     JSON_HEADER="Content-Type: application/json"
     HEARTBEAT_API_URL="$OPSGENIE_HEARTBEAT_API_URL/$OPSGENIE_HEARTBEAT_NAME"

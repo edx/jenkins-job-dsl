@@ -15,6 +15,8 @@ OPSGENIE_HEARTBEAT_API_URL="https://api.opsgenie.com/v2/heartbeats"
 if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && \
    [ -n "$OPSGENIE_HEARTBEAT_CONFIG_KEY" ]; then
 
+    echo "Disabling Opsgenie heartbeat for $OPSGENIE_HEARTBEAT_NAME"
+
     AUTH_HEADER="Authorization: GenieKey $OPSGENIE_HEARTBEAT_CONFIG_KEY"
     POST_URL="$OPSGENIE_HEARTBEAT_API_URL/$OPSGENIE_HEARTBEAT_NAME/disable"
 
