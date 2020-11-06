@@ -536,6 +536,18 @@ Map registrar = [
     alwaysNotify: true
 ]
 
+Map repoHealthData = [
+    org: 'edx',
+    repoName: 'repo-health-data',
+    targetBranch: "master",
+    pythonVersion: '3.8',
+    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
+    githubUserReviewers: [],
+    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+    emails: ['archbom@edx.org'],
+    alwaysNotify: false
+]
+
 Map staffGradedXBlock = [
     org: 'edx',
     repoName: 'staff_graded-xblock',
@@ -675,6 +687,7 @@ List jobConfigs = [
     portalDesigner,
     pytestRepoHealth,
     registrar,
+    repoHealthData,
     staffGradedXBlock,
     superCSV,
     testengCI,
