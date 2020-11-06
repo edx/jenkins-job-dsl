@@ -87,7 +87,7 @@ Map coachingPlugin = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-aperture'],
-    emails: ['aperture-alerts@edx.org']
+    emails: ['aperture@edx.opsgenie.net']
 ]
 
 Map configuration = [
@@ -146,7 +146,7 @@ Map credentialsRepo = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-aperture'],
-    emails: ['aperture-alerts@edx.org'],
+    emails: ['aperture@edx.opsgenie.net'],
 ]
 
 Map demographics = [
@@ -157,7 +157,7 @@ Map demographics = [
     cronValue: cronOffHoursBusinessWeekday,
     githubUserReviewers: [],
     githubTeamReviewers: ['edx-aperture'],
-    emails: ['aperture-alerts@edx.org']
+    emails: ['aperture@edx.opsgenie.net']
 ]
 
 Map devstack = [
