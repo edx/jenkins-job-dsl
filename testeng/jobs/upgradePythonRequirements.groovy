@@ -543,8 +543,8 @@ Map repoHealthData = [
     pythonVersion: '3.8',
     cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
     githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['archbom@edx.org'],
+    githubTeamReviewers: ['arbi-bom'],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+    emails: ['arbi-bom@edx.org'],
     alwaysNotify: false
 ]
 
