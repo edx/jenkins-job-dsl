@@ -33,701 +33,593 @@ def cronOffHoursBusinessDaily = 'H H(4-11) * * 1-5'
 // Cron value for daily, sometime during: 5am-09:59am Pakistan Time, Monday-Friday (times are in UTC)
 def cronOffHoursBusinessDailyLahore = 'H H(0-5) * * 1-5'
 
-Map apiDocTools = [
-    org: 'edx',
-    repoName: 'api-doc-tools',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],
-    emails: ['ned@edx.org']
-]
-
-Map authBackends = [
-    org: 'edx',
-    repoName: 'auth-backends',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map bokchoy = [
-    org: 'edx',
-    repoName: 'bok-choy',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map cc2olx = [
-    org: 'edx',
-    repoName: 'cc2olx',
-    targetBranch: 'master',
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['masters-devs-cosmonauts'],
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-]
-
-Map coachingPlugin = [
-    org: 'edx',
-    repoName: 'platform-plugin-coaching',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['edx-aperture'],
-    emails: ['aperture@edx.opsgenie.net']
-]
-
-Map configuration = [
-    org: 'edx',
-    repoName: 'configuration',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: ['fredsmith'],
-    githubTeamReviewers: ['devops'],
-    emails: ['devops@edx.org'],
-     alwaysNotify: false
-]
-
-Map completion = [
-    org: 'edx',
-    repoName: 'completion',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],
-    emails: ['engage-squad-eng@edx.org'],
-    alwaysNotify: false
-]
-
-Map cookiecutters = [
-    org: 'edx',
-    repoName: 'edx-cookiecutters',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map courseDiscovery = [
-    org: 'edx',
-    repoName: 'course-discovery',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: ['mikix'],
-    githubTeamReviewers: ['course-discovery-admins'],
-    emails: ['mterry@edx.org'],
-    alwaysNotify: false
-]
-
-Map credentialsRepo = [
-    org: 'edx',
-    repoName: 'credentials',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['edx-aperture'],
-    emails: ['aperture@edx.opsgenie.net'],
-]
-
-Map demographics = [
-    org: 'edx',
-    repoName: 'demographics',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['edx-aperture'],
-    emails: ['aperture@edx.opsgenie.net']
-]
-
-Map devstack = [
-    org: 'edx',
-    repoName: 'devstack',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map djangoConfigModels = [
-    org: 'edx',
-    repoName: 'django-config-models',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map djangoLangPrefMiddleware = [
-    org: 'edx',
-    repoName: 'django-lang-pref-middleware',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org']
-]
-
-Map djangoUserTasks = [
-    org: 'edx',
-    repoName: 'django-user-tasks',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: ['jmbowman'],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map ecommerce = [
-    org: 'edx',
-    repoName: 'ecommerce',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['ecommerce'],
-    emails: ['revenue-tasks@edx.org']
-]
-
-Map edxAce = [
-    org: 'edx',
-    repoName: 'edx-ace',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],
-    emails: ['engage-squad-eng@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxAnalyticsDashboard = [
-    org: 'edx',
-    repoName: 'edx-analytics-dashboard',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['edx-data-engineering'],
-    emails: ['data-engineering@edx.org']
-]
-
-Map edxAnalyticsDataApi = [
-    org: 'edx',
-    repoName: 'edx-analytics-data-api',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['edx-data-engineering'],
-    emails: ['data-engineering@edx.org']
-]
-
-Map edxBulkGrades = [
-    org: 'edx',
-    repoName: 'edx-bulk-grades',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-    alwaysNotify: true
-]
-
-Map edxCeleryutils = [
-    org: 'edx',
-    repoName: 'edx-celeryutils',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxDjangoUtils = [
-    org: 'edx',
-    repoName: 'edx-django-utils',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org']
-]
-
-Map edxDrfExtensions = [
-    org: 'edx',
-    repoName: 'edx-drf-extensions',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org']
-]
-
-Map edxE2eTests = [
-    org: 'edx',
-    repoName: 'edx-e2e-tests',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxEnterprise = [
-    org: 'edx',
-    repoName: 'edx-enterprise',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: ['georgebabey'],
-    githubTeamReviewers: ['business-enterprise-team'],
-    emails: ['arbi-bom@edx.org']
-]
-
-Map edxGomatic = [
-    org: 'edx',
-    repoName: 'edx-gomatic',
-    targetBranch: "master",
-    pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['devops'],
-    emails: ['devops@edx.org']
-]
-
-Map edxNotesApi = [
-    org: 'edx',
-    repoName: 'edx-notes-api',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['devops'],
-    emails: ['devops@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxOra2 = [
-    org: 'edx',
-    repoName: 'edx-ora2',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-    alwaysNotify: true
-]
-
-Map edxOrganizations = [
-    org: 'edx',
-    repoName: 'edx-organizations',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxPlatform = [
-    org: 'edx',
-    repoName: 'edx-platform',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessDailyLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxProctoring = [
-    org: 'edx',
-    repoName: 'edx-proctoring',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-    alwaysNotify: true
-]
-
-Map edxRbac = [
-    org: 'edx',
-    repoName: 'edx-rbac',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxRepoHealth = [
-    org: 'edx',
-    repoName: 'edx-repo-health',
-    targetBranch: "master",
-    pythonVersion: '3.6',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxRestApiClient = [
-    org: 'edx',
-    repoName: 'edx-rest-api-client',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [''],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxSphinxTheme = [
-    org: 'edx',
-    repoName: 'edx-sphinx-theme',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [''],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxToggles = [
-    org: 'edx',
-    repoName: 'edx-toggles',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxVal= [
-    org: 'edx',
-    repoName: 'edx-val',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [''],
-    githubTeamReviewers: ['sustaining-vulcans'],
-    emails: ['sustaining-vulcans@edx.org'],
-    alwaysNotify: false
-]
-
-Map edxWhen= [
-    org: 'edx',
-    repoName: 'edx-when',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],
-    emails: ['engage-squad-eng@edx.org'],
-    alwaysNotify: false
-]
-
-Map eventTracking= [
-    org: 'edx',
-    repoName: 'event-tracking',
-    targetBranch: "master",
-    // This repo had issues with the newest version of celery that gets pulled in when I build requirements in python
-    // 3.8 so I'm leaving it at 3.5 for now so that arbi-bom can go through the upgrade with this when they are doing
-    // this work for the other repos.
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map eventRoutingBackends= [
-    org: 'edx',
-    repoName: 'event-routing-backends',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-
-Map opaqueKeys = [
-    org: 'edx',
-    repoName: 'opaque-keys',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: ['cpennington'],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map openEdxStats = [
-    org: 'edx',
-    repoName: 'openedxstats',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],
-    emails: ['ned@edx.org'],
-    alwaysNotify: false
-]
-
-Map portalDesigner = [
-    org: 'edx',
-    repoName: 'portal-designer',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-    alwaysNotify: true
-]
-
-Map pytestRepoHealth = [
-    org: 'edx',
-    repoName: 'pytest-repo-health',
-    targetBranch: "master",
-    pythonVersion: '3.6',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map registrar = [
-    org: 'edx',
-    repoName: 'registrar',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-    alwaysNotify: true
-]
-
-Map repoHealthData = [
-    org: 'edx',
-    repoName: 'repo-health-data',
-    targetBranch: "master",
-    pythonVersion: '3.8',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map staffGradedXBlock = [
-    org: 'edx',
-    repoName: 'staff_graded-xblock',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-    alwaysNotify: true
-]
-
-Map superCSV = [
-    org: 'edx',
-    repoName: 'super-csv',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-    githubUserReviewers: [],
-    githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-    emails: ['masters-requirements-update@edx.opsgenie.net'],
-    alwaysNotify: true
-]
-
-Map testengCI = [
-    org: 'edx',
-    repoName: 'testeng-ci',
-    targetBranch: "master",
-    pythonVersion: '2.7',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['devops'],
-    emails: ['devops@edx.org'],
-    alwaysNotify: false
-]
-
-Map videoEncodeManager = [
-    org: 'edx',
-    repoName: 'video-encode-manager',
-    targetBranch: "master",
-    pythonVersion: '3.6',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['vem-devel'],
-    emails: ['azarembok@edx.org', 'dsheraz@edx.org', 'zamir@edx.org'],
-    alwaysNotify: false
-]
-
-Map xblock = [
-    org: 'edx',
-    repoName: 'XBlock',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: ['cpennington'],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map xblockUtils = [
-    org: 'edx',
-    repoName: 'xblock-utils',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
-Map xqueue = [
-    org: 'edx',
-    repoName: 'xqueue',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekday,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['sustaining-team'],
-    emails: ['sustaining-escalations@edx.org'],
-    alwaysNotify: false
-]
-
-Map xssUtils = [
-    org: 'edx',
-    repoName: 'xss-utils',
-    targetBranch: "master",
-    pythonVersion: '3.5',
-    cronValue: cronOffHoursBusinessWeekdayLahore,
-    githubUserReviewers: [],
-    githubTeamReviewers: ['arbi-bom'],
-    emails: ['arbi-bom@edx.org'],
-    alwaysNotify: false
-]
-
 List jobConfigs = [
-    apiDocTools,
-    authBackends,
-    bokchoy,
-    cc2olx,
-    coachingPlugin,
-    completion,
-    configuration,
-    cookiecutters,
-    courseDiscovery,
-    credentialsRepo,
-    demographics,
-    devstack,
-    djangoConfigModels,
-    djangoLangPrefMiddleware,
-    djangoUserTasks,
-    ecommerce,
-    edxAce,
-    edxAnalyticsDashboard,
-    edxAnalyticsDataApi,
-    edxBulkGrades,
-    edxCeleryutils,
-    edxDjangoUtils,
-    edxDrfExtensions,
-    edxE2eTests,
-    edxEnterprise,
-    edxGomatic,
-    edxNotesApi,
-    edxOra2,
-    edxOrganizations,
-    edxPlatform,
-    edxProctoring,
-    edxRbac,
-    edxRepoHealth,
-    edxRestApiClient,
-    edxSphinxTheme,
-    edxToggles,
-    edxVal,
-    edxWhen,
-    eventTracking,
-    eventRoutingBackends,
-    opaqueKeys,
-    openEdxStats,
-    portalDesigner,
-    pytestRepoHealth,
-    registrar,
-    repoHealthData,
-    staffGradedXBlock,
-    superCSV,
-    testengCI,
-    videoEncodeManager,
-    xblock,
-    xblockUtils,
-    xqueue,
-    xssUtils,
+    [
+        org: 'edx',
+        repoName: 'api-doc-tools',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],
+        emails: ['ned@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'auth-backends',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'bok-choy',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'cc2olx',
+        targetBranch: 'master',
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['masters-devs-cosmonauts'],
+        emails: ['masters-requirements-update@edx.opsgenie.net'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'platform-plugin-coaching',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['edx-aperture'],
+        emails: ['aperture@edx.opsgenie.net'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'configuration',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: ['fredsmith'],
+        githubTeamReviewers: ['devops'],
+        emails: ['devops@edx.org'],
+         alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'completion',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],
+        emails: ['engage-squad-eng@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-cookiecutters',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'course-discovery',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: ['mikix'],
+        githubTeamReviewers: ['course-discovery-admins'],
+        emails: ['mterry@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'credentials',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['edx-aperture'],
+        emails: ['aperture@edx.opsgenie.net'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'demographics',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['edx-aperture'],
+        emails: ['aperture@edx.opsgenie.net'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'devstack',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'django-config-models',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'django-lang-pref-middleware',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'django-user-tasks',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: ['jmbowman'],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'ecommerce',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['ecommerce'],
+        emails: ['revenue-tasks@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-ace',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],
+        emails: ['engage-squad-eng@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-analytics-dashboard',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['edx-data-engineering'],
+        emails: ['data-engineering@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-analytics-data-api',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['edx-data-engineering'],
+        emails: ['data-engineering@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-bulk-grades',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+        emails: ['masters-requirements-update@edx.opsgenie.net'],
+        alwaysNotify: true
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-celeryutils',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-django-utils',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-drf-extensions',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-e2e-tests',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-enterprise',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: ['georgebabey'],
+        githubTeamReviewers: ['business-enterprise-team'],
+        emails: ['arbi-bom@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-gomatic',
+        targetBranch: "master",
+        pythonVersion: '2.7',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['devops'],
+        emails: ['devops@edx.org'],
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-notes-api',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['devops'],
+        emails: ['devops@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-ora2',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+        emails: ['masters-requirements-update@edx.opsgenie.net'],
+        alwaysNotify: true
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-organizations',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-platform',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessDailyLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-proctoring',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+        emails: ['masters-requirements-update@edx.opsgenie.net'],
+        alwaysNotify: true
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-rbac',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-repo-health',
+        targetBranch: "master",
+        pythonVersion: '3.6',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-rest-api-client',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [''],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-sphinx-theme',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [''],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-toggles',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-val',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [''],
+        githubTeamReviewers: ['sustaining-vulcans'],
+        emails: ['sustaining-vulcans@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'edx-when',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],
+        emails: ['engage-squad-eng@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'event-routing-backends',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'event-tracking',
+        targetBranch: "master",
+        // This repo had issues with the newest version of celery that gets pulled in when I build requirements in python
+        // 3.8 so I'm leaving it at 3.5 for now so that arbi-bom can go through the upgrade with this when they are doing
+        // this work for the other repos.
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'opaque-keys',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: ['cpennington'],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'openedxstats',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],
+        emails: ['ned@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'portal-designer',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+        emails: ['masters-requirements-update@edx.opsgenie.net'],
+        alwaysNotify: true
+    ],
+    [
+        org: 'edx',
+        repoName: 'pytest-repo-health',
+        targetBranch: "master",
+        pythonVersion: '3.6',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'registrar',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+        emails: ['masters-requirements-update@edx.opsgenie.net'],
+        alwaysNotify: true
+    ],
+    [
+        org: 'edx',
+        repoName: 'repo-health-data',
+        targetBranch: "master",
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'staff_graded-xblock',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+        emails: ['masters-requirements-update@edx.opsgenie.net'],
+        alwaysNotify: true
+    ],
+    [
+        org: 'edx',
+        repoName: 'super-csv',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
+        githubUserReviewers: [],
+        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
+        emails: ['masters-requirements-update@edx.opsgenie.net'],
+        alwaysNotify: true
+    ],
+    [
+        org: 'edx',
+        repoName: 'testeng-ci',
+        targetBranch: "master",
+        pythonVersion: '2.7',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['devops'],
+        emails: ['devops@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'video-encode-manager',
+        targetBranch: "master",
+        pythonVersion: '3.6',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['vem-devel'],
+        emails: ['azarembok@edx.org', 'dsheraz@edx.org', 'zamir@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'XBlock',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: ['cpennington'],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'xblock-utils',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'xqueue',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['sustaining-team'],
+        emails: ['sustaining-escalations@edx.org'],
+        alwaysNotify: false
+    ],
+    [
+        org: 'edx',
+        repoName: 'xss-utils',
+        targetBranch: "master",
+        pythonVersion: '3.5',
+        cronValue: cronOffHoursBusinessWeekdayLahore,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
+        alwaysNotify: false
+    ],
 ]
+
 
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
