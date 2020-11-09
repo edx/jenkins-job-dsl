@@ -49,16 +49,26 @@ class FinanceReport {
     public static def finance_report_job = { dslFactory, allVars ->
         dslFactory.job("finance-report") {
             logRotator common_log_rotator(allVars)
+            multiscm common_multiscm(allVars)
+            publishers common_publishers(allVars)
+            publishers {
+                downstream("payments-validation", 'SUCCESS')
+            }
             parameters common_parameters(allVars)
             parameters to_date_interval_parameter(allVars)
             parameters {
                 stringParam('OUTPUT_SCHEMA', 'finance', '')
             }
-            multiscm common_multiscm(allVars)
+            environmentVariables {
+                env('OPSGENIE_HEARTBEAT_NAME', env_config.get('OPSGENIE_HEARTBEAT_NAME'))
+                env('OPSGENIE_HEARTBEAT_DURATION_NUM', env_config.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
+                env('OPSGENIE_HEARTBEAT_DURATION_UNIT', env_config.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
+            }
             wrappers common_wrappers(allVars)
-            publishers common_publishers(allVars)
-            publishers {
-                downstream("payments-validation", 'SUCCESS')
+            wrappers {
+                credentialsBinding {
+                    string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
+                }
             }
             steps {
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
