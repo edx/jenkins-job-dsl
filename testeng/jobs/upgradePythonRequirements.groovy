@@ -476,6 +476,34 @@ Map edxWhen= [
     alwaysNotify: false
 ]
 
+Map eventTracking= [
+    org: 'edx',
+    repoName: 'event-tracking',
+    targetBranch: "master",
+    // This repo had issues with the newest version of celery that gets pulled in when I build requirements in python
+    // 3.8 so I'm leaving it at 3.5 for now so that arbi-bom can go through the upgrade with this when they are doing
+    // this work for the other repos.
+    pythonVersion: '3.5',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
+]
+
+Map eventRoutingBackends= [
+    org: 'edx',
+    repoName: 'event-routing-backends',
+    targetBranch: "master",
+    pythonVersion: '3.8',
+    cronValue: cronOffHoursBusinessWeekdayLahore,
+    githubUserReviewers: [],
+    githubTeamReviewers: ['arbi-bom'],
+    emails: ['arbi-bom@edx.org'],
+    alwaysNotify: false
+]
+
+
 Map opaqueKeys = [
     org: 'edx',
     repoName: 'opaque-keys',
@@ -682,6 +710,9 @@ List jobConfigs = [
     edxSphinxTheme,
     edxToggles,
     edxVal,
+    edxWhen,
+    eventTracking,
+    eventRoutingBackends,
     opaqueKeys,
     openEdxStats,
     portalDesigner,
