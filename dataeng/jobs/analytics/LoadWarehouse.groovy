@@ -11,6 +11,12 @@ class LoadWarehouse {
     public static def vertica_job = { dslFactory, allVars ->
         dslFactory.job("load-warehouse") {
             logRotator common_log_rotator(allVars)
+            multiscm common_multiscm(allVars)
+            triggers common_triggers(allVars)
+            publishers common_publishers(allVars)
+            publishers {
+                downstream("load-warehouse-snowflake", 'SUCCESS')
+            }
             parameters common_parameters(allVars)
             parameters to_date_interval_parameter(allVars)
             parameters {
@@ -18,12 +24,16 @@ class LoadWarehouse {
                 stringParam('MARKER_SCHEMA', allVars.get('MARKER_SCHEMA'))
                 stringParam('CREDENTIALS', allVars.get('CREDENTIALS'))
             }
-            multiscm common_multiscm(allVars)
-            triggers common_triggers(allVars)
+            environmentVariables {
+                env('OPSGENIE_HEARTBEAT_NAME', env_config.get('OPSGENIE_HEARTBEAT_NAME'))
+                env('OPSGENIE_HEARTBEAT_DURATION_NUM', env_config.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
+                env('OPSGENIE_HEARTBEAT_DURATION_UNIT', env_config.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
+            }
             wrappers common_wrappers(allVars)
-            publishers common_publishers(allVars)
-            publishers {
-                downstream("load-warehouse-snowflake", 'SUCCESS')
+            wrappers {
+                credentialsBinding {
+                    string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
+                }
             }
             steps {
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
