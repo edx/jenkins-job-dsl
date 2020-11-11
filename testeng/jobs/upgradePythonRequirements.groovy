@@ -556,7 +556,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'testeng-ci',
         targetBranch: "master",
-        pythonVersion: '2.7',
+        pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
         githubTeamReviewers: ['devops'],
