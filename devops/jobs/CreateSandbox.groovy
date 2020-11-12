@@ -202,6 +202,9 @@ class CreateSandbox {
 
                 booleanParam("prospectus",false,"Enable Prospectus, the edx catalog")
                 stringParam("prospectus_version","master","")
+
+                booleanParam("logistration",false,"Enable Logistration MFE")
+                stringParam("logistration_version","master","The repository version of the frontend-app-logistration")
                 
                 choiceParam("server_type",
                             [
