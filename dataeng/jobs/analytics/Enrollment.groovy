@@ -16,17 +16,18 @@ class Enrollment {
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars, env_config)
                 publishers common_publishers(allVars)
-                publishers {
-                    downstreamParameterized {
-                        trigger("module-engagement-$environment") {
-                            condition('SUCCESS')
-                            parameters {
-                                // The contents of this file are generated as part of the script in the build step.
-                                propertiesFile('${WORKSPACE}/downstream.properties')
-                            }
-                        }
-                    }
-                }
+                // Disable this downstream job while DENG-606 is in progress.
+                // publishers {
+                //     downstreamParameterized {
+                //         trigger("module-engagement-$environment") {
+                //             condition('SUCCESS')
+                //             parameters {
+                //                 // The contents of this file are generated as part of the script in the build step.
+                //                 propertiesFile('${WORKSPACE}/downstream.properties')
+                //             }
+                //         }
+                //     }
+                // }
                 parameters common_parameters(allVars, env_config)
                 parameters from_date_interval_parameter(allVars)
                 parameters to_date_interval_parameter(allVars)
