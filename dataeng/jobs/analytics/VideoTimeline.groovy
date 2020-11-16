@@ -14,8 +14,7 @@ class VideoTimeline {
             dslFactory.job("video-timeline-$environment") {
                 logRotator common_log_rotator(allVars, env_config)
                 multiscm common_multiscm(allVars)
-                // Disable this job while DENG-604 is in progress.
-                //triggers common_triggers(allVars, env_config)
+                triggers common_triggers(allVars, env_config)
                 publishers common_publishers(allVars)
                 parameters common_parameters(allVars, env_config)
                 parameters from_date_interval_parameter(allVars)
