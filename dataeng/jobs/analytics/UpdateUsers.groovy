@@ -21,6 +21,11 @@ class UpdateUsers {
                     command('cd analytics-configuration && make users.update')
                 }
             }
+            publishers {
+                postBuildTask {
+                    task('skipping: no hosts matched', 'exit 1', true, true)
+                }
+            }
         }
     }
 }
