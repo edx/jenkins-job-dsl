@@ -83,7 +83,7 @@ job('build-packer-ami') {
     publishers {
         // alert team of failures via slack & email
         configure GENERAL_SLACK_STATUS()
-        mailer('testeng@edx.org')
+        mailer('arbi-bom@edx.org')
     }
 
 }
