@@ -24,7 +24,7 @@ class EventExportIncrementalLarge {
                     stringParam('SOURCE', env_config.get('EVENT_LOGS_SOURCE'), '')
                     stringParam('OUTPUT_ROOT', allVars.get('OUTPUT_ROOT'))
                     stringParam('EXPORTER_CONFIG', allVars.get('EXPORTER_CONFIG'), 'Exporter configuration relative to analytics-secure/analytics-exporter')
-                    stringParam('ONLY_ORGS', allVars.get('ONLY_ORGS'), "i.e. --org-id [\"FooX\",\"BarX\"]")
+                    stringParam('ONLY_ORGS', allVars.get('ONLY_ORGS'), "i.e. --org-id [\\\"FooX\\\",\\\"BarX\\\"]")
                     stringParam('DATA_CZAR_KEYS_BRANCH', allVars.get('DATA_CZAR_KEYS_BRANCH'), '')
                     stringParam('ENVIRONMENT', env_config.get('ENVIRONMENT'), '')
                 }
