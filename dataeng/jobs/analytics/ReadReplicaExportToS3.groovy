@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
+import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
 
 class ReadReplicaExportToS3 {
     public static def job = { dslFactory, allVars ->
@@ -75,11 +76,11 @@ class ReadReplicaExportToS3 {
                         }
                     }
                 }
+                publishers opsgenie_heartbeat_publisher(allVars)
                 triggers common_triggers(allVars, db_config)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/read-replica-export.sh'))
-                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-disable-heartbeat.sh'))
                 }
             }
         }

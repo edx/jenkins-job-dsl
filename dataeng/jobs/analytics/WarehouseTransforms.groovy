@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
+import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
 
 class WarehouseTransforms{
     public static def job = { dslFactory, allVars ->
@@ -55,6 +56,7 @@ class WarehouseTransforms{
                         downstream(downstream_job_name)
                     }
                 }
+                publishers opsgenie_heartbeat_publisher(allVars)
                 wrappers {
                     credentialsBinding {
                         string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
@@ -70,7 +72,6 @@ class WarehouseTransforms{
                             dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms.sh")
                         )
                     }
-                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-disable-heartbeat.sh'))
                 }
             }
         }
