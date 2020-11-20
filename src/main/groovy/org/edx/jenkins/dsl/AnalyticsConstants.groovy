@@ -159,13 +159,15 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         return {
             sshAgent('1')
             timestamps()
+            buildUserVars()
         }
     }
 
-    // A `NOTIFY` parameter needs to exist in the job for which you want
-    // to trigger email notifications.
-    // Unless the job already includes `common_parameters`, a `NOTIFY`
-    // parameters needs to be defined for `common_publishers` to work.
+    // Send email notifications on job failures.
+    // * If the failed build was triggered by a human, that user will be emailed.  For this feature to work, you must
+    //   either include common_wrappers() or enable buildUserVars() in wrappers{}.
+    // * If you need to notify a predefined email address(es), you must either include `common_parameters()` or manually
+    //   include a `NOTIFY` parameter.
     public static def common_publishers = { allVars ->
         return {
             flexiblePublish {
@@ -174,11 +176,17 @@ This text may reference other parameters in the task as shell variables, e.g.  $
                         not {
                             // method signature
                             // stringsMatch(String arg1, String arg2, boolean ignoreCase)
-                            stringsMatch('$NOTIFY', '', false)
+                            //
+                            // We cannot simply use $BUILD_USER_EMAIL because when the build is automated, or when the
+                            // buildUserVars plugin is not enabled for the job, it will be undefined and flexiblePublish
+                            // will throw an exception.  Therefore we use the weird groovy(?) syntax of
+                            // ${ENV,var="BUILD_USER_EMAIL"}
+                            stringsMatch('$NOTIFY ${ENV,var="BUILD_USER_EMAIL"}', ' ', false)
                         }
                     }
                     publishers {
-                        mailer('$NOTIFY')
+                        // This string, however, must NOT use the weird groovy syntax, simply $BUILD_USER_EMAIL.
+                        mailer('$NOTIFY $BUILD_USER_EMAIL')
                     }
                 }
             }
