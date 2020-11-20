@@ -4,9 +4,6 @@ set -ex
 FAIL=0
 
 e_d=${ENVIRONMENT}_${DEPLOYMENT}
-if [[ -z $GREP_DIR ]]; then 
-  GREP_DIR="${WORKSPACE}/baked-config-secure/${e_d}"
-fi
 
 if ! egrep -q -r --include *.json '{{' "${GREP_DIR}"; then
   echo "No un-expanded vars in ${e_d}"
