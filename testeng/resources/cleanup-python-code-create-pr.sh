@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 IFS=',' read -ra SCRIPTSTORUN <<<"$SCRIPTS"
 
