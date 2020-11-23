@@ -33,7 +33,7 @@ Map publicPythonJobConfig = [
     jenkinsFileName: 'python',
     branch: 'master',
     context: 'jenkins/python',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map privatePythonJobConfig = [
@@ -44,7 +44,7 @@ Map privatePythonJobConfig = [
     jenkinsFileName: 'python',
     branch: 'security-release',
     context: 'jenkins/python',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map ironwoodPythonJobConfig = [
@@ -66,7 +66,7 @@ Map publicQualityJobConfig = [
     jenkinsFileName: 'quality',
     branch: 'master',
     context: 'jenkins/quality',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map privateQualityJobConfig = [
@@ -77,7 +77,7 @@ Map privateQualityJobConfig = [
     jenkinsFileName: 'quality',
     branch: 'security-release',
     context: 'jenkins/quality',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map ironwoodQualityJobConfig = [

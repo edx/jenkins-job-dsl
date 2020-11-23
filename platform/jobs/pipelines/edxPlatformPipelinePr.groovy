@@ -88,18 +88,6 @@ Map publicPythonJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5',
-]
-
-Map python38PythonJobConfig = [
-    open: true,
-    jobName: 'edx-platform-python-3.8-python-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python-3.8/python',
-    triggerPhrase: /.*jenkins\W+run\W+py38\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
     pythonVersion: '3.8',
 ]
 
@@ -127,7 +115,7 @@ Map privatePythonJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map publicPythonIronwoodJobConfig = [
@@ -179,18 +167,6 @@ Map publicQualityJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
-]
-
-Map python38QualityJobConfig = [
-    open: true,
-    jobName: 'edx-platform-python-3.8-quality-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python-3.8/quality',
-    triggerPhrase: /.*jenkins\W+run\W+py38\W+quality.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
     pythonVersion: '3.8',
 ]
 
@@ -218,7 +194,7 @@ Map privateQualityJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map publicQualityIronwoodJobConfig = [
@@ -266,14 +242,12 @@ List jobConfigs = [
     publicLettuceIronwoodJobConfig,
     privateLettuceIronwoodJobConfig,
     publicPythonJobConfig,
-    python38PythonJobConfig,
     django30PythonJobConfig,
     privatePythonJobConfig,
     publicPythonIronwoodJobConfig,
     privatePythonIronwoodJobConfig,
     publicPythonJuniperJobConfig,
     publicQualityJobConfig,
-    python38QualityJobConfig,
     django30QualityJobConfig,
     privateQualityJobConfig,
     publicQualityIronwoodJobConfig,

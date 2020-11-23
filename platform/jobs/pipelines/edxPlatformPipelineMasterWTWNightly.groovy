@@ -10,7 +10,7 @@ Map wtwPythonJobConfig = [
     jenkinsFileName: 'python',
     branch: 'master',
     context: 'jenkins/python-contexts',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 List jobConfigs = [
