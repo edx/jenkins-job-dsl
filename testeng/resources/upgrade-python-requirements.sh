@@ -15,7 +15,20 @@ make upgrade
 echo "Running script to create PR..."
 cd ../testeng-ci
 pip install -r requirements/base.txt
-python -m jenkins.upgrade_python_requirements --repo_root="../$REPO_NAME" --user_reviewers=$PR_USER_REVIEWERS --team_reviewers=$PR_TEAM_REVIEWERS
+
+pr_body="$(cat <<EOF
+Python requirements update.  Please review the [changelogs](\
+https://openedx.atlassian.net/wiki/spaces/TE/pages/1001521320/Python+Package+Changelogs\
+) for the upgraded packages.
+EOF
+)"
+
+python -m jenkins.pull_request_creator --repo-root="../$REPO_NAME" \
+       --branch-name="upgrade-python-requirements" --commit-message="Updating Python Requirements" \
+       --pr-title="Python Requirements Update" --pr-body="$pr_body" \
+       --user-reviewers="$PR_USER_REVIEWERS" --team-reviewers="$PR_TEAM_REVIEWERS" \
+       --delete-old-pull-requests
+
 
 deactivate
 cd ..
