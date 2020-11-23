@@ -40,7 +40,7 @@ Map publicJobConfig = [
     context: 'jenkins/js',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
     defaultBranch : 'master',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map privateJobConfig = [
@@ -51,7 +51,7 @@ Map privateJobConfig = [
     context: 'jenkins/js',
     refSpec : '+refs/heads/security-release:refs/remotes/origin/security-release',
     defaultBranch : 'security-release',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map ironwoodJobConfig = [

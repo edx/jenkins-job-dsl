@@ -344,7 +344,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'edx-platform',
         targetBranch: "master",
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessDailyLahore,
         githubUserReviewers: [],
         githubTeamReviewers: ['arbi-bom'],

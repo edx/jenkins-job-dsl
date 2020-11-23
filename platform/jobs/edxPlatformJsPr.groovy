@@ -57,17 +57,6 @@ Map publicJobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/js',
     triggerPhrase: /.*jenkins\W+run\W+js.*/,
-    pythonVersion: '3.5',
-]
-
-Map python38JobConfig = [
-    open: true,
-    jobName: 'edx-platform-python-3.8-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'js-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python-3.8/js',
-    triggerPhrase: /.*jenkins\W+run\W+py38\W+js.*/,
     pythonVersion: '3.8',
 ]
 
@@ -92,7 +81,7 @@ Map privateJobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/js',
     triggerPhrase: /.*jenkins\W+run\W+js.*/,
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map publicIronwoodJobConfig = [
@@ -127,7 +116,6 @@ Map publicJuniperJobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    python38JobConfig,
     django30JobConfig,
     privateJobConfig,
     publicIronwoodJobConfig,
