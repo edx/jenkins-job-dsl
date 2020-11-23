@@ -24,7 +24,7 @@ EOF
 )"
 
 python -m jenkins.pull_request_creator --repo-root="../$REPO_NAME" \
-       --branch-name="upgrade-python-requirements" --commit-message="Updating Python Requirements" \
+       --base-branch-name="upgrade-python-requirements" --commit-message="Updating Python Requirements" \
        --pr-title="Python Requirements Update" --pr-body="$pr_body" \
        --user-reviewers="$PR_USER_REVIEWERS" --team-reviewers="$PR_TEAM_REVIEWERS" \
        --delete-old-pull-requests
