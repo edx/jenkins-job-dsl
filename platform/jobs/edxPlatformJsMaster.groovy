@@ -64,10 +64,22 @@ Map ironwoodJobConfig = [
     defaultBranch : 'refs/heads/open-release/ironwood.master'
 ]
 
+Map koaJobConfig = [
+    open: true,
+    jobName: 'koa-js-master',
+    repoName: 'edx-platform',
+    workerLabel: 'koa-jenkins-worker',
+    context: 'jenkins/koa/js',
+    refSpec : '+refs/heads/open-release/koa.master:refs/remotes/origin/open-release/koa.master',
+    defaultBranch : 'refs/heads/open-release/koa.master',
+    pythonVersion: '3.8',
+]
+
 List jobConfigs = [
     publicJobConfig,
     privateJobConfig,
-    ironwoodJobConfig
+    ironwoodJobConfig,
+    koaJobConfig
 ]
 
 /* Iterate over the job configurations */

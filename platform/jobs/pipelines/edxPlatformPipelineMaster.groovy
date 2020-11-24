@@ -58,6 +58,17 @@ Map ironwoodPythonJobConfig = [
     pythonVersion: '2.7',
 ]
 
+Map koaPythonJobConfig = [
+    open: true,
+    jobName: 'koa-python-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    branch: 'open-release/koa.master',
+    context: 'jenkins/koa/python',
+    pythonVersion: '3.8',
+]
+
 Map publicQualityJobConfig = [
     open: true,
     jobName: 'edx-platform-quality-pipeline-master',
@@ -91,15 +102,28 @@ Map ironwoodQualityJobConfig = [
     pythonVersion: '2.7',
 ]
 
+Map koaQualityJobConfig = [
+    open: true,
+    jobName: 'koa-quality-pipeline-master',
+    repoName: 'edx-platform',
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    branch: 'open-release/koa.master',
+    context: 'jenkins/koa/quality',
+    pythonVersion: '3.8',
+]
+
 List jobConfigs = [
     ironwoodBokchoyJobConfig,
     ironwoodLettuceJobConfig,
     publicPythonJobConfig,
     privatePythonJobConfig,
     ironwoodPythonJobConfig,
+    koaPythonJobConfig,
     publicQualityJobConfig,
     privateQualityJobConfig,
-    ironwoodQualityJobConfig
+    ironwoodQualityJobConfig,
+    koaQualityJobConfig
 ]
 
 /* Iterate over the job configurations */
