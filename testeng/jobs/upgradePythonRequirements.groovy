@@ -633,7 +633,6 @@ jobConfigs.each { jobConfig ->
         label('jenkins-worker')
         environmentVariables(
             REPO_NAME: jobConfig.repoName,
-            ORG: jobConfig.org,
             PYTHON_VERSION: jobConfig.pythonVersion,
             PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(','),
             PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(',')
@@ -642,7 +641,7 @@ jobConfigs.each { jobConfig ->
             git {
                 remote {
                     credentials('jenkins-worker')
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:${jobConfig.org}/${jobConfig.repoName}.git")
                 }
                 branch("${jobConfig.targetBranch}")
                 extensions {
