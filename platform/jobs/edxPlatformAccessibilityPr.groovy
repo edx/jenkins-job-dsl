@@ -116,6 +116,17 @@ Map publicJuniperJobConfig = [
     triggerPhrase: /.*juniper\W+run\W+a11y.*/
 ]
 
+Map publicKoaJobConfig = [
+    open: true,
+    jobName: 'koa-accessibility-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'koa-jenkins-worker',
+    whitelistBranchRegex: /open-release\/koa.master/,
+    context: 'jenkins/koa/a11y',
+    triggerPhrase: /.*koa\W+run\W+a11y.*/,
+    pythonVersion: '3.8'
+]
+
 List jobConfigs = [
     publicJobConfig,
     python38JobConfig,
@@ -124,6 +135,7 @@ List jobConfigs = [
     publicIronwoodJobConfig,
     privateIronwoodJobConfig,
     publicJuniperJobConfig,
+    publicKoaJobConfig,
 ]
 
 /* Iterate over the job configurations */

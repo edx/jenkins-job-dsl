@@ -169,6 +169,19 @@ Map publicPythonJuniperJobConfig = [
     pythonVersion: '3.5',
 ]
 
+Map publicPythonKoaJobConfig = [
+    open: true,
+    jobName: 'koa-python-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /open-release\/koa.master/,
+    context: 'jenkins/koa/python',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*koa\W+run\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    pythonVersion: '3.8',
+]
+
 Map publicQualityJobConfig = [
     open: true,
     jobName: 'edx-platform-quality-pipeline-pr',
@@ -260,6 +273,19 @@ Map publicQualityJuniperJobConfig = [
     pythonVersion: '3.5',
 ]
 
+Map publicQualityKoaJobConfig = [
+    open: true,
+    jobName: 'koa-quality-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /open-release\/koa.master/,
+    context: 'jenkins/koa/quality',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*koa\W+run\W+quality.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    pythonVersion: '3.8',
+]
+
 List jobConfigs = [
     publicBokchoyIronwoodJobConfig,
     privateBokchoyIronwoodJobConfig,
@@ -272,6 +298,7 @@ List jobConfigs = [
     publicPythonIronwoodJobConfig,
     privatePythonIronwoodJobConfig,
     publicPythonJuniperJobConfig,
+    publicPythonKoaJobConfig,
     publicQualityJobConfig,
     python38QualityJobConfig,
     django30QualityJobConfig,
@@ -279,6 +306,7 @@ List jobConfigs = [
     publicQualityIronwoodJobConfig,
     privateQualityIronwoodJobConfig,
     publicQualityJuniperJobConfig,
+    publicQualityKoaJobConfig,
 ]
 
 /* Iterate over the job configurations */

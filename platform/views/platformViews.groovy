@@ -5,6 +5,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 List<String> branchList = [ "edx-platform", // Represents all non-release testing
                             "ironwood",
                             "juniper",
+                            "koa",
                             ]
 
 branchList.each { branch ->
