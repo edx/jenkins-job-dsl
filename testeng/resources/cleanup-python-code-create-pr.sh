@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 IFS=',' read -ra SCRIPTSTORUN <<<"$SCRIPTS"
 
@@ -47,7 +47,7 @@ The following packages were installed:
 \`$PACKAGES\`
 EOF
 )"
-  if python -m jenkins.pull_request_creator --repo_root="$WORKSPACE/$repo" \
+  if python -m jenkins.pull_request_creator --repo-root="$WORKSPACE/$repo" \
             --base-branch-name="cleanup-python-code" --commit-message="$message" \
             --pr-title="Python Code Cleanup" --pr-body="$message" \
             --user-reviewers="$PR_USER_REVIEWERS" --team-reviewers="$PR_TEAM_REVIEWERS" \
