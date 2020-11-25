@@ -205,6 +205,9 @@ class CreateSandbox {
 
                 booleanParam("logistration",false,"Enable Logistration MFE")
                 stringParam("logistration_version","master","The repository version of the frontend-app-logistration")
+
+                booleanParam("payment",false,"Enable Payment MFE")
+                stringParam("payment_version","master","The repository version of the frontend-app-payment")
                 
                 choiceParam("server_type",
                             [
