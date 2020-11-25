@@ -17,7 +17,6 @@ import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
 import static analytics.FinanceReport.cybersource_pull_job as CybersourcePullJob
 import static analytics.FinanceReport.finance_report_job as FinanceReportJob
 import static analytics.FinanceReport.payments_validation_job as PaymentsValidationJob
-import static analytics.GenerateWarehouseDocs.job as GenerateWarehouseDocsJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import static analytics.LoadAffiliateWindowToWarehouse.job as LoadAffiliateWindowWarehouseJob
 import static analytics.LoadCourseStructure.job as LoadCourseStructureJob
@@ -87,7 +86,6 @@ def taskMap = [
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
     EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
     FINANCE_REPORT_JOB: FinanceReportJob,
-    GENERATE_WAREHOUSE_DOCS_JOB: GenerateWarehouseDocsJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
     LOAD_AFFILIATE_WINDOW_JOB: LoadAffiliateWindowWarehouseJob,
     LOAD_COURSE_STRUCTURE_JOB: LoadCourseStructureJob,
@@ -175,7 +173,6 @@ listView('Warehouse') {
         name('courseware-links-clicked')
         name('finance-report')
         name('payments-validation')
-        name('generate-warehouse-docs')
         name('affiliate-window')
         name('snowflake-schema-builder')
         regex('refresh-snowpipe-.*')
