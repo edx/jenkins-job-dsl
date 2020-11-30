@@ -1,8 +1,6 @@
 #!/bin/bash
 set -eu -o pipefail
 
-IFS=',' read -ra SCRIPTSTORUN <<<"$SCRIPTS"
-
 PACKAGESTOINSTALL="$(echo "$PACKAGES" | tr , " ")"
 
 IFS=',' read -ra REPOS <<<"$REPO_NAMES"
@@ -36,10 +34,7 @@ do_one_repo () {
 
   pip install "$PACKAGESTOINSTALL"
 
-  for element in "${SCRIPTSTORUN[@]}"; do
-    # shellcheck disable=SC2091
-    $(echo "$element")
-  done
+  bash -c "$SCRIPTS"
 
   echo "Running script to create PR..."
   cd "$WORKSPACE/testeng-ci"
