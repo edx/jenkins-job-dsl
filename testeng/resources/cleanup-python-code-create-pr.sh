@@ -9,21 +9,27 @@ IFS=',' read -ra REPOS <<<"$REPO_NAMES"
 
 failed_repos=()
 
+all_repos="$WORKSPACE/edx-repos"
+mkdir -p "$all_repos"
+
+all_venvs="$WORKSPACE/edx-venvs"
+mkdir -p "$all_venvs"
+
 for repo in "${REPOS[@]}"; do
+  repo_dir="$all_repos/$repo"
 
-  rm -rf "${repo}"
+  rm -rf "$repo_dir"
+  if git clone "https://github.com/$ORG/$repo.git" "$repo_dir"; then true; else failed_repos+=("${repo}") && continue; fi
 
-  if git clone "https://github.com/$ORG/$repo.git" "$WORKSPACE/$repo"; then true; else failed_repos+=("${repo}") && continue; fi
-
-  rm -rf "${repo}"-code_cleanup_venv
-  virtualenv --python=python"$PYTHON_VERSION" "${repo}"-code_cleanup_venv -q
-  source "${repo}"-code_cleanup_venv/bin/activate
+  venv_dir="$all_venvs/$repo"
+  virtualenv --python=python"$PYTHON_VERSION" "$venv_dir" --clear -q
+  source "$venv_dir/bin/activate"
 
   echo "Upgrading pip..."
   if pip install pip==20.0.2; then true; else failed_repos+=("${repo}") && continue; fi
 
   echo "Running cleanup..."
-  cd "$WORKSPACE/$repo"
+  cd "$repo_dir"
 
   if pip install $PACKAGESTOINSTALL; then true; else failed_repos+=("${repo}") && continue; fi
 
@@ -47,7 +53,7 @@ The following packages were installed:
 \`$PACKAGES\`
 EOF
 )"
-  if python -m jenkins.pull_request_creator --repo-root="$WORKSPACE/$repo" \
+  if python -m jenkins.pull_request_creator --repo-root="$repo_dir" \
             --base-branch-name="cleanup-python-code" --commit-message="$message" \
             --pr-title="Python Code Cleanup" --pr-body="$message" \
             --user-reviewers="$PR_USER_REVIEWERS" --team-reviewers="$PR_TEAM_REVIEWERS" \
@@ -57,13 +63,13 @@ EOF
   else
     deactivate
     cd "$WORKSPACE"
-    rm -rf "${repo}"-code_cleanup_venv
+    rm -rf "$venv_dir"
     failed_repos+=("${repo}") && continue
   fi
 
   deactivate
   cd "$WORKSPACE"
-  rm -rf "${repo}"-code_cleanup_venv
+  rm -rf "$venv_dir"
 
 done
 
