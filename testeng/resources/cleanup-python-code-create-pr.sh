@@ -13,7 +13,7 @@ for repo in "${REPOS[@]}"; do
 
   rm -rf "${repo}"
 
-  if git clone "https://github.com/$ORG/$repo.git"; then true; else failed_repos+=("${repo}") && continue; fi
+  if git clone "https://github.com/$ORG/$repo.git" "$WORKSPACE/$repo"; then true; else failed_repos+=("${repo}") && continue; fi
 
   rm -rf "${repo}"-code_cleanup_venv
   virtualenv --python=python"$PYTHON_VERSION" "${repo}"-code_cleanup_venv -q
@@ -23,7 +23,7 @@ for repo in "${REPOS[@]}"; do
   if pip install pip==20.0.2; then true; else failed_repos+=("${repo}") && continue; fi
 
   echo "Running cleanup..."
-  cd "${repo}"
+  cd "$WORKSPACE/$repo"
 
   if pip install $PACKAGESTOINSTALL; then true; else failed_repos+=("${repo}") && continue; fi
 
@@ -33,7 +33,7 @@ for repo in "${REPOS[@]}"; do
   done
 
   echo "Running script to create PR..."
-  cd ../testeng-ci
+  cd "$WORKSPACE/testeng-ci"
   if pip install -r requirements/base.txt; then true; else failed_repos+=("${repo}") && continue ; fi
   message="$(cat <<EOF
 Python code cleanup by the cleanup-python-code Jenkins job.
@@ -56,13 +56,13 @@ EOF
     true
   else
     deactivate
-    cd ..
+    cd "$WORKSPACE"
     rm -rf "${repo}"-code_cleanup_venv
     failed_repos+=("${repo}") && continue
   fi
 
   deactivate
-  cd ..
+  cd "$WORKSPACE"
   rm -rf "${repo}"-code_cleanup_venv
 
 done
