@@ -1,19 +1,21 @@
 #!/bin/bash
-set -e
+set -eu -o pipefail
 
-rm -rf upgrade_venv
-virtualenv --python=python$PYTHON_VERSION upgrade_venv -q
-source upgrade_venv/bin/activate
+repo_dir="$WORKSPACE/repo_to_upgrade"
+venv="$WORKSPACE/upgrade_venv"
+
+virtualenv --python="python$PYTHON_VERSION" "$venv" --clear --quiet
+source "$venv/bin/activate"
 
 echo "Upgrading pip..."
-pip install pip==20.0.2
+pip install "pip==20.0.2"
 
 echo "Running make upgrade..."
-cd $REPO_NAME
+cd "$repo_dir"
 make upgrade
 
 echo "Running script to create PR..."
-cd ../testeng-ci
+cd "$WORKSPACE/testeng-ci"
 pip install -r requirements/base.txt
 
 pr_body="$(cat <<EOF
@@ -23,13 +25,15 @@ https://openedx.atlassian.net/wiki/spaces/TE/pages/1001521320/Python+Package+Cha
 EOF
 )"
 
-python -m jenkins.pull_request_creator --repo-root="../$REPO_NAME" \
+# Note that Jenkins omits any environment variables that are empty or
+# whitespace, so we need to default the reviewer vars to empty if
+# they're missing.
+python -m jenkins.pull_request_creator --repo-root="$repo_dir" \
        --base-branch-name="upgrade-python-requirements" --commit-message="Updating Python Requirements" \
        --pr-title="Python Requirements Update" --pr-body="$pr_body" \
-       --user-reviewers="$PR_USER_REVIEWERS" --team-reviewers="$PR_TEAM_REVIEWERS" \
+       --user-reviewers="${PR_USER_REVIEWERS:-}" --team-reviewers="${PR_TEAM_REVIEWERS:-}" \
        --delete-old-pull-requests
 
 
 deactivate
-cd ..
-rm -rf upgrade_venv
+rm -rf "$venv"
