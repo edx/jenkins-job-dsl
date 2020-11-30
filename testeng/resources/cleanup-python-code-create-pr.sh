@@ -3,7 +3,7 @@ set -eu -o pipefail
 
 IFS=',' read -ra SCRIPTSTORUN <<<"$SCRIPTS"
 
-PACKAGESTOINSTALL=$(echo $PACKAGES | tr , " ")
+PACKAGESTOINSTALL="$(echo "$PACKAGES" | tr , " ")"
 
 IFS=',' read -ra REPOS <<<"$REPO_NAMES"
 
@@ -28,13 +28,13 @@ do_one_repo () {
   source "$venv_dir/bin/activate"
 
   echo "Upgrading pip..."
-  pip install pip==20.0.2
+  pip install "pip==20.0.2"
 
   local PKG_SPECS
   echo "Running cleanup..."
   cd "$repo_dir"
 
-  pip install $PACKAGESTOINSTALL
+  pip install "$PACKAGESTOINSTALL"
 
   for element in "${SCRIPTSTORUN[@]}"; do
     # shellcheck disable=SC2091
@@ -76,7 +76,7 @@ for repo in "${REPOS[@]}"; do
   #
   # Running in a subshell means we don't have to deactivate the venv.
   (do_one_repo "$repo") &
-  wait $! || failed_repos+=("${repo}")
+  wait $! || failed_repos+=("$repo")
 done
 
 if [ ${#failed_repos[@]} -ne 0 ]; then
