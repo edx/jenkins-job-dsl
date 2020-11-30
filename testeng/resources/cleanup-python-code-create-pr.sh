@@ -1,8 +1,6 @@
 #!/bin/bash
 set -eu -o pipefail
 
-PACKAGESTOINSTALL="$(echo "$PACKAGES" | tr , " ")"
-
 IFS=',' read -ra REPOS <<<"$REPO_NAMES"
 
 failed_repos=()
@@ -29,11 +27,14 @@ do_one_repo () {
   pip install "pip==20.0.2"
 
   local PKG_SPECS
-  echo "Running cleanup..."
+  IFS=", " read -ra PKG_SPECS <<<"$PACKAGES"
+  if [[ "${#PKG_SPECS[@]}" -gt 0 ]]; then
+    echo "Installing extra packages..."
+    pip install "${PKG_SPECS[@]}"
+  fi
+
+  echo "Running cleanup scripts..."
   cd "$repo_dir"
-
-  pip install "$PACKAGESTOINSTALL"
-
   bash -c "$SCRIPTS"
 
   echo "Running script to create PR..."

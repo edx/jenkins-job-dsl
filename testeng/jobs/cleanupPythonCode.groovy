@@ -9,7 +9,7 @@ job('cleanup-python-code') {
     parameters {
         stringParam('repoNames', null, 'Comma separated list of names of (public) target repositories')
         choiceParam('pythonVersion', ['3.8', '3.5', '2.7'], 'Version of python to use')
-        stringParam('packages', '', 'Comma separated list of packages to install')
+        stringParam('packages', '', 'Comma or space separated list of packages to install')
         stringParam('scripts', '', 'Bash script to run (can separate commands with semicolons)')
     }
 
