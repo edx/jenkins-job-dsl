@@ -624,7 +624,7 @@ List jobConfigs = [
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
 
-    job("${jobConfig.repoName}-upgrade-python-requirements") {
+    job("${jobConfig.org}-${jobConfig.repoName}-upgrade-python-requirements") {
 
         logRotator {
             daysToKeep(14)
@@ -632,7 +632,6 @@ jobConfigs.each { jobConfig ->
         concurrentBuild(false)
         label('jenkins-worker')
         environmentVariables(
-            REPO_NAME: jobConfig.repoName,
             PYTHON_VERSION: jobConfig.pythonVersion,
             PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(','),
             PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(',')
@@ -643,10 +642,10 @@ jobConfigs.each { jobConfig ->
                     credentials('jenkins-worker')
                     url("git@github.com:${jobConfig.org}/${jobConfig.repoName}.git")
                 }
-                branch("${jobConfig.targetBranch}")
+                branch(jobConfig.targetBranch)
                 extensions {
                     cleanBeforeCheckout()
-                    relativeTargetDirectory(jobConfig.repoName)
+                    relativeTargetDirectory('repo_to_upgrade')
                 }
             }
             git {
