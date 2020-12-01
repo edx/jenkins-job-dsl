@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
-# Calculate the start of the validation window as 10 days prior to the end of the window.
+# Calculate the start of the validation window as 15 days prior to the end of the window.
 COMPARISON_END_TIME="${SQOOP_START_TIME}"
-COMPARISON_START_TIME=$(date --utc --iso=minutes -d "${COMPARISON_END_TIME} - 10 days")
+COMPARISON_START_TIME=$(date --utc --iso=minutes -d "${COMPARISON_END_TIME} - 15 days")
 
 # Tooling setup
 cd $WORKSPACE/analytics-tools/snowflake
