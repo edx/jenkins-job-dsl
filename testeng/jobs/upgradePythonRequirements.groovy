@@ -4,7 +4,7 @@ package testeng
 // Map exampleConfig = [
 //     org: Github organization,
 //     repoName: Github repository,
-//     targetBranch: the default branch of the repository. Ideally, this should be 'main'
+//     defaultBranch: the default branch of the repository. Ideally, this should be 'main'
 //     pythonVersion: The version of python under which to run pip-compile.  If multiple versions are supported by the repo, use the oldest one
 //     cronValue: How often to run the job,
 //     githubUserReviewers: List of Github users that should be tagged on PR's, e.g.: ['user1', 'user2']
@@ -37,7 +37,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'api-doc-tools',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -47,7 +47,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'auth-backends',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -58,7 +58,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'bok-choy',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -69,7 +69,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'cc2olx',
-        targetBranch: 'master',
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
@@ -79,7 +79,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'platform-plugin-coaching',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -89,7 +89,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'configuration',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: ['fredsmith'],
@@ -100,7 +100,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'completion',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -111,7 +111,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-cookiecutters',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -122,7 +122,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'course-discovery',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: ['mikix'],
@@ -133,7 +133,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'credentials',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -143,7 +143,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'demographics',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -153,7 +153,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'devstack',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -164,7 +164,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'django-config-models',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -175,7 +175,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'django-lang-pref-middleware',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -185,7 +185,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'django-user-tasks',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: ['jmbowman'],
@@ -196,7 +196,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'ecommerce',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -206,7 +206,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-ace',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -217,7 +217,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-analytics-dashboard',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -227,7 +227,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-analytics-data-api',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -237,7 +237,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-bulk-grades',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
@@ -248,7 +248,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-celeryutils',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -259,7 +259,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-django-utils',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -269,7 +269,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-drf-extensions',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -279,7 +279,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-e2e-tests',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -290,7 +290,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-enterprise',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: ['georgebabey'],
@@ -300,7 +300,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-gomatic',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '2.7',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -310,7 +310,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-notes-api',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -321,7 +321,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-ora2',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
         githubUserReviewers: [],
@@ -332,7 +332,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-organizations',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -343,7 +343,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-platform',
-        targetBranch: "master",
+        defaultBranch: "master",
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessDailyLahore,
         githubUserReviewers: [],
@@ -354,7 +354,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-proctoring',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
@@ -365,7 +365,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-rbac',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -376,7 +376,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-repo-health',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.6',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -387,7 +387,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-rest-api-client',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [''],
@@ -398,7 +398,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-sphinx-theme',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [''],
@@ -409,7 +409,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-toggles',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -420,7 +420,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-val',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [''],
@@ -431,7 +431,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'edx-when',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -442,7 +442,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'event-routing-backends',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -453,7 +453,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'event-tracking',
-        targetBranch: "master",
+        defaultBranch: 'master',
         // This repo had issues with the newest version of celery that gets pulled in when I build requirements in python
         // 3.8 so I'm leaving it at 3.5 for now so that arbi-bom can go through the upgrade with this when they are doing
         // this work for the other repos.
@@ -467,7 +467,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'opaque-keys',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: ['cpennington'],
@@ -478,7 +478,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'openedxstats',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -489,7 +489,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'portal-designer',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
         githubUserReviewers: [],
@@ -500,7 +500,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'pytest-repo-health',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.6',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -511,7 +511,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'registrar',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
@@ -522,7 +522,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'repo-health-data',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
@@ -533,7 +533,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'staff_graded-xblock',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
         githubUserReviewers: [],
@@ -544,7 +544,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'super-csv',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
@@ -555,7 +555,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'testeng-ci',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -566,7 +566,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'video-encode-manager',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.6',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -577,7 +577,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'XBlock',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: ['cpennington'],
@@ -588,7 +588,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'xblock-utils',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -599,7 +599,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'xqueue',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
@@ -610,7 +610,7 @@ List jobConfigs = [
     [
         org: 'edx',
         repoName: 'xss-utils',
-        targetBranch: "master",
+        defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
@@ -626,13 +626,19 @@ jobConfigs.each { jobConfig ->
 
     job("${jobConfig.org}-${jobConfig.repoName}-upgrade-python-requirements") {
 
+        parameters {
+            stringParam('TARGET_BRANCH', jobConfig.defaultBranch, 'Target branch to run make upgrade in')
+        }
+
         logRotator {
             daysToKeep(14)
         }
         concurrentBuild(false)
         label('jenkins-worker')
+
         environmentVariables(
             PYTHON_VERSION: jobConfig.pythonVersion,
+            TARGET_BRANCH: '$TARGET_BRANCH',
             PR_USER_REVIEWERS: jobConfig.githubUserReviewers.join(','),
             PR_TEAM_REVIEWERS: jobConfig.githubTeamReviewers.join(',')
         )
@@ -642,7 +648,7 @@ jobConfigs.each { jobConfig ->
                     credentials('jenkins-worker')
                     url("git@github.com:${jobConfig.org}/${jobConfig.repoName}.git")
                 }
-                branch(jobConfig.targetBranch)
+                branch('$TARGET_BRANCH')
                 extensions {
                     cleanBeforeCheckout()
                     relativeTargetDirectory('repo_to_upgrade')
