@@ -620,11 +620,17 @@ List jobConfigs = [
     ],
 ]
 
+seenRepoNames = []
 
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
 
-    job("${jobConfig.org}-${jobConfig.repoName}-upgrade-python-requirements") {
+    if (jobConfig.repoName in seenRepoNames) {
+        throw new IllegalArgumentException("Repo ${jobConfig.repoName} specified twice in upgrades list")
+    }
+    seenRepoNames.add(jobConfig.repoName)
+
+    job("${jobConfig.repoName}-upgrade-python-requirements") {
 
         parameters {
             stringParam('TARGET_BRANCH', jobConfig.defaultBranch, 'Target branch to run make upgrade in')
