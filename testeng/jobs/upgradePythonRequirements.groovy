@@ -424,8 +424,8 @@ List jobConfigs = [
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [''],
-        githubTeamReviewers: ['sustaining-vulcans'],
-        emails: ['sustaining-vulcans@edx.org'],
+        githubTeamReviewers: ['incident-management'],
+        emails: ['incident-management@edx.org'],
         alwaysNotify: false
     ],
     [
@@ -603,8 +603,8 @@ List jobConfigs = [
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
-        githubTeamReviewers: ['sustaining-team'],
-        emails: ['sustaining-escalations@edx.org'],
+        githubTeamReviewers: ['arbi-bom'],
+        emails: ['arbi-bom@edx.org'],
         alwaysNotify: false
     ],
     [
