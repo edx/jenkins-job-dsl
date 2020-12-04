@@ -625,6 +625,12 @@ seenRepoNames = []
 /* Iterate over the job configurations */
 jobConfigs.each { jobConfig ->
 
+    // Null out and disable the version of these jobs that had the org
+    // in the name. After these are deleted, this block can be removed.
+    job("${jobConfig.org}-${jobConfig.repoName}-upgrade-python-requirements") {
+        disabled()
+    }
+
     if (jobConfig.repoName in seenRepoNames) {
         throw new IllegalArgumentException("Repo ${jobConfig.repoName} specified twice in upgrades list")
     }
