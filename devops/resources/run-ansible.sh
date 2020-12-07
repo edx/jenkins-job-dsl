@@ -3,10 +3,6 @@
 set -ex
 
 cd $WORKSPACE/configuration
-
-virtualenv -p `which python3.6` --quiet venv
-. venv/bin/activate
-
 pip install -r requirements.txt
 pip install awscli
 

@@ -120,7 +120,12 @@ class RunAnsible {
             }
 
             steps {
-                shell(dslFactory.readFileFromWorkspace('devops/resources/run-ansible.sh'))
+                virtualenv {
+                    pythonName('System-CPython-3.6')
+                    name(jobName)
+                    nature('shell')
+                    command(dslFactory.readFileFromWorkspace('devops/resources/run-ansible.sh'))
+                }
             }
 
             publishers {
