@@ -211,8 +211,8 @@ class CreateSandbox {
                 
                 choiceParam("server_type",
                             [
-                            "full_edx_installation_from_scratch",
                             "full_edx_installation",
+                            "full_edx_installation_from_scratch",
                              "ubuntu_18.04",
                              "ubuntu_20.04",
                              "ubuntu_16.04",
