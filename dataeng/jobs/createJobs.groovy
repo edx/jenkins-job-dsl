@@ -3,7 +3,6 @@ import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.AnswerDistribution.job as AnswerDistributionJob
 import static analytics.BackupVertica.job as BackupVerticaJob
-import static analytics.CoursewareLinksClicked.job as CoursewareLinksClickedJob
 import static analytics.DBTDocs.job as DBTDocsJob
 import static analytics.DBTManual.job as DBTManualJob
 import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
@@ -73,7 +72,6 @@ def taskMap = [
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
     BACKUP_VERTICA_JOB: BackupVerticaJob,
-    COURSEWARE_LINKS_CLICKED_JOB: CoursewareLinksClickedJob,
     CYBERSOURCE_PULL_JOB: CybersourcePullJob,
     DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
     DBT_DOCS_JOB: DBTDocsJob,
@@ -170,7 +168,6 @@ listView('Exporter') {
 listView('Warehouse') {
     jobs {
         name('event-type-distribution')
-        name('courseware-links-clicked')
         name('finance-report')
         name('payments-validation')
         name('affiliate-window')
