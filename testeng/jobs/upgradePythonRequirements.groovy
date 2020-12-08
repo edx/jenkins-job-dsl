@@ -80,7 +80,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'platform-plugin-coaching',
         defaultBranch: 'master',
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
         githubTeamReviewers: ['edx-aperture'],
