@@ -18,7 +18,6 @@ import static analytics.FinanceReport.finance_report_job as FinanceReportJob
 import static analytics.FinanceReport.payments_validation_job as PaymentsValidationJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import static analytics.LoadAffiliateWindowToWarehouse.job as LoadAffiliateWindowWarehouseJob
-import static analytics.LoadCourseStructure.job as LoadCourseStructureJob
 import static analytics.LoadEvents.load_events_to_s3_job as LoadEventsToS3Job
 import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVerticaJob
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
@@ -86,7 +85,6 @@ def taskMap = [
     FINANCE_REPORT_JOB: FinanceReportJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
     LOAD_AFFILIATE_WINDOW_JOB: LoadAffiliateWindowWarehouseJob,
-    LOAD_COURSE_STRUCTURE_JOB: LoadCourseStructureJob,
     LOAD_EVENTS_TO_S3_JOB: LoadEventsToS3Job,
     LOAD_EVENTS_TO_VERTICA_JOB: LoadEventsToVerticaJob,
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
