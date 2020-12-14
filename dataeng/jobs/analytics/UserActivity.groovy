@@ -11,6 +11,11 @@ class UserActivity {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("user-activity-$environment") {
+                // As part of the MySQL upgrade for Insights/Data API, we need to disable the jobs that
+                // interface with the resultstore.
+                // TODO: once the upgrade is complete for both prod and edge environments, remove this line
+                disabled(env_config.get('JOB_DISABLED'))
+
                 logRotator common_log_rotator(allVars, env_config)
                 parameters common_parameters(allVars, env_config)
                 parameters to_date_interval_parameter(allVars)
