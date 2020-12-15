@@ -37,7 +37,6 @@ if [[ ${DAY_OF_WEEK} -eq ${MONDAY} || ${FORCE} = "true" ]]; then
     # All went well (we know that because of set -e), so we should generate a
     # downstream properties file which signals this job to invoke the downstream
     # job.
-    echo "APP_NAME=${APP_NAME}" >> "${DOWNSTREAM_PROPERTIES_FILE}"
     echo "SQOOP_START_TIME=${SQOOP_START_TIME}" >> "${DOWNSTREAM_PROPERTIES_FILE}"
 
 else
