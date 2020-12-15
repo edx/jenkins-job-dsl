@@ -73,7 +73,7 @@ class SnowflakeReplicaImportFromS3 {
                 publishers common_publishers(allVars)
                 publishers {
                     downstreamParameterized {
-                        trigger("snowflake-validate-stitch") {
+                        trigger("snowflake-validate-stitch-$APP_NAME") {
                             condition('SUCCESS')
                             parameters {
                                 // The contents of this file are generated as part of the script in the build step.
