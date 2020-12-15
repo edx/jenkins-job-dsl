@@ -125,7 +125,7 @@ List jobConfigs = [
         defaultBranch: 'master',
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: ['mikix'],
+        githubUserReviewers: [],
         githubTeamReviewers: ['course-discovery-admins'],
         emails: ['mterry@edx.org'],
         alwaysNotify: false
