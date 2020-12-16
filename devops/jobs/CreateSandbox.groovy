@@ -35,6 +35,11 @@ class CreateSandbox {
 
             wrappers {
                 buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
+
+                timeout {
+                    absolute(minutes = 120)
+                    failBuild()
+                }
             }
 
             def access_control = extraVars.get('ACCESS_CONTROL',[])
