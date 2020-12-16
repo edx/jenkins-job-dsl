@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu -o pipefail
 
-IFS=',' read -ra REPOS <<<"$REPO_NAMES"
+IFS=', ' read -ra REPOS <<<"$REPO_NAMES"
 
 failed_repos=()
 
