@@ -570,8 +570,8 @@ List jobConfigs = [
         pythonVersion: '3.6',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
-        githubTeamReviewers: ['vem-devel'],
-        emails: ['azarembok@edx.org', 'dsheraz@edx.org', 'zamir@edx.org'],
+        githubTeamReviewers: ['incident-management'],
+        emails: ['incident-management@edx.org'],
         alwaysNotify: false
     ],
     [
