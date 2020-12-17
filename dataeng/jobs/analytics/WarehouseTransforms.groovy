@@ -42,6 +42,9 @@ class WarehouseTransforms{
                 }
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
+                wrappers {
+                    colorizeOutput('xterm')
+                }
                 publishers common_publishers(allVars) << {
                     env_config.get('DOWNSTREAM_JOBS', []).each { downstream_job_name ->
                         downstream(downstream_job_name)
