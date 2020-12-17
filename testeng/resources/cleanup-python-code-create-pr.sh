@@ -35,7 +35,11 @@ do_one_repo () {
 
   echo "Running cleanup scripts..."
   cd "$repo_dir"
-  bash -c "$SCRIPTS"
+  # Run in a subshell for isolation, and enable same error/exit
+  # handling (-eu -o pipefail) so that a failing command in a sequence
+  # still marks the iteration as a failure. Turn on command echoing
+  # (-x) for better debugging.
+  bash -c "set -eu -o pipefail -x; $SCRIPTS"
 
   echo "Running script to create PR..."
   cd "$WORKSPACE/testeng-ci"
