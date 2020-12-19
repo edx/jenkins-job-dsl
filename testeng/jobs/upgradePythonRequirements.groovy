@@ -249,7 +249,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'edx-celeryutils',
         defaultBranch: 'master',
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
         githubTeamReviewers: ['arbi-bom'],
