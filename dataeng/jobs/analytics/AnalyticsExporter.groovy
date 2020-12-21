@@ -121,8 +121,8 @@ class AnalyticsExporter {
             }
 
             throttleConcurrentBuilds {
-                maxPerNode(15)
-                maxTotal(15)
+                maxPerNode(12)
+                maxTotal(12)
             }
 
             concurrentBuild()
