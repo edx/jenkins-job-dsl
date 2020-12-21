@@ -38,7 +38,6 @@ import static analytics.SnowflakeValidateStitch.job as SnowflakeValidateStitchJo
 import static analytics.SqlScripts.multiple_scripts_job as SqlScriptsJob
 import static analytics.SqlScripts.single_script_job as SingleSqlScriptJob
 import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
-import static analytics.TotalEventsDailyReport.job as TotalEventsDailyReportJob
 import static analytics.UserActivity.job as UserActivityJob
 import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
 import static analytics.VerticaReplicaImportFromS3.job as VerticaReplicaImportFromS3Job
@@ -106,7 +105,6 @@ def taskMap = [
     SNOWFLAKE_VALIDATE_STITCH_JOB: SnowflakeValidateStitchJob,
     SQL_SCRIPTS_JOB: SqlScriptsJob,
     STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,
-    TOTAL_EVENTS_DAILY_REPORT_JOB: TotalEventsDailyReportJob,
     USER_ACTIVITY_JOB: UserActivityJob,
     USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
     VERTICA_REPLICA_IMPORT_FROM_S3_JOB: VerticaReplicaImportFromS3Job,
