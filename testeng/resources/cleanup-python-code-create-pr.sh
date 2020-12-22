@@ -39,7 +39,13 @@ do_one_repo () {
   # handling (-eu -o pipefail) so that a failing command in a sequence
   # still marks the iteration as a failure. Turn on command echoing
   # (-x) for better debugging.
-  bash -c "set -eu -o pipefail -x; $SCRIPTS"
+  bash -c "set -eu -o pipefail -x; $SCRIPTS" || {
+      error_code="$?"
+      echo "Script exited with non-zero exit code $error_code."
+      echo "Check if this is a real failure or a non-zero exit that should be suppressed."
+      return "$error_code"
+  }
+  echo "Script ran successfully."
 
   echo "Running script to create PR..."
   cd "$WORKSPACE/testeng-ci"
