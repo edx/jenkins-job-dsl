@@ -18,13 +18,13 @@ while getopts 'r' opt; do
     esac
 done
 
-WHITELIST="open-release|origin/release$|olive"
+IGNORE_BRANCHES="open-release|origin/release$|olive"
 
 cd edx-platform/
 
 # this will list branches which are merged into origin/master but not deleted
-# loop into all branches and match if it is not HEAD, origin/master and whitelist branches
-for branch in $(git branch -r --merged origin/master | grep -v HEAD | grep -v origin/master | grep -vE "${WHITELIST}"); do
+# loop into all branches except  HEAD, origin/master and branches in IGNORE_BRANCHES
+for branch in $(git branch -r --merged origin/master | grep -v HEAD | grep -v origin/master | grep -vE "${IGNORE_BRANCHES}"); do
     # check if merged branch is older than 1 week
     if [ -z "$(git log -1 --since='1 week ago' -s $branch)" ]; then
         echo -e "$(git show -s --format="%ai %ar by %an" $branch) $branch"

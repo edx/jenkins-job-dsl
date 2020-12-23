@@ -11,8 +11,8 @@ cd $WORKSPACE/configuration/util/check_rds_slow_query_logs
 
 pip install -r requirements.txt
 
-if [[ ! -v WHITELIST ]]; then
-    WHITELIST=""
+if [[ ! -v IGNORE_OPTIONS ]]; then
+    IGNORE_OPTIONS=""
 fi
 
-python check_rds_slow_query_logs.py --db_engine mysql ${WHITELIST}
+python check_rds_slow_query_logs.py --db_engine mysql ${IGNORE_OPTIONS}

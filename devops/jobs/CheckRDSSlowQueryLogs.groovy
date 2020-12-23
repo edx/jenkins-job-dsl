@@ -30,14 +30,14 @@ class  CheckRDSSlowQueryLogs {
                         cron('H 13 * * 1-5 ')
                     }
 
-                    def whitelist = ""
-                        inner_config.rds.each { dbs ->
-                        whitelist = "${whitelist}--whitelist ${dbs} "
+                    def ignore_options = ""
+                        inner_config.rds.each { db ->
+                        ignore_options = "${ignore_options}--ignore ${db} "
                     }
 
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
-                        env('WHITELIST', whitelist)
+                        env('IGNORE_OPTIONS', ignore_options)
                     }
 
                     multiscm {

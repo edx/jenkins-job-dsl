@@ -30,9 +30,9 @@ class  MissingRDSAlarms {
                         cron("H H * * *")
                     }
 
-                    def whitelist = ""
-                    rds_config.rds.each { dbs ->
-                        whitelist = "${whitelist}--whitelist ${dbs} "
+                    def ignore_options = ""
+                    rds_config.rds.each { db ->
+                        ignore_options = "${ignore_options}--ignore ${db} "
                     }
 
                     environmentVariables {
