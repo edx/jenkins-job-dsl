@@ -43,7 +43,7 @@ job('cleanup-python-code') {
 
     wrappers {
         timeout {
-            absolute(30)
+            absolute(120)
         }
         credentialsBinding {
             string('GITHUB_TOKEN', 'GITHUB_REQUIREMENTS_BOT_TOKEN')
