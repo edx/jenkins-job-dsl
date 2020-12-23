@@ -5,8 +5,8 @@
 # Options
 #    -r dry run
 # Example
-#   ./delete-merged-git-branches.sh 
-#   ./delete-merged-git-branches.sh -r     
+#   ./delete-merged-git-branches.sh
+#   ./delete-merged-git-branches.sh -r
 
 dry_run=0
 
