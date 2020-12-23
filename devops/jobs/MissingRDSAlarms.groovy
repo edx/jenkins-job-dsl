@@ -35,7 +35,7 @@ class  MissingRDSAlarms {
 
                 environmentVariables {
                     env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
-                    env('IGNORE_OPTIONS', ignore_optionst)
+                    env('IGNORE_OPTIONS', ignore_options)
                 }
 
                 multiscm {
