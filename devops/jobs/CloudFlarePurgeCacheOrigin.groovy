@@ -85,13 +85,7 @@ class CloudFlarePurgeCacheOrigin {
 
             steps {
 
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(dslFactory.readFileFromWorkspace("devops/resources/cloudflare_purge_cache.sh"))
-
-                }
+                shell(dslFactory.readFileFromWorkspace('devops/resources/cloudflare_purge_cache.sh'))
 
             }
             publishers {

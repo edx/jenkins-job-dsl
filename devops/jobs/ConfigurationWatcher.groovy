@@ -111,12 +111,7 @@ class ConfigurationWatcher {
 
             // run the trigger-builds shell script in a virtual environment called venv
             steps {
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    name('venv')
-                    nature('shell')
-                    command dslFactory.readFileFromWorkspace('devops/resources/trigger-builds.sh')
-                }
+                shell(dslFactory.readFileFromWorkspace('devops/resources/trigger-builds.sh'))
 
                 // inject environment variables defined in the temp_props file (TO_BUILD)
                 // temp_props is a file that is created from devops/resources/trigger-builds.sh,

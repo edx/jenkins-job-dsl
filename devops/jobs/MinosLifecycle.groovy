@@ -181,15 +181,7 @@ class MinosLifecycle {
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-
-                            command(
-                                dslFactory.readFileFromWorkspace("devops/resources/terminate-instances-that-have-been-verified-for-retirement.sh")
-                            )
-                        }
+                       shell(dslFactory.readFileFromWorkspace('devops/resources/terminate-instances-that-have-been-verified-for-retirement.sh'))
                     }
 
                     if (extraVars.get('NOTIFY_ON_FAILURE')){

@@ -42,16 +42,8 @@ class CloudFlareHitRate {
             }
 
             steps {
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    nature("shell")
-                    systemSitePackages(false)
+               shell(dslFactory.readFileFromWorkspace('devops/resources/cloudflare-hit-rate.sh'))
 
-                    command(
-                        dslFactory.readFileFromWorkspace("devops/resources/cloudflare-hit-rate.sh")
-                    )
-
-                }
 
             }
 

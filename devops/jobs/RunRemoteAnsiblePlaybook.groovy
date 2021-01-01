@@ -116,12 +116,7 @@ class RunRemoteAnsiblePlaybook {
             }
 
             steps {
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    name(jobName)
-                    nature('shell')
-                    command(dslFactory.readFileFromWorkspace('devops/resources/run-remote-ansible-playbook.sh'))
-                }
+               shell(dslFactory.readFileFromWorkspace('devops/resources/run-remote-ansible-playbook.sh'))
             }
 
             publishers {

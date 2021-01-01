@@ -60,17 +60,7 @@ class CreatePingdomAlerts {
             triggers merge_to_master_trigger(config_branch)
 
             steps {
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    nature("shell")
-                    systemSitePackages(false)
-
-                    command(
-                        dslFactory.readFileFromWorkspace("devops/resources/create-pingdom-alerts.sh")
-                    )
-
-                }
-
+                shell(dslFactory.readFileFromWorkspace('devops/resources/create-pingdom-alerts.sh'))
             }
 
             multiscm{

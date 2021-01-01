@@ -125,12 +125,8 @@ class ImageBuilder {
 
                 steps {
                     // run the build-push-app shell script in a virtual environment called venv
-                    virtualenv {
-                        pythonName('System-CPython-3.6')
-                        name('venv')
-                        nature('shell')
-                        command dslFactory.readFileFromWorkspace('devops/resources/build-push-app.sh')
-                    }
+                    shell(dslFactory.readFileFromWorkspace('devops/resources/build-push-app.sh'))
+
                 }
             }
         }

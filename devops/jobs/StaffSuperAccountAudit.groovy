@@ -46,17 +46,7 @@ class StaffSuperAccountAudit {
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-
-                            command(
-                                dslFactory.readFileFromWorkspace("devops/resources/staff-super-account-audit.sh")
-                            )
-
-                        }
-
+                       shell(dslFactory.readFileFromWorkspace('devops/resources/staff-super-account-audit.sh'))
                     }
 
                     assert extraVars.containsKey('RECIPIENTS') : "Please define RECIPIENTS."
