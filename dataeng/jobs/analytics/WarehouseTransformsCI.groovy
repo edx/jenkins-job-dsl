@@ -31,7 +31,7 @@ class WarehouseTransformsCI{
                         //branch('$WAREHOUSE_TRANSFORMS_BRANCH') // how to get the branch for which PR is raised - ans: either use sha1 or ghprbActualCommit 
                         credentials('1') // Are these correct credentials ?
                     }
-                    branch('\${sha1}')
+                    branch('\${ghprbActualCommit}')
                     extensions {
                         //cleanBeforeCheckout()
                         relativeTargetDirectory('warehouse-transforms')
