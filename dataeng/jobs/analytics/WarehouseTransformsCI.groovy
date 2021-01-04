@@ -27,11 +27,13 @@ class WarehouseTransformsCI{
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
-                        refspec('+refs/pull/*:refs/remotes/origin/pr/*')
+                        //refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                         //branch('$WAREHOUSE_TRANSFORMS_BRANCH') // how to get the branch for which PR is raised - ans: either use sha1 or ghprbActualCommit 
+                        refspec('+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
+                        branch('\${sha1}')
                         credentials('1') // Are these correct credentials ?
                     }
-                    branch('\${ghprbActualCommit}')
+                    //branch('\${ghprbActualCommit}')
                     extensions {
                         //cleanBeforeCheckout()
                         relativeTargetDirectory('warehouse-transforms')
