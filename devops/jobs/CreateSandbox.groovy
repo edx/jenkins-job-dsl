@@ -37,7 +37,7 @@ class CreateSandbox {
                 buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
 
                 timeout {
-                    absolute(minutes = 120)
+                    absolute(120)
                     failBuild()
                 }
             }
