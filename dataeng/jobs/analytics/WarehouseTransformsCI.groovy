@@ -17,6 +17,7 @@ class WarehouseTransformsCI{
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
+                stringParam('PROJECT_URL', allVars.get('PROJECT_URL'), 'Github Project URL necessary to give when using GHPRB plugin.')
                 stringParam('DBT_TARGET', allVars.get('DBT_TARGET'), 'DBT target from profiles.yml in analytics-secure.')
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'DBT profile from profiles.yml in analytics-secure.')
                 stringParam('DBT_PROJECT_PATH', allVars.get('DBT_PROJECT_PATH'), 'Path in warehouse-transforms to use as the dbt project, relative to "projects" (usually automated/applications or reporting).')
@@ -27,11 +28,12 @@ class WarehouseTransformsCI{
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
+                        github("https://github.com/${PROJECT_URL}")
                         //refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                         //branch('$WAREHOUSE_TRANSFORMS_BRANCH') // how to get the branch for which PR is raised - ans: either use sha1 or ghprbActualCommit 
-                        refspec('+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
+                        refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                         branch('\${sha1}')
-                        credentials('1') // Are these correct credentials ?
+                        credentials('1') 
                     }
                     //branch('\${ghprbActualCommit}')
                     extensions {
@@ -51,7 +53,7 @@ class WarehouseTransformsCI{
                     cron('H/5 * * * *')
                     // useGitHubHooks() // Not using webhooks
                     triggerPhrase('jenkins run dbt')
-                    onlyTriggerPhrase(false) // true if you want the job to only fire when commented on (not on commits)
+                    onlyTriggerPhrase(true) // true if you want the job to only fire when commented on (not on commits)
                     userWhitelist(['jazibhumayun', 'hassanjaveed84']) // which GH users can run this // Need to update this later
                 }
             }
