@@ -28,7 +28,7 @@ class WarehouseTransformsCI{
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
-                        github("https://github.com/$PROJECT_URL")
+                        github('$PROJECT_URL')
                         //refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                         //branch('$WAREHOUSE_TRANSFORMS_BRANCH') // how to get the branch for which PR is raised - ans: either use sha1 or ghprbActualCommit 
                         refspec('+refs/pull/*:refs/remotes/origin/pr/*')
