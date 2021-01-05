@@ -85,16 +85,7 @@ class AddXqueueToDashboard {
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-
-                            command(
-                                dslFactory.readFileFromWorkspace("devops/resources/add_xqueue_to_dashboard.sh")
-                            )
-
-                        }
+                        shell(dslFactory.readFileFromWorkspace('devops/resources/add_xqueue_to_dashboard.sh'))
                     }
 
                 }

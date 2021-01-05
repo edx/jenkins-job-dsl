@@ -118,29 +118,13 @@ class AppPermissionsRunner {
 
 
                         steps {
-                            virtualenv {
-                                pythonName('System-CPython-3.6')
-                                nature("shell")
-                                systemSitePackages(false)
-
-                                command(
-                                    dslFactory.readFileFromWorkspace("devops/resources/run-app-permissions.sh")
-                                )
-                            }
+                           shell(dslFactory.readFileFromWorkspace('devops/resources/run-app-permissions.sh'))
                            conditionalSteps {
                                condition {
                                    status('SUCCESS','SUCCESS')
                                }
                                steps {
-                                   virtualenv {
-                                       pythonName('System-CPython-3.6')
-                                       nature("shell")
-                                       systemSitePackages(false)
-
-                                       command(
-                                           dslFactory.readFileFromWorkspace("devops/resources/app-permission-runner-success.sh")
-                                       )
-                                   }
+                                   shell(dslFactory.readFileFromWorkspace('devops/resources/app-permission-runner-success.sh'))
                                }
                             }
                         }

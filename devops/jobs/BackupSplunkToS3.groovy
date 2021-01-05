@@ -46,16 +46,8 @@ class BackupSplunkToS3{
             }
 
             steps {
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    nature("shell")
-                    systemSitePackages(false)
+               shell(dslFactory.readFileFromWorkspace('devops/resources/backup-splunk-to-s3.sh'))
 
-                    command(
-                            dslFactory.readFileFromWorkspace("devops/resources/backup-splunk-to-s3.sh")
-                    )
-
-                }
             }
 
             if (extraVars.get('NOTIFY_ON_FAILURE')){

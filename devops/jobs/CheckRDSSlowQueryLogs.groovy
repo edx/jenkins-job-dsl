@@ -52,15 +52,8 @@ class  CheckRDSSlowQueryLogs {
                     }
                 }
                 steps {
-                    virtualenv {
-                        pythonName('System-CPython-3.6')
-                        nature("shell")
-                        systemSitePackages(false)
+                   shell(dslFactory.readFileFromWorkspace('devops/resources/check-rds-slow-query-logs.sh'))
 
-                        command(
-                                dslFactory.readFileFromWorkspace("devops/resources/check-rds-slow-query-logs.sh")
-                        )
-                    }
                 }
 
                publishers {

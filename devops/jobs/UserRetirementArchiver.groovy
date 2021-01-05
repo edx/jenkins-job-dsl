@@ -83,13 +83,7 @@ class UserRetirementArchiver {
             }
 
             steps {
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    name('user-retirement-archiver')
-                    nature('shell')
-                    systemSitePackages(false)
-                    command(dslFactory.readFileFromWorkspace('devops/resources/user-retirement-archiver.sh'))
-                }
+                  shell(dslFactory.readFileFromWorkspace('devops/resources/user-retirement-archiver.sh'))
             }
         }
     }

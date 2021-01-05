@@ -105,15 +105,7 @@ class Janitor {
 
 
                 steps {
-                    virtualenv {
-                        pythonName('System-CPython-3.6')
-                        nature("shell")
-                        systemSitePackages(false)
-
-                        command(
-                            dslFactory.readFileFromWorkspace("devops/resources/janitor.sh")
-                        )
-                    }
+                    shell(dslFactory.readFileFromWorkspace('devops/resources/janitor.sh'))
                 }
 
                 if (extraVars.get('NOTIFY_ON_FAILURE')){

@@ -52,15 +52,7 @@ class  MissingRDSAlarms {
                     }
                 }
                 steps {
-                    virtualenv {
-                        pythonName('System-CPython-3.6')
-                        nature("shell")
-                        systemSitePackages(false)
-
-                        command(
-                                dslFactory.readFileFromWorkspace("devops/resources/missing-rds-alarms.sh")
-                        )
-                    }
+                    shell(dslFactory.readFileFromWorkspace('devops/resources/missing-rds-alarms.sh'))
                 }
                publishers {
                     extendedEmail {
