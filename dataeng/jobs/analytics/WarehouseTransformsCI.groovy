@@ -24,11 +24,14 @@ class WarehouseTransformsCI{
                 stringParam('DBT_RUN_OPTIONS', allVars.get('DBT_RUN_OPTIONS'), 'Additional options to dbt run/test, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
+            scm {
+                 github('$PROJECT_URL')
+            }
             multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
-                        github('$PROJECT_URL','ssh', 'github.com')
+                        //github('$PROJECT_URL','ssh', 'github.com')
                         //refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                         //branch('$WAREHOUSE_TRANSFORMS_BRANCH') // how to get the branch for which PR is raised - ans: either use sha1 or ghprbActualCommit 
                         refspec('+refs/pull/*:refs/remotes/origin/pr/*')
