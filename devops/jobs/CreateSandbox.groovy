@@ -139,9 +139,8 @@ class CreateSandbox {
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
                 booleanParam("edxapp_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy edxapp config file from configuration internal repo.")
 
-                /* TODO: forum_version set to pre-ES7 commit by default. Change to master/main when we have updated sandboxes to handle ES7 properly. */
                 booleanParam("forum",true,"")
-                stringParam("forum_version","609eef0fa2f4c69dba92ce2ef98c557b876e77b9","")
+                stringParam("forum_version","master","")
 
                 booleanParam("ecommerce",true,"")
                 stringParam("ecommerce_version","master","")
@@ -172,8 +171,7 @@ class CreateSandbox {
                 stringParam("demo_version","master","")
 
                 booleanParam("discovery",false,"")
-                 /* TODO: discovery_version set to pre-ES7 commit by default. Change to master/main when we have updated sandboxes to handle ES7 properly. */
-                stringParam("discovery_version","4ecf6edc52a7e32996d606082a5f8e153a219b19","")
+                stringParam("discovery_version","master","")
                 booleanParam("discovery_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy discovery config file from configuration internal repo.")
 
                 booleanParam("notes",false,"")
