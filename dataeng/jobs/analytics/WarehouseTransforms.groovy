@@ -24,6 +24,8 @@ class WarehouseTransforms{
                     stringParam('SKIP_TESTS', env_config.get('SKIP_TESTS', 'false'), 'Set to \'true\' to skip all tests. All other values will allow tests to run given the other configuration values.')
                     stringParam('SKIP_SEED', env_config.get('SKIP_SEED', 'false'), 'Set to \'true\' to skip the dbt seed step. All other values will cause the seed step to be run.')
                     stringParam('TEST_SOURCES_FIRST', env_config.get('TEST_SOURCES_FIRST', 'true'), 'Set to \'true\' to perform source testing first (if SKIP_TESTS is false). All other values test sources post-run.')
+                    stringParam('PROGRAMS_REPORTING_TRANSFER_TO_S3', env_config.get('PROGRAMS_REPORTING_TRANSFER_TO_S3', 'false'), 'Set to \'true\' to transfer the built programs reporting models to S3 via a Snowflake stage.')
+                    stringParam('ENTERPRISE_TRANSFER_TO_S3', env_config.get('ENTERPRISE_TRANSFER_TO_S3', 'false'), 'Set to \'true\' to transfer the built enterprise models to S3 via a Snowflake stage.')
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                 }
                 multiscm secure_scm(allVars) << {
