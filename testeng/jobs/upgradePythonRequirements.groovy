@@ -291,7 +291,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'edx-enterprise',
         defaultBranch: 'master',
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: ['georgebabey'],
         githubTeamReviewers: ['business-enterprise-team'],
