@@ -66,8 +66,8 @@ fi
 #     - the DBT macro name
 #     - the macro arguments to use when calling the DBT macro
 PROGRAMS_REPORTING_TRANSFERS=( \
-    unload_program_reporting_learner_enrollments_report '{database: PROD, schema: PROGRAMS_REPORTING}' \
-    unload_program_reporting_program_cohort_report '{database: PROD, schema: PROGRAMS_REPORTING}' \
+    unload_program_reporting_learner_enrollments_report '{database:PROD,schema:PROGRAMS_REPORTING}' \
+    unload_program_reporting_program_cohort_report '{database:PROD,schema:PROGRAMS_REPORTING}' \
 )
 
 if [ "$PROGRAMS_REPORTING_TRANSFER_TO_S3" = 'true' ]
@@ -84,13 +84,13 @@ then
 fi
 
 ENTERPRISE_TRANSFERS=( \
-    enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: ENT_BASE_ENTERPRISE_USER}' \
-    enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_CUSTOMER_COURSE_DAILY_ROLLUP_ADMIN_DASH}' \
-    enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_ENROLLMENT_ADMIN_DASH}' \
-    enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_ENROLLMENT_ENGAGEMENT_DAY_ADMIN_DASH}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_COURSE_METRICS}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_BLOCK_COMPLETION}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_PERSISTENTSUBSECTIONGRADE}' \
+    enterprise_copy_to_s3 '{prefix:ENTERPRISE,table:ENT_BASE_ENTERPRISE_USER}' \
+    enterprise_copy_to_s3 '{prefix:ENTERPRISE,table:FACT_CUSTOMER_COURSE_DAILY_ROLLUP_ADMIN_DASH}' \
+    enterprise_copy_to_s3 '{prefix:ENTERPRISE,table:FACT_ENROLLMENT_ADMIN_DASH}' \
+    enterprise_copy_to_s3 '{prefix:ENTERPRISE,table:FACT_ENROLLMENT_ENGAGEMENT_DAY_ADMIN_DASH}' \
+    enterprise_copy_to_s3 '{prefix:PEARSON,table:ENT_REPORT_PEARSON_COURSE_METRICS}' \
+    enterprise_copy_to_s3 '{prefix:PEARSON,table:ENT_REPORT_PEARSON_BLOCK_COMPLETION}' \
+    enterprise_copy_to_s3 '{prefix:PEARSON,table:ENT_REPORT_PEARSON_PERSISTENTSUBSECTIONGRADE}' \
 )
 
 if [ "$ENTERPRISE_TRANSFER_TO_S3" = 'true' ]
