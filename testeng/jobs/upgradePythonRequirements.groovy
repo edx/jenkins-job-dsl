@@ -70,7 +70,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'cc2olx',
         defaultBranch: 'master',
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
         githubTeamReviewers: ['masters-devs-cosmonauts'],
