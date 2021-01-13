@@ -600,7 +600,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'xqueue',
         defaultBranch: 'master',
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
         githubTeamReviewers: ['arbi-bom'],
