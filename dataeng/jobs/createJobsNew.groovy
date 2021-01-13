@@ -92,10 +92,7 @@ listView('Warehouse') {
     jobs {
         name('event-type-distribution')
         name('courseware-links-clicked')
-        name('finance-report')
-        name('payments-validation')
         name('generate-warehouse-docs')
-        name('affiliate-window')
         name('snowflake-schema-builder')
         regex('refresh-snowpipe-.*')
         regex('.+read-replica-import|load-.+|vertica-schema-to.+|.*sql-script.*')

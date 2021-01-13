@@ -13,17 +13,12 @@ import static analytics.Enterprise.job as EnterpriseJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.EventExportIncrementalLarge.job as EventExportIncrementalLargeJob
 import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
-import static analytics.FinanceReport.cybersource_pull_job as CybersourcePullJob
-import static analytics.FinanceReport.finance_report_job as FinanceReportJob
-import static analytics.FinanceReport.payments_validation_job as PaymentsValidationJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
-import static analytics.LoadAffiliateWindowToWarehouse.job as LoadAffiliateWindowWarehouseJob
 import static analytics.LoadEvents.load_events_to_s3_job as LoadEventsToS3Job
 import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVerticaJob
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static analytics.LoadGoogleSpreadsheetToSnowflake.job as LoadGoogleSpreadsheetToSnowflakeJob
 import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
-import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
 import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
 import static analytics.LoadWarehouse.snowflake_job as LoadWarehouseSnowflakeJob
 import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
@@ -70,7 +65,6 @@ def taskMap = [
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
     BACKUP_VERTICA_JOB: BackupVerticaJob,
-    CYBERSOURCE_PULL_JOB: CybersourcePullJob,
     DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
     DBT_DOCS_JOB: DBTDocsJob,
     DBT_MANUAL_JOB: DBTManualJob,
@@ -81,20 +75,16 @@ def taskMap = [
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
     EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
-    FINANCE_REPORT_JOB: FinanceReportJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
-    LOAD_AFFILIATE_WINDOW_JOB: LoadAffiliateWindowWarehouseJob,
     LOAD_EVENTS_TO_S3_JOB: LoadEventsToS3Job,
     LOAD_EVENTS_TO_VERTICA_JOB: LoadEventsToVerticaJob,
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
     LOAD_GOOGLE_SPREADSHEET_TO_SNOWFLAKE_JOB: LoadGoogleSpreadsheetToSnowflakeJob,
     LOAD_INSIGHTS_TO_VERTICA_JOB: LoadInsightsToVerticaJob,
-    LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
     LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
     LOAD_WAREHOUSE_SNOWFLAKE_JOB: LoadWarehouseSnowflakeJob,
     LOAD_WAREHOUSE_VERTICA_JOB: LoadWarehouseVerticaJob,
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
-    PAYMENTS_VALIDATION_JOB: PaymentsValidationJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
     SINGLE_SQL_SCRIPT_JOB: SingleSqlScriptJob,
     SNOWFLAKE_DEMOGRAPHICS_CLEANUP_JOB: SnowflakeDemographicsCleanupJob,
@@ -164,9 +154,6 @@ listView('Exporter') {
 listView('Warehouse') {
     jobs {
         name('event-type-distribution')
-        name('finance-report')
-        name('payments-validation')
-        name('affiliate-window')
         name('snowflake-schema-builder')
         regex('refresh-snowpipe-.*')
         regex('.+read-replica-(import|export)-(to|from)-s3|load-.+|vertica-schema-to.+|.*sql-script.*')
