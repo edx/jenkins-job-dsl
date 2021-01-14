@@ -355,7 +355,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'edx-proctoring',
         defaultBranch: 'master',
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
         githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
