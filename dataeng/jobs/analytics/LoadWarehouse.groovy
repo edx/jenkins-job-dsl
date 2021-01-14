@@ -14,9 +14,6 @@ class LoadWarehouse {
             multiscm common_multiscm(allVars)
             triggers common_triggers(allVars)
             publishers common_publishers(allVars)
-            publishers {
-                downstream("load-warehouse-snowflake", 'SUCCESS')
-            }
             parameters common_parameters(allVars)
             parameters to_date_interval_parameter(allVars)
             parameters {
