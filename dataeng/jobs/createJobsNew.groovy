@@ -90,7 +90,6 @@ listView('Exporter') {
 
 listView('Warehouse') {
     jobs {
-        name('event-type-distribution')
         name('courseware-links-clicked')
         name('finance-report')
         name('payments-validation')
