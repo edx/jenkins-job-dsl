@@ -12,7 +12,6 @@ import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEv
 import static analytics.Enterprise.job as EnterpriseJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.EventExportIncrementalLarge.job as EventExportIncrementalLargeJob
-import static analytics.EventTypeDistribution.job as EventTypeDistributionJob
 import static analytics.FinanceReport.cybersource_pull_job as CybersourcePullJob
 import static analytics.FinanceReport.finance_report_job as FinanceReportJob
 import static analytics.FinanceReport.payments_validation_job as PaymentsValidationJob
@@ -80,7 +79,6 @@ def taskMap = [
     ENTERPRISE_JOB: EnterpriseJob,
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
-    EVENT_TYPE_DISTRIBUTION_JOB: EventTypeDistributionJob,
     FINANCE_REPORT_JOB: FinanceReportJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
     LOAD_AFFILIATE_WINDOW_JOB: LoadAffiliateWindowWarehouseJob,
@@ -163,7 +161,6 @@ listView('Exporter') {
 
 listView('Warehouse') {
     jobs {
-        name('event-type-distribution')
         name('finance-report')
         name('payments-validation')
         name('affiliate-window')
