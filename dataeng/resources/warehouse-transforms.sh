@@ -78,7 +78,7 @@ then
 
     for (( i=0; i<${num_txfrs}; i++ ));
     do
-        dbt run-operation ${PROGRAMS_REPORTING_TRANSFERS[$i*2]} --args \'${PROGRAMS_REPORTING_TRANSFERS[$i*2+1]}\'
+        dbt run-operation ${PROGRAMS_REPORTING_TRANSFERS[$i*2]} --args \'${PROGRAMS_REPORTING_TRANSFERS[$i*2+1]}\' --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
     done
 
 fi
@@ -101,7 +101,7 @@ then
 
     for (( i=0; i<${num_txfrs}; i++ ));
     do
-        dbt run-operation ${ENTERPRISE_TRANSFERS[$i*2]} --args \'${ENTERPRISE_TRANSFERS[$i*2+1]}\'
+        dbt run-operation ${ENTERPRISE_TRANSFERS[$i*2]} --args \'${ENTERPRISE_TRANSFERS[$i*2+1]}\' --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
     done
 
 fi
