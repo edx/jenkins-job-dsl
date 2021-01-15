@@ -73,7 +73,7 @@ List jobConfigs = [
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
-        githubTeamReviewers: [],  //Reviewer mention unnecessary due to Master's OpsGenie alert. 
+        githubTeamReviewers: [],  //Reviewer mention unnecessary due to Master's OpsGenie alert.
         emails: ['masters-requirements-update@edx.opsgenie.net'],
     ],
     [
@@ -165,7 +165,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'django-config-models',
         defaultBranch: 'master',
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
         githubTeamReviewers: ['arbi-bom'],
