@@ -69,6 +69,7 @@ class ConfigurationWatcher {
             // inject APPS as an environment variable to be used by trigger-builds.sh
             environmentVariables {
                 env('APPS', apps)
+                env('CI_PYTHON_VERSION', extraVars.get('CI_PYTHON_VERSION'))
             }
 
             description('\rThis job watches the configuration repository for changes via a webhook. Upon a change, the job runs a script ' + 
