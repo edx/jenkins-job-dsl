@@ -8,6 +8,8 @@ cp $USER_RETIREMENT_SECURE_DEFAULT $WORKSPACE/user-retirement-secure/secure-defa
 
 # prepare tubular
 cd $WORKSPACE/tubular
+# match versions of pip and setuptools installed as part of tubular CI.
+pip install 'pip==20.3.3' 'setuptools==50.3.2'
 pip install -r requirements.txt
 
 # Call the script to cleanup the reports
