@@ -23,7 +23,6 @@ import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalytic
 import static analytics.LoadGoogleSpreadsheetToSnowflake.job as LoadGoogleSpreadsheetToSnowflakeJob
 import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
 import static analytics.LoadPaypalCaseReportToVertica.job as PayPalCaseReportLoadJob
-import static analytics.LoadVerticaSchemaToSnowflake.job as LoadVerticaSchemaToSnowflakeJob
 import static analytics.LoadWarehouse.vertica_job as LoadWarehouseVerticaJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
 import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
@@ -39,7 +38,6 @@ import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonit
 import static analytics.UserActivity.job as UserActivityJob
 import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
 import static analytics.VerticaReplicaImportFromS3.job as VerticaReplicaImportFromS3Job
-import static analytics.VerticaSchemaToS3.job as VerticaSchemaToS3Job
 import static analytics.VideoTimeline.job as VideoTimelineJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
@@ -87,7 +85,6 @@ def taskMap = [
     LOAD_GOOGLE_SPREADSHEET_TO_SNOWFLAKE_JOB: LoadGoogleSpreadsheetToSnowflakeJob,
     LOAD_INSIGHTS_TO_VERTICA_JOB: LoadInsightsToVerticaJob,
     LOAD_PAYPAL_CASEREPORT_TO_VERTICA_JOB: PayPalCaseReportLoadJob,
-    LOAD_VERTICA_SCHEMA_TO_SNOWFLAKE_JOB: LoadVerticaSchemaToSnowflakeJob,
     LOAD_WAREHOUSE_VERTICA_JOB: LoadWarehouseVerticaJob,
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
     PAYMENTS_VALIDATION_JOB: PaymentsValidationJob,
@@ -104,7 +101,6 @@ def taskMap = [
     USER_ACTIVITY_JOB: UserActivityJob,
     USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
     VERTICA_REPLICA_IMPORT_FROM_S3_JOB: VerticaReplicaImportFromS3Job,
-    VERTICA_SCHEMA_TO_S3_JOB: VerticaSchemaToS3Job,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
 ]
