@@ -13,8 +13,6 @@ import static analytics.Enterprise.job as EnterpriseJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.EventExportIncrementalLarge.job as EventExportIncrementalLargeJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
-import static analytics.LoadEvents.load_events_to_s3_job as LoadEventsToS3Job
-import static analytics.LoadEvents.load_events_to_vertica_job as LoadEventsToVerticaJob
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static analytics.LoadGoogleSpreadsheetToSnowflake.job as LoadGoogleSpreadsheetToSnowflakeJob
 import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
@@ -68,8 +66,6 @@ def taskMap = [
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
-    LOAD_EVENTS_TO_S3_JOB: LoadEventsToS3Job,
-    LOAD_EVENTS_TO_VERTICA_JOB: LoadEventsToVerticaJob,
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
     LOAD_GOOGLE_SPREADSHEET_TO_SNOWFLAKE_JOB: LoadGoogleSpreadsheetToSnowflakeJob,
     LOAD_INSIGHTS_TO_VERTICA_JOB: LoadInsightsToVerticaJob,
