@@ -91,13 +91,10 @@ listView('Exporter') {
 listView('Warehouse') {
     jobs {
         name('courseware-links-clicked')
-        name('finance-report')
-        name('payments-validation')
         name('generate-warehouse-docs')
-        name('affiliate-window')
         name('snowflake-schema-builder')
         regex('refresh-snowpipe-.*')
-        regex('.+read-replica-import|load-.+|vertica-schema-to.+|.*sql-script.*')
+        regex('.+read-replica-import|load-.+|vertica-schema-to.+')
     }
     columns DEFAULT_VIEW.call()
 }
