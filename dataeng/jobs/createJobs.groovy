@@ -26,6 +26,7 @@ import static analytics.UserActivity.job as UserActivityJob
 import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
 import static analytics.VideoTimeline.job as VideoTimelineJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
+import static analytics.ModelTransfers.job as ModelTransfersJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -75,6 +76,7 @@ def taskMap = [
     USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
+    MODEL_TRANSFORMS_JOB: ModelTransfersJob,
 ]
 
 for (task in taskMap) {
