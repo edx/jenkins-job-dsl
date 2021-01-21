@@ -66,9 +66,7 @@ class ReadReplicaExportToS3 {
                 publishers common_publishers(allVars)
                 publishers {
                     downstreamParameterized {
-                        trigger("snowflake-${db.toLowerCase()}-read-replica-import-from-s3," +
-                                "vertica-${db.toLowerCase()}-read-replica-import-from-s3"
-                        ) {
+                        trigger("snowflake-${db.toLowerCase()}-read-replica-import-from-s3") {
                             condition('SUCCESS')
                             parameters {
                                 // The contents of this file are generated as part of the script in the build step.
