@@ -1,11 +1,9 @@
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
-import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
-import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
@@ -30,13 +28,11 @@ try {
 def taskMap = [
     // Add jobs here as they are ported from the old analytics Jenkins server.
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
-    EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
-    VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
 ]
 

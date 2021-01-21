@@ -2,7 +2,6 @@ import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTracking
 import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.AnswerDistribution.job as AnswerDistributionJob
-import static analytics.BackupVertica.job as BackupVerticaJob
 import static analytics.DBTDocs.job as DBTDocsJob
 import static analytics.DBTManual.job as DBTManualJob
 import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
@@ -52,7 +51,6 @@ def taskMap = [
     ANALYTICS_EMAIL_OPTIN_JOB: AnalyticsEmailOptinJob,
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
-    BACKUP_VERTICA_JOB: BackupVerticaJob,
     DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
     DBT_DOCS_JOB: DBTDocsJob,
     DBT_MANUAL_JOB: DBTManualJob,
