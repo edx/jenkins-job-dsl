@@ -1,11 +1,9 @@
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
-import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
-import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
