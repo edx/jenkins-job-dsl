@@ -18,20 +18,27 @@ class WarehouseTransformsCI{
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
                 stringParam('PROJECT_URL', allVars.get('PROJECT_URL'), 'Github Project URL necessary to give when using GHPRB plugin.')
+                stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
                 stringParam('DBT_TARGET', allVars.get('DBT_TARGET'), 'DBT target from profiles.yml in analytics-secure.')
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'DBT profile from profiles.yml in analytics-secure.')
                 stringParam('DBT_PROJECT_PATH', allVars.get('DBT_PROJECT_PATH'), 'Path in warehouse-transforms to use as the dbt project, relative to "projects" (usually automated/applications or reporting).')
                 stringParam('DBT_RUN_OPTIONS', allVars.get('DBT_RUN_OPTIONS'), 'Additional options to dbt run/test, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
-            scm {
-                 github('$PROJECT_URL')
+            environmentVariables {
+                env('KEY_PATH', allVars.get('KEY_PATH'))
+                env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
+                env('USER', allVars.get('USER'))
+                env('ACCOUNT', allVars.get('ACCOUNT'))
             }
+            scm {
+                 github('edx/warehouse-transforms')
+            }                        
             multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
-                        //github('$PROJECT_URL','ssh', 'github.com')
+                        //github('$PROJECT_URL') Not working for provding github project url
                         //refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                         //branch('$WAREHOUSE_TRANSFORMS_BRANCH') // how to get the branch for which PR is raised - ans: either use sha1 or ghprbActualCommit 
                         refspec('+refs/pull/*:refs/remotes/origin/pr/*')
@@ -46,6 +53,18 @@ class WarehouseTransformsCI{
                         cleanAfterCheckout()
                     }
                 }
+                git {
+                    remote {
+                        url('$ANALYTICS_TOOLS_URL')
+                        branch('$ANALYTICS_TOOLS_BRANCH')
+                        credentials('1')
+                    }
+                    extensions {
+                        relativeTargetDirectory('analytics-tools')
+                        pruneBranches()
+                        cleanAfterCheckout()
+                    }
+                }                
             }
             //triggers common_triggers(allVars)  // not using them as we are using github pull reuqest builder
             triggers {
@@ -53,7 +72,7 @@ class WarehouseTransformsCI{
                     // since the server running this job will not be publicly available,
                     // we cannot rely on Github to deliver webhooks. Instead, poll GH
                     // every 5 minutes for updates any branches.
-                    cron('H/5 * * * *')
+                    cron('H/2 * * * *')
                     // useGitHubHooks() // Not using webhooks
                     triggerPhrase('jenkins run dbt')
                     onlyTriggerPhrase(true) // true if you want the job to only fire when commented on (not on commits)
