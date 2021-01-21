@@ -30,13 +30,11 @@ try {
 def taskMap = [
     // Add jobs here as they are ported from the old analytics Jenkins server.
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
-    EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
-    VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
 ]
 
