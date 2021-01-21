@@ -15,7 +15,6 @@ import static analytics.EventExportIncrementalLarge.job as EventExportIncrementa
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import static analytics.LoadGoogleAnalyticsPermissions.job as LoadGoogleAnalyticsPermissionsJob
 import static analytics.LoadGoogleSpreadsheetToSnowflake.job as LoadGoogleSpreadsheetToSnowflakeJob
-import static analytics.LoadInsightsToVertica.job as LoadInsightsToVerticaJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
 import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
 import static analytics.SnowflakeDemographicsCleanup.job as SnowflakeDemographicsCleanupJob
@@ -27,7 +26,6 @@ import static analytics.SnowflakeValidateStitch.job as SnowflakeValidateStitchJo
 import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
 import static analytics.UserActivity.job as UserActivityJob
 import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
-import static analytics.VerticaReplicaImportFromS3.job as VerticaReplicaImportFromS3Job
 import static analytics.VideoTimeline.job as VideoTimelineJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
@@ -68,7 +66,6 @@ def taskMap = [
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
     LOAD_GOOGLE_ANALYTICS_PERMISSIONS_JOB: LoadGoogleAnalyticsPermissionsJob,
     LOAD_GOOGLE_SPREADSHEET_TO_SNOWFLAKE_JOB: LoadGoogleSpreadsheetToSnowflakeJob,
-    LOAD_INSIGHTS_TO_VERTICA_JOB: LoadInsightsToVerticaJob,
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
     SNOWFLAKE_DEMOGRAPHICS_CLEANUP_JOB: SnowflakeDemographicsCleanupJob,
@@ -80,7 +77,6 @@ def taskMap = [
     STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,
     USER_ACTIVITY_JOB: UserActivityJob,
     USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
-    VERTICA_REPLICA_IMPORT_FROM_S3_JOB: VerticaReplicaImportFromS3Job,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
 ]
