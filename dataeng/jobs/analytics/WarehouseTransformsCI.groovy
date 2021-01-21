@@ -32,13 +32,14 @@ class WarehouseTransformsCI{
                 env('ACCOUNT', allVars.get('ACCOUNT'))
             }
             scm {
-                 github('edx/warehouse-transforms')
-            }                        
+                 github('$PROJECT_URL')
+            }                      
             multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
                         //github('$PROJECT_URL') Not working for provding github project url
+                        github('$PROJECT_URL','ssh', 'github.com')
                         //refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                         //branch('$WAREHOUSE_TRANSFORMS_BRANCH') // how to get the branch for which PR is raised - ans: either use sha1 or ghprbActualCommit 
                         refspec('+refs/pull/*:refs/remotes/origin/pr/*')
