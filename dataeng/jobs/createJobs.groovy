@@ -131,7 +131,7 @@ listView('Warehouse') {
     jobs {
         name('snowflake-schema-builder')
         regex('refresh-snowpipe-.*')
-        regex('.+read-replica-(import|export)-(to|from)-s3|load-.+|vertica-schema-to.+')
+        regex('.+read-replica-(import|export)-(to|from)-s3|load-.+')
     }
     columns DEFAULT_VIEW.call()
 }
@@ -139,11 +139,6 @@ listView('Warehouse') {
 listView('Tools') {
     jobs {
         name('data_engineering_seed_job')
-        name('deploy-cluster')
-        name('terminate-cluster')
-        name('emr-cost-reporter')
-        name('update-users')
-        name('vertica-disk-usage-monitor')
         name('stitch-snowflake-lag-monitor')
         name('snowflake-public-grants-cleaner')
         name('snowflake-demographics-cleanup')
