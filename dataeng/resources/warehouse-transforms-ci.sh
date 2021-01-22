@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 set -ex
-# This is work in progress script 
-# Need to work on snowflake schema and correct profile
 
 # Setup to run python script to create snowflake schema
 cd $WORKSPACE/analytics-tools/snowflake
@@ -21,7 +19,7 @@ python create_ci_schema.py \
 # modifies the schema schema in profiles.yml file  
 $(cd $WORKSPACE/analytics-secure/warehouse-transforms/ && sed -i "s/CI_SCHEMA_NAME/$SCHEMA_NAME/g" profiles.yml)
 
-###################################################################################################################3
+
 # Download Prod build manifest.json file from S3 and creating directory to place manifest file.
 cd $WORKSPACE/ && mkdir manifest
 
@@ -42,11 +40,7 @@ dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --pro
 dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 dbt seed --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
-# WIP: Running on only google analytics sessions models tag to speed up the test runs
-####dbt test --models tag:google_analytics_sessions --exclude 'source:*' --profile warehouse_transforms --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
-#dbt test $DBT_RUN_OPTIONS --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
+dbt run $DBT_RUN_OPTIONS $DBT_RUN_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
-dbt run -m state:modified+ --defer --state ${WORKSPACE}/manifest --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-
-dbt test -m state:modified+ --state ${WORKSPACE}/manifest --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt test $DBT_TEST_OPTIONS --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET

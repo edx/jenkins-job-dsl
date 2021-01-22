@@ -6,9 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
-// need to change the JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE import
-// Copied from DBTDocs.groovy 
-// This is work in progress script
+
 class WarehouseTransformsCI{
     public static def job = { dslFactory, allVars ->
         dslFactory.job("warehouse-transforms-ci"){
@@ -40,17 +38,11 @@ class WarehouseTransformsCI{
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
-                        //github('$PROJECT_URL') Not working for provding github project url
-                        //github('$PROJECT_URL','ssh', 'github.com')
-                        //refspec('+refs/pull/*:refs/remotes/origin/pr/*')
-                        //branch('$WAREHOUSE_TRANSFORMS_BRANCH') // how to get the branch for which PR is raised - ans: either use sha1 or ghprbActualCommit 
                         refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                         branch('\${sha1}')
                         credentials('1') 
                     }
-                    //branch('\${ghprbActualCommit}')
                     extensions {
-                        //cleanBeforeCheckout()
                         relativeTargetDirectory('warehouse-transforms')
                         pruneBranches()
                         cleanAfterCheckout()
@@ -69,26 +61,25 @@ class WarehouseTransformsCI{
                     }
                 }                
             }
-            //triggers common_triggers(allVars)  // not using them as we are using github pull reuqest builder
             triggers {
                 githubPullRequest {
                     // since the server running this job will not be publicly available,
                     // we cannot rely on Github to deliver webhooks. Instead, poll GH
-                    // every 5 minutes for updates any branches.
-                    cron('H/2 * * * *')
-                    // useGitHubHooks() // Not using webhooks
-                    triggerPhrase('jenkins run dbt')
+                    // every 3 minutes for updates any branches.
+                    cron('H/3 * * * *')
+                    triggerPhrase('jenkins run dbt') // You this trigger phrase to on Pull Rquest comment to trigger this job
                     onlyTriggerPhrase(true) // true if you want the job to only fire when commented on (not on commits)
-                    userWhitelist(['jazibhumayun', 'hassanjaveed84']) // which GH users can run this // Need to update this later
+                    orgWhitelist(['edx-ops', 'edX']) // All the Github users under these orgs will be able to trigger this job via PR. As this job will be used by many edXers so giving the trigger access to all under edX.  
+                    //userWhitelist(['jazibhumayun', 'hassanjaveed84']) // Github users can be whitelisted
                 }
             }
-            configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)   // saw from general PR Pipeline     
+            configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)    
 
             wrappers {
                 colorizeOutput('xterm')
             }
             wrappers common_wrappers(allVars)
-            //publishers common_publishers(allVars)
+            publishers common_publishers(allVars)
             steps {
                 virtualenv {
                     pythonName('PYTHON_3.7')
