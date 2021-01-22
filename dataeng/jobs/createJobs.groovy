@@ -76,7 +76,7 @@ def taskMap = [
     USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
-    MODEL_TRANSFORMS_JOB: ModelTransfersJob,
+    MODEL_TRANSFERS_JOB: ModelTransfersJob,
 ]
 
 for (task in taskMap) {
