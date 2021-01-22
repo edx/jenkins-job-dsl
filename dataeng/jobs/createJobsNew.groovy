@@ -35,7 +35,7 @@ def taskMap = [
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
-    WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob, // warehousetranformsci // remove comments afterwards
+    WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob,
 ]
 
 for (task in taskMap) {
