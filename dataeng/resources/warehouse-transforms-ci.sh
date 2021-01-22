@@ -21,7 +21,7 @@ $(cd $WORKSPACE/analytics-secure/warehouse-transforms/ && sed -i "s/CI_SCHEMA_NA
 
 
 # Download Prod build manifest.json file from S3 and creating directory to place manifest file.
-cd $WORKSPACE/ && mkdir manifest
+cd $WORKSPACE/ && mkdir -p manifest
 
 pip install awscli
 
