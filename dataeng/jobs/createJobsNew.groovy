@@ -90,7 +90,7 @@ listView('Warehouse') {
         name('generate-warehouse-docs')
         name('snowflake-schema-builder')
         regex('refresh-snowpipe-.*')
-        regex('.+read-replica-import|load-.+|vertica-schema-to.+')
+        regex('.+read-replica-import|load-.+')
     }
     columns DEFAULT_VIEW.call()
 }
@@ -102,7 +102,6 @@ listView('Tools') {
         name('terminate-cluster')
         name('emr-cost-reporter')
         name('update-users')
-        name('vertica-disk-usage-monitor')
         name('stitch-snowflake-lag-monitor')
         name('snowflake-public-grants-cleaner')
     }
