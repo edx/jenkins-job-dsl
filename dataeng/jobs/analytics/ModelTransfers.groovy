@@ -7,23 +7,20 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 
-class WarehouseTransforms{
+class ModelTransfers{
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
-            dslFactory.job("warehouse-transforms-$environment"){
+            dslFactory.job("transfer-dbt-models-$environment"){
                 authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars)
                 parameters secure_scm_parameters(allVars)
                 parameters {
                     stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the Warehouse Transforms Repo.')
                     stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of Warehouse Transforms to use.')
-                    stringParam('MODEL_TAG', env_config.get('MODEL_TAG', allVars.get('MODEL_TAG')), 'Tagged model that will be run.')
                     stringParam('DBT_PROJECT', env_config.get('DBT_PROJECT', allVars.get('DBT_PROJECT')), 'dbt project in warehouse-transforms to work on.')
                     stringParam('DBT_PROFILE', env_config.get('DBT_PROFILE', allVars.get('DBT_PROFILE')), 'dbt profile from analytics-secure to work on.')
                     stringParam('DBT_TARGET', env_config.get('DBT_TARGET', allVars.get('DBT_TARGET')), 'dbt target from analytics-secure to work on.')
-                    stringParam('SKIP_TESTS', env_config.get('SKIP_TESTS', 'false'), 'Set to \'true\' to skip all tests. All other values will allow tests to run given the other configuration values.')
-                    stringParam('SKIP_SEED', env_config.get('SKIP_SEED', 'false'), 'Set to \'true\' to skip the dbt seed step. All other values will cause the seed step to be run.')
-                    stringParam('TEST_SOURCES_FIRST', env_config.get('TEST_SOURCES_FIRST', 'true'), 'Set to \'true\' to perform source testing first (if SKIP_TESTS is false). All other values test sources post-run.')
+                    stringParam('MODELS_TO_TRANSFER', env_config.get('MODELS_TO_TRANSFER'), 'Name of DBT models which should be transferred to S3 via a Snowflake stage.')
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                 }
                 multiscm secure_scm(allVars) << {
@@ -45,18 +42,14 @@ class WarehouseTransforms{
                 wrappers {
                     colorizeOutput('xterm')
                 }
-                publishers common_publishers(allVars) << {
-                    env_config.get('DOWNSTREAM_JOBS', []).each { downstream_job_name ->
-                        downstream(downstream_job_name)
-                    }
-                }
+                publishers common_publishers(allVars)
                 steps {
                     virtualenv {
                         pythonName('PYTHON_3.7')
                         nature("shell")
                         systemSitePackages(false)
                         command(
-                            dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms.sh")
+                            dslFactory.readFileFromWorkspace("dataeng/resources/model-transfers.sh")
                         )
                     }
                 }
