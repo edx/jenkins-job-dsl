@@ -23,11 +23,11 @@ $(cd $WORKSPACE/analytics-secure/warehouse-transforms/ && sed -i "s/CI_SCHEMA_NA
 
 ###################################################################################################################3
 # Download Prod build manifest.json file from S3 and creating directory to place manifest file.
-$(cd $WORKSPACE/ && mkdir manifest)
+cd $WORKSPACE/ && mkdir manifest
 
 pip install awscli
 
-aws s3 cp --recursive s3://edx-dbt-docs/manifest.json ${WORKSPACE}/manifest
+aws s3 cp s3://edx-dbt-docs/manifest.json ${WORKSPACE}/manifest
 
 # Setup to run dbt commands
 cd $WORKSPACE/warehouse-transforms
