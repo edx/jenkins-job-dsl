@@ -20,7 +20,8 @@ job('build-packer-ami') {
                       'webpagetest.json',
                       'jenkins_worker_simple.json',
                       'jenkins_worker_android.json',
-                      'jenkins_worker_codejail.json'
+                      'jenkins_worker_codejail.json',
+                      'jenkins_worker_user_retire.json'
                     ],
                     'Json file (in util/packer) specifying how to build ' +
                     'the new AMI.')
