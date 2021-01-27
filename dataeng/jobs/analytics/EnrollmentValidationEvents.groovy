@@ -15,7 +15,7 @@ class EnrollmentValidationEvents {
                 // As part of the MySQL upgrade for the LMS, we need to disable the jobs that
                 // interface with the LMS read replica.
                 // TODO: once the upgrade is complete for both prod and edge environments, remove this line
-                disabled(allVars.get('JOB_DISABLED'))
+                disabled(env_config.get('JOB_DISABLED'))
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, env_config)
                 parameters from_date_interval_parameter(allVars)
