@@ -1,9 +1,5 @@
 org = 'edx'
 
-githubUserReviewers = ['mraarif']
-
-githubTeamReviewers = ['arbi-bom']
-
 job('cleanup-python-code') {
 
     parameters {
