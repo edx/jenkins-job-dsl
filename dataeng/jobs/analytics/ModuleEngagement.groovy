@@ -10,6 +10,10 @@ class ModuleEngagement {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("module-engagement-$environment") {
+                // As part of the MySQL upgrade for the LMS, we need to disable the jobs that
+                // interface with the LMS read replica.
+                // TODO: once the upgrade is complete for both prod and edge environments, remove this line
+                disabled(allVars.get('JOB_DISABLED'))
                 logRotator common_log_rotator(allVars)
                 multiscm common_multiscm(allVars)
                 publishers common_publishers(allVars)
