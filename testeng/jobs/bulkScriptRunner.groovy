@@ -1,6 +1,6 @@
 org = 'edx'
 
-job('cleanup-python-code') {
+job('bulk-script-runner') {
 
     parameters {
         stringParam('repoNames', null, 'Comma or space separated list of names of (public) target repositories in $org org')
@@ -56,6 +56,6 @@ job('cleanup-python-code') {
     }
 
     steps {
-        shell(readFileFromWorkspace('testeng/resources/cleanup-python-code-create-pr.sh'))
+        shell(readFileFromWorkspace('testeng/resources/bulk-script-runner.sh'))
     }
 }
