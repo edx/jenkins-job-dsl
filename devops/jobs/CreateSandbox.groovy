@@ -206,12 +206,12 @@ class CreateSandbox {
                 booleanParam("prospectus",false,"Enable Prospectus, the edx catalog")
                 stringParam("prospectus_version","master","")
 
-                booleanParam("logistration",false,"Enable Logistration MFE")
-                stringParam("logistration_version","master","The repository version of the frontend-app-logistration")
+                booleanParam("authn",false,"Enable Authn MFE")
+                stringParam("authn","master","The repository version of the frontend-app-authn")
 
                 booleanParam("payment",false,"Enable Payment MFE")
                 stringParam("payment_version","master","The repository version of the frontend-app-payment")
-                
+
                 choiceParam("server_type",
                             [
                             "full_edx_installation_from_scratch",
