@@ -5,19 +5,19 @@ set -ex
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 # Schema_Name will be the Github Pull Request ID e.g. 1724 prefixed with 'PR_*' e.g. PR_1724
-SCHEMA_NAME=PR_${ghprbPullId}
+export CI_SCHEMA_NAME=PR_${ghprbPullId}
 python create_ci_schema.py \
     --key_path $KEY_PATH \
     --passphrase_path $PASSPHRASE_PATH \
     --automation_user $USER \
     --account $ACCOUNT \
     --db_name $DB_NAME \
-    --schema_name $SCHEMA_NAME 
+    --schema_name $CI_SCHEMA_NAME 
 
 # Schema is dynamically created against each PR. Schema name is the PR number with 'PR_*' as prefixed.
 # profiles.yml contains the name of Schema which is used to create output models when dbt runs. Following command
 # modifies the schema schema in profiles.yml file  
-$(cd $WORKSPACE/analytics-secure/warehouse-transforms/ && sed -i "s/CI_SCHEMA_NAME/$SCHEMA_NAME/g" profiles.yml)
+## $(cd $WORKSPACE/analytics-secure/warehouse-transforms/ && sed -i "s/CI_SCHEMA_NAME/$SCHEMA_NAME/g" profiles.yml)
 
 
 # Download Prod build manifest.json file from S3 and creating directory to place manifest file.
@@ -36,16 +36,16 @@ pip install -r requirements.txt
 
 # Finding the project names which has changed in this PR. Using git diff origin/master to compare this branch from master
 # It returns all the files name with full path. Searching through it using egrep to find which project(s) the changing files belong.
-# It might happen one PR may be changing files in differen projects.
-if [ git diff  origin/master --name-only | egrep "projects/reporting" -q; ]
-then
+# It might happen one PR may be changing files in different projects.
+if git diff  origin/master --name-only | egrep "projects/reporting" -q; 
+then 
     DBT_PROJECT_PATH='reporting'
     # This is a Slim CI syntax used to "run" only modified and downstream models
-    DBT_RUN_OPTIONS='-m state:modified+ @state:modified,1+test_type:data --defer --state $WORKSPACE/manifest' 
+    DBT_RUN_OPTIONS="-m state:modified+ @state:modified,1+test_type:data --defer --state $WORKSPACE/manifest" 
     DBT_RUN_EXCLUDE='' ## TODO Add excluded models here
     # Will add --defer here when DBT version is upgraded
     # This is a Slim CI syntax used to "test" only modified and downstream models
-    DBT_TEST_OPTIONS='-m state:modified+ --state $WORKSPACE/manifest'
+    DBT_TEST_OPTIONS="-m state:modified+ --state $WORKSPACE/manifest"
     DBT_TEST_EXCLUDE='--exclude test_name:relationships' 
 
     cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT_PATH
@@ -62,7 +62,7 @@ then
 fi
 
 
-if [ git diff  origin/master --name-only | egrep "projects/automated/applications" -q; ]
+if git diff  origin/master --name-only | egrep "projects/automated/applications" -q; 
 then
     DBT_PROJECT_PATH='automated/applications'
     DBT_RUN_OPTIONS='' # It will be a full dbt run for automated
@@ -81,7 +81,7 @@ then
 
 fi
 
-if [ git diff  origin/master --name-only | egrep "projects/automated/raw_to_source" -q; ]
+if git diff  origin/master --name-only | egrep "projects/automated/raw_to_source" -q; 
 then
     DBT_PROJECT_PATH='automated/raw_to_source'
     DBT_RUN_OPTIONS=''
@@ -101,7 +101,7 @@ then
 fi
 
 
-if [ git diff  origin/master --name-only | egrep "projects/automated/telemetry" -q; ]
+if git diff  origin/master --name-only | egrep "projects/automated/telemetry" -q; 
 then
     DBT_PROJECT_PATH='automated/telemetry'
     DBT_RUN_OPTIONS=''
