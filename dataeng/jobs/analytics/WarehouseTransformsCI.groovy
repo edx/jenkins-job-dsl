@@ -82,7 +82,7 @@ class WarehouseTransformsCI{
                 colorizeOutput('xterm')
             }
             wrappers common_wrappers(allVars)
-            publishers common_publishers(allVars)
+            //publishers common_publishers(allVars)
             steps {
                 virtualenv {
                     pythonName('PYTHON_3.7')
