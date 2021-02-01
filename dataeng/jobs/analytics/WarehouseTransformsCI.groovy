@@ -22,6 +22,7 @@ class WarehouseTransformsCI{
                 stringParam('DBT_RUN_OPTIONS', allVars.get('DBT_RUN_OPTIONS'), 'Additional options to dbt run, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('DBT_RUN_EXCLUDE', allVars.get('DBT_RUN_EXCLUDE'), 'Additional options to dbt run, such as --exclude. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('DBT_TEST_OPTIONS', allVars.get('DBT_TEST_OPTIONS'), 'Additional options to dbt test, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
+                stringParam('DBT_TEST_EXCLUDE', allVars.get('DBT_TEST_EXCLUDE'), 'Additional options to dbt test, such as --exclude. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
                 stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
                 stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
@@ -70,7 +71,7 @@ class WarehouseTransformsCI{
                     // every 3 minutes for updates any branches.
                     cron('H/3 * * * *')
                     triggerPhrase('jenkins run dbt') // You this trigger phrase to on Pull Rquest comment to trigger this job
-                    onlyTriggerPhrase(true) // true if you want the job to only fire when commented on (not on commits)
+                    onlyTriggerPhrase(false) // true if you want the job to only fire when commented on (not on commits)
                     orgWhitelist(['edx-ops', 'edX']) // All the Github users under these orgs will be able to trigger this job via PR. As this job will be used by many edXers so giving the trigger access to all under edX.  
                     //userWhitelist(['jazibhumayun', 'hassanjaveed84']) // Github users can be whitelisted
                 }
