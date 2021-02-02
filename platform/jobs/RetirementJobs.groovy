@@ -170,12 +170,7 @@ job('user-retirement-driver') {
     }
 
     steps {
-        virtualenv {
-            name('user-retirement-driver')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/user-retirement-driver.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/user-retirement-driver.sh'))
     }
 
     publishers {
@@ -306,12 +301,7 @@ job('user-retirement-collector') {
         // This step calls out to the LMS and collects a list of learners to
         // retire.  The output is several generated properties files, one per
         // learner.
-        virtualenv {
-            name('user-retirement-collector')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/user-retirement-collector.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/user-retirement-collector.sh'))
         // This takes as input the properties files created in the previous
         // step, and triggers user-retirement-driver jobs per file.
         downstreamParameterized {
@@ -470,12 +460,7 @@ job('retirement-partner-reporter') {
     }
 
     steps {
-        virtualenv {
-            name('retirement-partner-reporter')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/retirement-partner-reporter.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/retirement-partner-reporter.sh'))
     }
 
     publishers {
@@ -598,12 +583,7 @@ job('retirement-partner-report-cleanup') {
     }
 
     steps {
-        virtualenv {
-            name('retirement-partner-report-cleanup')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/retirement-partner-report-cleanup.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/retirement-partner-report-cleanup.sh'))
     }
 
     publishers {
@@ -722,12 +702,7 @@ job('user-retirement-bulk-status') {
 
     steps {
         // This step calls the shell script which talks to LMS
-        virtualenv {
-            name('user-retirement-bulk-status')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/user-retirement-bulk-status.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/user-retirement-bulk-status.sh'))
     }
     publishers {
         // After all the build steps have completed, cleanup the workspace in
