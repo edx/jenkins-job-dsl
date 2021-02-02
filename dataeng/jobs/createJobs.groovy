@@ -12,7 +12,6 @@ import static analytics.Enterprise.job as EnterpriseJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.EventExportIncrementalLarge.job as EventExportIncrementalLargeJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
-import static analytics.LoadGoogleSpreadsheetToSnowflake.job as LoadGoogleSpreadsheetToSnowflakeJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
 import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
 import static analytics.SnowflakeDemographicsCleanup.job as SnowflakeDemographicsCleanupJob
@@ -62,7 +61,6 @@ def taskMap = [
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
-    LOAD_GOOGLE_SPREADSHEET_TO_SNOWFLAKE_JOB: LoadGoogleSpreadsheetToSnowflakeJob,
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
     SNOWFLAKE_DEMOGRAPHICS_CLEANUP_JOB: SnowflakeDemographicsCleanupJob,
