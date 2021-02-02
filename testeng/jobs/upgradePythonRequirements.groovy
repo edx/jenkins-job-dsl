@@ -534,8 +534,8 @@ List jobConfigs = [
         pythonVersion: '3.5',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
         githubUserReviewers: [],
-        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-        emails: ['masters-requirements-update@edx.opsgenie.net'],
+        githubTeamReviewers: [],
+        emails: ['teaching-and-learning@edx.opsgenie.net'],
         alwaysNotify: true
     ],
     [
