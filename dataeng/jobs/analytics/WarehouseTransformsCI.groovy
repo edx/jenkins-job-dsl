@@ -25,6 +25,8 @@ class WarehouseTransformsCI{
                 stringParam('DBT_TEST_EXCLUDE', allVars.get('DBT_TEST_EXCLUDE'), 'Additional options to dbt test, such as --exclude. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
                 stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
+                stringParam('JENKINS_JOB_DSL_URL', allVars.get('JENKINS_JOB_DSL_URL'), 'URL for the jenkins-job-dsl repo.')
+                stringParam('JENKINS_JOB_DSL_BRANCH', allVars.get('JENKINS_JOB_DSL_BRANCH'), 'Branch of jenkins-job-dsl repo to use.')
                 stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
@@ -62,7 +64,19 @@ class WarehouseTransformsCI{
                         pruneBranches()
                         cleanAfterCheckout()
                     }
-                }                
+                }  
+                git {
+                    remote {
+                        url('$JENKINS_JOB_DSL_URL')
+                        branch('$JENKINS_JOB_DSL_BRANCH')
+                        credentials('1')
+                    }
+                    extensions {
+                        relativeTargetDirectory('jenkins-job-dsl')
+                        pruneBranches()
+                        cleanAfterCheckout()
+                    }
+                }                              
             }
             triggers {
                 githubPullRequest {
