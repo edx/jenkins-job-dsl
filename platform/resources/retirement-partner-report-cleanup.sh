@@ -2,14 +2,21 @@
 
 set -ex
 
+# Create and activate a virtualenv.  In case we ever change the concurrency
+# setting on the jenkins worker, it would be safest to keep the builds from
+# clobbering each other's virtualenvs.
+VENV="venv-${BUILD_NUMBER}"
+virtualenv --python=python3.8 --clear "${VENV}"
+source "${VENV}/bin/activate"
+
 # prepare credentials
 mkdir -p $WORKSPACE/user-retirement-secure
 cp $USER_RETIREMENT_SECURE_DEFAULT $WORKSPACE/user-retirement-secure/secure-default.yml
 
 # prepare tubular
 cd $WORKSPACE/tubular
-# match versions of pip and setuptools installed as part of tubular CI.
-pip install 'pip==20.3.3' 'setuptools==50.3.2'
+# snapshot the current latest versions of pip and setuptools.
+pip install 'pip==21.0.1' 'setuptools==53.0.0'
 pip install -r requirements.txt
 
 # Call the script to cleanup the reports
