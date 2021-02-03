@@ -31,17 +31,22 @@ aws s3 cp s3://edx-dbt-docs/manifest.json ${WORKSPACE}/manifest
 # Setup to run dbt commands
 cd $WORKSPACE/warehouse-transforms
 
-# Added the following command for testing purpose, will be removed later
-git diff origin/master --name-only
-
 # To install right version of dbt
 pip install -r requirements.txt
 
+# Added the following command for testing purpose, will be removed later
+git diff origin/master --name-only
 
 # Finding the project names which has changed in this PR. Using git diff origin/master to compare this branch from master
 # It returns all the files name with full path. Searching through it using egrep to find which project(s) the changing files belong.
 # It might happen one PR may be changing files in different projects.
-if git diff  origin/master --name-only | egrep "projects/reporting" -q 
+if git diff origin/master --name-only | egrep "projects/reporting" -q; then isReporting="true"; else isReporting="false"; fi
+if git diff  origin/master --name-only | egrep "projects/automated/applications" -q; then isApplications="true"; else isApplications="false"; fi
+if git diff  origin/master --name-only | egrep "projects/automated/raw_to_source" -q; then isRawToSource="true"; else isRawToSource="false"; fi
+if git diff  origin/master --name-only | egrep "projects/automated/telemetry" -q; then isTelemetry="true"; else isTelemetry="false"; fi
+
+
+if [ "$isReporting" == "true" ]
 then
 
     cd $WORKSPACE/analytics-tools/snowflake
@@ -59,22 +64,13 @@ then
 
     source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
 
-    # cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT_PATH
-
-    # dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-    # dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-    # dbt seed --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-
-    # dbt run $DBT_RUN_OPTIONS $DBT_RUN_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-    # dbt test $DBT_TEST_OPTIONS $DBT_TEST_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME 
 
 fi
 
 
-if git diff  origin/master --name-only | egrep "projects/automated/applications" -q 
+if [ "$isApplications" == "true" ]
 then
 
     cd $WORKSPACE/analytics-tools/snowflake
@@ -89,41 +85,33 @@ then
 
     source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
     
-    # cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT_PATH
+    cd $WORKSPACE/analytics-tools/snowflake
+    python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
-    # dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-    # dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-    # dbt seed --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+fi
 
-    # dbt run $DBT_RUN_OPTIONS $DBT_RUN_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-    # dbt test $DBT_TEST_OPTIONS $DBT_TEST_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+if [ "$isRawToSource" == "true" ]
+then
+
+    cd $WORKSPACE/analytics-tools/snowflake
+    export CI_SCHEMA_NAME=PR_${ghprbPullId}_raw_to_source
+    python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
+
+    DBT_PROJECT_PATH='automated/raw_to_source'
+    DBT_RUN_OPTIONS=''
+    DBT_RUN_EXCLUDE=''
+    DBT_TEST_OPTIONS=''
+    DBT_TEST_EXCLUDE=''
+
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
 fi
 
-# if git diff  origin/master --name-only | egrep "projects/automated/raw_to_source" -q 
-# then
-#     DBT_PROJECT_PATH='automated/raw_to_source'
-#     DBT_RUN_OPTIONS=''
-#     DBT_RUN_EXCLUDE=''
-#     DBT_TEST_OPTIONS=''
-#     DBT_TEST_EXCLUDE=''
 
-#     cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT_PATH
-
-#     dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-#     dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-#     dbt seed --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-
-#     dbt run $DBT_RUN_OPTIONS $DBT_RUN_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-#     dbt test $DBT_TEST_OPTIONS $DBT_TEST_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-
-# fi
-
-
-# if git diff  origin/master --name-only | egrep "projects/automated/telemetry" -q 
+# if [ "$isTelemetry" == "true" ]
 # then
 #     DBT_PROJECT_PATH='automated/telemetry'
 #     DBT_RUN_OPTIONS=''
