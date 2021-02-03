@@ -11,10 +11,6 @@ class Enterprise {
     public static def job = { dslFactory, allVars ->
         allVars.get('JOBS').each { job, job_config ->
             dslFactory.job("enterprise-$job") {
-                // As part of the MySQL upgrade for the LMS, we need to disable the jobs that
-                // interface with the LMS read replica.
-                // TODO: once the upgrade is complete for both prod and edge environments, remove this line
-                disabled(job_config.get('JOB_DISABLED'))
                 authorization common_authorization(allVars)
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, job_config)
