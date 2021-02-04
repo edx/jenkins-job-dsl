@@ -11,10 +11,6 @@ class ReadReplicaExportToS3 {
     public static def job = { dslFactory, allVars ->
         allVars.get('READ_REPLICA_EXPORTS').each { db, db_config ->
             dslFactory.job("${db.toLowerCase()}-read-replica-export-to-s3") {
-                // As part of the MySQL upgrade for the LMS, we need to disable the jobs that
-                // interface with the LMS read replica.
-                // TODO: once the upgrade is complete for both prod and edge environments, remove this line
-                disabled(db_config.get('JOB_DISABLED'))
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, db_config)
                 parameters {
