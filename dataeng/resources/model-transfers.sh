@@ -31,14 +31,16 @@ then
 
 fi
 
+# TODO: Adding single_file argument is a short term solution. We have created
+# https://openedx.atlassian.net/browse/ENT-4087 to find a better way.
 ENTERPRISE_TRANSFERS=( \
     enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: ENT_BASE_ENTERPRISE_USER}' \
     enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_CUSTOMER_COURSE_DAILY_ROLLUP_ADMIN_DASH}' \
     enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_ENROLLMENT_ADMIN_DASH}' \
     enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_ENROLLMENT_ENGAGEMENT_DAY_ADMIN_DASH}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_COURSE_METRICS}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_BLOCK_COMPLETION}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_PERSISTENTSUBSECTIONGRADE}' \
+    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_COURSE_METRICS, single_file: true}' \
+    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_BLOCK_COMPLETION, single_file: true}' \
+    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_PERSISTENTSUBSECTIONGRADE, single_file: true}' \
 )
 
 if [ "$MODELS_TO_TRANSFER" = 'enterprise' ]
