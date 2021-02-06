@@ -207,7 +207,7 @@ class CreateSandbox {
                 stringParam("prospectus_version","master","")
 
                 booleanParam("authn",false,"Enable Authn MFE")
-                stringParam("authn","master","The repository version of the frontend-app-authn")
+                stringParam("authn_version","master","The repository version of the frontend-app-authn")
 
                 booleanParam("payment",false,"Enable Payment MFE")
                 stringParam("payment_version","master","The repository version of the frontend-app-payment")
