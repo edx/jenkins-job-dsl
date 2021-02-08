@@ -93,7 +93,7 @@ secretMap.each { jobConfigs ->
 
         environmentVariables {
             env('AWS_DEFAULT_REGION', jobConfig['region'])
-            env('PYTHON_VERSION', '3.5')
+            env('PYTHON_VERSION', '3.8')
             groovy(readFileFromWorkspace('testeng/resources/toggle-spigot-message.groovy'))
         }
 
