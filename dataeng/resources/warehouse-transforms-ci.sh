@@ -102,7 +102,7 @@ fi
 if [ "$isTelemetry" == "true" ]
 then
     cd $WORKSPACE/analytics-tools/snowflake
-    export CI_SCHEMA_NAME=PR_${ghprbPullId}_raw_to_source
+    export CI_SCHEMA_NAME=PR_${ghprbPullId}_telemetry
     python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
     DBT_PROJECT_PATH='automated/telemetry'
