@@ -63,13 +63,8 @@ class AnalyticsExporter {
             }
 
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv-py3.sh")
-                    )
-                }
+                // This will create python 3.8 venv inside shell script instead of using shiningpanda
+                shell(readFileFromWorkspace('platform/resources/setup-platform-venv-py3.sh'))
                 virtualenv {
                     pythonName('PYTHON_3.7')
                     nature("shell")
@@ -222,13 +217,8 @@ class AnalyticsExporter {
             publishers common_publishers(allVars)
 
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/setup-platform-venv-py3.sh")
-                    )
-                }
+                // This will create python 3.8 venv inside shell script instead of using shiningpanda
+                shell(readFileFromWorkspace('platform/resources/setup-platform-venv-py3.sh'))
                 virtualenv {
                     // The exporter itself still runs python 2.
                     nature("shell")
