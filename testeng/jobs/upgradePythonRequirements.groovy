@@ -142,6 +142,16 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
+        repoName: 'credentials-themes',
+        defaultBranch: 'master',
+        pythonVersion: '3.8',
+        cronValue: cronOffHoursBusinessWeekday,
+        githubUserReviewers: [],
+        githubTeamReviewers: ['edx-aperture'],
+        emails: ['aperture@edx.opsgenie.net'],
+    ],
+    [
+        org: 'edx',
         repoName: 'demographics',
         defaultBranch: 'master',
         pythonVersion: '3.8',
