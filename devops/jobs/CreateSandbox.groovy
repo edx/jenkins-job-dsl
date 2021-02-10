@@ -195,6 +195,9 @@ class CreateSandbox {
                 booleanParam("learner_portal",false,"Learner Portal")
                 stringParam("learner_portal_version","master","The version for the frontend-app-learner-portal")
 
+                 booleanParam("admin_portal",false,"Enable Enterprise Admin Portal MFE")
+                stringParam("admin_portal_version","master","The repository version of the frontend-app-admin-portal")
+
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
                 stringParam("video_pipeline_version","master","")
