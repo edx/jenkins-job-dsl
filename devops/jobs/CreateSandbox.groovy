@@ -195,8 +195,17 @@ class CreateSandbox {
                 booleanParam("learner_portal",false,"Learner Portal")
                 stringParam("learner_portal_version","master","The version for the frontend-app-learner-portal")
 
-                 booleanParam("admin_portal",false,"Enable Enterprise Admin Portal MFE")
+                booleanParam("admin_portal",false,"Enable Enterprise Admin Portal MFE")
                 stringParam("admin_portal_version","master","The repository version of the frontend-app-admin-portal")
+
+                booleanParam("learner_portal_enterprise",false,"Enable Enterprise Learner Portal MFE")
+                stringParam("learner_portal_enterprise_version","master","The repository version of the frontend-app-learner-portal-enterprise")
+
+                booleanParam("enterprise_catalog",false,"Enable Enterprise Catalog Django Backend")
+                stringParam("enterprise_catalog_version","master","The repository version of the license-manager microservice")
+
+                booleanParam("license_manager",false,"Enable Enterprise Subscription License Manager Django Backend")
+                stringParam("license_manager_version","master","The repository version of the license-manager microservice")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
