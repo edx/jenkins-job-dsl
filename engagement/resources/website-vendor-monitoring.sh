@@ -9,7 +9,7 @@ create_virtualenv --python=python3.8 --clear
 set -u
 
 cd $WORKSPACE/prospectus
-pip install -r scripts/requirements-vendor-monitoring.txt
+pip install -r scripts/vendor-monitoring-requirements.txt
 env
 
 python scripts/vendor-monitoring.py\
