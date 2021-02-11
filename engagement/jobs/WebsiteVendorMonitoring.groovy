@@ -46,8 +46,9 @@ class WebsiteVendorMonitoring {
             multiscm {
                 git {
                     remote {
-                        url('https://github.com/edx/prospectus.git')
+                        url('git@github.com:edx/prospectus.git')
                         branch('master')
+                        credentials(gitCredentialId)
                     }
                     extensions {
                         cleanAfterCheckout()
