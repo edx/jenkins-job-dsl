@@ -165,6 +165,8 @@ jobConfigs.each { jobConfig ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
+                    pruneBranches()
+                    pruneStaleBranch()
                 }
             }
         }
