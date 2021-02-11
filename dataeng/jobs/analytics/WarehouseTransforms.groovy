@@ -41,6 +41,11 @@ class WarehouseTransforms{
                     }
                 }
                 triggers common_triggers(allVars, env_config)
+                environmentVariables {
+                    env('OPSGENIE_HEARTBEAT_NAME', env_config.get('OPSGENIE_HEARTBEAT_NAME'))
+                    env('OPSGENIE_HEARTBEAT_DURATION_NUM', env_config.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
+                    env('OPSGENIE_HEARTBEAT_DURATION_UNIT', env_config.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
+                }
                 wrappers common_wrappers(allVars)
                 wrappers {
                     colorizeOutput('xterm')
@@ -50,7 +55,13 @@ class WarehouseTransforms{
                         downstream(downstream_job_name)
                     }
                 }
+                wrappers {
+                    credentialsBinding {
+                        string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
+                    }
+                }
                 steps {
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     virtualenv {
                         pythonName('PYTHON_3.7')
                         nature("shell")
@@ -59,6 +70,7 @@ class WarehouseTransforms{
                             dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms.sh")
                         )
                     }
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-disable-heartbeat.sh'))
                 }
             }
         }
