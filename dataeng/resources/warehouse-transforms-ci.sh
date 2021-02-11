@@ -65,6 +65,9 @@ then
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME 
 
+    # Overide the commit author in case of reporting
+    $NOTIFY=${ghprbActualCommitAuthorEmail}
+
 fi
 
 
@@ -106,6 +109,8 @@ then
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
+    # Overide the commit author in case of reporting
+    $NOTIFY=${ghprbActualCommitAuthorEmail}
 
 fi
 
@@ -127,5 +132,6 @@ then
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
-
+    # Overide the commit author in case of telemetry
+    $NOTIFY=${ghprbActualCommitAuthorEmail}
 fi
