@@ -55,6 +55,11 @@ class WarehouseTransforms{
                         downstream(downstream_job_name)
                     }
                 }
+                wrappers {
+                    credentialsBinding {
+                        string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
+                    }
+                }
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     virtualenv {
