@@ -9,8 +9,8 @@ create_virtualenv --python=python3.8 --clear
 set -u
 
 cd $WORKSPACE/prospectus
-#pip install -r util/jenkins/requirements-cloudflare.txt
-#env
+pip install -r scripts/requirements-vendor-monitoring.txt
+env
 
 python scripts/vendor-monitoring.py\
     --algolia_auth_key ${ALGOLIA_AUTH_KEY}\
