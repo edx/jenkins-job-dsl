@@ -1,6 +1,10 @@
 #!/bin/bash
 set -eu -o pipefail
 
+# Jenkins won't set an environment variable if it's empty.
+# Set this to an empty string if it's unset.
+PACKAGES="${PACKAGES:-}"
+
 IFS=', ' read -ra REPOS <<<"$REPO_NAMES"
 
 failed_repos=()
