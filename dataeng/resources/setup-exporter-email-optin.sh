@@ -31,7 +31,7 @@ exporter-properties \
     --output-bucket=${OUTPUT_BUCKET} \
     --output-prefix=${OUTPUT_PREFIX} \
     --orgs="${ORGS}" \
-    --include=platform_venv \
+    --include=platform_venv_path \
     --include=exporter_vars \
     ${CONFIG_PATH} \
     ${WORKSPACE}/${ORG_CONFIG} \
