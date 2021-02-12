@@ -107,7 +107,6 @@ class WarehouseTransformsCI{
                     )
                 }
             }
-            publishers common_publishers(allVars)
         }
     }
 }
