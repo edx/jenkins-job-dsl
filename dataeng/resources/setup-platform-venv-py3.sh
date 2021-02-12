@@ -14,7 +14,8 @@ pushd edx-platform
 # This is the same pip version we currently pin in our devstack edxapp container:
 pip install pip==20.2.3
 make requirements
+
 popd
 
 # Save virtualenv location
-echo "PLATFORM_VENV=${WORKSPACE}/${PLATFORM_VENV}" > platform_venv
+echo "PLATFORM_VENV=${WORKSPACE}/${PLATFORM_VENV}" > platform_venv_path

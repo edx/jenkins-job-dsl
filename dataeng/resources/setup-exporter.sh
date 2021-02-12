@@ -37,7 +37,7 @@ env | sort
 exporter-properties \
     --output-bucket=${OUTPUT_BUCKET} \
     --orgs="${ORGS}" \
-    --include=platform_venv \
+    --include=platform_venv_path \
     --include=exporter_vars \
     ${CONFIG_PATH} \
     ${WORKSPACE}/${ORG_CONFIG} \
