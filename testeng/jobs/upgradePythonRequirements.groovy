@@ -121,17 +121,6 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'course-discovery',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['course-discovery-admins'],
-        emails: ['mterry@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
         repoName: 'credentials',
         defaultBranch: 'master',
         pythonVersion: '3.8',
@@ -173,17 +162,6 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'django-config-models',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['arbi-bom'],
-        emails: ['arbi-bom@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
         repoName: 'django-lang-pref-middleware',
         defaultBranch: 'master',
         pythonVersion: '3.8',
@@ -191,17 +169,6 @@ List jobConfigs = [
         githubUserReviewers: [],
         githubTeamReviewers: ['arbi-bom'],
         emails: ['arbi-bom@edx.org'],
-    ],
-    [
-        org: 'edx',
-        repoName: 'django-user-tasks',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: ['jmbowman'],
-        githubTeamReviewers: ['arbi-bom'],
-        emails: ['arbi-bom@edx.org'],
-        alwaysNotify: false
     ],
     [
         org: 'edx',
