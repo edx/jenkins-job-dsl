@@ -19,7 +19,7 @@ cd $WORKSPACE/sysadmin
 bash util/clone-mongo/clone-mongo.sh  \
   --collections modulestore,modulestore.active_versions,modulestore.definitions,modulestore.location_map,modulestore.structures,fs.chunks,fs.files \
   --from-db-hosts ${IP_ADDRESSES}  \
-  --from-user read_only  \
+  --from-user ${MONGO_DB_USER}  \
   --from-pass ${MONGO_DB_PASSWORD}   \
   --from-db prod    \
   --from-port 27017   \
@@ -28,7 +28,7 @@ bash util/clone-mongo/clone-mongo.sh  \
 bash util/clone-mongo/clone-mongo.sh  \
   --collections activities,contents,delayed_backend_mongoid_jobs,subscriptions,system.indexes,system.users,users \
   --from-db-hosts ${IP_ADDRESSES}  \
-  --from-user read_only  \
+  --from-user ${MONGO_DB_USER}  \
   --from-pass ${MONGO_DB_PASSWORD}   \
   --from-db prod-forum    \
   --from-port 27017   \

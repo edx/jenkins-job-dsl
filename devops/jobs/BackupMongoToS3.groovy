@@ -33,7 +33,7 @@ class BackupMongoToS3 {
         assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
-            configuration.environments.each { environment ->
+            configuration.environments.each { environment, inner_config ->
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/backup-${environment}-${deployment}-mongo-to-s3") {
                        
                     logRotator common_logrotator
@@ -43,7 +43,7 @@ class BackupMongoToS3 {
                         credentialsBinding{
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                             string('ROLE_ARN', "mongohq-backups-${environment}-${deployment}-role-arn")
-                            string('MONGO_DB_PASSWORD', 'mongo-db-password')
+                            string('MONGO_DB_PASSWORD', "${environment}-${deployment}-mongo-db-password")
                             string("GENIE_KEY", "opsgenie_heartbeat_key")
                         }
                     }
@@ -96,12 +96,13 @@ class BackupMongoToS3 {
                         cron('0 H/12 * * *')
                     }
 
-                    assert configuration.containsKey('ip_addresses') : "Please define IP addresses of the database hosts"
+                    assert inner_config.containsKey('ip_addresses') : "Please define IP addresses of the database hosts"
 
                     environmentVariables {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
-                        env('IP_ADDRESSES', configuration.get('ip_addresses'))
+                        env('IP_ADDRESSES', inner_config.get('ip_addresses'))
+                        env('MONGO_DB_USER', inner_config.get('mongo_db_user'))
                     }
 
                     steps {
