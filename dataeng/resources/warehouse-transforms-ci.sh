@@ -92,9 +92,22 @@ fi
 if [ "$isRawToSource" == "true" ]
 then
 
-    # This is an inprogress feature 
-    # Current behavior of this job is to skip if changes have occurred in automated/raw_to_source project
-    echo "automated/raw_to_source. Nothing to do"
+
+    cd $WORKSPACE/analytics-tools/snowflake
+    export CI_SCHEMA_NAME=PR_${ghprbPullId}_raw_to_source
+    python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
+
+    DBT_PROJECT_PATH='automated/raw_to_source'
+    DBT_RUN_OPTIONS=''
+    DBT_RUN_EXCLUDE=''
+    DBT_TEST_OPTIONS=''
+    DBT_TEST_EXCLUDE=''
+
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
+
+    cd $WORKSPACE/analytics-tools/snowflake
+    python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
+
 
 fi
 
