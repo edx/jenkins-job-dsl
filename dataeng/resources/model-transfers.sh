@@ -9,49 +9,40 @@ pip install -r requirements.txt
 
 cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT
 
-
-# Each transfer is two elements in this array:
-#     - the DBT macro name
-#     - the macro arguments to use when calling the DBT macro
-DAILY_TRANSFERS=( \
-    unload_program_reporting_learner_enrollments_report '{database: PROD, schema: PROGRAMS_REPORTING}' \
-    unload_program_reporting_program_cohort_report '{database: PROD, schema: PROGRAMS_REPORTING}' \
-)
-
+# Choose the marts from which to transfer DBT models based on Jenkins job parameter.
 if [ "$MODELS_TO_TRANSFER" = 'daily' ]
 then
-
-    # Call each DBT macro to initiate a transfer.
-    num_txfrs=${#DAILY_TRANSFERS[@]}/2
-
-    for (( i=0; i<${num_txfrs}; i++ ));
-    do
-        dbt run-operation ${DAILY_TRANSFERS[$i*2]} --args "${DAILY_TRANSFERS[$i*2+1]}" --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
-    done
-
+    MART_NAME=programs_reporting
+elif [ "$MODELS_TO_TRANSFER" = 'enterprise' ]
+    MART_NAME=enterprise
 fi
 
-# TODO: Adding single_file argument is a short term solution. We have created
-# https://openedx.atlassian.net/browse/ENT-4087 to find a better way.
-ENTERPRISE_TRANSFERS=( \
-    enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: ENT_BASE_ENTERPRISE_USER}' \
-    enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_CUSTOMER_COURSE_DAILY_ROLLUP_ADMIN_DASH}' \
-    enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_ENROLLMENT_ADMIN_DASH}' \
-    enterprise_copy_to_s3 '{prefix: ENTERPRISE, table: FACT_ENROLLMENT_ENGAGEMENT_DAY_ADMIN_DASH}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_COURSE_METRICS, single_file: true}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_BLOCK_COMPLETION, single_file: true}' \
-    enterprise_copy_to_s3 '{prefix: PEARSON, table: ENT_REPORT_PEARSON_PERSISTENTSUBSECTIONGRADE, single_file: true}' \
-)
+ARGS="{mart: ${MART_NAME} }"
 
-if [ "$MODELS_TO_TRANSFER" = 'enterprise' ]
-then
+# Currently, only the programs_reporting mart's transfers are performed in the daily transfer.
+#
+# Call DBT to query the list of macros to call and the macro parameters to perform all transfers.
+dbt run-operation get_all_s3_transfers --args "${ARGS}" > dbt_get_data_output_tmp.txt || exit
 
-    # Call each DBT macro to initiate a transfer.
-    num_txfrs=${#ENTERPRISE_TRANSFERS[@]}/2
+# Parse the output to extract the list of macros/parameters from the JSON and convert to DBT commands.
+# The expected input format from the file looks like this:
+#
+# Running with dbt=0.19.1-b2
+# [["unload_program_reporting_learner_enrollments_report", "{database: PROD, schema: PROGRAMS_REPORTING}"], ["unload_program_reporting_program_cohort_report", "{database: PROD, schema: PROGRAMS_REPORTING}"]]
+#
+# The output format looks like this:
+#
+# [ "dbt run-operation unload_program_reporting_learner_enrollments_report --args \"{database: PROD, schema: PROGRAMS_REPORTING}\"" ]
+# [ "dbt run-operation unload_program_reporting_program_cohort_report --args \"{database: PROD, schema: PROGRAMS_REPORTING}\"" ]
+commands=$( sed -n '/^\[/p' dbt_get_data_output_tmp.txt | jq '.[] | ["dbt run-operation " + .[0] + " --args " + "\"" + .[1] + "\""]' )
 
-    for (( i=0; i<${num_txfrs}; i++ ));
-    do
-        dbt run-operation ${ENTERPRISE_TRANSFERS[$i*2]} --args "${ENTERPRISE_TRANSFERS[$i*2+1]}" --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
-    done
-
-fi
+# Enable extended regex.
+shopt -s extglob
+# For each line in the list, strip whitespace, escape quotes, and eval the DBT command.
+while IFS= read -r line; do
+    if [[ $line == !(\]|\[) ]]; then
+        stripped_line=$( echo $line | sed 's/^[ "]*//' | sed 's/["]$//' | sed 's/\\"/"/g' )
+        echo "${stripped_line[@]}"
+        eval "${stripped_line}"
+    fi
+done <<< "$commands"
