@@ -10,7 +10,7 @@ import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_
 
 class WarehouseTransformsCItest{
     public static def job = { dslFactory, allVars ->
-        dslFactory.job("warehouse-transforms-ci"){
+        dslFactory.job("warehouse-transforms-ci-test"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
