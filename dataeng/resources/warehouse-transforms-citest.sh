@@ -43,6 +43,9 @@ pip install -r requirements.txt
 if [ "$isReporting" == "true" ]
 then
 
+    # Overide the commit author in case of reporting
+    NOTIFY=${ghprbActualCommitAuthorEmail}
+
     cd $WORKSPACE/analytics-tools/snowflake
 
     # Schema_Name will be the Github Pull Request ID e.g. 1724 prefixed with 'PR_*' and sufixed with project name e.g. PR_1724_reporting
@@ -64,6 +67,7 @@ then
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME 
+
 
 fi
 
@@ -92,6 +96,9 @@ fi
 if [ "$isRawToSource" == "true" ]
 then
 
+    # Overide the commit author in case of reporting
+    NOTIFY=${ghprbActualCommitAuthorEmail}
+
     cd $WORKSPACE/analytics-tools/snowflake
     export CI_SCHEMA_NAME=PR_${ghprbPullId}_raw_to_source
     python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
@@ -113,6 +120,10 @@ fi
 
 if [ "$isTelemetry" == "true" ]
 then
+
+    # Overide the commit author in case of reporting
+    NOTIFY=${ghprbActualCommitAuthorEmail}
+
     cd $WORKSPACE/analytics-tools/snowflake
     export CI_SCHEMA_NAME=PR_${ghprbPullId}_telemetry
     python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
@@ -127,6 +138,5 @@ then
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
-
 
 fi
