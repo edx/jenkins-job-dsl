@@ -8,7 +8,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
 
-class WarehouseTransformsCI{
+class WarehouseTransformsCItest{
     public static def job = { dslFactory, allVars ->
         dslFactory.job("warehouse-transforms-ci"){
             authorization common_authorization(allVars)
