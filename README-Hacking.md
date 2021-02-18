@@ -127,15 +127,15 @@ New Item -> Folder
 
 An example error might look like:
 
-    FATAL: failed to find the Python installation to use from its name: System-CPython-3.5 (was it deleted?)
+    FATAL: failed to find the Python installation to use from its name: System-CPython-3.6 (was it deleted?)
 
 You need to set the python installations, or make sure you have the correct name for an existing one.
 
 Manage Jenkins -> Global Tool Configuration -> Python -> Python installations
 
-    Name = PYTHON_3.5
+    Name = PYTHON_3.6
 
-    Home or executable = /usr/bin/python3.5
+    Home or executable = /usr/bin/python3.6
 
     Check Install automatically
 

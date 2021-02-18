@@ -26,7 +26,7 @@ job('travis-counts') {
     }
 
     environmentVariables {
-        env('PYTHON_VERSION', '3.5')
+        env('PYTHON_VERSION', '3.6')
     }
 
     steps {

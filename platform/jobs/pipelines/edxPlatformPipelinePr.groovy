@@ -154,7 +154,7 @@ Map publicPythonJuniperJobConfig = [
     triggerPhrase: /.*juniper\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5',
+    pythonVersion: '3.6',
 ]
 
 Map publicQualityJobConfig = [
@@ -233,7 +233,7 @@ Map publicQualityJuniperJobConfig = [
     triggerPhrase: /.*juniper\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
+    pythonVersion: '3.6',
 ]
 
 List jobConfigs = [
