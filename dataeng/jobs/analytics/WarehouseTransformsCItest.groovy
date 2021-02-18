@@ -99,15 +99,15 @@ class WarehouseTransformsCI{
             wrappers common_wrappers(allVars)
             steps {
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms-citest.sh'))
-                virtualenv {
-                //     pythonName('PYTHON_3.7')
-                //     nature("shell")
-                //     systemSitePackages(false)
-                //     command(
-                //         dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci.sh")
-                //     )
-                // }
-            }
+            //     virtualenv {
+            //         pythonName('PYTHON_3.7')
+            //         nature("shell")
+            //         systemSitePackages(false)
+            //         command(
+            //             dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci.sh")
+            //         )
+            //     }
+            // }
             publishers common_publishers(allVars)
         }
     }
