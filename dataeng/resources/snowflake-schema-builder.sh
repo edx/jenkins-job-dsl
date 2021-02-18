@@ -15,7 +15,7 @@ dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --pro
 cd $WORKSPACE/warehouse-transforms
 
 # Create a new git branch
-now=$(date +%d_%m_%Y_%H_%M_%S)
+now=$(date +%Y_%m_%d_%H_%M_%S)
 branchname="builder_$now"
 git checkout -b "$branchname"
 
