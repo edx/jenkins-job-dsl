@@ -107,9 +107,10 @@ class WarehouseTransformsCItest{
             //             dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci.sh")
             //         )
             //     }
-            // }
+            }
             publishers common_publishers(allVars)
         }
     }
 }
+
 
