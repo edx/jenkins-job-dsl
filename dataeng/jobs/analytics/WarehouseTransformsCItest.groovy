@@ -87,7 +87,7 @@ class WarehouseTransformsCI{
                     // every 3 minutes for updates any branches.
                     cron('H/3 * * * *')
                     triggerPhrase('jenkins run dbt') // You this trigger phrase to on Pull Rquest comment to trigger this job
-                    onlyTriggerPhrase(false) // true if you want the job to only fire when commented on (not on commits)
+                    onlyTriggerPhrase(true) // true if you want the job to only fire when commented on (not on commits)
                     orgWhitelist(['edx-ops', 'edX']) // All the Github users under these orgs will be able to trigger this job via PR. As this job will be used by many edXers so giving the trigger access to all under edX.  
                 }
             }
@@ -98,14 +98,15 @@ class WarehouseTransformsCI{
             }
             wrappers common_wrappers(allVars)
             steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms-citest.sh'))
                 virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci.sh")
-                    )
-                }
+                //     pythonName('PYTHON_3.7')
+                //     nature("shell")
+                //     systemSitePackages(false)
+                //     command(
+                //         dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci.sh")
+                //     )
+                // }
             }
             publishers common_publishers(allVars)
         }

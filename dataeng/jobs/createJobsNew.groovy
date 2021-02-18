@@ -6,6 +6,7 @@ import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static analytics.WarehouseTransformsCI.job as WarehouseTransformsCIJob
+import static analytics.WarehouseTransformsCItest.job as WarehouseTransformsCIJobtest
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -36,6 +37,7 @@ def taskMap = [
     UPDATE_USERS_JOB: UpdateUsersJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
     WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob,
+    WAREHOUSE_TRANSFORMS_CI_JOB_TEST: WarehouseTransformsCIJobtest,
 ]
 
 for (task in taskMap) {

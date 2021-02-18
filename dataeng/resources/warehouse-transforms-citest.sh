@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -ex
 
+PLATFORM_VENV="platform_venv"
+virtualenv --python=python3.7 --clear "${PLATFORM_VENV}"
+source "${PLATFORM_VENV}/bin/activate"
+
+
 # Setup to run python script to create snowflake schema
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
