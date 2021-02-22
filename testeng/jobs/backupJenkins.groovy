@@ -100,6 +100,8 @@ secretMap.each { jobConfigs ->
 
         // Sync currently paged files to disk
         String script = 'sync\n'
+        script += "virtualenv --python=python3.8 --clear venv\n"
+        script += ". venv/bin/activate\n"
         // This might seem overkill, but in case the pip requirements change, read them from
         // the requirements file in the workspace
         readFileFromWorkspace('testeng/resources/requirements.txt').split('\n').each { line ->
@@ -110,13 +112,7 @@ secretMap.each { jobConfigs ->
                   "> \${WORKSPACE}/snapshot-out.log\n"
         script += "cat \${WORKSPACE}/snapshot-out.log"
         steps {
-            virtualenv {
-                clear()
-                name('venv')
-                pythonName('PYTHON_3.5')
-                nature('shell')
-                command(script)
-            }
+            shell(script)
         }
 
         publishers {
