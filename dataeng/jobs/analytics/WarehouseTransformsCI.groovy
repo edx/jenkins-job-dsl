@@ -92,7 +92,10 @@ class WarehouseTransformsCI{
                 }
             }
             configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)    
-
+            concurrentBuild(true)
+            throttleConcurrentBuilds {
+                maxTotal(5)
+            }
             wrappers {
                 colorizeOutput('xterm')
             }
