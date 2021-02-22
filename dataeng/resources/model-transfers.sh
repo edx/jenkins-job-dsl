@@ -14,7 +14,11 @@ if [ "$MODELS_TO_TRANSFER" = 'daily' ]
 then
     MART_NAME=programs_reporting
 elif [ "$MODELS_TO_TRANSFER" = 'enterprise' ]
+then
     MART_NAME=enterprise
+else
+    echo "Unknown MODELS_TO_TRANSFER: '${MODELS_TO_TRANSFER}'"
+    exit 1
 fi
 
 ARGS="{mart: ${MART_NAME} }"
