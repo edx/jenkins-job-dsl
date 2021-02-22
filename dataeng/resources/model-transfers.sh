@@ -24,4 +24,4 @@ fi
 ARGS="{mart: ${MART_NAME} }"
 
 # Call DBT to perform all transfers for this mart.
-dbt run-operation perform_s3_transfers --args "${ARGS}"
+dbt run-operation perform_s3_transfers --args "${ARGS}" --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
