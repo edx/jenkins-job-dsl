@@ -91,11 +91,7 @@ class WarehouseTransformsCI{
                     orgWhitelist(['edx-ops', 'edX']) // All the Github users under these orgs will be able to trigger this job via PR. As this job will be used by many edXers so giving the trigger access to all under edX.  
                 }
             }
-            configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)    
-            concurrentBuild(true)
-            throttleConcurrentBuilds {
-                maxTotal(5)
-            }
+            configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)
             wrappers {
                 colorizeOutput('xterm')
             }
