@@ -14,17 +14,9 @@ aws s3 cp s3://edx-dbt-docs/manifest.json ${WORKSPACE}/manifest
 
 # Setup to run dbt commands
 cd $WORKSPACE/warehouse-transforms
-pwd
 
-# Pull the origin master code to latest branch which will be used to compare the diff
-git pull -f origin master:latest
-
-# Put back the head at PR commit
-git checkout ${ghprbActualCommit}
-
-git rebase latest
-
-git diff latest --name-only
+# Taking difference from origin/master
+git diff origin/master --name-only
 
 # Finding the project names which has changed in this PR. Using git diff latest to compare this branch from master
 # It returns all the files name with full path. Searching through it using egrep to find which project(s) the changing files belong.
@@ -37,7 +29,7 @@ if git diff latest --name-only | egrep "projects/automated/telemetry" -q; then i
 
 # Setup to run dbt commands
 cd $WORKSPACE/warehouse-transforms
-pwd
+
 # To install right version of dbt
 pip install -r requirements.txt
 
@@ -47,7 +39,7 @@ then
     cd $WORKSPACE/analytics-tools/snowflake
 
     # Schema_Name will be the Github Pull Request ID e.g. 1724 prefixed with 'PR_*' and sufixed with project name e.g. PR_1724_reporting
-    export CI_SCHEMA_NAME=PR_${ghprbPullId}_reporting
+    export CI_SCHEMA_NAME=PR_${ghprbPullId}_reporting_ci
     # Schema is dynamically created against each PR. It is the PR number with 'PR_*' as prefixed.
     # profiles.yml contains the name of Schema which is used to create output models when dbt runs. 
     python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME 
@@ -61,7 +53,7 @@ then
     DBT_TEST_OPTIONS="-m state:modified+ --state $WORKSPACE/manifest"
     DBT_TEST_EXCLUDE='--exclude test_name:relationships' 
 
-    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-concurrent-dbt.sh
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME 
@@ -73,7 +65,7 @@ if [ "$isApplications" == "true" ]
 then
 
     cd $WORKSPACE/analytics-tools/snowflake
-    export CI_SCHEMA_NAME=PR_${ghprbPullId}_applications
+    export CI_SCHEMA_NAME=PR_${ghprbPullId}_applications_ci
     python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
     DBT_PROJECT_PATH='automated/applications'
@@ -82,7 +74,7 @@ then
     DBT_TEST_OPTIONS=''
     DBT_TEST_EXCLUDE=''
 
-    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-concurrent-dbt.sh
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
@@ -95,7 +87,7 @@ then
 
 
     cd $WORKSPACE/analytics-tools/snowflake
-    export CI_SCHEMA_NAME=PR_${ghprbPullId}_raw_to_source
+    export CI_SCHEMA_NAME=PR_${ghprbPullId}_raw_to_source_ci
     python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
     DBT_PROJECT_PATH='automated/raw_to_source'
@@ -104,7 +96,7 @@ then
     DBT_TEST_OPTIONS=''
     DBT_TEST_EXCLUDE=''
 
-    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-concurrent-dbt.sh
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
@@ -116,7 +108,7 @@ fi
 if [ "$isTelemetry" == "true" ]
 then
     cd $WORKSPACE/analytics-tools/snowflake
-    export CI_SCHEMA_NAME=PR_${ghprbPullId}_telemetry
+    export CI_SCHEMA_NAME=PR_${ghprbPullId}_telemetry_ci
     python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
     DBT_PROJECT_PATH='automated/telemetry'
@@ -125,7 +117,7 @@ then
     DBT_TEST_OPTIONS=''
     DBT_TEST_EXCLUDE=''
 
-    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-concurrent-dbt.sh
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
