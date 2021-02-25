@@ -15,6 +15,12 @@ aws s3 cp s3://edx-dbt-docs/manifest.json ${WORKSPACE}/manifest
 # Setup to run dbt commands
 cd $WORKSPACE/warehouse-transforms
 
+
+# Re-base checking code
+hash1=$(git show-ref -s origin/master)  # Shows the latest master head
+hash2=$(git merge-base origin/master ${ghprbActualCommit}) # Shows the master head when this branch was created or re-based last time.
+if [ "${hash1}" == "${hash2}" ]; then echo "OK"; else echo "Rebase is required"; fi
+
 # Taking difference from origin/master
 git diff origin/master --name-only
 
