@@ -19,7 +19,7 @@ class  CheckRDSConfigs {
                 wrappers {
                     credentialsBinding {
                         file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
-                        def variable = "check-rds-configs-${deployment}"
+                        def variable = "check-rds-slow-query-logs-${deployment}"
                         string("ROLE_ARN", variable)
                     }
                 }
