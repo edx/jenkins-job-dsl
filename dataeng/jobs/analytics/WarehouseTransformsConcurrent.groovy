@@ -86,7 +86,7 @@ class WarehouseTransformsConcurrent{
                     // we cannot rely on Github to deliver webhooks. Instead, poll GH
                     // every 3 minutes for updates any branches.
                     cron('H/3 * * * *')
-                    triggerPhrase('jenkins run dbt') // You this trigger phrase to on Pull Rquest comment to trigger this job
+                    triggerPhrase('wt ci run') // You this trigger phrase to on Pull Rquest comment to trigger this job
                     onlyTriggerPhrase(true) // true if you want the job to only fire when commented on (not on commits)
                     orgWhitelist(['edx-ops', 'edX']) // All the Github users under these orgs will be able to trigger this job via PR. As this job will be used by many edXers so giving the trigger access to all under edX.  
                 }
