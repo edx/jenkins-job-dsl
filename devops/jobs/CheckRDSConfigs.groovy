@@ -1,14 +1,14 @@
 package devops.jobs
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 
-class  CheckRDSSlowQueryLogs {
+class  CheckRDSConfigs {
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey("DEPLOYMENTS") : "Please define DEPLOYMENTS. It should be list of strings."
         assert !(extraVars.get("DEPLOYMENTS") instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
 
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
 
-            dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/check-rds-slow-query-logs-${deployment}") {
+            dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/check-rds-configs-${deployment}") {
                 parameters {
                     stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git')
                     stringParam('CONFIGURATION_BRANCH', 'master')
@@ -19,7 +19,7 @@ class  CheckRDSSlowQueryLogs {
                 wrappers {
                     credentialsBinding {
                         file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
-                        def variable = "check-rds-slow-query-logs-${deployment}"
+                        def variable = "check-rds-configs-${deployment}"
                         string("ROLE_ARN", variable)
                     }
                 }
@@ -52,7 +52,7 @@ class  CheckRDSSlowQueryLogs {
                     }
                 }
                 steps {
-                   shell(dslFactory.readFileFromWorkspace('devops/resources/check-rds-slow-query-logs.sh'))
+                   shell(dslFactory.readFileFromWorkspace('devops/resources/check-rds-configs.sh'))
 
                 }
 

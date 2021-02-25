@@ -22,4 +22,4 @@ if [[ ! -v IGNORE_OPTIONS ]]; then
     IGNORE_OPTIONS=""
 fi
 
-python check_rds_slow_query_logs.py --db_engine mysql ${IGNORE_OPTIONS}
+python check_rds_configs.py --db_engine mysql ${IGNORE_OPTIONS}
