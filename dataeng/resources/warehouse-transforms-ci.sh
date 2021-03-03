@@ -15,23 +15,18 @@ aws s3 cp s3://edx-dbt-docs/manifest.json ${WORKSPACE}/manifest
 # Setup to run dbt commands
 cd $WORKSPACE/warehouse-transforms
 
-# Pull the origin master code to latest branch which will be used to compare the diff
-git pull -f origin master:latest
+BRANCH_POINT=$(git merge-base origin/master ${ghprbActualCommit})
+git diff $BRANCH_POINT --name-only
 
-# Put back the head at PR commit
-git checkout ${ghprbActualCommit}
-
-git rebase latest
-
-git diff latest --name-only
+git diff origin/master --name-only
 
 # Finding the project names which has changed in this PR. Using git diff latest to compare this branch from master
 # It returns all the files name with full path. Searching through it using egrep to find which project(s) the changing files belong.
 # It might happen one PR may be changing files in different projects.
-if git diff latest --name-only | egrep "projects/reporting" -q; then isReporting="true"; else isReporting="false"; fi
-if git diff latest --name-only | egrep "projects/automated/applications" -q; then isApplications="true"; else isApplications="false"; fi
-if git diff latest --name-only | egrep "projects/automated/raw_to_source" -q; then isRawToSource="true"; else isRawToSource="false"; fi
-if git diff latest --name-only | egrep "projects/automated/telemetry" -q; then isTelemetry="true"; else isTelemetry="false"; fi
+if git diff $BRANCH_POINT --name-only | egrep "projects/reporting" -q; then isReporting="true"; else isReporting="false"; fi
+if git diff $BRANCH_POINT --name-only | egrep "projects/automated/applications" -q; then isApplications="true"; else isApplications="false"; fi
+if git diff $BRANCH_POINT --name-only | egrep "projects/automated/raw_to_source" -q; then isRawToSource="true"; else isRawToSource="false"; fi
+if git diff $BRANCH_POINT --name-only | egrep "projects/automated/telemetry" -q; then isTelemetry="true"; else isTelemetry="false"; fi
 
 
 # Setup to run dbt commands
