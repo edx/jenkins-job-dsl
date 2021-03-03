@@ -49,8 +49,7 @@ then
     DBT_PROJECT_PATH='reporting'
     # This is a Slim CI syntax used to "run" only modified and downstream models
     DBT_RUN_OPTIONS="-m state:modified+ @state:modified --defer --state $WORKSPACE/manifest"
-    DBT_RUN_EXCLUDE='' ## TODO Add excluded models here
-    # Will add --defer here when DBT version is upgraded
+    DBT_RUN_EXCLUDE='' ## Add excluded models here if any
     # This is a Slim CI syntax used to "test" only modified and downstream models
     DBT_TEST_OPTIONS="-m state:modified+ --defer --state $WORKSPACE/manifest"
     DBT_TEST_EXCLUDE='--exclude test_name:relationships' 
