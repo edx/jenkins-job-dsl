@@ -10,7 +10,7 @@ pip install mysql-connector-python -e .
 popd
 
 # Get name of other (platform) virtual environment
-source platform_venv
+source platform_venv_path
 
 # Configuration paths in analytics-secure
 SECURE_ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
