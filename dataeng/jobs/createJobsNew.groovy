@@ -5,6 +5,7 @@ import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
 import static analytics.DeployCluster.job as DeployClusterJob
+import static analytics.ModelTransfers.job as ModelTransfersJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
@@ -39,6 +40,7 @@ def taskMap = [
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
+    MODEL_TRANSFERS_JOB: ModelTransfersJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
