@@ -15,23 +15,18 @@ aws s3 cp s3://edx-dbt-docs/manifest.json ${WORKSPACE}/manifest
 # Setup to run dbt commands
 cd $WORKSPACE/warehouse-transforms
 
-# Pull the origin master code to latest branch which will be used to compare the diff
-git pull -f origin master:latest
+BRANCH_POINT=$(git merge-base origin/master ${ghprbActualCommit})
+git diff $BRANCH_POINT --name-only
 
-# Put back the head at PR commit
-git checkout ${ghprbActualCommit}
-
-git rebase latest
-
-git diff latest --name-only
+git diff origin/master --name-only
 
 # Finding the project names which has changed in this PR. Using git diff latest to compare this branch from master
 # It returns all the files name with full path. Searching through it using egrep to find which project(s) the changing files belong.
 # It might happen one PR may be changing files in different projects.
-if git diff latest --name-only | egrep "projects/reporting" -q; then isReporting="true"; else isReporting="false"; fi
-if git diff latest --name-only | egrep "projects/automated/applications" -q; then isApplications="true"; else isApplications="false"; fi
-if git diff latest --name-only | egrep "projects/automated/raw_to_source" -q; then isRawToSource="true"; else isRawToSource="false"; fi
-if git diff latest --name-only | egrep "projects/automated/telemetry" -q; then isTelemetry="true"; else isTelemetry="false"; fi
+if git diff $BRANCH_POINT --name-only | egrep "projects/reporting" -q; then isReporting="true"; else isReporting="false"; fi
+if git diff $BRANCH_POINT --name-only | egrep "projects/automated/applications" -q; then isApplications="true"; else isApplications="false"; fi
+if git diff $BRANCH_POINT --name-only | egrep "projects/automated/raw_to_source" -q; then isRawToSource="true"; else isRawToSource="false"; fi
+if git diff $BRANCH_POINT --name-only | egrep "projects/automated/telemetry" -q; then isTelemetry="true"; else isTelemetry="false"; fi
 
 
 # Setup to run dbt commands
@@ -53,11 +48,10 @@ then
     
     DBT_PROJECT_PATH='reporting'
     # This is a Slim CI syntax used to "run" only modified and downstream models
-    DBT_RUN_OPTIONS="-m state:modified+ @state:modified,1+test_type:data --defer --state $WORKSPACE/manifest" 
-    DBT_RUN_EXCLUDE='' ## TODO Add excluded models here
-    # Will add --defer here when DBT version is upgraded
+    DBT_RUN_OPTIONS="-m state:modified+ @state:modified --defer --state $WORKSPACE/manifest"
+    DBT_RUN_EXCLUDE='' ## Add excluded models here if any
     # This is a Slim CI syntax used to "test" only modified and downstream models
-    DBT_TEST_OPTIONS="-m state:modified+ --state $WORKSPACE/manifest"
+    DBT_TEST_OPTIONS="-m state:modified+ --defer --state $WORKSPACE/manifest"
     DBT_TEST_EXCLUDE='--exclude test_name:relationships' 
 
     source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh

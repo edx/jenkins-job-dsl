@@ -45,7 +45,7 @@ class WarehouseTransformsCI{
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
-                        refspec('+refs/pull/*:refs/remotes/origin/pr/*')
+                        refspec('+refs/heads/master:refs/remotes/origin/master +refs/pull/*:refs/remotes/origin/pr/*')
                         credentials('1') 
                     }
                     branches('\${ghprbActualCommit}')
@@ -92,6 +92,10 @@ class WarehouseTransformsCI{
                 }
             }
             configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)
+            concurrentBuild(true)
+            throttleConcurrentBuilds {
+                maxTotal(5)
+            }            
             wrappers {
                 colorizeOutput('xterm')
             }
