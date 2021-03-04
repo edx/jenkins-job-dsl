@@ -1,3 +1,6 @@
+import static analytics.DBTDocs.job as DBTDocsJob
+import static analytics.DBTManual.job as DBTManualJob
+import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
@@ -5,6 +8,7 @@ import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
+import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static analytics.WarehouseTransformsCI.job as WarehouseTransformsCIJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
@@ -28,6 +32,9 @@ try {
 
 def taskMap = [
     // Add jobs here as they are ported from the old analytics Jenkins server.
+    DBT_DOCS_JOB: DBTDocsJob,
+    DBT_MANUAL_JOB: DBTManualJob,
+    DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
@@ -35,6 +42,7 @@ def taskMap = [
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
+    WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
     WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob,
 ]
 

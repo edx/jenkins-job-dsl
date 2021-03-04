@@ -2,9 +2,6 @@ import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTracking
 import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.AnswerDistribution.job as AnswerDistributionJob
-import static analytics.DBTDocs.job as DBTDocsJob
-import static analytics.DBTManual.job as DBTManualJob
-import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.DatabaseExportCoursewareStudentmodule.job as DatabaseExportCoursewareStudentmoduleJob
 import static analytics.Enrollment.job as EnrollmentJob
 import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEventsJob
@@ -24,7 +21,6 @@ import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonit
 import static analytics.UserActivity.job as UserActivityJob
 import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
 import static analytics.VideoTimeline.job as VideoTimelineJob
-import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static analytics.ModelTransfers.job as ModelTransfersJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
@@ -52,9 +48,6 @@ def taskMap = [
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     ANSWER_DISTRIBUTION_JOB: AnswerDistributionJob,
     DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
-    DBT_DOCS_JOB: DBTDocsJob,
-    DBT_MANUAL_JOB: DBTManualJob,
-    DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
     ENROLLMENT_JOB: EnrollmentJob,
     ENROLLMENT_VALIDATION_EVENTS_JOB: EnrollmentValidationEventsJob,
     ENTERPRISE_JOB: EnterpriseJob,
@@ -73,7 +66,6 @@ def taskMap = [
     USER_ACTIVITY_JOB: UserActivityJob,
     USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
-    WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
     MODEL_TRANSFERS_JOB: ModelTransfersJob,
 ]
 
