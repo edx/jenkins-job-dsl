@@ -17,10 +17,8 @@ class WarehouseTransformsMasterCI{
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
-                stringParam('PROJECT_URL', allVars.get('PROJECT_URL'), 'Github Project URL necessary to give when using GHPRB plugin.')
                 stringParam('DBT_TARGET', allVars.get('DBT_TARGET'), 'DBT target from profiles.yml in analytics-secure.')
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'DBT profile from profiles.yml in analytics-secure.')
-                stringParam('DBT_PROJECT_PATH', allVars.get('DBT_PROJECT_PATH'), 'Path in warehouse-transforms to use as the dbt project, relative to "projects" (usually automated/applications or reporting).')
                 stringParam('DBT_RUN_OPTIONS', allVars.get('DBT_RUN_OPTIONS'), 'Additional options to dbt run, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('DBT_RUN_EXCLUDE', allVars.get('DBT_RUN_EXCLUDE'), 'Additional options to dbt run, such as --exclude. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('DBT_TEST_OPTIONS', allVars.get('DBT_TEST_OPTIONS'), 'Additional options to dbt test, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
@@ -71,10 +69,8 @@ class WarehouseTransformsMasterCI{
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
-                stringParam('PROJECT_URL', allVars.get('PROJECT_URL'), 'Github Project URL necessary to give when using GHPRB plugin.')
                 stringParam('DBT_TARGET', allVars.get('DBT_TARGET'), 'DBT target from profiles.yml in analytics-secure.')
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'DBT profile from profiles.yml in analytics-secure.')
-                stringParam('DBT_PROJECT_PATH', allVars.get('DBT_PROJECT_PATH'), 'Path in warehouse-transforms to use as the dbt project, relative to "projects" (usually automated/applications or reporting).')
                 stringParam('DBT_RUN_OPTIONS', allVars.get('DBT_RUN_OPTIONS'), 'Additional options to dbt run, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('DBT_RUN_EXCLUDE', allVars.get('DBT_RUN_EXCLUDE'), 'Additional options to dbt run, such as --exclude. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('DBT_TEST_OPTIONS', allVars.get('DBT_TEST_OPTIONS'), 'Additional options to dbt test, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
