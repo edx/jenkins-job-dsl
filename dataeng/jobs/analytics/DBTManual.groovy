@@ -13,8 +13,8 @@ class DBTManual{
             description(
                 "Manually run dbt <strong>in production</strong>, overwriting data in the PROD database." +
                 "<br><br>" +
-                "test change DE may use this job to merge Schema Builder changes to production, test new configurations, etc.  " +
-                "DS&A and others may need to use this to populate or fix broken models before the usual automation " +
+                "DE may use this job to merge Schema Builder changes to production, test new configurations, etc.  " +
+                "DS&A and and others may need to use this to populate or fix broken models before the usual automation " +
                 "picks them up, or to run models that aren't a part of any automation such as the finrep archives, etc."
             )
             authorization common_authorization(allVars)
