@@ -29,25 +29,25 @@ class WarehouseTransformsMasterCI{
                 stringParam('JENKINS_JOB_DSL_BRANCH', allVars.get('JENKINS_JOB_DSL_BRANCH'), 'Branch of jenkins-job-dsl repo to use.')
                 stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
-            }                    
+            }
             scm {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
                         branch('$WAREHOUSE_TRANSFORMS_BRANCH')
-                        credentials('1') 
+                        credentials('1')
                     }
                     extensions {
                         relativeTargetDirectory('warehouse-transforms')
                         pruneBranches()
                         cleanAfterCheckout()
                     }
-                } 
+                }
 
             }
             triggers {
                 scm('H/10 * * * *')
-            }            
+            }
 
             wrappers {
                 colorizeOutput('xterm')
@@ -62,7 +62,7 @@ class WarehouseTransformsMasterCI{
             parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
-                stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')                
+                stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
                 stringParam('DBT_TARGET', allVars.get('DBT_TARGET'), 'DBT target from profiles.yml in analytics-secure.')
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'DBT profile from profiles.yml in analytics-secure.')
                 stringParam('DBT_RUN_OPTIONS', allVars.get('DBT_RUN_OPTIONS'), 'Additional options to dbt run, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
@@ -74,20 +74,20 @@ class WarehouseTransformsMasterCI{
                 stringParam('JENKINS_JOB_DSL_URL', allVars.get('JENKINS_JOB_DSL_URL'), 'URL for the jenkins-job-dsl repo.')
                 stringParam('JENKINS_JOB_DSL_BRANCH', allVars.get('JENKINS_JOB_DSL_BRANCH'), 'Branch of jenkins-job-dsl repo to use.')
                 stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
-                stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
+                stringParam('NOTIFY', allVars.get('NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             environmentVariables {
                 env('KEY_PATH', allVars.get('KEY_PATH'))
                 env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
                 env('USER', allVars.get('USER'))
                 env('ACCOUNT', allVars.get('ACCOUNT'))
-            }                    
+            }
             multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
                         branch('$WAREHOUSE_TRANSFORMS_BRANCH')
-                        credentials('1') 
+                        credentials('1')
                     }
                     extensions {
                         relativeTargetDirectory('warehouse-transforms')
@@ -106,7 +106,7 @@ class WarehouseTransformsMasterCI{
                         pruneBranches()
                         cleanAfterCheckout()
                     }
-                }  
+                }
                 git {
                     remote {
                         url('$JENKINS_JOB_DSL_URL')
@@ -118,11 +118,11 @@ class WarehouseTransformsMasterCI{
                         pruneBranches()
                         cleanAfterCheckout()
                     }
-                }                              
+                }
             }
             triggers {
                 upstream('warehouse-transforms-master-ci', 'SUCCESS')
-            }            
+            }
             publishers common_publishers(allVars)
             wrappers {
                 colorizeOutput('xterm')
