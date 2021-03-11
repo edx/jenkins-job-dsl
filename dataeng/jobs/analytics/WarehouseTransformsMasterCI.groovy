@@ -74,7 +74,6 @@ class WarehouseTransformsMasterCI{
                 stringParam('JENKINS_JOB_DSL_URL', allVars.get('JENKINS_JOB_DSL_URL'), 'URL for the jenkins-job-dsl repo.')
                 stringParam('JENKINS_JOB_DSL_BRANCH', allVars.get('JENKINS_JOB_DSL_BRANCH'), 'Branch of jenkins-job-dsl repo to use.')
                 stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
-                stringParam('NOTIFY', allVars.get('NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             environmentVariables {
                 env('KEY_PATH', allVars.get('KEY_PATH'))
@@ -123,7 +122,6 @@ class WarehouseTransformsMasterCI{
             triggers {
                 upstream('warehouse-transforms-master-ci', 'SUCCESS')
             }
-            publishers common_publishers(allVars)
             wrappers {
                 colorizeOutput('xterm')
             }
