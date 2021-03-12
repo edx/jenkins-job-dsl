@@ -9,9 +9,9 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.slack_publisher
 
 
-class WarehouseTransformsMasterCI{
+class WarehouseTransformsCIMasterMerges{
     public static def job = { dslFactory, allVars ->
-        dslFactory.job("warehouse-transforms-master-ci"){
+        dslFactory.job("warehouse-transforms-ci-poll-master"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
@@ -57,7 +57,7 @@ class WarehouseTransformsMasterCI{
         }
 
 
-        dslFactory.job("warehouse-transforms-worker-ci"){
+        dslFactory.job("warehouse-transforms-ci-master-merges"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
@@ -126,7 +126,7 @@ class WarehouseTransformsMasterCI{
                 }
             }
             triggers {
-                upstream('warehouse-transforms-master-ci', 'SUCCESS')
+                upstream('warehouse-transforms-ci-poll-master', 'SUCCESS')
             }
             publishers common_publishers(allVars)
             publishers slack_publisher()
@@ -140,7 +140,7 @@ class WarehouseTransformsMasterCI{
                     nature("shell")
                     systemSitePackages(false)
                     command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-master-ci.sh")
+                        dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci-master-merges.sh")
                     )
                 }
             }
