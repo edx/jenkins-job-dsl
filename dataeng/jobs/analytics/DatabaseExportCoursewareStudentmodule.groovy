@@ -5,7 +5,6 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
 
 class DatabaseExportCoursewareStudentmodule {
     public static def job = { dslFactory, allVars ->
@@ -14,6 +13,7 @@ class DatabaseExportCoursewareStudentmodule {
                 logRotator common_log_rotator(allVars, env_config)
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars, env_config)
+                publishers common_publishers(allVars)
                 parameters {
                     stringParam('BASE_OUTPUT_URL', env_config.get('BASE_OUTPUT_URL', allVars.get('BASE_OUTPUT_URL')), '')
                     stringParam('OUTPUT_DIR', env_config.get('OUTPUT_DIR', allVars.get('OUTPUT_DIR')), '')
@@ -32,11 +32,10 @@ class DatabaseExportCoursewareStudentmodule {
                         string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
                     }
                 }
-                publishers common_publishers(allVars)
-                publishers opsgenie_heartbeat_publisher(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/database-export-courseware-studentmodule.sh'))
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-disable-heartbeat.sh'))
                 }
             }
         }

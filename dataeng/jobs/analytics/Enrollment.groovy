@@ -7,7 +7,6 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
 
 class Enrollment {
     public static def job = { dslFactory, allVars ->
@@ -28,7 +27,6 @@ class Enrollment {
                         }
                     }
                 }
-                publishers opsgenie_heartbeat_publisher(allVars)
                 parameters common_parameters(allVars, env_config)
                 parameters from_date_interval_parameter(allVars)
                 parameters to_date_interval_parameter(allVars)
@@ -46,6 +44,7 @@ class Enrollment {
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/enrollment.sh'))
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-disable-heartbeat.sh'))
                 }
             }
         }
