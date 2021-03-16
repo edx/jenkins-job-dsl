@@ -210,7 +210,7 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         // OPSGENIE_HEARTBEAT_CONFIG_KEY: API key that authorizes Jenkins to OpsGenie so that heartbeats can be disabled.
         return {
             postBuildTask {
-                task('Finished', 'if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && [ -n "$OPSGENIE_HEARTBEAT_CONFIG_KEY" ] then curl -X POST "https://api.opsgenie.com/v2/heartbeats/$OPSGENIE_HEARTBEAT_NAME/disable" --header "Authorization: GenieKey $OPSGENIE_HEARTBEAT_CONFIG_KEY" fi', true)
+                task('Finished', 'if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && [ -n "$OPSGENIE_HEARTBEAT_CONFIG_KEY" ]; then curl -X POST "https://api.opsgenie.com/v2/heartbeats/$OPSGENIE_HEARTBEAT_NAME/disable" --header "Authorization: GenieKey $OPSGENIE_HEARTBEAT_CONFIG_KEY"; fi', true)
             }
         }
     }
