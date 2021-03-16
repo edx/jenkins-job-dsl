@@ -208,9 +208,11 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         // No args - instead the method uses the following environment variables to keep them hidden:
         // OPSGENIE_HEARTBEAT_NAME:  Name of the OpsGenie heartbeat to disable.
         // OPSGENIE_HEARTBEAT_CONFIG_KEY: API key that authorizes Jenkins to OpsGenie so that heartbeats can be disabled.
+        //
+        // The task should *always* run on job completion, so match *any* text at all before running.
         return {
             postBuildTask {
-                task('Finished', 'if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && [ -n "$OPSGENIE_HEARTBEAT_CONFIG_KEY" ]; then curl -X POST "https://api.opsgenie.com/v2/heartbeats/$OPSGENIE_HEARTBEAT_NAME/disable" --header "Authorization: GenieKey $OPSGENIE_HEARTBEAT_CONFIG_KEY"; fi', true)
+                task('.*', 'if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && [ -n "$OPSGENIE_HEARTBEAT_CONFIG_KEY" ]; then curl -X POST "https://api.opsgenie.com/v2/heartbeats/$OPSGENIE_HEARTBEAT_NAME/disable" --header "Authorization: GenieKey $OPSGENIE_HEARTBEAT_CONFIG_KEY"; fi', true)
             }
         }
     }
