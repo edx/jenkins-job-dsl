@@ -20,9 +20,14 @@ else
     exit 0
 fi 
 
-
-# Get second last merge commit id and compares it with the HEAD to find (git diff) files changed.
-PREV_MERGE_COMMIT_ID=$(git log --merges origin/master --format='%H' --max-count=2 | sed -n 2p)
+if [ "$SECOND_LAST_MERGE_COMMIT" == "" ]
+then
+    # Get second last merge commit id and compares it with the HEAD to find (git diff) files changed.
+    PREV_MERGE_COMMIT_ID=$(git log --merges origin/master --format='%H' --max-count=2 | sed -n 2p)
+    echo "SECOND_LAST_MERGE_COMMIT=${PREV_MERGE_COMMIT_ID}" > "${WORKSPACE}/downstream.properties"
+else
+    PREV_MERGE_COMMIT_ID=$SECOND_LAST_MERGE_COMMIT
+fi
 
 git diff $PREV_MERGE_COMMIT_ID --name-only
 
