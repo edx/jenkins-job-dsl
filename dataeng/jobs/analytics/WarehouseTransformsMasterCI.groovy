@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
+import static org.edx.jenkins.dsl.AnalyticsConstants.slack_publisher
 
 
 class WarehouseTransformsMasterCI{
@@ -75,6 +76,8 @@ class WarehouseTransformsMasterCI{
                 stringParam('JENKINS_JOB_DSL_BRANCH', allVars.get('JENKINS_JOB_DSL_BRANCH'), 'Branch of jenkins-job-dsl repo to use.')
                 stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
                 stringParam('NOTIFY', allVars.get('NOTIFY'), 'Space separated list of emails to send notifications to.')
+                stringParam('SLACK_NOTIFICATION_CHANNEL', allVars.get('SLACK_NOTIFICATION_CHANNEL'), 'Space separated list of slack channel name to send build failure notifications')
+                stringParam('FAILURE_MESSAGE', allVars.get('FAILURE_MESSAGE'), 'Custom message for to send along with buid failure notification')
             }
             environmentVariables {
                 env('KEY_PATH', allVars.get('KEY_PATH'))
@@ -126,6 +129,7 @@ class WarehouseTransformsMasterCI{
                 upstream('warehouse-transforms-master-ci', 'SUCCESS')
             }
             publishers common_publishers(allVars)
+            publishers slack_publisher(allVars)
             wrappers {
                 colorizeOutput('xterm')
             }
