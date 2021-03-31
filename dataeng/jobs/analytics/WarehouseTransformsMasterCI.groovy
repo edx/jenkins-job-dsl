@@ -134,7 +134,7 @@ class WarehouseTransformsMasterCI{
                     nature("shell")
                     systemSitePackages(false)
                     command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci-dbt-with-retry.sh")
+                        dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-master-ci.sh")
                     )
                 }
             }
