@@ -62,7 +62,7 @@ then
     DBT_TEST_OPTIONS=''
     DBT_TEST_EXCLUDE='' 
 
-    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt-with-retry.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME 
@@ -83,7 +83,7 @@ then
     DBT_TEST_OPTIONS=''
     DBT_TEST_EXCLUDE=''
 
-    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt-with-retry.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
@@ -105,7 +105,7 @@ then
     DBT_TEST_OPTIONS=''
     DBT_TEST_EXCLUDE=''
 
-    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt-with-retry.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
@@ -126,7 +126,7 @@ then
     DBT_TEST_OPTIONS=''
     DBT_TEST_EXCLUDE=''
 
-    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
+    source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt-with-retry.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
