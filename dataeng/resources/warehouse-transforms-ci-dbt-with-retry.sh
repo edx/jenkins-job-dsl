@@ -22,7 +22,7 @@ do
     dbt test $DBT_TEST_OPTIONS $DBT_TEST_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET && true
     if [ $? -eq 0 ]
     then
-        $failed=false
+        failed=false
         break
     fi
     ((i=i+1))
