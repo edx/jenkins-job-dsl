@@ -37,6 +37,8 @@ class WarehouseTransformsCI{
                 env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
                 env('USER', allVars.get('USER'))
                 env('ACCOUNT', allVars.get('ACCOUNT'))
+                env('WITH_RETRY', allVars.get('WITH_RETRY'))
+                env('NO_OF_TRIES', allVars.get('NO_OF_TRIES'))
             }
             scm {
                  github('edx/warehouse-transforms')
