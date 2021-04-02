@@ -9,7 +9,7 @@ fi
 env
 
 ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
-  ImportCountryWorkflow --local-scheduler \
+  InsertToMysqlLastCountryPerCourseTask --local-scheduler \
   --interval-end $END_DATE \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --overwrite \
