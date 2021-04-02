@@ -99,18 +99,6 @@ class CreateSandbox {
                         relativeTargetDirectory('configuration-internal')
                     }
                 }
-                git {
-                    remote {
-                        url(extraVars.get('EDX_INTERNAL_REPO',''))
-                        branch('$edx_internal_version')
-                        credentials('sandbox-secure-credentials')
-                    }
-                    extensions {
-                        cleanAfterCheckout()
-                        pruneBranches()
-                        relativeTargetDirectory('edx-internal')
-                    }
-                }
             }
 
 
@@ -139,7 +127,6 @@ class CreateSandbox {
                             "Select an alternative branch of sandbox-secure configuration repo")
                 stringParam("configuration_internal_version","master",
                             "Select an alternative branch of sandbox-internal configuration repo")
-                stringParam("edx_internal_version","master","")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
                 booleanParam("testcourses",true,"")
                 booleanParam("performance_course",true,"")
@@ -300,10 +287,6 @@ class CreateSandbox {
                 booleanParam("run_oauth",true,"")
 
                 stringParam("nginx_users",'[{"name": "{{ COMMON_HTPASSWD_USER }}","password": "{{ COMMON_HTPASSWD_PASS }}","state":"present"}]',"")
-
-                booleanParam("license_manager",false,"This will install license manager inside minikube")                
-                
-                booleanParam("edx_notes_api",false,"This will install edx notes api inside minikube")
             }
 
 
