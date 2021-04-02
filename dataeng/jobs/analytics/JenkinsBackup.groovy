@@ -8,6 +8,7 @@ class JenkinsBackup {
         dslFactory.job('jenkins-backup') {
             parameters {
                 stringParam('S3_BACKUP_BUCKET', allVars.get('S3_BACKUP_BUCKET'))
+                stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             wrappers common_wrappers(allVars)
             triggers common_triggers(allVars)

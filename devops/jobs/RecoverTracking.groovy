@@ -119,13 +119,7 @@ class RecoverTracking {
                     }
 
                     steps {
-
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-                            command(dslFactory.readFileFromWorkspace("devops/resources/recover_tracking_logs.sh"))
-                        }
+                        shell(dslFactory.readFileFromWorkspace('devops/resources/recover_tracking_logs.sh'))
 
                         String snitch = inner_config.get('snitch','')
                         if (snitch) {

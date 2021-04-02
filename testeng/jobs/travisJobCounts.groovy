@@ -18,7 +18,7 @@ job('travis-job-counts') {
         }
     }
     triggers {
-        cron("H/10 * * * *")
+        cron('H/10 * * * *')
     }
 
     wrappers {
@@ -26,7 +26,7 @@ job('travis-job-counts') {
     }
 
     environmentVariables {
-        env('PYTHON_VERSION', '3.5')
+        env('PYTHON_VERSION', '3.8')
     }
 
     steps {

@@ -1,5 +1,12 @@
 #!/bin/bash
 
+set +u
+. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
+# creates a venv with its location stored in variable "venvpath"
+create_virtualenv --python=python3.8 --clear
+. "$venvpath/bin/activate"
+set -u
+
 cd $WORKSPACE/configuration/util/jenkins/check_table_size
 
 pip install -r requirements.txt
@@ -23,3 +30,5 @@ if [[ ! -v RDSIGNORE ]]; then
 fi
 
 python check_table_size.py  --threshold ${THRESHOLD} ${RDSTHRESHOLD} ${RDSIGNORE}
+
+curl -X GET 'https://api.opsgenie.com/v2/heartbeats/table-size-monitoring-'${DEPLOYMENT}'/ping' -H 'Authorization: GenieKey '${GENIE_KEY}

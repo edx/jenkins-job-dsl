@@ -57,18 +57,6 @@ Map publicJobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/js',
     triggerPhrase: /.*jenkins\W+run\W+js.*/,
-    pythonVersion: '3.5',
-]
-
-Map python38JobConfig = [
-    open: true,
-    jobName: 'edx-platform-python-3.8-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'js-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python-3.8/js',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+python38\W+js.*/,
     pythonVersion: '3.8',
 ]
 
@@ -93,7 +81,7 @@ Map privateJobConfig = [
     whitelistBranchRegex: /^((?!open-release\/).)*$/,
     context: 'jenkins/js',
     triggerPhrase: /.*jenkins\W+run\W+js.*/,
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map publicIronwoodJobConfig = [
@@ -116,13 +104,23 @@ Map privateIronwoodJobConfig = [
     triggerPhrase: /.*ironwood\W+run\W+js.*/
 ]
 
+Map publicJuniperJobConfig = [
+    open: true,
+    jobName: 'juniper-js-pr',
+    repoName: 'edx-platform',
+    workerLabel: 'juniper-jenkins-worker',
+    whitelistBranchRegex: /open-release\/juniper.master/,
+    context: 'jenkins/juniper/js',
+    triggerPhrase: /.*juniper\W+run\W+js.*/
+]
+
 List jobConfigs = [
     publicJobConfig,
-    python38JobConfig,
     django30JobConfig,
     privateJobConfig,
     publicIronwoodJobConfig,
-    privateIronwoodJobConfig
+    privateIronwoodJobConfig,
+    publicJuniperJobConfig,
 ]
 
 /* Iterate over the job configurations */
@@ -167,6 +165,8 @@ jobConfigs.each { jobConfig ->
                         timeout(10)
                     }
                     cleanBeforeCheckout()
+                    pruneBranches()
+                    pruneStaleBranch()
                 }
             }
         }

@@ -1,11 +1,18 @@
 #!/bin/bash
 set -exuo pipefail
 
+set +u
+. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
+# creates a venv with its location stored in variable "venvpath"
+create_virtualenv --python=python3.8 --clear
+. "$venvpath/bin/activate"
+set -u
+
 cd $WORKSPACE/configuration
 pip install -r requirements.txt
 . util/jenkins/assume-role.sh
 
-assume-role ${ROLE_ARN}
+assume-role ${ROLE_ARN} 7200
 
 cd $WORKSPACE/sysadmin
 
@@ -32,5 +39,3 @@ aws s3 cp --recursive $WORKSPACE/${JOB_NAME}/${BUILD_ID} s3://edx-mongohq/jenkin
 
 rm -rf $WORKSPACE/${JOB_NAME}/${BUILD_ID}/*
 rmdir $WORKSPACE/${JOB_NAME}/${BUILD_ID}
-
-curl ${SNITCH}

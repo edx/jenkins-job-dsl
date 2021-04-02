@@ -36,7 +36,7 @@ Map publicPythonJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+wtw\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 List jobConfigs = [

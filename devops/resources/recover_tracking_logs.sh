@@ -1,4 +1,11 @@
 #!/bin/bash
+set +u
+. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
+# creates a venv with its location stored in variable "venvpath"
+create_virtualenv --python=python3.8 --clear
+. "$venvpath/bin/activate"
+set -u
+
 set -e
 
 export AWS_DEFAULT_REGION=us-east-1
@@ -23,7 +30,12 @@ assume-role ${ROLE_ARN}
 cd $WORKSPACE/private-configuration
 
 echo "Getting all snapshots for ${ENV_NAME} edxapp"
-SNAPSHOTS=$(aws ec2 describe-snapshots --filters Name=tag-key,Values="cluster" Name=tag-value,Values="edxapp" Name=tag-key,Values="environment" Name=tag-value,Values="${ENV_NAME}" --query 'Snapshots[*].{A:SnapshotId,B:StartTime,C:Tags[?Key==`instance-id`].Value,D:Tags[?Key==`hostname`].Value}' --output text | tr '\n' '\t' | sed 's/snap-/\nsnap-/g' | sed 's/[CD]\t//g' | sed 's/\t$//' | tr '\t' ',' | grep -E ",($DA0|$DA1|$DA2|$DA3|$DA4|$DA5|$DA6|$DA7)")
+
+# The cat command at the end prevents the script from erroring if there are no recent snapshots
+# As can happen in stage when there is a week plus with no deployments
+# The "-e" setting at the top of the script causes the script to exit with a non-zero error status because grep doesn't find anything
+# We don't care if grep finds anything, we just want it to filter for recent snapshots
+SNAPSHOTS=$(aws ec2 describe-snapshots --filters Name=tag-key,Values="cluster" Name=tag-value,Values="edxapp" Name=tag-key,Values="environment" Name=tag-value,Values="${ENV_NAME}" --query 'Snapshots[*].{A:SnapshotId,B:StartTime,C:Tags[?Key==`instance-id`].Value,D:Tags[?Key==`hostname`].Value}' --output text | tr '\n' '\t' | sed 's/snap-/\nsnap-/g' | sed 's/[CD]\t//g' | sed 's/\t$//' | tr '\t' ',' | grep -E ",($DA0|$DA1|$DA2|$DA3|$DA4|$DA5|$DA6|$DA7)" | cat)
 
 for SNAPSHOT in ${SNAPSHOTS}; do
     # Assume role every time so 1 hour token doesn't expire if the job runs for a long time

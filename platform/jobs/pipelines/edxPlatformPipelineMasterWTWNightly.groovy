@@ -1,8 +1,6 @@
 package platform
 
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
-import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
 
 Map wtwPythonJobConfig = [
     open: true,
@@ -12,7 +10,7 @@ Map wtwPythonJobConfig = [
     jenkinsFileName: 'python',
     branch: 'master',
     context: 'jenkins/python-contexts',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 List jobConfigs = [
@@ -30,7 +28,7 @@ jobConfigs.each { jobConfig ->
             environmentVariables(
                 REPO_NAME: "${jobConfig.repoName}",
                 BRANCH_NAME: "${jobConfig.branch}",
-                COLLECT_WHO_TESTS_WHAT: "true",
+                COLLECT_WHO_TESTS_WHAT: 'true',
                 GITHUB_CONTEXT: "${jobConfig.context}",
                 PYTHON_VERSION: "${jobConfig.pythonVersion}"
             )

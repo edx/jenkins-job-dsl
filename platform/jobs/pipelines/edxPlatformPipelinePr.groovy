@@ -88,19 +88,6 @@ Map publicPythonJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5',
-]
-
-Map python38PythonJobConfig = [
-    open: true,
-    jobName: 'edx-platform-python-3.8-python-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python-3.8/python',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+python38\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
     pythonVersion: '3.8',
 ]
 
@@ -128,7 +115,7 @@ Map privatePythonJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+python.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map publicPythonIronwoodJobConfig = [
@@ -157,6 +144,19 @@ Map privatePythonIronwoodJobConfig = [
     pythonVersion: '2.7',
 ]
 
+Map publicPythonJuniperJobConfig = [
+    open: true,
+    jobName: 'juniper-python-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /open-release\/juniper.master/,
+    context: 'jenkins/juniper/python',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*juniper\W+run\W+python.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'python',
+    pythonVersion: '3.5',
+]
+
 Map publicQualityJobConfig = [
     open: true,
     jobName: 'edx-platform-quality-pipeline-pr',
@@ -165,19 +165,6 @@ Map publicQualityJobConfig = [
     context: 'jenkins/quality',
     onlyTriggerPhrase: false,
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
-]
-
-Map python38QualityJobConfig = [
-    open: true,
-    jobName: 'edx-platform-python-3.8-quality-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/python-3.8/quality',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+python38\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
     pythonVersion: '3.8',
@@ -207,7 +194,7 @@ Map privateQualityJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+quality.*/,
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
+    pythonVersion: '3.8',
 ]
 
 Map publicQualityIronwoodJobConfig = [
@@ -236,23 +223,36 @@ Map privateQualityIronwoodJobConfig = [
     pythonVersion: '2.7',
 ]
 
+Map publicQualityJuniperJobConfig = [
+    open: true,
+    jobName: 'juniper-quality-pipeline-pr',
+    repoName: 'edx-platform',
+    whitelistBranchRegex: /open-release\/juniper.master/,
+    context: 'jenkins/juniper/quality',
+    onlyTriggerPhrase: false,
+    triggerPhrase: /.*juniper\W+run\W+quality.*/,
+    jenkinsFileDir: 'scripts/Jenkinsfiles',
+    jenkinsFileName: 'quality',
+    pythonVersion: '3.5',
+]
+
 List jobConfigs = [
     publicBokchoyIronwoodJobConfig,
     privateBokchoyIronwoodJobConfig,
     publicLettuceIronwoodJobConfig,
     privateLettuceIronwoodJobConfig,
     publicPythonJobConfig,
-    python38PythonJobConfig,
     django30PythonJobConfig,
     privatePythonJobConfig,
     publicPythonIronwoodJobConfig,
     privatePythonIronwoodJobConfig,
+    publicPythonJuniperJobConfig,
     publicQualityJobConfig,
-    python38QualityJobConfig,
     django30QualityJobConfig,
     privateQualityJobConfig,
     publicQualityIronwoodJobConfig,
-    privateQualityIronwoodJobConfig
+    privateQualityIronwoodJobConfig,
+    publicQualityJuniperJobConfig,
 ]
 
 /* Iterate over the job configurations */
@@ -281,7 +281,9 @@ jobConfigs.each { jobConfig ->
                     admins(ghprbMap['admin'])
                     useGitHubHooks()
                     triggerPhrase(jobConfig.triggerPhrase)
-                    onlyTriggerPhrase(jobConfig.onlyTriggerPhrase)
+                    if (jobConfig.onlyTriggerPhrase) {
+                        onlyTriggerPhrase(true)
+                    }
                     userWhitelist(ghprbMap['userWhiteList'])
                     orgWhitelist(ghprbMap['orgWhiteList'])
                     whiteListTargetBranches([jobConfig.whitelistBranchRegex])

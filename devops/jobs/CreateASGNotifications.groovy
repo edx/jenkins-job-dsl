@@ -59,15 +59,8 @@ class CreateASGNotifications {
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
+                        shell(dslFactory.readFileFromWorkspace('devops/resources/create-asg-notifications.sh'))
 
-                            command(
-                                dslFactory.readFileFromWorkspace("devops/resources/create-asg-notifications.sh")
-                            )
-                        }
                     }
 
                     if (extraVars.get('NOTIFY_ON_FAILURE')){

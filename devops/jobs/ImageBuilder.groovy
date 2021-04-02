@@ -74,6 +74,7 @@ class ImageBuilder {
                     env("APP_NAME", app_name)
                     env('OPENEDX_RELEASE', openedx_release)
                     env('TAG_NAME', tag_name)
+                    env('CI_PYTHON_VERSION', extraVars.get('CI_PYTHON_VERSION'))
                 }
 
                 description('\rThis job builds the ' + app_name + ' Docker image and pushes it to DockerHub. ' + 
@@ -125,12 +126,8 @@ class ImageBuilder {
 
                 steps {
                     // run the build-push-app shell script in a virtual environment called venv
-                    virtualenv {
-                        pythonName('System-CPython-3.6')
-                        name('venv')
-                        nature('shell')
-                        command dslFactory.readFileFromWorkspace('devops/resources/build-push-app.sh')
-                    }
+                    shell(dslFactory.readFileFromWorkspace('devops/resources/build-push-app.sh'))
+
                 }
             }
         }

@@ -3,6 +3,12 @@
 set -ex
 
 cd $WORKSPACE/configuration
+
+. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
+# creates a venv with its location stored in variable "venvpath"
+create_virtualenv --python=python3.6 --clear
+. "$venvpath/bin/activate"
+
 pip install -r requirements.txt
 pip install awscli
 
@@ -46,7 +52,7 @@ fi
 
 # Test if docker shim flag file is present
 shim_enabled=true
-ansible ${ANSIBLE_PATTERN} ${ANSIBLE_INVENTORY} -u ${ANSIBLE_SSH_USER} ${ANSIBLE_BECOME} -m ${ANSIBLE_MODULE_NAME} \
+ansible ${ANSIBLE_PATTERN} ${ANSIBLE_INVENTORY} -u ${ANSIBLE_SSH_USER} ${ANSIBLE_BECOME} -e 'ansible_python_interpreter=/usr/bin/python3' -m ${ANSIBLE_MODULE_NAME} \
 -a 'test -f /edx/etc/docker_shim_enabled' || shim_enabled=false
 
 echo "Docker shim enabled? $shim_enabled"
@@ -58,5 +64,5 @@ else
   command_args="${ANSIBLE_MODULE_ARGS}"
 fi
 
-ansible ${ANSIBLE_PATTERN} ${ANSIBLE_INVENTORY} -u ${ANSIBLE_SSH_USER} ${ANSIBLE_BECOME} -m ${ANSIBLE_MODULE_NAME} \
+ansible ${ANSIBLE_PATTERN} ${ANSIBLE_INVENTORY} -u ${ANSIBLE_SSH_USER} ${ANSIBLE_BECOME} -e 'ansible_python_interpreter=/usr/bin/python3' -m ${ANSIBLE_MODULE_NAME} \
 -a "${command_args}"

@@ -6,7 +6,6 @@
         * NOTIFY_ON_FAILURE: alert@example.com
         * FOLDER_NAME: folder
         * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
-        * ASG_LIFECYCLE_HOOKS_SNITCH:
 
     This job expects the following credentials to be defined on the folder
     tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
@@ -57,6 +56,7 @@ class CheckASGLifeCycleHooks {
                         credentialsBinding {
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                             string('ROLE_ARN', "check-lifecycle-hooks-${deployment}-role-arn")
+                            string("GENIE_KEY", "opsgenie_heartbeat_key")
                         }
                     }
 
@@ -91,8 +91,6 @@ class CheckASGLifeCycleHooks {
                         }
                     }
 
-                    def snitch = configuration['snitch']
-
                     environmentVariables {
                         env('REGION', extraVars.get('REGION'))
                         env('DEPLOYMENT', deployment)
@@ -100,17 +98,12 @@ class CheckASGLifeCycleHooks {
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-                            command(
-                                dslFactory.readFileFromWorkspace("devops/resources/check-lifecycle-hooks.sh")
-                            )
-                        }
+                       shell(dslFactory.readFileFromWorkspace('devops/resources/check-lifecycle-hooks.sh'))
 
-                        if (snitch) {
-                            shell("curl $snitch")
+
+                        String opsgenie_heartbeat_name = configuration.get('opsgenie_heartbeat_name','')
+                        if (opsgenie_heartbeat_name) {
+                             shell('curl -X GET "https://api.opsgenie.com/v2/heartbeats/'+opsgenie_heartbeat_name+'/ping" -H "Authorization: GenieKey ${GENIE_KEY}"')
                         }
                     }
                 }

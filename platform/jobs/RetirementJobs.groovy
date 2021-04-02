@@ -68,7 +68,7 @@ job('user-retirement-driver') {
             permission('hudson.model.Item.Discover', emp)
         }
         // Other engineering teams can view.
-        List extraMembersCanView = ['edx*learner']
+        List extraMembersCanView = ['edx*learner', 'bbaker6225']
         extraMembersCanView.each { emp ->
             permission('hudson.model.Item.Read', emp)
             permission('hudson.model.Item.Discover', emp)
@@ -170,12 +170,7 @@ job('user-retirement-driver') {
     }
 
     steps {
-        virtualenv {
-            name('user-retirement-driver')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/user-retirement-driver.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/user-retirement-driver.sh'))
     }
 
     publishers {
@@ -202,7 +197,7 @@ job('user-retirement-collector') {
             permissionAll(emp)
         }
         // Other engineering teams can view.
-        List extraMembersCanView = ['edx*educator-all', 'edx*learner']
+        List extraMembersCanView = ['edx*educator-all', 'edx*learner', 'bbaker6225']
         extraMembersCanView.each { emp ->
             permission('hudson.model.Item.Read', emp)
             permission('hudson.model.Item.Discover', emp)
@@ -253,7 +248,7 @@ job('user-retirement-collector') {
     parameters {
         stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
         stringParam('ENVIRONMENT', 'secure-default', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
-        stringParam('COOL_OFF_DAYS', '7', 'Number of days a learner should be in the retirement queue before being actually retired.')
+        stringParam('COOL_OFF_DAYS', '14', 'Number of days a learner should be in the retirement queue before being actually retired.')
         stringParam('USER_COUNT_ERROR_THRESHOLD', '200', 'If more users than this number are returned we will error out instead of retiring.')
     }
 
@@ -306,12 +301,7 @@ job('user-retirement-collector') {
         // This step calls out to the LMS and collects a list of learners to
         // retire.  The output is several generated properties files, one per
         // learner.
-        virtualenv {
-            name('user-retirement-collector')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/user-retirement-collector.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/user-retirement-collector.sh'))
         // This takes as input the properties files created in the previous
         // step, and triggers user-retirement-driver jobs per file.
         downstreamParameterized {
@@ -470,12 +460,7 @@ job('retirement-partner-reporter') {
     }
 
     steps {
-        virtualenv {
-            name('retirement-partner-reporter')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/retirement-partner-reporter.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/retirement-partner-reporter.sh'))
     }
 
     publishers {
@@ -598,12 +583,7 @@ job('retirement-partner-report-cleanup') {
     }
 
     steps {
-        virtualenv {
-            name('retirement-partner-report-cleanup')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/retirement-partner-report-cleanup.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/retirement-partner-report-cleanup.sh'))
     }
 
     publishers {
@@ -722,12 +702,7 @@ job('user-retirement-bulk-status') {
 
     steps {
         // This step calls the shell script which talks to LMS
-        virtualenv {
-            name('user-retirement-bulk-status')
-            nature('shell')
-            command(readFileFromWorkspace('platform/resources/user-retirement-bulk-status.sh'))
-            pythonName('PYTHON_3.5')
-        }
+        shell(readFileFromWorkspace('platform/resources/user-retirement-bulk-status.sh'))
     }
     publishers {
         // After all the build steps have completed, cleanup the workspace in

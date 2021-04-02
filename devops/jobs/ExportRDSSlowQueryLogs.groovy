@@ -56,15 +56,7 @@ class ExportRDSSlowQueryLogs {
                         }
                     }
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-
-                            command(
-                                    dslFactory.readFileFromWorkspace("devops/resources/export-slow-query-logs.sh")
-                            )
-                        }
+                       shell(dslFactory.readFileFromWorkspace('devops/resources/export-slow-query-logs.sh'))
                     }
 
                     publishers {

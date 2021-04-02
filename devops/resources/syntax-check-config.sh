@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
+
+set +u
+. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
+# creates a venv with its location stored in variable "venvpath"
+create_virtualenv --python=python3.8 --clear
+. "$venvpath/bin/activate"
+set -u
+
 set -ex
 
 FAIL=0
 
 e_d=${ENVIRONMENT}_${DEPLOYMENT}
-if [[ -z $GREP_DIR ]]; then 
-  GREP_DIR="${WORKSPACE}/baked-config-secure/${e_d}"
-fi
 
 if ! egrep -q -r --include *.json '{{' "${GREP_DIR}"; then
   echo "No un-expanded vars in ${e_d}"

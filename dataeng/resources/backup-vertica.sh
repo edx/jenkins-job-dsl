@@ -1,1 +1,0 @@
-eval "$BACKUP_CMD"

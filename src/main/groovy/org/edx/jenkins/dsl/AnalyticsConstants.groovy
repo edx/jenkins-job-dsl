@@ -162,9 +162,26 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         }
     }
 
+    // Send email notifications on job failures.
+    // * If you need to notify a predefined email address(es), you must either include `common_parameters()` or manually
+    //   include a `NOTIFY` parameter.
     public static def common_publishers = { allVars ->
         return {
-            mailer('$NOTIFY')
+            flexiblePublish {
+                // Optionally send emails to the addresses in the $NOTIFY parameter.
+                conditionalAction {
+                    condition {
+                        not {
+                            // method signature
+                            // stringsMatch(String arg1, String arg2, boolean ignoreCase)
+                            stringsMatch('$NOTIFY', '', false)
+                        }
+                    }
+                    publishers {
+                        mailer('$NOTIFY')
+                    }
+                }
+            }
         }
     }
 
@@ -186,4 +203,18 @@ This text may reference other parameters in the task as shell variables, e.g.  $
             }
         }
     }
+
+    public static def opsgenie_heartbeat_publisher = { allVars ->
+        // No args - instead the method uses the following environment variables to keep them hidden:
+        // OPSGENIE_HEARTBEAT_NAME:  Name of the OpsGenie heartbeat to disable.
+        // OPSGENIE_HEARTBEAT_CONFIG_KEY: API key that authorizes Jenkins to OpsGenie so that heartbeats can be disabled.
+        //
+        // The task should *always* run on job completion, so match *any* text at all before running.
+        return {
+            postBuildTask {
+                task('.*', 'if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && [ -n "$OPSGENIE_HEARTBEAT_CONFIG_KEY" ]; then curl -X POST "https://api.opsgenie.com/v2/heartbeats/$OPSGENIE_HEARTBEAT_NAME/disable" --header "Authorization: GenieKey $OPSGENIE_HEARTBEAT_CONFIG_KEY"; fi', true)
+            }
+        }
+    }
 }
+

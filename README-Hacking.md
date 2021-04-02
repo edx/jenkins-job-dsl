@@ -4,11 +4,13 @@ The simplest way to get started with local development edx-related jenkins servi
 These containers are pre-configured to run Jenkins. The `docker-compose.yml` file in the root of this repository
 contains the configuration necessary to bring a containers online with the proper ports exposed, and volumes shared.
 
-Execute this command from the root of the repository:
+Set up a local development environment by entering a Python 3 virtualenv
+at the root of the repository and running `make requirements`
+(installs docker-compose). Then start a service:
 
     $ make docker.run.<name_of_jenkins_service>
 
-Where `<name_of_jenkins_service>` corresponds to services specified in docker-compose.yml (e.g. jenkins_tools, jenkins_build, etc.).
+Where `<name_of_jenkins_service>` corresponds to services specified in docker-compose.yml (e.g. `jenkins_tools`, `jenkins_build`, etc.).
 
 A volume will be created for the container, which contains all of the configuration for Jenkins and will persist between
 container stops and starts. For the `jenkins_tools` container, however, plugin updates or installs will cause the
@@ -127,11 +129,11 @@ An example error might look like:
 
     FATAL: failed to find the Python installation to use from its name: System-CPython-3.5 (was it deleted?)
 
-You need to set the python installations.
+You need to set the python installations, or make sure you have the correct name for an existing one.
 
-Manage Jenkins -> Configure System -> Python installations
+Manage Jenkins -> Global Tool Configuration -> Python -> Python installations
 
-    Name = System-CPython-3.5
+    Name = PYTHON_3.5
 
     Home or executable = /usr/bin/python3.5
 
@@ -168,6 +170,8 @@ Run the following command to restart a Docker container running Jenkins with upd
 	$ docker-compose up
 
 To verify that your plugins were added, connect to Jenkins and click on 'Manage Jenkins' in the side menu and select 'Manage Plugins'. You can then make sure that the plugins are visible under the 'Installed' tab.
+
+The docker images are built from master and pushed to Dockerhub by this [job](https://tools-edx-jenkins.edx.org/job/DockerCI/job/image-builders/job/tools_jenkins-image-builder/).
 
 Debugging tips:
 If buidling the new Docker image fails, make sure that the playbook contains the correct roles for the tasks that are being run.

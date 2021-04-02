@@ -67,16 +67,7 @@ class BackUpOptimizely {
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-
-                            command(
-                                dslFactory.readFileFromWorkspace("experiments/resources/back_up_optimizely.sh")
-                           )
-
-                        }
+                       shell(dslFactory.readFileFromWorkspace("experiments/resources/back_up_optimizely.sh"))
                     }
 
                 // Alert on call revenue engineer on failure.

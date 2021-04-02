@@ -1,11 +1,17 @@
+import static analytics.DBTDocs.job as DBTDocsJob
+import static analytics.DBTManual.job as DBTManualJob
+import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
-import static analytics.ExpireVerticaPassword.job as ExpireVerticaPasswordJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
+import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
 import static analytics.DeployCluster.job as DeployClusterJob
+import static analytics.ModelTransfers.job as ModelTransfersJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
-import static analytics.VerticaDiskUsageMonitor.job as VerticaDiskUsageMonitorJob
-import static analytics.BackupVertica.job as BackupVerticaJob
+import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
+import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
+import static analytics.WarehouseTransformsCI.job as WarehouseTransformsCIJob
+import static analytics.WarehouseTransformsMasterCI.job as WarehouseTransformsMasterCIJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -28,14 +34,20 @@ try {
 
 def taskMap = [
     // Add jobs here as they are ported from the old analytics Jenkins server.
+    DBT_DOCS_JOB: DBTDocsJob,
+    DBT_MANUAL_JOB: DBTManualJob,
+    DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
-    EXPIRE_VERTICA_PASSWORD_JOB: ExpireVerticaPasswordJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
+    SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
+    MODEL_TRANSFERS_JOB: ModelTransfersJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
-    BACKUP_VERTICA_JOB: BackupVerticaJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
-    VERTICA_DISK_USAGE_MONITOR_JOB: VerticaDiskUsageMonitorJob,
+    SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
+    WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
+    WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob,
+    WAREHOUSE_TRANSFORMS_MASTER_CI_JOB: WarehouseTransformsMasterCIJob,
 ]
 
 for (task in taskMap) {
@@ -88,15 +100,11 @@ listView('Exporter') {
 
 listView('Warehouse') {
     jobs {
-        name('event-type-distribution')
         name('courseware-links-clicked')
-        name('finance-report')
-        name('payments-validation')
         name('generate-warehouse-docs')
-        name('affiliate-window')
         name('snowflake-schema-builder')
         regex('refresh-snowpipe-.*')
-        regex('.+read-replica-import|load-.+|vertica-schema-to.+|.*sql-script.*')
+        regex('.+read-replica-import|load-.+')
     }
     columns DEFAULT_VIEW.call()
 }
@@ -108,8 +116,6 @@ listView('Tools') {
         name('terminate-cluster')
         name('emr-cost-reporter')
         name('update-users')
-        name('vertica-disk-usage-monitor')
-        name('monitor-bigquery-loading')
         name('stitch-snowflake-lag-monitor')
         name('snowflake-public-grants-cleaner')
     }

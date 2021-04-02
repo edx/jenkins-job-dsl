@@ -102,17 +102,7 @@ class UpdateCeleryMonitoring {
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-
-                            command(
-                                dslFactory.readFileFromWorkspace("devops/resources/update_celery_monitoring.sh")
-                            )
-
-                        }
-
+                       shell(dslFactory.readFileFromWorkspace('devops/resources/update_celery_monitoring.sh'))
                         String snitch =  extraVars.get('REDIS_SNITCH','')
                         if (snitch) {
                             shell("curl $snitch")

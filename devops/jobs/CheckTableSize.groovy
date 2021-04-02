@@ -25,6 +25,7 @@ class CheckTableSize {
                             file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-table-size-monitoring"
                             string("ROLE_ARN", variable)
+                            string("GENIE_KEY", "opsgenie_heartbeat_key")
                         }
                     }
 
@@ -47,6 +48,7 @@ class CheckTableSize {
                         env('THRESHOLD', extraVars.get('THRESHOLD'))
                         env('RDSTHRESHOLD', rdsthreshold)
                         env('RDSIGNORE', rdsignore)
+                        env('DEPLOYMENT', deployment)
                     }
 
                     multiscm {
@@ -63,33 +65,8 @@ class CheckTableSize {
                         }
                     }
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
+                      shell(dslFactory.readFileFromWorkspace('devops/resources/table-size-monitoring.sh'))
 
-                            command(
-                                    dslFactory.readFileFromWorkspace("devops/resources/table-size-monitoring.sh")
-                            )
-                        }
-                    }
-
-                    publishers {
-                        extendedEmail {
-                            recipientList(extraVars.get('NOTIFY_ON_FAILURE'))
-                            triggers {
-                                 failure {
-                                     attachBuildLog(false)  // build log contains PII!
-                                     compressBuildLog(false)  // build log contains PII!
-                                     subject('Failed build: ${JOB_NAME} #${BUILD_NUMBER}')
-                                     content('Jenkins job: ${JOB_NAME} failed. \nFor' + " ${deployment} " + 'Environment. \n\nSee ${BUILD_URL} for details.')
-                                     contentType('text/plain')
-                                     sendTo {
-                                         recipientList()
-                                     }
-                                 }
-                            }
-                        }
                     }
                 }
            }

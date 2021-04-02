@@ -160,11 +160,9 @@ class backupJenkinsSpec extends Specification {
         envVars.contains("REGION=${region}")
         // Command
         Node builders = project.childNodes().find { it.name == 'builders' }
-        Node venv = builders.childNodes().find { it.name == 'jenkins.plugins.shiningpanda.builders.VirtualenvBuilder' }
-        venv.childNodes().any {
-            it.name == 'command' && it.text().contains(vol) &&
-            it.text().contains("Data volume snapshot from the backup-build-jenkins job")
-        }
+        Node command = builders.childNodes().find { it.name == 'hudson.tasks.Shell' }
+        command.text().contains(vol)
+        command.text().contains("Data volume snapshot from the backup-build-jenkins job")
 
         where:
         job                     | instance | region      | vol       | accessKeyId | secretAccessKey

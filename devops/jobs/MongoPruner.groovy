@@ -77,15 +77,7 @@ class MongoPruner {
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-
-                            command(
-                                dslFactory.readFileFromWorkspace("devops/resources/mongo-pruner.sh")
-                            )
-                        }
+                       shell(dslFactory.readFileFromWorkspace('devops/resources/mongo-pruner.sh'))
                     }
 
                     if (extraVars.get('NOTIFY_ON_FAILURE')){

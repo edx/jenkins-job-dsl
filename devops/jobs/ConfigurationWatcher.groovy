@@ -69,6 +69,7 @@ class ConfigurationWatcher {
             // inject APPS as an environment variable to be used by trigger-builds.sh
             environmentVariables {
                 env('APPS', apps)
+                env('CI_PYTHON_VERSION', extraVars.get('CI_PYTHON_VERSION'))
             }
 
             description('\rThis job watches the configuration repository for changes via a webhook. Upon a change, the job runs a script ' + 
@@ -111,12 +112,7 @@ class ConfigurationWatcher {
 
             // run the trigger-builds shell script in a virtual environment called venv
             steps {
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    name('venv')
-                    nature('shell')
-                    command dslFactory.readFileFromWorkspace('devops/resources/trigger-builds.sh')
-                }
+                shell(dslFactory.readFileFromWorkspace('devops/resources/trigger-builds.sh'))
 
                 // inject environment variables defined in the temp_props file (TO_BUILD)
                 // temp_props is a file that is created from devops/resources/trigger-builds.sh,

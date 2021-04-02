@@ -35,6 +35,11 @@ class CreateSandbox {
 
             wrappers {
                 buildName('#${BUILD_NUMBER} ${ENV,var="BUILD_USER_ID"} ${ENV,var="dns_name"}')
+
+                timeout {
+                    absolute(120)
+                    failBuild()
+                }
             }
 
             def access_control = extraVars.get('ACCESS_CONTROL',[])
@@ -119,7 +124,8 @@ class CreateSandbox {
                          For example, if you are building a sandbox for pull request 1234 put in 'pr1234' which will setup the sandbox <i>pr1234.sandbox.edx.org</i>.<br /> \
                          <b>Do not use hyphens or underscores here.</b> <br /> \
                          If you are building a sandbox for yourself, you may leave this blank <b>unless</b> your GitHub \
-                         username contains underscores or hyphens. <br />")
+                         username contains underscores (which are invalid for domain names in URLs) \
+                         or hyphens (which have broken some IDAs in sandboxes in the past). <br />")
                 stringParam("name_tag","",
                         "This name tag uniquely identifies your sandbox.  <b>If a box already exists with this name tag, it will be terminated.</b><br /> \
                          If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag.")
@@ -129,8 +135,10 @@ class CreateSandbox {
                 stringParam("configuration_version","master","")
                 stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
-                stringParam("configuration_secure_version","master","")
-                stringParam("configuration_internal_version","master","")
+                stringParam("configuration_secure_version","master",
+                            "Select an alternative branch of sandbox-secure configuration repo")
+                stringParam("configuration_internal_version","master",
+                            "Select an alternative branch of sandbox-internal configuration repo")
                 stringParam("edx_internal_version","master","")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
                 booleanParam("testcourses",true,"")
@@ -150,9 +158,6 @@ class CreateSandbox {
                 booleanParam("ecommerce",true,"")
                 stringParam("ecommerce_version","master","")
                 booleanParam("ecommerce_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce config file from configuration internal repo.")
-
-                booleanParam("notifier",false,"")
-                stringParam("notifier_version","master","")
 
                 booleanParam("xqueue",false,"")
                 stringParam("xqueue_version","master","")
@@ -189,8 +194,6 @@ class CreateSandbox {
                 stringParam("credentials_version","master","")
                 booleanParam("credentials_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy credentials config file from configuration internal repo.")
 
-                booleanParam("set_whitelabel",false,
-                             "Check this in order to create a Sandbox with whitelabel themes automatically set.")
                 stringParam("themes_version","master","")
                 booleanParam("registrar",false,"Enable the Registrar service, along with the Program Manager micro-frontend")
                 stringParam("registrar_version","master","")
@@ -199,11 +202,23 @@ class CreateSandbox {
                             "Email (and username) for user to be created in Registrar. Ignore this setting if Registrar is disabled.")
                 stringParam("registrar_org_key","edX",
                             "Key for Organization to be created in Registrar. Must match key in Discovery catalog. Ignore this setting if Registrar is disabled.")
-                stringParam("program_manager_version","master",
-                            "The repository version of the frontend-app-program-manager")
+                stringParam("program_console_version","master",
+                            "The repository version of the frontend-app-program-console")
 
                 booleanParam("learner_portal",false,"Learner Portal")
                 stringParam("learner_portal_version","master","The version for the frontend-app-learner-portal")
+
+                booleanParam("admin_portal",false,"Enable Enterprise Admin Portal MFE")
+                stringParam("admin_portal_version","master","The repository version of the frontend-app-admin-portal")
+
+                booleanParam("learner_portal_enterprise",false,"Enable Enterprise Learner Portal MFE")
+                stringParam("learner_portal_enterprise_version","master","The repository version of the frontend-app-learner-portal-enterprise")
+
+                booleanParam("enterprise_catalog",false,"Enable Enterprise Catalog Django Backend")
+                stringParam("enterprise_catalog_version","master","The repository version of the license-manager microservice")
+
+                booleanParam("license_manager",false,"Enable Enterprise Subscription License Manager Django Backend")
+                stringParam("license_manager_version","master","The repository version of the license-manager microservice")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
@@ -213,11 +228,21 @@ class CreateSandbox {
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
                 stringParam("video_encode_worker_version","master","")
 
+                booleanParam("prospectus",false,"Enable Prospectus, the edx catalog")
+                stringParam("prospectus_version","master","")
+
+                booleanParam("authn",false,"Enable Authn MFE")
+                stringParam("authn_version","master","The repository version of the frontend-app-authn")
+
+                booleanParam("payment",false,"Enable Payment MFE")
+                stringParam("payment_version","master","The repository version of the frontend-app-payment")
+
                 choiceParam("server_type",
                             [
                             "full_edx_installation_from_scratch",
                             "full_edx_installation",
                              "ubuntu_18.04",
+                             "ubuntu_20.04",
                              "ubuntu_16.04",
                             ],
                             "Type of AMI we should boot before updating the selected roles above")
@@ -292,16 +317,7 @@ class CreateSandbox {
             concurrentBuild()
 
             steps {
-
-                virtualenv {
-                    pythonName('System-CPython-3.6')
-                    nature("shell")
-                    systemSitePackages(false)
-
-                    command(dslFactory.readFileFromWorkspace("devops/resources/create-sandbox.sh"))
-
-                }
-
+                shell(dslFactory.readFileFromWorkspace('devops/resources/create-sandbox.sh'))
             }
 
         }

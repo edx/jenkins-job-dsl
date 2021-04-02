@@ -4,16 +4,17 @@ mkdir -p ${WORKING_DIRECTORY}/course-data
 
 # Install requirements into this (exporter) virtual environment
 pushd analytics-exporter/
+pip install 'setuptools<45'
 pip install -r github_requirements.txt
 pip install mysql-connector-python -e .
 popd
 
 # Get name of other (platform) virtual environment
-source platform_venv
+source platform_venv_path
 
 # Configuration paths in analytics-secure
 SECURE_ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
-CONFIG_PATH=${SECURE_ROOT}/${CONFIG_FILENAME}
+CONFIG_PATH=${SECURE_ROOT}/${EXPORTER_CONFIG_FILENAME}
 
 DATE=$(date +%d ${DATE_MODIFIER})
 TODAY=$(date +%d)

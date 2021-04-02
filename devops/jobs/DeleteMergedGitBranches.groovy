@@ -42,15 +42,7 @@ class DeleteMergedGitBranches{
                 }
 
                 steps {
-                    virtualenv {
-                        pythonName('System-CPython-3.6')
-                        nature("shell")
-                        systemSitePackages(false)
-
-                        command(
-                            dslFactory.readFileFromWorkspace("devops/resources/delete-merged-git-branches.sh")
-                        )
-                    }
+                    shell(dslFactory.readFileFromWorkspace('devops/resources/delete-merged-git-branches.sh'))
                 }
 
                 if (extraVars.get('NOTIFY_ON_FAILURE')){

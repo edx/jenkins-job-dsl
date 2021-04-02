@@ -99,16 +99,8 @@ class ClusterInstanceMonitoring{
                 }
 
                 steps {
-                    virtualenv {
-                        pythonName('System-CPython-3.6')
-                        nature("shell")
-                        systemSitePackages(false)
+                    shell(dslFactory.readFileFromWorkspace('devops/resources/cluster-instance-monitoring.sh'))
 
-                        command(
-                            dslFactory.readFileFromWorkspace("devops/resources/cluster-instance-monitoring.sh")
-                        )
-
-                    }
 
                 }
 

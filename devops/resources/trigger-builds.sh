@@ -3,6 +3,13 @@
 # unofficial bash strict mode
 set -euo pipefail
 
+set +u
+. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
+# creates a venv with its location stored in variable "venvpath"
+create_virtualenv --python=python${CI_PYTHON_VERSION} --clear
+. "$venvpath/bin/activate"
+set -u
+
 function singleline ()
 {
     COUNT=0;

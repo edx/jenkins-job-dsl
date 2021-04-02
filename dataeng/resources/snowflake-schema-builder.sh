@@ -3,23 +3,25 @@ set -ex
 
 # Setup
 cd $WORKSPACE/warehouse-transforms
-pip install -r tools/dbt_schema_builder/requirements.txt
+pip install --upgrade dbt-schema-builder
 
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-cd $WORKSPACE/warehouse-transforms/projects/$DESTINATION_PROJECT
+
+# DESTINATION_PROJECT is always relative to SOURCE_PROJECT
+cd $DESTINATION_PROJECT
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 cd $WORKSPACE/warehouse-transforms
 
 # Create a new git branch
-now=$(date +%d_%m_%Y_%H_%M_%S)
+now=$(date +%Y_%m_%d_%H_%M_%S)
 branchname="builder_$now"
 git checkout -b "$branchname"
 
 # Run the dbt script to update schemas and sql, from the source project directory (necessary for dbt to run)
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
-python $WORKSPACE/warehouse-transforms/tools/dbt_schema_builder/schema_builder.py build --raw-schemas $SCHEMAS --raw-suffixes $RAW_SUFFIXES --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+dbt_schema_builder build --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
 # Check if any files are added, deleted, or changed. If so, commit them and create a PR.
 if [[ -z $(git status -s) ]]

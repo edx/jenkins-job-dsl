@@ -22,7 +22,7 @@ class EventExportIncremental {
                     stringParam('SOURCE', env_config.get('EVENT_LOGS_SOURCE'), '')
                     stringParam('OUTPUT_ROOT', allVars.get('OUTPUT_ROOT'))
                     stringParam('EXPORTER_CONFIG', 'config.yaml', 'Exporter configuration relative to analytics-secure/analytics-exporter')
-                    stringParam('ONLY_ORGS', '', "i.e. --org-id [\"FooX\",\"BarX\"]")
+                    stringParam('ONLY_ORGS', '', "i.e. --org-id [\\\"FooX\\\",\\\"BarX\\\"]")
                     stringParam('DATA_CZAR_KEYS_BRANCH', 'master', '')
                     stringParam('ENVIRONMENT', env_config.get('ENVIRONMENT_SUBDIRECTORY'), '')
                 }
@@ -38,9 +38,6 @@ class EventExportIncremental {
                 publishers common_publishers(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/event-export-incremental.sh'))
-                    if (env_config.get('SNITCH')) {
-                        shell('curl https://nosnch.in/' + allVars.get('SNITCH'))
-                    }
                 }
             }
         }

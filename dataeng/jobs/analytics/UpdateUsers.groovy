@@ -18,7 +18,12 @@ class UpdateUsers {
             steps {
                 virtualenv {
                     nature("shell")
-                    command('make users.update')
+                    command('cd analytics-configuration && make users.update')
+                }
+            }
+            publishers {
+                postBuildTask {
+                    task('skipping: no hosts matched', 'exit 1', true, true)
                 }
             }
         }

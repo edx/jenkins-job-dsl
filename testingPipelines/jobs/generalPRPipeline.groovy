@@ -24,39 +24,40 @@ catch (any) {
     return 1
 }
 
-Map codejail27JobConfig = [
+Map codejail38TestsJobConfig = [
     open: true,
-    jobName: 'codejail-python-2-pr',
+    jobName: 'codejail-python-3.8-pr-tests',
     repoName: 'codejail',
-    context: 'jenkins/python2',
+    context: 'jenkins/python3.8/tests',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+test\W+python\W+2.*/,
+    triggerPhrase: /.*jenkins\W+run\W+py38\W+tests.*/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
-        'TOX_ENV': 'py27',
-        'PYTHON_VERSION': '2.7'
+        'TOX_ENV': 'py38',
+        'PYTHON_VERSION': '3.8'
     ]
 ]
 
-Map codejail35JobConfig = [
+Map codejail38QualityJobConfig = [
     open: true,
-    jobName: 'codejail-python-3-pr',
+    jobName: 'codejail-python-3.8-pr-quality',
     repoName: 'codejail',
-    context: 'jenkins/python3',
+    context: 'jenkins/python3.8/quality',
     onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+test\W+python\W+3.*/,
+    triggerPhrase: /.*jenkins\W+run\W+py38\W+quality.*/,
     jenkinsFileDir: '.',
     jenkinsFileName: 'Jenkinsfile',
     environmentVariables: [
-        'TOX_ENV': 'py35',
-        'PYTHON_VERSION': '3.5'
+        'TOX_ENV': 'quality',
+        'PYTHON_VERSION': '3.8'
     ]
 ]
+
 
 List jobConfigs = [
-    codejail27JobConfig,
-    codejail35JobConfig
+    codejail38TestsJobConfig,
+    codejail38QualityJobConfig
 ]
 
 /* Iterate over the job configurations */
@@ -75,7 +76,7 @@ jobConfigs.each { jobConfig ->
             }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
             environmentVariables jobConfig.environmentVariables
-            
+
 
             triggers {
                 githubPullRequest {

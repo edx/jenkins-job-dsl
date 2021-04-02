@@ -44,6 +44,7 @@ class BackupMongoToS3 {
                             file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                             string('ROLE_ARN', "mongohq-backups-${environment}-${deployment}-role-arn")
                             string('MONGO_DB_PASSWORD', 'mongo-db-password')
+                            string("GENIE_KEY", "opsgenie_heartbeat_key")
                         }
                     }
 
@@ -101,18 +102,14 @@ class BackupMongoToS3 {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
                         env('IP_ADDRESSES', configuration.get('ip_addresses'))
-                        env('SNITCH', configuration.get('snitch'))
                     }
 
                     steps {
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
+                        shell(dslFactory.readFileFromWorkspace('devops/resources/backup-mongo-to-s3.sh'))
 
-                            command(
-                                dslFactory.readFileFromWorkspace("devops/resources/backup-mongo-to-s3.sh")
-                            )
+                        String opsgenie_heartbeat_name = configuration.get('opsgenie_heartbeat_name','')
+                        if (opsgenie_heartbeat_name) {
+                             shell('curl -X GET "https://api.opsgenie.com/v2/heartbeats/'+opsgenie_heartbeat_name+'/ping" -H "Authorization: GenieKey ${GENIE_KEY}"')
                         }
                     }
 

@@ -19,6 +19,7 @@ class AppPermissionsFailure {
              parameters {
                  stringParam('ENVIRONMENT')
                  stringParam('DEPLOYMENT')
+                 stringParam('JOB_TYPE')
                  stringParam('GIT_PREVIOUS_COMMIT_1')
                  stringParam('GIT_COMMIT_1')
                  stringParam('UPSTREAM_BUILD_URL')
@@ -41,14 +42,7 @@ class AppPermissionsFailure {
             }
 
              steps {
-                 virtualenv {
-                     pythonName('System-CPython-3.6')
-                     nature("shell")
-                     systemSitePackages(false)
-                     command(
-                         dslFactory.readFileFromWorkspace("devops/resources/app-permission-runner-failure.sh")
-                            )
-                 }
+                shell(dslFactory.readFileFromWorkspace('devops/resources/app-permission-runner-failure.sh'))
              }
          }
      }

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/edx/jenkins-job-dsl.svg?branch=master)](https://travis-ci.org/edx/jenkins-job-dsl)
+[![Build Status](https://travis-ci.com/edx/jenkins-job-dsl.svg?branch=master)](https://travis-ci.com/edx/jenkins-job-dsl)
 
 # jenkins-job-dsl
 
@@ -76,7 +76,7 @@ job description you can use code like the following.
         ...
         // Disabled until https://example.atlassian.net/browse/EX-123 is resolved
         disabled()
-        description('Disabled until <a href=https://example.atlassian.net/browse/EX-123>EX-123</a> is resolved.')
+        description('Disabled until <a href="https://example.atlassian.net/browse/EX-123">EX-123</a> is resolved.')
         ...
 ```
 

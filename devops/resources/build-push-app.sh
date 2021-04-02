@@ -3,6 +3,13 @@
 # unofficial bash strict mode
 set -euxo pipefail
 
+set +u
+. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
+# creates a venv with its location stored in variable "venvpath"
+create_virtualenv --python=python${CI_PYTHON_VERSION} --clear
+. "$venvpath/bin/activate"
+set -u
+
 openedx_release=${OPENEDX_RELEASE:-master}
 tag_name=${TAG_NAME:-latest}
 image_tag=edxops/${APP_NAME}:${tag_name}

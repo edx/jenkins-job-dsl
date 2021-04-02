@@ -20,7 +20,8 @@ job('build-packer-ami') {
                       'webpagetest.json',
                       'jenkins_worker_simple.json',
                       'jenkins_worker_android.json',
-                      'jenkins_worker_codejail.json'
+                      'jenkins_worker_codejail.json',
+                      'jenkins_worker_user_retire.json'
                     ],
                     'Json file (in util/packer) specifying how to build ' +
                     'the new AMI.')
@@ -69,9 +70,9 @@ job('build-packer-ami') {
             string('AWS_SECURITY_GROUP', 'PACKER_AWS_SECURITY_GROUP')
 
             amazonWebServicesCredentialsBinding {
-                accessKeyVariable("AWS_ACCESS_KEY_ID")
-                secretKeyVariable("AWS_SECRET_ACCESS_KEY")
-                credentialsId("JENKINS_EC2_CREDENTIALS")
+                accessKeyVariable('AWS_ACCESS_KEY_ID')
+                secretKeyVariable('AWS_SECRET_ACCESS_KEY')
+                credentialsId('JENKINS_EC2_CREDENTIALS')
             }
         }
     }
@@ -83,7 +84,7 @@ job('build-packer-ami') {
     publishers {
         // alert team of failures via slack & email
         configure GENERAL_SLACK_STATUS()
-        mailer('testeng@edx.org')
+        mailer('arbi-bom@edx.org')
     }
 
 }
