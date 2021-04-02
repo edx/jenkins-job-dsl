@@ -205,7 +205,8 @@ class CreateSandbox {
                 stringParam("enterprise_catalog_version","master","The repository version of the license-manager microservice")
 
                 booleanParam("license_manager",false,"Enable Enterprise Subscription License Manager Django Backend")
-                stringParam("license_manager_version","master","The repository version of the license-manager microservice")
+                
+                booleanParam("edx_notes_api",false,"Enable edx notes api")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
