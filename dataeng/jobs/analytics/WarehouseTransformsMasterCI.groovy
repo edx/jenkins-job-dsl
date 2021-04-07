@@ -126,6 +126,26 @@ class WarehouseTransformsMasterCI{
                 upstream('warehouse-transforms-master-ci', 'SUCCESS')
             }
             publishers common_publishers(allVars)
+            publishers {
+                slackNotifier {
+                    room('#data-ops')
+                    botUser (true)
+                    startNotification (false)
+                    notifySuccess (false)
+                    notifyAborted (true)
+                    notifyNotBuilt (false)
+                    notifyUnstable (true)
+                    notifyRegression(false)
+                    notifyFailure(true)
+                    notifyBackToNormal (true)
+                    notifyRepeatedFailure (true)
+                    includeTestSummary (false)
+                    includeFailedTests (false)
+                    matrixTriggerMode('ONLY_CONFIGURATIONS')
+                    commitInfoChoice('AUTHORS_AND_TITLES')
+                    customMessageFailure('Build failed in warehouse-transform master branch CI job')
+                }
+            }
             wrappers {
                 colorizeOutput('xterm')
             }
