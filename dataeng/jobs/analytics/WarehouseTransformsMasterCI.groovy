@@ -130,17 +130,14 @@ class WarehouseTransformsMasterCI{
                 slackNotifier {
                     room('#data-ops')
                     botUser (true)
-                    startNotification (false)
-                    notifySuccess (false)
+                    startNotification (false) // A build has started, we do not want such notifications
+                    notifySuccess (false) // A build was successfull, , we do not want such notifications
                     notifyAborted (true)
                     notifyNotBuilt (false)
                     notifyUnstable (true)
-                    notifyRegression(false)
                     notifyFailure(true)
                     notifyBackToNormal (true)
-                    notifyRepeatedFailure (true)
-                    includeTestSummary (false)
-                    includeFailedTests (false)
+                    notifyRepeatedFailure (true) // Notify on repeating failures
                     matrixTriggerMode('ONLY_CONFIGURATIONS')
                     commitInfoChoice('AUTHORS_AND_TITLES')
                     customMessageFailure('Build failed in warehouse-transform master branch CI job')
