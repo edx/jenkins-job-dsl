@@ -91,6 +91,11 @@ class WarehouseTransformsCI{
                     triggerPhrase('jenkins run dbt') // You this trigger phrase to on Pull Rquest comment to trigger this job
                     onlyTriggerPhrase(false) // true if you want the job to only fire when commented on (not on commits)
                     orgWhitelist(['edx-ops', 'edX']) // All the Github users under these orgs will be able to trigger this job via PR. As this job will be used by many edXers so giving the trigger access to all under edX.  
+                    extensions {
+                        commitStatus {
+                            context('jenkins/ci-tests')
+                        }
+                    }
                 }
             }
             configure GHPRB_CANCEL_BUILDS_ON_UPDATE(false)
