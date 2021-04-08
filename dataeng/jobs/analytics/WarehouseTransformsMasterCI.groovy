@@ -129,7 +129,7 @@ class WarehouseTransformsMasterCI{
                 upstream('warehouse-transforms-master-ci', 'SUCCESS')
             }
             publishers common_publishers(allVars)
-            publishers slack_publisher(allVars)
+            publishers slack_publisher()
             wrappers {
                 colorizeOutput('xterm')
             }
