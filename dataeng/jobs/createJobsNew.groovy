@@ -11,7 +11,7 @@ import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static analytics.WarehouseTransformsCI.job as WarehouseTransformsCIJob
-import static analytics.WarehouseTransformsMasterCI.job as WarehouseTransformsMasterCIJob
+import static analytics.WarehouseTransformsCIMasterMerges.job as WarehouseTransformsCIMasterMergesJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -47,7 +47,7 @@ def taskMap = [
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
     WAREHOUSE_TRANSFORMS_JOB: WarehouseTransformsJob,
     WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob,
-    WAREHOUSE_TRANSFORMS_MASTER_CI_JOB: WarehouseTransformsMasterCIJob,
+    WAREHOUSE_TRANSFORMS_CI_MASTER_MERGES_JOB: WarehouseTransformsCIMasterMergesJob,
 ]
 
 for (task in taskMap) {
