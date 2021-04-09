@@ -14,7 +14,7 @@ dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --prof
 
 if [ "$SKIP_SEED" != 'true' ]
 then
-  dbt seed --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+  dbt seed --full-refresh --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 fi
 
 # Source testing *before* model-building can be enabled/disabled with this envvar.
