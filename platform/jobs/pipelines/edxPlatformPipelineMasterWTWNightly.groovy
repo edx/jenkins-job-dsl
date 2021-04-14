@@ -33,9 +33,13 @@ jobConfigs.each { jobConfig ->
                 PYTHON_VERSION: "${jobConfig.pythonVersion}"
             )
 
-            triggers {
-                cron('@daily')
-            }
+            // Turn off job until we're ready to work on it again; at
+            // that time make sure that it's not a blocking check for
+            // deploys if this gets reenabled. (Needs to be excluded
+            // from check_pr_tests_status.py call.)
+            // triggers {
+            //     cron('@daily')
+            // }
 
             cpsScm {
                 scm {
