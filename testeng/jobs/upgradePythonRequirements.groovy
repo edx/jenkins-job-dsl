@@ -319,17 +319,6 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'edx-platform',
-        defaultBranch: "master",
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessDailyLahore,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['arbi-bom'],
-        emails: ['arbi-bom@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
         repoName: 'edx-proctoring',
         defaultBranch: 'master',
         pythonVersion: '3.8',
@@ -344,17 +333,6 @@ List jobConfigs = [
         repoName: 'edx-rbac',
         defaultBranch: 'master',
         pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['arbi-bom'],
-        emails: ['arbi-bom@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
-        repoName: 'edx-repo-health',
-        defaultBranch: 'master',
-        pythonVersion: '3.6',
         cronValue: cronOffHoursBusinessWeekdayLahore,
         githubUserReviewers: [],
         githubTeamReviewers: ['arbi-bom'],
@@ -444,7 +422,7 @@ List jobConfigs = [
         defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: ['cpennington'],
+        githubUserReviewers: [],
         githubTeamReviewers: ['arbi-bom'],
         emails: ['arbi-bom@edx.org'],
         alwaysNotify: false
@@ -470,17 +448,6 @@ List jobConfigs = [
         githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
         emails: ['masters-requirements-update@edx.opsgenie.net'],
         alwaysNotify: true
-    ],
-    [
-        org: 'edx',
-        repoName: 'pytest-repo-health',
-        defaultBranch: 'master',
-        pythonVersion: '3.6',
-        cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['arbi-bom'],
-        emails: ['arbi-bom@edx.org'],
-        alwaysNotify: false
     ],
     [
         org: 'edx',
@@ -554,7 +521,7 @@ List jobConfigs = [
         defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: ['cpennington'],
+        githubUserReviewers: [],
         githubTeamReviewers: ['arbi-bom'],
         emails: ['arbi-bom@edx.org'],
         alwaysNotify: false
