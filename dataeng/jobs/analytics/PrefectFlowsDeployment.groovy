@@ -38,7 +38,7 @@ class PrefectFlowsDeployment{
 
             }
             triggers {
-                scm('H/1 * * * *') // change it to 10 minutes
+                scm('H/10 * * * *') // change it to 10 minutes
             }
             wrappers {
                 colorizeOutput('xterm')
@@ -74,7 +74,7 @@ class PrefectFlowsDeployment{
             parameters {
                 stringParam('PREFECT_FLOWS_URL', allVars.get('PREFECT_FLOWS_URL'), 'URL for the prefect-flows repository.')
                 stringParam('PREFECT_FLOWS_BRANCH', allVars.get('PREFECT_FLOWS_BRANCH'), 'Branch of prefect-flows repository to use.')
-                stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
+                stringParam('FLOW_NAME', allVars.get('FLOW_NAME'), 'Database name used to create output schema of dbt run/tests')
                 //stringParam('NOTIFY', allVars.get('NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             multiscm secure_scm(allVars) << {
