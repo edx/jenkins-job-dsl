@@ -6,6 +6,7 @@ import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswords
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.ModelTransfers.job as ModelTransfersJob
+import static analytics.PrefectFlowsDeployment.job as PrefectFlowsDeploymentJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
@@ -43,6 +44,7 @@ def taskMap = [
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     MODEL_TRANSFERS_JOB: ModelTransfersJob,
+    PREFECT_FLOWS_DEPLOYMENT_JOB: PrefectFlowsDeploymentJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
