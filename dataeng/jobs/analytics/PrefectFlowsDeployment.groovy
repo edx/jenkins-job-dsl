@@ -56,7 +56,7 @@ class PrefectFlowsDeployment{
             }
             publishers {
                 downstreamParameterized {
-                    trigger('prefect-flows-deployment-'+ flow_name) {
+                    trigger('prefect-flows-deployment-'+ 'sample_flow') {
                         condition('SUCCESS')
                         parameters {
                             // The contents of this file are generated as part of the script in the build step.
