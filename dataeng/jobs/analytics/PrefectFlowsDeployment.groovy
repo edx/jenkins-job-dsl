@@ -75,7 +75,7 @@ class PrefectFlowsDeployment{
                 stringParam('PREFECT_FLOWS_URL', allVars.get('PREFECT_FLOWS_URL'), 'URL for the prefect-flows repository.')
                 stringParam('PREFECT_FLOWS_BRANCH', allVars.get('PREFECT_FLOWS_BRANCH'), 'Branch of prefect-flows repository to use.')
                 stringParam('FLOW_NAME', allVars.get('FLOW_NAME'), 'Database name used to create output schema of dbt run/tests')
-                //stringParam('NOTIFY', allVars.get('NOTIFY'), 'Space separated list of emails to send notifications to.')
+                stringParam('PREFECT_API_TOKEN', allVars.get('PREFECT_API_TOKEN'), 'Space separated list of emails to send notifications to.')
             }
             multiscm secure_scm(allVars) << {
                 git {
