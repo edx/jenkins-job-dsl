@@ -94,8 +94,8 @@ class PrefectFlowsDeployment{
             // triggers {
             //     upstream('warehouse-transforms-ci-poll-master', 'SUCCESS')
             // }
-            publishers common_publishers(allVars)
-            publishers slack_publisher()
+            // publishers common_publishers(allVars)
+            // publishers slack_publisher()
             wrappers {
                 colorizeOutput('xterm')
             }
