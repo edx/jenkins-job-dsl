@@ -204,9 +204,8 @@ class CreateSandbox {
                 booleanParam("enterprise_catalog",false,"Enable Enterprise Catalog Django Backend")
                 stringParam("enterprise_catalog_version","master","The repository version of the license-manager microservice")
 
-                booleanParam("license_manager",false,"Enable Enterprise Subscription License Manager Django Backend.It is deployed on k8s in Minikube")
-                
-                booleanParam("edx_notes_api",false,"Enable Edx Notes API.It is deployed on k8s in Minikube")
+                booleanParam("license_manager",false,"Enable Enterprise Subscription License Manager Django Backend")
+                stringParam("license_manager_version","master","The repository version of the license-manager microservice")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
