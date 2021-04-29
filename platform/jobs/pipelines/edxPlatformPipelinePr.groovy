@@ -302,6 +302,8 @@ jobConfigs.each { jobConfig ->
                     git {
                         extensions {
                             cleanBeforeCheckout()
+                            pruneBranches()
+                            pruneStaleBranch()
                             cloneOptions {
                                 honorRefspec(true)
                                 noTags(true)
