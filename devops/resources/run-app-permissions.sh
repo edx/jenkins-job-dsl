@@ -18,8 +18,35 @@ assume-role ${ROLE_ARN}
 cd $WORKSPACE/configuration/playbooks
 
 INVENTORY=$(./active_instances_in_asg.py --asg ${ENVIRONMENT}-${DEPLOYMENT}-worker)
+
 if [[ -n ${INVENTORY} ]]; then
-    ansible-playbook -i ${INVENTORY} manage_edxapp_users_and_groups.yml -e@$WORKSPACE/app-permissions/${ENVIRONMENT}-${DEPLOYMENT}-edxapp.yml --user ${USER} --tags manage-${JOB_TYPE}
+
+    # LMS groups.
+    ansible-playbook \
+        -i ${INVENTORY} \
+        manage_edxapp_groups.yml \
+        -e@$WORKSPACE/app-permissions/groups/lms.yml \
+        -e "service_variant=lms" \
+        --user ${USER} \
+        --tags manage-${JOB_TYPE}
+
+    # CMS groups.
+    ansible-playbook \
+        -i ${INVENTORY} \
+        manage_edxapp_groups.yml \
+        -e@$WORKSPACE/app-permissions/groups/cms.yml \
+        -e "service_variant=cms" \
+        --user ${USER} \
+        --tags manage-${JOB_TYPE}
+
+    # LMS+CMS users.
+    ansible-playbook \
+        -i ${INVENTORY} \
+        manage_edxapp_users.yml \
+        -e@$WORKSPACE/app-permissions/users/${ENVIRONMENT}-${DEPLOYMENT}.yml \
+        --user ${USER} \
+        --tags manage-${JOB_TYPE}
+
 else
     echo "Skipping ${ENVIRONMENT} ${DEPLOYMENT}, no worker cluster available, get it next time"
 fi
