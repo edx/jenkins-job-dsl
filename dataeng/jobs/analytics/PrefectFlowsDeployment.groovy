@@ -95,8 +95,8 @@ class PrefectFlowsDeployment{
                     }
                     git {
                         remote {
-                            url('$PREFECT_UTILS_URL')
-                            branch('$PREFECT_UTILS_BRANCH')
+                            url('$EDX_PREFECTUTILS_URL')
+                            branch('$EDX_PREFECTUTILS_BRANCH')
                             credentials('1')
                         }
                         extensions {
