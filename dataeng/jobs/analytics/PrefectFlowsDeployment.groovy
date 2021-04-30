@@ -75,8 +75,8 @@ class PrefectFlowsDeployment{
                 parameters {
                     stringParam('PREFECT_FLOWS_URL', allVars.get('PREFECT_FLOWS_URL'), 'URL for the prefect-flows repository.')
                     stringParam('PREFECT_FLOWS_BRANCH', allVars.get('PREFECT_FLOWS_BRANCH'), 'Branch of prefect-flows repository to use.')
-                    stringParam('PREFECT_UTILS_URL', allVars.get('PREFECT_UTILS_URL'), 'URL for the prefect-flows repository.')
-                    stringParam('PREFECT_UTILS_BRANCH', allVars.get('PREFECT_UTILS_URL'), 'Branch of prefect-flows repository to use.')
+                    stringParam('EDX_PREFECTUTILS_URL', allVars.get('EDX_PREFECTUTILS_URL'), 'URL for the prefect-flows repository.')
+                    stringParam('EDX_PREFECTUTILS_BRANCH', allVars.get('EDX_PREFECTUTILS_BRANCH'), 'Branch of prefect-flows repository to use.')
                     stringParam('FLOW_NAME', allVars.get('FLOW_NAME'), 'Database name used to create output schema of dbt run/tests')
                     stringParam('PREFECT_API_TOKEN', allVars.get('PREFECT_API_TOKEN'), 'Space separated list of emails to send notifications to.')
                 }
