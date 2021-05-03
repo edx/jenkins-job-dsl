@@ -475,7 +475,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'staff_graded-xblock',
         defaultBranch: 'master',
-        pythonVersion: '3.5',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
         githubUserReviewers: [],
         githubTeamReviewers: [],
