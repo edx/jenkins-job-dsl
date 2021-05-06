@@ -51,7 +51,10 @@ class SnowflakeMicrobachelorsITK {
                 }
             }
             triggers {
-                cron('H 6 * * 1-5')
+                buildResult('H 6 * * 1-5') {
+                    combinedJobs()
+                    triggerInfo('warehouse-transforms-microbachelors', BuildResult.SUCCESS)
+                }
             }
             wrappers {
                 timestamps()
