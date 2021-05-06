@@ -135,6 +135,8 @@ class CreateSandbox {
 
                 booleanParam("edxapp",true,"")
                 stringParam("edxapp_version","master","")
+                stringParam("edxapp_lms_config_file_name","lms.yml","")
+                stringParam("edxapp_studio_config_file_name","studio.yml","")
                 stringParam("edx_platform_repo","https://github.com/edx/edx-platform.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
                 booleanParam("edxapp_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy edxapp config file from configuration internal repo.")
@@ -144,6 +146,7 @@ class CreateSandbox {
 
                 booleanParam("ecommerce",true,"")
                 stringParam("ecommerce_version","master","")
+                stringParam("ecommerce_config_file_name","ecommerce.yml","")
                 booleanParam("ecommerce_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce config file from configuration internal repo.")
 
                 booleanParam("xqueue",false,"")
@@ -154,6 +157,7 @@ class CreateSandbox {
 
                 booleanParam("ecommerce_worker",true,"")
                 stringParam("ecommerce_worker_version","master","")
+                stringParam("ecommerce_worker_config_file_name","ecomworker.yml","")
                 booleanParam("ecommerce_worker_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce_worker config file from configuration internal repo.")
 
                 booleanParam("certs",false,"")
@@ -161,10 +165,12 @@ class CreateSandbox {
 
                 booleanParam("analyticsapi",false,"")
                 stringParam("analytics_api_version","master","")
+                stringParam("analytics_api_config_file_name","analytics_api.yml","")
                 booleanParam("analytics_api_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy analytics_api config file from configuration internal repo.")
 
                 booleanParam("insights",false,"")
                 stringParam("insights_version","master","")
+                stringParam("insights_config_file_name","insights.yml","")
                 booleanParam("insights_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy insights config file from configuration internal repo.")
 
                 booleanParam("demo",false,"")
@@ -172,6 +178,7 @@ class CreateSandbox {
 
                 booleanParam("discovery",false,"")
                 stringParam("discovery_version","master","")
+                stringParam("discovery_config_file_name","discovery.yml","")
                 booleanParam("discovery_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy discovery config file from configuration internal repo.")
 
                 booleanParam("notes",false,"")
@@ -179,6 +186,7 @@ class CreateSandbox {
 
                 booleanParam("credentials",false,"")
                 stringParam("credentials_version","master","")
+                stringParam("credentials_config_file_name","credentials.yml","")
                 booleanParam("credentials_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy credentials config file from configuration internal repo.")
 
                 stringParam("themes_version","master","")
