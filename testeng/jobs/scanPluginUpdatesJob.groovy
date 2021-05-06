@@ -10,6 +10,7 @@ job('scan-plugin-updates') {
     authorization {
         blocksInheritance(true)
         permissionAll('edx*testeng')
+        permissionAll('edx*devops')
     }
 
     logRotator JENKINS_PUBLIC_LOG_ROTATOR()
