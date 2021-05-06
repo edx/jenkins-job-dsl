@@ -301,6 +301,12 @@ jobConfigs.each { jobConfig ->
                 scm {
                     git {
                         extensions {
+                            // Only build pull requests that contain the
+                            // following hash in their ancestry. The hash
+                            // is from the creation of `scripts/Jenkinsfiles`
+                            choosingStrategy {
+                                ancestry(365, '5c88962d24540136676318271e55275f073d22c0')
+                            }
                             cleanBeforeCheckout()
                             pruneBranches()
                             pruneStaleBranch()
