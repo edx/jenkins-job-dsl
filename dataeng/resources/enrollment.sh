@@ -19,5 +19,6 @@ ${WORKSPACE}/analytics-configuration/automation/run-automated-task.sh \
   --n-reduce-tasks $NUM_REDUCE_TASKS \
   --overwrite-mysql \
   --EnrollmentByGenderMysqlTask-use-temp-table-for-overwrite \
+  --EnrollmentByBirthYearToMysqlTask-use-temp-table-for-overwrite \
   $EXTRA_ARGS
 
