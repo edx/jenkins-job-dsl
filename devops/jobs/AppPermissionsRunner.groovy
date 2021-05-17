@@ -17,7 +17,7 @@ class AppPermissionsRunner {
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
-        List jobTypes = ['groups', 'active-users', 'inactive-users']
+        List jobTypes = ['groups-lms', 'groups-cms', 'active-users', 'inactive-users']
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.environments.each { environment ->
                 jobTypes.each { jobType ->
