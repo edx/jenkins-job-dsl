@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x
+set -ex
 
 # Setup
 cd $WORKSPACE/warehouse-transforms
@@ -7,6 +7,9 @@ cd $WORKSPACE/warehouse-transforms
 pip install -r requirements.txt
 
 cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT
+
+# Turn off automatic failure of this script if the command returns non-0
+set +e
 
 # Fails the job if a dbt command fails and uploads the dbt artifacts to Snowflake if the job is configured for it
 function postCommandChecks {
