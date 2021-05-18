@@ -8,19 +8,15 @@ pip install -r requirements.txt
 
 cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT
 
-# Turn off automatic failure of this script if the command returns non-0
-set +e
-
 # Fails the job if a dbt command fails and uploads the dbt artifacts to Snowflake if the job is configured for it
+# First argument is the dbt operation name, second is the result code from the dbt command
 function postCommandChecks {
   echo operation $1 and result code $2;
-  if [ "$1" = 'seed' || "$1" = 'source_test' || "$1" = 'run' || "$1" = 'test' ]
+
+  if [ "$PUSH_ARTIFACTS_TO_SNOWFLAKE" = 'true' ]
   then
-    if [ "$PUSH_ARTIFACTS_TO_SNOWFLAKE" = 'true' ]
-    then
-      # Errors from this operation are eaten as they are just telemetry data and not worth failing jobs over
-      dbt run-operation upload_dbt_run_artifacts --args '{operation: '$1'}'  --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ || true
-    fi
+    # Errors from this operation are eaten as they are just telemetry data and not worth failing jobs over
+    dbt run-operation upload_dbt_run_artifacts --args '{operation: '$1'}'  --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ || true
   fi
 
   if [ 0 != $2 ];
@@ -30,11 +26,12 @@ function postCommandChecks {
   fi
 }
 
-dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET ; ret=$?;
-postCommandChecks "clean" $ret ;
+# These commands don't have artifacts to be uploaded so if they fail the job can just fail
+dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
-dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET ; ret=$?;
-postCommandChecks "deps" $ret ;
+# Turn off automatic failure of this script if the command returns non-0 for the rest of these commands
+set +e
 
 if [ "$SKIP_SEED" != 'true' ]
 then
