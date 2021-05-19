@@ -1,7 +1,7 @@
 package analytics
 
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
@@ -33,7 +33,7 @@ class PipelineAcceptanceTestManual {
             }
 
             parameters secure_scm_parameters(allVars)
-            multiscm common_multiscm(allVars) >> secure_scm(allVars) << {
+            multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('git@github.com:edx/edx-analytics-exporter.git')
@@ -42,6 +42,17 @@ class PipelineAcceptanceTestManual {
                     extensions {
                         pruneBranches()
                         relativeTargetDirectory('analytics-exporter')
+                    }
+                }
+                git {
+                    remote {
+                        url('$TASKS_REPO')
+                        branch('$TASKS_BRANCH')
+                    }
+                    extensions {
+                        relativeTargetDirectory('analytics-tasks')
+                        pruneBranches()
+                        cleanAfterCheckout()
                     }
                 }
             }
