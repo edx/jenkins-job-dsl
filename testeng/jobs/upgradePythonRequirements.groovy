@@ -190,17 +190,6 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'edx-notes-api',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['devops'],
-        emails: ['devops@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
         repoName: 'edx-ora2',
         defaultBranch: 'master',
         pythonVersion: '3.8',
