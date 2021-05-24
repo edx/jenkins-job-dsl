@@ -289,17 +289,6 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'staff_graded-xblock',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],
-        emails: ['teaching-and-learning@edx.opsgenie.net'],
-        alwaysNotify: true
-    ],
-    [
-        org: 'edx',
         repoName: 'super-csv',
         defaultBranch: 'master',
         pythonVersion: '3.8',
