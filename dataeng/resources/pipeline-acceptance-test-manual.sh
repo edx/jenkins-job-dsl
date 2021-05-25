@@ -39,8 +39,8 @@ env | sort
 
 mkdir -p $VENV_ROOT
 
-[ -f $TASKS_BIN/activate ] || virtualenv -p python2.7 $VENV_ROOT/analytics-tasks
-virtualenv -p python2.7 $VENV_ROOT/analytics-exporter
+[ -f $TASKS_BIN/activate ] || virtualenv -p /usr/bin/python2.7 $VENV_ROOT/analytics-tasks
+virtualenv -p /usr/bin/python2.7 $VENV_ROOT/analytics-exporter
 # The virtualenv on this version of Jenkins shiningpanda is old, so manually update both pip and setuptools before loading exporter.
 $EXPORTER_BIN/$PIP_INSTALL -U 'pip==20.3.4'
 $EXPORTER_BIN/$PIP_INSTALL -U 'setuptools<45'
