@@ -17,9 +17,22 @@ env
 assume-role ${ROLE_ARN}
 cd $WORKSPACE/configuration/playbooks
 
+if [[ "$JOB_TYPE" =~ ^groups-(.+)$ ]]; then
+	service="${BASH_REMATCH[1]}"
+	configfile=${WORKSPACE}/app-permissions/groups/${service}.yml
+elif [[ "$JOB_TYPE" = 'active-users' ]] || [[ "$JOB_TYPE" = 'inactive-users' ]]; then
+	configfile=${WORKSPACE}/app-permissions/users/${ENVIRONMENT}-${DEPLOYMENT}.yml
+else
+	echo "Bad job type: ${JOB_TYPE}."
+	echo "Expected active-users, inactive-users, or groups-<service>."
+	exit 1
+fi
+
 INVENTORY=$(./active_instances_in_asg.py --asg ${ENVIRONMENT}-${DEPLOYMENT}-worker)
 if [[ -n ${INVENTORY} ]]; then
-    ansible-playbook -i ${INVENTORY} manage_edxapp_users_and_groups.yml -e@$WORKSPACE/app-permissions/${ENVIRONMENT}-${DEPLOYMENT}-edxapp.yml --user ${USER} --tags manage-${JOB_TYPE}
+    ansible-playbook -i ${INVENTORY} manage_edxapp_users_and_groups.yml \
+                     -e@${configfile} -e 'group_environment=${ENVIRONMENT}-${DEPLOYMENT}' \
+                     --user ${USER} --tags manage-${JOB_TYPE}
 else
     echo "Skipping ${ENVIRONMENT} ${DEPLOYMENT}, no worker cluster available, get it next time"
 fi
