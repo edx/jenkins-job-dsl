@@ -31,7 +31,7 @@ fi
 INVENTORY=$(./active_instances_in_asg.py --asg ${ENVIRONMENT}-${DEPLOYMENT}-worker)
 if [[ -n ${INVENTORY} ]]; then
     ansible-playbook -i ${INVENTORY} manage_edxapp_users_and_groups.yml \
-                     -e@${configfile} -e 'group_environment=${ENVIRONMENT}-${DEPLOYMENT}' \
+                     -e@${configfile} -e "group_environment=${ENVIRONMENT}-${DEPLOYMENT}" \
                      --user ${USER} --tags manage-${JOB_TYPE}
 else
     echo "Skipping ${ENVIRONMENT} ${DEPLOYMENT}, no worker cluster available, get it next time"
