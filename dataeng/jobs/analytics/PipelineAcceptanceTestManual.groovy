@@ -61,14 +61,7 @@ class PipelineAcceptanceTestManual {
             wrappers common_wrappers(allVars)
 
             steps {
-                virtualenv {
-                    pythonName('PYTHON_2.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/pipeline-acceptance-test-manual.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace("dataeng/resources/pipeline-acceptance-test-manual.sh"))
             }
 
             publishers {
