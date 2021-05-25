@@ -81,7 +81,7 @@ class AppPermissionsWatcher{
 
             triggers merge_to_master_trigger(repo_branch)
 
-            List jobTypes = ['groups', 'active-users', 'inactive-users']
+            List jobTypes = ['groups-lms', 'groups-cms', 'active-users', 'inactive-users']
             steps{
                 extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
                     configuration.environments.each { environment ->
