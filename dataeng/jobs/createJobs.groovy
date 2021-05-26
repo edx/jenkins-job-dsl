@@ -11,6 +11,7 @@ import static analytics.EventExportIncrementalLarge.job as EventExportIncrementa
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
 import static analytics.ModuleEngagement.job as ModuleEngagementJob
 import static analytics.PipelineAcceptanceTestManual.job as PipelineAcceptanceTestManualJob
+import static analytics.PipelineAcceptanceTestMaster.job as PipelineAcceptanceTestMasterJob
 import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
 import static analytics.SnowflakeDemographicsCleanup.job as SnowflakeDemographicsCleanupJob
 import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelorsITKJob
@@ -56,6 +57,7 @@ def taskMap = [
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
     MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
     PIPELINE_ACCEPTANCE_TEST_MANUAL_JOB: PipelineAcceptanceTestManualJob,
+    PIPELINE_ACCEPTANCE_TEST_MASTER_JOB: PipelineAcceptanceTestMasterJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
     SNOWFLAKE_DEMOGRAPHICS_CLEANUP_JOB: SnowflakeDemographicsCleanupJob,
     SNOWFLAKE_MICROBACHELORS_ITK_JOB: SnowflakeMicrobachelorsITKJob,
