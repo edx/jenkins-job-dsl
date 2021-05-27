@@ -61,7 +61,7 @@ class PipelineAcceptanceTestManual {
             wrappers common_wrappers(allVars)
 
             steps {
-                shell(dslFactory.readFileFromWorkspace("dataeng/resources/pipeline-acceptance-test-manual.sh"))
+                shell(dslFactory.readFileFromWorkspace("dataeng/resources/run-pipeline-acceptance-test.sh"))
             }
 
             publishers {
