@@ -313,7 +313,7 @@ List jobConfigs = [
         org: 'edx',
         repoName: 'video-encode-manager',
         defaultBranch: 'master',
-        pythonVersion: '3.6',
+        pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
         githubUserReviewers: [],
         githubTeamReviewers: ['incident-management'],
