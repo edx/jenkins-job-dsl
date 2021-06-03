@@ -34,6 +34,8 @@ class EventExportIncremental {
                     postBuildTask {
                         task('org with Errors=', 'exit 1', true)
                     }
+                    // Mark the build as unstable if a GPG key is near expiry.
+                    textFinder("is near expiry", '', true, false, true)
                 }
                 publishers common_publishers(allVars)
                 steps {
