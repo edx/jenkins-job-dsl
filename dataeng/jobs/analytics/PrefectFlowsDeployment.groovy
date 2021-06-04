@@ -108,7 +108,7 @@ class PrefectFlowsDeployment{
             }
         }
 
-        allVars.get('ENVIRONMENTS').each { environment, env_config ->
+        allVars.get('ENVIRONMENTS').each { environment ->
             dslFactory.job("prefect-flows-deployment-$environment"){
                 // if name of this job is ever changed. Make to sure to update deletion of job name prefix in prefect-deployment-identify.sh
                 authorization common_authorization(allVars)
