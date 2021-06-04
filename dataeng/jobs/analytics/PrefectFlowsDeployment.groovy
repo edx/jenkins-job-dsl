@@ -108,8 +108,8 @@ class PrefectFlowsDeployment{
             }
         }
 
-        allVars.get('ENVIRONMENTS').each { environment ->
-            dslFactory.job("prefect-flows-deployment-$environment"){
+        allVars.get('PREFECT_FLOWS').each { prefect_flows ->
+            dslFactory.job("prefect-flows-deployment-$prefect_flows"){
                 // if name of this job is ever changed. Make to sure to update deletion of job name prefix in prefect-deployment-identify.sh
                 authorization common_authorization(allVars)
                 logRotator common_log_rotator(allVars)
@@ -120,7 +120,11 @@ class PrefectFlowsDeployment{
                     stringParam('EDX_PREFECTUTILS_URL', allVars.get('EDX_PREFECTUTILS_URL'), 'URL for the prefect-flows repository.')
                     stringParam('EDX_PREFECTUTILS_BRANCH', allVars.get('EDX_PREFECTUTILS_BRANCH'), 'Branch of prefect-flows repository to use.')
                     stringParam('FLOW_NAME', allVars.get('FLOW_NAME'), 'Flow name')
-                    stringParam('PREFECT_API_TOKEN', allVars.get('PREFECT_API_TOKEN'), 'Space separated list of emails to send notifications to.')
+                    //stringParam('PREFECT_API_TOKEN', allVars.get('PREFECT_API_TOKEN'), 'Space separated list of emails to send notifications to.')
+                }
+                environmentVariables {
+                    env('PREFECT_VAULT_KV_PATH', allVars.get('PREFECT_VAULT_KV_PATH'))
+                    env('PREFECT_VAULT_KV_VERSION', allVars.get('PREFECT_VAULT_KV_VERSION'))
                 }
                 multiscm secure_scm(allVars) << {
                     git {
@@ -152,6 +156,9 @@ class PrefectFlowsDeployment{
                 // publishers common_publishers(allVars)
                 wrappers {
                     colorizeOutput('xterm')
+                    credentialsBinding {
+                        usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+                    }
                 }
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/prefect-flows-deployment.sh'))
