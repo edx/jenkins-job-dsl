@@ -18,8 +18,6 @@ class PrefectFlowsDeployment{
             parameters {
                 stringParam('PREFECT_FLOWS_URL', allVars.get('PREFECT_FLOWS_URL'), 'URL for the prefect-flows repository.')
                 stringParam('PREFECT_FLOWS_BRANCH', allVars.get('PREFECT_FLOWS_BRANCH'), 'Branch of prefect-flows repository to use.')
-                stringParam('JENKINS_JOB_DSL_URL', allVars.get('JENKINS_JOB_DSL_URL'), 'URL for the jenkins-job-dsl repo.')
-                stringParam('JENKINS_JOB_DSL_BRANCH', allVars.get('JENKINS_JOB_DSL_BRANCH'), 'Branch of jenkins-job-dsl repo to use.')
             }
             scm {
                 git {
