@@ -55,7 +55,11 @@ class PipelineAcceptanceTestMaster {
             concurrentBuild(true)
             wrappers common_wrappers(allVars)
 
-            triggers common_triggers(allVars, allVars)
+            triggers {
+                pollSCM {
+                    scmpoll_spec(allVars.get('JOB_FREQUENCY'))
+                }
+            }
 
             steps {
                 shell(dslFactory.readFileFromWorkspace("dataeng/resources/run-pipeline-acceptance-test.sh"))
