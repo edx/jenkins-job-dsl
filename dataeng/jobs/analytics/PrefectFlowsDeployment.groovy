@@ -170,10 +170,8 @@ class PrefectFlowsDeployment{
                     colorizeOutput('xterm')
                     timestamps()
                     credentialsBinding {
-                        usernamePassword('GITHUB_USER', 'GITHUB_TOKEN', 'GITHUB_USER_PASS_COMBO');
-                    }
-                    credentialsBinding {
                         usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+                        usernamePassword('GITHUB_USER', 'GITHUB_TOKEN', 'GITHUB_USER_PASS_COMBO');
                     }
                 }
                 steps {
