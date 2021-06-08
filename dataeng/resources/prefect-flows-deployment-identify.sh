@@ -6,20 +6,20 @@ set -ex
 cd $WORKSPACE/prefect-flows
 
 # Only run deployment on merge commits, otherwise exit
-HEAD_COMMIT=$(git rev-parse HEAD)
-LAST_MERGE_COMMIT=$(git log --merges origin/master --format='%H' --max-count=1)
-if [ $HEAD_COMMIT == $LAST_MERGE_COMMIT ]
-then
-    echo "This is one of merge commit, Run CD"
-else
-    echo "Exiting because not a merge commit"
-    exit 0
-fi
+# HEAD_COMMIT=$(git rev-parse HEAD)
+# LAST_MERGE_COMMIT=$(git log --merges origin/master --format='%H' --max-count=1)
+# if [ $HEAD_COMMIT == $LAST_MERGE_COMMIT ]
+# then
+#     echo "This is one of merge commit, Run CD"
+# else
+#     echo "Exiting because not a merge commit"
+#     exit 0
+# fi
 
 
 # Get second last merge commit id and compares it with the HEAD to find (git diff) files changed.
-PREV_MERGE_COMMIT_ID=$(git log --merges origin/master --format='%H' --max-count=2 | sed -n 2p)
-
+#PREV_MERGE_COMMIT_ID=$(git log --merges origin/master --format='%H' --max-count=2 | sed -n 2p)
+PREV_MERGE_COMMIT_ID=11649e9390caea73ea254bcd22f58de769ecd1b8
 git diff $PREV_MERGE_COMMIT_ID --name-only # Printing for debug purpose
 
 # Search for .py and .toml extension files in the git diff
