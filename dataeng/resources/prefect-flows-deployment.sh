@@ -2,9 +2,9 @@
 set -ex
 
 # Creating python3.8 virtual env
-PLATFORM_VENV="platform_venv"
-virtualenv --python=python3.8 --clear "${PLATFORM_VENV}"
-source "${PLATFORM_VENV}/bin/activate"
+PYTHON_VENV="python_venv"
+virtualenv --python=python3.8 --clear "${PYTHON_VENV}"
+source "${PYTHON_VENV}/bin/activate"
 
 # Removing prefix 'prefect-flows-deployment-'
 # $FLOW will contain the name of flow
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 
 # Get ECR authetication
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 216367352155.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_LOGIN
 
 # Check if this is first ever run of the job. If yes, then create ECR repository otherwise do not
 ####### uncomment the following code after deploying all existing flows first time #######
@@ -35,10 +35,22 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 ####### uncomment the above code after deploying all existing flows first time #######
 
 # Install prefect in jenkins python3.8 venv
-pip install prefect
+#pip install prefect
+
+vault write -field=token auth/approle/login \
+  role_id=${ANALYTICS_VAULT_ROLE_ID} \
+  secret_id=${ANALYTICS_VAULT_SECRET_ID} \
+| vault login -no-print token=-
+
+PREFECT_CLOUD_AGENT_TOKEN=$(
+  vault kv get \
+    -version=${PREFECT_VAULT_KV_VERSION} \
+    -field=PREFECT_CLOUD_AGENT_TOKEN \
+    ${PREFECT_VAULT_KV_PATH} \
+)
 
 # Get Authenticated with Prefect Cloud
-prefect auth login -t $PREFECT_API_TOKEN
+prefect auth login -t $PREFECT_CLOUD_AGENT_TOKEN
 
 # Deploy the flow. $FLOW will contain the name of flow to be deployed
 make -C flows $FLOW

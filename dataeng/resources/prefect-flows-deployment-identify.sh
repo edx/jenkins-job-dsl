@@ -5,13 +5,12 @@ set -ex
 # Setup to run dbt commands
 cd $WORKSPACE/prefect-flows
 
-COMMIT_ID=$(git rev-parse --short HEAD)
 # Only run deployment on merge commits, otherwise exit
 HEAD_COMMIT=$(git rev-parse HEAD)
 LAST_MERGE_COMMIT=$(git log --merges origin/master --format='%H' --max-count=1)
 if [ $HEAD_COMMIT == $LAST_MERGE_COMMIT ]
 then
-    echo "This is one of merge commit, Run CI"
+    echo "This is one of merge commit, Run CD"
 else
     echo "Exiting because not a merge commit"
     exit 0
