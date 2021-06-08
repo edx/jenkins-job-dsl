@@ -10,9 +10,9 @@ source "${PYTHON_VENV}/bin/activate"
 # $FLOW will contain the name of flow
 FLOW=$(echo $JOB_NAME | cut -c 26-)
 
-cd $WORKSPACE/edx-prefectutils
-pip install -r requirements/base.txt
-pip install -r requirements/base.in
+#cd $WORKSPACE/edx-prefectutils
+#pip install -r requirements/base.txt
+#pip install -r requirements/base.in
 
 # Install prefect-flow requirements
 cd $WORKSPACE/prefect-flows

@@ -130,9 +130,10 @@ class PrefectFlowsDeployment{
                 parameters {
                     stringParam('PREFECT_FLOWS_URL', allVars.get('PREFECT_FLOWS_URL'), 'URL for the prefect-flows repository.')
                     stringParam('PREFECT_FLOWS_BRANCH', allVars.get('PREFECT_FLOWS_BRANCH'), 'Branch of prefect-flows repository to use.')
-                    stringParam('EDX_PREFECTUTILS_URL', allVars.get('EDX_PREFECTUTILS_URL'), 'URL for the prefect-flows repository.')
-                    stringParam('EDX_PREFECTUTILS_BRANCH', allVars.get('EDX_PREFECTUTILS_BRANCH'), 'Branch of prefect-flows repository to use.')
+                    stringParam('EDX_PREFECTUTILS_URL', allVars.get('EDX_PREFECTUTILS_URL'), 'URL for the edx-prefectutils repository.')
+                    stringParam('EDX_PREFECTUTILS_BRANCH', allVars.get('EDX_PREFECTUTILS_BRANCH'), 'Branch of edx-prefectutils repository to use.')
                     stringParam('FLOW_NAME', allVars.get('FLOW_NAME'), 'Comma separated list of Flows that upstream job has identified and needs to redeploy')
+                    stringParam('ECR_LOGIN', allVars.get('ECR_LOGIN'), 'ECR repository URI used to login to ECR')
                 }
                 environmentVariables {
                     env('PREFECT_VAULT_KV_PATH', allVars.get('PREFECT_VAULT_KV_PATH'))
