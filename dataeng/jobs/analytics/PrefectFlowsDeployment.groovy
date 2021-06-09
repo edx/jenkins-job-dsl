@@ -56,9 +56,12 @@ class PrefectFlowsDeployment{
             steps {
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/prefect-flows-deployment-identify.sh'))
             }
+            environmentVariables {
+                env('ONE', 'testing')
+            }
             publishers {
                 downstreamParameterized {
-                    trigger('prefect-flows-deployment-intermediate') {
+                    trigger('$ONE') {
                         condition('SUCCESS')
                         parameters {
                             // The contents of this file are generated as part of the script in the build step.
