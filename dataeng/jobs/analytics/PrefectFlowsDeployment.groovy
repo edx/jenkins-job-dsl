@@ -61,7 +61,7 @@ class PrefectFlowsDeployment{
             }
             publishers {
                 downstreamParameterized {
-                    trigger('$ONE') {
+                    trigger(env('ONE')) {
                         condition('SUCCESS')
                         parameters {
                             // The contents of this file are generated as part of the script in the build step.
