@@ -12,9 +12,10 @@ virtualenv --python="python3.8" "$venv" --clear --quiet
 source "$venv/bin/activate"
 
 pip install pip
-pip install requests
 
 cd "$WORKSPACE/testeng-ci"
+pip install -r requirements/base.txt
+
 # TODO remove this, once done testing
 git checkout BOM-2450
 git reset --hard origin/BOM-2450
