@@ -14,14 +14,16 @@ source "$venv/bin/activate"
 pip install pip
 
 cd "$WORKSPACE/testeng-ci"
-pip install -r requirements/base.txt
-
 # TODO remove this, once done testing
 git checkout BOM-2450
 git reset --hard origin/BOM-2450
 git pull
 pwd
 ls
+
+pip install -r requirements/base.txt
+
+
 python -m jenkins.github_checks_handler
 
 deactivate
