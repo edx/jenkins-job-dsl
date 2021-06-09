@@ -10,7 +10,7 @@ cd emr-cost-calculator
 pip install -r requirements.txt
 
 # Calculate costs for all clusters that were created in the last 24 hours
-COST=$(python emr_cost_calculator.py total --output cloudwatch --output text --output graphite --graphite-host $GRAPHITE_HOST)
+COST=$(python emr_cost_calculator.py total --output cloudwatch --output text)
 
 # If today is Tuesday, then we are analyzing clusters from Monday, when we run weekly jobs, so we raise the threshold accordingly
 if [ "x$(date +%u)" = "x2" ]
