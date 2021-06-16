@@ -2,6 +2,7 @@
 set -ex
 
 rm -rf /tmp/ecc-venv
+sleep 10
 mkdir /tmp/ecc-venv
 virtualenv /tmp/ecc-venv
 . /tmp/ecc-venv/bin/activate
