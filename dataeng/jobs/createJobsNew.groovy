@@ -7,6 +7,7 @@ import static analytics.ModelTransfers.job as ModelTransfersJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
+import static analytics.PrefectFlowsDeployment.job as PrefectFlowsDeploymentJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
@@ -44,6 +45,7 @@ def taskMap = [
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
+    PREFECT_FLOWS_DEPLOYMENT_JOB: PrefectFlowsDeploymentJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob,
@@ -149,6 +151,13 @@ listView('dbt') {
     jobs {
         name('snowflake-schema-builder')
         regex('dbt-.*|warehouse-transforms-.*')
+    }
+    columns DEFAULT_VIEW.call()
+}
+listView('prefect') {
+    description('Jobs that are used for prefect flows deployment')
+    jobs {
+        regex('prefect-flows-.*')
     }
     columns DEFAULT_VIEW.call()
 }
