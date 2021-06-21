@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -ex
 
-rm -rf /tmp/ecc-venv
-sleep 100
-mkdir /tmp/ecc-venv
-virtualenv /tmp/ecc-venv
-. /tmp/ecc-venv/bin/activate
+VENV_DIR="emr-cost-reporter-venvs"
+mkdir -p $VENV_DIR
+
+rm -rf $VENV_DIR/*
+VENV="$VENV_DIR/venv_$BUILD_ID"
+virtualenv $VENV
+. $VENV/bin/activate
 
 cd emr-cost-calculator
 pip install -r requirements.txt
