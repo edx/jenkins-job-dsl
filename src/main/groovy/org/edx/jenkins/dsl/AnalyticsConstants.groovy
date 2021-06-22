@@ -108,7 +108,9 @@ class AnalyticsConstants {
             textParam('EMR_ADDITIONAL_STEPS', allVars.get('EMR_ADDITIONAL_STEPS', ''), 'Additional EMR steps')
             textParam('EXTRA_VARS', allVars.get('EMR_EXTRA_VARS'), $/Extra variables to pass to the EMR provision/terminate ansible playbook.
 This text may reference other parameters in the task as shell variables, e.g.  $$CLUSTER_NAME./$)
-            stringParam('NUM_TASK_CAPACITY', env.get('NUM_TASK_CAPACITY', allVars.get('NUM_TASK_CAPACITY')), 'Number of EMR instance capacity to use for this job.')
+            stringParam('NUM_TASK_CAPACITY', env.get('NUM_TASK_CAPACITY', allVars.get('NUM_TASK_CAPACITY')), 'Number of EMR spot instance capacity to use for this job.')
+            stringParam('ON_DEMAND_CAPACITY', env.get('ON_DEMAND_CAPACITY', allVars.get('ON_DEMAND_CAPACITY')), 'Number of EMR on-demand instance capacity to use for this job.')
+            stringParam('USE_SPOT', env.get('USE_SPOT', allVars.get('USE_SPOT')), 'Whether to use spot instances for the EMR cluster.')
             stringParam('EBS_ROOT_VOLUME_SIZE', env.get('EBS_ROOT_VOLUME_SIZE', allVars.get('EBS_ROOT_VOLUME_SIZE')), 'Size of the root volume for instances in the cluster.')
             stringParam('EMR_VOLUME_SIZE', env.get('EMR_VOLUME_SIZE', allVars.get('EMR_VOLUME_SIZE')), 'Size of the ebs volume for instances in the cluster.')
         }

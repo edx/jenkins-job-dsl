@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 if [ -z "$NUM_REDUCE_TASKS" ]; then
-    NUM_REDUCE_TASKS=$(( $NUM_TASK_CAPACITY*2 ))
+    NUM_CAPACITY=$(( $NUM_TASK_CAPACITY + $ON_DEMAND_CAPACITY ))
+    NUM_REDUCE_TASKS=$(( $NUM_CAPACITY*2 ))
 fi
 
 env
