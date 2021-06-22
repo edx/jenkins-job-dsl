@@ -40,8 +40,12 @@ class PrefectFlowsDeployment{
                     }
                 }
             }
+            triggers {
+                pollSCM {
+                    scmpoll_spec(allVars.get('JOB_FREQUENCY'))
+                }
+            }
             publishers common_publishers(allVars)
-            triggers common_triggers(allVars, allVars)
             wrappers common_wrappers(allVars)
             wrappers {
                 colorizeOutput('xterm')
