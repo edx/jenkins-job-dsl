@@ -26,6 +26,20 @@ function postCommandChecks {
   fi
 }
 
+# If the FULL_REFRESH_INCREMENTALS checkbox was enabled, switch to a bigger
+# warehouse and tell dbt to do a "full refresh".
+FULL_REFRESH_ARG=""
+if [ "$FULL_REFRESH_INCREMENTALS" = 'true' ]
+then
+    FULL_REFRESH_ARG="--full-refresh"
+    # Only switch to a larger warehouse if the target is prod, since there's no
+    # other "large warehouse" target for non-prod environments.
+    if [ "$DBT_TARGET" = 'prod' ]
+    then
+        DBT_TARGET='prod_load_incremental'
+    fi
+fi
+
 # These commands don't have artifacts to be uploaded so if they fail the job can just fail
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
@@ -45,12 +59,6 @@ then
     # Run the source tests, sadly not just the ones upstream from this tag
     dbt test --models source:* --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
     postCommandChecks "source_test" $ret ;
-fi
-
-FULL_REFRESH_ARG=""
-if [ "$FULL_REFRESH_INCREMENTALS" = 'true' ]
-then
-    FULL_REFRESH_ARG="--full-refresh"
 fi
 
 # Compile/build all models with this tag.
