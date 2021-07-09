@@ -47,8 +47,14 @@ then
     postCommandChecks "source_test" $ret ;
 fi
 
+FULL_REFRESH_ARG=""
+if [ "$FULL_REFRESH_INCREMENTALS" = 'true' ]
+then
+    FULL_REFRESH_ARG="--full-refresh"
+fi
+
 # Compile/build all models with this tag.
-dbt run --models tag:$MODEL_TAG $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+dbt run $FULL_REFRESH_ARG --models tag:$MODEL_TAG $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
 postCommandChecks "run" $ret ;
 
 
