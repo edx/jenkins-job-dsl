@@ -34,7 +34,7 @@ PREFECT_CLOUD_AGENT_TOKEN=$(
 )
 
 # Get Authenticated with Prefect Cloud
-prefect auth login -t $PREFECT_CLOUD_AGENT_TOKEN
+prefect auth login --key $PREFECT_CLOUD_AGENT_TOKEN
 
 # Deploy the flow. $FLOW_NAME will contain the name of flow to be deployed
 make -C flows $FLOW_NAME
