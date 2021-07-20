@@ -174,9 +174,6 @@ class CreateSandbox {
                 stringParam("discovery_version","master","")
                 booleanParam("discovery_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy discovery config file from configuration internal repo.")
 
-                booleanParam("notes",false,"")
-                stringParam("notes_version","master","")
-
                 booleanParam("credentials",false,"")
                 stringParam("credentials_version","master","")
                 booleanParam("credentials_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy credentials config file from configuration internal repo.")
