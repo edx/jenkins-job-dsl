@@ -42,6 +42,9 @@ class SnowflakeSchemaBuilder {
                 }
             }
             publishers common_publishers(allVars)
+            publishers {
+                buildDescription('remote:\s*(https://github.com/edx/warehouse-transforms/pull/new/\w+)\s*$')
+            }
             steps {
 
                 virtualenv {
