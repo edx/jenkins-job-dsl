@@ -9,29 +9,20 @@ make requirements
 cd $WORKSPACE/warehouse-transforms
 
 COMMIT_ID=$(git rev-parse --short HEAD)
-# Only run CI on merge commits, otherwise exit
-HEAD_COMMIT=$(git rev-parse HEAD)
-LAST_MERGE_COMMIT=$(git log --merges origin/master --format='%H' --max-count=1)
-if [ $HEAD_COMMIT == $LAST_MERGE_COMMIT ]
-then
-    echo "This is one of merge commit, Run CI"
-else
-    echo "Exiting because not a merge commit"
-    exit 0
-fi 
+# Using --first-parent flag helps to avoids any intermediate commits that developers sometimes leave and merge without squashing
+HEAD_COMMIT=$(git log --first-parent origin/master --format='%H' --max-count=1)
 
+# Get second last commit id and compares it with the HEAD to find (git diff) files changed.
+PREV_COMMIT_ID=$(git log --first-parent origin/master --format='%H' --max-count=2 | sed -n 2p)
 
-# Get second last merge commit id and compares it with the HEAD to find (git diff) files changed.
-PREV_MERGE_COMMIT_ID=$(git log --merges origin/master --format='%H' --max-count=2 | sed -n 2p)
-
-git diff $PREV_MERGE_COMMIT_ID --name-only
+git diff $PREV_COMMIT_ID --name-only
 
 # Finding the project names which has changed between since previous merge commit. Using git diff to compare.
 # It returns all the files name with full path. Searching through it using egrep to find which project(s) these changing files belong.
-if git diff $PREV_MERGE_COMMIT_ID --name-only | egrep "projects/reporting" -q; then isReporting="true"; else isReporting="false"; fi
-if git diff $PREV_MERGE_COMMIT_ID --name-only | egrep "projects/automated/applications" -q; then isApplications="true"; else isApplications="false"; fi
-if git diff $PREV_MERGE_COMMIT_ID --name-only | egrep "projects/automated/raw_to_source" -q; then isRawToSource="true"; else isRawToSource="false"; fi
-if git diff $PREV_MERGE_COMMIT_ID --name-only | egrep "projects/automated/telemetry" -q; then isTelemetry="true"; else isTelemetry="false"; fi
+if git diff $HEAD_COMMIT $PREV_COMMIT_ID --name-only | egrep "projects/reporting" -q; then isReporting="true"; else isReporting="false"; fi
+if git diff $HEAD_COMMIT $PREV_COMMIT_ID --name-only | egrep "projects/automated/applications" -q; then isApplications="true"; else isApplications="false"; fi
+if git diff $HEAD_COMMIT $PREV_COMMIT_ID --name-only | egrep "projects/automated/raw_to_source" -q; then isRawToSource="true"; else isRawToSource="false"; fi
+if git diff $HEAD_COMMIT $PREV_COMMIT_ID --name-only | egrep "projects/automated/telemetry" -q; then isTelemetry="true"; else isTelemetry="false"; fi
 
 
 # Setup to run dbt commands
