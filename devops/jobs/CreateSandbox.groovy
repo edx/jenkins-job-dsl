@@ -221,7 +221,7 @@ class CreateSandbox {
                 booleanParam("payment",false,"Enable Payment MFE")
                 stringParam("payment_version","master","The repository version of the frontend-app-payment")
 
-                booleanParam("learning",false,"Enable Learning MFE")
+                booleanParam("learning",true,"Enable Learning MFE")
                 stringParam("learning_version","master","The branch of the frontend-app-learning repository")
 
                 choiceParam("server_type",
