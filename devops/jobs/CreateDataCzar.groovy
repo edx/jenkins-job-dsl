@@ -6,7 +6,7 @@
  Variables consumed for this job:
     * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
     * NOTIFY_ON_FAILURE: alert@example.com
-    * FOLER_NAME: folder
+    * FOLDER_NAME: folder
     * SYS_ADMIN_REPO: repo where the mongo backup script is located (required)
     * STATUS_BRANCH: default is master
     * ORGANIZATION: organization name to create data czar for
@@ -27,26 +27,51 @@ class CreateDataCzar{
             logRotator common_logrotator
             wrappers common_wrappers
 
-            wrappers {
-                sshAgent(extraVars.get("SSH_AGENT_KEY"))
+            wrappers{
+                credentialsBinding{
+                    file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
+                    string('ROLE_ARN', "create-data-czar-edx-role-arn")
+                }
             }
 
+            def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
+
             parameters{
+                stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
+                            'Git repo containing edX configuration.')
+                stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
+                        'e.g. tagname or origin/branchname')
                 stringParam('SYS_ADMIN_REPO', extraVars.get('SYS_ADMIN_REPO', 'git@github.com:edx-ops/sysadmin.git'),
                         'Git repo containing scripts for data czar creation.')
                 stringParam('SYS_ADMIN_REPO_BRANCH', extraVars.get('SYS_ADMIN_REPO_BRANCH', 'master'),
                         'e.g. tagname or origin/branchname')
-                stringParam('ORGANIZATION', extraVars.get('ORGANIZATION'),
+                stringParam('ORGANIZATION',
                         'Name of organization to create data czar. e.g alaskax')
-                textParam('GPG_KEY', extraVars.get('GPG_KEY'),
+                stringParam('USER_EMAIL',
+                        'User Email address to generate Data Czar')
+                fileParam('user_gpg_key.gpg', 
                         'Paste the GPG key for encryption of aws credentials')
             }
 
             multiscm{
                 git {
                     remote {
-                        url('$SYS_ADMIN_REPO')
-                        branch('$SYS_ADMIN_REPO_BRANCH')
+                        url('$CONFIGURATION_REPO')
+                        branch('$CONFIGURATION_BRANCH')
+                    }
+                    extensions {
+                        cleanAfterCheckout()
+                        pruneBranches()
+                        relativeTargetDirectory('configuration')
+                    }
+                }
+                git {
+                    remote {
+                        url('$SYSADMIN_REPO')
+                        branch('$SYSADMIN_BRANCH')
+                        if (gitCredentialId) {
+                            credentials(gitCredentialId)
+                        }
                     }
                     extensions {
                         cleanAfterCheckout()
@@ -56,25 +81,39 @@ class CreateDataCzar{
                 }
             }
 
-            // triggers{
-            //     cron("H H * * *")
-            // }
-
-            // environmentVariables{
-            //     env("s3_bucket", extraVars.get("S3_BUCKET"))
-            //     env("host_ip", extraVars.get("HOST_IP"))
-            //     env("splunk_host", extraVars.get("SPLUNK_HOST"))
-            //     env("splunk_backup_dir", extraVars.get("SPLUNK_BACKUP_DIR"))
-            // }
 
             steps {
-               shell(dslFactory.readFileFromWorkspace('devops/resources/backup-splunk-to-s3.sh'))
+               shell(dslFactory.readFileFromWorkspace('devops/resources/create-data-czar.sh'))
 
             }
 
+            publishers {
+                archiveArtifacts {
+                    pattern('sysadmin/create_data_czar/' + ${USER_EMAIL} + '-credentials.txt.gpg')
+                    onlyIfSuccessful()
+                }
+
             if (extraVars.get('NOTIFY_ON_FAILURE')){
                 publishers {
-                    mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
+                    archiveArtifacts {
+                        pattern('build/test-output/**/*.html')
+                        onlyIfSuccessful()
+                    }
+                    extendedEmail {
+                        recipientList(extraVars.get('NOTIFY_ON_FAILURE'))
+                        triggers {
+                                failure {
+                                    attachBuildLog(false)
+                                    compressBuildLog(false)
+                                    subject('Failed build: ${JOB_NAME} #${BUILD_NUMBER}')
+                                    content('Jenkins job: ${JOB_NAME} failed. \nFor' + " ${ORGANIZATION} " + 'Organization. \nFor' + " ${USER_EMAIL} " + 'User Email. \n\nSee ${BUILD_URL} for details.')
+                                    contentType('text/plain')
+                                    sendTo {
+                                        recipientList()
+                                    }
+                                }
+                        }
+                    }
                 }
             }
 
