@@ -1,4 +1,5 @@
 package analytics
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.to_date_interval_parameter
@@ -11,6 +12,7 @@ class UserActivity {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("user-activity-$environment") {
+                authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars, env_config)
                 parameters common_parameters(allVars, env_config)
                 parameters to_date_interval_parameter(allVars)

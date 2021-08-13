@@ -1,4 +1,5 @@
 package analytics
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.from_date_interval_parameter
@@ -13,6 +14,7 @@ class Enrollment {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("enrollment-$environment") {
+                authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars)
                 multiscm common_multiscm(allVars)
                 triggers common_triggers(allVars, env_config)
