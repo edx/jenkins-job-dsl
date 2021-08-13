@@ -34,19 +34,15 @@ class CreateDataCzar{
                 }
             }
 
-            def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
-
             parameters{
                 stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
                             'Git repo containing edX configuration.')
                 stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                         'e.g. tagname or origin/branchname')
-                stringParam('SYS_ADMIN_REPO', extraVars.get('SYS_ADMIN_REPO', 'git@github.com:edx-ops/sysadmin.git'),
-                        'Git repo containing scripts for data czar creation.')
-                stringParam('SYS_ADMIN_REPO_BRANCH', extraVars.get('SYS_ADMIN_REPO_BRANCH', 'master'),
-                        'e.g. tagname or origin/branchname')
                 stringParam('ORGANIZATION',
                         'Name of organization to create data czar. e.g alaskax')
+                booleanParam('CREATE_ORG', 'true',
+                        'true if create new organization or false if organization is already created.')
                 stringParam('USER_EMAIL',
                         'User Email address to generate Data Czar')
                 fileParam('user_gpg_key.gpg', 
@@ -63,20 +59,6 @@ class CreateDataCzar{
                         cleanAfterCheckout()
                         pruneBranches()
                         relativeTargetDirectory('configuration')
-                    }
-                }
-                git {
-                    remote {
-                        url('$SYSADMIN_REPO')
-                        branch('$SYSADMIN_BRANCH')
-                        if (gitCredentialId) {
-                            credentials(gitCredentialId)
-                        }
-                    }
-                    extensions {
-                        cleanAfterCheckout()
-                        pruneBranches()
-                        relativeTargetDirectory('sysadmin')
                     }
                 }
             }
