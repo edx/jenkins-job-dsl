@@ -97,7 +97,6 @@ class CreateSandboxCI {
                   booleanParam("forum",false)
                   booleanParam("xqueue",false)
                   booleanParam("ecommerce_worker",false)
-                  booleanParam("certs",false)
                   booleanParam("analyticsapi",false)
                   booleanParam("insights",false)
                   booleanParam("demo",false)
