@@ -156,9 +156,6 @@ class CreateSandbox {
                 stringParam("ecommerce_worker_version","master","")
                 booleanParam("ecommerce_worker_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce_worker config file from configuration internal repo.")
 
-                booleanParam("certs",false,"")
-                stringParam("certs_version","master","")
-
                 booleanParam("analyticsapi",false,"")
                 stringParam("analytics_api_version","master","")
                 booleanParam("analytics_api_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy analytics_api config file from configuration internal repo.")
