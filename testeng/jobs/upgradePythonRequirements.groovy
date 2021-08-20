@@ -70,7 +70,7 @@ List jobConfigs = [
         defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: ['fredsmith'],
+        githubUserReviewers: [],
         githubTeamReviewers: ['devops'],
         emails: ['devops@edx.org'],
          alwaysNotify: false
