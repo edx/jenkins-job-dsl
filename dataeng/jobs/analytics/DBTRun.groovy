@@ -28,14 +28,15 @@ class DBTRun{
                 stringParam('DBT_RUN_OPTIONS', allVars.get('DBT_RUN_OPTIONS'), 'Additional options to dbt run/test, such as --models for model selection. Details here: https://docs.getdbt.com/docs/model-selection-syntax')
                 stringParam('DBT_RUN_EXCLUDE', allVars.get('DBT_RUN_EXCLUDE'), 'Models to exlude from this run, the default is known incremental models. Leave these if you are not explicitly updating them!')
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
-                stringParam('JOB_TYPE', allVars.get('JOB_TYPE'), 'Pass parameter value of manual')
+            }
+            environmentVariables {
+                env('JOB_TYPE', 'manual')
             }
             multiscm secure_scm(allVars) << {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
                         branch('$WAREHOUSE_TRANSFORMS_BRANCH')
-                        credentials('1')
                     }
                     extensions {
                         relativeTargetDirectory('warehouse-transforms')
@@ -47,6 +48,9 @@ class DBTRun{
             triggers common_triggers(allVars)
             wrappers {
                 colorizeOutput('xterm')
+                credentialsBinding {
+                    usernamePassword('GITHUB_USER', 'GITHUB_TOKEN', 'GITHUB_USER_PASS_COMBO');
+                }
             }
             wrappers common_wrappers(allVars)
             publishers common_publishers(allVars)
