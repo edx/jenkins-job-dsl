@@ -4,13 +4,19 @@ set -ex
 # Setup to run dbt commands
 cd $WORKSPACE/warehouse-transforms
 
-# Using --first-parent flag helps to avoids any intermediate commits that developers sometimes leave and merge without squashing. It helps us ignoring the noise in commit history.
+# Using --first-parent flag helps to avoids any intermediate commits that developers sometimes leave and merge
+# without squashing. It helps us ignoring the noise in commit history.
 HEAD_COMMIT=$(git log --first-parent origin/master --format='%H' --max-count=1)
 
-if git log --format=%B -n 1 $HEAD_COMMIT | grep 'Schema Builder automated dbt update at' -q; then isSchemaBuilderPR="true"; else isSchemaBuilderPR="false"; fi
+if git log --format=%B -n 1 $HEAD_COMMIT | grep 'Schema Builder automated dbt update at' -q;
+then
+    IS_SCHEMA_BUILDER_PR="true"
+else
+    IS_SCHEMA_BUILDER_PR="false"
+fi
 
 
-if [ "$isSchemaBuilderPR" == "true" ] || [ "$JOB_TYPE" == "manual" ]
+if [ "$IS_SCHEMA_BUILDER_PR" == "true" ] || [ "$JOB_TYPE" == "manual" ]
 then
 
     # Installing dbt requirements
