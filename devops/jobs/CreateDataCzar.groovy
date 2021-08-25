@@ -41,7 +41,7 @@ class CreateDataCzar{
                         'e.g. tagname or origin/branchname')
                 stringParam('ORGANIZATION',
                         'Name of organization to create data czar. e.g alaskax')
-                booleanParam('CREATE_ORG', 'true',
+                booleanParam('CREATE_ORG', true,
                         'true if create new organization or false if organization is already created.')
                 stringParam('USER_EMAIL',
                         'User Email address to generate Data Czar')
@@ -66,40 +66,31 @@ class CreateDataCzar{
 
             steps {
                shell(dslFactory.readFileFromWorkspace('devops/resources/create-data-czar.sh'))
-
             }
 
             publishers {
                 archiveArtifacts {
-                    pattern('sysadmin/create_data_czar/' + ${USER_EMAIL} + '-credentials.txt.gpg')
+                    pattern('sysadmin/create_data_czar/*-credentials.txt.gpg')
                     onlyIfSuccessful()
                 }
-
-            if (extraVars.get('NOTIFY_ON_FAILURE')){
-                publishers {
-                    archiveArtifacts {
-                        pattern('build/test-output/**/*.html')
-                        onlyIfSuccessful()
-                    }
+                if (extraVars.get('NOTIFY_ON_FAILURE')){
                     extendedEmail {
                         recipientList(extraVars.get('NOTIFY_ON_FAILURE'))
                         triggers {
-                                failure {
-                                    attachBuildLog(false)
-                                    compressBuildLog(false)
-                                    subject('Failed build: ${JOB_NAME} #${BUILD_NUMBER}')
-                                    content('Jenkins job: ${JOB_NAME} failed. \nFor' + " ${ORGANIZATION} " + 'Organization. \nFor' + " ${USER_EMAIL} " + 'User Email. \n\nSee ${BUILD_URL} for details.')
-                                    contentType('text/plain')
-                                    sendTo {
-                                        recipientList()
-                                    }
+                            failure {
+                                attachBuildLog(false)
+                                compressBuildLog(false)
+                                subject('Failed build: ${JOB_NAME} #${BUILD_NUMBER}')
+                                content('Jenkins job: ${JOB_NAME} failed. \nFor ${ORGANIZATION} Organization. \nFor ${USER_EMAIL} User Email. \n\nSee ${BUILD_URL} for details.')
+                                contentType('text/plain')
+                                sendTo {
+                                    recipientList()
                                 }
+                            }
                         }
                     }
                 }
             }
-
         }
     }
-
 }
