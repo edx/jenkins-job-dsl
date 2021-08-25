@@ -3,28 +3,6 @@ package platform
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GENERAL_PRIVATE_JOB_SECURITY
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.JENKINS_PUBLIC_LOG_ROTATOR
 
-Map ironwoodBokchoyJobConfig = [
-    open: true,
-    jobName: 'ironwood-bokchoy-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    branch: 'open-release/ironwood.master',
-    context: 'jenkins/ironwood/bokchoy',
-    pythonVersion: '2.7',
-]
-
-Map ironwoodLettuceJobConfig = [
-    open: true,
-    jobName: 'ironwood-lettuce-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce',
-    branch: 'open-release/ironwood.master',
-    context: 'jenkins/ironwood/lettuce',
-    pythonVersion: '2.7',
-]
-
 Map publicPythonJobConfig = [
     open: true,
     jobName: 'edx-platform-python-pipeline-master',
@@ -45,17 +23,6 @@ Map privatePythonJobConfig = [
     branch: 'security-release',
     context: 'jenkins/python',
     pythonVersion: '3.8',
-]
-
-Map ironwoodPythonJobConfig = [
-    open: true,
-    jobName: 'ironwood-python-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    branch: 'open-release/ironwood.master',
-    context: 'jenkins/ironwood/python',
-    pythonVersion: '2.7',
 ]
 
 Map publicQualityJobConfig = [
@@ -80,26 +47,11 @@ Map privateQualityJobConfig = [
     pythonVersion: '3.8',
 ]
 
-Map ironwoodQualityJobConfig = [
-    open: true,
-    jobName: 'ironwood-quality-pipeline-master',
-    repoName: 'edx-platform',
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    branch: 'open-release/ironwood.master',
-    context: 'jenkins/ironwood/quality',
-    pythonVersion: '2.7',
-]
-
 List jobConfigs = [
-    ironwoodBokchoyJobConfig,
-    ironwoodLettuceJobConfig,
     publicPythonJobConfig,
     privatePythonJobConfig,
-    ironwoodPythonJobConfig,
     publicQualityJobConfig,
     privateQualityJobConfig,
-    ironwoodQualityJobConfig
 ]
 
 /* Iterate over the job configurations */
