@@ -11,6 +11,8 @@ set -x
 
 cd $WORKSPACE/configuration
 
+pip install awscli
+
 . util/jenkins/assume-role.sh
 assume-role ${ROLE_ARN}
 
