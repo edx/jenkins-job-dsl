@@ -26,58 +26,6 @@ catch (any) {
     return 1
 }
 
-Map publicBokchoyIronwoodJobConfig = [
-    open: true,
-    jobName: 'ironwood-bokchoy-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /open-release\/ironwood.master/,
-    context: 'jenkins/ironwood/bokchoy',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*ironwood\W+run\W+bokchoy.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    pythonVersion: '2.7',
-]
-
-Map privateBokchoyIronwoodJobConfig = [
-    open: false,
-    jobName: 'ironwood-bokchoy-pipeline-pr_private',
-    repoName: 'edx-platform-private',
-    whitelistBranchRegex: /open-release\/ironwood.master/,
-    context: 'jenkins/ironwood/bokchoy',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*ironwood\W+run\W+bokchoy.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'bokchoy',
-    pythonVersion: '2.7',
-]
-
-Map publicLettuceIronwoodJobConfig = [
-    open: true,
-    jobName: 'ironwood-lettuce-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /open-release\/ironwood.master/,
-    context: 'jenkins/ironwood/lettuce',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*ironwood\W+run\W+lettuce.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce',
-    pythonVersion: '2.7',
-]
-
-Map privateLettuceIronwoodJobConfig = [
-    open: false,
-    jobName: 'ironwood-lettuce-pipeline-pr_private',
-    repoName: 'edx-platform-private',
-    whitelistBranchRegex: /open-release\/ironwood.master/,
-    context: 'jenkins/ironwood/lettuce',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*ironwood\W+run\W+lettuce.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'lettuce',
-    pythonVersion: '2.7',
-]
-
 Map publicPythonJobConfig = [
     open: true,
     jobName: 'edx-platform-python-pipeline-pr',
@@ -116,45 +64,6 @@ Map privatePythonJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'python',
     pythonVersion: '3.8',
-]
-
-Map publicPythonIronwoodJobConfig = [
-    open: true,
-    jobName: 'ironwood-python-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /open-release\/ironwood.master/,
-    context: 'jenkins/ironwood/python',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*ironwood\W+run\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    pythonVersion: '2.7',
-]
-
-Map privatePythonIronwoodJobConfig = [
-    open: false,
-    jobName: 'ironwood-python-pipeline-pr_private',
-    repoName: 'edx-platform-private',
-    whitelistBranchRegex: /open-release\/ironwood.master/,
-    context: 'jenkins/ironwood/python',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*ironwood\W+run\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    pythonVersion: '2.7',
-]
-
-Map publicPythonJuniperJobConfig = [
-    open: true,
-    jobName: 'juniper-python-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /open-release\/juniper.master/,
-    context: 'jenkins/juniper/python',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*juniper\W+run\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    pythonVersion: '3.5',
 ]
 
 Map publicQualityJobConfig = [
@@ -197,62 +106,13 @@ Map privateQualityJobConfig = [
     pythonVersion: '3.8',
 ]
 
-Map publicQualityIronwoodJobConfig = [
-    open: true,
-    jobName: 'ironwood-quality-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /open-release\/ironwood.master/,
-    context: 'jenkins/ironwood/quality',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*ironwood\W+run\W+quality.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    pythonVersion: '2.7',
-]
-
-Map privateQualityIronwoodJobConfig = [
-    open: false,
-    jobName: 'ironwood-quality-pipeline-pr_private',
-    repoName: 'edx-platform-private',
-    whitelistBranchRegex: /open-release\/ironwood.master/,
-    context: 'jenkins/ironwood/quality',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*ironwood\W+run\W+quality.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    pythonVersion: '2.7',
-]
-
-Map publicQualityJuniperJobConfig = [
-    open: true,
-    jobName: 'juniper-quality-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /open-release\/juniper.master/,
-    context: 'jenkins/juniper/quality',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*juniper\W+run\W+quality.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    pythonVersion: '3.5',
-]
-
 List jobConfigs = [
-    publicBokchoyIronwoodJobConfig,
-    privateBokchoyIronwoodJobConfig,
-    publicLettuceIronwoodJobConfig,
-    privateLettuceIronwoodJobConfig,
     publicPythonJobConfig,
     django30PythonJobConfig,
     privatePythonJobConfig,
-    publicPythonIronwoodJobConfig,
-    privatePythonIronwoodJobConfig,
-    publicPythonJuniperJobConfig,
     publicQualityJobConfig,
     django30QualityJobConfig,
     privateQualityJobConfig,
-    publicQualityIronwoodJobConfig,
-    privateQualityIronwoodJobConfig,
-    publicQualityJuniperJobConfig,
 ]
 
 /* Iterate over the job configurations */
