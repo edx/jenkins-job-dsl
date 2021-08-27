@@ -8,7 +8,7 @@ create_virtualenv --python=python3.8 --clear
 . "$venvpath/bin/activate"
 set -u
 
-cd $WORKSPACE/configuration
+cd "$WORKSPACE/configuration"
 pip install -r requirements.txt
 . util/jenkins/assume-role.sh
 
