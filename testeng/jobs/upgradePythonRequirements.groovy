@@ -56,16 +56,6 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'platform-plugin-coaching',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['edx-aperture'],
-        emails: ['aperture@edx.opsgenie.net'],
-    ],
-    [
-        org: 'edx',
         repoName: 'configuration',
         defaultBranch: 'master',
         pythonVersion: '3.8',
@@ -85,26 +75,6 @@ List jobConfigs = [
         githubTeamReviewers: [],
         emails: ['engage-squad-eng@edx.org'],
         alwaysNotify: false
-    ],
-    [
-        org: 'edx',
-        repoName: 'credentials',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['edx-aperture'],
-        emails: ['aperture@edx.opsgenie.net'],
-    ],
-    [
-        org: 'edx',
-        repoName: 'credentials-themes',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['edx-aperture'],
-        emails: ['aperture@edx.opsgenie.net'],
     ],
     [
         org: 'edx',
