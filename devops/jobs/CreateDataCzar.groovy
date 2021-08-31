@@ -42,11 +42,11 @@ class CreateDataCzar{
                 stringParam('ORGANIZATION',
                         'Name of organization to create data czar. e.g alaskax')
                 booleanParam('CREATE_ORG', true,
-                        'true if create new organization or false if organization is already created.')
+                        'Check this box if you are creating a new organization.')
                 stringParam('USER_EMAIL',
                         'User Email address to generate Data Czar')
                 fileParam('user_gpg_key.gpg', 
-                        'Paste the GPG key for encryption of aws credentials')
+                        'Attach the GPG public key file for encryption of aws credentials')
             }
 
             multiscm{
@@ -70,7 +70,7 @@ class CreateDataCzar{
 
             publishers {
                 archiveArtifacts {
-                    pattern('sysadmin/create_data_czar/*-credentials.txt.gpg')
+                    pattern('configuration/util/create_data_czar/${USER_EMAIL}-credentials.txt.gpg')
                     onlyIfSuccessful()
                 }
                 if (extraVars.get('NOTIFY_ON_FAILURE')){

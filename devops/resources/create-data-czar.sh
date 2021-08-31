@@ -9,7 +9,7 @@ create_virtualenv --python=python3.8 --clear
 set -u
 
 cd "$WORKSPACE/configuration"
-pip install -r requirements.txt
+pip install -r util/jenkins/requirements.txt
 . util/jenkins/assume-role.sh
 
 assume-role ${ROLE_ARN}
@@ -17,9 +17,10 @@ assume-role ${ROLE_ARN}
 cd util/create_data_czar
 
 # Create Policy
-if CREATE_ORG == "true"  then;
+if [ ${CREATE_ORG} == "true"  ]; then
     python ./create_org_data_czar_policy.py --org ${ORGANIZATION}
     python ./create_data_czar.py --user ${USER_EMAIL} --file $WORKSPACE/user_gpg_key.gpg --org ${ORGANIZATION}
 else
     # Create User and add to group
     python ./create_data_czar.py --user ${USER_EMAIL} --file $WORKSPACE/user_gpg_key.gpg --org ${ORGANIZATION}
+fi
