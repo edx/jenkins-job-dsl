@@ -42,7 +42,7 @@ class CreateDataCzar{
                 stringParam('ORGANIZATION',
                         'Name of organization to create data czar. e.g alaskax')
                 booleanParam('CREATE_ORG', true,
-                        'Check if create new organization or Uncheck if organization is already created.')
+                        'Check this box if you are creating a new organization.')
                 stringParam('USER_EMAIL',
                         'User Email address to generate Data Czar')
                 fileParam('user_gpg_key.gpg', 
