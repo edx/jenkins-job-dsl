@@ -46,7 +46,7 @@ class CreateDataCzar{
                 stringParam('USER_EMAIL',
                         'User Email address to generate Data Czar')
                 fileParam('user_gpg_key.gpg', 
-                        'Attach the GPG key file for encryption of aws credentials')
+                        'Attach the GPG public key file for encryption of aws credentials')
             }
 
             multiscm{
