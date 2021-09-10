@@ -19,7 +19,16 @@ assume-role ${ROLE_ARN}
 cd $WORKSPACE/tubular
 pip install -r requirements.txt
 
+# In case this is being run without an explicit END_DATE, default to running with "now"
+if [[ "$END_DATE" == "" ]]; then
+    END_DATE=$(date +%Y-%m-%d)
+fi
+
 # Call the script to read the retirement statuses from the LMS, send them to S3, and delete them from the LMS.
 python scripts/retirement_archive_and_cleanup.py \
     --config_file=$WORKSPACE/user-retirement-secure/${ENVIRONMENT_DEPLOYMENT}.yml \
-    --cool_off_days=$COOL_OFF_DAYS
+    --cool_off_days=$COOL_OFF_DAYS \
+    --batch_size=$BATCH_SIZE \
+    --start_date=$START_DATE \
+    --end_date=$END_DATE \
+    --dry_run=$DRY_RUN
