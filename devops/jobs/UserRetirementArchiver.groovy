@@ -77,8 +77,28 @@ class UserRetirementArchiver {
             parameters {
                 stringParam(
                     'COOL_OFF_DAYS',
-                    '67',
+                    '74',
                     'Number of days after retirement request when a user retirement status should be archived in S3.'
+                )
+                stringParam(
+                    'BATCH_SIZE',
+                    '1000',
+                    'Size of batches of learner retirments to process.'
+                )
+                stringParam(
+                    'START_DATE',
+                    '2018-01-01',
+                    'Start of window used to select user retirements for archival. Only user retirements added to the retirement queue after this date will be processed.'
+                )
+                stringParam(
+                    'END_DATE',
+                    '',
+                    'End of window used to select user retirments for archival. Only user retirments added to the retirement queue before this date will be processed. In the case that this date is more recent than the value specified in the `cool_off_days` parameter, an error will be thrown. If this parameter is not used, the script will default to using an end_date based upon the `cool_off_days` parameter.'
+                )
+                stringParam(
+                    'DRY_RUN',
+                    'False',
+                    'Run this script with the `dry_run` flag, which will not perform the archival or deletion of a user.'
                 )
             }
 
