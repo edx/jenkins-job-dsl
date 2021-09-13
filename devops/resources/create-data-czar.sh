@@ -18,7 +18,7 @@ cd util/create_data_czar
 
 # Create Policy
 if [ ${CREATE_ORG} == "true"  ]; then
-    python ./create_org_data_czar_policy.py --org ${ORGANIZATION} --creator ${BUILD_USER_ID}
+    python ./create_org_data_czar_policy.py --org ${ORGANIZATION}
     python ./create_data_czar.py --user ${USER_EMAIL} --file "$WORKSPACE/user_gpg_key.gpg" --org ${ORGANIZATION} --creator ${BUILD_USER_ID}
 else
     # Create User and add to group
