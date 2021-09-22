@@ -9,7 +9,7 @@
 
    * FOLDER_NAME: "Sandboxes"
    * ACCESS_CONTROL: List of org or org*team from GitHub who get access to the jobs
-   * {DAILY,HOURLY,MASTERSWEEKLY,PROSPECTUSDAILY}_SCHEDULE: When to run jobs, cron-formatted.
+   * {DAILY,HOURLY,MASTERSWEEKLY}_SCHEDULE: When to run jobs, cron-formatted.
    * NOTIFY_ON_FAILURE: email address for failures
 */
 package devops.jobs
@@ -21,7 +21,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_read_permissions
 class CreateSandboxCI {
   public static def jobs = { dslFactory, extraVars ->
 
-    ["Hourly", "Daily", "MastersWeekly", "ProspectusDaily"].each { type ->
+    ["Hourly", "Daily", "MastersWeekly"].each { type ->
       dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/SandboxCI" + type) {
         wrappers common_wrappers
         logRotator common_logrotator
@@ -104,21 +104,7 @@ class CreateSandboxCI {
                   booleanParam("journals",false)
                   booleanParam("video_pipeline",false)
                   booleanParam("video_encode_worker",false)
-                } else if (type == 'ProspectusDaily') {
-                  predefinedProp('dns_name','prospectus-rebrand')
-                  predefinedProp('name_tag','prospectus-rebrand')
-
-                  predefinedProp('server_type', 'full_edx_installation_from_scratch')
-                  booleanParam('recreate', true)
-                  booleanParam('edxapp', false)
-                  booleanParam('testcourses', false)
-                  booleanParam('performance_course', false)
-                  booleanParam('demo_test_course', false)
-                  booleanParam('edx_demo_course', false)
-                  booleanParam('forum', false)
-                  booleanParam('prospectus', true)
-                  booleanParam('ecommerce', false)
-                }
+                } 
               }
             }
           }
