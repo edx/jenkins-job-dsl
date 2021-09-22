@@ -19,9 +19,9 @@ assume-role ${ROLE_ARN}
 cd $WORKSPACE/tubular
 pip install -r requirements.txt
 
-# In case this is being run without an explicit END_DATE, default to running with "now"
-if [[ "$END_DATE" == "" ]]; then
-    END_DATE=$(date +%Y-%m-%d)
+# In case this is being run without an explicit END_DATE, default to running with "now" - COOL_OFF_DAYS
+if [[ ! -v END_DATE ]]; then
+    END_DATE=$(date --iso --date "$(date --iso) - $COOL_OFF_DAYS days")
 fi
 
 # Call the script to read the retirement statuses from the LMS, send them to S3, and delete them from the LMS.
