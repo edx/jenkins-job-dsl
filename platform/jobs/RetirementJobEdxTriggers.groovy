@@ -32,7 +32,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edx',
         extraMembersCanBuild: [],
         cron: '0 8 * * 2',  // 09:00 UTC every Tuesday.
-        disabled: true
+        disabled: false
     ],
     [
         downstreamJobName: 'retirement-partner-reporter',
