@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [ 'master' ]
+  pull_request:
+
+jobs:
+  run_gradle_check:
+    runs-on: ubuntu-20.04
+    name: Gradle Check
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+        cache: 'gradle'
+    - run: ./gradlew check --stacktrace --info
