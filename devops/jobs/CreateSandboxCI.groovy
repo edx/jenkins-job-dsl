@@ -130,7 +130,7 @@ class CreateSandboxCI {
         }
 
         publishers {
-          mailer(extraVars.get('NOTIFY_ON_FAILURE',''), false, false)
+          mailer(extraVars.get(type.toUpperCase() + "_NOTIFY_ON_FAILURE",''), false, false)
         }
       }
     }
