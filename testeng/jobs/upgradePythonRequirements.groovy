@@ -36,26 +36,6 @@ def cronOffHoursBusinessDailyLahore = 'H H(0-5) * * 1-5'
 List jobConfigs = [
     [
         org: 'edx',
-        repoName: 'api-doc-tools',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],
-        emails: ['ned@edx.org'],
-    ],
-    [
-        org: 'edx',
-        repoName: 'cc2olx',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],  //Reviewer mention unnecessary due to Master's OpsGenie alert.
-        emails: ['masters-requirements-update@edx.opsgenie.net'],
-    ],
-    [
-        org: 'edx',
         repoName: 'configuration',
         defaultBranch: 'master',
         pythonVersion: '3.8',
@@ -67,27 +47,6 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'completion',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],
-        emails: ['engage-squad-eng@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
-        repoName: 'demographics',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['edx-aperture'],
-        emails: ['aperture@edx.opsgenie.net'],
-    ],
-    [
-        org: 'edx',
         repoName: 'ecommerce',
         defaultBranch: 'master',
         pythonVersion: '3.8',
@@ -95,17 +54,6 @@ List jobConfigs = [
         githubUserReviewers: [],
         githubTeamReviewers: ['ecommerce'],
         emails: ['revenue-tasks@edx.org'],
-    ],
-    [
-        org: 'edx',
-        repoName: 'edx-ace',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],
-        emails: ['engage-squad-eng@edx.org'],
-        alwaysNotify: false
     ],
     [
         org: 'edx',
@@ -171,87 +119,10 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'edx-proctoring',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-        emails: ['masters-requirements-update@edx.opsgenie.net'],
-        alwaysNotify: true
-    ],
-    [
-        org: 'edx',
-        repoName: 'edx-sphinx-theme',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: [''],
-        githubTeamReviewers: ['arbi-bom'],
-        emails: ['arbi-bom@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
-        repoName: 'edx-val',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [''],
-        githubTeamReviewers: ['incident-management'],
-        emails: ['incident-management@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
-        repoName: 'edx-when',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],
-        emails: ['engage-squad-eng@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
-        repoName: 'event-tracking',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayLahore,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['arbi-bom'],
-        emails: ['arbi-bom@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
-        repoName: 'openedxstats',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],
-        emails: ['ned@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
         repoName: 'portal-designer',
         defaultBranch: 'master',
         pythonVersion: '3.8',
         cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-        emails: ['masters-requirements-update@edx.opsgenie.net'],
-        alwaysNotify: true
-    ],
-    [
-        org: 'edx',
-        repoName: 'registrar',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
         githubUserReviewers: [],
         githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
         emails: ['masters-requirements-update@edx.opsgenie.net'],
@@ -267,28 +138,6 @@ List jobConfigs = [
         githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
         emails: ['masters-requirements-update@edx.opsgenie.net'],
         alwaysNotify: true
-    ],
-    [
-        org: 'edx',
-        repoName: 'testeng-ci',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['devops'],
-        emails: ['devops@edx.org'],
-        alwaysNotify: false
-    ],
-    [
-        org: 'edx',
-        repoName: 'video-encode-manager',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['incident-management'],
-        emails: ['incident-management@edx.org'],
-        alwaysNotify: false
     ],
 ]
 
