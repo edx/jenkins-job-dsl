@@ -17,7 +17,7 @@ set -x
 SAML_SSL_CERT_FILE=$WORKSPACE/configuration_secure/${SAML_CERT_FILE}
 
 cd $WORKSPACE/sysadmin
-pip install -r requirements.txt
+pip install -r requirements/base.txt
 cd jenkins
 
 python saml-ssl-expiration-check.py --region $REGION -d $DAYS -i $SAML_SSL_CERT_FILE
