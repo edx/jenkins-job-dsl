@@ -1,5 +1,0 @@
-sudo: false
-language: groovy
-script:
-    - export CI_SYSTEM='travis'
-    - ./gradlew check --stacktrace --info
