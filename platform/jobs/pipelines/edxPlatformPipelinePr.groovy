@@ -118,7 +118,7 @@ Map django32QualityJobConfig = [
     jenkinsFileDir: 'scripts/Jenkinsfiles',
     jenkinsFileName: 'quality',
     pythonVersion: '3.8',
-    toxEnv: 'py38-django32',
+    toxEnv: 'quality-django32',
 ]
 
 Map privateQualityJobConfig = [
