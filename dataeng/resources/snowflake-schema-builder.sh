@@ -34,7 +34,7 @@ else
 
   # Commit all changes to the new branch, making sure new files are added
   git add --all
-  git commit --message "Schema Builder automated dbt update at $now"
+  git commit --message "chore: Schema Builder automated dbt update at $now"
 
   # Create a PR on Github from the new branch
   HUB_PROTOCOL=ssh HUB_USER=edx-analytics-automation /snap/bin/hub pull-request --push --no-edit -r edx/edx-data-engineering
