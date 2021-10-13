@@ -50,7 +50,6 @@ class UserRetirementArchiver {
             triggers common_triggers(extraVars)
             wrappers common_wrappers(extraVars)
             publishers common_publishers(extraVars)
-            disabled(extraVars.get('DISABLED'))  // Jobs may be disabled for testing/rollout.
             checkoutRetryCount(5)  // Retry cloning repositories.
 
             ////
