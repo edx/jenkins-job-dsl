@@ -176,7 +176,7 @@ class CreateSandbox {
                 booleanParam("credentials_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy credentials config file from configuration internal repo.")
 
                 stringParam("themes_version","master","")
-                booleanParam("registrar",false,"Enable the Registrar service, along with the Program Manager micro-frontend")
+                booleanParam("registrar",false,"Enable the Registrar service, along with the Program Console micro-frontend")
                 stringParam("registrar_version","master","")
                 booleanParam("registrar_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy registrar config file from configuration internal repo.")
                 stringParam("registrar_user_email","registrar@example.com",
@@ -185,6 +185,7 @@ class CreateSandbox {
                             "Key for Organization to be created in Registrar. Must match key in Discovery catalog. Ignore this setting if Registrar is disabled.")
                 stringParam("program_console_version","master",
                             "The repository version of the frontend-app-program-console")
+                booleanParam("masters_integration_environment",false,"Whether the sandbox being built is meant to be a Master's integration environment")
 
                 booleanParam("learner_portal",false,"Learner Portal")
                 stringParam("learner_portal_version","master","The version for the frontend-app-learner-portal")
