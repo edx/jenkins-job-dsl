@@ -89,6 +89,7 @@ class CreateSandboxCI {
                   booleanParam("ecommerce",true)
                   booleanParam("discovery",true)
                   booleanParam("registrar",true)
+                  booleanParam("masters_integration_environment",true)
                   booleanParam("learner_portal",true)
                   booleanParam('testcourses',false)
                   booleanParam('performance_course',false)
