@@ -21,7 +21,7 @@ pip install -r requirements.txt
 assume-role ${ROLE_ARN}
 
 cd $WORKSPACE/sysadmin
-pip install -r requirements.txt
+pip install -r requirements/base.txt
 cd jenkins
 
 if [[ -n "${FROM_ADDRESS}" && "${TO_ADDRESS}" ]]; then

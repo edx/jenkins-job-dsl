@@ -12,7 +12,7 @@ cd $WORKSPACE/configuration
 . util/jenkins/assume-role.sh
 
 cd $WORKSPACE/sysadmin
-pip install -r requirements.txt
+pip install -r requirements/base.txt
 export AWS_DEFAULT_REGION=us-east-1
 
 : ${ASG?"Need to set ASG"}
