@@ -160,10 +160,6 @@ class CreateSandbox {
                 stringParam("analytics_api_version","master","")
                 booleanParam("analytics_api_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy analytics_api config file from configuration internal repo.")
 
-                booleanParam("insights",false,"")
-                stringParam("insights_version","master","")
-                booleanParam("insights_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy insights config file from configuration internal repo.")
-
                 booleanParam("demo",false,"")
                 stringParam("demo_version","master","")
 
