@@ -14,8 +14,7 @@ DATE="$(date '+%Y.%m.%d')"
 BACKUPNAME="$DATE.11.00-tableau-data-backup.tsbak"
 
 # Check if tableau backup file exist, exit if the file does not exist
-fileStatus=$([ -f /home/tableau_backups/$BACKUPNAME ] && echo 'Found' || echo 'NotFound' )
-if [[ "$fileStatus" == "NotFound" ]]
+if [[ ! -f /home/tableau_backups/$BACKUPNAME ]]
 then
     echo "$BACKUPNAME Backup file does not exist. It seems to be some problem generating tableau backup. Refer to Administration of Tableau wiki docs to debug Tableau Regular Backup Automation"
     exit 1
