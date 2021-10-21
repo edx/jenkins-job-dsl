@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -ex
 
-
 # This script ssh into Tableau server. Default centos user does not have access on Tableau directories
-# so it runs commands as root. Backups are being created using tsm maintenance backup utility. This script
-# copies backup file into s3 bucket and then remove backup file from tableau server.
+# so shared folder is created that can be accessible from centos user. Backups are being created using
+# tsm maintenance backup utility. This script copies backup file into s3 bucket and then remove backup
+# file from tableau server.
 
 ssh -tt $USER_NAME@$TABLEAU_SERVER_IP -o StrictHostKeyChecking=no "S3_BUCKET=$S3_BUCKET" '
 
@@ -26,6 +26,5 @@ else
     sudo rm -f /home/tableau_backups/$BACKUPNAME
 
 fi
-
 
 '
