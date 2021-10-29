@@ -54,6 +54,9 @@ do_one_repo () {
   echo "Running script to create PR..."
   cd "$WORKSPACE/testeng-ci"
   pip install -r requirements/base.txt
+
+  # if present and non-empty, set the PR description from .git/cleanup-python-code-message
+  # this will allow jobs using this script to make custom PR descriptions
   if [ -s "$repo_dir/.git/cleanup-python-code-message" ]
   then
      local message=$(cat "$repo_dir/.git/cleanup-python-code-message")
