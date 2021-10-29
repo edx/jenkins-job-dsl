@@ -54,9 +54,9 @@ do_one_repo () {
   echo "Running script to create PR..."
   cd "$WORKSPACE/testeng-ci"
   pip install -r requirements/base.txt
-  if [-s .git/cleanup-python-code-message]
+  if [-s "$repo_dir/.git/cleanup-python-code-message" ]
   then
-     local message=$(cat .git/cleanup-python-code-message)
+     local message=$(cat "$repo_dir/.git/cleanup-python-code-message")
   else
      local message="$(cat <<EOF
 Python code cleanup by the cleanup-python-code Jenkins job.
