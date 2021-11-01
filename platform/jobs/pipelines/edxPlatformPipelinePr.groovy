@@ -39,48 +39,6 @@ Map publicPythonJobConfig = [
     pythonVersion: '3.8',
 ]
 
-Map django30PythonJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-3.0-python-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-3.0/python',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django30\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    pythonVersion: '3.8',
-    toxEnv: 'py38-django30',
-]
-
-Map django31PythonJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-3.1-python-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-3.1/python',
-    onlyTriggerPhrase: true,
-    triggerPhrase: /.*jenkins\W+run\W+django31\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    pythonVersion: '3.8',
-    toxEnv: 'py38-django31',
-]
-
-Map django32PythonJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-3.2-python-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-3.2/python',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run\W+django32\W+python.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'python',
-    pythonVersion: '3.8',
-    toxEnv: 'py38-django32',
-]
-
 Map privatePythonJobConfig = [
     open: false,
     jobName: 'edx-platform-python-pipeline-pr_private',
@@ -107,20 +65,6 @@ Map publicQualityJobConfig = [
     pythonVersion: '3.8',
 ]
 
-Map django32QualityJobConfig = [
-    open: true,
-    jobName: 'edx-platform-django-3.2-quality-pipeline-pr',
-    repoName: 'edx-platform',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
-    context: 'jenkins/django-3.2/quality',
-    onlyTriggerPhrase: false,
-    triggerPhrase: /.*jenkins\W+run\W+django32\W+quality.*/,
-    jenkinsFileDir: 'scripts/Jenkinsfiles',
-    jenkinsFileName: 'quality',
-    pythonVersion: '3.8',
-    toxEnv: 'quality-django32',
-]
-
 Map privateQualityJobConfig = [
     open: false,
     jobName: 'edx-platform-quality-pipeline-pr_private',
@@ -136,12 +80,8 @@ Map privateQualityJobConfig = [
 
 List jobConfigs = [
     publicPythonJobConfig,
-    django30PythonJobConfig,
-    django31PythonJobConfig,
-    django32PythonJobConfig,
     privatePythonJobConfig,
     publicQualityJobConfig,
-    django32QualityJobConfig,
     privateQualityJobConfig,
 ]
 
