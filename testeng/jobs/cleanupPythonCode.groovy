@@ -10,6 +10,11 @@ job('cleanup-python-code') {
         stringParam('repoNames', null, 'Comma or space separated list of names of (public) target repositories in $org org')
         choiceParam('pythonVersion', ['3.8', '3.5', '2.7'], 'Version of python to use')
         stringParam('packages', '', 'Comma or space separated list of packages to install (optional)')
+        stringParam('title', null, """Commit message (will also be used as PR title).
+            See https://github.com/edx/open-edx-proposals/blob/master/oeps/best-practices/oep-0051-bp-conventional-commits.rst
+            for more information on best practices for commit messages""")
+        textParam('body', '', """Additional information for the PR body. You can add dynamic information to the
+        PR body by writing to .git/cleanup-python-code-description in the bash script (optional)""")
         // Use a textarea for multiline input
         textParam('scripts', '', 'Bash script to run')
     }
@@ -18,6 +23,8 @@ job('cleanup-python-code') {
     pythonVersion = '${pythonVersion}'
     packagesToInstall = '${packages}'
     scriptsToRun = '${scripts}'
+    commitMessage='${title}'
+    prBody='${body}'
 
     environmentVariables(
             REPO_NAMES: repoNames,
@@ -26,7 +33,9 @@ job('cleanup-python-code') {
             SCRIPTS: scriptsToRun,
             PYTHON_VERSION: pythonVersion,
             PR_USER_REVIEWERS: githubUserReviewers.join(','),
-            PR_TEAM_REVIEWERS: githubTeamReviewers.join(',')
+            PR_TEAM_REVIEWERS: githubTeamReviewers.join(','),
+            COMMIT_MESSAGE: commitMessage,
+            PR_BODY: prBody,
     )
 
     scm {
