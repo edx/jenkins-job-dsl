@@ -71,7 +71,7 @@ $base_pr_body
 <details>
 <summary> Additional information from script execution</summary>
 $pr_description_from_file
-<details
+</details>
 
 Python code cleanup by the cleanup-python-code Jenkins job.
 
