@@ -17,6 +17,8 @@ mkdir -p "$all_venvs"
 
 commit_msg="$COMMIT_MESSAGE"
 base_pr_body="${PR_BODY:-}"
+draft="$DRAFT"
+branch_name="${BRANCH_NAME:-'cleanup-python-code'}"
 
 do_one_repo () {
   local repo="$1"
@@ -90,13 +92,18 @@ The following packages were installed:
 EOF
 )"
 
-
+  if ${draft}
+  then
+     draftflag="--draft"
+  else
+     draftflag=""
+  fi
 
   python -m jenkins.pull_request_creator --repo-root="$repo_dir" \
-         --base-branch-name="cleanup-python-code" --commit-message="$commit_msg" \
+         --base-branch-name="$branch_name" --commit-message="$commit_msg" \
          --pr-title="$commit_msg" --pr-body="$description" \
          --user-reviewers="$PR_USER_REVIEWERS" --team-reviewers="$PR_TEAM_REVIEWERS" \
-         --no-delete-old-pull-requests
+         --no-delete-old-pull-requests "$draftflag"
 
 
   rm -rf "$repo_dir"

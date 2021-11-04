@@ -15,6 +15,8 @@ job('cleanup-python-code') {
             for more information on best practices for commit messages""")
         textParam('body', '', """Additional information for the PR body. You can add dynamic information to the
         PR body by writing to .git/cleanup-python-code-description in the bash script (optional)""")
+        booleanParam('draft', false, 'Create pull request(s) as draft?')
+        stringParam('branchName',null,'Branch name for changes (default: "cleanup-python-code")')
         // Use a textarea for multiline input
         textParam('scripts', '', 'Bash script to run')
     }
@@ -25,6 +27,8 @@ job('cleanup-python-code') {
     scriptsToRun = '${scripts}'
     commitMessage='${title}'
     prBody='${body}'
+    draft='${draft}'
+    branchName='${branchName}'
 
     environmentVariables(
             REPO_NAMES: repoNames,
@@ -36,6 +40,8 @@ job('cleanup-python-code') {
             PR_TEAM_REVIEWERS: githubTeamReviewers.join(','),
             COMMIT_MESSAGE: commitMessage,
             PR_BODY: prBody,
+            DRAFT: draft,
+            BRANCH_NAME: branchName
     )
 
     scm {
