@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/edx/jenkins-job-dsl.svg?branch=master)](https://travis-ci.com/edx/jenkins-job-dsl)
+[![CI](https://github.com/edx/jenkins-job-dsl/actions/workflows/ci.yaml/badge.svg)](https://github.com/edx/jenkins-job-dsl/actions/workflows/ci.yaml)
 
 # jenkins-job-dsl
 
