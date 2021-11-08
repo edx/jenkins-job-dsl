@@ -18,7 +18,7 @@ mkdir -p "$all_venvs"
 commit_msg="$COMMIT_MESSAGE"
 base_pr_body="${PR_BODY:-}"
 draft="$DRAFT"
-branch_name="${BRANCH_NAME:-'cleanup-python-code'}"
+branch_name="${BRANCH_NAME:-cleanup-python-code}"
 
 do_one_repo () {
   local repo="$1"
