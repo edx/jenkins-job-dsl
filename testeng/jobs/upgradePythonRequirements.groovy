@@ -19,14 +19,6 @@ def cronOffHoursBusinessWeekday = 'H H(4-11) * * H(1-5)'
 // Cron value for once per week, sometime during: 5am-09:59am Pakistan Time, Monday-Friday (times are in UTC)
 def cronOffHoursBusinessWeekdayLahore = 'H H(0-5) * * H(1-5)'
 
-// Cron value for twice per month sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
-// This schedule is split into even and odd options which can be used to prevent early and mid-month dry spells
-def cronOffHoursBusinessWeekdayTwiceMonthlyEven = 'H H(4-11) 8-14,22-28 * H(1-5)'
-// same but for Lahore-appropriate times
-def cronOffHoursBusinessWeekdayLahoreTwiceMonthlyEven = 'H H(0-5) 8-14,22-28 * H(1-5)'
-def cronOffHoursBusinessWeekdayTwiceMonthlyOdd = 'H H(4-11) 1-7,15-21 * H(1-5)'
-def cronOffHoursBusinessWeekdayLahoreTwiceMonthlyOdd = 'H H(0-5) 1-7,15-21 * H(1-5)'
-
 // Cron value for daily, sometime during: midnight-7:59am ET, Monday-Friday (times are in UTC)
 // See https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/hudson/triggers/TimerTrigger/help-spec.jelly
 def cronOffHoursBusinessDaily = 'H H(4-11) * * 1-5'
@@ -57,37 +49,6 @@ List jobConfigs = [
     ],
     [
         org: 'edx',
-        repoName: 'edx-analytics-dashboard',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['edx-data-engineering'],
-        emails: ['data-engineering@edx.org'],
-    ],
-    [
-        org: 'edx',
-        repoName: 'edx-analytics-data-api',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekday,
-        githubUserReviewers: [],
-        githubTeamReviewers: ['edx-data-engineering'],
-        emails: ['data-engineering@edx.org'],
-    ],
-    [
-        org: 'edx',
-        repoName: 'edx-bulk-grades',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-        emails: ['masters-requirements-update@edx.opsgenie.net'],
-        alwaysNotify: true
-    ],
-    [
-        org: 'edx',
         repoName: 'edx-enterprise',
         defaultBranch: 'master',
         pythonVersion: '3.8',
@@ -105,39 +66,6 @@ List jobConfigs = [
         githubUserReviewers: [],
         githubTeamReviewers: ['devops'],
         emails: ['devops@edx.org'],
-    ],
-    [
-        org: 'edx',
-        repoName: 'edx-ora2',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-        emails: ['masters-requirements-update@edx.opsgenie.net'],
-        alwaysNotify: true
-    ],
-    [
-        org: 'edx',
-        repoName: 'portal-designer',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyOdd,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-        emails: ['masters-requirements-update@edx.opsgenie.net'],
-        alwaysNotify: true
-    ],
-    [
-        org: 'edx',
-        repoName: 'super-csv',
-        defaultBranch: 'master',
-        pythonVersion: '3.8',
-        cronValue: cronOffHoursBusinessWeekdayTwiceMonthlyEven,
-        githubUserReviewers: [],
-        githubTeamReviewers: [],  // Reviewer mention unnecessary due to Master's OpsGenie alert.
-        emails: ['masters-requirements-update@edx.opsgenie.net'],
-        alwaysNotify: true
     ],
 ]
 
