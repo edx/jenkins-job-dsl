@@ -78,7 +78,11 @@ class UpdateMastersSandbox {
                     + "Example: if your sandbox is unseen.sandbox.edx.org, enter 'unseen' here."
         )
         textParam("program_uuids",
-                  "ef82b8e2-49ed-45b0-982d-c836deef507b:special-masters",
+                  "ef82b8e2-49ed-45b0-982d-c836deef507b:special-masters,"
+                  + "2b4fb318-5bec-4484-9b6f-e279fa0f4693:asu-supply-chain,"
+                  + "30616bb3-bc95-41f9-84c6-bc1a40494b4b:iu-it-management,"
+                  + "df6bb0b1-b543-46d4-abfb-16dd81dcd936:purdue-civil-engineering,"
+                  + "721f524b-da8f-4923-83b4-a18de44fdc43:utaustin-data-science",
                   "List of UUIDs for programs that will be loaded from production Discovery. "
                   + "Separate program UUIDs with commas. "
                   + "You may set a program's external by appending ':external_key'"
