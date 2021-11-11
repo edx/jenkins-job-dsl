@@ -57,7 +57,7 @@ do_one_repo () {
 
   echo "Running script to create PR..."
 
-  git clone https://github.com/edx/jenkins-job-dsl.git
+  git clone https://github.com/edx/testeng-ci.git
   cd testeng-ci
   echo "CLONING.... TEST PR"
   git checkout jawayria/untracked-files
