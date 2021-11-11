@@ -56,7 +56,11 @@ do_one_repo () {
   echo "Script ran successfully."
 
   echo "Running script to create PR..."
-  cd "$WORKSPACE/testeng-ci"
+
+  git clone git@github.com:edx/testeng-ci.git
+  cd testeng-ci
+  echo "CLONING.... TEST PR"
+  git checkout jawayria/untracked-files
   pip install -r requirements/base.txt
 
     # if present and non-empty, get additional information for PR body from .git/cleanup-python-code-description
@@ -98,10 +102,6 @@ EOF
   else
      draftflag=""
   fi
-
-  git clone git@github.com:edx/testeng-ci.git
-  cd testeng-ci
-  git checkout jawayria/untracked-files
 
   python -m jenkins.pull_request_creator --repo-root="$repo_dir" \
          --base-branch-name="$branch_name" --commit-message="$commit_msg" \
