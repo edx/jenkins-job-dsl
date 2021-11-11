@@ -107,7 +107,7 @@ EOF
          --base-branch-name="$branch_name" --commit-message="$commit_msg" \
          --pr-title="$commit_msg" --pr-body="$description" \
          --user-reviewers="$PR_USER_REVIEWERS" --team-reviewers="$PR_TEAM_REVIEWERS" \
-         --no-delete-old-pull-requests ${draftflag} --untracked-files-required
+         --no-delete-old-pull-requests ${draftflag} --untracked-files-required=true
 
 
   rm -rf "$repo_dir"
