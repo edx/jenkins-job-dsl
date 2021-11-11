@@ -99,6 +99,10 @@ EOF
      draftflag=""
   fi
 
+  git clone git@github.com:edx/testeng-ci.git
+  cd testeng-ci
+  git checkout jawayria/untracked-files
+
   python -m jenkins.pull_request_creator --repo-root="$repo_dir" \
          --base-branch-name="$branch_name" --commit-message="$commit_msg" \
          --pr-title="$commit_msg" --pr-body="$description" \
