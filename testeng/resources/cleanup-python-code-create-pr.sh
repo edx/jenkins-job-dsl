@@ -19,6 +19,7 @@ commit_msg="$COMMIT_MESSAGE"
 base_pr_body="${PR_BODY:-}"
 draft="$DRAFT"
 branch_name="${BRANCH_NAME:-cleanup-python-code}"
+force_delete_old_prs="$FORCE_DELETE_OLD_PRS"
 
 do_one_repo () {
   local repo="$1"
@@ -99,11 +100,18 @@ EOF
      draftflag=""
   fi
 
+  if ${force_delete_old_prs}
+  then
+     force_delete_old_prs_flag="--force-delete-old-prs"
+  else
+     force_delete_old_prs_flag="--no-force-delete-old-prs"
+  fi
+
   python -m jenkins.pull_request_creator --repo-root="$repo_dir" \
          --base-branch-name="$branch_name" --commit-message="$commit_msg" \
          --pr-title="$commit_msg" --pr-body="$description" \
          --user-reviewers="$PR_USER_REVIEWERS" --team-reviewers="$PR_TEAM_REVIEWERS" \
-         --no-delete-old-pull-requests ${draftflag}  --untracked-files-required=true
+         ${force_delete_old_prs_flag} ${draftflag} --untracked-files-required=true
 
 
   rm -rf "$repo_dir"
