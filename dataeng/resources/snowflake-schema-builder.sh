@@ -37,5 +37,5 @@ else
   git commit --message "chore: Schema Builder automated dbt update at $now"
 
   # Create a PR on Github from the new branch
-  HUB_PROTOCOL=ssh HUB_USER=edx-analytics-automation /snap/bin/hub pull-request --push --no-edit -r edx/edx-data-engineering
+  HUB_PROTOCOL=ssh /snap/bin/hub pull-request --push --no-edit -r edx/edx-data-engineering
 fi
