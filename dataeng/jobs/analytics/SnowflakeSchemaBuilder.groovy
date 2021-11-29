@@ -45,7 +45,7 @@ class SnowflakeSchemaBuilder {
             steps {
 
                 virtualenv {
-                    pythonName('PYTHON_3.7')
+                    pythonName('PYTHON_3.8')
                     nature("shell")
                     systemSitePackages(false)
                     command(
