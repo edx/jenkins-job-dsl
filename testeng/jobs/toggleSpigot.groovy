@@ -123,7 +123,7 @@ secretMap.each { jobConfigs ->
                     includeFailedTests false
                     includeCustomMessage true
                     customMessage '@here The Spigot is now: $SPIGOT_STATE ($SPIGOT_MESSAGE)'
-                    room 'TestEngineering'
+                    room 'sre-notifications'
                     matrixTriggerMode ONLY_CONFIGURATIONS
                     commitInfoChoice NONE
                 }
