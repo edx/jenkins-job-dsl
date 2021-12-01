@@ -112,7 +112,9 @@ job('user-retirement-driver') {
             failBuild()
         }
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
-        buildName('#${BUILD_NUMBER}, ${ENV,var="RETIREMENT_USERNAME"}')
+        // DENG-1063/PSRE-1204: Temporarily avoid using the build-name-setter
+        // plugin while it's currently broken due to plugin incompatibilities.
+        //buildName('#${BUILD_NUMBER}, ${ENV,var="RETIREMENT_USERNAME"}')
         timestamps()
         colorizeOutput('xterm')
         credentialsBinding {
@@ -237,7 +239,9 @@ job('user-retirement-collector') {
             failBuild()
         }
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
-        buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
+        // DENG-1063/PSRE-1204: Temporarily avoid using the build-name-setter
+        // plugin while it's currently broken due to plugin incompatibilities.
+        //buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
         timestamps()
         colorizeOutput('xterm')
         credentialsBinding {
@@ -401,7 +405,9 @@ job('retirement-partner-reporter') {
             failBuild()
         }
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
-        buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
+        // DENG-1063/PSRE-1204: Temporarily avoid using the build-name-setter
+        // plugin while it's currently broken due to plugin incompatibilities.
+        //buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
         timestamps()
         colorizeOutput('xterm')
         credentialsBinding {
@@ -533,7 +539,9 @@ job('retirement-partner-report-cleanup') {
             failBuild()
         }
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
-        buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
+        // DENG-1063/PSRE-1204: Temporarily avoid using the build-name-setter
+        // plugin while it's currently broken due to plugin incompatibilities.
+        //buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
         timestamps()
         colorizeOutput('xterm')
         credentialsBinding {
@@ -648,7 +656,9 @@ job('user-retirement-bulk-status') {
 
     wrappers {
         buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
-        buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
+        // DENG-1063/PSRE-1204: Temporarily avoid using the build-name-setter
+        // plugin while it's currently broken due to plugin incompatibilities.
+        //buildName('#${BUILD_NUMBER}, ${ENV,var="ENVIRONMENT"}')
         timestamps()
         colorizeOutput('xterm')
         credentialsBinding {
