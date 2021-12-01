@@ -106,7 +106,9 @@ jobConfigs.each { jobConfig ->
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(30)
 
         wrappers {
-            buildName('#${BUILD_NUMBER}')
+            // DENG-1063/PSRE-1204: Temporarily avoid using the build-name-setter
+            // plugin while it's currently broken due to plugin incompatibilities.
+            //buildName('#${BUILD_NUMBER}')
             timestamps()
             colorizeOutput('xterm')
         }
