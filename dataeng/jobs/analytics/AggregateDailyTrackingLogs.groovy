@@ -10,21 +10,23 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_multiscm
 
 class AggregateDailyTrackingLogs {
     public static def job = { dslFactory, allVars ->
-        dslFactory.job("aggregate-daily-tracking-logs") {
-            logRotator common_log_rotator(allVars)
-            parameters to_date_interval_parameter(allVars)
-            parameters common_parameters(allVars)
-            parameters {
-                stringParam('SOURCE_BUCKET_PATH', allVars.get('SOURCE_BUCKET_PATH'))
-                stringParam('DEST_BUCKET_PATH', allVars.get('DEST_BUCKET_PATH'))
-                stringParam('TARGET_SIZE', allVars.get('TARGET_SIZE'))
-            }
-            multiscm common_multiscm(allVars)
-            triggers common_triggers(allVars)
-            wrappers common_wrappers(allVars)
-            publishers common_publishers(allVars)
-            steps {
-                shell(dslFactory.readFileFromWorkspace('dataeng/resources/aggregate-daily-tracking-logs.sh'))
+        allVars.get('ENVIRONMENTS').each { environment, env_config ->
+            dslFactory.job("aggregate-daily-tracking-logs-$environment") {
+                logRotator common_log_rotator(allVars, env_config)
+                parameters to_date_interval_parameter(env_config)
+                parameters common_parameters(allVars, env_config)
+                parameters {
+                    stringParam('SOURCE_BUCKET_PATH', env_config.get('SOURCE_BUCKET_PATH'))
+                    stringParam('DEST_BUCKET_PATH', env_config.get('DEST_BUCKET_PATH'))
+                    stringParam('TARGET_SIZE', env_config.get('TARGET_SIZE'))
+                }
+                multiscm common_multiscm(allVars)
+                triggers common_triggers(allVars, env_config)
+                wrappers common_wrappers(allVars)
+                publishers common_publishers(allVars)
+                steps {
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/aggregate-daily-tracking-logs.sh'))
+                }
             }
         }
     }
