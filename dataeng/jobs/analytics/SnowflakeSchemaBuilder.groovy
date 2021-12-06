@@ -44,14 +44,8 @@ class SnowflakeSchemaBuilder {
             publishers common_publishers(allVars)
             steps {
 
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/snowflake-schema-builder.sh")
-                    )
-                }
+                // This will create python 3.8 venv inside shell script instead of using shiningpanda
+                shell(readFileFromWorkspace('dataeng/resources/snowflake-schema-builder.sh'))
             }
         }
     }
