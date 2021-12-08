@@ -16,7 +16,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edx',
         extraMembersCanBuild: [],
         cron: 'H * * * *',  // Hourly at an arbitrary, but consistent minute.
-        disabled: false
+        disabled: true  // temporarily disable this job due to AWS outage (12/7/21)
     ],
     [
         downstreamJobName: 'user-retirement-collector',
@@ -24,7 +24,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edge',
         extraMembersCanBuild: [],
         cron: 'H * * * *',  // Hourly at an arbitrary, but consistent minute.
-        disabled: false
+        disabled: true  // temporarily disable this job due to AWS outage (12/7/21)
     ],
     [
         downstreamJobName: 'retirement-partner-reporter',
