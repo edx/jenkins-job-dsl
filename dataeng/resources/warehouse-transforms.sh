@@ -62,7 +62,7 @@ then
 fi
 
 # Compile/build all models with this tag.
-dbt run $FULL_REFRESH_ARG --models tag:$MODEL_TAG $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+dbt $DBT_COMMAND $FULL_REFRESH_ARG --models $MODEL_SELECTOR $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
 postCommandChecks "run" $ret ;
 
 
@@ -78,6 +78,6 @@ then
     fi
 
     # Run all tests which haven't been excluded.
-    dbt test --models tag:$MODEL_TAG $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+    dbt test --models $MODEL_SELECTOR $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
     postCommandChecks "test" $ret ;
 fi
