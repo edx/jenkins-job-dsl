@@ -49,7 +49,7 @@ set +e
 
 if [ "$SKIP_SEED" != 'true' ]
 then
-  dbt seed --full-refresh --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+  dbt seed --full-refresh --models "$SEED_SELECTOR" --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
   postCommandChecks "seed" $ret ;
 fi
 
