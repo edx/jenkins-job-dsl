@@ -23,6 +23,7 @@ class WarehouseTransforms{
                     stringParam('DBT_PROFILE', env_config.get('DBT_PROFILE', allVars.get('DBT_PROFILE')), 'dbt profile from analytics-secure to work on.')
                     stringParam('DBT_TARGET', env_config.get('DBT_TARGET', allVars.get('DBT_TARGET')), 'dbt target from analytics-secure to work on.')
                     stringParam('DBT_COMMAND', env_config.get('DBT_COMMAND', allVars.get('DBT_COMMAND', 'run')), 'dbt command to be executed.  Default is \'run\'.')
+                    stringParam('SEED_SELECTOR', env_config.get('SEED_SELECTOR', allVars.get('SEED_SELECTOR', '*')), 'Model selector that will be used when running the seed step.  Defaults to "*".')
                     stringParam('SKIP_TESTS', env_config.get('SKIP_TESTS', 'false'), 'Set to \'true\' to skip all tests. All other values will allow tests to run given the other configuration values.')
                     stringParam('SKIP_SEED', env_config.get('SKIP_SEED', 'false'), 'Set to \'true\' to skip the dbt seed step. All other values will cause the seed step to be run.')
                     stringParam('TEST_SOURCES_FIRST', env_config.get('TEST_SOURCES_FIRST', 'true'), 'Set to \'true\' to perform source testing first (if SKIP_TESTS is false). All other values test sources post-run.')
