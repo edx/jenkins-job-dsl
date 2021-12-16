@@ -16,6 +16,7 @@ job('cleanup-python-code') {
         textParam('body', '', """Additional information for the PR body. You can add dynamic information to the
         PR body by writing to .git/cleanup-python-code-description in the bash script (optional)""")
         booleanParam('draft', false, 'Create pull request(s) as draft?')
+        booleanParam('forceDeleteOldPrs', false, 'Delete old PRs with same branch name?')
         stringParam('branchName',null,'Branch name for changes (default: "cleanup-python-code")')
         // Use a textarea for multiline input
         textParam('scripts', '', 'Bash script to run')
@@ -29,6 +30,7 @@ job('cleanup-python-code') {
     prBody='${body}'
     draft='${draft}'
     branchName='${branchName}'
+    forceDeleteOldPrs='${forceDeleteOldPrs}'
 
     environmentVariables(
             REPO_NAMES: repoNames,
@@ -41,7 +43,8 @@ job('cleanup-python-code') {
             COMMIT_MESSAGE: commitMessage,
             PR_BODY: prBody,
             DRAFT: draft,
-            BRANCH_NAME: branchName
+            BRANCH_NAME: branchName,
+            FORCE_DELETE_OLD_PRS: forceDeleteOldPrs,
     )
 
     scm {
