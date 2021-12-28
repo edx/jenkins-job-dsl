@@ -75,6 +75,7 @@ class WarehouseTransformsCIMasterMerges{
                 stringParam('JENKINS_JOB_DSL_URL', allVars.get('JENKINS_JOB_DSL_URL'), 'URL for the jenkins-job-dsl repo.')
                 stringParam('JENKINS_JOB_DSL_BRANCH', allVars.get('JENKINS_JOB_DSL_BRANCH'), 'Branch of jenkins-job-dsl repo to use.')
                 stringParam('DB_NAME', allVars.get('DB_NAME'), 'Database name used to create output schema of dbt run/tests')
+                stringParam('WITH_SNAPSHOT', allVars.get('WITH_SNAPSHOT'), 'When enabled (true) it runs dbt snapshot')
                 stringParam('NOTIFY', allVars.get('NOTIFY'), 'Space separated list of emails to send notifications to.')
                 stringParam('SLACK_NOTIFICATION_CHANNEL', allVars.get('SLACK_NOTIFICATION_CHANNEL'), 'Space separated list of slack channel name to send build failure notifications')
                 stringParam('FAILURE_MESSAGE', allVars.get('FAILURE_MESSAGE'), 'Custom message for to send along with buid failure notification')

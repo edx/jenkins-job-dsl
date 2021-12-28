@@ -10,6 +10,11 @@ dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --pro
 dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 dbt seed --full-refresh --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
+if [ "$WITH_SNAPSHOT" == "true" ]
+then
+    dbt snapshot --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+fi
+
 dbt run $DBT_RUN_OPTIONS $DBT_RUN_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 # Jenkins jobs are marked as failed when any of command fails so writing the following test command with && true so it will give a chance to
 # evaluate its success or failure base on success or failure we can do further re-tries on failed tests
