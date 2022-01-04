@@ -50,7 +50,7 @@ class MinosLifecycle {
                         } 
                         sshAgent(extraVars.get('SSH_ACCESS_CREDENTIALS')) 
                         timeout {
-                            absolute(15)  // 15 minutes
+                            absolute(30)  // 15 minutes
                             failBuild()
                         }
                     }
@@ -65,7 +65,7 @@ class MinosLifecycle {
                     }
 
                     triggers {
-                        cron('H/5 * * * *')
+                        cron('H/10 * * * *')
                     }
 
                     parameters{
