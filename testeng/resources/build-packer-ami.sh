@@ -20,7 +20,9 @@ export DELETE_OR_KEEP_AMI=${DELETE_OR_KEEP}
 export NEW_RELIC_KEY=${NEW_RELIC_KEY}
 
 # Activate the Python virtualenv
-. $HOME/edx-venv/bin/activate
+virtualenv --python=python3.8 build_packer_ami_venv -q
+source build_packer_ami_venv/bin/activate
+
 
 cd util/packer
 echo $PWD

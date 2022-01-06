@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-virtualenv test_notifier_venv -q
+virtualenv --python=python3.8 test_notifier_venv -q
 source test_notifier_venv/bin/activate
 
 echo "Installing python requirements..."
