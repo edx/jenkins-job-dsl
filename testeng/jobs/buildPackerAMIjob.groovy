@@ -51,7 +51,7 @@ job('build-packer-ami') {
     }
 
     triggers {
-        cron('@daily')
+        cron('@weekly')
     }
 
     wrappers {
@@ -84,7 +84,7 @@ job('build-packer-ami') {
     publishers {
         // alert team of failures via slack & email
         configure GENERAL_SLACK_STATUS()
-        mailer('arbi-bom@edx.org')
+        mailer('tools-jenkins-isre@edx.opsgenie.net')
     }
 
 }
