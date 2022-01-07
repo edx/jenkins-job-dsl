@@ -98,7 +98,7 @@ job('user-retirement-driver') {
     }
     configure { project ->
         project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
-            'paramsToUseForLimit'('ENVIRONMENT,RETIREMENT_USERNAME')
+            'paramsToUseForLimit'('')  // blank string implies all parameters must match
         project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
             'limitOneJobWithMatchingParams'('true')
     }
@@ -225,7 +225,7 @@ job('user-retirement-collector') {
     }
     configure { project ->
         project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
-            'paramsToUseForLimit'('ENVIRONMENT')
+            'paramsToUseForLimit'('')  // blank string implies all parameters must match
         project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
             'limitOneJobWithMatchingParams'('true')
     }
