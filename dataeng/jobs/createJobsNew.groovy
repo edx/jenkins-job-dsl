@@ -4,6 +4,8 @@ import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.ModelTransfers.job as ModelTransfersJob
+import static analytics.RetirementJobEdxTriggers.job as RetirementJobEdxTriggersJob
+import static analytics.RetirementJobs.job as RetirementJobsJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
@@ -44,6 +46,8 @@ def taskMap = [
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     MODEL_TRANSFERS_JOB: ModelTransfersJob,
+    RETIREMENT_JOB_EDX_TRIGGERS_JOB: RetirementJobEdxTriggersJob,
+    RETIREMENT_JOBS_JOB: RetirementJobsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
@@ -162,6 +166,13 @@ listView('prefect') {
     description('Jobs that are used for prefect flows deployment')
     jobs {
         regex('prefect-flows-.*')
+    }
+    columns DEFAULT_VIEW.call()
+}
+listView('retirement') {
+    description('Jobs that are used for user retirement and retirement partner reporting')
+    jobs {
+        regex('.*retirement.*')
     }
     columns DEFAULT_VIEW.call()
 }
