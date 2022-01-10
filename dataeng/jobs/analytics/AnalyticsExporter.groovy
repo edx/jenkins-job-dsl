@@ -2,6 +2,7 @@ package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
+import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
 
 class AnalyticsExporter {
     public static def job = { dslFactory, allVars ->
@@ -169,6 +170,11 @@ class AnalyticsExporter {
                 stringParam('DATA_CZAR_KEYS_BRANCH', 'master', 'Branch to use for the data-czar-keys repository.')
             }
             parameters secure_scm_parameters(allVars)
+            environmentVariables {
+                env('OPSGENIE_HEARTBEAT_NAME', allVars.get('OPSGENIE_HEARTBEAT_NAME'))
+                env('OPSGENIE_HEARTBEAT_DURATION_NUM', allVars.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
+                env('OPSGENIE_HEARTBEAT_DURATION_UNIT', allVars.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
+            }
 
             multiscm secure_scm(allVars) << {
                 git {
@@ -213,10 +219,17 @@ class AnalyticsExporter {
             wrappers {
                 timestamps()
             }
+            wrappers {
+                credentialsBinding {
+                    string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
+                }
+            }
 
             publishers common_publishers(allVars)
+            publishers opsgenie_heartbeat_publisher(allVars)
 
             steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-platform-venv-py3.sh'))
                 virtualenv {
