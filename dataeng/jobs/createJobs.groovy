@@ -14,7 +14,6 @@ import static analytics.PipelineAcceptanceTestManual.job as PipelineAcceptanceTe
 import static analytics.PipelineAcceptanceTestMaster.job as PipelineAcceptanceTestMasterJob
 import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
 import static analytics.SnowflakeDemographicsCleanup.job as SnowflakeDemographicsCleanupJob
-import static analytics.SnowflakeMicrobachelorsITK.job as SnowflakeMicrobachelorsITKJob
 import static analytics.SnowflakePublicGrantsCleaner.job as SnowflakePublicGrantsCleanerJob
 import static analytics.SnowflakeRefreshSnowpipe.job as SnowflakeRefreshSnowpipeJob
 import static analytics.SnowflakeReplicaImportFromS3.job as SnowflakeReplicaImportFromS3Job
@@ -60,7 +59,6 @@ def taskMap = [
     PIPELINE_ACCEPTANCE_TEST_MASTER_JOB: PipelineAcceptanceTestMasterJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
     SNOWFLAKE_DEMOGRAPHICS_CLEANUP_JOB: SnowflakeDemographicsCleanupJob,
-    SNOWFLAKE_MICROBACHELORS_ITK_JOB: SnowflakeMicrobachelorsITKJob,
     SNOWFLAKE_PUBLIC_GRANTS_CLEANER_JOB: SnowflakePublicGrantsCleanerJob,
     SNOWFLAKE_REFRESH_SNOWPIPE_JOB: SnowflakeRefreshSnowpipeJob,
     SNOWFLAKE_REPLICA_IMPORT_FROM_S3_JOB: SnowflakeReplicaImportFromS3Job,
