@@ -130,6 +130,11 @@ class AppPermissionsRunner {
                             }
 
                             publishers {
+                                retryBuild {
+                                    rerunIfUnstable()
+                                    retryLimit(3)
+                                    progressiveDelay(10, 60)
+                                }
                                 downstreamParameterized {
                                     trigger('app-permissions-failure') {
                                         condition('FAILED')
