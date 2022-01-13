@@ -27,6 +27,7 @@ catch (any) {
 Map codejail38TestsJobConfig = [
     open: true,
     jobName: 'codejail-python-3.8-pr-tests',
+    org: 'openedx',
     repoName: 'codejail',
     context: 'jenkins/python3.8/tests',
     onlyTriggerPhrase: false,
@@ -42,6 +43,7 @@ Map codejail38TestsJobConfig = [
 Map codejail38QualityJobConfig = [
     open: true,
     jobName: 'codejail-python-3.8-pr-quality',
+    org: 'openedx',
     repoName: 'codejail',
     context: 'jenkins/python3.8/quality',
     onlyTriggerPhrase: false,
@@ -72,7 +74,7 @@ jobConfigs.each { jobConfig ->
                 authorization GENERAL_PRIVATE_JOB_SECURITY()
             }
             properties {
-                githubProjectUrl("https://github.com/edx/${jobConfig.repoName}/")
+                githubProjectUrl("https://github.com/${jobConfig.org}/${jobConfig.repoName}/")
             }
             logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
             environmentVariables jobConfig.environmentVariables
