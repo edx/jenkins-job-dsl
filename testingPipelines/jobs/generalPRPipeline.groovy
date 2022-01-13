@@ -111,7 +111,7 @@ jobConfigs.each { jobConfig ->
                         }
                         remote {
                             credentials('jenkins-worker')
-                            github("edx/${jobConfig.repoName}", 'ssh', 'github.com')
+                            github("${jobConfig.org}/${jobConfig.repoName}", 'ssh', 'github.com')
                             refspec('+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
                             branch('\${sha1}')
                         }
