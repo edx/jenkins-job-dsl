@@ -50,10 +50,6 @@ job('build-packer-ami') {
         }
     }
 
-    triggers {
-        cron('@weekly')
-    }
-
     wrappers {
         timeout {
             absolute(180)
