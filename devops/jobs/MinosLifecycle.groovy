@@ -97,12 +97,7 @@ class MinosLifecycle {
 
                     steps {
 
-                        virtualenv {
-                            pythonName('System-CPython-3.6')
-                            nature("shell")
-                            systemSitePackages(false)
-                            command(dslFactory.readFileFromWorkspace("devops/resources/retire-instances-in-terminating-wait.sh"))
-                        }
+                        command(dslFactory.readFileFromWorkspace("devops/resources/retire-instances-in-terminating-wait.sh"))
 
                         
                         String opsgenie_heartbeat_name = inner_config.get('opsgenie_heartbeat_name', '')
