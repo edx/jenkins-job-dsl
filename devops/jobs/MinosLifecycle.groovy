@@ -97,7 +97,7 @@ class MinosLifecycle {
 
                     steps {
 
-                        command(dslFactory.readFileFromWorkspace("devops/resources/retire-instances-in-terminating-wait.sh"))
+                        shell(dslFactory.readFileFromWorkspace("devops/resources/retire-instances-in-terminating-wait.sh"))
 
                         
                         String opsgenie_heartbeat_name = inner_config.get('opsgenie_heartbeat_name', '')
