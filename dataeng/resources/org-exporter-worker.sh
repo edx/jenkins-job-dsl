@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 TODAY=$(date +%d)
 
 env | sort

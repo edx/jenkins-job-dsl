@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 # Create destination directory
 mkdir -p /var/lib/jenkins/tmp/analytics-exporter/course-data
 

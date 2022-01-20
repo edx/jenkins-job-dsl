@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 # Check that the DATE_MODIFIER is set to a Sunday, or if blank the current day is a Sunday
 DAYOFWEEK=$(date +%u ${DATE_MODIFIER})
 if [ $DAYOFWEEK != 7 ]; then
