@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 # Some recent changes in edx-platform breaks the exporter.
 # We are currently using edx-platform's aed/analytics-exporter-settings-hotfix(Nov 2017) which follows an old
 # requirements installation strategy. This file would go away in favor of 'setup-platform-env' once we figure out the
