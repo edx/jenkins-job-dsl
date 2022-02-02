@@ -33,7 +33,7 @@ do_one_repo () {
   source "$venv_dir/bin/activate"
 
   echo "Upgrading pip..."
-  pip install "pip==20.0.2"
+  pip install pip
 
   local PKG_SPECS
   IFS=", " read -ra PKG_SPECS <<<"$PACKAGES"
@@ -59,6 +59,7 @@ do_one_repo () {
   echo "Running script to create PR..."
   cd "$WORKSPACE/testeng-ci"
   pip install -r requirements/base.txt
+  
 
     # if present and non-empty, get additional information for PR body from .git/cleanup-python-code-description
   if [ -s "$repo_dir/.git/cleanup-python-code-description" ]
