@@ -3,6 +3,12 @@ set -eu -o pipefail
 
 # Jenkins won't set an environment variable if it's empty.
 # Set this to an empty string if it's unset.
+
+sudo apt-get install nodejs
+
+node --version
+
+<<commentit
 PACKAGES="${PACKAGES:-}"
 
 IFS=', ' read -ra REPOS <<<"$REPO_NAMES"
@@ -137,3 +143,4 @@ if [ ${#failed_repos[@]} -ne 0 ]; then
   echo "${failed_repos[@]}"
   exit 1
 fi
+commentit
