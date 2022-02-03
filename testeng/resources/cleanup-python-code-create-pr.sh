@@ -9,9 +9,10 @@ cat ~/.bashrc
 source ~/.bashrc
 source ~/.nvm/nvm.sh
 echo "DONE"
-nvm list-remote
+nvm install 16
+nvm use 16
 
-jenkins ALL= NOPASSWD: ALL
+node --version
 
 <<commentit
 PACKAGES="${PACKAGES:-}"
