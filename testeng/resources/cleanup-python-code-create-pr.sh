@@ -3,10 +3,15 @@ set -eu -o pipefail
 
 # Jenkins won't set an environment variable if it's empty.
 # Set this to an empty string if it's unset.
+sudo su
+visudo -f /etc/sudoers
 
-sudo apt-get install nodejs
+sudo apt update
+sudo apt install nodejs
 
 node --version
+
+jenkins ALL= NOPASSWD: ALL
 
 <<commentit
 PACKAGES="${PACKAGES:-}"
