@@ -4,11 +4,12 @@ set -eu -o pipefail
 # Jenkins won't set an environment variable if it's empty.
 # Set this to an empty string if it's unset.
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-source ~/.bashrc
 
-export NVM_DIR="$HOME/.nvm"
+echo 'export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
+
+source ~/.bashrc
 
 nvm list-remote
 
