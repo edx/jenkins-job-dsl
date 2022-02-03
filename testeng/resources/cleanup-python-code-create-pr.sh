@@ -5,16 +5,14 @@ set -eu -o pipefail
 # Set this to an empty string if it's unset.
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
-cat ~/.bashrc
 source ~/.bashrc
 source ~/.nvm/nvm.sh
-echo "DONE"
+
 nvm install 16
 nvm use 16
 
 node --version
 
-<<commentit
 PACKAGES="${PACKAGES:-}"
 
 IFS=', ' read -ra REPOS <<<"$REPO_NAMES"
@@ -149,4 +147,3 @@ if [ ${#failed_repos[@]} -ne 0 ]; then
   echo "${failed_repos[@]}"
   exit 1
 fi
-commentit
