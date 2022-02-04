@@ -3,8 +3,9 @@ set -eu -o pipefail
 
 # Jenkins won't set an environment variable if it's empty.
 # Set this to an empty string if it's unset.
-
-if ["$(nvm --version)" == *"found"*]; then
+NVM = $(nvm --version > /dev/null)
+echo $NVM
+if [ $NVM == *"found"*]; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
   source ~/.bashrc
