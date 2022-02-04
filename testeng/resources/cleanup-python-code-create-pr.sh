@@ -33,7 +33,7 @@ do_one_repo () {
   source "$venv_dir/bin/activate"
 
   echo "Upgrading pip..."
-  pip install pip
+  pip install "pip<22"
 
   local PKG_SPECS
   IFS=", " read -ra PKG_SPECS <<<"$PACKAGES"
