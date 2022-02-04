@@ -5,7 +5,8 @@ set -eu -o pipefail
 # Set this to an empty string if it's unset.
 NVM="$(nvm --version  2>&1 > /dev/null)"
 echo $NVM
-if [ $NVM == *"found"*]; then
+
+if [[ $NVM == *"command not found"* ]]; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
   source ~/.bashrc
