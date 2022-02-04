@@ -4,10 +4,11 @@ set -eu -o pipefail
 # Jenkins won't set an environment variable if it's empty.
 # Set this to an empty string if it's unset.
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-
-source ~/.bashrc
-source ~/.nvm/nvm.sh
+command -v nvm >/dev/null 2>&1 || {
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash;
+  source ~/.bashrc;
+  source ~/.nvm/nvm.sh;
+  }
 
 nvm install 16
 nvm use 16
