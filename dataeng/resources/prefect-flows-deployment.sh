@@ -20,11 +20,13 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 # The following statement will help us to determine if repository already exists otherwise it will create a new repository with the name of flow
 aws ecr describe-repositories --repository-names $FLOW_NAME --region us-east-1 || aws ecr create-repository --repository-name $FLOW_NAME --region us-east-1
 
-# Preparing to Autheticate with Prefect Cloud by getting token from Vault
-vault write -field=token auth/approle/login \
-  role_id=${ANALYTICS_VAULT_ROLE_ID} \
-  secret_id=${ANALYTICS_VAULT_SECRET_ID} \
-| vault login -no-print token=-
+# Retrieve a vault token corresponding to the jenkins AppRole.  The token is then stored in the VAULT_TOKEN variable
+# which is implicitly used by subsequent vault commands within this script.
+# Instructions followed: https://learn.hashicorp.com/tutorials/vault/approle#step-4-login-with-roleid-secretid
+VAULT_TOKEN=$(vault write -field=token auth/approle/login \
+    role_id=${ANALYTICS_VAULT_ROLE_ID} \
+    secret_id=${ANALYTICS_VAULT_SECRET_ID}
+)
 
 PREFECT_CLOUD_AGENT_TOKEN=$(
   vault kv get \
