@@ -68,7 +68,7 @@ pipelineJob('edx-app-android-build') {
                 git {
                     remote {
                         credentials('jenkins-worker')
-                        github('edx/edx-app-android', 'https', 'github.com')
+                        github('openedx/edx-app-android', 'https', 'github.com')
                         refspec('+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
                     }
                     branch('\${sha1}')
