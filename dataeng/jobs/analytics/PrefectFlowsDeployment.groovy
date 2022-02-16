@@ -94,8 +94,24 @@ class PrefectFlowsDeployment{
                 }
             }
         }
-        allVars.get('PREFECT_FLOWS').each { prefect_flows ->
-            dslFactory.job("prefect-flows-deployment-$prefect_flows"){
+        List prefect_flows = [
+            'load_affiliate_window_transactions_to_snowflake',
+            'load_course_structure_to_snowflake',
+            'load_cybersource_reports_to_snowflake',
+            'load_edx_sitemap_to_snowflake',
+            'load_enterprise_tables_from_s3_to_aurora',
+            'load_geoip_to_snowflake',
+            'load_google_analytics_data_to_snowflake',
+            'load_google_sheets_to_snowflake',
+            'load_paypal_cases_to_snowflake',
+            'load_paypal_settlement_report_to_snowflake',
+            'load_paypal_transaction_detail_report_to_snowflake',
+            'send_hubspot_leads_to_braze',
+            'send_hubspot_unsubscribes_to_braze',
+            'load_segment_config_to_snowflake',
+        ]
+        prefect_flows.each { prefect_flow ->
+            dslFactory.job("prefect-flows-deployment-$prefect_flow"){
                 description(
                     'Changes detected in upstream job gets trigger this prefect-flows-deployment job ' +
                     'It installs requirements, autheticates prefect and deploy latest code changes'
