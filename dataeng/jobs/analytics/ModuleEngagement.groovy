@@ -12,6 +12,12 @@ class ModuleEngagement {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("module-engagement-$environment") {
+                // desupport-1271: temporarily disabling now the the dbt version of the
+                // enrollments job is live. This job requires the output of the enrollments
+                // pipeline job, which is being disabled, and will no longer work.
+                // leave this for 2 weeks and delete the job when we are confident that
+                // this is no longer needed.
+                disabled(true)
                 authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars)
                 multiscm common_multiscm(allVars)
