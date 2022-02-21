@@ -32,7 +32,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edx',
         extraMembersCanBuild: [],
         cron: '0 8 * * 2',  // 09:00 UTC every Tuesday.
-        disabled: false
+        disabled: true
     ],
     [
         downstreamJobName: 'retirement-partner-reporter',
@@ -40,7 +40,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edge',
         extraMembersCanBuild: [],
         cron: '30 8 * * 2',  // 09:30 UTC every Tuesday.
-        disabled: false
+        disabled: true
     ],
     [
         downstreamJobName: 'retirement-partner-report-cleanup',
@@ -48,7 +48,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edx',
         extraMembersCanBuild: [],
         cron: '0 7 * * *',  // 08:00 UTC every day.
-        disabled: false
+        disabled: true
     ],
     [
         downstreamJobName: 'retirement-partner-report-cleanup',
@@ -56,7 +56,7 @@ List jobConfigs = [
         environmentDeployment: 'prod-edge',
         extraMembersCanBuild: [],
         cron: '30 7 * * *',  // 08:30 UTC every day.
-        disabled: false
+        disabled: true
     ]
 ]
 
