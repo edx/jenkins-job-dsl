@@ -189,6 +189,7 @@ job('user-retirement-collector') {
     description('Collect a group of users ready for retirement immediately, and trigger downstream ' +
                 'user-retirement-driver jobs for each one.')
 
+    disabled(true)
     // Only a subset of edx employees should be allowed to control this job,
     // but customer support can read and discover.
     authorization {
@@ -364,6 +365,7 @@ job('user-retirement-collector') {
 job('retirement-partner-reporter') {
     description('Run the partner reporting job and push the results to Google Drive.')
 
+    disabled(true)
     authorization {
         blocksInheritance(true)
         // Only core teams have full control of the reporter.
@@ -498,6 +500,7 @@ job('retirement-partner-reporter') {
 job('retirement-partner-report-cleanup') {
     description('Run the partner report cleanup job.')
 
+    disabled(true)
     authorization {
         blocksInheritance(true)
         // Only core teams have full control of the reporter.
@@ -628,6 +631,7 @@ job('retirement-partner-report-cleanup') {
 job('user-retirement-bulk-status') {
     description('Moves learners in the retirement queue from one retirement state to another.')
 
+    disabled(true)
     // Only a subset of edx employees should be allowed to control this job,
     // but customer support can read and discover.
     authorization {
