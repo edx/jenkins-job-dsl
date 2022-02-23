@@ -14,7 +14,7 @@ class RetirementJobEdxTriggers{
                 // Creates user_retirement_trigger_<environment> and retirement_partner_report_trigger_<environment> jobs
                 // This defines the job which triggers the collector and reporter job for a given environment.
                 description("Scheduled trigger of the " + env_config.get('DOWNSTREAM_JOB_NAME') + " job for the " + env_config.get('DOWNSTREAM_JOB_NAME') + " environment")
-                // Marking the jobs disabled, they will be enabled as part of DENG-1101
+
                 disabled(env_config.get('DISABLED'))
 
                 authorization common_authorization(env_config)

@@ -14,8 +14,7 @@ class RetirementJobs{
         // This defines the job for retiring individual users.
         dslFactory.job('user-retirement-driver') {
             description('Drive the retirement of a single user which is ready for retirement immediately.')
-            // Marking the jobs disabled, they will be enabled as part of DENG-1101
-            disabled(true)
+
             authorization common_authorization(allVars)
 
             // Allow this job to have simultaneous instances running at the same time
@@ -124,8 +123,6 @@ class RetirementJobs{
             description('Collect a group of users ready for retirement immediately, and trigger downstream ' +
                         'user-retirement-driver jobs for each one.')
 
-            // Marking the jobs disabled, they will be enabled as part of DENG-1101
-            disabled(true)
             authorization common_authorization(allVars)
 
             // Allow this job to have simultaneous builds at the same time in general,
@@ -279,8 +276,7 @@ class RetirementJobs{
         // // Defines the job for running partner reporting
         dslFactory.job('retirement-partner-reporter') {
             description('Run the partner reporting job and push the results to Google Drive.')
-            // Marking the jobs disabled, they will be enabled as part of DENG-1101
-            disabled(true)
+
             authorization common_authorization(allVars)
 
             // Only one of these jobs should be running at a time per environment
@@ -399,8 +395,7 @@ class RetirementJobs{
         // Defines the job for running partner reporting
         dslFactory.job('retirement-partner-report-cleanup') {
             description('Run the partner report cleanup job.')
-            // Marking the jobs disabled, they will be enabled as part of DENG-1101
-            disabled(true)
+
             authorization common_authorization(allVars)
 
             // Only one of these jobs should be running at a time per environment
@@ -512,8 +507,7 @@ class RetirementJobs{
         // This defines the retirement bulk status change job for users in the retirement queue.
         dslFactory.job('user-retirement-bulk-status') {
             description('Moves learners in the retirement queue from one retirement state to another.')
-            // Marking the jobs disabled, they will be enabled as part of DENG-1101
-            disabled(true)
+
             authorization common_authorization(allVars)
 
             // Only one of these should run at a time.
