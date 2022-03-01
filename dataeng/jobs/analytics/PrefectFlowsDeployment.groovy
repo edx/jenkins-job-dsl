@@ -18,7 +18,9 @@ class PrefectFlowsDeployment{
                 ' file to pass comma delimeted list of flows in FLOWS_TO_DEPLOY parameter to downstream job'
             )
             authorization common_authorization(allVars)
-            logRotator common_log_rotator(allVars)
+            logRotator {
+                numToKeep(180)
+            }
             parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('PREFECT_FLOWS_URL', allVars.get('PREFECT_FLOWS_URL'), 'URL for the prefect-flows repository.')
@@ -76,7 +78,9 @@ class PrefectFlowsDeployment{
                 'This job works as intermediate to get FLOWS_TO_DEPLOY and use it to call relevant downstream deployment jobs'
             )
             authorization common_authorization(allVars)
-            logRotator common_log_rotator(allVars)
+            logRotator {
+                numToKeep(180)
+            }
             parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('FLOWS_TO_DEPLOY', allVars.get('FLOWS_TO_DEPLOY'), 'Comma separated list of Flows that upstream job has identified and needs to redeploy')
@@ -118,7 +122,9 @@ class PrefectFlowsDeployment{
                 )
                 // if name of this job is ever changed. Make to sure to update deletion of job name prefix in prefect-deployment-identify.sh
                 authorization common_authorization(allVars)
-                logRotator common_log_rotator(allVars)
+                logRotator {
+                    numToKeep(180)
+                }
                 parameters secure_scm_parameters(allVars)
                 parameters {
                     stringParam('PREFECT_FLOWS_URL', allVars.get('PREFECT_FLOWS_URL'), 'URL for the prefect-flows repository.')

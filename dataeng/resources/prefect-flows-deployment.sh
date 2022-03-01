@@ -26,6 +26,8 @@ vault write -field=token auth/approle/login \
   secret_id=${ANALYTICS_VAULT_SECRET_ID} \
 | vault login -no-print token=-
 
+# Avoid printing console logs that contains secrets
+set +x
 PREFECT_CLOUD_AGENT_TOKEN=$(
   vault kv get \
     -version=${PREFECT_VAULT_KV_VERSION} \
@@ -36,5 +38,6 @@ PREFECT_CLOUD_AGENT_TOKEN=$(
 # Get Authenticated with Prefect Cloud
 prefect auth login --key $PREFECT_CLOUD_AGENT_TOKEN
 
+set -x
 # Deploy the flow. $FLOW_NAME will contain the name of flow to be deployed
 make -C flows $FLOW_NAME
