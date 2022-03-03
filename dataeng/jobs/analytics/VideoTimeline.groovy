@@ -14,6 +14,7 @@ class VideoTimeline {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("video-timeline-$environment") {
+                disabled(env_config.get('DISABLED', false))
                 authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars, env_config)
                 multiscm common_multiscm(allVars)
