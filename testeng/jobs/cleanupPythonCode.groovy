@@ -1,4 +1,4 @@
-githubUserReviewers = ['mraarif']
+githubUserReviewers = []
 
 githubTeamReviewers = ['arbi-bom']
 
