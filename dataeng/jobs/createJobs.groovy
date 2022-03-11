@@ -9,7 +9,6 @@ import static analytics.Enterprise.job as EnterpriseJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.EventExportIncrementalLarge.job as EventExportIncrementalLargeJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
-import static analytics.ModuleEngagement.job as ModuleEngagementJob
 import static analytics.PipelineAcceptanceTestManual.job as PipelineAcceptanceTestManualJob
 import static analytics.PipelineAcceptanceTestMaster.job as PipelineAcceptanceTestMasterJob
 import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
@@ -54,7 +53,6 @@ def taskMap = [
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
-    MODULE_ENGAGEMENT_JOB: ModuleEngagementJob,
     PIPELINE_ACCEPTANCE_TEST_MANUAL_JOB: PipelineAcceptanceTestManualJob,
     PIPELINE_ACCEPTANCE_TEST_MASTER_JOB: PipelineAcceptanceTestMasterJob,
     READ_REPLICA_EXPORT_TO_S3_JOB: ReadReplicaExportToS3Job,
