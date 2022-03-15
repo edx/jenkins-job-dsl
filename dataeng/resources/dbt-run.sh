@@ -16,6 +16,30 @@ else
 fi
 
 
+DBT_PROFILE_ARGS="--profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET"
+
+if ! [ -z "$DBT_MODEL_INCLUDE" ]
+then
+    DBT_MODEL_INCLUDE="--select $DBT_MODEL_INCLUDE"
+else
+    DBT_MODEL_INCLUDE=""
+fi
+
+if ! [ -z "$DBT_MODEL_EXCLUDE" ]
+then
+    DBT_MODEL_EXCLUDE="--exclude $DBT_MODEL_EXCLUDE"
+else
+    DBT_MODEL_EXCLUDE=""
+fi
+
+if [ "$FULL_REFRESH" = "true" ]
+then
+    FULL_REFRESH="--full-refresh"
+else
+    FULL_REFRESH=""
+fi
+
+
 if [ "$IS_SCHEMA_BUILDER_PR" == "true" ] || [ "$JOB_TYPE" == "manual" ]
 then
 
@@ -24,14 +48,18 @@ then
 
     cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT_PATH
 
-    dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-    dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-    dbt seed --full-refresh --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
-    dbt run $DBT_RUN_OPTIONS $DBT_RUN_EXCLUDE --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
-    dbt test $DBT_RUN_OPTIONS --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+    dbt clean $DBT_PROFILE_ARGS
+    dbt deps $DBT_PROFILE_ARGS
+    dbt seed $FULL_REFRESH $DBT_PROFILE_ARGS
+    dbt run  $FULL_REFRESH $DBT_MODEL_INCLUDE $DBT_MODEL_EXCLUDE $DBT_RUN_ARGS $DBT_PROFILE_ARGS
+    if [ "$SKIP_TESTS" = "true" ]
+    then
+        echo "Skipping dbt tests"
+    else
+        dbt test $FULL_REFRESH $DBT_MODEL_INCLUDE $DBT_MODEL_EXCLUDE $DBT_TEST_ARGS $DBT_PROFILE_ARGS
+    fi
+
 else
     echo "It is an automated run of job but not a Schema Builder commit. Skipping to run dbt"
 
 fi
-
-
