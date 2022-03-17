@@ -66,6 +66,7 @@ job('cleanup-python-code') {
         credentialsBinding {
             string('GITHUB_TOKEN', 'GITHUB_REQUIREMENTS_BOT_TOKEN')
             string('GITHUB_USER_EMAIL', 'GITHUB_REQUIREMENTS_BOT_EMAIL')
+            string('TRANSIFEX_AUTH_TOKEN', 'TRANSIFEX_AUTH_TOKEN')
         }
         timestamps()
     }
