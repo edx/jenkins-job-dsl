@@ -52,9 +52,9 @@ class SSLExpirationCheck{
                             'Git repo containing edX configuration.')
                     stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
-                    stringParam('SYSADMIN_REPO', extraVars.get('SYSADMIN_REPO'),
-                            'Git repo containing sysadmin configuration which contains the ssl expiration check script.')
-                    stringParam('SYSADMIN_BRANCH', extraVars.get('SYSADMIN_BRANCH', 'master'),
+                    stringParam('MONITORING_SCRIPTS_REPO', extraVars.get('MONITORING_SCRIPTS_REPO', 'https://github.com/edx/monitoring-scripts'),
+                            'Git repo containing edX monitoring scripts, which contains the ssl expiration check script.')
+                    stringParam('MONITORING_SCRIPTS_BRANCH', extraVars.get('MONITORING_SCRIPTS_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
                     stringParam('TO_ADDRESS', extraVars.get('TO_ADDRESS', ""))
                     stringParam('FROM_ADDRESS', extraVars.get('FROM_ADDRESS', ""))
@@ -74,8 +74,8 @@ class SSLExpirationCheck{
                     }
                     git {
                         remote {
-                            url('$SYSADMIN_REPO')
-                            branch('$SYSADMIN_BRANCH')
+                            url('$MONITORING_SCRIPTS_REPO')
+                            branch('$MONITORING_SCRIPTS_BRANCH')
                             if (gitCredentialId) {
                                 credentials(gitCredentialId)
                             }
@@ -83,7 +83,7 @@ class SSLExpirationCheck{
                         extensions {
                             cleanAfterCheckout()
                             pruneBranches()
-                            relativeTargetDirectory('sysadmin')
+                            relativeTargetDirectory('monitoring-scripts')
                         }
                     }
                 }
