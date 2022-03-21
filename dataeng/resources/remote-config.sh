@@ -94,7 +94,7 @@ unassume_role
 vault write -field=token auth/approle/login \
     role_id=${ANALYTICS_VAULT_ROLE_ID} \
     secret_id=${ANALYTICS_VAULT_SECRET_ID} \
-| vault login -no-print token=-
+| vault login -no-store token=-
 
 # For each deployment, fetch the appropriate decryption keys from Vault and decrypt lms and studio configs.
 for DEPLOYMENT in edx edge; do

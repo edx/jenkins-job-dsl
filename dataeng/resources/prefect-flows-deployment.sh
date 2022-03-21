@@ -24,7 +24,7 @@ aws ecr describe-repositories --repository-names $FLOW_NAME --region us-east-1 |
 vault write -field=token auth/approle/login \
   role_id=${ANALYTICS_VAULT_ROLE_ID} \
   secret_id=${ANALYTICS_VAULT_SECRET_ID} \
-| vault login -no-print token=-
+| vault login -no-store token=-
 
 # Avoid printing console logs that contains secrets
 set +x
