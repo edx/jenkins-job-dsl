@@ -15,7 +15,7 @@ base_url=$(grep 'base_url' playbooks/roles/mongo_mms/defaults/main.yml | cut -d'
 
 curl -OL $base_url/automation/mongodb-mms-automation-agent-manager_latest_amd64.ubuntu1604.deb
 
-available_mongo_automation_agent_version=$(dpkg-deb -f mongodb-mms-automation-agent-manager-latest.amd64.ubuntu1604.deb Version)
+available_mongo_automation_agent_version=$(dpkg-deb -f mongodb-mms-automation-agent-manager_latest_amd64.ubuntu1604.deb Version)
 
 AVAILABLE_MONGO_AGENTS="$available_mongo_automation_agent_version"
 
