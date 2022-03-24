@@ -50,7 +50,9 @@ then
 
     dbt clean $DBT_PROFILE_ARGS
     dbt deps $DBT_PROFILE_ARGS
-    dbt seed $FULL_REFRESH $DBT_PROFILE_ARGS
+    # ALWAYS pass --full-refreh for seeds, since there's no reason not to.  Not passing --full-refreh will more often
+    # lead to job failures due to seed column changes.
+    dbt seed --full-refresh $DBT_PROFILE_ARGS
     dbt run  $FULL_REFRESH $DBT_MODEL_INCLUDE $DBT_MODEL_EXCLUDE $DBT_RUN_ARGS $DBT_PROFILE_ARGS
     if [ "$SKIP_TESTS" = "true" ]
     then
