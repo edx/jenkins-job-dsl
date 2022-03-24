@@ -52,7 +52,7 @@ class SSLExpirationCheck{
                             'Git repo containing edX configuration.')
                     stringParam('CONFIGURATION_BRANCH', extraVars.get('CONFIGURATION_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
-                    stringParam('MONITORING_SCRIPTS_REPO', extraVars.get('MONITORING_SCRIPTS_REPO', 'https://github.com/edx/monitoring-scripts'),
+                    stringParam('MONITORING_SCRIPTS_REPO', extraVars.get('MONITORING_SCRIPTS_REPO', 'git@github.com:edx/monitoring-scripts.git'),
                             'Git repo containing edX monitoring scripts, which contains the ssl expiration check script.')
                     stringParam('MONITORING_SCRIPTS_BRANCH', extraVars.get('MONITORING_SCRIPTS_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
