@@ -91,10 +91,13 @@ unassume_role
 #         usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
 #     }
 # }
-vault write -field=token auth/approle/login \
-    role_id=${ANALYTICS_VAULT_ROLE_ID} \
-    secret_id=${ANALYTICS_VAULT_SECRET_ID} \
-| vault login -no-print token=-
+# Retrieve a vault token corresponding to the jenkins AppRole.  The token is then stored in the VAULT_TOKEN variable
+# which is implicitly used by subsequent vault commands within this script.
+# Instructions followed: https://learn.hashicorp.com/tutorials/vault/approle#step-4-login-with-roleid-secretid
+VAULT_TOKEN=$(vault write -field=token auth/approle/login \
+     role_id=${ANALYTICS_VAULT_ROLE_ID} \
+     secret_id=${ANALYTICS_VAULT_SECRET_ID}
+ )
 
 # For each deployment, fetch the appropriate decryption keys from Vault and decrypt lms and studio configs.
 for DEPLOYMENT in edx edge; do
