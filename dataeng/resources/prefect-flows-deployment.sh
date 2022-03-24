@@ -21,10 +21,10 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 aws ecr describe-repositories --repository-names $FLOW_NAME --region us-east-1 || aws ecr create-repository --repository-name $FLOW_NAME --region us-east-1
 
 # Preparing to Autheticate with Prefect Cloud by getting token from Vault
-vault write -field=token auth/approle/login \
-  role_id=${ANALYTICS_VAULT_ROLE_ID} \
-  secret_id=${ANALYTICS_VAULT_SECRET_ID} \
-| vault login -no-store token=-
+VAULT_TOKEN=$(vault write -field=token auth/approle/login \
+     role_id=${ANALYTICS_VAULT_ROLE_ID} \
+     secret_id=${ANALYTICS_VAULT_SECRET_ID}
+ )
 
 # Avoid printing console logs that contains secrets
 set +x

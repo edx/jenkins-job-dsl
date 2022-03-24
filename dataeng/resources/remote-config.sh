@@ -91,10 +91,10 @@ unassume_role
 #         usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
 #     }
 # }
-vault write -field=token auth/approle/login \
-    role_id=${ANALYTICS_VAULT_ROLE_ID} \
-    secret_id=${ANALYTICS_VAULT_SECRET_ID} \
-| vault login -no-store token=-
+VAULT_TOKEN=$(vault write -field=token auth/approle/login \
+     role_id=${ANALYTICS_VAULT_ROLE_ID} \
+     secret_id=${ANALYTICS_VAULT_SECRET_ID}
+ )
 
 # For each deployment, fetch the appropriate decryption keys from Vault and decrypt lms and studio configs.
 for DEPLOYMENT in edx edge; do
