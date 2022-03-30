@@ -45,3 +45,17 @@ exporter-properties \
     ${CONFIG_PATH} \
     ${WORKSPACE}/${ORG_CONFIG} \
     organizations
+
+# Dirty hack:
+# Some orgs can take an exceptionally long time to run. Depending on the concurrency
+# settings for the analytics-exporter-master job and the location of the organization
+# alphabetically in the organizations directory, it's possible that these long-running
+# jobs will be started towards the end of the master run, which can extend the total
+# run-time quite a bit. Use PRIORITY_ORGS to pass a space separated list of orgs that
+# should run first. This is accomplished by prepending a number to the name of the orgs
+# in question.
+for ORG in ${PRIORITY_ORGS}; do
+    if [ -f organizations/$ORG ]; then
+        mv organizations/$ORG organizations/1_$ORG
+    fi
+done
