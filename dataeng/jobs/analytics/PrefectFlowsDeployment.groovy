@@ -107,6 +107,7 @@ class PrefectFlowsDeployment{
             'load_geoip_to_snowflake',
             'load_google_analytics_data_to_snowflake',
             'load_google_sheets_to_snowflake',
+            'load_insights_tables_from_snowflake_to_aurora',
             'load_paypal_cases_to_snowflake',
             'load_paypal_settlement_report_to_snowflake',
             'load_paypal_transaction_detail_report_to_snowflake',
