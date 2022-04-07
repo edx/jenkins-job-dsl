@@ -36,7 +36,7 @@ if __name__ == "__main__":
     # get jobs worspace path
     workspace = os.environ['WORKSPACE']
     # path to store token   
-    PATH=workspace+"/vault-token"
+    PATH=workspace+"/vault-config/vault-token"
     
     args = sys.argv[1:][0]
     
