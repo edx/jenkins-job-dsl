@@ -17,7 +17,6 @@ class AnalyticsExporter {
                 stringParam('NOTIFY', '', 'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER', '', 'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 202x-0x-0x" if that is when the CWSM dump took place.  (Leave off quotes.)')
                 stringParam('TASKS', '', 'Space separated list of tasks to process. Leave this blank to use the task list specified in the config file.  Specify here only if you are running tests of a specific task.')
-                stringParam('JOB_DSL_BRANCH', 'origin/master', 'Branch from the jenkins job dsl repository to get vault token helper.')
             }
             parameters secure_scm_parameters(allVars)
 
@@ -55,17 +54,7 @@ class AnalyticsExporter {
                         relativeTargetDirectory('analytics-exporter')
                     }
                 }
-                git {
-                    remote {
-                        url('git@github.com:edx/jenkins-job-dsl.git')
-                        branch('$JOB_DSL_BRANCH')
-                        credentials('1')
-                    }
-                    extensions {
-                        pruneBranches()
-                        relativeTargetDirectory('jenkins-job-dsl')
-                    }
-                }
+
             }
 
             wrappers {
@@ -78,13 +67,6 @@ class AnalyticsExporter {
             steps {
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-platform-venv-py3.sh'))
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/vault-config.sh")
-                    )
-                }
                 virtualenv {
                     pythonName('PYTHON_3.7')
                     nature("shell")
