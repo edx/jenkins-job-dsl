@@ -100,7 +100,18 @@ vault write -field=token auth/approle/login \
     secret_id=${ANALYTICS_VAULT_SECRET_ID} \
 | vault login -no-print token=-
 
-# set vault token 
+
+# set vault token
+
+# Creating separate token for each job in its workspace
+# By default token is generated in home directory of server
+# When token location is changed using VAULT_CONFIG_PATH vault cli
+# should find the new location of token using the vault config file
+# This is the expected behaviour for vault cli. But vault cli was
+# not working as expected and is not able to locate the new token location
+# Have to explicitly store token in token environment variable so that
+# vault cli can use the newly generated token for each job
+
 export VAULT_TOKEN="$(cat ${WORKSPACE}/vault-config/vault-token)"
 
 # For each deployment, fetch the appropriate decryption keys from Vault and decrypt lms and studio configs.

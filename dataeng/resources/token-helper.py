@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 """
 A vault token helper to change the default location for vault token.
@@ -6,6 +6,11 @@ By default vault writes token to home direcotry of the server. This
 creates a race condition when multiple jobs try to access the token
 in parallel. In order to avoid it generating a separate token for 
 each job in its workspace.
+
+Documentation Reference:
+https://www.vaultproject.io/docs/commands/token-helper
+https://www.hashicorp.com/blog/building-a-vault-token-helper
+
 """
 
 import sys

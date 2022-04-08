@@ -99,7 +99,7 @@ class AnalyticsExporter {
                 stringParam('ORG')
                 stringParam('PLATFORM_VENV')
                 stringParam('EXTRA_OPTIONS')
-            }
+                stringParam('JOB_DSL_BRANCH','master', 'Branch to use for the jenkins-job-dsl repository.')            }
             parameters secure_scm_parameters(allVars)
 
             environmentVariables {
@@ -124,7 +124,19 @@ class AnalyticsExporter {
 
             concurrentBuild()
 
-            multiscm secure_scm(allVars)
+            multiscm secure_scm(allVars) << {
+                git {
+                    remote {
+                        url('git@github.com:edx/jenkins-job-dsl.git')
+                        branch('$JOB_DSL_BRANCH')
+                        credentials('1')
+                    }
+                    extensions {
+                        pruneBranches()
+                        relativeTargetDirectory('jenkins-job-dsl')
+                    }
+                }
+            }
 
             wrappers {
                 timestamps()
@@ -177,7 +189,8 @@ class AnalyticsExporter {
                 stringParam('ORG_CONFIG', 'data-czar-keys/config.yaml', 'Path to the data-czar organization config file.')
                 stringParam('DATA_CZAR_KEYS_BRANCH', 'master', 'Branch to use for the data-czar-keys repository.')
                 stringParam('PRIORITY_ORGS', allVars.get('PRIORITY_ORGS'), 'Space separated list of organizations to process first.')
-                stringParam('JOB_DSL_BRANCH', 'origin/master', 'Branch from the jenkins job dsl repository to get vault token helper.')
+                
+
             }
             parameters secure_scm_parameters(allVars)
             environmentVariables {
@@ -219,7 +232,7 @@ class AnalyticsExporter {
                         relativeTargetDirectory('data-czar-keys')
                     }
                 }
-
+                
             }
 
             triggers{
