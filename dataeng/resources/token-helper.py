@@ -57,5 +57,3 @@ if __name__ == "__main__":
     else:
         print("Unknown method {}".format(args))
         exit(1)
-
-

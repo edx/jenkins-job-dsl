@@ -92,7 +92,7 @@ unassume_role
 #     }
 # }
 # set path for config file which store token in each job workspace
-export VAULT_CONFIG_PATH= ${WORKSPACE}/vault-config/vault_config
+export VAULT_CONFIG_PATH=${WORKSPACE}/vault-config/vault_config
 
 # write credentials to vault server to get the token
 vault write -field=token auth/approle/login \
