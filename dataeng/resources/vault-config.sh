@@ -7,7 +7,8 @@
 # multiple jobs access the token in parallel, which was causing login failure for several chlid jobs
 # Now creating separate token for each job in its workspace so that each job can use its own token
 
-
+# making sure there is no vault config for new job 
+rm -rf ${WORKSPACE}/vault-config
 # make a directory to store vault token helper and config file
 mkdir ${WORKSPACE}/vault-config
 # create path for helper
