@@ -54,6 +54,7 @@ class AnalyticsExporter {
                         relativeTargetDirectory('analytics-exporter')
                     }
                 }
+
             }
 
             wrappers {
@@ -98,6 +99,7 @@ class AnalyticsExporter {
                 stringParam('ORG')
                 stringParam('PLATFORM_VENV')
                 stringParam('EXTRA_OPTIONS')
+                stringParam('JOB_DSL_BRANCH','master', 'Branch to use for the jenkins-job-dsl repository.')            
             }
             parameters secure_scm_parameters(allVars)
 
@@ -123,7 +125,18 @@ class AnalyticsExporter {
 
             concurrentBuild()
 
-            multiscm secure_scm(allVars)
+            multiscm secure_scm(allVars) << {
+                git {
+                    remote {
+                        url('git@github.com:edx/jenkins-job-dsl.git')
+                        branch('$JOB_DSL_BRANCH')
+                    }
+                    extensions {
+                        pruneBranches()
+                        relativeTargetDirectory('jenkins-job-dsl')
+                    }
+                }
+            }
 
             wrappers {
                 timestamps()
@@ -134,6 +147,13 @@ class AnalyticsExporter {
             }
 
             steps {
+                virtualenv {
+                    pythonName('PYTHON_3.7')
+                    nature("shell")
+                    command(
+                        dslFactory.readFileFromWorkspace("dataeng/resources/vault-config.sh")
+                    )
+                }
                 virtualenv {
                     pythonName('PYTHON_3.7')
                     nature("shell")
@@ -210,6 +230,7 @@ class AnalyticsExporter {
                         relativeTargetDirectory('data-czar-keys')
                     }
                 }
+                
             }
 
             triggers{
