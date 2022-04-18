@@ -18,9 +18,9 @@ import os.path
 import sys
 
 if os.environ.get('VAULT_TOKEN_PATH') is None:
-    raise StandardError('env var VAULT_TOKEN_PATH is not set')
+    raise Exception('env var VAULT_TOKEN_PATH is not set')
 elif len(sys.argv) != 2 or sys.argv[1] not in ['get', 'erase', 'store']:
-    raise StandardError('USAGE: get, erase, store')
+    raise Exception('USAGE: get, erase, store')
 tokenpath = os.environ['VAULT_TOKEN_PATH']
 if sys.argv[1] == 'get' and os.path.isfile(tokenpath):
     with open(tokenpath, 'r') as f:
