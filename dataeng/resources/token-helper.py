@@ -13,47 +13,20 @@ https://www.hashicorp.com/blog/building-a-vault-token-helper
 
 """
 
-import sys
+import os
 import os.path
+import sys
 
-
-def get(PATH):
-    
-    if os.path.exists(PATH):
-      token = open(PATH,"r")
-      token = token.read().strip()
-      
-    
-def store(PATH):
-    
-    with open(PATH,"wb+") as f:
-        for token in sys.stdin:
-            f.write(token.strip())
-            
-    
-def erase(PATH):
-
-    if os.path.exists(PATH):
-        os.remove(PATH)
-
-if __name__ == "__main__":
-
-    # get jobs worspace path
-    workspace = os.environ['WORKSPACE']
-    # path to store token   
-    PATH=workspace+"/vault-config/vault-token"
-    
-    args = sys.argv[1:][0]
-    
-    if args == "get":
-        get(PATH)
-
-    elif args == "erase":
-        erase(PATH)
-
-    elif args == "store":
-        store(PATH)
-        
-    else:
-        print("Unknown method {}".format(args))
-        exit(1)
+if os.environ.get('VAULT_TOKEN_PATH') is None:
+    raise StandardError('env var VAULT_TOKEN_PATH is not set')
+elif len(sys.argv) != 2 or sys.argv[1] not in ['get', 'erase', 'store']:
+    raise StandardError('USAGE: get, erase, store')
+tokenpath = os.environ['VAULT_TOKEN_PATH']
+if sys.argv[1] == 'get' and os.path.isfile(tokenpath):
+    with open(tokenpath, 'r') as f:
+        sys.stdout.write(f.read().strip())
+elif sys.argv[1] == 'erase' and os.path.isfile(tokenpath):
+    os.remove(tokenpath)
+elif sys.argv[1] == 'store':
+    with open(tokenpath, 'wb+') as f:
+        f.write(sys.stdin.read())

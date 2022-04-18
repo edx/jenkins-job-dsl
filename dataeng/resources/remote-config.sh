@@ -91,6 +91,9 @@ unassume_role
 #         usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
 #     }
 # }
+
+# set up token path
+export VAULT_TOKEN_PATH=${WORKSPACE}/vault-config/vault-token
 # set path for config file which store token in each job workspace
 export VAULT_CONFIG_PATH=${WORKSPACE}/vault-config/vault_config
 
