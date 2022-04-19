@@ -11,6 +11,8 @@
 rm -rf ${WORKSPACE}/vault-config
 # make a directory to store vault token helper and config file
 mkdir ${WORKSPACE}/vault-config
+# make token helper executsable
+chmod +x ${WORKSPACE}/jenkins-job-dsl/dataeng/resources/token-helper.py
 # create path for helper
 path_to_helper=${WORKSPACE}"/jenkins-job-dsl/dataeng/resources/token-helper.py"
 # set up config for config file
