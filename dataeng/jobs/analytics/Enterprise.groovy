@@ -11,6 +11,7 @@ class Enterprise {
     public static def job = { dslFactory, allVars ->
         allVars.get('JOBS').each { job, job_config ->
             dslFactory.job("enterprise-$job") {
+                disabled(job_config.get('DISABLED', false))
                 authorization common_authorization(allVars)
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, job_config)
