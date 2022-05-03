@@ -12,6 +12,7 @@ class ReadReplicaExportToS3 {
     public static def job = { dslFactory, allVars ->
         allVars.get('READ_REPLICA_EXPORTS').each { db, db_config ->
             dslFactory.job("${db.toLowerCase()}-read-replica-export-to-s3") {
+                disabled(db_config.get('DISABLED', false))
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, db_config)
                 parameters {

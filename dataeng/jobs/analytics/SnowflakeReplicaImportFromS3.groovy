@@ -45,6 +45,7 @@ class SnowflakeReplicaImportFromS3 {
 
         jobConfigs.each { appName, jobConfig ->
             dslFactory.job("snowflake-${appName.toLowerCase()}-read-replica-import-from-s3") {
+                disabled(jobConfig.get('DISABLED', false))
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, jobConfig)
                 parameters {

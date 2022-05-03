@@ -14,6 +14,7 @@ class EventExportIncremental {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("event-export-incremental-$environment") {
+                disabled(env_config.get('DISABLED', false))
                 logRotator common_log_rotator(allVars, env_config)
                 parameters common_parameters(allVars, env_config)
                 parameters from_date_interval_parameter(allVars)

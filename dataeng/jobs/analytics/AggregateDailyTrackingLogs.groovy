@@ -12,6 +12,7 @@ class AggregateDailyTrackingLogs {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("aggregate-daily-tracking-logs-$environment") {
+                disabled(env_config.get('DISABLED', false))
                 logRotator common_log_rotator(allVars, env_config)
                 parameters to_date_interval_parameter(env_config)
                 parameters common_parameters(allVars, env_config)
