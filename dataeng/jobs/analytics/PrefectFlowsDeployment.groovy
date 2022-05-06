@@ -99,6 +99,7 @@ class PrefectFlowsDeployment{
             }
         }
         List prefect_flows = [
+            'load_affiliate_window_publishers_to_snowflake',
             'load_affiliate_window_transactions_to_snowflake',
             'load_course_structure_to_snowflake',
             'load_cybersource_reports_to_snowflake',
