@@ -80,7 +80,7 @@ job('build-packer-ami') {
     publishers {
         // alert team of failures via slack & email
         configure GENERAL_SLACK_STATUS()
-        mailer('tools-jenkins-isre@edx.opsgenie.net')
+        mailer('tools-jenkins-isre@2u-internal.opsgenie.net')
     }
 
 }
