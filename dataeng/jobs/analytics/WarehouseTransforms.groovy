@@ -30,6 +30,7 @@ class WarehouseTransforms{
                     stringParam('PUSH_ARTIFACTS_TO_SNOWFLAKE', env_config.get('PUSH_ARTIFACTS_TO_SNOWFLAKE', 'false'), 'Set to \'true\' to push the run results file to Snowflake for telemetry. Avoid this on frequently-running jobs.')
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                     booleanParam('FULL_REFRESH_INCREMENTALS', false, '[DANGEROUS] Supply the --full-refresh flag to the `dbt run` command, and use a larger warehouse. Use when you need to re-compute an incremental table from scratch.  Applies to ALL incrementals in this run.')
+                    stringParam('JOB_DSL_BRANCH','master', 'Branch to use for the jenkins-job-dsl repository.') 
                 }
                 multiscm secure_scm(allVars) << {
                     git {
@@ -42,6 +43,16 @@ class WarehouseTransforms{
                             relativeTargetDirectory('warehouse-transforms')
                             pruneBranches()
                             cleanAfterCheckout()
+                        }
+                    }
+                    git {
+                        remote {
+                            url('git@github.com:edx/jenkins-job-dsl.git')
+                            branch('$JOB_DSL_BRANCH')
+                        }
+                        extensions {
+                            pruneBranches()
+                            relativeTargetDirectory('jenkins-job-dsl')
                         }
                     }
                 }
@@ -68,6 +79,14 @@ class WarehouseTransforms{
                 }
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
+
+                    virtualenv {
+                        pythonName('PYTHON_3.7')
+                        nature("shell")
+                        command(
+                            dslFactory.readFileFromWorkspace("dataeng/resources/vault-config.sh")
+                        )
+                    }
                     virtualenv {
                         pythonName('PYTHON_3.7')
                         nature("shell")
