@@ -62,7 +62,7 @@ then
 fi
 
 # Compile/build all models with this tag.
-dbt $DBT_COMMAND $FULL_REFRESH_ARG --models $MODEL_SELECTOR $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+dbt $DBT_COMMAND $FULL_REFRESH_ARG --models $MODEL_SELECTOR --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
 postCommandChecks "run" $ret ;
 
 
@@ -70,14 +70,22 @@ if [ "$SKIP_TESTS" != 'true' ]
 then
     # By default, exclude no models from testing.
     exclude_param=""
-
     if [ "$TEST_SOURCES_FIRST" = 'true' ]
     then
         # Exclude the sources from testing, since they were already tested pre-'dbt run'.
         exclude_param="--exclude source:*"
     fi
 
-    # Run all tests which haven't been excluded.
-    dbt test --models $MODEL_SELECTOR $exclude_param --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+    # By default, do not specify an indirection selection option. As of dbt 1.0.3 the default is to use "eager" indirect
+    # selection, which runs a test if ANY model which touches it has been selected.  Typically this is the desired
+    # behavior, but when building only a subset of a DAG it can be prohibitive.
+    INDIRECT_SELECTION_PARAM=""
+    if [ "$CAUTIOUS_INDIRECT_SELECTION" = 'true' ]
+    then
+        INDIRECT_SELECTION_PARAM="--indirect-selection=cautious"
+    fi
+
+    # Run all tests as specified.
+    dbt test --models $MODEL_SELECTOR $exclude_param $INDIRECT_SELECTION_PARAM --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
     postCommandChecks "test" $ret ;
 fi
