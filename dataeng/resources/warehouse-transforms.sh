@@ -100,22 +100,14 @@ vault write -field=token auth/approle/login \
 export VAULT_TOKEN="$(cat ${WORKSPACE}/vault-config/vault-token)"
 
 # set monte carlo api keys to integrate with monte carlo
-for KEY in ID TOKEN; do
+MCD_DEFAULT_API_ID="$(vault kv get -version=${REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION} \
+ -field=MCD_DEFAULT_API_ID ${REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH})"
+MCD_DEFAULT_API_TOKEN="$(vault kv get -version=${REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION} \
+ -field=MCD_DEFAULT_API_TOKEN ${REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH})"
 
-    export MCD_DEFAULT_API_${KEY}="$(vault kv get -version=1 -field=MCD_DEFAULT_API_${KEY} kv/third_party_api/monte-carlo-api-keys)"
-
-done
-
-# following commands will upload dbt metadata into monte carlo data catalog
-MCD_DEFAULT_API_ID=${MCD_DEFAULT_API_ID} \
-  MCD_DEFAULT_API_TOKEN=${MCD_DEFAULT_API_TOKEN} \        
-  montecarlo import dbt-manifest \
-  ${TARGET_FOLDER_PATH}/manifest.json --project-name $DBT_PROJECT
-
-MCD_DEFAULT_API_ID=${MCD_DEFAULT_API_ID} \
-  MCD_DEFAULT_API_TOKEN=${MCD_DEFAULT_API_TOKEN} \        
-  montecarlo import dbt-run-results \
-  ${TARGET_FOLDER_PATH}/run_results.json --project-name $DBT_PROJECT
+# following commands will upload dbt metadata into monte carlo data catalog        
+montecarlo import dbt-manifest ${TARGET_FOLDER_PATH}/manifest.json --project-name $DBT_PROJECT
+montecarlo import dbt-run-results ${TARGET_FOLDER_PATH}/run_results.json --project-name $DBT_PROJECT
 
 
 if [ "$SKIP_TESTS" != 'true' ]
