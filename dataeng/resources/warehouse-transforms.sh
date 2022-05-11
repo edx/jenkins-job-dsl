@@ -102,7 +102,7 @@ export VAULT_TOKEN="$(cat ${WORKSPACE}/vault-config/vault-token)"
 # set monte carlo api keys to integrate with monte carlo
 for KEY in ID TOKEN; do
 
-    export MCD_DEFAULT_API_${KEY}="$(vault kv get -version=1 -field=MCD_DEFAULT_API_${KEY} kv/monte-carlo-api-keys)"
+    export MCD_DEFAULT_API_${KEY}="$(vault kv get -version=1 -field=MCD_DEFAULT_API_${KEY} kv/third_party_api/monte-carlo-api-keys)"
 
 done
 
