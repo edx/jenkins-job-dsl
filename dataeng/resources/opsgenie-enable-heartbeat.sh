@@ -3,7 +3,7 @@
 # Enables an Opsgenie Heartbeat, while also setting the expected duration.
 #
 # Assumes that the heartbeat is already created in the Opsgenie settings here:
-# https://edx.app.opsgenie.com/settings/heartbeat
+# https://2u-internal.app.opsgenie.com/settings/heartbeat
 #
 # Required environment variables:
 # OPSGENIE_HEARTBEAT_NAME: Name of the already-created Opsgenie heartbeat.
