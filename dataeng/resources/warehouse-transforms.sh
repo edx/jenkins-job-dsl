@@ -65,6 +65,50 @@ fi
 dbt $DBT_COMMAND $FULL_REFRESH_ARG --models $MODEL_SELECTOR --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
 postCommandChecks "run" $ret ;
 
+# The setup here is being done in order to integrate monte carlo and dbt
+# This feature was requested as part of DESUPPORT-1358
+
+# find the path of target folder which has dbt artifacts
+# this will be used in our dbt monte carlo integration
+# using pwd to find the fully qualified path for target folder.
+# because monte carlo cli command needs fully qualified path for artifcats.
+curr_dir="$(pwd)" 
+TARGET_FOLDER_PATH="$(find ${curr_dir} -type d -name "target")"
+
+# set up token path
+export VAULT_TOKEN_PATH=${WORKSPACE}/vault-config/vault-token
+# set path for config file which store token in each job workspace
+export VAULT_CONFIG_PATH=${WORKSPACE}/vault-config/vault_config
+
+# write credentials to vault server to get the token
+vault write -field=token auth/approle/login \
+    role_id=${ANALYTICS_VAULT_ROLE_ID} \
+    secret_id=${ANALYTICS_VAULT_SECRET_ID} \
+| vault login -no-print token=-
+
+# set vault token
+
+# Creating separate token for each job in its workspace
+# By default token is generated in home directory of server
+# When token location is changed using VAULT_CONFIG_PATH vault cli
+# should find the new location of token using the vault config file
+# This is the expected behaviour for vault cli. But vault cli was
+# not working as expected and is not able to locate the new token location
+# Have to explicitly store token in token environment variable so that
+# vault cli can use the newly generated token for each job
+
+export VAULT_TOKEN="$(cat ${WORKSPACE}/vault-config/vault-token)"
+
+# set monte carlo api keys to integrate with monte carlo
+export MCD_DEFAULT_API_ID="$(vault kv get -version=${MONTE_CARLO_KEYS_VAULT_KV_VERSION} \
+ -field=MCD_DEFAULT_API_ID ${MONTE_CARLO_KEYS_VAULT_KV_PATH})"
+export MCD_DEFAULT_API_TOKEN="$(vault kv get -version=${MONTE_CARLO_KEYS_VAULT_KV_VERSION} \
+ -field=MCD_DEFAULT_API_TOKEN ${MONTE_CARLO_KEYS_VAULT_KV_PATH})"
+
+# following commands will upload dbt metadata into monte carlo data catalog      
+montecarlo import dbt-manifest ${TARGET_FOLDER_PATH}/manifest.json --project-name $DBT_PROJECT      
+montecarlo import dbt-run-results ${TARGET_FOLDER_PATH}/run_results.json --project-name $DBT_PROJECT
+
 
 if [ "$SKIP_TESTS" != 'true' ]
 then
@@ -89,3 +133,6 @@ then
     dbt test --models $MODEL_SELECTOR $exclude_param $INDIRECT_SELECTION_PARAM --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
     postCommandChecks "test" $ret ;
 fi
+
+# remove the persisted token vault configs
+rm -rf ${WORKSPACE}/vault-config
