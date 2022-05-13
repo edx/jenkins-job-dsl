@@ -260,7 +260,7 @@ class RetirementJobs{
                             attachBuildLog(false)  // build log contains PII!
                             compressBuildLog(false)  // build log contains PII!
                             subject('Build failed in Jenkins: user-retirement-collector #${BUILD_NUMBER}')
-                            content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.\n\nTo fix the failure, see https://openedx.atlassian.net/wiki/spaces/DE/pages/251495968/When+Jobs+Fail#WhenJobsFail-user-retirement-collector')
+                            content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.\n\nTo fix the failure, see https://2u-internal.atlassian.net/wiki/spaces/DE/pages/10782098/When+Jobs+Fail#WhenJobsFail-user-retirement-collector')
                             contentType('text/plain')
                             sendTo {
                                 recipientList()
@@ -380,7 +380,7 @@ class RetirementJobs{
                             attachBuildLog(false)  // build log contains PII!
                             compressBuildLog(false)  // build log contains PII!
                             subject('Build failed in Jenkins: retirement-partner-reporter #${BUILD_NUMBER}')
-                            content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.\n\nTo fix the failure, see https://openedx.atlassian.net/wiki/spaces/DE/pages/1077608460/Runbook+How+to+fix+a+failed+retirement-partner-reporter+run')
+                            content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.\n\nTo fix the failure, see https://2u-internal.atlassian.net/wiki/spaces/DE/pages/10780764/Runbook+How+to+fix+a+failed+retirement-partner-reporter+run')
                             contentType('text/plain')
                             sendTo {
                                 recipientList()
