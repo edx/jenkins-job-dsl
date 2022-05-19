@@ -115,7 +115,13 @@ vault write -field=token auth/approle/login \
 # Have to explicitly store token in token environment variable so that
 # vault cli can use the newly generated token for each job
 
+# Do not print commands in this function since they may contain secrets.
+set +x
+
 export VAULT_TOKEN="$(cat ${WORKSPACE}/vault-config/vault-token)"
+
+# Re-enable printing of commands.
+set -x
 
 # For each deployment, fetch the appropriate decryption keys from Vault and decrypt lms and studio configs.
 for DEPLOYMENT in edx edge; do

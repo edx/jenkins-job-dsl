@@ -97,6 +97,9 @@ vault write -field=token auth/approle/login \
 # Have to explicitly store token in token environment variable so that
 # vault cli can use the newly generated token for each job
 
+# Do not print commands in this function since they may contain secrets.
+set +x
+
 export VAULT_TOKEN="$(cat ${WORKSPACE}/vault-config/vault-token)"
 
 # set monte carlo api keys to integrate with monte carlo
@@ -104,6 +107,9 @@ export MCD_DEFAULT_API_ID="$(vault kv get -version=${MONTE_CARLO_KEYS_VAULT_KV_V
  -field=MCD_DEFAULT_API_ID ${MONTE_CARLO_KEYS_VAULT_KV_PATH})"
 export MCD_DEFAULT_API_TOKEN="$(vault kv get -version=${MONTE_CARLO_KEYS_VAULT_KV_VERSION} \
  -field=MCD_DEFAULT_API_TOKEN ${MONTE_CARLO_KEYS_VAULT_KV_PATH})"
+
+# Re-enable printing of commands.
+set -x 
 
 # following commands will upload dbt metadata into monte carlo data catalog      
 montecarlo import dbt-manifest ${TARGET_FOLDER_PATH}/manifest.json --project-name $DBT_PROJECT      
