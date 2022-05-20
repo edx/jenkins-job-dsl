@@ -75,32 +75,16 @@ postCommandChecks "run" $ret ;
 curr_dir="$(pwd)" 
 TARGET_FOLDER_PATH="$(find ${curr_dir} -type d -name "target")"
 
-# set up token path
-export VAULT_TOKEN_PATH=${WORKSPACE}/vault-config/vault-token
-# set path for config file which store token in each job workspace
-export VAULT_CONFIG_PATH=${WORKSPACE}/vault-config/vault_config
-
-# write credentials to vault server to get the token
-vault write -field=token auth/approle/login \
-    role_id=${ANALYTICS_VAULT_ROLE_ID} \
-    secret_id=${ANALYTICS_VAULT_SECRET_ID} \
-| vault login -no-print token=-
-
-# set vault token
-
-# Creating separate token for each job in its workspace
-# By default token is generated in home directory of server
-# When token location is changed using VAULT_CONFIG_PATH vault cli
-# should find the new location of token using the vault config file
-# This is the expected behaviour for vault cli. But vault cli was
-# not working as expected and is not able to locate the new token location
-# Have to explicitly store token in token environment variable so that
-# vault cli can use the newly generated token for each job
-
 # Do not print commands in this function since they may contain secrets.
 set +x
 
-export VAULT_TOKEN="$(cat ${WORKSPACE}/vault-config/vault-token)"
+# Retrieve a vault token corresponding to the jenkins AppRole.  The token is then stored in the VAULT_TOKEN variable
+# which is implicitly used by subsequent vault commands within this script.
+# Instructions followed: https://learn.hashicorp.com/tutorials/vault/approle#step-4-login-with-roleid-secretid
+export VAULT_TOKEN=$(vault write -field=token auth/approle/login \
+      role_id=${ANALYTICS_VAULT_ROLE_ID} \
+      secret_id=${ANALYTICS_VAULT_SECRET_ID}
+  )
 
 # set monte carlo api keys to integrate with monte carlo
 export MCD_DEFAULT_API_ID="$(vault kv get -version=${MONTE_CARLO_KEYS_VAULT_KV_VERSION} \
@@ -139,6 +123,3 @@ then
     dbt test --models $MODEL_SELECTOR $exclude_param $INDIRECT_SELECTION_PARAM --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
     postCommandChecks "test" $ret ;
 fi
-
-# remove the persisted token vault configs
-rm -rf ${WORKSPACE}/vault-config
