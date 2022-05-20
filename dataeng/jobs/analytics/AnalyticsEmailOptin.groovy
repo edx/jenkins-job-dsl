@@ -37,8 +37,8 @@ class AnalyticsEmailOptin {
             }
 
             throttleConcurrentBuilds {
-                maxPerNode(5)
-                maxTotal(5)
+                maxPerNode(12)
+                maxTotal(12)
             }
 
             concurrentBuild()
