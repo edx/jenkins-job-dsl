@@ -72,7 +72,7 @@ for (task in taskMap) {
         extraVars = yaml.load(extraVarsContents)
     }
     catch (Exception e) {
-        out.println("File $extraVarsFileName does not exist.")
+        out.println("Unable to parse the extra variables file ${extraVarsFileName}: ${e.message}")
     }
 
     task.value(this, commonConfigMap + extraVars)
