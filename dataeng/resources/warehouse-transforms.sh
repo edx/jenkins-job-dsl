@@ -96,7 +96,8 @@ export MCD_DEFAULT_API_TOKEN="$(vault kv get -version=${MONTE_CARLO_KEYS_VAULT_K
 set -x 
 
 # following commands will upload dbt metadata into monte carlo data catalog      
-montecarlo import dbt-manifest ${TARGET_FOLDER_PATH}/manifest.json --project-name $DBT_PROJECT      
+montecarlo import dbt-manifest ${TARGET_FOLDER_PATH}/manifest.json \
+--project-name $DBT_PROJECT --batch-size ${MONTE_CARLO_DBT_MANIFEST_BATCH_SIZE}      
 montecarlo import dbt-run-results ${TARGET_FOLDER_PATH}/run_results.json --project-name $DBT_PROJECT
 
 
