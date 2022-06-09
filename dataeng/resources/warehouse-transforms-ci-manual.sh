@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -ex
 
+# Creating python 3.8 virtual environment to run dbt warehouse-transform job
+PYTHON38_VENV="py38_venv"
+virtualenv --python=python3.8 --clear "${PYTHON38_VENV}"
+source "${PYTHON38_VENV}/bin/activate"
+
 # Specifying GITHUB_PR_ID and WAREHOUSE_TRANSFORMS_BRANCH is a must
 if [[ "$GITHUB_PR_ID" == "" || "$WAREHOUSE_TRANSFORMS_BRANCH" == "" ]]
 then

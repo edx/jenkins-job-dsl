@@ -136,14 +136,7 @@ class WarehouseTransformsCIMasterMerges{
             }
             wrappers common_wrappers(allVars)
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci-master-merges.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms-ci-master-merges.sh'))
             }
         }
     }

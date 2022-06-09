@@ -109,14 +109,7 @@ class WarehouseTransformsCI{
             }
             wrappers common_wrappers(allVars)
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms-ci.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms-ci.sh'))
             }
         }
     }

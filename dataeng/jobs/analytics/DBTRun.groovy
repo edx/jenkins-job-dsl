@@ -59,14 +59,7 @@ class DBTRun{
             wrappers common_wrappers(allVars)
             publishers common_publishers(allVars)
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/dbt-run.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/dbt-run.sh'))
             }
         }
         dslFactory.job("dbt-automated"){
@@ -116,14 +109,7 @@ class DBTRun{
             wrappers common_wrappers(allVars)
             publishers common_publishers(allVars)
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/dbt-run.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/dbt-run.sh'))
             }
         }
     }

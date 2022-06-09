@@ -44,14 +44,7 @@ class DBTSourceFreshness{
             }
             publishers common_publishers(allVars)
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/dbtsource-freshness.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/dbtsource-freshness.sh'))
             }
         }
     }

@@ -78,14 +78,7 @@ class WarehouseTransforms{
                 }
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
-                    virtualenv {
-                        pythonName('PYTHON_3.7')
-                        nature("shell")
-                        systemSitePackages(false)
-                        command(
-                            dslFactory.readFileFromWorkspace("dataeng/resources/warehouse-transforms.sh")
-                        )
-                    }
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms.sh'))
                 }
             }
         }
