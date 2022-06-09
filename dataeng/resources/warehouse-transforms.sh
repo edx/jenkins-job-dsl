@@ -65,6 +65,41 @@ fi
 dbt $DBT_COMMAND $FULL_REFRESH_ARG --models $MODEL_SELECTOR --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
 postCommandChecks "run" $ret ;
 
+# The setup here is being done in order to integrate monte carlo and dbt
+ # This feature was requested as part of DESUPPORT-1358
+
+ # find the path of target folder which has dbt artifacts
+ # this will be used in our dbt monte carlo integration
+ # using pwd to find the fully qualified path for target folder.
+ # because monte carlo cli command needs fully qualified path for artifcats.
+ curr_dir="$(pwd)" 
+ TARGET_FOLDER_PATH="$(find ${curr_dir} -type d -name "target")"
+
+ # Do not print commands in this function since they may contain secrets.
+ set +x
+
+ # Retrieve a vault token corresponding to the jenkins AppRole.  The token is then stored in the VAULT_TOKEN variable
+ # which is implicitly used by subsequent vault commands within this script.
+ # Instructions followed: https://learn.hashicorp.com/tutorials/vault/approle#step-4-login-with-roleid-secretid
+ export VAULT_TOKEN=$(vault write -field=token auth/approle/login \
+       role_id=${ANALYTICS_VAULT_ROLE_ID} \
+       secret_id=${ANALYTICS_VAULT_SECRET_ID}
+   )
+
+ # set monte carlo api keys to integrate with monte carlo
+ export MCD_DEFAULT_API_ID="$(vault kv get -version=${MONTE_CARLO_KEYS_VAULT_KV_VERSION} \
+  -field=MCD_DEFAULT_API_ID ${MONTE_CARLO_KEYS_VAULT_KV_PATH})"
+ export MCD_DEFAULT_API_TOKEN="$(vault kv get -version=${MONTE_CARLO_KEYS_VAULT_KV_VERSION} \
+  -field=MCD_DEFAULT_API_TOKEN ${MONTE_CARLO_KEYS_VAULT_KV_PATH})"
+
+ # Re-enable printing of commands.
+ set -x 
+
+ # following commands will upload dbt metadata into monte carlo data catalog      
+ montecarlo import dbt-manifest ${TARGET_FOLDER_PATH}/manifest.json \
+ --project-name $DBT_PROJECT --batch-size ${MONTE_CARLO_DBT_MANIFEST_BATCH_SIZE}      
+ montecarlo import dbt-run-results ${TARGET_FOLDER_PATH}/run_results.json --project-name $DBT_PROJECT
+
 if [ "$SKIP_TESTS" != 'true' ]
 then
     # By default, exclude no models from testing.
