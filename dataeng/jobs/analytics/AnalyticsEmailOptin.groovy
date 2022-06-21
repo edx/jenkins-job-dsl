@@ -77,7 +77,7 @@ class AnalyticsEmailOptin {
                 stringParam('EXPORTER_BRANCH','environment/production',
                         'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name]. Should be environment/production.')
                 stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name]')
-                stringParam('EXPORTER_CONFIG_FILENAME','default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
+                stringParam('EXPORTER_CONFIG_FILENAME','email_optin.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EMAIL_OPTIN_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the email opt-in data.')
                 stringParam('OUTPUT_PREFIX','email-opt-in-', 'Optional prefix to prepend to output filename.')
                 stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'),
