@@ -31,10 +31,19 @@ requirements: ## Install requirements
 	pip install -qr requirements/pip-tools.txt
 	pip-sync requirements/base.txt
 
+COMMON_CONSTRAINTS_TXT=requirements/common_constraints.txt
+.PHONY: $(COMMON_CONSTRAINTS_TXT)
+$(COMMON_CONSTRAINTS_TXT):
+	wget -O "$(@)" https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt || touch "$(@)"
+
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
-upgrade: ## Upgrade requirements with pip-tools
+upgrade: $(COMMON_CONSTRAINTS_TXT)
+	## Upgrade requirements with pip-tools
 	pip install -qr requirements/pip-tools.txt
+	pip-compile --allow-unsafe --rebuild --upgrade -o requirements/pip.txt requirements/pip.in
 	pip-compile --upgrade -o requirements/pip-tools.txt requirements/pip-tools.in
+	pip install -qr requirements/pip.txt
+	pip install -qr requirements/pip-tools.txt
 	pip-compile --upgrade -o requirements/base.txt requirements/base.in
 
 clean: docker.clean

@@ -4,17 +4,13 @@
 #
 #    make upgrade
 #
-click==8.1.3
-    # via pip-tools
-pep517==0.12.0
-    # via pip-tools
-pip-tools==6.6.2
-    # via -r requirements/pip-tools.in
-tomli==2.0.1
-    # via pep517
 wheel==0.37.1
-    # via pip-tools
+    # via -r requirements/pip.in
 
 # The following packages are considered to be unsafe in a requirements file:
-# pip
-# setuptools
+pip==22.1.2
+    # via -r requirements/pip.in
+setuptools==59.8.0
+    # via
+    #   -c requirements/common_constraints.txt
+    #   -r requirements/pip.in
