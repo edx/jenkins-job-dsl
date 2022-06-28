@@ -1,4 +1,5 @@
 package analytics
+import jenkins.model.Jenkins
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
@@ -88,7 +89,17 @@ class PrefectFlowsDeployment{
             wrappers common_wrappers(allVars)
             publishers {
                 downstreamParameterized {
-                    trigger('$FLOWS_TO_DEPLOY') {
+                    // Remove spaces around job names
+                    List<String> job_names = '$FLOWS_TO_DEPLOY'.split(',').each{job_name -> job_name.trim()}
+                    // Pick up only the enabled jobs
+                    // job_names = job_names.findAll{job_name ->
+                    //     println(job_name)
+                    //     def job_object = Jenkins.instance.getItem(job_name)
+                    //     println(job_object)
+                    //     println(job_object != null && job_object.isBuildable())
+                    //     return job_object != null && job_object.isBuildable()
+                    // }
+                    trigger(job_names) {
                         condition('SUCCESS')
                         parameters {
                             // Added parameter to pass name flows to be deployed
