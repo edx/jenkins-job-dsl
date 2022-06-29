@@ -194,6 +194,12 @@ class CreateSandbox {
 
                 booleanParam("ora_grading",false,"Enable ORA Grading MFE")
                 stringParam("ora_grading_version","master","The repository version of the frontend-app-ora-grading")
+                            
+                booleanParam("course_authoring",false,"Enable Course Authoring MFE")
+                stringParam("course_authoring_version","master","The repository version of the frontend-app-course_authoring")
+                
+                booleanParam("library_authoring",false,"Enable Library Authoring MFE")
+                stringParam("library_authoring_version","master","The repository version of the frontend-app-course_library")
 
                 booleanParam("enterprise_catalog",false,"Enable Enterprise Catalog Django Backend")
                 stringParam("enterprise_catalog_version","master","The repository version of the license-manager microservice")
