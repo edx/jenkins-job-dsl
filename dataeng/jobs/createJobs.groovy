@@ -17,7 +17,6 @@ import static analytics.SnowflakeRefreshSnowpipe.job as SnowflakeRefreshSnowpipe
 import static analytics.SnowflakeReplicaImportFromS3.job as SnowflakeReplicaImportFromS3Job
 import static analytics.SnowflakeValidateStitch.job as SnowflakeValidateStitchJob
 import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
-import static analytics.UserActivity.job as UserActivityJob
 import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
 import static analytics.VideoTimeline.job as VideoTimelineJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
@@ -60,7 +59,6 @@ def taskMap = [
     SNOWFLAKE_REPLICA_IMPORT_FROM_S3_JOB: SnowflakeReplicaImportFromS3Job,
     SNOWFLAKE_VALIDATE_STITCH_JOB: SnowflakeValidateStitchJob,
     STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,
-    USER_ACTIVITY_JOB: UserActivityJob,
     USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
     VIDEO_TIMELINE_JOB: VideoTimelineJob,
 ]
