@@ -5,6 +5,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 
 
 class SnowflakeValidateStitch {
@@ -24,7 +25,7 @@ class SnowflakeValidateStitch {
                     "tables loaded by Sqoop.  This compares only tables that exist in both sets, and only the last " +
                     "10 days of changed rows."
                 )
-
+                authorization common_authorization(env_config)
                 parameters secure_scm_parameters(allVars)
                 parameters {
                     stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
