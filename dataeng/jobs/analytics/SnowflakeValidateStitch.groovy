@@ -25,7 +25,7 @@ class SnowflakeValidateStitch {
                     "tables loaded by Sqoop.  This compares only tables that exist in both sets, and only the last " +
                     "10 days of changed rows."
                 )
-                authorization common_authorization(env_config)
+                authorization common_authorization(allVars)
                 parameters secure_scm_parameters(allVars)
                 parameters {
                     stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
