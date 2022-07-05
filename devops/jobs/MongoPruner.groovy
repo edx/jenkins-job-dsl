@@ -31,7 +31,9 @@ class MongoPruner {
             configuration.environments.each { environment, inner_config ->
                 dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/mongo-pruner-${environment}-${deployment}") {
                        
-                    logRotator common_logrotator
+                    logRotator {
+                        daysToKeep(30) // keep jobs around for 30 days.
+                    }
                     wrappers common_wrappers
 
                     wrappers{
