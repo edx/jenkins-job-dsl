@@ -14,6 +14,9 @@ FLOW_NAME=$(echo $JOB_NAME | cut -c 26-)
 cd $WORKSPACE/prefect-flows
 pip install -r requirements.txt
 
+# prune unused images
+docker image prune --filter dangling=true -f
+
 # Get ECR authetication
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_LOGIN
 
