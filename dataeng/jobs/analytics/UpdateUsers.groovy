@@ -16,10 +16,7 @@ class UpdateUsers {
             multiscm analytics_configuration_scm(allVars)
             wrappers common_wrappers(allVars)
             steps {
-                virtualenv {
-                    nature("shell")
-                    command('cd analytics-configuration && make users.update')
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/update-users.sh'))
             }
             publishers {
                 postBuildTask {
