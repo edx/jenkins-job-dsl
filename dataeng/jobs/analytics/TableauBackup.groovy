@@ -8,7 +8,8 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class TableauBackup{
     public static def job = { dslFactory, allVars ->
-        dslFactory.job("tableau-backup-weekly"){
+        dslFactory.job("tableau-backup"){
+            description('This job creates a tableau data and config backup and copies them to the configured S3 location.')
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
