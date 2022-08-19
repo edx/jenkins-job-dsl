@@ -142,12 +142,14 @@ done < "$input"
 # Go into data repo, recalculate aggregate data, and push a PR
 IFS=,
 failed_repo_names=`echo "${failed_repos[*]}"`
+# Delete existing dashboards to re compile
+find "${WORKSPACE}/repo-health-data/dashboards" -type f -iname "\dashboard*.csv" -delete
 
 for ORG_NAME in ${ORG_NAMES[@]}; do
     echo "Pushing data for org $ORG_NAME"
     cd "${WORKSPACE}/repo-health-data/individual_repo_data/${ORG_NAME}"
     ls
-    repo_health_dashboard --data-dir . --configuration "${WORKSPACE}/edx-repo-health/repo_health_dashboard/configuration.yaml" --output-csv "${WORKSPACE}/repo-health-data/dashboards/dashboard"
+    repo_health_dashboard --data-dir . --configuration "${WORKSPACE}/edx-repo-health/repo_health_dashboard/configuration.yaml" --output-csv "${WORKSPACE}/repo-health-data/dashboards/dashboard" --append
 done
 
 deactivate
@@ -189,13 +191,13 @@ fi
 if [[ ${#failed_repos[@]} -ne 0 ]]; then
   echo
   echo
-  echo "TLDR Runbook(More detailed runbook: https://openedx.atlassian.net/wiki/spaces/AT/pages/3229057351/Repo+Health+Runbook ):"
-  echo "  To resolve, search the console output for 'ERRORS' (without the quotes), or search for any"
-  echo "  of the failed repo names listed below."
-  echo "The following repositories failed while executing pytest repo-health scripts causing the job to fail:"
+  echo "The following repositories failed while executing pytest repo-health scripts, causing the job to fail:"
   echo
   echo "    ${failed_repos[*]}"
   echo
+  echo '(Search the console output for "ERRORS", or search for any of the failed repo names above.)'
+  echo
+  echo "Runbook: <https://2u-internal.atlassian.net/wiki/spaces/AT/pages/16386018/Repo+Health+Debugging+Runbook>"
   echo
   exit 1
 fi
