@@ -207,6 +207,10 @@ class CreateSandbox {
                 booleanParam("license_manager",false,"Enable Enterprise Subscription License Manager Django Backend")
                 stringParam("license_manager_version","master","The repository version of the license-manager microservice")
 
+                booleanParam("commerce_coordinator",false,"Enable Commerce Coordinator")
+                stringParam("commerce_coordinator_version","master","The repository version of the commerce-coordinator microservice")
+
+
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
                 stringParam("video_pipeline_version","master","")
