@@ -14,8 +14,11 @@ FLOW_NAME=$(echo $JOB_NAME | cut -c 26-)
 cd $WORKSPACE/prefect-flows
 pip install -r requirements.txt
 
-# prune unused images
-docker rmi -f $(docker images -f dangling=true -q)
+# prune unused images, if there are any to prune.
+unused_images=$(docker images -f dangling=true -q)
+if [ -n "$unused_images" ]; then
+    docker rmi -f $unused_images
+fi
 
 # Get ECR authetication
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_LOGIN
