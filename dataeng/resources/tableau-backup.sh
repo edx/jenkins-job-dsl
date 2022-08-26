@@ -17,7 +17,7 @@ echo "Creating data backup"
 tsm maintenance backup --file $data_backup_filename --multithreaded
 
 echo "Copying data backup file into s3"
-aws s3 cp /home/tableau_backups/$data_backup_filename s3://$S3_BUCKET/\$data_backup_filename
+aws s3 cp /home/tableau_backups/$data_backup_filename s3://$S3_BUCKET/$data_backup_filename
 
 echo "Removing data backup file(s) from local disk"
 rm /home/tableau_backups/tableau_data_backup_*.tsbak
