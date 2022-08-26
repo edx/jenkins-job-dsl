@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set +e
 
 # This script ssh into Tableau server. Default centos user does not have access on Tableau directories
 # so shared folder is created that can be accessible from centos user. Backups are being created using
