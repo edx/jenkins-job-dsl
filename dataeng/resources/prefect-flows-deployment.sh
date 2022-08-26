@@ -37,7 +37,7 @@ export VAULT_TOKEN=$(vault write -field=token auth/approle/login \
       secret_id=${ANALYTICS_VAULT_SECRET_ID}
   )
 
-PREFECT_CLOUD_AGENT_TOKEN=$(
+export PREFECT_CLOUD_AGENT_TOKEN=$(
   vault kv get \
     -version=${PREFECT_VAULT_KV_VERSION} \
     -field=PREFECT_CLOUD_AGENT_TOKEN \
