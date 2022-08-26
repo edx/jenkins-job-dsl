@@ -27,7 +27,7 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 aws ecr describe-repositories --repository-names $FLOW_NAME --region us-east-1 || aws ecr create-repository --repository-name $FLOW_NAME --region us-east-1
 
 # Do not print commands in this function since they may contain secrets.
-set +x
+#set +x
 
 # Retrieve a vault token corresponding to the jenkins AppRole.  The token is then stored in the VAULT_TOKEN variable
 # which is implicitly used by subsequent vault commands within this script.
@@ -44,9 +44,10 @@ export PREFECT_CLOUD_AGENT_TOKEN=$(
     ${PREFECT_VAULT_KV_PATH} \
 )
 
+echo $PREFECT_CLOUD_AGENT_TOKEN
 # Get Authenticated with Prefect Cloud
 prefect auth login --key $PREFECT_CLOUD_AGENT_TOKEN
 
-set -x
+#set -x
 # Deploy the flow. $FLOW_NAME will contain the name of flow to be deployed
 make -C flows $FLOW_NAME
