@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set +e
 
 # This script ssh into Tableau server. Default centos user does not have access on Tableau directories
 # so shared folder is created that can be accessible from centos user. Backups are being created using
@@ -15,10 +14,10 @@ set -ex
 data_backup_filename="tableau_data_backup_$(date -u +%Y%m%dT%H%MZ).tsbak"
 
 echo "Creating data backup"
-tsm maintenance backup --file "$data_backup_filename" --multithreaded
+tsm maintenance backup --file $data_backup_filename --multithreaded
 
 echo "Copying data backup file into s3"
-aws s3 cp /home/tableau_backups/"$data_backup_filename" s3://$S3_BUCKET/"$data_backup_filename"
+aws s3 cp /home/tableau_backups/$data_backup_filename s3://$S3_BUCKET/\$data_backup_filename
 
 echo "Removing data backup file(s) from local disk"
 rm /home/tableau_backups/tableau_data_backup_*.tsbak
@@ -27,10 +26,10 @@ rm /home/tableau_backups/tableau_data_backup_*.tsbak
 config_backup_filename="tableau_config_backup_$(date -u +%Y%m%dT%H%MZ).json"
 
 echo "Creating config backup"
-tsm settings export -f "$config_backup_filename"
+tsm settings export -f $config_backup_filename
 
 echo "Copying config backup file into s3"
-aws s3 cp "$config_backup_filename" s3://$S3_BUCKET/"$config_backup_filename"
+aws s3 cp $config_backup_filename s3://$S3_BUCKET/$config_backup_filename
 
 echo "Removing config backup file(s) from local disk"
 rm tableau_config_backup_*.json
