@@ -208,7 +208,7 @@ class CreateSandbox {
                 stringParam("license_manager_version","master","The repository version of the license-manager microservice")
 
                 booleanParam("commerce_coordinator",false,"Enable Commerce Coordinator")
-                stringParam("commerce_coordinator_version","master","The repository version of the commerce-coordinator microservice")
+                stringParam("commerce_coordinator_version","main","The repository version of the commerce-coordinator microservice")
 
 
                 booleanParam("video_pipeline",false,
