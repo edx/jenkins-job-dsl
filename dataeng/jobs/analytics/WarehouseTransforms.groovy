@@ -66,14 +66,14 @@ class WarehouseTransforms{
                 }
                 publishers opsgenie_heartbeat_publisher(allVars)
                 wrappers {
-                    credentialsBinding {
-                        string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
-                    }
-                }
-                wrappers {
                     timestamps()
                     credentialsBinding {
                         usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+                    }
+                }
+                wrappers {
+                    credentialsBinding {
+                        string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
                     }
                 }
                 steps {

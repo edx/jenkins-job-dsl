@@ -11,7 +11,7 @@
 # OPSGENIE_HEARTBEAT_DURATION_NUM: Specifies how often a heartbeat message should be expected.
 # OPSGENIE_HEARTBEAT_DURATION_UNIT: Interval specified as minutes, hours or days.
 
-echo "file_executed"
+echo $OPSGENIE_HEARTBEAT_CONFIG_KEY
 OPSGENIE_HEARTBEAT_API_UL="https://api.opsgenie.com/v2/heartbeats"
 
 if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && \
