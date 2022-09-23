@@ -194,10 +194,10 @@ class CreateSandbox {
 
                 booleanParam("ora_grading",false,"Enable ORA Grading MFE")
                 stringParam("ora_grading_version","master","The repository version of the frontend-app-ora-grading")
-                            
+
                 booleanParam("course_authoring",false,"Enable Course Authoring MFE")
                 stringParam("course_authoring_version","master","The repository version of the frontend-app-course_authoring")
-                
+
                 booleanParam("library_authoring",false,"Enable Library Authoring MFE")
                 stringParam("library_authoring_version","master","The repository version of the frontend-app-course_library")
 
@@ -209,7 +209,9 @@ class CreateSandbox {
 
                 booleanParam("commerce_coordinator",false,"Enable Commerce Coordinator")
                 stringParam("commerce_coordinator_version","main","The repository version of the commerce-coordinator microservice")
-
+                
+                booleanParam("edx_exams",false,"Enable Exams Service")
+                stringParam("edx-exams_version","main","The repository version of the edx-exams microservice")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
