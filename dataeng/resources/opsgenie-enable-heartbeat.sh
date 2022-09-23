@@ -24,8 +24,25 @@ if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && \
     HEARTBEAT_API_URL="$OPSGENIE_HEARTBEAT_API_URL/$OPSGENIE_HEARTBEAT_NAME"
     HEARTBEAT_API_PING_URL="$HEARTBEAT_API_URL/ping"
     ALERT_MESSAGE="Heartbeat [$OPSGENIE_HEARTBEAT_NAME] expired - job is likely stuck."
+    
+    # Make API request to get existing heartbeat
+    # If the heartbeat already exists, then GET_EXISTING_HEARTBEAT will set to heartbeat name "GET_EXISTING_HEARTBEAT=heatbeat_name"
+    # If heartbeat does not exist GET_EXISTING_HEARTBEAT is set to empty
+    GET_EXISTING_HEARTBEAT=$(curl -X GET $HEARTBEAT_API_URL --header "$AUTH_HEADER" | grep -o $OPSGENIE_HEARTBEAT_NAME | sort -u)
+     # Add the heartbeat if heartbeat doesn't exist
+    if [ -z "$GET_EXISTING_HEARTBEAT" ]; then
+        JSON_REQ_DATA_CREATE_HEARTBEAT="{\"name\":\"$OPSGENIE_HEARTBEAT_NAME\"
+        ,\"intervalUnit\": \"$OPSGENIE_HEARTBEAT_DURATION_UNIT\"
+        ,\"interval\": \"$OPSGENIE_HEARTBEAT_DURATION_NUM\"
+        ,\"ownerTeam\": {\"name\": \"Data Engineering\"}
+        ,\"alertMessage\": \"$ALERT_MESSAGE\"
+        ,\"alertPriority\": \"P3\"
+        ,\"enabled\" : true}"
+        # Add heartbeat
+        curl -X POST $OPSGENIE_HEARTBEAT_API_URL --header "$AUTH_HEADER" --header "$JSON_HEADER" --data "$JSON_REQ_DATA_CREATE_HEARTBEAT"
+    fi
+    # Json request body to update existing heartbeat
     JSON_REQ_DATA="{ \"interval\": \"$OPSGENIE_HEARTBEAT_DURATION_NUM\", \"intervalUnit\": \"$OPSGENIE_HEARTBEAT_DURATION_UNIT\", \"alertMessage\": \"$ALERT_MESSAGE\", \"enabled\": true }"
-
     # Enable the heartbeat and set the duration num/units.
     curl -X PATCH "$HEARTBEAT_API_URL" --header "$AUTH_HEADER" --header "$JSON_HEADER" --data "$JSON_REQ_DATA"
     # A re-enabled heartbeat will likely be expired, so ping it once to make it active and begin a new duration countdown.
