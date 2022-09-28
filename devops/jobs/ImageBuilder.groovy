@@ -120,9 +120,10 @@ class ImageBuilder {
                     }
                 }
 
-                triggers {
-                    cron("H H * * H")
-                }
+// 2022-09-28 jdmulloy: Temporarily disable docker automatic builds due to server overload
+//                triggers {
+//                    cron("H H * * H")
+//                }
 
                 steps {
                     // run the build-push-app shell script in a virtual environment called venv

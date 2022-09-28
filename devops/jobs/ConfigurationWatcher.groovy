@@ -107,8 +107,9 @@ class ConfigurationWatcher {
                     }
                 }
             }
-            
-            triggers { githubPush() }
+
+// 2022-09-28 jdmulloy: Temporarily disable docker automatic builds due to server overload
+//            triggers { githubPush() }
 
             // run the trigger-builds shell script in a virtual environment called venv
             steps {
