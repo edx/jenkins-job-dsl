@@ -114,7 +114,7 @@ class AnalyticsExporter {
             }
 
             logRotator {
-                daysToKeep(30)
+                daysToKeep(90)
             }
 
             throttleConcurrentBuilds {
