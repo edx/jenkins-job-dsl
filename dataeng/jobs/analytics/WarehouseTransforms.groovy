@@ -51,9 +51,6 @@ class WarehouseTransforms{
                     env('OPSGENIE_HEARTBEAT_NAME', env_config.get('OPSGENIE_HEARTBEAT_NAME'))
                     env('OPSGENIE_HEARTBEAT_DURATION_NUM', env_config.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
                     env('OPSGENIE_HEARTBEAT_DURATION_UNIT', env_config.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
-                    env('MONTE_CARLO_KEYS_VAULT_KV_PATH', allVars.get('MONTE_CARLO_KEYS_VAULT_KV_PATH'))
-                    env('MONTE_CARLO_KEYS_VAULT_KV_VERSION', allVars.get('MONTE_CARLO_KEYS_VAULT_KV_VERSION'))
-                    env('MONTE_CARLO_DBT_MANIFEST_BATCH_SIZE', allVars.get('MONTE_CARLO_DBT_MANIFEST_BATCH_SIZE'))
                 }
                 wrappers common_wrappers(allVars)
                 wrappers {
