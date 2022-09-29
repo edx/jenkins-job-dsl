@@ -112,8 +112,9 @@ class AppWatcher {
                         }
                     }
 
-// 2022-09-28 jdmulloy: Temporarily disable docker automatic builds due to server overload
-//                    triggers { githubPush() }
+                    if (! extraVars.get("DISABLE_GH_PUSH", false)){
+                        triggers { githubPush() }
+                    }
 
                     steps {
                         // trigger image-builder job, passing commit checked out of the application code repository 
