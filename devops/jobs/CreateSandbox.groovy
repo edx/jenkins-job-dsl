@@ -211,7 +211,7 @@ class CreateSandbox {
                 stringParam("commerce_coordinator_version","main","The repository version of the commerce-coordinator microservice")
                 
                 booleanParam("edx_exams",false,"Enable Exams Service")
-                stringParam("edx-exams_version","main","The repository version of the edx-exams microservice")
+                stringParam("edx_exams_version","main","The repository version of the edx-exams microservice")
 
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
