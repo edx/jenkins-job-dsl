@@ -45,16 +45,25 @@ if [[ "$JOB_TYPE" =~ ^groups-(.+)$ ]]; then
 elif [[ "$JOB_TYPE" =~ ^(.+)-users-(.+)$ ]]; then
 	job_type_prefix="${BASH_REMATCH[1]}"
 	service="${BASH_REMATCH[2]}"
-	configfile=${WORKSPACE}/app-permissions/users/${service}/${ENVIRONMENT}-${DEPLOYMENT}.yml
+	configfile_relative_path=users/${service}/${ENVIRONMENT}-${DEPLOYMENT}.yml
+	configfile=${WORKSPACE}/app-permissions/${configfile_relative_path}
 	setASGAndPath ${service}
 	if [[ "${service}" == "edxapp" ]]; then
 		ANSIBLE_TAG="manage-$JOB_TYPE"
 	else
 		ANSIBLE_TAG="manage-${job_type_prefix}-users-ida"
 	fi
+
+	if [[ "${job_type_prefix}" == "recent" ]]; then
+		current_configfile="${configfile}"
+		configfile="${WORKSPACE}/recent-${ENVIRONMENT}-${DEPLOYMENT}.yml"
+		pushd ${WORKSPACE}/app-permissions
+		${WORKSPACE}/app-permissions/generate_recent_users.sh ${configfile_relative_path}/users/${service}/${ENVIRONMENT}-${DEPLOYMENT}.yml > ${configfile}
+		popd
+	fi
 else
 	echo "Bad job type: ${JOB_TYPE}."
-	echo "Expected active-users-edxapp, inactive-users-edxapp, inactive-users-<service> or groups-<service>."
+	echo "Expected active-users-edxapp, inactive-users-edxapp, recent-users-<service>, inactive-users-<service> or groups-<service>."
 	exit 1
 fi
 
