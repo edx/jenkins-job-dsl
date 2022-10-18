@@ -59,7 +59,7 @@ elif [[ "$JOB_TYPE" =~ ^(.+)-users-(.+)$ ]]; then
 		current_configfile="${configfile}"
 		configfile="${WORKSPACE}/recent-${ENVIRONMENT}-${DEPLOYMENT}.yml"
 		pushd ${WORKSPACE}/app-permissions
-		${WORKSPACE}/app-permissions/generate_recent_users.sh ${configfile_relative_path}/users/${service}/${ENVIRONMENT}-${DEPLOYMENT}.yml > ${configfile}
+		${WORKSPACE}/app-permissions/generate_recent_users.sh ${configfile_relative_path} > ${configfile}
 		popd
 	fi
 else
