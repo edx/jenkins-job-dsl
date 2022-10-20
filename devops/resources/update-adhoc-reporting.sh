@@ -38,4 +38,4 @@ ansible-playbook -i ./ec2.py --limit tag_Name_tools-edx-gp tools-gp.yml -e@../..
 
 # update users on reporting server
 
-ansible-playbook -i ./ec2.py --limit tag_Name_tools-edx-gp tools-gp.yml --tags users -e@../../edx-secure/ansible/vars/edx.yml -e@../../edx-secure/ansible/vars/users.yml -u ${ANSIBLE_SSH_USER}
+ansible-playbook -i ./ec2.py --limit tag_Name_tools-edx-gp tools-gp.yml --tags users -e@../../edx-secure/ansible/vars/edx.yml -e@../../edx-internal/ansible/vars/ad_hoc_reporting_users.yml -u ${ANSIBLE_SSH_USER}
