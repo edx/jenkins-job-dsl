@@ -31,18 +31,27 @@ if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && \
     GET_EXISTING_HEARTBEAT=$(curl -X GET $HEARTBEAT_API_URL --header "$AUTH_HEADER" | grep -o $OPSGENIE_HEARTBEAT_NAME | sort -u)
      # Add the heartbeat if heartbeat doesn't exist
     if [ -z "$GET_EXISTING_HEARTBEAT" ]; then
-        JSON_REQ_DATA_CREATE_HEARTBEAT="{\"name\":\"$OPSGENIE_HEARTBEAT_NAME\"
-        ,\"intervalUnit\": \"$OPSGENIE_HEARTBEAT_DURATION_UNIT\"
-        ,\"interval\": \"$OPSGENIE_HEARTBEAT_DURATION_NUM\"
-        ,\"ownerTeam\": {\"name\": \"Data Engineering\"}
-        ,\"alertMessage\": \"$ALERT_MESSAGE\"
-        ,\"alertPriority\": \"P3\"
-        ,\"enabled\" : true}"
+        JSON_REQ_DATA_CREATE_HEARTBEAT="{
+            \"name\":\"$OPSGENIE_HEARTBEAT_NAME\",
+            \"description\": \"$JOB_URL\",
+            \"intervalUnit\": \"$OPSGENIE_HEARTBEAT_DURATION_UNIT\",
+            \"interval\": \"$OPSGENIE_HEARTBEAT_DURATION_NUM\",
+            \"ownerTeam\": {\"name\": \"Data Engineering\"},
+            \"alertMessage\": \"$ALERT_MESSAGE\",
+            \"alertPriority\": \"P3\",
+            \"enabled\" : true
+        }"
         # Add heartbeat
         curl -X POST $OPSGENIE_HEARTBEAT_API_URL --header "$AUTH_HEADER" --header "$JSON_HEADER" --data "$JSON_REQ_DATA_CREATE_HEARTBEAT"
     fi
     # Json request body to update existing heartbeat
-    JSON_REQ_DATA="{ \"interval\": \"$OPSGENIE_HEARTBEAT_DURATION_NUM\", \"intervalUnit\": \"$OPSGENIE_HEARTBEAT_DURATION_UNIT\", \"alertMessage\": \"$ALERT_MESSAGE\", \"enabled\": true }"
+    JSON_REQ_DATA="{
+        \"description\": \"$JOB_URL\",
+        \"interval\": \"$OPSGENIE_HEARTBEAT_DURATION_NUM\",
+        \"intervalUnit\": \"$OPSGENIE_HEARTBEAT_DURATION_UNIT\",
+        \"alertMessage\": \"$ALERT_MESSAGE\",
+        \"enabled\": true
+    }"
     # Enable the heartbeat and set the duration num/units.
     curl -X PATCH "$HEARTBEAT_API_URL" --header "$AUTH_HEADER" --header "$JSON_HEADER" --data "$JSON_REQ_DATA"
     # A re-enabled heartbeat will likely be expired, so ping it once to make it active and begin a new duration countdown.
