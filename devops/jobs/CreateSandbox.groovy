@@ -209,7 +209,7 @@ class CreateSandbox {
 
                 booleanParam("commerce_coordinator",false,"Enable Commerce Coordinator")
                 stringParam("commerce_coordinator_version","main","The repository version of the commerce-coordinator microservice")
-                
+
                 booleanParam("edx_exams",false,"Enable Exams Service")
                 stringParam("edx_exams_version","main","The repository version of the edx-exams microservice")
 
@@ -296,6 +296,8 @@ class CreateSandbox {
                 booleanParam("run_oauth",true,"")
 
                 stringParam("nginx_users",'[{"name": "{{ COMMON_HTPASSWD_USER }}","password": "{{ COMMON_HTPASSWD_PASS }}","state":"present"}]',"")
+
+                booleanParam("fluentd_logging", false, "This enables a fluentd container which can be used for handling logs from other docker containers")
             }
 
 
