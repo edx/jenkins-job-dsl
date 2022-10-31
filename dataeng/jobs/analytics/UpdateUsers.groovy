@@ -18,7 +18,8 @@ class UpdateUsers {
             steps {
                 virtualenv {
                     nature("shell")
-                    command('cd analytics-configuration && make users.update')
+                    clear()
+                    command(dslFactory.readFileFromWorkspace('dataeng/resources/update-users.sh'))
                 }
             }
             publishers {
