@@ -223,6 +223,7 @@ class CreateSandbox {
 
                 booleanParam("prospectus",false,"Enable Prospectus, the edx catalog")
                 stringParam("prospectus_version","master","")
+                stringParam("prospectus_contentful_environment","master","")
 
                 booleanParam("authn",true,"Enable Authn MFE")
                 stringParam("authn_version","master","The repository version of the frontend-app-authn")
