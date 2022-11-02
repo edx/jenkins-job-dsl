@@ -236,15 +236,7 @@ class AnalyticsExporter {
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-platform-venv-py3.sh'))
-                virtualenv {
-                    // The exporter itself still runs python 2.
-                    nature("shell")
-                    name("analytics-exporter")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/setup-exporter.sh")
-                    )
-                }
-
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-exporter.sh'))
                 downstreamParameterized {
                     trigger('analytics-exporter-worker') {
                         block {
