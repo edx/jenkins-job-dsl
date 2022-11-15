@@ -4,9 +4,14 @@ set -e
 # Create destination directory
 mkdir -p /var/lib/jenkins/tmp/analytics-exporter/course-data
 
+# Create and activate a virtualenv in shell script
+EXPORTER_VENV="exporter_venv"
+virtualenv --python=python3.8 --clear "${EXPORTER_VENV}"
+source "${EXPORTER_VENV}/bin/activate"
+
 # Install requirements into this (exporter) virtual environment
 pushd analytics-exporter/
-pip install 'setuptools<45'
+pip install 'setuptools<65'
 pip install -r github_requirements.txt
 pip install mysql-connector-python -e .
 popd
@@ -18,7 +23,7 @@ GPG_KEYS_PATH=${WORKSPACE}/data-czar-keys
 
 # Save virtualenv location and configuration paths
 echo "
-EXPORTER_VENV=${VIRTUAL_ENV}
+EXPORTER_VENV=${WORKSPACE}/${EXPORTER_VENV}
 CONFIG_PATH=${CONFIG_PATH}
 GPG_KEYS_PATH=${GPG_KEYS_PATH}
 DATE=$(date +%d ${DATE_MODIFIER})
