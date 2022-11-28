@@ -15,7 +15,7 @@ cp $JENKINS_HOME/*.xml jenkins/
 # Copy job definitions into the workspace
 rsync -am --include='config.xml' --include='*/' --prune-empty-dirs --exclude='*' $JENKINS_HOME/jobs/ jenkins/jobs/
 # Get current UTC date and time with minutes 
-CURRENT_UTC_TIME=$(TZ=UTC date -I minutes)
+CURRENT_UTC_TIME=$(TZ=UTC date --iso=minutes)
 # jenkins backup name
 BACKUP_NAME=${NODE_NAME}-build${BUILD_ID}-${CURRENT_UTC_TIME}
 # Create an archive from all copied files (since the S3 plugin cannot copy folders recursively)
