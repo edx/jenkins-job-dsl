@@ -30,7 +30,8 @@ You will need credentials--SSH key, or username and password--to clone private G
  GitHub, use a scoped [personal access token](https://github.com/settings/tokens) to limit potential security risks. A 'repo' scope should be sufficient for most jobs.
 
 Credentials can be added using the Jenkins UI
-You create a username/password combination where the password is your token, this is required if you are using MFA but still want to use a password
+You create a username/password combination where the password is your token, this is required if you are using MFA but still want to use a password.
+To make things easier and set yourself up for success, specify "edx-secure" as the ID value for your new credential record.
 
 Note that if using a personal access token, you can only clone https://github.com/ URLs, and ssh keys only work on git@github.com:edx
 URLs. We use git@github.com URLs on tools-edx-jenkins with deployment keys, but you can use whatever is simpler in testing.
