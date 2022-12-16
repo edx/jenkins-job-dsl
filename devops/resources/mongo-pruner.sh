@@ -40,6 +40,11 @@ python scripts/structures.py\
         --database-name ${DATABASE_NAME}\
         --connection "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IPS}/${DATABASE_NAME}" make_plan --retain 10 plan.json
 
-python scripts/structures.py\
-        --database-name ${DATABASE_NAME}\
-        --connection "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IPS}/${DATABASE_NAME}" prune --delay 5000 plan.json
+## ISRE-1377/ISRE-1443 disable running pruner until MySQL functionality has been added to the pruner
+## Module store is in the process of moving the structure id tracking form Mongo to MySQL.
+## Currently (2022-12-16) the active versions are being written to both Mongo and MySQL, but eventually Mongo will stop receiving
+## updates, which will cause the pruner to delete active structures as it currently only looks at Mongo and not MySQL.
+##
+##python scripts/structures.py\
+##        --database-name ${DATABASE_NAME}\
+##        --connection "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IPS}/${DATABASE_NAME}" prune --delay 5000 plan.json
