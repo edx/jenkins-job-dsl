@@ -131,6 +131,25 @@ class ImageBuilder {
                     shell(dslFactory.readFileFromWorkspace('devops/resources/build-push-app.sh'))
 
                 }
+                publishers {
+
+                extendedEmail {
+                    recipientList(extraVars.get('NOTIFY_ON_FAILURE'))
+                    replyToList(extraVars.get('NOTIFY_ON_FAILURE'))
+                    contentType('text/plain')
+                    defaultSubject('Docker CI Image builder job failed. Check Logs for details')
+                    defaultContent('''\
+                        Docker CI Image builder job failed. Check the logs below for more details.
+                        $BUILD_URL
+                        $BUILD_LOG
+                        
+                        '''.stripIndent())
+
+                        triggers {
+                            failure {}
+                        }
+                    }
+                }
             }
         }
     }
