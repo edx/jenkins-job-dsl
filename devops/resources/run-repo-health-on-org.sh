@@ -143,11 +143,14 @@ done < "$input"
 IFS=,
 failed_repo_names=`echo "${failed_repos[*]}"`
 
+# Delete existing dashboards(sqlite) to re compile
+find "${WORKSPACE}/repo-health-data/dashboards" -type f -iname "dashboard*.sql" -delete
+
 # Compiling dashboard with latest yml files from both orgs
 echo "Pushing data"
 cd "${WORKSPACE}/repo-health-data/individual_repo_data"
 ls *
-repo_health_dashboard --data-dir . --configuration "${WORKSPACE}/edx-repo-health/repo_health_dashboard/configuration.yaml" --output-csv "${WORKSPACE}/repo-health-data/dashboards/dashboard"
+repo_health_dashboard --data-dir . --configuration "${WORKSPACE}/edx-repo-health/repo_health_dashboard/configuration.yaml" --output-csv "${WORKSPACE}/repo-health-data/dashboards/dashboard"  --output-sqlite "${WORKSPACE}/repo-health-data/dashboards/dashboard"
 
 deactivate
 cd ${WORKSPACE}
