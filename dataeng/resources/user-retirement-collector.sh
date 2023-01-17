@@ -38,4 +38,5 @@ python scripts/get_learners_to_retire.py \
     --config_file=$WORKSPACE/user-retirement-secure/$ENVIRONMENT.yml \
     --output_dir=$LEARNERS_TO_RETIRE_PROPERTIES_DIR \
     --cool_off_days=$COOL_OFF_DAYS \
-    --user_count_error_threshold=$USER_COUNT_ERROR_THRESHOLD
+    --user_count_error_threshold=$USER_COUNT_ERROR_THRESHOLD \
+    --max_user_batch_size=$MAX_USER_BATCH_SIZE
