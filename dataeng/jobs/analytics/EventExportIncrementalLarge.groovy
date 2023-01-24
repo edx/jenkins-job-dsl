@@ -15,6 +15,7 @@ class EventExportIncrementalLarge {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("event-export-incremental-large-$environment") {
+                description('Job which groups tracking events by org and exports them to S3 for research purposes.')
                 disabled(env_config.get('DISABLED', false))
                 authorization common_authorization(allVars)
                 logRotator common_log_rotator(allVars, env_config)

@@ -7,6 +7,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 class DeployCluster {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("deploy-cluster") {
+            description('Job to provision an EMR cluster, typically for adhoc usage.')
             logRotator common_log_rotator(allVars)
             parameters {
                 stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')

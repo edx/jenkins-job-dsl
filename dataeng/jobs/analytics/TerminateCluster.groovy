@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 class TerminateCluster {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("terminate-cluster") {
+            description('This job terminates provided Analytics EMR cluster.')
             logRotator common_log_rotator(allVars)
             parameters {
                 stringParam('CLUSTER_NAME', '', 'Name of the EMR cluster to terminate.')

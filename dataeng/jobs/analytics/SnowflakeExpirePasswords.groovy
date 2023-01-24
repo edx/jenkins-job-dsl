@@ -29,7 +29,7 @@ class SnowflakeExpirePasswords {
         jobConfigs.each { jobConfig ->
 
             dslFactory.job(jobConfig['NAME']) {
-
+                description("Job to expire snowflake users' passwords, runs every 3 months.")
                 logRotator common_log_rotator(allVars)
                 parameters secure_scm_parameters(allVars)
                 parameters {

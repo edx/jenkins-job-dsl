@@ -10,6 +10,7 @@ class ExpireVerticaPassword {
     public static def job = { dslFactory, allVars ->
 
         dslFactory.job('expire-vertica-password') {
+            description('It expires user passwords (excluds provided users) and notifies via space separated emails.')
             logRotator common_log_rotator(allVars)
             parameters {
                 stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')

@@ -12,6 +12,7 @@ class EnrollmentValidationEvents {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("enrollment-validation-events-$environment") {
+                description('It runs enrollment validation workflow and validates S3 file sizes with a threshold.')
                 disabled(env_config.get('DISABLED', false))
                 logRotator common_log_rotator(allVars)
                 parameters common_parameters(allVars, env_config)

@@ -9,6 +9,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 class DBTSourceFreshness{
     public static def job = { dslFactory, allVars ->
         dslFactory.job("dbt-source-freshness"){
+            description('It checks DBT source freshness for a specified target.')
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {

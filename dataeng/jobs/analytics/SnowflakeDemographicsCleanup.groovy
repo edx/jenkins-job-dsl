@@ -10,6 +10,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 class SnowflakeDemographicsCleanup {
     public static def job = { dslFactory, allVars -> 
         dslFactory.job("snowflake-demographics-cleanup") {
+            description('This job cleans up Snowflake Demographics and notifies users via provided space separated emails.')
             logRotator common_log_rotator(allVars)
             authorization common_authorization(allVars)
             parameters secure_scm_parameters(allVars)
