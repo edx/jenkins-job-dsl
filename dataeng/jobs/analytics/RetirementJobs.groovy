@@ -29,7 +29,7 @@ class RetirementJobs{
                 // throttle per environment, but we expect the vast majority of
                 // retirement requests to come in through prod, so it's good enough for
                 // now.
-                maxTotal(4)
+                maxTotal(10)
             }
             configure { project ->
                 project / 'properties' / 'hudson.plugins.throttleconcurrents.ThrottleJobProperty' <<
@@ -163,7 +163,8 @@ class RetirementJobs{
                 stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('COOL_OFF_DAYS', '14', 'Number of days a learner should be in the retirement queue before being actually retired.')
-                stringParam('USER_COUNT_ERROR_THRESHOLD', '200', 'If more users than this number are returned we will error out instead of retiring.')
+                stringParam('USER_COUNT_ERROR_THRESHOLD', '501', 'If more users than this number are returned we will error out instead of retiring.')
+                stringParam('MAX_USER_BATCH_SIZE', '500', 'Allow us to get a specified number of users and then continues with that')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
             }
 
