@@ -142,15 +142,12 @@ done < "$input"
 # Go into data repo, recalculate aggregate data, and push a PR
 IFS=,
 failed_repo_names=`echo "${failed_repos[*]}"`
-# Delete existing dashboards to re compile
-find "${WORKSPACE}/repo-health-data/dashboards" -type f -iname "\dashboard*.csv" -delete
 
-for ORG_NAME in ${ORG_NAMES[@]}; do
-    echo "Pushing data for org $ORG_NAME"
-    cd "${WORKSPACE}/repo-health-data/individual_repo_data/${ORG_NAME}"
-    ls
-    repo_health_dashboard --data-dir . --configuration "${WORKSPACE}/edx-repo-health/repo_health_dashboard/configuration.yaml" --output-csv "${WORKSPACE}/repo-health-data/dashboards/dashboard" --append
-done
+# Compiling dashboard with latest yml files from both orgs
+echo "Pushing data"
+cd "${WORKSPACE}/repo-health-data/individual_repo_data"
+ls *
+repo_health_dashboard --data-dir . --configuration "${WORKSPACE}/edx-repo-health/repo_health_dashboard/configuration.yaml" --output-csv "${WORKSPACE}/repo-health-data/dashboards/dashboard" --append
 
 deactivate
 cd ${WORKSPACE}
