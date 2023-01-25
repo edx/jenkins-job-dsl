@@ -147,7 +147,7 @@ failed_repo_names=`echo "${failed_repos[*]}"`
 echo "Pushing data"
 cd "${WORKSPACE}/repo-health-data/individual_repo_data"
 ls *
-repo_health_dashboard --data-dir . --configuration "${WORKSPACE}/edx-repo-health/repo_health_dashboard/configuration.yaml" --output-csv "${WORKSPACE}/repo-health-data/dashboards/dashboard" --append
+repo_health_dashboard --data-dir . --configuration "${WORKSPACE}/edx-repo-health/repo_health_dashboard/configuration.yaml" --output-csv "${WORKSPACE}/repo-health-data/dashboards/dashboard"
 
 deactivate
 cd ${WORKSPACE}
