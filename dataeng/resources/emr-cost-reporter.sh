@@ -6,7 +6,7 @@ mkdir -p $VENV_DIR
 
 rm -rf $VENV_DIR/*
 VENV="$VENV_DIR/venv_$BUILD_ID"
-virtualenv --python=python2 $VENV
+virtualenv --python=python3.8 $VENV
 . $VENV/bin/activate
 
 cd emr-cost-calculator
