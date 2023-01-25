@@ -30,12 +30,7 @@ class EmrCostReporter {
             }
             publishers common_publishers(allVars)
             steps {
-                virtualenv {
-                    nature("shell")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/emr-cost-reporter.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/emr-cost-reporter.sh'))
             }
         }
     }

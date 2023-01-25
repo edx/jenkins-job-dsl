@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -ex
 
+# Creating Python virtual env
+PYTHON_VENV="python_venv"
+virtualenv --python=$PYTHON_VENV_VERSION --clear "${PYTHON_VENV}"
+source "${PYTHON_VENV}/bin/activate"
+
 # Calculate the start of the validation window as 15 days prior to the end of the window.
 COMPARISON_END_TIME="${SQOOP_START_TIME}"
 COMPARISON_START_TIME=$(date --utc --iso=minutes -d "${COMPARISON_END_TIME} - 15 days")

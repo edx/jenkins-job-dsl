@@ -17,6 +17,7 @@ class AnalyticsExporter {
                 stringParam('NOTIFY', '', 'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER', '', 'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 202x-0x-0x" if that is when the CWSM dump took place.  (Leave off quotes.)')
                 stringParam('TASKS', '', 'Space separated list of tasks to process. Leave this blank to use the task list specified in the config file.  Specify here only if you are running tests of a specific task.')
+                stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python virtual environment version to used.')
             }
             parameters secure_scm_parameters(allVars)
 
@@ -67,21 +68,8 @@ class AnalyticsExporter {
             steps {
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-platform-venv-py3.sh'))
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
-                    )
-                }
-                virtualenv {
-                    // The exporter itself still runs python 2.
-                    nature("shell")
-                    name("analytics-exporter")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/run-course-exporter.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/remote-config.sh'))
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/run-course-exporter.sh'))
             }
         }
 
@@ -135,14 +123,7 @@ class AnalyticsExporter {
             }
 
             steps {
-                
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/remote-config.sh'))
                 shell(dslFactory.readFileFromWorkspace("dataeng/resources/org-exporter-worker.sh"))
             }
 

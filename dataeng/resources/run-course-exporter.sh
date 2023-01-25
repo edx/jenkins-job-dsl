@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+# Creating python2.7 virtual env
+PYTHON_VENV="python_venv"
+virtualenv --python=python2.7 --clear "${PYTHON_VENV}"
+source "${PYTHON_VENV}/bin/activate"
+
 # Create destination directory
 WORKING_DIRECTORY=/var/lib/jenkins/tmp/analytics-course-exporter
 mkdir -p ${WORKING_DIRECTORY}/course-data

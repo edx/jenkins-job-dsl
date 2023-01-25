@@ -18,6 +18,7 @@ class ExpireVerticaPassword {
                 stringParam('EXCLUDE', allVars.get('EXCLUDE'))
                 stringParam('MAPPING', allVars.get('MAPPING'))
                 stringParam('NOTIFY', '$PAGER_NOTIFY', 'Space separated list of emails to send notifications to.')
+                stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python virtual environment version to used.')
             }
             multiscm {
                 git {
@@ -39,14 +40,7 @@ class ExpireVerticaPassword {
             }
             publishers common_publishers(allVars)
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/expire-vertica-password.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/expire-vertica-password.sh'))
             }
         }
     }

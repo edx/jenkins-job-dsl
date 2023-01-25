@@ -12,15 +12,12 @@ class UpdateUsers {
                 stringParam('REMOTE_USER', allVars.get('REMOTE_USER'), 'User which runs the analytics task on the EMR cluster.')
                 stringParam('CONFIG_REPO', 'git@github.com:edx/edx-analytics-configuration.git', '')
                 stringParam('CONFIG_BRANCH', allVars.get('BRANCH'), 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
+                stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python virtual environment version to used.')
             }
             multiscm analytics_configuration_scm(allVars)
             wrappers common_wrappers(allVars)
             steps {
-                virtualenv {
-                    nature("shell")
-                    clear()
-                    command(dslFactory.readFileFromWorkspace('dataeng/resources/update-users.sh'))
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/update-users.sh'))
             }
             publishers {
                 postBuildTask {

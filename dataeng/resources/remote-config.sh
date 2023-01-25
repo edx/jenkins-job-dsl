@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# !/usr/bin/env bash
 #
 # Fetch the latest studio and LMS configs for edx and edge.
 #
@@ -13,6 +13,11 @@
 set -xe
 
 env | sort
+
+# Creating Python virtual env
+PYTHON_VENV="python_venv"
+virtualenv --python=$PYTHON_VENV_VERSION --clear "${PYTHON_VENV}"
+source "${PYTHON_VENV}/bin/activate"
 
 # Install dependencies early in this script.
 pip install asym-crypto-yaml

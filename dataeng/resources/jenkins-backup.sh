@@ -2,6 +2,11 @@
 
 env
 
+# Creating Python virtual env
+PYTHON_VENV="python_venv"
+virtualenv --python=$PYTHON_VENV_VERSION --clear "${PYTHON_VENV}"
+source "${PYTHON_VENV}/bin/activate"
+
 pip install awscli
 
 # Delete all files in the workspace

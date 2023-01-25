@@ -69,15 +69,7 @@ class SnowflakeExpirePasswords {
                 }
                 publishers common_publishers(allVars)
                 steps {
-
-                    virtualenv {
-                        pythonName('PYTHON_3.7')
-                        nature("shell")
-                        systemSitePackages(false)
-                        command(
-                            dslFactory.readFileFromWorkspace(jobConfig['SCRIPT_TO_RUN'])
-                        )
-                    }
+                    shell(dslFactory.readFileFromWorkspace(jobConfig['SCRIPT_TO_RUN']))
                 }
             }
         }

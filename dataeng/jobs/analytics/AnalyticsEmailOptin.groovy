@@ -52,13 +52,7 @@ class AnalyticsEmailOptin {
             }
 
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/remote-config.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/remote-config.sh'))
                 shell(dslFactory.readFileFromWorkspace("dataeng/resources/email-optin-worker.sh"))
             }
 
