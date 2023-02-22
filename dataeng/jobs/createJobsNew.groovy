@@ -11,7 +11,6 @@ import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswords
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static analytics.SnowflakeUserRetirementStatusCleanup.job as SnowflakeUserRetirementStatusCleanupJob
 import static analytics.PrefectFlowsDeployment.job as PrefectFlowsDeploymentJob
-import static analytics.TableauBackup.job as TableauBackupJob
 import static analytics.TableauRestore.job as TableauRestoreJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
@@ -54,7 +53,6 @@ def taskMap = [
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
     SNOWFLAKE_USER_RETIREMENT_STATUS_CLEANUP_JOB: SnowflakeUserRetirementStatusCleanupJob,
     PREFECT_FLOWS_DEPLOYMENT_JOB: PrefectFlowsDeploymentJob,
-    TABLEAU_BACKUP_JOB: TableauBackupJob,
     TABLEAU_RESTORE_JOB: TableauRestoreJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
