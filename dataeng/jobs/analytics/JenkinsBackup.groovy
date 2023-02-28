@@ -9,17 +9,13 @@ class JenkinsBackup {
             parameters {
                 stringParam('S3_BACKUP_BUCKET', allVars.get('S3_BACKUP_BUCKET'))
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
+                stringParam('PYTHON_VENV_VERSION', 'python3.8', 'Python virtual environment version to used.')
             }
             wrappers common_wrappers(allVars)
             triggers common_triggers(allVars)
             publishers common_publishers(allVars)
             steps {
-                virtualenv {
-                    nature("shell")
-                    command(
-                        dslFactory.readFileFromWorkspace("dataeng/resources/jenkins-backup.sh")
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/jenkins-backup.sh'))
             }
         }
     }

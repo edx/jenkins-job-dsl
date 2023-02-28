@@ -1,3 +1,5 @@
+# !/usr/bin/env bash
+
 VENV_ROOT=$WORKSPACE/venvs
 mkdir -p $VENV_ROOT
 rm -rf $WORKSPACE/logs

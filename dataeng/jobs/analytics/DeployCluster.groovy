@@ -16,11 +16,7 @@ class DeployCluster {
             multiscm analytics_configuration_scm(allVars)
             wrappers common_wrappers(allVars)
             steps {
-                virtualenv {
-                    nature("shell")
-                    clear()
-                    command(dslFactory.readFileFromWorkspace("dataeng/resources/deploy-cluster.sh"))
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/deploy-cluster.sh'))
             }
         }
     }

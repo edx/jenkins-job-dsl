@@ -53,6 +53,7 @@ class SnowflakeRefreshSnowpipe {
                     stringParam('DELAY', jobConfig['DELAY'], 'Time (in seconds) to wait between issuing commands')
                     stringParam('LIMIT', jobConfig['LIMIT'], 'Minimum number of expected data files in the copy history for the snowpipe')
                     stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
+                    stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python virtual environment version to used.')
                 }
                 environmentVariables {
                     env('KEY_PATH', allVars.get('KEY_PATH'))
@@ -81,15 +82,7 @@ class SnowflakeRefreshSnowpipe {
                 }
                 publishers common_publishers(allVars)
                 steps {
-
-                    virtualenv {
-                        pythonName('PYTHON_3.7')
-                        nature("shell")
-                        systemSitePackages(false)
-                        command(
-                            dslFactory.readFileFromWorkspace("dataeng/resources/snowflake-refresh-snowpipe.sh")
-                        )
-                    }
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-refresh-snowpipe.sh'))
                 }
             }
         }

@@ -32,6 +32,7 @@ class SnowflakeUserRetirementStatusCleanup {
                     'NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'),
                     'Space separated list of emails to send notifications to.'
                 )
+                stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python virtual environment version to used.')
             }
             environmentVariables {
                 // Path to the key file used to authenticate to Snowflake
@@ -66,16 +67,7 @@ class SnowflakeUserRetirementStatusCleanup {
             }
             publishers common_publishers(allVars)
             steps {
-                virtualenv {
-                    pythonName('PYTHON_3.7')
-                    nature("shell")
-                    systemSitePackages(false)
-                    command(
-                        dslFactory.readFileFromWorkspace(
-                            "dataeng/resources/snowflake-user-retirement-status-cleanup.sh"
-                        )
-                    )
-                }
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-user-retirement-status-cleanup.sh'))
             }
         }
     }
