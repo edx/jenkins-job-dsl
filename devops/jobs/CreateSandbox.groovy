@@ -214,6 +214,9 @@ class CreateSandbox {
                 booleanParam("edx_exams",false,"Enable Exams Service")
                 stringParam("edx_exams_version","main","The repository version of the edx-exams microservice")
 
+                booleanParam("subscriptions",false,"Subscriptions Service")
+                stringParam("subscription_version","main","The repository version of the subscriptions microservice")
+
                 booleanParam("video_pipeline",false,
                              "video_pipeline and video_encode_worker must be selected for video pipeline to work")
                 stringParam("video_pipeline_version","master","")
