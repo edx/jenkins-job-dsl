@@ -19,6 +19,7 @@ class AnalyticsEmailOptin {
                 stringParam('ORG')
                 stringParam('OUTPUT_PREFIX')
                 stringParam('PLATFORM_VENV')
+                stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python virtual environment version to used.')
             }
 
             environmentVariables {
