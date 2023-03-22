@@ -142,8 +142,8 @@ class AnalyticsExporter {
             description('The Analytics Exporter weekly job, which exports tons of structure and state data for every course for every participating org and delivers them encrypted to our partners via S3.  Specifically, this sets up the shared edx-platform execution environment, fetches a list of all the orgs, then kicks off downstream analytics-exporter-worker jobs for each one that corresponds to a partner which is configured to receive export data.')
             parameters {
                 stringParam('ORGS', '*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
-                stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name].')
-                stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
+                stringParam('EXPORTER_BRANCH', 'origin/master', 'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name].')
+                stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('EXPORTER_CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
