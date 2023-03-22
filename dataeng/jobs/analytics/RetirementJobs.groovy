@@ -536,6 +536,7 @@ class RetirementJobs{
                 stringParam('INITIAL_STATE_NAME', '', 'Find retiring learners in this state (ex: COMPLETE)')
                 stringParam('NEW_STATE_NAME', '', 'Set the found learners to this state (ex: PENDING)')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
+                booleanParam('REWIND_STATE', false, 'Rewinds users to previous state, useful for redriving a large numnber of ERRORED users')
             }
 
             // retry cloning repositories
