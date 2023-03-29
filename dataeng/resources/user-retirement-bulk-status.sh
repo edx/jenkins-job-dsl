@@ -34,4 +34,5 @@ python scripts/retirement_bulk_status_update.py \
     --start_date=$START_DATE \
     --end_date=$END_DATE \
     --initial_state=$INITIAL_STATE_NAME \
-    --new_state=$NEW_STATE_NAME
+    ${NEW_STATE_NAME:+ "--new_state=$NEW_STATE_NAME"} \
+    $(if [[ $REWIND_STATE == "true" ]]; then echo --rewind-state; fi)
