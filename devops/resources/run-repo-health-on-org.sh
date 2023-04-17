@@ -123,10 +123,10 @@ do
 
     OUTPUT_FILE_NAME=${REPO_NAME}${OUTPUT_FILE_POSTFIX}
     cd ${WORKSPACE}
-    if pytest --repo-health --repo-health-path edx-repo-health --repo-path target-repo --repo-health-metadata "${METADATA_FILE_DIST}" --output-path "${ORG_DATA_DIR}/${OUTPUT_FILE_NAME}" -o log_cli=true --exitfirst --noconftest -v -c /dev/null
+    if pytest --repo-health --repo-health-path edx-repo-health --repo-path target-repo --repo-health-metadata "${METADATA_FILE_DIST}" --output-path "${ORG_DATA_DIR}/${OUTPUT_FILE_NAME}" -o log_cli=true --exitfirst --noconftest -v -c /dev/null -Werror::pytest.PytestUnhandledCoroutineWarning
     then
         true
-    elif pytest --repo-health --repo-health-path edx-repo-health --repo-path target-repo --repo-health-metadata "${METADATA_FILE_DIST}" --output-path "${ORG_DATA_DIR}/${OUTPUT_FILE_NAME}" -o log_cli=true --exitfirst --noconftest -v -c /dev/null
+    elif pytest --repo-health --repo-health-path edx-repo-health --repo-path target-repo --repo-health-metadata "${METADATA_FILE_DIST}" --output-path "${ORG_DATA_DIR}/${OUTPUT_FILE_NAME}" -o log_cli=true --exitfirst --noconftest -v -c /dev/null -Werror::pytest.PytestUnhandledCoroutineWarning
     # rerun the same command if it fails once
     then
         true
