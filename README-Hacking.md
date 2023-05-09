@@ -10,19 +10,19 @@ at the root of the repository and running `make requirements`
 
     $ make docker.run.<name_of_jenkins_service>
 
-Where `<name_of_jenkins_service>` corresponds to services specified in docker-compose.yml (e.g. `jenkins_tools`, `jenkins_build`, etc.).
+Where `<name_of_jenkins_service>` corresponds to services specified in docker-compose.yml (e.g. `jenkins_tools`, etc.).
 
 A volume will be created for the container, which contains all of the configuration for Jenkins and will persist between
 container stops and starts. For the `jenkins_tools` container, however, plugin updates or installs will cause the
 volume to become recreated (see WIP: Updating the Docker Image below).
 
 Once the container is running, you can connect to Jenkins at `http://localhost:<port>`. Ports are also configured in
-`docker-compose.yml`. (8080 for jenkins_tools, 8081 for jenkins_build)
+`docker-compose.yml`. (8080 for jenkins_tools)
 
 In order to bootstrap Jenkins in a container you will need to do two things:
 
 1. Set up any credentials required for pulling private repositories.
-2. Set up a seed job to process the job DSL (this job is automatically created in jenkins_build).
+2. Set up a seed job to process the job DSL.
 
 ### Credentials
 

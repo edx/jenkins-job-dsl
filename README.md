@@ -3,7 +3,7 @@
 # jenkins-job-dsl
 
 This repository conatins Jenkins Job DSL code for generating Jenkins jobs on several edx.org Jenkins servers including
-tools-edx-jenkins and build.testeng.edx.org. It has a companion private repo for generating the Jobs on the edx.org
+tools-edx-jenkins. It has a companion private repo for generating the Jobs on the edx.org
 Jenkins servers. Usage of this code without that repo may be difficult.
 
 ## Code Status
@@ -20,7 +20,7 @@ outside edx to use it.
 
 ### Running a local Jenkins for development
 See [README-Hacking](README-Hacking.md) for details on how to spin up a local docker container with
-an environment similar to one you would find on the TestEng "Build Jenkins" or DevOps "Tools Jenkins".
+an environment similar to one you would find on the DevOps "Tools Jenkins".
 
 ## File structure
 
@@ -81,7 +81,7 @@ job description you can use code like the following.
 ```
 
 ### Example Job
-An example job can be found [here](platform/jobs/exampleJob.groovy).
+An example job can be found [here](sample/jobs/sampleJob.groovy).
 
 ### Credentials and Secrets
 
@@ -118,10 +118,10 @@ credential | Allow access to private git repositories | In the credential() func
 
 ### Structure
 
-TL;DR Making a new job? Make it look like [this one](https://github.com/edx/jenkins-job-dsl/blob/master/testeng/jobs/backupJenkins.groovy#L47) NOT like [this one](https://github.com/edx/jenkins-job-dsl/blob/master/dataeng/jobs/analytics/AggregateDailyTrackingLogs.groovy#L11).
+TL;DR Making a new job? Make it look like [this one](https://github.com/edx/jenkins-job-dsl/blob/312355c0568328b3d7bacbb00c2e94a6f30f01eb/testeng/jobs/backupJenkins.groovy#L47) NOT like [this one](https://github.com/edx/jenkins-job-dsl/blob/master/dataeng/jobs/analytics/AggregateDailyTrackingLogs.groovy#L11).
 
 There are two common ways to write jobs:
-1: The Build jenkins jobs are often flattened (as shown in [backupJenkins.groovy](https://github.com/edx/jenkins-job-dsl/blob/master/testeng/jobs/backupJenkins.groovy#L47) ) or if there are many jobs that are similar you can loop over a list of Maps like we do in [upgradePythonRequirements.groovy](https://github.com/edx/jenkins-job-dsl/blob/master/testeng/jobs/upgradePythonRequirements.groovy#L206). This has the benefit of keeping all the logic in one file and being easy to understand.
+1: The Build jenkins jobs are often flattened (as shown in [backupJenkins.groovy](https://github.com/edx/jenkins-job-dsl/blob/312355c0568328b3d7bacbb00c2e94a6f30f01eb/testeng/jobs/backupJenkins.groovy#L47) ) or if there are many jobs that are similar you can loop over a list of Maps like we do in [upgradePythonRequirements.groovy](https://github.com/edx/jenkins-job-dsl/blob/312355c0568328b3d7bacbb00c2e94a6f30f01eb/testeng/jobs/upgradePythonRequirements.groovy#L206). This has the benefit of keeping all the logic in one file and being easy to understand.
 2: DevOps and Data Engineering jenkins jobs have often wrapped jobs in classes (as shown in [AggregateDailyTrackingLogs.groovy](https://github.com/edx/jenkins-job-dsl/blob/master/dataeng/jobs/analytics/AggregateDailyTrackingLogs.groovy#L11)). This paradigm has the benefit of allowing you to import the class in multiple places to be DRYer. There are also a few places where we link configuration to static functions from classes like we do in [createJobs.groovy](https://github.com/edx/jenkins-job-dsl/blob/master/dataeng/jobs/createJobs.groovy).
 
 In general we would like to transition away from using classes in order to make it easier for people to reason about our code. To that end, please use the first methodology when possible.
@@ -129,6 +129,6 @@ In general we would like to transition away from using classes in order to make 
 ### Gotchas
 
 1: As of this writing Tools Jenkins has not been upgraded to Jenkins 2 and does not support pipelines.
-2: As of this writing our Build and Data Engineering instances define credentials globally and do not use seed jobs that deploy jobs into separate folders with separate credentials.
-3: We want to reduce the number of git checkouts so that our jobs can still run when Github is down, especially for jobs that are triggered frequently.
+2: As of this writing our Data Engineering instance defines credentials globally and does not use seed jobs that deploy jobs into separate folders with separate credentials.
+3: We want to reduce the number of git checkouts so that our jobs can still run when GitHub is down, especially for jobs that are triggered frequently.
 

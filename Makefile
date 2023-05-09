@@ -75,23 +75,6 @@ $(DOCKER_SERVICES:%=docker.stop.%) : docker.stop.% :
 $(DOCKER_SERVICES:%=docker.running.%) : docker.running.% :
 	@docker-compose exec $* /bin/bash -c 'echo "'$*' is running"'
 
-# docker.configure.$service
-# This target picks up any user-specified ansible overrides, then reconfigures
-# and restarts the specified service container.
-docker.configure.jenkins_build : docker.configure.% : ansible_overrides.yml docker.running.%
-	docker cp ansible_overrides.yml $*:/ansible_overrides_extra.yml
-	# The jenkins:local-dev ansible tag is specific to jenkinses that use
-	# the jenkins_common role.
-	docker-compose exec $* /bin/bash -c "PYTHONUNBUFFERED=1 /edx/app/edx_ansible/venvs/edx_ansible/bin/ansible-playbook \
-		-v $*.yml \
-		-i '127.0.0.1,' \
-		-c local \
-		-e@/ansible_overrides.yml \
-		-e@/ansible_overrides_extra.yml \
-		-t 'jenkins:local-dev' \
-		-vv"
-	docker-compose restart $*
-
 # Reconfigure jenkins_tools
 docker.configure.jenkins_tools:
 	@echo 'This makefile currently does not support reconfiguring jenkins_tools.'

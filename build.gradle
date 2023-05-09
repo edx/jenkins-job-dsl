@@ -7,14 +7,6 @@ sourceSets {
     jobs {
         groovy {
             srcDir 'sample/jobs'
-            srcDir 'platform/jobs'
-            srcDir 'testeng/jobs'
-            srcDir 'mobileApp/jobs'
-        }
-    }
-    views {
-        groovy {
-            srcDir 'platform/views'
         }
     }
     src {
