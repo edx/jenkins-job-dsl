@@ -3,7 +3,6 @@
 owner: jdmulloy
 supporting_teams:
     - edx/devops
-    - edx/testeng
 oeps:
   oep-2: true
 tags: [tools]
