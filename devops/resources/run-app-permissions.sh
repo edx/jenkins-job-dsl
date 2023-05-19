@@ -15,11 +15,13 @@ pip install -r util/jenkins/requirements.txt
 env
 . util/jenkins/assume-role.sh
 
-assume-role ${ROLE_ARN}
+#assume-role ${ROLE_ARN}
 cd $WORKSPACE/configuration/playbooks
 
 # Function to set ASG and path variables
 function setASGAndPath () {
+        unassume-role
+        assume-role ${ROLE_ARN}
 	service_name="$1"
 	if [[ "${service_name}" == "lms" ]] || [[ "${service_name}" == "cms" ]] || [[ "${service_name}" == "edxapp" ]]; then
 		INVENTORY=$(./active_instances_in_asg.py --asg ${ENVIRONMENT}-${DEPLOYMENT}-worker)
@@ -62,18 +64,43 @@ elif [[ "$JOB_TYPE" =~ ^(.+)-users-(.+)$ ]]; then
 		${WORKSPACE}/app-permissions/generate_recent_users.sh ${configfile_relative_path} > ${configfile}
 		popd
 	fi
+
 else
 	echo "Bad job type: ${JOB_TYPE}."
 	echo "Expected active-users-edxapp, inactive-users-edxapp, recent-users-<service>, inactive-users-<service> or groups-<service>."
 	exit 1
 fi
 
-if [[ -n ${INVENTORY} ]]; then
-    ansible-playbook -i ${INVENTORY} manage_edxapp_users_and_groups.yml \
-										 -e "env_path=${SERVICE_ENV_PATH}" -e "python_path=${SERVICE_PYTHON_PATH}" \
-										 -e "manage_path=${SERVICE_MANAGE_PATH}" -e "service=${service}" \
-                     -e@${configfile} -e "group_environment=${ENVIRONMENT}-${DEPLOYMENT}" \
-                     --user ${USER} --tags ${ANSIBLE_TAG}
-else
-    echo "Skipping ${ENVIRONMENT} ${DEPLOYMENT}, no worker cluster available, get it next time"
-fi
+pushd ${WORKSPACE}/app-permissions
+${WORKSPACE}/app-permissions/generate_split_users.sh ${configfile}
+popd
+
+for SPLIT_FILE in ${WORKSPACE}/app-permissions/split-*.yml; do
+    setASGAndPath ${service}
+
+    if [[ -n ${INVENTORY} ]]; then
+        for RETRIES in $(seq 3 -1 0); do
+            set +e
+            ansible-playbook -i ${INVENTORY} manage_edxapp_users_and_groups.yml \
+                             -e "env_path=${SERVICE_ENV_PATH}" -e "python_path=${SERVICE_PYTHON_PATH}" \
+                             -e "manage_path=${SERVICE_MANAGE_PATH}" -e "service=${service}" \
+                             -e@${SPLIT_FILE} -e "group_environment=${ENVIRONMENT}-${DEPLOYMENT}" \
+                             --user ${USER} --tags ${ANSIBLE_TAG}
+            EXIT_CODE=$?
+            if [ "${EXIT_CODE}" == 0 ]; then
+                break
+            elif [ "${RETRIES}" != 0 ]; then
+                echo "EXIT CODE: ${EXIT_CODE}"
+                echo "Retrying, ${RETRIES} remaining"
+                set -e
+                setASGAndPath ${service}
+            else
+                exit ${EXIT_CODE}
+            fi
+            set -e
+        done
+    else
+        echo "Skipping ${ENVIRONMENT} ${DEPLOYMENT}, no worker cluster available, get it next time"
+    fi
+
+done
