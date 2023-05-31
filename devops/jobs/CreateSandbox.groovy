@@ -99,6 +99,18 @@ class CreateSandbox {
                         relativeTargetDirectory('configuration-internal')
                     }
                 }
+                git {
+                    remote {
+                        url(extraVars.get('DOCKERFILES_INTERNAL_REPO',''))
+                        branch('$docker_internal_version')
+                        credentials('sandbox-secure-credentials')
+                    }
+                    extensions {
+                        cleanAfterCheckout()
+                        pruneBranches()
+                        relativeTargetDirectory('dockerfiles-internal')
+                    }
+                }
             }
 
 
@@ -127,6 +139,8 @@ class CreateSandbox {
                             "Select an alternative branch of sandbox-secure configuration repo")
                 stringParam("configuration_internal_version","master",
                             "Select an alternative branch of sandbox-internal configuration repo")
+                stringParam("docker_internal_version","master",
+                            "Select an alternative branch of internal-dockerfiles configuration repo")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
                 booleanParam("testcourses",true,"")
                 booleanParam("performance_course",true,"")
