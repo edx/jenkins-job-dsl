@@ -114,6 +114,7 @@ class PrefectFlowsDeployment{
             'send_hubspot_leads_to_braze',
             'send_hubspot_unsubscribes_to_braze',
             'load_segment_config_to_snowflake',
+            'send_email',
         ]
         prefect_flows.each { prefect_flow ->
             dslFactory.job("prefect-flows-deployment-$prefect_flow"){
