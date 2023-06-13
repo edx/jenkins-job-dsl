@@ -116,6 +116,9 @@ class PrefectFlowsDeployment{
             'load_segment_config_to_snowflake',
             'send_transactions_to_vertex',
             'send_refunds_to_vertex',
+            'master_flow_test',
+            'flow_test_a',
+            'flow_test_b',
         ]
         prefect_flows.each { prefect_flow ->
             dslFactory.job("prefect-flows-deployment-$prefect_flow"){
