@@ -8,7 +8,7 @@ create_virtualenv --python=python3.8 --clear
 set -u
 
 cd $WORKSPACE/configuration
-pip install -r pre-requirements.txt
+pip install -r requirements/pip.txt
 pip install -r requirements.txt
 pip install -r util/jenkins/requirements.txt
 
