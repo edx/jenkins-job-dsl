@@ -142,6 +142,8 @@ class CreateSandbox {
                 stringParam("docker_internal_version","master",
                             "Select an alternative branch of internal-dockerfiles configuration repo")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
+                
+                choiceParam("mongo_version",["4.2","4.4"],"select version of MongoDB to build sandbox")
                 booleanParam("testcourses",true,"")
                 booleanParam("performance_course",true,"")
                 booleanParam("demo_test_course",true,"")
