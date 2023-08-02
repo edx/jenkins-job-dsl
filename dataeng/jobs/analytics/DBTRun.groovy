@@ -112,5 +112,59 @@ class DBTRun{
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/dbt-run.sh'))
             }
         }
+        dslFactory.job("dbt-enterprise-reporting"){
+            description(
+                "Automatically run dbt for enterprise reporting <strong>in production</strong>, overwriting data in " +
+                "the PROD database. This job triggers transfer-dbt-models-daily to upload this data to S3."
+            )
+            logRotator common_log_rotator(allVars)
+            parameters secure_scm_parameters(allVars)
+            environmentVariables {
+                env('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'))
+                env('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'))
+                env('DBT_TARGET', allVars.get('DBT_TARGET'))
+                env('DBT_PROFILE', allVars.get('DBT_PROFILE'))
+                env('DBT_PROJECT_PATH', 'automated/applications')
+                env('DBT_MODEL_INCLUDE', 'enterprise_user_lpr enterprise_offer_aggregates')
+                env('DBT_MODEL_EXCLUDE', allVars.get('DBT_MODEL_EXCLUDE'))
+                env('FULL_REFRESH', false)
+                env('DBT_RUN_ARGS', allVars.get('DBT_RUN_ARGS'))
+                env('SKIP_TESTS', true)
+                env('DBT_TEST_ARGS', allVars.get('DBT_TEST_ARGS'))
+                env('JOB_TYPE', 'automated')
+                env('NOTIFY', allVars.get('$PAGER_NOTIFY'))
+            }
+            multiscm secure_scm(allVars) << {
+                git {
+                    remote {
+                        url('$WAREHOUSE_TRANSFORMS_URL')
+                        branch('$WAREHOUSE_TRANSFORMS_BRANCH')
+                    }
+                    extensions {
+                        relativeTargetDirectory('warehouse-transforms')
+                        pruneBranches()
+                        cleanAfterCheckout()
+                    }
+                }
+            }
+            triggers {
+                scm('0 6 * * *') // 6am UTC daily
+            }
+            wrappers {
+                colorizeOutput('xterm')
+                timestamps()
+                credentialsBinding {
+                    usernamePassword('GITHUB_USER', 'GITHUB_TOKEN', 'GITHUB_USER_PASS_COMBO');
+                }
+            }
+            wrappers common_wrappers(allVars)
+            publishers common_publishers(allVars)
+            steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/dbt-run.sh'))
+                 downstreamParameterized {
+                    trigger("transfer-dbt-models-daily")
+                 }
+            }
+        }
     }
 }
