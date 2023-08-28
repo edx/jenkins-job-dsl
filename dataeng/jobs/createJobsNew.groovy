@@ -8,6 +8,7 @@ import static analytics.RetirementJobEdxTriggers.job as RetirementJobEdxTriggers
 import static analytics.RetirementJobs.job as RetirementJobsJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
 import static analytics.SnowflakeExpirePasswords.job as SnowflakeExpirePasswordsJob
+import static analytics.AmplitudeUserPropertiesBackfill.job as AmplitudeUserPropertiesBackfillJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static analytics.SnowflakeUserRetirementStatusCleanup.job as SnowflakeUserRetirementStatusCleanupJob
 import static analytics.PrefectFlowsDeployment.job as PrefectFlowsDeploymentJob
@@ -50,6 +51,7 @@ def taskMap = [
     RETIREMENT_JOBS_JOB: RetirementJobsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
     SNOWFLAKE_EXPIRE_PASSWORDS_JOB: SnowflakeExpirePasswordsJob,
+    AMPLITUDE_USER_PROPERTIES_BACKFILL_JOB: AmplitudeUserPropertiesBackfillJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
     SNOWFLAKE_USER_RETIREMENT_STATUS_CLEANUP_JOB: SnowflakeUserRetirementStatusCleanupJob,
     PREFECT_FLOWS_DEPLOYMENT_JOB: PrefectFlowsDeploymentJob,
