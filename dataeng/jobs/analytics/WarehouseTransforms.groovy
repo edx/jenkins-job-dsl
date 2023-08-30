@@ -31,6 +31,7 @@ class WarehouseTransforms{
                     stringParam('TEST_SOURCES_FIRST', env_config.get('TEST_SOURCES_FIRST', 'true'), 'Set to \'true\' to perform source testing first (if SKIP_TESTS is false). All other values test sources post-run.')
                     booleanParam('CAUTIOUS_INDIRECT_SELECTION', env_config.get('CAUTIOUS_INDIRECT_SELECTION', false), 'Check this box if you want a test to run if and only if ALL the models associated with that test have been selected (see dbt docs for --indirect-selection=cautious).')
                     stringParam('PUSH_ARTIFACTS_TO_SNOWFLAKE', env_config.get('PUSH_ARTIFACTS_TO_SNOWFLAKE', 'false'), 'Set to \'true\' to push the run results file to Snowflake for telemetry. Avoid this on frequently-running jobs.')
+                    stringParam('TEST_PARENT_MODELS_FIRST', env_config.get('TEST_PARENT_MODELS_FIRST', 'false'), 'Set to \'true\' to run the upstream models tests first.')
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                     booleanParam('FULL_REFRESH_INCREMENTALS', false, '[DANGEROUS] Supply the --full-refresh flag to the `dbt run` command, and use a larger warehouse. Use when you need to re-compute an incremental table from scratch.  Applies to ALL incrementals in this run.')
                 }
