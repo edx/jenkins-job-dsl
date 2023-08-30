@@ -233,14 +233,6 @@ class CreateSandbox {
                 booleanParam("subscriptions",false,"Subscriptions Service")
                 stringParam("subscription_version","main","The repository version of the subscriptions microservice")
 
-                booleanParam("video_pipeline",false,
-                             "video_pipeline and video_encode_worker must be selected for video pipeline to work")
-                stringParam("video_pipeline_version","master","")
-
-                booleanParam("video_encode_worker",false,
-                             "video_pipeline and video_encode_worker must be selected for video pipeline to work")
-                stringParam("video_encode_worker_version","master","")
-
                 booleanParam("prospectus",false,"Enable Prospectus, the edx catalog")
                 stringParam("prospectus_version","master","")
                 stringParam("prospectus_contentful_environment","master","")
