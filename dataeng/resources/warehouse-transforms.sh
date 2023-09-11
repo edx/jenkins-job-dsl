@@ -66,6 +66,30 @@ then
     postCommandChecks "source_test" $ret ;
 fi
 
+# Parent models tests *before* model-building can be enabled/disabled with this envvar.
+if [ "$TEST_PARENT_MODELS_FIRST" = 'true' ]
+then
+    # Copy the value of MODEL_SELECTOR to MODEL_SELECTOR_WITH_PARENTS and EXCLUDE_MODELS.
+    MODEL_SELECTOR_WITH_PARENTS="$MODEL_SELECTOR"
+    EXCLUDE_MODELS="$MODEL_SELECTOR"
+
+    # Check if MODEL_SELECTOR_WITH_PARENTS doesn't start with '+', then add '+' at the beginning.
+    if [ ${MODEL_SELECTOR_WITH_PARENTS:0:1} != "+" ]
+    then
+      MODEL_SELECTOR_WITH_PARENTS="+$MODEL_SELECTOR_WITH_PARENTS"
+    fi
+
+    # Check if EXCLUDE_MODELS starts with '+', then remove the '+' at the beginning
+    if [ ${EXCLUDE_MODELS:0:1} = "+" ]
+    then
+      EXCLUDE_MODELS="${EXCLUDE_MODELS:1}"
+    fi
+
+    # This will only runs parents tests without running current models tests.
+    dbt test --models $MODEL_SELECTOR_WITH_PARENTS --exclude $EXCLUDE_MODELS --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+    postCommandChecks "parent_models_tests" $ret ;
+fi
+
 # Compile/build all models with this tag.
 dbt $DBT_COMMAND $FULL_REFRESH_ARG --models $MODEL_SELECTOR --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
 postCommandChecks "run" $ret ;
