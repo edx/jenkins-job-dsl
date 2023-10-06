@@ -170,7 +170,7 @@ listView('prefect') {
     columns DEFAULT_VIEW.call()
 }
 listView('retirement') {
-    description('Jobs that are used for user retirement and retirement partner reporting')
+    description('Jobs that are used for user retirement')
     jobs {
         regex('.*retirement.*')
     }

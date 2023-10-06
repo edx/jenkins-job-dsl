@@ -11,7 +11,7 @@ class RetirementJobEdxTriggers{
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("$environment"){
-                // Creates user_retirement_trigger_<environment> and retirement_partner_report_trigger_<environment> jobs
+                // Creates user_retirement_trigger_<environment>  jobs
                 // This defines the job which triggers the collector and reporter job for a given environment.
                 description("Scheduled trigger of the " + env_config.get('DOWNSTREAM_JOB_NAME') + " job for the " + env_config.get('DOWNSTREAM_JOB_NAME') + " environment")
 
