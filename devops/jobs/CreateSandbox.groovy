@@ -7,7 +7,6 @@
     * BASIC_AUTH_USER
     * BASIC_AUTH_PASS
     * ACCESS_CONTROL: List of orgs / orgs*teams who get github access
-    * CONFIGURATION_SECURE_REPO (required)
     * CONFIGURATION_INTERNAL_REPO (required)
     * SSH_KEYPAIR_NAME (required)
 
@@ -77,18 +76,6 @@ class CreateSandbox {
                 }
                 git {
                     remote {
-                        url(extraVars.get('CONFIGURATION_SECURE_REPO',''))
-                        branch('$configuration_secure_version')
-                        credentials('sandbox-secure-credentials')
-                    }
-                    extensions {
-                        cleanAfterCheckout()
-                        pruneBranches()
-                        relativeTargetDirectory('configuration-secure')
-                    }
-                }
-                git {
-                    remote {
                         url(extraVars.get('CONFIGURATION_INTERNAL_REPO',''))
                         branch('$configuration_internal_version')
                         credentials('sandbox-secure-credentials')
@@ -133,14 +120,11 @@ class CreateSandbox {
                 stringParam("sandbox_life","7","Number of day(s) sandbox will be online(between 1 to 30)")
                 booleanParam("VERBOSE",false,"Whether to run ansible in verbose mode.  Useful if debugging a sandbox failure")
                 stringParam("configuration_version","master","")
-                stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
-                            "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
-                stringParam("configuration_secure_version","master",
-                            "Select an alternative branch of sandbox-secure configuration repo")
                 stringParam("configuration_internal_version","master",
                             "Select an alternative branch of sandbox-internal configuration repo")
                 stringParam("docker_internal_version","master",
                             "Select an alternative branch of internal-dockerfiles configuration repo")
+                stringParam("configuration_secure_secret",extraVars.get('CONFIGURATION_SECURE_AWS_SM_SECRET'),"")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
                 
                 choiceParam("mongo_version",["4.2","4.4"],"select version of MongoDB to build sandbox")
@@ -316,7 +300,6 @@ class CreateSandbox {
 
                 stringParam("nginx_users",'[{"name": "{{ COMMON_HTPASSWD_USER }}","password": "{{ COMMON_HTPASSWD_PASS }}","state":"present"}]',"")
             }
-
 
             properties {
                 rebuild {
