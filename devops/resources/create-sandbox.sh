@@ -19,7 +19,7 @@ set +x
 SESSIONID=$(date +"%s")
 
 RESULT=(`aws sts assume-role --role-arn $ROLE_ARN \
-            --role-session-name $SESSIONID \
+            --role-session-name $SESSIONID --duration-seconds 10800 \
             --query '[Credentials.AccessKeyId,Credentials.SecretAccessKey,Credentials.SessionToken]' \
             --output text`)
 
