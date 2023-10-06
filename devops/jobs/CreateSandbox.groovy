@@ -120,11 +120,13 @@ class CreateSandbox {
                 stringParam("sandbox_life","7","Number of day(s) sandbox will be online(between 1 to 30)")
                 booleanParam("VERBOSE",false,"Whether to run ansible in verbose mode.  Useful if debugging a sandbox failure")
                 stringParam("configuration_version","master","")
+                stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
+                            "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
                 stringParam("configuration_internal_version","master",
                             "Select an alternative branch of sandbox-internal configuration repo")
                 stringParam("docker_internal_version","master",
                             "Select an alternative branch of internal-dockerfiles configuration repo")
-                stringParam("configuration_secure_secret",extraVars.get('CONFIGURATION_SECURE_AWS_SM_SECRET'),"")
+                stringParam("configuration_secure_secret",extraVars.get('CONFIGURATION_SECURE_AWS_SM_SECRET'),"This is secure config secret on AWS secretmanager")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
                 
                 choiceParam("mongo_version",["4.2","4.4"],"select version of MongoDB to build sandbox")
