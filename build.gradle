@@ -53,6 +53,10 @@ dependencies {
     compile "org.jenkins-ci.plugins:job-dsl-core:${jobDslVersion}"
     compile "org.jenkins-ci.main:jenkins-war:${jenkinsVersion}"
 
+    compile('com.amazonaws:aws-java-sdk:1.12.472')
+    compile('com.amazonaws:aws-java-sdk-bom:1.12.563')
+    compile('com.amazonaws:aws-java-sdk-secretsmanager::1.12.563')
+
     testCompile 'org.codehaus.groovy:groovy:2.4.11'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 
