@@ -74,8 +74,8 @@ class UserRetirementArchiver {
 
             wrappers {
                 credentialsBinding {
-                    file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                     string('ROLE_ARN', extraVars.get('ENVIRONMENT_DEPLOYMENT') + '-retirement-archive-upload-role')
+                    string('SECRET_ARN', extraVars.get('ENVIRONMENT_DEPLOYMENT') + '-retirement-archive-secret-role')
                 }
             }
 
