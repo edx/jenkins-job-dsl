@@ -87,6 +87,7 @@ class AnalyticsExporter {
                 stringParam('ORG')
                 stringParam('PLATFORM_VENV')
                 stringParam('EXTRA_OPTIONS')
+                stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python version to use for creating virtualenv.')
             }
             parameters secure_scm_parameters(allVars)
 
