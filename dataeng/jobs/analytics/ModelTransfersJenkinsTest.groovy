@@ -23,6 +23,10 @@ class ModelTransfersJenkinsTest{
                     stringParam('MODELS_TO_TRANSFER', env_config.get('MODELS_TO_TRANSFER'), 'Name of DBT models which should be transferred to S3 via a Snowflake stage.')
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                 }
+                environmentVariables {
+                    env('PREFECT_VAULT_KV_PATH', allVars.get('PREFECT_VAULT_KV_PATH'))
+                    env('PREFECT_VAULT_KV_VERSION', allVars.get('PREFECT_VAULT_KV_VERSION'))
+                }
                 multiscm secure_scm(allVars) << {
                     git {
                         remote {
@@ -36,11 +40,26 @@ class ModelTransfersJenkinsTest{
                             cleanAfterCheckout()
                         }
                     }
+                    git {
+                        remote {
+                            url('$PREFECT_FLOWS_URL')
+                            branch('$PREFECT_FLOWS_BRANCH')
+                        }
+                        extensions {
+                            relativeTargetDirectory('prefect-flows')
+                            pruneBranches()
+                            cleanAfterCheckout()
+                        }
+                    }
                 }
                 triggers common_triggers(allVars, env_config)
                 wrappers common_wrappers(allVars)
                 wrappers {
                     colorizeOutput('xterm')
+                    timestamps()
+                    credentialsBinding {
+                        usernamePassword('ANALYTICS_VAULT_ROLE_ID', 'ANALYTICS_VAULT_SECRET_ID', 'analytics-vault');
+                    }
                 }
                 publishers common_publishers(allVars)
                 steps {
