@@ -9,6 +9,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 class DBTDocs{
     public static def job = { dslFactory, allVars ->
         dslFactory.job("dbt-docs"){
+            description('Job that generates dbt documentation and uploads to S3.')
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {

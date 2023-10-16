@@ -12,6 +12,7 @@ class WarehouseTransforms{
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("warehouse-transforms-$environment"){
+                description('Job to run dbt transformations.')
                 description(env_config.get('DESCRIPTION', ''))
                 disabled(env_config.get('DISABLED', false))
                 authorization common_authorization(env_config)

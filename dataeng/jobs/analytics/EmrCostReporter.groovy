@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 class EmrCostReporter {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('emr-cost-reporter') {
+            description('It analyzies EMR Cluster and generates its cost report weekly.')
             parameters {
                 stringParam('TOOLS_REPO', allVars.get('ANALYTICS_TOOLS_URL'), '')
                 stringParam('TOOLS_BRANCH', 'origin/master', '')

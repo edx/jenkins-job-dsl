@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 class UpdateUsers {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("update-users") {
+            description("This job updates the list of ssh users on a specified instance.")
             logRotator common_log_rotator(allVars)
             parameters {
                 textParam('EXTRA_VARS', allVars.get('EXTRA_VARS'), '')

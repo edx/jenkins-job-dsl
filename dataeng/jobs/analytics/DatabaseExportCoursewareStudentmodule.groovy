@@ -11,6 +11,7 @@ class DatabaseExportCoursewareStudentmodule {
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("database-export-courseware-studentmodule-$environment") {
+                description('Job which generates a raw SQL dump of courseware_studentmodule table and separates it into a different tsv file for each course')
                 disabled(env_config.get('DISABLED', false))
                 logRotator common_log_rotator(allVars, env_config)
                 multiscm common_multiscm(allVars)

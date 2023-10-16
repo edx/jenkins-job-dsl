@@ -21,7 +21,7 @@ class SnowflakeCollectMetrics {
         jobConfigs.each { jobConfig ->
 
             dslFactory.job(jobConfig['NAME']){
-
+                description('This job collects Snowflake Metrics and notifies users via space separated emails.')
                 logRotator common_log_rotator(allVars)
                 parameters secure_scm_parameters(allVars)
                 parameters {

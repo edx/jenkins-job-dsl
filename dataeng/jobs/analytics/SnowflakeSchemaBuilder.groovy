@@ -8,6 +8,9 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 class SnowflakeSchemaBuilder {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('snowflake-schema-builder') {
+            description('This job runs the dbt script to update schemas and sql, from the source project directory. ' +
+                'If any files are added, deleted, or changed it will make commit and create a PR.'
+            )
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {

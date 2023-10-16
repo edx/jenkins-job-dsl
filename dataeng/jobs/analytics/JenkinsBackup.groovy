@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 class JenkinsBackup {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('jenkins-backup') {
+            description('It takes backup of jenkins jobs and config.yml (from jenkins_home) and pushes to S3 bucket')
             parameters {
                 stringParam('S3_BACKUP_BUCKET', allVars.get('S3_BACKUP_BUCKET'))
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')

@@ -14,6 +14,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 class StitchSnowflakeLagMonitor {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("stitch-snowflake-lag-monitor") {
+            description('This job checks for lag between Stitch and Snowflake.')
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {

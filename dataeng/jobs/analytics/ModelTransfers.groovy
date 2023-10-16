@@ -11,6 +11,7 @@ class ModelTransfers{
     public static def job = { dslFactory, allVars ->
         allVars.get('ENVIRONMENTS').each { environment, env_config ->
             dslFactory.job("transfer-dbt-models-$environment"){
+                description('It transfers DBT models to S3 via a Snowflake stage.')
                 authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars)
                 parameters secure_scm_parameters(allVars)

@@ -14,6 +14,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 class SnowflakePublicGrantsCleaner {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("snowflake-public-grants-cleaner") {
+            description('This job cleans up Snowflake public grants and notifies users via provided space separated emails.')
             logRotator common_log_rotator(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
