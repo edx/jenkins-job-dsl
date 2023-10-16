@@ -3,6 +3,7 @@ import static analytics.DBTRun.job as DBTRunJob
 import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
+import static analytics.TestHelloWorld.job as TestHelloWorldJob
 import static analytics.ModelTransfers.job as ModelTransfersJob
 import static analytics.RetirementJobEdxTriggers.job as RetirementJobEdxTriggersJob
 import static analytics.RetirementJobs.job as RetirementJobsJob
@@ -45,6 +46,7 @@ def taskMap = [
     DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
+    TEST_HELLO_WORLD_JOB: TestHelloWorldJob,
     MODEL_TRANSFERS_JOB: ModelTransfersJob,
     RETIREMENT_JOB_EDX_TRIGGERS_JOB: RetirementJobEdxTriggersJob,
     RETIREMENT_JOBS_JOB: RetirementJobsJob,
