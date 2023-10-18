@@ -224,7 +224,7 @@ class CreateSandbox {
                 stringParam("prospectus_contentful_environment","master","")
 
                 booleanParam("profile",false,"Enable Profile MFE")
-                stringParam("profle_version","master","The repository version of the frontend-app-profile mfe")
+                stringParam("profile_version","master","The repository version of the frontend-app-profile mfe")
 
                 booleanParam("learner_dashboard",false,"Enable Learner Dashboard MFE")
                 stringParam("learner_dashboard_version","master","The repository version of the learner dashboard mfe")
