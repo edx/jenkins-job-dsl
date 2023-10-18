@@ -63,20 +63,6 @@ class UpdateAdhocReporting{
                     }
                     git {
                         remote {
-                            url('git@github.com:edx-ops/edx-secure.git')
-                            branch('master')
-                            if (gitCredentialId) {
-                                credentials(gitCredentialId)
-                            }
-                        }
-                        extensions {
-                            cleanAfterCheckout()
-                            pruneBranches()
-                            relativeTargetDirectory('edx-secure')
-                        }
-                    }
-                    git {
-                        remote {
                             url('git@github.com:edx/edge-internal.git')
                             branch('master')
                             if (gitCredentialId) {
@@ -87,20 +73,6 @@ class UpdateAdhocReporting{
                             cleanAfterCheckout()
                             pruneBranches()
                             relativeTargetDirectory('edge-internal')
-                        }
-                    }
-                    git {
-                        remote {
-                            url('git@github.com:edx-ops/edge-secure.git')
-                            branch('master')
-                            if (gitCredentialId) {
-                                credentials(gitCredentialId)
-                            }
-                        }
-                        extensions {
-                            cleanAfterCheckout()
-                            pruneBranches()
-                            relativeTargetDirectory('edge-secure')
                         }
                     }
                 }
