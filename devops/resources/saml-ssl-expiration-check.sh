@@ -14,10 +14,15 @@ HOME=/edx/var/jenkins
 env
 set -x
 
-SAML_SSL_CERT_FILE=$WORKSPACE/configuration_secure/${SAML_CERT_FILE}
-
 cd $WORKSPACE/sysadmin
 pip install -r requirements/base.txt
-cd jenkins
+pip install awscli
 
-python saml-ssl-expiration-check.py --region $REGION -d $DAYS -i $SAML_SSL_CERT_FILE
+cd jenkins
+set +x
+
+export SSL=$($SAML_SECRET | sed 's/\\"/"/g' | jq -r ".$SECRET_KEY")
+
+set -x
+
+python saml-ssl-expiration-check.py -d $DAYS -v $SSL
