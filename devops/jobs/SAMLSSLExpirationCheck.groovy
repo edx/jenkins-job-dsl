@@ -6,8 +6,8 @@
          deployment:
             environments:
               environment (required)
-                 saml_cert_file (required)
-                 configuration_secure_repo (required)
+                 saml_secret (required)
+                 secret_key (required)
     * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
     * SYSADMIN_REPO: repository containing SSL expiration check python script (required)
     * SYSADMIN_BRANCH: default is master
@@ -42,10 +42,6 @@ class SAMLSSLExpirationCheck{
                             'Git repo containing sysadmin configuration which contains the ssl expiration check script.')
                         stringParam('SYSADMIN_BRANCH', extraVars.get('SYSADMIN_BRANCH', 'master'),
                             'e.g. tagname or origin/branchname')
-                        stringParam('CONFIGURATION_SECURE_REPO', inner_config.get('configuration_secure_repo'),
-                            'Git repo containing secure configuration.')
-                        stringParam('CONFIGURATION_SECURE_BRANCH', inner_config.get('configuration_secure_branch', 'master'),
-                            'e.g. tagname or origin/branchname')
                         }
                 
                         multiscm{
@@ -63,21 +59,6 @@ class SAMLSSLExpirationCheck{
                                     relativeTargetDirectory('sysadmin')
                                 }
                             }
-                            git {
-                                remote {
-                                    url('$CONFIGURATION_SECURE_REPO')
-                                    branch('$CONFIGURATION_SECURE_BRANCH')
-                                    if (gitCredentialId) {
-                                        credentials(gitCredentialId)
-                                    }
-                                }
-                                extensions {
-                                    cleanAfterCheckout()
-                                    pruneBranches()
-                                    relativeTargetDirectory('configuration_secure')
-                                }
-                            }
-
                         }
 
                         triggers {
@@ -87,7 +68,8 @@ class SAMLSSLExpirationCheck{
                         environmentVariables {
                             env('REGION', extraVars.get('REGION','us-east-1'))
                             env('DAYS', extraVars.get('DAYS', 90))
-                            env('SAML_CERT_FILE',inner_config.get('saml_cert_file'))
+                            env('SAML_SECRET',inner_config.get('saml_secret'))
+                            env('SECRET_KEY',inner_config.get('secret_key'))
                         }
 
                         steps {
