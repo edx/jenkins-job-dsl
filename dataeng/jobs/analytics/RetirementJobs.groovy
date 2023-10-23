@@ -69,12 +69,11 @@ class RetirementJobs{
             multiscm {
                 git {
                     remote {
-                        url('git@github.com:edx-ops/user-retirement-secure.git')
-                        // using credentials from credentialsBinding.GITHUB_USER_PASS_COMBO
+                        url('https://github.com/edx/configuration.git')
                     }
                     branch('master')
                     extensions {
-                        relativeTargetDirectory('user-retirement-secure')
+                        relativeTargetDirectory('configuration')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -174,12 +173,11 @@ class RetirementJobs{
             multiscm {
                 git {
                     remote {
-                        url('git@github.com:edx-ops/user-retirement-secure.git')
-                        // using credentials from credentialsBinding.GITHUB_USER_PASS_COMBO
+                        url('https://github.com/edx/configuration.git')
                     }
                     branch('master')
                     extensions {
-                        relativeTargetDirectory('user-retirement-secure')
+                        relativeTargetDirectory('configuration')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -324,12 +322,11 @@ class RetirementJobs{
             multiscm {
                 git {
                     remote {
-                        url('git@github.com:edx-ops/user-retirement-secure.git')
-                        // using credentials from credentialsBinding.GITHUB_USER_PASS_COMBO
+                        url('https://github.com/edx/configuration.git')
                     }
                     branch('master')
                     extensions {
-                        relativeTargetDirectory('user-retirement-secure')
+                        relativeTargetDirectory('configuration')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -444,12 +441,11 @@ class RetirementJobs{
             multiscm {
                 git {
                     remote {
-                        url('git@github.com:edx-ops/user-retirement-secure.git')
-                        // using credentials from credentialsBinding.GITHUB_USER_PASS_COMBO
+                        url('https://github.com/edx/configuration.git')
                     }
                     branch('master')
                     extensions {
-                        relativeTargetDirectory('user-retirement-secure')
+                        relativeTargetDirectory('configuration')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -545,12 +541,11 @@ class RetirementJobs{
             multiscm {
                 git {
                     remote {
-                        url('git@github.com:edx-ops/user-retirement-secure.git')
-                        // using credentials from credentialsBinding.GITHUB_USER_PASS_COMBO
+                        url('https://github.com/edx/configuration.git')
                     }
                     branch('master')
                     extensions {
-                        relativeTargetDirectory('user-retirement-secure')
+                        relativeTargetDirectory('configuration')
                         cloneOptions {
                             shallow()
                             timeout(10)

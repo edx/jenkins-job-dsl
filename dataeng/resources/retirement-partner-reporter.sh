@@ -21,6 +21,29 @@ source "${VENV}/bin/activate"
 export PYTHONIOENCODING=UTF-8
 export LC_CTYPE=en_US.UTF-8
 
+#Fetch secrets from AWS
+cd $WORKSPACE/configuration
+pip install -r util/jenkins/requirements.txt
+# hide the sensitive information in the logs
+set +x
+
+CONFIG_YAML=$(aws secretsmanager get-secret-value --secret-id "user-retirement-secure/$ENVIRONMENT" --region "us-east-1" --output json | jq -r '.SecretString' | yq -y .)
+
+# Create a temporary file to store the YAML
+TEMP_CONFIG_YAML=$(mktemp $WORKSPACE/tempfile.XXXXXXXXXX.yml)
+
+# Write the YAML data to the temporary file
+echo "$CONFIG_YAML" > "$TEMP_CONFIG_YAML"
+
+# Fetch google-service-account secrets
+GOOGLE_SERVICE_ACCOUNT_JSON=$(aws secretsmanager get-secret-value --secret-id "user-retirement-secure/google-service-accounts/service-account-$ENVIRONMENT.json" --region "us-east-1" --output json )
+# Create a temporary file to store the YAML
+TEMP_GOOGLE_SECRETS=$(mktemp $WORKSPACE/tempfile.XXXXXXXXXX.json)
+
+# Write the YAML data to the temporary file
+echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > "$TEMP_GOOGLE_SECRETS"
+
+set -x
 
 # prepare tubular
 cd $WORKSPACE/tubular
@@ -34,6 +57,10 @@ mkdir $PARTNER_REPORTS_DIR
 
 # Call the script to generate the reports and upload them to Google Drive
 python scripts/retirement_partner_report.py \
-    --config_file=$WORKSPACE/user-retirement-secure/$ENVIRONMENT.yml \
-    --google_secrets_file=$WORKSPACE/user-retirement-secure/google-service-accounts/service-account-$ENVIRONMENT.json \
+    --config_file=$TEMP_CONFIG_YAML \
+    --google_secrets_file=$TEMP_GOOGLE_SECRETS \
     --output_dir=$PARTNER_REPORTS_DIR
+
+# Remove the temporary files after processing
+rm -f "$TEMP_CONFIG_YAML"
+rm -f "$TEMP_GOOGLE_SECRETS"
