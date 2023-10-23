@@ -21,6 +21,21 @@ source "${VENV}/bin/activate"
 export PYTHONIOENCODING=UTF-8
 export LC_CTYPE=en_US.UTF-8
 
+#Fetch secrets from AWS
+cd $WORKSPACE/configuration
+pip install -r util/jenkins/requirements.txt
+# hide the sensitive information in the logs
+set +x
+
+CONFIG_YAML=$(aws secretsmanager get-secret-value --secret-id "user-retirement-secure/$ENVIRONMENT" --region "us-east-1" --output json | jq -r '.SecretString' | yq -y .)
+
+# Create a temporary file to store the YAML
+TEMP_CONFIG_YAML=$(mktemp $WORKSPACE/tempfile.XXXXXXXXXX.yml)
+
+# Write the YAML data to the temporary file
+echo "$CONFIG_YAML" > "$TEMP_CONFIG_YAML"
+
+set -x
 
 # prepare tubular
 cd $WORKSPACE/tubular
@@ -30,9 +45,12 @@ pip install -r requirements.txt
 
 # Call the script to collect the list of learners that are to be retired.
 python scripts/retirement_bulk_status_update.py \
-    --config_file=$WORKSPACE/user-retirement-secure/$ENVIRONMENT.yml \
+    --config_file=$TEMP_CONFIG_YAML \
     --start_date=$START_DATE \
     --end_date=$END_DATE \
     --initial_state=$INITIAL_STATE_NAME \
     ${NEW_STATE_NAME:+ "--new_state=$NEW_STATE_NAME"} \
     $(if [[ $REWIND_STATE == "true" ]]; then echo --rewind-state; fi)
+
+# Remove the temporary file after processing
+rm -f "$TEMP_CONFIG_YAML"
