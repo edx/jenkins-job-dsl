@@ -24,7 +24,7 @@ TEMP_CONFIG_YAML=$(mktemp $WORKSPACE/tempfile.XXXXXXXXXX.yml)
 echo "$CONFIG_YAML" > "$TEMP_CONFIG_YAML"
 
 # Fetch google-service-account secrets
-GOOGLE_SERVICE_ACCOUNT_JSON=$(aws secretsmanager get-secret-value --secret-id "user-retirement-secure/google-service-accounts/service-account-$ENVIRONMENT.json" --region "us-east-1" --output json )
+GOOGLE_SERVICE_ACCOUNT_JSON=$(aws secretsmanager get-secret-value --secret-id "user-retirement-secure/google-service-accounts/service-account-$ENVIRONMENT.json" --region "us-east-1" --output json | | jq -r '.SecretString')
 # Create a temporary file to store the YAML
 TEMP_GOOGLE_SECRETS=$(mktemp $WORKSPACE/tempfile.XXXXXXXXXX.json)
 
