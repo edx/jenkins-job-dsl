@@ -15,7 +15,6 @@
           deployment_name: (Required)
             regions: (Required - space separated list of aws regions)
             CONFIGURATION_INTERNAL_REPO: (Optional - git uri)
-            CONFIGURATION_SECURE_REPO: (Optional - git uri)
 
 */
 package devops.jobs
@@ -57,13 +56,6 @@ class CheckSesLimits {
                 }
                 else {
                         extraVars['CONFIGURATION_INTERNAL_REPO'] = configuration['CONFIGURATION_INTERNAL_REPO']
-                }
-
-                if (!configuration.containsKey('CONFIGURATION_SECURE_REPO')) {
-                        extraVars['CONFIGURATION_SECURE_REPO'] = "git@github.com:edx-ops/${deployment}-secure.git"
-                }
-                else {
-                        extraVars['CONFIGURATION_SECURE_REPO'] = configuration['CONFIGURATION_SECURE_REPO']
                 }
 
                 throttleConcurrentBuilds {
