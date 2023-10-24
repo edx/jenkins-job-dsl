@@ -45,7 +45,6 @@ class AddXqueueToDashboard {
                         credentialsBinding {
                             def variable = "update-xqueue-dashboard-edx-role-arn"
                             string('ROLE_ARN', variable)
-                            file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         }
                     }
 
