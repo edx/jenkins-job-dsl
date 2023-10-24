@@ -39,7 +39,6 @@ class SSLExpirationCheck{
 
                 wrappers {
                     credentialsBinding {
-                        file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         string('ROLE_ARN', "ssl-expiration-check-${deployment}-role-arn")
                     }
                 }

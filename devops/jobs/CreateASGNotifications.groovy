@@ -27,7 +27,6 @@ class CreateASGNotifications {
                     
                     wrappers {
                         credentialsBinding {
-                            file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             string("ROLE_ARN","create-asg-notifications-${deployment}-role-arn")
                             string("SNS_TOPIC_ARN","asg-notifications-${deployment}-sns-topic-arn")
                         }

@@ -24,7 +24,6 @@ class ExportRDSDeadLocks {
                         credentialsBinding {
                             usernamePassword("USERNAME", "PASSWORD", "${deployment}-${environment}-export-dead-locks-credentials")
                             usernamePassword("SPLUNKUSERNAME", "SPLUNKPASSWORD", "export-dead-locks-splunk-credentials")
-                            file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-export-dead-locks"
                             string("ROLE_ARN", variable)
                         }

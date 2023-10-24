@@ -40,7 +40,6 @@ class CloudFlarePurgeCacheOrigin {
             wrappers {
                     credentialsBinding {
                         string('AUTH_KEY', 'AUTH_KEY')
-                        file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                         def variable = "tools_jenkins_s3_cloudflare_target"
                         string("ROLE_ARN", variable)
                     }

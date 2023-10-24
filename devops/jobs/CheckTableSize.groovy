@@ -22,7 +22,6 @@ class CheckTableSize {
                     wrappers {
                         credentialsBinding {
                             usernamePassword("USERNAME", "PASSWORD", "${deployment}-table-size-credentials")
-                            file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-table-size-monitoring"
                             string("ROLE_ARN", variable)
                             string("GENIE_KEY", "opsgenie_heartbeat_key")

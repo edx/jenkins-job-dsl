@@ -40,7 +40,6 @@ class MongoPruner {
                         credentialsBinding{
                             string('MONGO_PASSWORD', "mongo-db-password-${environment}-${deployment}")
                             string('ROLE_ARN', "mongo-pruner-${deployment}-role-arn")
-                            file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         }
                     }
 

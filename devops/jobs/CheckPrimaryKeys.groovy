@@ -24,7 +24,6 @@ class CheckPrimaryKeys {
                     wrappers {
                         credentialsBinding {
                             usernamePassword("USERNAME", "PASSWORD", "${deployment}-table-size-credentials")
-                            file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-check-primary-keys"
                             string("ROLE_ARN", variable)
                         }

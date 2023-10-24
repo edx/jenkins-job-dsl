@@ -26,7 +26,6 @@ class UpdateAdhocReporting{
 
                 wrappers {
                     credentialsBinding {
-                        file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         string('ROLE_ARN', "update-adhoc-reporting-role-arn")
                     }
                     sshAgent(extraVars.get("SSH_AGENT_KEY"))
