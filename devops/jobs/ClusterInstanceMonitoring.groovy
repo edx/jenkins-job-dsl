@@ -30,7 +30,6 @@ class ClusterInstanceMonitoring{
 
                 wrappers {
                     credentialsBinding {
-                        file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         string('ROLE_ARN', "find-active-instances-${deployment}-role-arn")
                     }
                 }

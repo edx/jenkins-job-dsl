@@ -21,7 +21,6 @@ class ExportRDSSlowQueryLogs {
                     wrappers {
                         credentialsBinding {
                             usernamePassword("USERNAME", "PASSWORD", "${deployment}-${environment}-export-slow-logs-credentials")
-                            file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-export-slow-query-logs"
                             string("ROLE_ARN", variable)
                         }

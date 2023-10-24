@@ -23,7 +23,6 @@ class ListMysqlProcess {
                     wrappers {
                         credentialsBinding {
                             usernamePassword("USERNAME", "PASSWORD", "${deployment}-${environment}-list-mysql-process-credentials")
-                            file("AWS_CONFIG_FILE","tools-edx-jenkins-aws-credentials")
                             def variable = "${deployment}-list-mysql-process"
                             string("ROLE_ARN", variable)
                         }

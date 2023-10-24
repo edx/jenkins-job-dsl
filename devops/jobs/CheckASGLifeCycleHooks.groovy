@@ -54,7 +54,6 @@ class CheckASGLifeCycleHooks {
 
                     wrappers {
                         credentialsBinding {
-                            file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                             string('ROLE_ARN', "check-lifecycle-hooks-${deployment}-role-arn")
                             string("GENIE_KEY", "opsgenie_heartbeat_key")
                         }

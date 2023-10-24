@@ -25,7 +25,6 @@ class MongoAgentsUpdate {
 
             wrappers {
                         credentialsBinding {
-                            file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                             def variable = "mongo-agents-update-arn"
                             string('ROLE_ARN', variable)
                         }

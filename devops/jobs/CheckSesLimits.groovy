@@ -43,7 +43,6 @@ class CheckSesLimits {
 
                 wrappers {
                     credentialsBinding {
-                        file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                         def variable = "ses-role-${deployment}-arn"
                         string('ROLE_ARN', variable)
                     }
