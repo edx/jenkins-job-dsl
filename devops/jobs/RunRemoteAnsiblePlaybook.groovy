@@ -10,7 +10,6 @@
     ANSIBLE_PLAYBOOK:  The playbook used in this job
 
     Expected credentials - these will normally be set up on the Folder.
-        jnkins-aws-credentials: a file credential that can be set in the environment as AWS_CONFIG_FILE for assuming role
         find-host-role-arn: ARN of the IAM role that will be assumed
     Optional:
     ACCESS_CONTROL: list of Jenkins matrix targets who should get read access (edx*team or username)

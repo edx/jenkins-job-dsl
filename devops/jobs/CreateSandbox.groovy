@@ -52,7 +52,6 @@ class CreateSandbox {
 
             wrappers {
                 credentialsBinding {
-                    file('AWS_CONFIG_FILE','sandbox-jenkins-aws-credentials')
                     string('ROLE_ARN','sandbox-role-arn')
                 }
                 sshAgent('sandbox-ssh-keys')
