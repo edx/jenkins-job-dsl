@@ -29,7 +29,6 @@ class AppPermissionsRunner {
                             wrappers {
                                 credentialsBinding {
                                     string('GIT_TOKEN',"edx_git_bot_token")
-                                    file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                                     string('ROLE_ARN', "find-active-instances-${deployment}-role-arn")
                                 }
                                 assert extraVars.containsKey('DEPLOYMENT_KEY_NAME') : "Make sure you define the deployment key name"
