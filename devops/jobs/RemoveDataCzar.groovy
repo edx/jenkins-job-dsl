@@ -29,7 +29,6 @@ class RemoveDataCzar{
 
             wrappers{
                 credentialsBinding{
-                    file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                     string('ROLE_ARN', "remove-data-czar-edx-role-arn")
                 }
             }

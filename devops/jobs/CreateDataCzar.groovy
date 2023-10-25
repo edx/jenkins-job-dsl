@@ -29,7 +29,6 @@ class CreateDataCzar{
 
             wrappers{
                 credentialsBinding{
-                    file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                     string('ROLE_ARN', "create-data-czar-edx-role-arn")
                 }
             }
