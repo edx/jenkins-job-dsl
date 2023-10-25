@@ -34,7 +34,6 @@ class SandboxTermination{
 
             wrappers{
                 credentialsBinding{
-                    file('AWS_CONFIG_FILE','tools-edx-jenkins-aws-credentials')
                     string('ROLE_ARN', "launch-sandboxes-role-arn")
                     string('EDX_GIT_BOT_TOKEN', "edx_git_bot_token")
                     string("GENIE_KEY", "opsgenie_heartbeat_key")
