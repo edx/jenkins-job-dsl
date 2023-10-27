@@ -61,23 +61,6 @@ class UserRetirementConstants {
         return {
             git {
                 remote {
-                    url('git@github.com:edx-ops/user-retirement-secure.git')
-                    if (extraVars.containsKey('SECURE_GIT_CREDENTIALS')) {
-                        credentials(extraVars.get('SECURE_GIT_CREDENTIALS'))
-                    }
-                }
-                branch('$USER_RETIREMENT_SECURE_BRANCH')
-                extensions {
-                    relativeTargetDirectory('user-retirement-secure')
-                    cloneOptions {
-                        shallow()
-                        timeout(10)
-                    }
-                    cleanBeforeCheckout()
-                }
-            }
-            git {
-                remote {
                     url('https://github.com/edx/tubular.git')
                 }
                 branch('$TUBULAR_BRANCH')

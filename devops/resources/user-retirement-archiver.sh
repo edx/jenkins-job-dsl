@@ -11,7 +11,22 @@ env
 set -ex
 
 cd $WORKSPACE/configuration
+pip install -r util/jenkins/requirements.txt
+
 . util/jenkins/assume-role.sh
+
+# hide the sensitive information in the logs
+set +x
+
+CONFIG_YAML=$(aws secretsmanager get-secret-value --secret-id "${SECRET_ARN}" --region "us-east-1" --output json | jq -r '.SecretString' | yq -y .)
+
+# Create a temporary file to store the YAML
+TEMP_CONFIG_YAML=$(mktemp $WORKSPACE/tempfile.XXXXXXXXXX.yml)
+
+# Write the YAML data to the temporary file
+echo "$CONFIG_YAML" > "$TEMP_CONFIG_YAML"
+
+set -x
 
 assume-role ${ROLE_ARN}
 
@@ -26,9 +41,12 @@ fi
 
 # Call the script to read the retirement statuses from the LMS, send them to S3, and delete them from the LMS.
 python scripts/retirement_archive_and_cleanup.py \
-    --config_file=$WORKSPACE/user-retirement-secure/${ENVIRONMENT_DEPLOYMENT}.yml \
+    --config_file=$TEMP_CONFIG_YAML \
     --cool_off_days=$COOL_OFF_DAYS \
     --batch_size=$BATCH_SIZE \
     --start_date=$START_DATE \
     --end_date=$END_DATE \
     --dry_run=$DRY_RUN
+
+# Remove the temporary file after processing
+rm -f "$TEMP_CONFIG_YAML"
