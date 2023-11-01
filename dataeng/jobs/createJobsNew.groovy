@@ -1,3 +1,5 @@
+import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
+import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.DBTDocs.job as DBTDocsJob
 import static analytics.DBTRun.job as DBTRunJob
 import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
@@ -40,6 +42,8 @@ try {
 
 def taskMap = [
     // Add jobs here as they are ported from the old analytics Jenkins server.
+    ANALYTICS_EMAIL_OPTIN_JOB: AnalyticsEmailOptinJob,
+    ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     DBT_DOCS_JOB: DBTDocsJob,
     DBT_RUN_JOB: DBTRunJob,
     DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,

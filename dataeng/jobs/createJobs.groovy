@@ -1,6 +1,4 @@
 import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTrackingLogsJob
-import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
-import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.DatabaseExportCoursewareStudentmodule.job as DatabaseExportCoursewareStudentmoduleJob
 import static analytics.Enrollment.job as EnrollmentJob
 import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEventsJob
@@ -41,8 +39,6 @@ try {
 
 def taskMap = [
     AGGREGATE_DAILY_TRACKING_LOGS_JOB: AggregateDailyTrackingLogsJob,
-    ANALYTICS_EMAIL_OPTIN_JOB: AnalyticsEmailOptinJob,
-    ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
     ENROLLMENT_JOB: EnrollmentJob,
     ENROLLMENT_VALIDATION_EVENTS_JOB: EnrollmentValidationEventsJob,
