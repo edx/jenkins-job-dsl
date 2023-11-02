@@ -19,4 +19,4 @@ assume-role ${ROLE_ARN}
 set -x
 cd playbooks
 
-ansible-playbook -i ./ec2.py --limit tag_Name_edx-admin-mms mongo_mms.yml -e@../../configuration-internal/ansible/vars/edx.yml ubuntu
+ansible-playbook -i ./ec2.py --limit tag_Name_edx-admin-mms mongo_mms.yml -e@../../configuration-internal/ansible/vars/edx.yml -u ubuntu
