@@ -23,11 +23,21 @@ cd $WORKSPACE/jenkins-job-dsl-internal
 cd util/janitor
 pip install -r requirements.txt
 
+has_prospectus=0
+
+for play in "${DENY_LIST}"; do
+  if [[ "$play" == "prospectus" ]]; then
+    has_prospectus=1
+    break
+  fi
+done
 
 if [ "$NOOP" = true ]; then
-   python janitor.py --noop --region $AWS_REGION --cleaner $AWS_CLEANER --log-bucket $S3_LOG_BUCKET
+  python janitor.py --noop --region $AWS_REGION --cleaner $AWS_CLEANER --log-bucket $S3_LOG_BUCKET --deny-list $DENY_LIST
+elif [ "$has_prospectus" == 1 ]; then
+  python prospectus-janitor.py --region $AWS_REGION --cleaner $AWS_CLEANER --log-bucket $S3_LOG_BUCKET
 else
-  python janitor.py --region $AWS_REGION --cleaner $AWS_CLEANER --log-bucket $S3_LOG_BUCKET
+  python janitor.py --region $AWS_REGION --cleaner $AWS_CLEANER --log-bucket $S3_LOG_BUCKET --deny-list $DENY_LIST
 fi
 
 curl -X GET 'https://api.opsgenie.com/v2/heartbeats/'${JOB_NAME##*/}'/ping' -H 'Authorization: GenieKey '${GENIE_KEY}
