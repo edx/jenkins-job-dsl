@@ -15,10 +15,6 @@ class MongoAgentsUpdate {
                     'Git repo containing internal overrides')
                 stringParam('CONFIGURATION_INTERNAL_BRANCH', extraVars.get('CONFIGURATION_INTERNAL_BRANCH', 'master'),
                     'e.g. tagname or origin/branchname')
-                stringParam('CONFIGURATION_SECURE_REPO', extraVars.get('CONFIGURATION_SECURE_REPO',"git@github.com:edx-ops/edx-secure.git"),
-                    'Secure Git repo .')
-                stringParam('CONFIGURATION_SECURE_BRANCH', extraVars.get('CONFIGURATION_SECURE_BRANCH', 'master'),
-                    'e.g. tagname or origin/branchname')
             }
 
             wrappers common_wrappers
@@ -55,20 +51,6 @@ class MongoAgentsUpdate {
                         cleanAfterCheckout()
                         pruneBranches()
                         relativeTargetDirectory('configuration-internal')
-                    }
-                }
-                git {
-                    remote {
-                        url('$CONFIGURATION_SECURE_REPO')
-                        branch('$CONFIGURATION_SECURE_BRANCH')
-                            if (gitCredentialId) {
-                                credentials(gitCredentialId)
-                            }
-                    }
-                    extensions {
-                        cleanAfterCheckout()
-                        pruneBranches()
-                        relativeTargetDirectory('configuration-secure')
                     }
                 }
             }
