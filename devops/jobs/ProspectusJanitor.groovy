@@ -7,7 +7,6 @@
                 aws_region: region, default is us-east-1
                 s3_log_bucket: name of bucket to log things being cleaned (required)
                 aws_cleaner: space separated string of names of cleaner instances you want to execute on this deployment (required)
-                deny_list: space separated string of names of 'plays', e.g. prospectus, edxapp, that you want the janitor to skip. Plays are identified by resource tag
         * NOOP: boolean value to perform no operations, default is false
         * JENKINS_DSL_INTERNAL_REPO: repository containing python script with cleaner instances (required)
         * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
@@ -27,7 +26,7 @@ import static org.edx.jenkins.dsl.Constants.common_logrotator
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 
 
-class Janitor {
+class ProspectusJanitor {
 
     public static def job = { dslFactory, extraVars ->
         assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
@@ -100,7 +99,6 @@ class Janitor {
                     env('S3_LOG_BUCKET', configuration.get('s3_log_bucket'))
                     env('AWS_REGION', configuration.get('aws_region', 'us-east-1'))
                     env('AWS_CLEANER', configuration.get('aws_cleaner'))
-                    env('DENY_LIST', configuration.get('deny_list'))
                     env('NOOP', extraVars.get('NOOP', false))
                 }
 
