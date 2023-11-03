@@ -311,6 +311,8 @@ class CreateSandbox {
 
             concurrentBuild()
 
+            authenticationToken(extraVars.get('JENKINS_SANDBOX_JOB_KEY'))
+                            
             steps {
                 shell(dslFactory.readFileFromWorkspace('devops/resources/create-sandbox.sh'))
             }
