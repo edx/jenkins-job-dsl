@@ -32,7 +32,7 @@ class ProspectusJanitor {
         assert extraVars.containsKey('DEPLOYMENTS') : "Please define DEPLOYMENTS. It should be a list of strings."
         assert !(extraVars.get('DEPLOYMENTS') instanceof String) : "Make sure DEPLOYMENTS is a list and not a string"
         extraVars.get('DEPLOYMENTS').each { deployment, configuration ->
-            dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/janitor-${deployment}") {
+            dslFactory.job(extraVars.get("FOLDER_NAME","Monitoring") + "/prospectus-janitor-${deployment}") {
 
                 logRotator common_logrotator
                 wrappers common_wrappers
