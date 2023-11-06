@@ -25,12 +25,14 @@ pip install -r requirements.txt
 
 deny_prospectus=0
 
-for play in "${DENY_LIST}"; do
-  if [[ "$play" == "prospectus" ]]; then
-    deny_prospectus=1
-    break
-  fi
-done
+if [ -v DENY_LIST ]; then
+  for play in "${DENY_LIST}"; do
+    if [[ "$play" == "prospectus" ]]; then
+      deny_prospectus=1
+      break
+    fi
+  done
+fi
 
 if [ "$NOOP" = true ]; then
   python janitor.py --noop --region $AWS_REGION --cleaner $AWS_CLEANER --log-bucket $S3_LOG_BUCKET --deny-list $DENY_LIST
