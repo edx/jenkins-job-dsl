@@ -14,6 +14,11 @@ COMPARISON_START_TIME=$(date --utc --iso=minutes -d "${COMPARISON_END_TIME} - 15
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_VALIDATE_STITCH_JOB_EXTRA_VARS KEY_PATH
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_VALIDATE_STITCH_JOB_EXTRA_VARS PASSPHRASE_PATH
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_VALIDATE_STITCH_JOB_EXTRA_VARS USER
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_VALIDATE_STITCH_JOB_EXTRA_VARS ACCOUNT
+
 python stitch_vs_sqoop_validation.py \
     --key_path $WORKSPACE/analytics-secure/${SNOWFLAKE_KEY_PATH} \
     --passphrase_path $WORKSPACE/analytics-secure/${SNOWFLAKE_PASSPHRASE_PATH} \

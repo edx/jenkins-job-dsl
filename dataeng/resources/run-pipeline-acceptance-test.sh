@@ -26,6 +26,7 @@ export COURSE_EXPORTER=$EXPORTER_BIN/course-exporter
 
 # Exporter configuration destination
 
+source secrets-manager.sh analytics-secure/analytics-exporter/task-auth.json TASK_AUTH
 ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
 SECURE_HASH=`GIT_DIR=./analytics-secure/.git git rev-parse HEAD`
 EXPORTER_CONFIG_BUCKET=$EXPORTER_BUCKET_PATH/$SECURE_HASH

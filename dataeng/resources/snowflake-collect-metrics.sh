@@ -10,6 +10,12 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_COLLECT_METRICS_JOB_EXTRA_VARS KEY_PATH
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_COLLECT_METRICS_JOB_EXTRA_VARS PASSPHRASE_PATH
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_COLLECT_METRICS_JOB_EXTRA_VARS USER
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_COLLECT_METRICS_JOB_EXTRA_VARS ACCOUNT
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_COLLECT_METRICS_JOB_EXTRA_VARS METRIC_NAME
+
 python collect-metrics.py \
     --metric_name $METRIC_NAME \
     --key_path $WORKSPACE/analytics-secure/snowflake/rsa_key_snowflake_task_automation_user.p8 \

@@ -10,6 +10,17 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS KEY_PATH
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS PASSPHRASE_PATH
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS USER
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS ACCOUNT
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS SCHEMA
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS PIPE_NAME
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS TABLE_NAME
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS DELAY
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS LIMIT
+
+
 python refresh_snowpipe.py \
     --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
     --passphrase_path $WORKSPACE/analytics-secure/$PASSPHRASE_PATH \
