@@ -10,6 +10,11 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
+source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS KEY_PATH
+source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS PASSPHRASE_PATH
+source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS USER
+source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS ACCOUNT
+
 python stitch-snowflake-monitoring.py \
     --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
     --passphrase_path $WORKSPACE/analytics-secure/$PASSPHRASE_PATH \
