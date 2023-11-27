@@ -3,7 +3,7 @@
 ####################################################################
 # Exporter configuration
 
-ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
+ROOT=${WORKSPACE}/dataeng/analytics-exporter
 SECURE_HASH=`GIT_DIR=./analytics-secure/.git git rev-parse HEAD`
 EXPORTER_CONFIG_BUCKET=s3://edx-analytics-scratch/exporter/config/$SECURE_HASH
 EXPORTER_CONFIG_PATH=${EXPORTER_CONFIG_BUCKET}/${EXPORTER_CONFIG}
