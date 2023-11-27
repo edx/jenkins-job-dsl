@@ -1,0 +1,99 @@
+# This prevents dbt from rebuilding the DAG every run, saving time on jobs where it is run repeatedly
+config:
+  partial_parse: True
+
+warehouse_transforms:  # This is the name to use for "profile"
+  target: prod  # The default target.
+  outputs:  # Each of the keys in this dict is a "target"
+    dev:
+      type: snowflake
+      account: edx.us-east-1
+      user: DBT_TRANSFORMER
+      role: DBT_TRANSFORMER_ROLE
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      database: DEV
+      warehouse: TRANSFORMING
+      # This becomes the prefix for schemas written to by this target, e.g. "123456789_finance" if DEV_SCHEMA_PREFIX=123456789.
+      # dbt calls this the "target schema" in their docs
+      schema: "{{ env_var('DEV_SCHEMA_PREFIX') }}"
+      threads: 10
+    prod:
+      type: snowflake
+      account: edx.us-east-1
+      user: DBT_TRANSFORMER
+      role: DBT_TRANSFORMER_ROLE
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      database: PROD
+      warehouse: TRANSFORMING
+      # This is not a real schema name or schema prefix---the generate_schema_name_for_env macro will take care of
+      # removing this prefix string.  Resulting schema names end up being just "finance" or whatever is defined in the
+      # schema.yml level as a "custom schema".
+      # dbt calls this the "target schema" in their docs
+      schema: NO_PREFIX
+      threads: 10
+    edge:
+      type: snowflake
+      account: edx.us-east-1
+      user: DBT_TRANSFORMER
+      role: DBT_TRANSFORMER_ROLE
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      database: EDGE
+      warehouse: TRANSFORMING
+      # This is not a real schema name or schema prefix---the generate_schema_name_for_env macro will take care of
+      # removing this prefix string.  Resulting schema names end up being just "finance" or whatever is defined in the
+      # schema.yml level as a "custom schema".
+      # dbt calls this the "target schema" in their docs
+      schema: NO_PREFIX
+      threads: 10
+    prod_amplitude:
+      # This target is specifically for running amplitude models, which are relatively time sensitive.
+      type: snowflake
+      account: edx.us-east-1
+      user: DBT_TRANSFORMER
+      role: DBT_TRANSFORMER_ROLE
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      database: PROD
+      warehouse: TRANSFORMING
+      schema: NO_PREFIX
+      threads: 10
+    prod_load_incremental:
+      # This environment is for dbt initial loading (or reloading) of large incremental tables in DBT that need a larger warehouse
+      type: snowflake
+      account: edx.us-east-1
+      user: DBT_TRANSFORMER
+      role: DBT_TRANSFORMER_ROLE
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      database: PROD
+      warehouse: TRANSFORMING_XL
+      # This is not a real schema name or schema prefix---the generate_schema_name_for_env macro will take care of
+      # removing this prefix string.  Resulting schema names end up being just "finance" or whatever is defined in the
+      # schema.yml level as a "custom schema".
+      # dbt calls this the "target schema" in their docs
+      schema: NO_PREFIX
+      threads: 10
+    ci_tests:
+      type: snowflake
+      account: edx.us-east-1
+      user: DBT_TRANSFORMER_CI
+      role: DBT_TRANSFORMER_CI_ROLE
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      database: CI_TESTS
+      warehouse: TRANSFORMING_CI
+      # The following schema name CI_SCHEMA_NAME is actually a keyword that is used to search and replace in a
+      # sed command. That is replaced by the actual schema name generated in jenkins job such as PR_1724. 
+      #schema: CI_SCHEMA_NAME
+      schema: "{{ env_var('CI_SCHEMA_NAME') }}"
+      threads: 10
+    ci_tests_large:
+      type: snowflake
+      account: edx.us-east-1
+      user: DBT_TRANSFORMER_CI
+      role: DBT_TRANSFORMER_CI_ROLE
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      database: CI_TESTS
+      warehouse: TRANSFORMING_CI_L
+      # The following schema name CI_SCHEMA_NAME is actually a keyword that is used to search and replace in a
+      # sed command. That is replaced by the actual schema name generated in jenkins job such as PR_1724.
+      #schema: CI_SCHEMA_NAME
+      schema: "{{ env_var('CI_SCHEMA_NAME') }}"
+      threads: 10
