@@ -10,6 +10,11 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_USER_RETIREMENT_STATUS_CLEANUP_JOB_EXTRA_VARS KEY_PATH
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_USER_RETIREMENT_STATUS_CLEANUP_JOB_EXTRA_VARS PASSPHRASE_PATH
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_USER_RETIREMENT_STATUS_CLEANUP_JOB_EXTRA_VARS USER
+source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_USER_RETIREMENT_STATUS_CLEANUP_JOB_EXTRA_VARS ACCOUNT
+
 python retirement_cleanup.py \
     --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
     --passphrase_path $WORKSPACE/analytics-secure/$PASSPHRASE_PATH \
