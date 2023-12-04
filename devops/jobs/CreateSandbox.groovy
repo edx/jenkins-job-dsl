@@ -145,7 +145,7 @@ class CreateSandbox {
                 stringParam("forum_version","master","")
 
                 booleanParam("ecommerce",true,"")
-                stringParam("ecommerce_version","master","")
+                stringParam("ecommerce_version",extraVars.get("ECOMMERCE_VERSION","master"),"")
                 booleanParam("ecommerce_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce config file from configuration internal repo.")
 
                 booleanParam("xqueue",false,"")
