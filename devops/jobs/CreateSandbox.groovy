@@ -101,6 +101,7 @@ class CreateSandbox {
 
 
             def ecommerceVersion = extraVars.get("ECOMMERCE_VERSION", "master")
+	    def ecommerceWorkerVersion = extraVars.get("ECOMMERCE_WORKER_VERSION", "master")
             parameters {
                 booleanParam("recreate",true,"Checking this option will terminate an existing instance if it already exists and start over from scratch")
                 stringParam("dns_name","",
@@ -155,7 +156,7 @@ class CreateSandbox {
                 stringParam("xserver_version","master","")
 
                 booleanParam("ecommerce_worker",true,"")
-                stringParam("ecommerce_worker_version","master","")
+                stringParam("ecommerce_worker_version",ecommerceWorkerVersion,"")
                 booleanParam("ecommerce_worker_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy ecommerce_worker config file from configuration internal repo.")
 
                 booleanParam("analyticsapi",false,"")
