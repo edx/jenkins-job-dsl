@@ -22,8 +22,8 @@ set -x
 if [[ ! -v RDSIGNORE ]]; then
     RDSIGNORE=""
 fi
-if [[ ! -v REGIONINCLUDE ]]; then
-    REGIONINCLUDE=""
+if [[ ! -v WHITELISTREGIONS ]]; then
+    WHITELISTREGIONS=""
 fi
 
-python list_mysql_process.py --environment ${ENVIRONMENT} ${RDSIGNORE} ${REGIONINCLUDE}
+python list_mysql_process.py --environment ${ENVIRONMENT} ${RDSIGNORE} ${WHITELISTREGIONS}
