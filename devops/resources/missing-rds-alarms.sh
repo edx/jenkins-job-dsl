@@ -20,6 +20,9 @@ set -x
 if [[ ! -v IGNORE_OPTIONS ]]; then
     IGNORE_OPTIONS=""
 fi
+if [[ ! -v WHITELISTREGIONS ]]; then
+    WHITELISTREGIONS=""
+fi
 
-python missing_rds_alarms.py ${IGNORE_OPTIONS}
+python missing_rds_alarms.py ${IGNORE_OPTIONS} ${WHITELISTREGIONS}
 

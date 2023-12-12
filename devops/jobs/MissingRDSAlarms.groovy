@@ -32,9 +32,15 @@ class  MissingRDSAlarms {
                     ignore_options = "${ignore_options}--ignore ${db} "
                 }
 
+                def whitelistregions = ""
+                configuration.REGION_LIST.each { include ->
+                    whitelistregions = "${whitelistregions}-r ${include} "
+                }
+
                 environmentVariables {
                     env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                     env('IGNORE_OPTIONS', ignore_options)
+                    env('WHITELISTREGIONS', whitelistregions)
                 }
 
                 multiscm {
