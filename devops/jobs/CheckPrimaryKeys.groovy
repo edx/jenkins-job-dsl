@@ -38,12 +38,17 @@ class CheckPrimaryKeys {
                         rdsignore = "${rdsignore}-i ${ignore} "
                     }
 
+                    def whitelistregions = ""
+                    configuration.REGION_LIST.each { include ->
+                        whitelistregions = "${whitelistregions}-r ${include} "
+                    }
+
                     environmentVariables {
                         env('ENVIRONMENT', environment)
                         env('DEPLOYMENT', deployment)
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                         env('RDSIGNORE', rdsignore)
-
+                        env('WHITELISTREGIONS', whitelistregions)
                     }
 
                     multiscm {
