@@ -22,5 +22,8 @@ set -x
 if [[ ! -v RDSIGNORE ]]; then
     RDSIGNORE=""
 fi
+if [[ ! -v WHITELISTREGIONS ]]; then
+    WHITELISTREGIONS=""
+fi
 
-python export_slow_query_logs.py --environment ${ENVIRONMENT} ${RDSIGNORE}
+python export_slow_query_logs.py --environment ${ENVIRONMENT} ${RDSIGNORE} ${WHITELISTREGIONS}
