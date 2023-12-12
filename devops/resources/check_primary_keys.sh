@@ -22,5 +22,8 @@ set -x
 if [[ ! -v RDSIGNORE ]]; then
     RDSIGNORE=""
 fi
+if [[ ! -v WHITELISTREGIONS ]]; then
+    WHITELISTREGIONS=""
+fi
 
-python ./check_primary_keys.py --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --region $AWS_DEFAULT_REGION --recipient $TO_ADDRESS --sender $FROM_ADDRESS ${RDSIGNORE}
+python ./check_primary_keys.py --environment ${ENVIRONMENT} --deploy ${DEPLOYMENT} --region $AWS_DEFAULT_REGION --recipient $TO_ADDRESS --sender $FROM_ADDRESS ${RDSIGNORE} ${WHITELISTREGIONS}
