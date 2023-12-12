@@ -37,16 +37,16 @@ class ListMysqlProcess {
                         rdsignore = "${rdsignore}-i ${ignore} "
                     }
 
-                    def regioninclude = ""
+                    def whitelistregions = ""
                     configuration.REGION_LIST.each { include ->
-                        regioninclude = "${regioninclude}-r ${include} "
+                        whitelistregions = "${whitelistregions}-r ${include} "
                     }
 
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                         env('ENVIRONMENT', environment)
                         env('RDSIGNORE', rdsignore)
-                        env('REGIONINCLUDE', regioninclude)
+                        env('WHITELISTREGIONS', whitelistregions)
                     }
 
                     multiscm {

@@ -22,5 +22,8 @@ set -x
 if [[ ! -v RDSIGNORE ]]; then
     RDSIGNORE=""
 fi
+if [[ ! -v WHITELISTREGIONS ]]; then
+    WHITELISTREGIONS=""
+fi
 
-python export_dead_locks.py --environment ${ENVIRONMENT} --hostname ${HOSTNAME} --port ${PORT} --indexname ${INDEXNAME} ${RDSIGNORE}
+python export_dead_locks.py --environment ${ENVIRONMENT} --hostname ${HOSTNAME} --port ${PORT} --indexname ${INDEXNAME} ${RDSIGNORE} ${WHITELISTREGIONS}

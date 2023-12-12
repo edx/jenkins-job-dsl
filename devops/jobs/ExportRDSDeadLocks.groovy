@@ -40,6 +40,11 @@ class ExportRDSDeadLocks {
                         rdsignore = "${rdsignore}-i ${ignore} "
                     }
 
+                    def whitelistregions = ""
+                    configuration.REGION_LIST.each { include ->
+                        whitelistregions = "${whitelistregions}-r ${include} "
+                    }
+
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                         env('ENVIRONMENT', environment)
@@ -47,6 +52,7 @@ class ExportRDSDeadLocks {
                         env('PORT', extraVars.get('PORT'))
                         env('INDEXNAME', INDEXNAME)
                         env('RDSIGNORE', rdsignore)
+                        env('WHITELISTREGIONS', whitelistregions)
                     }
 
                     multiscm {
