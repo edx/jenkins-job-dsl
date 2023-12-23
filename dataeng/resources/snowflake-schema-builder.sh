@@ -8,7 +8,7 @@ source "${PYTHON38_VENV}/bin/activate"
 
 # Setup
 cd $WORKSPACE/warehouse-transforms
-pip install --upgrade dbt-schema-builder
+pip install --upgrade dbt-schema-builder==0.4.11
 
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
 dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
