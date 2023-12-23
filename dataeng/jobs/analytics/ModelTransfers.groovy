@@ -45,6 +45,7 @@ class ModelTransfers{
                 publishers common_publishers(allVars)
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/model-transfers.sh'))
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/trigger-prefect-flow.sh'))
                 }
             }
         }
