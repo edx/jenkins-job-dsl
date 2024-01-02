@@ -9,8 +9,6 @@
                  saml_secret (required)
                  secret_key (required)
     * SECURE_GIT_CREDENTIALS: secure-bot-user (required)
-    * SYSADMIN_REPO: repository containing SSL expiration check python script (required)
-    * SYSADMIN_BRANCH: default is master
     * CONFIGURATION_REPO: name of config repo, default is https://github.com/edx/configuration.git
     * CONFIGURATION_BRANCH: default is master
     * REGION: default is us-east-1
@@ -34,32 +32,6 @@ class SAMLSSLExpirationCheck{
 
 
                         def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
-                        
-                        assert extraVars.containsKey('SYSADMIN_REPO') : "Please define a system admin repo where the SSL expiration check  script is located"
-
-                        parameters{
-                        stringParam('SYSADMIN_REPO', extraVars.get('SYSADMIN_REPO'),
-                            'Git repo containing sysadmin configuration which contains the ssl expiration check script.')
-                        stringParam('SYSADMIN_BRANCH', extraVars.get('SYSADMIN_BRANCH', 'master'),
-                            'e.g. tagname or origin/branchname')
-                        }
-                
-                        multiscm{
-                            git {
-                                remote {
-                                    url('$SYSADMIN_REPO')
-                                    branch('$SYSADMIN_BRANCH')
-                                    if (gitCredentialId) {
-                                        credentials(gitCredentialId)
-                                    }
-                                }
-                                extensions {
-                                    cleanAfterCheckout()
-                                    pruneBranches()
-                                    relativeTargetDirectory('sysadmin')
-                                }
-                            }
-                        }
 
                         triggers {
                             cron("H 15 * * * ")
@@ -81,7 +53,6 @@ class SAMLSSLExpirationCheck{
                                mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
                        }
                   }
-               
                }
            }
        }
