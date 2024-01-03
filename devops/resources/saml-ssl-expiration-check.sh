@@ -9,13 +9,11 @@ create_virtualenv --python=python3.8 --clear
 . "$venvpath/bin/activate"
 set -u
 
-HOME=/edx/var/jenkins
 
 env
 set -x
 
-cd $WORKSPACE/sysadmin
-pip install -r requirements/base.txt
+pip install -r ../eequirements/base.txt
 pip install awscli
 
 cd jenkins
@@ -23,4 +21,4 @@ set +x
 
 export SSL=$($SAML_SECRET | sed 's/\\"/"/g' | jq -r ".$SECRET_KEY")
 
-python saml-ssl-expiration-check.py -d $DAYS -v SSL
+python ../jenkins/saml-ssl-expiration-check.py -d $DAYS -v SSL
