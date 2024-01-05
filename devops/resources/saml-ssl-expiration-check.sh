@@ -14,7 +14,7 @@ HOME=/edx/var/jenkins
 env
 set -x
 
-cd $WORKSPACE/sysadmin
+cd $WORKSPACE/configuration/jenkins
 pip install -r requirements/base.txt
 pip install awscli
 
