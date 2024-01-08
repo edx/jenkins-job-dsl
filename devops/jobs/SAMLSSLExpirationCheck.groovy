@@ -1,6 +1,6 @@
 /*
- Variables without defaults are marked (required) 
- 
+ Variables without defaults are marked (required)
+
  Variables consumed for this job:
     * DEPLOYMENTS (required)
          deployment:
@@ -45,45 +45,46 @@ class SAMLSSLExpirationCheck {
               'e.g. tagname or origin/branchname')
           }
 
-          multiscm {}
-          git {
-            remote {
-              url('$MONITORING_SCRIPTS_REPO')
-              branch('$MONITORING_SCRIPTS_BRANCH')
-              if (gitCredentialId) {
-                credentials(gitCredentialId)
+          multiscm {
+            git {
+              remote {
+                url('$MONITORING_SCRIPTS_REPO')
+                branch('$MONITORING_SCRIPTS_BRANCH')
+                if (gitCredentialId) {
+                  credentials(gitCredentialId)
+                }
+              }
+              extensions {
+                cleanAfterCheckout()
+                pruneBranches()
+                relativeTargetDirectory('monitoring-scripts')
               }
             }
-            extensions {
-              cleanAfterCheckout()
-              pruneBranches()
-              relativeTargetDirectory('monitoring-scripts')
+          }
+
+          triggers {
+            cron("H 15 * * * ")
+          }
+
+          environmentVariables {
+            env('REGION', extraVars.get('REGION', 'us-east-1'))
+            env('DAYS', extraVars.get('DAYS', 90))
+            env('SAML_SECRET', inner_config.get('saml_secret'))
+            env('SECRET_KEY', inner_config.get('secret_key'))
+          }
+
+          steps {
+            shell(dslFactory.readFileFromWorkspace('devops/resources/saml-ssl-expiration-check.sh'))
+          }
+
+          if (extraVars.get('NOTIFY_ON_FAILURE')) {
+            publishers {
+              mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
             }
           }
-        }
 
-        triggers {
-          cron("H 15 * * * ")
-        }
-
-        environmentVariables {
-          env('REGION', extraVars.get('REGION', 'us-east-1'))
-          env('DAYS', extraVars.get('DAYS', 90))
-          env('SAML_SECRET', inner_config.get('saml_secret'))
-          env('SECRET_KEY', inner_config.get('secret_key'))
-        }
-
-        steps {
-          shell(dslFactory.readFileFromWorkspace('devops/resources/saml-ssl-expiration-check.sh'))
-        }
-
-        if (extraVars.get('NOTIFY_ON_FAILURE')) {
-          publishers {
-            mailer(extraVars.get('NOTIFY_ON_FAILURE'), false, false)
-          }
         }
       }
     }
   }
-}
 }
