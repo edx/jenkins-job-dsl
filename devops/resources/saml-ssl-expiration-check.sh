@@ -14,11 +14,11 @@ HOME=/edx/var/jenkins
 env
 set -x
 
-cd $WORKSPACE/sysadmin
-pip install -r requirements/base.txt
-pip install awscli
 
-cd jenkins
+cd $WORKSPACE/monitoring-scripts
+pip install -r requirements/base.txt
+cd saml_ssl_expiration_check
+
 set +x
 
 export SSL=$($SAML_SECRET | sed 's/\\"/"/g' | jq -r ".$SECRET_KEY")

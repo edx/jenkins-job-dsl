@@ -44,7 +44,6 @@ class SSLExpirationCheck{
                 }
 
                 def gitCredentialId = extraVars.get('SECURE_GIT_CREDENTIALS','')
-                assert extraVars.containsKey('SYSADMIN_REPO') : "Please define a system admin repo where the SSL expiration check  script is located"
 
                 parameters{
                     stringParam('CONFIGURATION_REPO', extraVars.get('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git'),
