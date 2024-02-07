@@ -10,6 +10,6 @@ ${EXPORTER_VENV}/bin/exporter \
    --task=OrgEmailOptInTask \
    --output-bucket=${OUTPUT_BUCKET} \
    --output-prefix=${OUTPUT_PREFIX} \
-   --django-admin=${PLATFORM_VENV}/bin/django-admin.py \
+   --django-admin=${PLATFORM_VENV}/bin/django-admin \
    --django-pythonpath=${PLATFORM_VENV}/edx-platform \
    --gpg-keys=${GPG_KEYS_PATH}
