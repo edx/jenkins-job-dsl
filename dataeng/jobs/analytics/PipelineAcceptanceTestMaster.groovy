@@ -12,7 +12,7 @@ class PipelineAcceptanceTestMaster {
 
     public static def job = { dslFactory, allVars ->
         dslFactory.job("edx-analytics-pipeline-acceptance-test-master"){
-
+            disabled()
             description(
                 'This job is used to run acceptance tests on the master branch of ' +
                 'the edx-analytics-pipeline repo. It regularly polls that branch ' +
