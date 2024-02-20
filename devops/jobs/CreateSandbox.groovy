@@ -129,7 +129,7 @@ class CreateSandbox {
                 stringParam("configuration_secure_secret",extraVars.get('CONFIGURATION_SECURE_AWS_SM_SECRET'),"This is secure config secret on AWS secretmanager")
                 booleanParam("reconfigure",false,"Reconfigure and deploy, this will also run with --skip-tags deploy against all role <br />Leave this unchecked unless you know what you are doing")
                 
-                choiceParam("mongo_version",["4.2","4.4"],"select version of MongoDB to build sandbox")
+                choiceParam("mongo_version",["4.4","5.0"],"select version of MongoDB to build sandbox")
                 booleanParam("testcourses",true,"")
                 booleanParam("performance_course",true,"")
                 booleanParam("demo_test_course",true,"")
