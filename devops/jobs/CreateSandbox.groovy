@@ -137,7 +137,7 @@ class CreateSandbox {
 
                 booleanParam("edxapp",true,"")
                 stringParam("edxapp_version","master","")
-                stringParam("edx_platform_repo","https://github.com/edx/edx-platform.git",
+                stringParam("edx_platform_repo","https://github.com/openedx/edx-platform.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
                 booleanParam("edxapp_container_enabled",false,"Checking this option will setup edx-platform in a Docker containers rather than being setup via Ansible.")
                 booleanParam("edxapp_decrypt_and_copy_config_enabled",true,"Checking this option will decrypt and copy edxapp config file from configuration internal repo.")

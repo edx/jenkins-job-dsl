@@ -23,7 +23,7 @@ class DeleteMergedGitBranches{
                 multiscm{
                     git {
                         remote {
-                            url('git@github.com:edx/edx-platform.git')
+                            url('git@github.com:openedx/edx-platform.git')
                             branch('master')
                             if (gitCredentialId) {
                                 credentials(gitCredentialId)
