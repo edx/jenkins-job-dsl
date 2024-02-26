@@ -17,7 +17,7 @@ pip install mysql-connector-python -e .
 popd
 
 # Configuration paths in analytics-secure
-SECURE_ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
+SECURE_ROOT=${WORKSPACE}/dataeng/analytics-exporter
 CONFIG_PATH=${SECURE_ROOT}/${EXPORTER_CONFIG_FILENAME}
 GPG_KEYS_PATH=${WORKSPACE}/data-czar-keys
 
