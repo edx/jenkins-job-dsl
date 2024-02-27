@@ -31,8 +31,8 @@ set -x
 assume-role ${ROLE_ARN}
 
 # prepare tubular
-cd $WORKSPACE/tubular
-pip install -r requirements.txt
+cd $WORKSPACE/edx-platform
+pip install -r scripts/user_retirement/requirements/base.txt
 
 # In case this is being run without an explicit END_DATE, default to running with "now" - COOL_OFF_DAYS
 if [[ ! -v END_DATE ]]; then
