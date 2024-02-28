@@ -23,13 +23,13 @@ https://github.com/edx/jenkins-job-dsl/blob/master/dataeng/jobs/analytics/Snowfl
 */
 package devops.jobs
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_access_controls
-import static org.edx.jenkins.dsl.UserRetirementConstants.common_multiscm
-import static org.edx.jenkins.dsl.UserRetirementConstants.common_parameters
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_publishers
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_triggers
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_wrappers
 import static org.edx.jenkins.dsl.UserRetirementConstants.configuration_parameters
 import static org.edx.jenkins.dsl.UserRetirementConstants.configuration_repo
+import static org.edx.jenkins.dsl.UserRetirementConstants.edx_platform_parameters
+import static org.edx.jenkins.dsl.UserRetirementConstants.edx_platform_repo
 
 class UserRetirementArchiver {
     public static def job = { dslFactory, extraVars ->
@@ -62,8 +62,8 @@ class UserRetirementArchiver {
             // Now, everything which follows is custom to this particular job.
             ////
 
-            parameters common_parameters(extraVars) << configuration_parameters(extraVars)
-            multiscm common_multiscm(extraVars) << configuration_repo(extraVars)
+            parameters edx_platform_parameters(extraVars) << configuration_parameters(extraVars)
+            multiscm edx_platform_repo(extraVars) << configuration_repo(extraVars)
 
             // Only one of these jobs should be running at a time.
             concurrentBuild(false)

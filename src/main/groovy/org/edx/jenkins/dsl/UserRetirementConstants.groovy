@@ -76,6 +76,31 @@ class UserRetirementConstants {
         }
     }
 
+    public static def edx_platform_parameters = { extraVars ->
+        return {
+            stringParam('EDX_PLATFORM_BRANCH', 'master', 'Repo branch for edx platform')
+        }
+    }
+    
+    public static def edx_platform_repo = {
+        return {
+            git {
+                remote {
+                    url('https://github.com/openedx/edx-platform.git')
+                    branch('$EDX_PLATFORM_BRANCH')
+                }
+                extensions {
+                    relativeTargetDirectory('edx-platform')
+                    cloneOptions {
+                        shallow()
+                        timeout(10)
+                    }
+                    cleanBeforeCheckout()
+                }
+            }
+        }
+    }
+
     public static def configuration_parameters = { extraVars ->
         return {
             stringParam('CONFIGURATION_BRANCH', 'master', 'Repo branch for configuration.')
