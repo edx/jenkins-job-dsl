@@ -1,5 +1,5 @@
 defaults:
-  auth_file: '{WORKSPACE}/analytics-secure/analytics-exporter/task-auth.json'
+  auth_file: '{WORKSPACE}/dataeng/analytics-exporter/task-auth.json'
   gpg_master_key: analytics@edx.org
   gpg_keys: gpg-keys
   work_dir: /var/lib/jenkins/tmp/analytics-exporter

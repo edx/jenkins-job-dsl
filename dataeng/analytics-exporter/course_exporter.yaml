@@ -1,5 +1,5 @@
 defaults:
-  auth_file: '{WORKSPACE}/analytics-secure/analytics-exporter/task-auth.json'
+  auth_file: '{WORKSPACE}/dataeng/analytics-exporter/task-auth.json'
   work_dir: /var/lib/jenkins/tmp/analytics-course-exporter
   external_prefix: ''
   output_bucket: edx-analytics-rdx

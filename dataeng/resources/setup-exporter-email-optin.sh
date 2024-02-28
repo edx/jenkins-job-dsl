@@ -16,6 +16,9 @@ pip install -r github_requirements.txt
 pip install mysql-connector-python -e .
 popd
 
+aws secretsmanager get-secret-value --secret-id analytics-secure/analytics-exporter/task-auth.json --region "us-east-1" --output json | jq -r ".SecretString" >>  {WORKSPACE}/dataeng/analytics-exporter/task-auth.json
+
+
 # Configuration paths in analytics-secure
 SECURE_ROOT=${WORKSPACE}/dataeng/analytics-exporter
 CONFIG_PATH=${SECURE_ROOT}/${EXPORTER_CONFIG_FILENAME}
