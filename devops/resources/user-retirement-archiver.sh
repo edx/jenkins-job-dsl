@@ -40,7 +40,7 @@ if [[ ! -v END_DATE ]]; then
 fi
 
 # Call the script to read the retirement statuses from the LMS, send them to S3, and delete them from the LMS.
-python scripts/retirement_archive_and_cleanup.py \
+python scripts/user_retirement/retirement_archive_and_cleanup.py \
     --config_file=$TEMP_CONFIG_YAML \
     --cool_off_days=$COOL_OFF_DAYS \
     --batch_size=$BATCH_SIZE \
