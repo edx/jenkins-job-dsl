@@ -8,8 +8,8 @@ create_virtualenv --python=python3.8 --clear
 . "$venvpath/bin/activate"
 set -u
 
-cd $WORKSPACE/tubular
-pip install -r requirements.txt
+cd $WORKSPACE/edx-platform
+pip install -r scripts/user_retirement/requirements/base.txt
 pip install awscli
 
 set +x
@@ -36,7 +36,7 @@ IP_ADDRESSES=`aws ec2 describe-instances\
 
 MONGO_IPS=`echo $IP_ADDRESSES | sed 's/ /,/g'`
 
-python scripts/structures.py\
+python scripts/user_retirement/structures.py\
         --database-name ${DATABASE_NAME}\
         --connection "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IPS}/${DATABASE_NAME}" make_plan --retain 10 plan.json
 
