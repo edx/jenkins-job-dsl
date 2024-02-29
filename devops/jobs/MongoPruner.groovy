@@ -3,8 +3,8 @@
  Variables consumed for this job:
     * NOTIFY_ON_FAILURE: alert@example.com
     * FOLER_NAME: folder
-    * TUBULAR_REPO: repo where the mongo pruner script is located (required)
-    * TUBULAR_BRANCH: default is master
+    * EDX_PLATFORM_REPO: repo where the mongo pruner script is located (required)
+    * EDX_PLATFORM_BRANCH: default is master
     * DEPLOYMENTS: (required)
         environments:
             environment (required)
@@ -43,25 +43,25 @@ class MongoPruner {
                         }
                     }
 
-                    assert extraVars.containsKey('TUBULAR_REPO') : "Please define a tubular repo where the mongo pruner script is located"
+                    assert extraVars.containsKey('EDX_PLATFORM_REPO') : "Please define a edx-platform repo where the mongo pruner script is located"
 
                     parameters{
-                        stringParam('TUBULAR_REPO', extraVars.get('TUBULAR_REPO'),
+                        stringParam('EDX_PLATFORM_REPO', extraVars.get('EDX_PLATFORM_REPO'),
                                 'Git repo which contains the mongo pruner script.')
-                        stringParam('TUBULAR_BRANCH', extraVars.get('TUBULAR_BRANCH', 'master'),
+                        stringParam('EDX_PLATFORM_BRANCH', extraVars.get('EDX_PLATFORM_BRANCH', 'master'),
                                 'e.g. tagname or origin/branchname')
                     }
 
                     multiscm{
                         git {
                             remote {
-                                url('$TUBULAR_REPO')
-                                branch('$TUBULAR_BRANCH')
+                                url('$EDX_PLATFORM_REPO')
+                                branch('$EDX_PLATFORM_BRANCH')
                             }
                             extensions {
                                 cleanAfterCheckout()
                                 pruneBranches()
-                                relativeTargetDirectory('tubular')
+                                relativeTargetDirectory('edx-platform')
                             }
                         }
                     }

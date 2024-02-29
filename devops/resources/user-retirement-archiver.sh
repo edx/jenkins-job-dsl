@@ -30,7 +30,7 @@ set -x
 
 assume-role ${ROLE_ARN}
 
-# prepare tubular
+# prepare edx-platform
 cd $WORKSPACE/edx-platform
 pip install -r scripts/user_retirement/requirements/base.txt
 

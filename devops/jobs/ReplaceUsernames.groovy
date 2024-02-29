@@ -24,7 +24,7 @@ class ReplaceUsernames {
         extraVars.get('ENVIRONMENTS').each { environment ->
             dslFactory.job("Enterprise/" + "${environment}-replace-usernames") {
                 parameters {
-                    stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
+                    stringParam('EDX_PLATFORM_BRANCH', 'master', 'Repo branch for the edx-platform scripts.')
                     fileParam(
                         'username_replacements.csv',
                         'A CSV of [current_username,desired_username] for username replacement'
@@ -41,11 +41,11 @@ class ReplaceUsernames {
                 multiscm {
                     git {
                         remote {
-                            url('https://github.com/edx/tubular.git')
+                            url('https://github.com/openedx/edx-platform.git')
                         }
-                        branch('$TUBULAR_BRANCH')
+                        branch('$EDX_PLATFORM_BRANCH')
                         extensions {
-                            relativeTargetDirectory('tubular')
+                            relativeTargetDirectory('edx-platform')
                             cloneOptions {
                                 shallow()
                                 timeout(10)
@@ -69,7 +69,7 @@ class ReplaceUsernames {
                 publishers {
                     /* Save CSV from python script as artifact to be downloaded/viewed */
                     archiveArtifacts {
-                        pattern('tubular/username_replacement_results.csv')
+                        pattern('edx-platform/username_replacement_results.csv')
                         allowEmpty()
                         defaultExcludes()
                     }
