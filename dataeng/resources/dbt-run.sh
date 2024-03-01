@@ -20,8 +20,9 @@ else
     IS_SCHEMA_BUILDER_PR="false"
 fi
 
+source secrets-manager.sh analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
 
-DBT_PROFILE_ARGS="--profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET"
+DBT_PROFILE_ARGS="--profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET"
 
 if ! [ -z "$DBT_MODEL_INCLUDE" ]
 then

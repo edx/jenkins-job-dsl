@@ -14,11 +14,13 @@ pip install -r requirements.txt
 
 cd $WORKSPACE/warehouse-transforms/projects/reporting
 
-dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+source secrets-manager.sh analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
+
+dbt clean --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt deps --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 # Builds the doc files to projects/reporting/target
-dbt docs generate --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt docs generate --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 # Upload the buld docs to S3
 pip install awscli

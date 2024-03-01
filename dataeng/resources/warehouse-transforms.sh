@@ -13,6 +13,8 @@ pip install -r requirements.txt
 
 cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT
 
+source secrets-manager.sh analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
+
 # Fails the job if a dbt command fails and uploads the dbt artifacts to Snowflake if the job is configured for it
 # First argument is the dbt operation name, second is the result code from the dbt command
 function postCommandChecks {
@@ -21,7 +23,7 @@ function postCommandChecks {
   if [ "$PUSH_ARTIFACTS_TO_SNOWFLAKE" = 'true' ]
   then
     # Errors from this operation are eaten as they are just telemetry data and not worth failing jobs over
-    dbt run-operation upload_dbt_run_artifacts --args '{operation: '$1'}'  --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ || true
+    dbt run-operation upload_dbt_run_artifacts --args '{operation: '$1'}'  --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/profiles/ || true
   fi
 
   if [ 0 != $2 ];
@@ -46,15 +48,15 @@ then
 fi
 
 # These commands don't have artifacts to be uploaded so if they fail the job can just fail
-dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
-dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt clean --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt deps --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 # Turn off automatic failure of this script if the command returns non-0 for the rest of these commands
 set +e
 
 if [ "$SKIP_SEED" != 'true' ]
 then
-  dbt seed --full-refresh --models "$SEED_SELECTOR" --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+  dbt seed --full-refresh --models "$SEED_SELECTOR" --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/profiles/ ; ret=$?;
   postCommandChecks "seed" $ret ;
 fi
 
@@ -62,7 +64,7 @@ fi
 if [ "$TEST_SOURCES_FIRST" = 'true' ] && [ "$SKIP_TESTS" != 'true' ]
 then
     # Run the source tests, sadly not just the ones upstream from this tag
-    dbt test --models source:* --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+    dbt test --models source:* --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/profiles/ ; ret=$?;
     postCommandChecks "source_test" $ret ;
 fi
 
@@ -86,12 +88,12 @@ then
     fi
 
     # This will only runs parents tests without running current models tests.
-    dbt test --models $MODEL_SELECTOR_WITH_PARENTS --exclude $EXCLUDE_MODELS --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+    dbt test --models $MODEL_SELECTOR_WITH_PARENTS --exclude $EXCLUDE_MODELS --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/profiles/ ; ret=$?;
     postCommandChecks "parent_models_tests" $ret ;
 fi
 
 # Compile/build all models with this tag.
-dbt $DBT_COMMAND $FULL_REFRESH_ARG --models $MODEL_SELECTOR --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+dbt $DBT_COMMAND $FULL_REFRESH_ARG --models $MODEL_SELECTOR --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/profiles/ ; ret=$?;
 postCommandChecks "run" $ret ;
 
 if [ "$SKIP_TESTS" != 'true' ]
@@ -114,6 +116,6 @@ then
     fi
 
     # Run all tests as specified.
-    dbt test --models $MODEL_SELECTOR $exclude_param $INDIRECT_SELECTION_PARAM --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ ; ret=$?;
+    dbt test --models $MODEL_SELECTOR $exclude_param $INDIRECT_SELECTION_PARAM --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/profiles/ ; ret=$?;
     postCommandChecks "test" $ret ;
 fi
