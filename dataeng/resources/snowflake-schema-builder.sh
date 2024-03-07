@@ -10,14 +10,12 @@ source "${PYTHON38_VENV}/bin/activate"
 cd $WORKSPACE/warehouse-transforms
 pip install --upgrade dbt-schema-builder
 
-source secrets-manager.sh analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
-
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
-dbt clean --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 # DESTINATION_PROJECT is always relative to SOURCE_PROJECT
 cd $DESTINATION_PROJECT
-dbt clean --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 cd $WORKSPACE/warehouse-transforms
 
@@ -28,7 +26,7 @@ git checkout -b "$branchname"
 
 # Run the dbt script to update schemas and sql, from the source project directory (necessary for dbt to run)
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
-dbt_schema_builder build --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/profiles/
+dbt_schema_builder build --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
 
 # Check if any files are added, deleted, or changed. If so, commit them and create a PR.
 if [[ -z $(git status -s) ]]
