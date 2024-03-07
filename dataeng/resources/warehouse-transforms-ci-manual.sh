@@ -45,15 +45,13 @@ python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PA
 
 cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT_PATH
 
-source secrets-manager.sh analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
-
-dbt clean --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
-dbt deps --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
-dbt seed --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt seed --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 if [[ "$RUN_TESTS_ONLY" != "true" ]]
 then
-    dbt run $DBT_RUN_OPTIONS $DBT_RUN_EXCLUDE --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
+    dbt run $DBT_RUN_OPTIONS $DBT_RUN_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
 fi
 
-dbt test $DBT_TEST_OPTIONS $DBT_TEST_EXCLUDE --profiles-dir $WORKSPACE/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt test $DBT_TEST_OPTIONS $DBT_TEST_EXCLUDE --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
