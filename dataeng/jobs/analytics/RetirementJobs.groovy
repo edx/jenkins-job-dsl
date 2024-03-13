@@ -59,6 +59,7 @@ class RetirementJobs{
             parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
+                stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('RETIREMENT_USERNAME', '', 'Current username of learner to retire.')
             }
@@ -66,7 +67,7 @@ class RetirementJobs{
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm {
+            multiscm platform_scm(allVars) << {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -74,20 +75,6 @@ class RetirementJobs{
                     branch('master')
                     extensions {
                         relativeTargetDirectory('configuration')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
-                git {
-                    remote {
-                        url('https://github.com/edx/tubular.git')
-                    }
-                    branch('$TUBULAR_BRANCH')
-                    extensions {
-                        relativeTargetDirectory('tubular')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -164,13 +151,14 @@ class RetirementJobs{
                 stringParam('COOL_OFF_DAYS', '14', 'Number of days a learner should be in the retirement queue before being actually retired.')
                 stringParam('USER_COUNT_ERROR_THRESHOLD', '251', 'If more users than this number are returned we will error out instead of retiring.')
                 stringParam('MAX_USER_BATCH_SIZE', '200', 'Allow us to get a specified number of users and then continues with that')
+                stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
             }
 
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm {
+            multiscm platform_scm(allVars) << {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -178,20 +166,6 @@ class RetirementJobs{
                     branch('master')
                     extensions {
                         relativeTargetDirectory('configuration')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
-                git {
-                    remote {
-                        url('https://github.com/edx/tubular.git')
-                    }
-                    branch('$TUBULAR_BRANCH')
-                    extensions {
-                        relativeTargetDirectory('tubular')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -231,6 +205,7 @@ class RetirementJobs{
                         }
                         parameters {
                             predefinedProp('TUBULAR_BRANCH', '${TUBULAR_BRANCH}')
+                            predefinedProp('PLATFORM_BRANCH', '${PLATFORM_BRANCH}')
                             predefinedProp('ENVIRONMENT', '${ENVIRONMENT}')
                         }
                         parameterFactories {
@@ -314,12 +289,13 @@ class RetirementJobs{
                 stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
+                stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
             }
 
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm {
+            multiscm platform_scm(allVars) << {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -327,20 +303,6 @@ class RetirementJobs{
                     branch('master')
                     extensions {
                         relativeTargetDirectory('configuration')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
-                git {
-                    remote {
-                        url('https://github.com/edx/tubular.git')
-                    }
-                    branch('$TUBULAR_BRANCH')
-                    extensions {
-                        relativeTargetDirectory('tubular')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -433,12 +395,13 @@ class RetirementJobs{
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('AGE_IN_DAYS', '60', 'Number of days to keep partner reports.')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
+                stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
             }
 
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm {
+            multiscm platform_scm(allVars) << {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -446,20 +409,6 @@ class RetirementJobs{
                     branch('master')
                     extensions {
                         relativeTargetDirectory('configuration')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
-                git {
-                    remote {
-                        url('https://github.com/edx/tubular.git')
-                    }
-                    branch('$TUBULAR_BRANCH')
-                    extensions {
-                        relativeTargetDirectory('tubular')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -533,12 +482,13 @@ class RetirementJobs{
                 stringParam('NEW_STATE_NAME', '', 'Set the found learners to this state (ex: PENDING)')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
                 booleanParam('REWIND_STATE', false, 'Rewinds users to previous state, useful for redriving a large numnber of ERRORED users')
+                stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
             }
 
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm {
+            multiscm platform_scm(allVars) << {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -546,20 +496,6 @@ class RetirementJobs{
                     branch('master')
                     extensions {
                         relativeTargetDirectory('configuration')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
-                git {
-                    remote {
-                        url('https://github.com/edx/tubular.git')
-                    }
-                    branch('$TUBULAR_BRANCH')
-                    extensions {
-                        relativeTargetDirectory('tubular')
                         cloneOptions {
                             shallow()
                             timeout(10)
