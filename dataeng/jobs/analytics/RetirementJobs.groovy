@@ -58,7 +58,6 @@ class RetirementJobs{
             wrappers common_wrappers(allVars)
             parameters secure_scm_parameters(allVars)
             parameters {
-                stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('RETIREMENT_USERNAME', '', 'Current username of learner to retire.')
@@ -146,7 +145,6 @@ class RetirementJobs{
                 }
             }
             parameters {
-                stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('COOL_OFF_DAYS', '14', 'Number of days a learner should be in the retirement queue before being actually retired.')
                 stringParam('USER_COUNT_ERROR_THRESHOLD', '251', 'If more users than this number are returned we will error out instead of retiring.')
@@ -204,7 +202,6 @@ class RetirementJobs{
                             unstable('UNSTABLE')
                         }
                         parameters {
-                            predefinedProp('TUBULAR_BRANCH', '${TUBULAR_BRANCH}')
                             predefinedProp('PLATFORM_BRANCH', '${PLATFORM_BRANCH}')
                             predefinedProp('ENVIRONMENT', '${ENVIRONMENT}')
                         }
@@ -286,7 +283,6 @@ class RetirementJobs{
             }
 
             parameters {
-                stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
                 stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
@@ -391,7 +387,6 @@ class RetirementJobs{
             }
 
             parameters {
-                stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('AGE_IN_DAYS', '60', 'Number of days to keep partner reports.')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
@@ -474,7 +469,6 @@ class RetirementJobs{
             }
 
             parameters {
-                stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('START_DATE', '', 'Find users that requested deletion starting with this day (YYYY-MM-DD).')
                 stringParam('END_DATE', '', 'Find users that requested deletion ending with this day (YYYY-MM-DD). To select one day make the start and end dates the same.')
