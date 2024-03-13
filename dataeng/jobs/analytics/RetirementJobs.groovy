@@ -6,6 +6,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
+import static org.edx.jenkins.dsl.AnalyticsConstants.platform_scm
 
 class RetirementJobs{
     public static def job = { dslFactory, allVars ->
