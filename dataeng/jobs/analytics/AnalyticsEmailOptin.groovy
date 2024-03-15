@@ -133,6 +133,9 @@ class AnalyticsEmailOptin {
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-platform-venv-py3.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-exporter-email-optin.sh'))
+                shell(dslFactory.readFileFromWorkspace('dataeng/analytics-exporter/email_optin.yaml'))
+                shell(dslFactory.readFileFromWorkspace('dataeng/analytics-exporter/default.yaml'))
+                shell(dslFactory.readFileFromWorkspace('dataeng/analytics-exporter/course_exporter.yaml'))
                 downstreamParameterized {
                     trigger('analytics-email-optin-worker') {
                         block {
