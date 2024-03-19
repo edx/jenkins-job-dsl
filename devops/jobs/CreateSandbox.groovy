@@ -296,6 +296,8 @@ class CreateSandbox {
 
                 booleanParam("enable_newrelic",false,"Enable NewRelic application monitoring (this costs money, please ask devops before enabling). Server level New Relic monitoring is always enabled.  Select 'reconfigure' as well, if you want to deploy this.")
 
+                booleanParam("enable_datadog",false,"Enable DataDog monitoring (this costs money, please ask devops before enabling). Select 'reconfigure' as well, if you want to deploy this.")
+
                 booleanParam("enable_client_profiling",false,"Enable the SESSION_SAVE_EVERY_REQUEST django setting for client profiling.")
 
                 booleanParam("run_oauth",true,"")
