@@ -10,12 +10,19 @@ source "${PYTHON38_VENV}/bin/activate"
 cd $WORKSPACE/warehouse-transforms
 pip install --upgrade dbt-schema-builder
 
+source $WORKSPACE/secrets-manager.sh
+# Fetch the secrets from AWS
+set +x
+get_secret_value warehouse-transforms/profiles/profiles DBT_PASSWORD
+set -x
+export DBT_PASSWORD
+
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
-dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt clean --profiles-dir $WORKSPACE/warehouse-transforms/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 # DESTINATION_PROJECT is always relative to SOURCE_PROJECT
 cd $DESTINATION_PROJECT
-dbt clean --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+dbt clean --profiles-dir $WORKSPACE/warehouse-transforms/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
 
 cd $WORKSPACE/warehouse-transforms
 
@@ -26,7 +33,7 @@ git checkout -b "$branchname"
 
 # Run the dbt script to update schemas and sql, from the source project directory (necessary for dbt to run)
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
-dbt_schema_builder build --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+dbt_schema_builder build --destination-project $DESTINATION_PROJECT --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/warehouse-transforms/profiles/
 
 # Check if any files are added, deleted, or changed. If so, commit them and create a PR.
 if [[ -z $(git status -s) ]]

@@ -72,6 +72,7 @@ class WarehouseTransforms{
                     }
                 }
                 steps {
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms.sh'))
                 }

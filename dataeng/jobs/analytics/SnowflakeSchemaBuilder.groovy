@@ -45,6 +45,7 @@ class SnowflakeSchemaBuilder {
             steps {
 
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-schema-builder.sh'))
             }
         }
