@@ -28,7 +28,14 @@ fi
 
 ARGS="{mart: ${MART_NAME} }"
 
-dbt deps --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET
+source $WORKSPACE/secrets-manager.sh
+# Fetch the secrets from AWS
+set +x
+get_secret_value analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
+set -x
+export DBT_PASSWORD
+
+dbt deps --profiles-dir $WORKSPACE/warehouse-transforms/profiles --profile $DBT_PROFILE --target $DBT_TARGET
 
 # Call DBT to perform all transfers for this mart.
-dbt run-operation perform_s3_transfers --args "${ARGS}" --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/
+dbt run-operation perform_s3_transfers --args "${ARGS}" --profile $DBT_PROFILE --target $DBT_TARGET --profiles-dir $WORKSPACE/warehouse-transforms/profiles/
