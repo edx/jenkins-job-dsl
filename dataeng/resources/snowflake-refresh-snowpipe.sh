@@ -10,11 +10,15 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
-source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS KEY_PATH
-source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS PASSPHRASE_PATH
-source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS USER
-source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS ACCOUNT
-source secrets-manager.sh analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS JOB_FREQUENCY
+# Source the secrets-manager.sh script to make the function available
+source $WORKSPACE/secrets-manager.sh
+# Fetch the secrets from AWS
+set +x
+get_secret_value analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS KEY_PATH
+get_secret_value analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS PASSPHRASE_PATH
+get_secret_value analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS USER
+get_secret_value analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS ACCOUNT
+set -x
 
 python refresh_snowpipe.py \
     --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
