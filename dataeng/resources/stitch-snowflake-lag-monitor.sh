@@ -16,7 +16,7 @@ source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONI
 source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS ACCOUNT
 
 python stitch-snowflake-monitoring.py \
-    --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
-    --passphrase_path $WORKSPACE/analytics-secure/$PASSPHRASE_PATH \
+    --key_path $KEY_PATH \
+    --passphrase_path $PASSPHRASE_PATH \
     --user $USER \
     --account $ACCOUNT
