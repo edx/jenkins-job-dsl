@@ -20,8 +20,15 @@ else
     IS_SCHEMA_BUILDER_PR="false"
 fi
 
+source $WORKSPACE/secrets-manager.sh
+# Fetch the secrets from AWS
+set +x
+get_secret_value warehouse-transforms/profiles/profiles DBT_PASSWORD
+set -x
+export DBT_PASSWORD
 
-DBT_PROFILE_ARGS="--profiles-dir $WORKSPACE/analytics-secure/warehouse-transforms/ --profile $DBT_PROFILE --target $DBT_TARGET"
+
+DBT_PROFILE_ARGS="--profiles-dir $WORKSPACE/warehouse-transforms/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET"
 
 if ! [ -z "$DBT_MODEL_INCLUDE" ]
 then
