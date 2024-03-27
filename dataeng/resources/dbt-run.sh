@@ -23,7 +23,7 @@ fi
 source $WORKSPACE/secrets-manager.sh
 # Fetch the secrets from AWS
 set +x
-get_secret_value warehouse-transforms/profiles/profiles DBT_PASSWORD
+get_secret_value analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
 set -x
 export DBT_PASSWORD
 

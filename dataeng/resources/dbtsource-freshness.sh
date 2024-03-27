@@ -17,7 +17,7 @@ cd $WORKSPACE/warehouse-transforms/projects/reporting
 source $WORKSPACE/secrets-manager.sh
 # Fetch the secrets from AWS
 set +x
-get_secret_value warehouse-transforms/profiles/profiles DBT_PASSWORD
+get_secret_value analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
 set -x
 export DBT_PASSWORD
 
@@ -28,4 +28,3 @@ dbt deps --profiles-dir $WORKSPACE/warehouse-transforms/profiles/ --profile $DBT
 # Its node selection logic is now consistent with other tasks. In order to check freshness for a specific source,
 # use --select flag and you must prefix it with source:   e.g. dbt source freshness --select source:snowplow
 dbt source freshness --profiles-dir $WORKSPACE/warehouse-transforms/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
-
