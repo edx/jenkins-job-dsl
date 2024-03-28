@@ -21,8 +21,8 @@ package devops.jobs
 
 import static org.edx.jenkins.dsl.Constants.common_wrappers
 import static org.edx.jenkins.dsl.Constants.common_logrotator
-import static org.edx.jenkins.dsl.DevopsTasks.common_parameters
-import static org.edx.jenkins.dsl.DevopsTasks.common_multiscm
+import static org.edx.jenkins.dsl.DevopsTasks.common_parameters002
+import static org.edx.jenkins.dsl.DevopsTasks.common_multiscm002
 
 class CheckSesLimits {
     public static def job = { dslFactory, extraVars ->
@@ -67,9 +67,9 @@ class CheckSesLimits {
                     cron("H/10 * * * *")
                 }
 
-                parameters common_parameters(extraVars)
+                parameters common_parameters002(extraVars)
 
-                multiscm common_multiscm(extraVars)
+                multiscm common_multiscm002(extraVars)
 
                 environmentVariables {
                     env('DEPLOYMENT', deployment)
