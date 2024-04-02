@@ -136,6 +136,7 @@ class WarehouseTransformsCIMasterMerges{
             }
             wrappers common_wrappers(allVars)
             steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms-ci-master-merges.sh'))
             }
         }
