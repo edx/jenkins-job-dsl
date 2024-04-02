@@ -23,4 +23,4 @@ set +x
 
 export SSL=$($SAML_SECRET | sed 's/\\"/"/g' | jq -r ".$SECRET_KEY")
 
-python saml-ssl-expiration-check.py -d $DAYS -v SSL -e $REGION
+python saml-ssl-expiration-check.py -d $DAYS -v SSL -e $REGION -k $SECRET_KEY
