@@ -25,7 +25,7 @@ pip install -r requirements/base.txt
 cd ssl_expiration_check
 
 if [[ -n "${FROM_ADDRESS}" && "${TO_ADDRESS}" ]]; then
-	python ssl-expiration-check.py --region $REGION -d $DAYS  -r $TO_ADDRESS -f $FROM_ADDRESS
+	python ssl-expiration-check.py --region $REGION -d $DAYS  -r $TO_ADDRESS -f $FROM_ADDRESS -i $rdsignore
 else
-	python ssl-expiration-check.py --region $REGION -d $DAYS
+	python ssl-expiration-check.py --region $REGION -d $DAYS -i $rdsignore
 fi

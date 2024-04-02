@@ -90,9 +90,12 @@ class SSLExpirationCheck{
                     cron("H 15 * * * ")
                 }
 
+                def rdsignore = extraVars.get('IGNORE_LIST').join(' ')
+
                 environmentVariables {
                     env('REGION', extraVars.get('REGION','us-east-1'))
                     env('DAYS', extraVars.get('DAYS', 30))
+                    env('RDSIGNORE', rdsignore)
                 }
 
                 steps {
