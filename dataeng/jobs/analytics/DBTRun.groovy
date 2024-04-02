@@ -59,6 +59,7 @@ class DBTRun{
             wrappers common_wrappers(allVars)
             publishers common_publishers(allVars)
             steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/dbt-run.sh'))
             }
         }
