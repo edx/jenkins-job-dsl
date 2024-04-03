@@ -31,7 +31,7 @@ if [[ ! -v RDSIGNORE ]]; then
 fi
 
 if [[ -n "${FROM_ADDRESS}" && "${TO_ADDRESS}" ]]; then
-	python ssl-expiration-check.py --region $REGION -d $DAYS  -r $TO_ADDRESS -f $FROM_ADDRESS -i $rdsignore
+	python ssl-expiration-check.py --region $REGION -d $DAYS  -r $TO_ADDRESS -f $FROM_ADDRESS -i $RDSIGNORE
 else
-	python ssl-expiration-check.py --region $REGION -d $DAYS -i $rdsignore
+	python ssl-expiration-check.py --region $REGION -d $DAYS -i $RDSIGNORE
 fi
