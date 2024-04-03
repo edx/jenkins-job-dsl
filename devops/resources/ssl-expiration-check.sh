@@ -24,8 +24,14 @@ cd $WORKSPACE/monitoring-scripts
 pip install -r requirements/base.txt
 cd ssl_expiration_check
 
+# Set RDSIGNORE if not set in job, need because we're setting -u
+# Otherwise we get an error "RDSIGNORE: unbound variable"
+if [[ ! -v RDSIGNORE ]]; then
+    RDSIGNORE=""
+fi
+
 if [[ -n "${FROM_ADDRESS}" && "${TO_ADDRESS}" ]]; then
-	python ssl-expiration-check.py --region $REGION -d $DAYS  -r $TO_ADDRESS -f $FROM_ADDRESS
+	python ssl-expiration-check.py --region $REGION -d $DAYS  -r $TO_ADDRESS -f $FROM_ADDRESS -i $RDSIGNORE
 else
-	python ssl-expiration-check.py --region $REGION -d $DAYS
+	python ssl-expiration-check.py --region $REGION -d $DAYS -i $RDSIGNORE
 fi
