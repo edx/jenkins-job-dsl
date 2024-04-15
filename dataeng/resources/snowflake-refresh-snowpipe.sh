@@ -14,19 +14,20 @@ make requirements
 source $WORKSPACE/secrets-manager.sh
 # Fetch the secrets from AWS
 set +x
-get_secret_value analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS KEY_PATH
-get_secret_value analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS PASSPHRASE_PATH
-get_secret_value analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS USER
-get_secret_value analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS ACCOUNT
+
+
+secrets-manager.sh -w analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS snowflake/rsa_key_snowpipe_user.p8
+secrets-manager.sh -w analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS snowflake/rsa_key_passphrase_snowpipe_user
+
 set -x
 
 python refresh_snowpipe.py \
-    --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
-    --passphrase_path $WORKSPACE/analytics-secure/$PASSPHRASE_PATH \
-    --user $USER \
+    --user 'SNOWPIPE' \
     --schema $SCHEMA \
-    --account $ACCOUNT \
+    --account 'edx.us-east-1' \
     --pipe_name $PIPE_NAME \
     --table_name $TABLE_NAME \
     --delay $DELAY \
     --limit $LIMIT
+    --key_file $KEY_PATH \
+    --passphrase_file $PASSPHRASE_PATH
