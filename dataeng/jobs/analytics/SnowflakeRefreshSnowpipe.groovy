@@ -82,7 +82,6 @@ class SnowflakeRefreshSnowpipe {
                 }
                 publishers common_publishers(allVars)
                 steps {
-                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-refresh-snowpipe.sh'))
                 }
             }
