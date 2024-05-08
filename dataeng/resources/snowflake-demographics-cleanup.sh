@@ -10,8 +10,19 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
+
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_stitch_loader.p8 -v rsa_key_stitch_loader
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_passphrase_stitch_loader -v rsa_key_passphrase_stitch_loader
+
+unset KEY_PATH
+unset PASSPHRASE_PATH
+
 python demographics_cleanup.py \
-    --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
-    --passphrase_path $WORKSPACE/analytics-secure/$PASSPHRASE_PATH \
-    --user $USER \
-    --account $ACCOUNT
+    --user 'STITCH_LOADER' \
+    --account 'edx.us-east-1' \
+    --key_file "$(cat "rsa_key_stitch_loader")" \
+    --passphrase_file "$(cat "rsa_key_passphrase_stitch_loader")"
+
+
+rm rsa_key_stitch_loader
+rm rsa_key_passphrase_stitch_loader
