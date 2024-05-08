@@ -10,8 +10,15 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
+
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_snowflake_task_automation_user.p8 -v rsa_key_snowflake_task_automation_user
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_passphrase_snowflake_task_automation_user -v rsa_key_passphrase_snowflake_task_automation_user
+
 python expire_user_passwords.py \
-    --key_path $KEY_PATH \
-    --passphrase_path $PASSPHRASE_PATH \
-    --automation_user $USER \
-    --account $ACCOUNT
+    --automation_user 'SNOWFLAKE_TASK_AUTOMATION_USER' \
+    --account 'edx.us-east-1' \
+    --key_file "$(cat "rsa_key_snowflake_task_automation_user")" \
+    --pass_file  "$(cat "rsa_key_passphrase_snowflake_task_automation_user")"
+
+rm rsa_key_snowflake_task_automation_user
+rm rsa_key_passphrase_snowflake_task_automation_user
