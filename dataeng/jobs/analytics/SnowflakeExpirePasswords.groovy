@@ -41,8 +41,6 @@ class SnowflakeExpirePasswords {
                     }
                 }
                 environmentVariables {
-                    env('KEY_PATH', allVars.get('KEY_PATH'))
-                    env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
                     env('USER', allVars.get('USER'))
                     env('ACCOUNT', allVars.get('ACCOUNT'))
                 }
