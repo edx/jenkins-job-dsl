@@ -1,7 +1,7 @@
 package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
+import static org.edx.jenkins.dsl.AnalyticsConstants.config_scm
+import static org.edx.jenkins.dsl.AnalyticsConstants.config_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
 
 class AnalyticsExporter {
@@ -12,14 +12,14 @@ class AnalyticsExporter {
                 stringParam('COURSES', '', 'Space separated list of courses to process. E.g. --course=course-v1:BerkleeX+BMPR365_3x+1T2015')
                 stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the analytics-exporter repository. For tags use tags/[tag-name].')
                 stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the exporter repository. For tags use tags/[tag-name].')
-                stringParam('EXPORTER_CONFIG_FILENAME', 'course_exporter.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
+                stringParam('EXPORTER_CONFIG_FILENAME', 'course_exporter.yaml', 'Name of configuration file in analytics-config/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', '', 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFY', '', 'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER', '', 'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 202x-0x-0x" if that is when the CWSM dump took place.  (Leave off quotes.)')
                 stringParam('TASKS', '', 'Space separated list of tasks to process. Leave this blank to use the task list specified in the config file.  Specify here only if you are running tests of a specific task.')
                 stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python virtual environment version to used.')
             }
-            parameters secure_scm_parameters(allVars)
+            parameters config_scm_parameters(allVars)
 
             environmentVariables {
                 env('REMOTE_CONFIG_PROD_EDX_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDX_ROLE_ARN'))
@@ -32,7 +32,7 @@ class AnalyticsExporter {
                 env('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION', allVars.get('REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION'))
             }
 
-            multiscm secure_scm(allVars) << {
+            multiscm config_scm(allVars) << {
                 git {
                     remote {
                         url('git@github.com:openedx/edx-platform.git')
@@ -89,7 +89,7 @@ class AnalyticsExporter {
                 stringParam('EXTRA_OPTIONS')
                 stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python version to use for creating virtualenv.')
             }
-            parameters secure_scm_parameters(allVars)
+            parameters config_scm_parameters(allVars)
 
             environmentVariables {
                 env('REMOTE_CONFIG_PROD_EDX_ROLE_ARN', allVars.get('REMOTE_CONFIG_PROD_EDX_ROLE_ARN'))
@@ -113,7 +113,7 @@ class AnalyticsExporter {
 
             concurrentBuild()
 
-            multiscm secure_scm(allVars)
+            multiscm config_scm(allVars)
 
             wrappers {
                 timestamps()
@@ -145,7 +145,7 @@ class AnalyticsExporter {
                 stringParam('ORGS', '*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH', 'origin/master', 'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name].')
                 stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
-                stringParam('EXPORTER_CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
+                stringParam('EXPORTER_CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-config/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
                 stringParam('DATE_MODIFIER', '', 'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 202x-0x-0x" if that is when the CWSM dump took place.  (Leave off quotes.)')
@@ -154,14 +154,14 @@ class AnalyticsExporter {
                 stringParam('DATA_CZAR_KEYS_BRANCH', 'master', 'Branch to use for the data-czar-keys repository.')
                 stringParam('PRIORITY_ORGS', allVars.get('PRIORITY_ORGS'), 'Space separated list of organizations to process first.')
             }
-            parameters secure_scm_parameters(allVars)
+            parameters config_scm_parameters(allVars)
             environmentVariables {
                 env('OPSGENIE_HEARTBEAT_NAME', allVars.get('OPSGENIE_HEARTBEAT_NAME'))
                 env('OPSGENIE_HEARTBEAT_DURATION_NUM', allVars.get('OPSGENIE_HEARTBEAT_DURATION_NUM'))
                 env('OPSGENIE_HEARTBEAT_DURATION_UNIT', allVars.get('OPSGENIE_HEARTBEAT_DURATION_UNIT'))
             }
 
-            multiscm secure_scm(allVars) << {
+            multiscm config_scm(allVars) << {
                 git {
                     remote {
                         url('git@github.com:openedx/edx-platform.git')

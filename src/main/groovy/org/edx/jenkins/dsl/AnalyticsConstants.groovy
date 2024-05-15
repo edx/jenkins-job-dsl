@@ -32,11 +32,11 @@ class AnalyticsConstants {
         return {
             git {
                 remote {
-                    url('$CONFIG_REPO')
-                    branch('$CONFIG_BRANCH')
+                    url('git@github.com:edx/analytics-config.git')
+                    branch('master')
                 }
                 extensions {
-                    relativeTargetDirectory('analytics-configuration')
+                    relativeTargetDirectory('analytics-config')
                     pruneBranches()
                     cleanAfterCheckout()
                 }
@@ -60,6 +60,21 @@ class AnalyticsConstants {
         }
     }
 
+    public static def config_scm = { allVars ->
+        return {
+            git {
+                remote {
+                    url('$SECURE_REPO')
+                    branch('$SECURE_BRANCH')
+                    credentials('1')
+                }
+                extensions {
+                    pruneBranches()
+                    relativeTargetDirectory('analytics-config')
+                }
+            }
+        }
+    }
     public static def data_czar_keys_scm = { allVars ->
         return {
             git {
@@ -152,6 +167,13 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         }
     }
 
+    // Include this whenever config_scm() is used, or when run-automated-task.sh is executed in a shell command.
+    public static def config_scm_parameters = { allVars ->
+        return {
+            stringParam('SECURE_BRANCH', allVars.get('SECURE_BRANCH', '$ANALYTICS_SECURE_RELEASE'), 'e.g. tagname or origin/branchname, or $ANALYTICS_SECURE_RELEASE when released.')
+            stringParam('SECURE_REPO', allVars.get('SECURE_REPO_URL'), '')
+        }
+    }
     public static def from_date_interval_parameter = { allVars ->
       return {
         stringParam('FROM_DATE', allVars.get('FROM_DATE', '2013-11-01'),
