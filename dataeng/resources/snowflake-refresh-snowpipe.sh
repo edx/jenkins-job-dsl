@@ -10,16 +10,14 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
-# Source the secrets-manager.sh script to make the function available
-source $WORKSPACE/secrets-manager.sh
-# Fetch the secrets from AWS
-set +x
 
 
-secrets-manager.sh -w analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS snowflake/rsa_key_snowpipe_user.p8
-secrets-manager.sh -w analytics-secure/job-configs/SNOWFLAKE_REFRESH_SNOWPIPE_JOB_EXTRA_VARS snowflake/rsa_key_passphrase_snowpipe_user
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_snowpipe_user.p8 -v rsa_key_snowpipe_user
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_passphrase_snowpipe_user -v rsa_key_passphrase_snowpipe_user
+#set -x
 
-set -x
+unset KEY_PATH
+unset PASSPHRASE_PATH
 
 python refresh_snowpipe.py \
     --user 'SNOWPIPE' \
@@ -28,6 +26,10 @@ python refresh_snowpipe.py \
     --pipe_name $PIPE_NAME \
     --table_name $TABLE_NAME \
     --delay $DELAY \
-    --limit $LIMIT
-    --key_file $KEY_PATH \
-    --passphrase_file $PASSPHRASE_PATH
+    --limit $LIMIT \
+    --key_file "$(cat "rsa_key_snowpipe_user")" \
+    --passphrase_file "$(cat "rsa_key_passphrase_snowpipe_user")"
+
+rm rsa_key_snowpipe_user
+rm rsa_key_passphrase_snowpipe_user
+
