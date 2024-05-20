@@ -10,10 +10,19 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_snowflake_task_automation_user.p8 -v rsa_key_snowflake_task_automation_user
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_passphrase_snowflake_task_automation_user -v rsa_key_passphrase_snowflake_task_automation_user
+
+
+
 python collect-metrics.py \
     --metric_name $METRIC_NAME \
-    --key_path $WORKSPACE/analytics-secure/snowflake/rsa_key_snowflake_task_automation_user.p8 \
-    --passphrase_path $WORKSPACE/analytics-secure/snowflake/rsa_key_passphrase_snowflake_task_automation_user \
     --automation_user $SNOWFLAKE_USER \
     --account $SNOWFLAKE_ACCOUNT \
-    --warehouse $SNOWFLAKE_WAREHOUSE
+    --warehouse $SNOWFLAKE_WAREHOUSE \
+    --key_file "$(cat "rsa_key_snowflake_task_automation_user")" \
+    --passphrase_file "$(cat "rsa_key_passphrase_snowflake_task_automation_user")"
+
+
+rm rsa_key_snowflake_task_automation_user
+rm rsa_key_passphrase_snowflake_task_automation_user
