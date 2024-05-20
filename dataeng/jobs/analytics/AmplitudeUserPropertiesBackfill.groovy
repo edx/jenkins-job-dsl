@@ -24,8 +24,6 @@ class AmplitudeUserPropertiesBackfill {
                 stringParam('AMPLITUDE_OPERATION_NAME', '', 'Amplitude user property operation name. e.g: set or setOnce.')
             }
             environmentVariables {
-                env('KEY_PATH', allVars.get('KEY_PATH'))
-                env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
                 env('USER', allVars.get('USER'))
                 env('ACCOUNT', allVars.get('ACCOUNT'))
                 env('AMPLITUDE_VAULT_KV_PATH', allVars.get('AMPLITUDE_VAULT_KV_PATH'))
