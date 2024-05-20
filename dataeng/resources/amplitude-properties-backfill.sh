@@ -26,15 +26,22 @@ API_KEY=$(
     -version=${AMPLITUDE_VAULT_KV_VERSION} \
     -field=API_KEY \
     ${AMPLITUDE_VAULT_KV_PATH} \
-)
+
+
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_snowpipe_user.p8 -v rsa_key_snowflake_task_automation_user
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_passphrase_snowpipe_user -v rsa_key_passphrase_snowflake_task_automation_user
+
 
 python amplitude_user_properties_update.py \
-    --key_path $KEY_PATH \
-    --passphrase_path $PASSPHRASE_PATH \
-    --automation_user $USER \
-    --account $ACCOUNT \
+    --automation_user 'SNOWFLAKE_TASK_AUTOMATION_USER' \
+    --account 'edx.us-east-1' \
     --amplitude_data_source_table $AMPLITUDE_DATA_SOURCE_TABLE \
     --columns_to_update $COLUMNS_TO_UPDATE \
     --response_table $RESPONSE_TABLE \
     --amplitude_operation_name $AMPLITUDE_OPERATION_NAME \
-    --amplitude_api_key $API_KEY
+    --amplitude_api_key $API_KEY \
+    --key_file "$(cat "rsa_key_snowflake_task_automation_user")" \
+    --passphrase_file "$(cat "rsa_key_passphrase_snowflake_task_automation_user")"
+
+rm rsa_key_snowflake_task_automation_user
+rm rsa_key_passphrase_snowflake_task_automation_user
