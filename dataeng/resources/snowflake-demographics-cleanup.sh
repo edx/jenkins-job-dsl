@@ -18,8 +18,8 @@ unset KEY_PATH
 unset PASSPHRASE_PATH
 
 python demographics_cleanup.py \
-    --user 'STITCH_LOADER' \
-    --account 'edx.us-east-1' \
+    --user "STITCH_LOADER" \
+    --account "edx.us-east-1" \
     --key_file "$(cat "rsa_key_stitch_loader")" \
     --passphrase_file "$(cat "rsa_key_passphrase_stitch_loader")"
 
