@@ -6,8 +6,6 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 
 
 
@@ -15,7 +13,6 @@ class SnowflakePublicGrantsCleaner {
     public static def job = { dslFactory, allVars ->
         dslFactory.job("snowflake-public-grants-cleaner") {
             logRotator common_log_rotator(allVars)
-            parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
                 stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analtyics tools repo to use.')
@@ -28,7 +25,7 @@ class SnowflakePublicGrantsCleaner {
                 env('USER', allVars.get('USER'))
                 env('ACCOUNT', allVars.get('ACCOUNT'))
             }
-            multiscm secure_scm(allVars) << {
+            multiscm {
                 git {
                     remote {
                         url('$ANALYTICS_TOOLS_URL')
