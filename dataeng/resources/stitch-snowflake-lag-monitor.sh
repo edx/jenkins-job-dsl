@@ -10,13 +10,16 @@ source "${PYTHON_VENV}/bin/activate"
 cd $WORKSPACE/analytics-tools/snowflake
 make requirements
 
-source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS KEY_PATH
-source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS PASSPHRASE_PATH
-source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS USER
-source secrets-manager.sh analytics-secure/job-configs/STITCH_SNOWFLAKE_LAG_MONITOR_JOB_EXTRA_VARS ACCOUNT
+
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_stitch_loader.p8 -v rsa_key_stitch_loader
+python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_passphrase_stitch_loader -v rsa_key_passphrase_stitch_loader
+
 
 python stitch-snowflake-monitoring.py \
-    --key_path $WORKSPACE/analytics-secure/$KEY_PATH \
-    --passphrase_path $WORKSPACE/analytics-secure/$PASSPHRASE_PATH \
-    --user $USER \
-    --account $ACCOUNT
+    --user "STITCH_LOADER" \
+    --account "edx.us-east-1" \
+    --key_file "$(cat "rsa_key_stitch_loader")" \
+    --passphrase_file "$(cat "rsa_key_passphrase_stitch_loader")"
+
+rm rsa_key_stitch_loader
+rm rsa_key_passphrase_stitch_loader
