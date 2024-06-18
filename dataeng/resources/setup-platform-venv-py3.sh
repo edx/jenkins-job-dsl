@@ -6,7 +6,7 @@
 
 # Create and activate a virtualenv in shell script
 PLATFORM_VENV="platform_venv"
-virtualenv --python=python3.8 --clear "${PLATFORM_VENV}"
+virtualenv --python=python3.11 --clear "${PLATFORM_VENV}"
 source "${PLATFORM_VENV}/bin/activate"
 
 # Install requirements
