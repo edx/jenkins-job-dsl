@@ -40,8 +40,8 @@ python amplitude_user_properties_update.py \
     --response_table $RESPONSE_TABLE \
     --amplitude_operation_name $AMPLITUDE_OPERATION_NAME \
     --amplitude_api_key $API_KEY \
-    --key_file "$(cat "rsa_key_snowflake_task_automation_user")" \
-    --passphrase_file "$(cat "rsa_key_passphrase_snowflake_task_automation_user")"
+    --key_file rsa_key_snowflake_task_automation_user \
+    --passphrase_file rsa_key_passphrase_snowflake_task_automation_user
 
 rm rsa_key_snowflake_task_automation_user
 rm rsa_key_passphrase_snowflake_task_automation_user

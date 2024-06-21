@@ -19,8 +19,8 @@ unset PASSPHRASE_PATH
 python snowflake_public_grants_cleaner.py \
     --user "STITCH_LOADER" \
     --account "edx.us-east-1" \
-    --key_file "$(cat "rsa_key_stitch_loader")" \
-    --passphrase_file "$(cat "rsa_key_passphrase_stitch_loader")"
+    --key_file rsa_key_stitch_loader \
+    --passphrase_file rsa_key_passphrase_stitch_loader
 
 
 rm rsa_key_stitch_loader

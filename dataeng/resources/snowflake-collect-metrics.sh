@@ -20,8 +20,8 @@ python collect-metrics.py \
     --automation_user $SNOWFLAKE_USER \
     --account $SNOWFLAKE_ACCOUNT \
     --warehouse $SNOWFLAKE_WAREHOUSE \
-    --key_file "$(cat "rsa_key_snowflake_task_automation_user")" \
-    --passphrase_file "$(cat "rsa_key_passphrase_snowflake_task_automation_user")"
+    --key_file rsa_key_snowflake_task_automation_user \
+    --passphrase_file rsa_key_passphrase_snowflake_task_automation_user
 
 
 rm rsa_key_snowflake_task_automation_user
