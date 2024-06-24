@@ -17,8 +17,8 @@ python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_passphrase_s
 python expire_user_passwords.py \
     --automation_user 'SNOWFLAKE_TASK_AUTOMATION_USER' \
     --account 'edx.us-east-1' \
-    --key_file "$(cat "rsa_key_snowflake_task_automation_user")" \
-    --pass_file  "$(cat "rsa_key_passphrase_snowflake_task_automation_user")"
+    --key_file rsa_key_snowflake_task_automation_user \
+    --pass_file rsa_key_passphrase_snowflake_task_automation_user
 
 rm rsa_key_snowflake_task_automation_user
 rm rsa_key_passphrase_snowflake_task_automation_user

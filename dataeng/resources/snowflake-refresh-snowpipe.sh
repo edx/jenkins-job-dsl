@@ -27,8 +27,8 @@ python refresh_snowpipe.py \
     --table_name $TABLE_NAME \
     --delay $DELAY \
     --limit $LIMIT \
-    --key_file "$(cat "rsa_key_snowpipe_user")" \
-    --passphrase_file "$(cat "rsa_key_passphrase_snowpipe_user")"
+    --key_file rsa_key_snowpipe_user \
+    --passphrase_file rsa_key_passphrase_snowpipe_user
 
 rm rsa_key_snowpipe_user
 rm rsa_key_passphrase_snowpipe_user
