@@ -6,7 +6,7 @@ mkdir -p /var/lib/jenkins/tmp/analytics-exporter/course-data
 
 # Create and activate a virtualenv in shell script
 EXPORTER_VENV="exporter_venv"
-virtualenv --python=python3.8 --clear "${EXPORTER_VENV}"
+virtualenv --python=python3.11 --clear "${EXPORTER_VENV}"
 source "${EXPORTER_VENV}/bin/activate"
 
 # Install requirements into this (exporter) virtual environment
@@ -16,8 +16,19 @@ pip install -r github_requirements.txt
 pip install mysql-connector-python -e .
 popd
 
+ls -l
+pwd
+pip install argparse boto3 
+python3 analytics-tools/snowflake/secrets-manager.py -w -n analytics-secure/analytics-exporter/task-auth.json -v task-auth.json
+mv task-auth.json analytics-config/analytics-exporter/
+ls -l
+echo "Secrets test 1" 
+ls -s analytics-config/analytics-exporter
+echo "Secrets Test 2"
+
+
 # Configuration paths in analytics-secure
-SECURE_ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
+SECURE_ROOT=${WORKSPACE}/analytics-config/analytics-exporter
 CONFIG_PATH=${SECURE_ROOT}/${EXPORTER_CONFIG_FILENAME}
 GPG_KEYS_PATH=${WORKSPACE}/data-czar-keys
 

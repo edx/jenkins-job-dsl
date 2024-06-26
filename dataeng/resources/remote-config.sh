@@ -10,6 +10,9 @@
 # 4. Fetch the decryption keys from Vault.
 # 5. Decrypt the configs
 
+pwd
+echo "Secrets test3"
+
 set -xe
 
 env | sort
