@@ -15,7 +15,7 @@ python3 secrets-manager.py -w -n analytics-secure/snowflake/rsa_key_passphrase_s
 
 python retirement_cleanup.py \
     --user $USER \
-    --account $ACCOUNT \ 
+    --account $ACCOUNT \
     --key_file rsa_key_stitch_loader \
     --passphrase_file rsa_key_passphrase_stitch_loader
 
