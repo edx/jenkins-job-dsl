@@ -115,6 +115,7 @@ class PrefectFlowsDeployment{
             'send_hubspot_unsubscribes_to_braze',
             'load_segment_config_to_snowflake',
             'send_transactions_to_vertex',
+            'send_transactions_to_vertex_test',
             'send_refunds_to_vertex',
             'load_impact_affiliate_marketing_reports_to_snowflake',
             'load_impact_affiliate_marketing_actions_to_snowflake',
