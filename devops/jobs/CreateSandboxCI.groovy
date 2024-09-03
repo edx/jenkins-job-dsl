@@ -32,6 +32,7 @@ class CreateSandboxCI {
         wrappers {
             credentialsBinding {
                 string("GENIE_KEY", "opsgenie_heartbeat_key")
+                string("DD_KEY", "datadog_heartbeat_key")
             }
         }
 
@@ -124,6 +125,18 @@ class CreateSandboxCI {
             }
           }
           shell('curl -X GET "https://api.opsgenie.com/v2/heartbeats/SandboxCI'+type+'/ping" -H "Authorization: GenieKey ${GENIE_KEY}"')
+          def metricName = "SandboxCI${type}.heartbeat"
+          String DD_JSON = """
+                          {
+                              "series": [{
+                                  "metric": "${metricName}",
+                                  "points": [['\$(date +%s)', 1]],
+                                  "type": "gauge"
+                              }]
+                          }
+                          """
+
+          shell('curl -X POST "https://api.datadoghq.com/api/v1/series?api_key=${DD_KEY}" -H "Content-Type: application/json" -d \'' + DD_JSON + '\'')
         }
 
         triggers {

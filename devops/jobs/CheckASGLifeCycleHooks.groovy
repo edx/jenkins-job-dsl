@@ -56,6 +56,7 @@ class CheckASGLifeCycleHooks {
                         credentialsBinding {
                             string('ROLE_ARN', "check-lifecycle-hooks-${deployment}-role-arn")
                             string("GENIE_KEY", "opsgenie_heartbeat_key")
+                            string("DD_KEY", "datadog_heartbeat_key")
                         }
                     }
 
@@ -103,6 +104,21 @@ class CheckASGLifeCycleHooks {
                         String opsgenie_heartbeat_name = configuration.get('opsgenie_heartbeat_name','')
                         if (opsgenie_heartbeat_name) {
                              shell('curl -X GET "https://api.opsgenie.com/v2/heartbeats/'+opsgenie_heartbeat_name+'/ping" -H "Authorization: GenieKey ${GENIE_KEY}"')
+                        }
+                        String datadog_heartbeat_name = configuration.get('DATADOG_HEARTBEAT_NAME', '')
+                        if (datadog_heartbeat_name) {
+                            String DD_JSON = """
+                                {
+                                    "series": [{
+                                        "metric": "${datadog_heartbeat_name}",
+                                        "points": [['\$(date +%s)', 1]],
+                                        "type": "gauge",
+                                        "tags": ["env:${deployment}"]
+                                    }]
+                                }
+                                """
+
+                                shell('curl -X POST "https://api.datadoghq.com/api/v1/series?api_key=${DD_KEY}" -H "Content-Type: application/json" -d \'' + DD_JSON + '\'')
                         }
                     }
                 }

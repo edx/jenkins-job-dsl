@@ -37,6 +37,7 @@ class SandboxTermination{
                     string('ROLE_ARN', "launch-sandboxes-role-arn")
                     string('EDX_GIT_BOT_TOKEN', "edx_git_bot_token")
                     string("GENIE_KEY", "opsgenie_heartbeat_key")
+                    string("DD_KEY", "datadog_heartbeat_key")
                 }
             }
 
@@ -102,6 +103,20 @@ class SandboxTermination{
                 if (opsgenie_heartbeat_name) {
                     shell('curl -X GET "https://api.opsgenie.com/v2/heartbeats/'+opsgenie_heartbeat_name+'/ping" -H "Authorization: GenieKey ${GENIE_KEY}"')
                 }
+                String datadog_heartbeat_name = extraVars.get('DATADOG_HEARTBEAT_NAME', '')
+                if (datadog_heartbeat_name) {
+                    String DD_JSON = """
+                        {
+                            "series": [{
+                                "metric": "${datadog_heartbeat_name}",
+                                "points": [['\$(date +%s)', 1]],
+                                "type": "gauge"
+                            }]
+                        }
+                        """
+
+                        shell('curl -X POST "https://api.datadoghq.com/api/v1/series?api_key=${DD_KEY}" -H "Content-Type: application/json" -d \'' + DD_JSON + '\'')
+                    }
             }
 
             if (extraVars.get('NOTIFY_ON_FAILURE')){
