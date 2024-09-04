@@ -113,7 +113,7 @@ class CheckASGLifeCycleHooks {
                                         "metric": "${datadog_heartbeat_name}",
                                         "points": [['\$(date +%s)', 1]],
                                         "type": "gauge",
-                                        "tags": ["env:${deployment}"]
+                                        "tags": ["deployment:${deployment}"]
                                     }]
                                 }
                                 """

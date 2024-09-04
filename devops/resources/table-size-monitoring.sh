@@ -39,6 +39,6 @@ curl -X POST "https://api.datadoghq.com/api/v1/series?api_key=${DD_KEY}" \
           "metric": "table-size-monitoring-'${DEPLOYMENT}'.heartbeat",
           "points": [['"$(date +%s)"', 1]],
           "type": "gauge",
-          "tags": ["env:'${DEPLOYMENT}'"]
+          "tags": ["deployment:'${DEPLOYMENT}'"]
       }]
   }'
