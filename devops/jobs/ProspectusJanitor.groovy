@@ -41,6 +41,7 @@ class ProspectusJanitor {
                     credentialsBinding {
                         string('ROLE_ARN', "tools-jenkins-janitor-${deployment}-role-arn")
                         string("GENIE_KEY", "opsgenie_heartbeat_key")
+                        string("DD_KEY", "datadog_heartbeat_key")
                     }
                 }
 
@@ -100,6 +101,7 @@ class ProspectusJanitor {
                     env('AWS_REGION', configuration.get('aws_region', 'us-east-1'))
                     env('AWS_CLEANER', configuration.get('aws_cleaner'))
                     env('NOOP', extraVars.get('NOOP', false))
+                    env('DEPLOYMENT', deployment)
                 }
 
 

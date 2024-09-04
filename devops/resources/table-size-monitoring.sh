@@ -32,3 +32,13 @@ fi
 python check_table_size.py  --threshold ${THRESHOLD} ${RDSTHRESHOLD} ${RDSIGNORE}
 
 curl -X GET 'https://api.opsgenie.com/v2/heartbeats/table-size-monitoring-'${DEPLOYMENT}'/ping' -H 'Authorization: GenieKey '${GENIE_KEY}
+curl -X POST "https://api.datadoghq.com/api/v1/series?api_key=${DD_KEY}" \
+-H "Content-Type: application/json" \
+-d '{
+      "series" : [{
+          "metric": "table-size-monitoring-'${DEPLOYMENT}'.heartbeat",
+          "points": [['"$(date +%s)"', 1]],
+          "type": "gauge",
+          "tags": ["env:'${DEPLOYMENT}'"]
+      }]
+  }'

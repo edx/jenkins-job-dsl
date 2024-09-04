@@ -25,6 +25,7 @@ class CheckTableSize {
                             def variable = "${deployment}-table-size-monitoring"
                             string("ROLE_ARN", variable)
                             string("GENIE_KEY", "opsgenie_heartbeat_key")
+                            string("DD_KEY", "datadog_heartbeat_key")
                         }
                     }
 
