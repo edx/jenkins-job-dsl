@@ -36,7 +36,7 @@ curl -X POST "https://api.datadoghq.com/api/v1/series?api_key=${DD_KEY}" \
 -H "Content-Type: application/json" \
 -d '{
       "series" : [{
-          "metric": "table-size-monitoring-'${DEPLOYMENT}'.heartbeat",
+          "metric": "table_size_monitoring_'${DEPLOYMENT}'.heartbeat",
           "points": [['"$(date +%s)"', 1]],
           "type": "gauge",
           "tags": ["deployment:'${DEPLOYMENT}'"]
