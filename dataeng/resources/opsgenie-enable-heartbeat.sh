@@ -13,7 +13,6 @@
 
 
 OPSGENIE_HEARTBEAT_API_URL="https://api.opsgenie.com/v2/heartbeats"
-PAGERDUTY_HEARTBEAT_API_URL=""
 
 if [ -n "$OPSGENIE_HEARTBEAT_NAME" ] && \
    [ -n "$OPSGENIE_HEARTBEAT_CONFIG_KEY" ] &&  \

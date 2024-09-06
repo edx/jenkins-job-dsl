@@ -47,7 +47,7 @@ curl -X POST "https://api.datadoghq.com/api/v1/series?api_key=${DD_KEY}" \
 -H "Content-Type: application/json" \
 -d '{
       "series" : [{
-          "metric": '${JOB_NAME##*/}".heartbeat"',
+          "metric": "'${JOB_NAME##*/}'.heartbeat",
           "points": [['"$(date +%s)"', 1]],
           "type": "gauge",
           "tags": ["deployment:'${DEPLOYMENT}'"]
