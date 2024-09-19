@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
-# Creating python 3.9 virtual environment to run schema builder
-PYTHON38_VENV="py39_venv"
-virtualenv --python=python3.9 --clear "${PYTHON38_VENV}"
+# Creating python 3.11 virtual environment to run schema builder
+PYTHON311_VENV="py311_venv"
+virtualenv --python=python3.11 --clear "${PYTHON311_VENV}"
 source "${PYTHON38_VENV}/bin/activate"
 
 # Setup
