@@ -1,0 +1,35 @@
+defaults:
+  auth_file: '{WORKSPACE}/analytics-secure/analytics-exporter/task-auth.json'
+  gpg_master_key: analytics@edx.org
+  gpg_keys: gpg-keys
+  work_dir: /var/lib/jenkins/tmp/analytics-exporter
+  external_prefix: ''
+  output_bucket: course-data
+  pipeline_bucket: edx-analytics-export
+  output_prefix: ''
+  se_bucket: edx-analytics-stackexchange
+  django_admin: ''
+  django_pythonpath: ''
+  django_settings: lms.envs.analytics_exporter
+  django_cms_settings: cms.envs.analytics_exporter
+  django_database: read_replica
+  mongo_collection: contents
+  sql_user: analytics001
+  sql_db: wwc
+  monitor: true
+
+environments:
+  prod:
+    lms_config: ${WORKSPACE}/remote-config/prod-edx/lms.yml
+    studio_config: ${WORKSPACE}/remote-config/prod-edx/studio.yml
+    mongo_host: prod-edx-mongo-1.edx.org:27017,prod-edx-mongo-2.edx.org:27017,prod-edx-mongo-3.edx.org:27017,prod-edx-mongo-4.edx.org:27017
+    mongo_db: comments-prod
+    name: prod-analytics
+    sql_host: prod-edx-edxapp-readonly.rds.edx.org
+  edge:
+    lms_config: ${WORKSPACE}/remote-config/prod-edge/lms.yml
+    studio_config: ${WORKSPACE}/remote-config/prod-edge/studio.yml
+    mongo_host: prod-edge-mongo-1.edx.org:27017,prod-edge-mongo-2.edx.org:27017,prod-edge-mongo-3.edx.org:27017,prod-edge-mongo-4.edx.org:27017
+    mongo_db: comments-edge
+    name: prod-edge-analytics
+    sql_host: prod-edge-edxapp-readonly.rds.edx.org
