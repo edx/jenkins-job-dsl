@@ -117,11 +117,7 @@ for DEPLOYMENT in edx edge; do
     # First, fetch the decryption key for the given deployment.
     #
     # FYI: in bash, double carets after a variable name capitalizes the string.
-    vault kv get \
-        -version=${REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_VERSION} \
-        -field=PROD_${DEPLOYMENT^^}_PRIVATE_KEY \
-        ${REMOTE_CONFIG_DECRYPTION_KEYS_VAULT_KV_PATH} \
-        >${DECRYPTION_KEY_PATH}
+    aws secretsmanager get-secret-value --secret-id remote-config/prod-decryption-keys --region us-east-1 --query SecretString --output text | jq -r ".PROD_${DEPLOYMENT^^}_PRIVATE_KEY" >${DECRYPTION_KEY_PATH}
 
     # Now that we have the decryption key, decrypt lms and studio configs:
     asym_crypto_yaml decrypt-encrypted-yaml \
