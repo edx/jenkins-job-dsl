@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -ex
 
-# Creating python 3.8 virtual environment to run dbt warehouse-transform job
-PYTHON38_VENV="py38_venv"
-virtualenv --python=python3.8 --clear "${PYTHON38_VENV}"
-source "${PYTHON38_VENV}/bin/activate"
+# Creating python 3.11 virtual environment to run dbt warehouse-transform job
+PYTHON311_VENV="py311_venv"
+virtualenv --python=python3.11 --clear "${PYTHON311_VENV}"
+source "${PYTHON311_VENV}/bin/activate"
 
 # Setup to run python script to create snowflake schema
 cd $WORKSPACE/analytics-tools/snowflake
@@ -48,8 +48,8 @@ then
     # Schema_Name will be the Github Pull Request ID e.g. 1724 prefixed with 'PR_*' and sufixed with project name e.g. PR_1724_reporting
     export CI_SCHEMA_NAME=PR_${ghprbPullId}_reporting
     # Schema is dynamically created against each PR. It is the PR number with 'PR_*' as prefixed.
-    # profiles.yml contains the name of Schema which is used to create output models when dbt runs. 
-    python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME 
+    # profiles.yml contains the name of Schema which is used to create output models when dbt runs.
+    python create_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
     # create_ci_schema python script not just create schema but also drops the schema if it exists already, and the reason for doing so is if dbt model changes tables that are
     # created in seed job it will fail, so dropping those tables or deleting the whole schema is important to avoid such failure. We noticed while create_ci_schema being running
     # the dbt commands below starts running as they were using different sessions (warehouse and users), in order to complete the drop and create operation before running dbt adding sleep
@@ -60,12 +60,12 @@ then
     DBT_RUN_EXCLUDE='' ## Add excluded models here if any
     # This is a Slim CI syntax used to "test" only modified and downstream models
     DBT_TEST_OPTIONS="-m state:modified+ --defer --state $WORKSPACE/manifest"
-    DBT_TEST_EXCLUDE='--exclude test_name:relationships' 
+    DBT_TEST_EXCLUDE='--exclude test_name:relationships'
 
     source $WORKSPACE/jenkins-job-dsl/dataeng/resources/warehouse-transforms-ci-dbt.sh
 
     cd $WORKSPACE/analytics-tools/snowflake
-    python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME 
+    python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
 fi
 
@@ -88,7 +88,7 @@ then
     cd $WORKSPACE/analytics-tools/snowflake
     python remove_ci_schema.py --key_path $KEY_PATH --passphrase_path $PASSPHRASE_PATH --automation_user $USER --account $ACCOUNT --db_name $DB_NAME --schema_name $CI_SCHEMA_NAME
 
-    
+
 fi
 
 if [ "$isRawToSource" == "true" ]
