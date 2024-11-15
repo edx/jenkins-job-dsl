@@ -232,7 +232,7 @@ class CreateSandbox {
                 booleanParam("authn",true,"Enable Authn MFE")
                 stringParam("authn_version","master","The repository version of the frontend-app-authn")
 
-                booleanParam("payment",true,"Enable Payment MFE")
+                booleanParam("payment",false,"Enable Payment MFE")
                 stringParam("payment_version","master","The repository version of the frontend-app-payment")
 
                 booleanParam("learning",true,"Enable Learning MFE")
