@@ -29,20 +29,8 @@ aws ecr describe-repositories --repository-names $FLOW_NAME --region us-east-1 |
 # Do not print commands in this function since they may contain secrets.
 set +x
 
-# Retrieve a vault token corresponding to the jenkins AppRole.  The token is then stored in the VAULT_TOKEN variable
-# which is implicitly used by subsequent vault commands within this script.
-# Instructions followed: https://learn.hashicorp.com/tutorials/vault/approle#step-4-login-with-roleid-secretid
-export VAULT_TOKEN=$(vault write -field=token auth/approle/login \
-      role_id=${ANALYTICS_VAULT_ROLE_ID} \
-      secret_id=${ANALYTICS_VAULT_SECRET_ID}
-  )
-
-PREFECT_CLOUD_AGENT_TOKEN=$(
-  vault kv get \
-    -version=${PREFECT_VAULT_KV_VERSION} \
-    -field=PREFECT_CLOUD_AGENT_TOKEN \
-    ${PREFECT_VAULT_KV_PATH} \
-)
+# Fetch the secrets from AWS
+PREFECT_CLOUD_AGENT_TOKEN=$(aws secretsmanager get-secret-value --secret-id analytics-secure/prefect-cd --region us-east-1 --query SecretString --output text | jq -r ".PREFECT_CLOUD_AGENT_TOKEN")
 
 # Get Authenticated with Prefect Cloud
 prefect auth login --key $PREFECT_CLOUD_AGENT_TOKEN
