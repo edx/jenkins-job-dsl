@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
-# Creating python 3.12 virtual environment to run dbt warehouse-transform job
-PYTHON_VENV="py312_venv"
-/opt/python3.12/bin/python3.12 -m virtualenv --python=python3.12 --clear "${PYTHON_VENV}"
+# Creating python 3.11 virtual environment to run dbt warehouse-transform job
+PYTHON_VENV="py311_venv"
+virtualenv --python=python3.11 --clear "${PYTHON_VENV}"
 source "${PYTHON_VENV}/bin/activate"
 
 # Setup
