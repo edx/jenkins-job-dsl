@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
-# Creating python3.8 virtual env
+# Creating python3.9 virtual env
 PYTHON_VENV="python_venv"
-virtualenv --python=python3.8 --clear "${PYTHON_VENV}"
+virtualenv --python=python3.9 --clear "${PYTHON_VENV}"
 source "${PYTHON_VENV}/bin/activate"
 
 # Removing prefix 'prefect-flows-deployment-'
