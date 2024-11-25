@@ -8,7 +8,7 @@ source "${PYTHON311_VENV}/bin/activate"
 
 # Setup
 cd $WORKSPACE/warehouse-transforms
-pip install --upgrade dbt-schema-builder
+pip install --upgrade dbt-schema-builder==0.4.11
 
 source $WORKSPACE/secrets-manager.sh
 # Fetch the secrets from AWS
