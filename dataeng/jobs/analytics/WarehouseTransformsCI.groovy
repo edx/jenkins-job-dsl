@@ -1,10 +1,8 @@
 package analytics
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
 
@@ -13,7 +11,6 @@ class WarehouseTransformsCI{
         dslFactory.job("warehouse-transforms-ci"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
-            parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
@@ -43,13 +40,13 @@ class WarehouseTransformsCI{
             }
             scm {
                  github('edx/warehouse-transforms')
-            }                      
-            multiscm secure_scm(allVars) << {
+            }
+            multiscm {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
                         refspec('+refs/heads/master:refs/remotes/origin/master +refs/pull/*:refs/remotes/origin/pr/*')
-                        credentials('1') 
+                        credentials('1')
                     }
                     branches('\${ghprbActualCommit}')
                     extensions {
@@ -69,7 +66,7 @@ class WarehouseTransformsCI{
                         pruneBranches()
                         cleanAfterCheckout()
                     }
-                }  
+                }
                 git {
                     remote {
                         url('$JENKINS_JOB_DSL_URL')
@@ -81,7 +78,7 @@ class WarehouseTransformsCI{
                         pruneBranches()
                         cleanAfterCheckout()
                     }
-                }                              
+                }
             }
             triggers {
                 githubPullRequest {
@@ -91,7 +88,7 @@ class WarehouseTransformsCI{
                     cron('H/3 * * * *')
                     triggerPhrase('jenkins run dbt') // You this trigger phrase to on Pull Rquest comment to trigger this job
                     onlyTriggerPhrase(false) // true if you want the job to only fire when commented on (not on commits)
-                    orgWhitelist(['edx-ops', 'edX']) // All the Github users under these orgs will be able to trigger this job via PR. As this job will be used by many edXers so giving the trigger access to all under edX.  
+                    orgWhitelist(['edx-ops', 'edX']) // All the Github users under these orgs will be able to trigger this job via PR. As this job will be used by many edXers so giving the trigger access to all under edX.
                     extensions {
                         commitStatus {
                             context('jenkins/ci-tests')
@@ -103,7 +100,7 @@ class WarehouseTransformsCI{
             concurrentBuild(true)
             throttleConcurrentBuilds {
                 maxTotal(5)
-            }            
+            }
             wrappers {
                 colorizeOutput('xterm')
             }
@@ -115,4 +112,3 @@ class WarehouseTransformsCI{
         }
     }
 }
-

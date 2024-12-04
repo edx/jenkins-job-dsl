@@ -1,8 +1,5 @@
 import static analytics.AggregateDailyTrackingLogs.job as AggregateDailyTrackingLogsJob
 import static analytics.DatabaseExportCoursewareStudentmodule.job as DatabaseExportCoursewareStudentmoduleJob
-import static analytics.Enrollment.job as EnrollmentJob
-import static analytics.EnrollmentValidationEvents.job as EnrollmentValidationEventsJob
-import static analytics.Enterprise.job as EnterpriseJob
 import static analytics.EventExportIncremental.job as EventExportIncrementalJob
 import static analytics.EventExportIncrementalLarge.job as EventExportIncrementalLargeJob
 import static analytics.JenkinsBackup.job as JenkinsBackupJob
@@ -12,10 +9,6 @@ import static analytics.ReadReplicaExportToS3.job as ReadReplicaExportToS3Job
 import static analytics.SnowflakePublicGrantsCleaner.job as SnowflakePublicGrantsCleanerJob
 import static analytics.SnowflakeRefreshSnowpipe.job as SnowflakeRefreshSnowpipeJob
 import static analytics.SnowflakeReplicaImportFromS3.job as SnowflakeReplicaImportFromS3Job
-import static analytics.SnowflakeValidateStitch.job as SnowflakeValidateStitchJob
-import static analytics.StitchSnowflakeLagMonitor.job as StitchSnowflakeLagMonitorJob
-import static analytics.UserLocationByCourse.job as UserLocationByCourseJob
-import static analytics.VideoTimeline.job as VideoTimelineJob
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.DEFAULT_VIEW
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.error.YAMLException
@@ -39,9 +32,6 @@ try {
 def taskMap = [
     AGGREGATE_DAILY_TRACKING_LOGS_JOB: AggregateDailyTrackingLogsJob,
     DATABASE_EXPORT_COURSEWARE_STUDENTMODULE_JOB: DatabaseExportCoursewareStudentmoduleJob,
-    ENROLLMENT_JOB: EnrollmentJob,
-    ENROLLMENT_VALIDATION_EVENTS_JOB: EnrollmentValidationEventsJob,
-    ENTERPRISE_JOB: EnterpriseJob,
     EVENT_EXPORT_INCREMENTAL_JOB: EventExportIncrementalJob,
     EVENT_EXPORT_INCREMENTAL_LARGE_JOB: EventExportIncrementalLargeJob,
     JENKINS_BACKUP_JOB: JenkinsBackupJob,
@@ -51,10 +41,6 @@ def taskMap = [
     SNOWFLAKE_PUBLIC_GRANTS_CLEANER_JOB: SnowflakePublicGrantsCleanerJob,
     SNOWFLAKE_REFRESH_SNOWPIPE_JOB: SnowflakeRefreshSnowpipeJob,
     SNOWFLAKE_REPLICA_IMPORT_FROM_S3_JOB: SnowflakeReplicaImportFromS3Job,
-    SNOWFLAKE_VALIDATE_STITCH_JOB: SnowflakeValidateStitchJob,
-    STITCH_SNOWFLAKE_LAG_MONITOR_JOB: StitchSnowflakeLagMonitorJob,
-    USER_LOCATION_BY_COURSE_JOB: UserLocationByCourseJob,
-    VIDEO_TIMELINE_JOB: VideoTimelineJob,
 ]
 
 for (task in taskMap) {
@@ -89,22 +75,6 @@ listView('Edge') {
     columns DEFAULT_VIEW.call()
 }
 
-listView('Release') {
-    description('Jobs that are used for testing release candidates.')
-    jobs {
-        regex('.+release')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
-listView('Exporter') {
-    description('Jobs that are used for exporting course data.')
-    jobs {
-        regex('analytics-.+')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
 listView('Warehouse') {
     jobs {
         name('snowflake-schema-builder')
@@ -123,38 +93,9 @@ listView('Tools') {
     columns DEFAULT_VIEW.call()
 }
 
-listView('Stage') {
-    jobs {
-        regex('.+stage')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
-listView('Enterprise') {
-    jobs {
-        regex('enterprise.+')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
 listView('Backups') {
     jobs {
         regex('.*backup.*')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
-listView('dbt') {
-    jobs {
-        name('snowflake-schema-builder')
-        regex('dbt-.*|warehouse-transforms-.*')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
-listView('Deprecated') {
-    jobs {
-        regex('DEPRECATED-.*')
     }
     columns DEFAULT_VIEW.call()
 }

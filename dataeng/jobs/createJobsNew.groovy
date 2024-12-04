@@ -2,18 +2,15 @@ import static analytics.AnalyticsEmailOptin.job as AnalyticsEmailOptinJob
 import static analytics.AnalyticsExporter.job as AnalyticsExporterJob
 import static analytics.DBTDocs.job as DBTDocsJob
 import static analytics.DBTRun.job as DBTRunJob
-import static analytics.DBTSourceFreshness.job as DBTSourceFreshnessJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.ModelTransfers.job as ModelTransfersJob
 import static analytics.RetirementJobEdxTriggers.job as RetirementJobEdxTriggersJob
 import static analytics.RetirementJobs.job as RetirementJobsJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
-import static analytics.AmplitudeUserPropertiesBackfill.job as AmplitudeUserPropertiesBackfillJob
 import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static analytics.SnowflakeUserRetirementStatusCleanup.job as SnowflakeUserRetirementStatusCleanupJob
 import static analytics.PrefectFlowsDeployment.job as PrefectFlowsDeploymentJob
-import static analytics.TableauRestore.job as TableauRestoreJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
@@ -46,18 +43,15 @@ def taskMap = [
     ANALYTICS_EXPORTER_JOB: AnalyticsExporterJob,
     DBT_DOCS_JOB: DBTDocsJob,
     DBT_RUN_JOB: DBTRunJob,
-    DBT_SOURCE_FRESHNESS_JOB: DBTSourceFreshnessJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     MODEL_TRANSFERS_JOB: ModelTransfersJob,
     RETIREMENT_JOB_EDX_TRIGGERS_JOB: RetirementJobEdxTriggersJob,
     RETIREMENT_JOBS_JOB: RetirementJobsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
-    AMPLITUDE_USER_PROPERTIES_BACKFILL_JOB: AmplitudeUserPropertiesBackfillJob,
     SNOWFLAKE_SCHEMA_BUILDER_JOB: SnowflakeSchemaBuilderJob,
     SNOWFLAKE_USER_RETIREMENT_STATUS_CLEANUP_JOB: SnowflakeUserRetirementStatusCleanupJob,
     PREFECT_FLOWS_DEPLOYMENT_JOB: PrefectFlowsDeploymentJob,
-    TABLEAU_RESTORE_JOB: TableauRestoreJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
     WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob,
