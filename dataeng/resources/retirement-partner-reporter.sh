@@ -12,7 +12,7 @@ env
 # setting on the jenkins worker, it would be safest to keep the builds from
 # clobbering each other's virtualenvs.
 VENV="venv-${BUILD_NUMBER}"
-virtualenv --python=python3.8 --clear "${VENV}"
+virtualenv --python=python3.9 --clear "${VENV}"
 source "${VENV}/bin/activate"
 
 # Make sure that when we try to write unicode to the console, it

@@ -6,7 +6,7 @@ mkdir -p /var/lib/jenkins/tmp/analytics-exporter/course-data
 
 # Create and activate a virtualenv in shell script
 EXPORTER_VENV="exporter_venv"
-virtualenv --python=python3.8 --clear "${EXPORTER_VENV}"
+virtualenv --python=python3.9 --clear "${EXPORTER_VENV}"
 source "${EXPORTER_VENV}/bin/activate"
 
 # Install requirements into this (exporter) virtual environment
