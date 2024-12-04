@@ -1,10 +1,8 @@
 package analytics
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
 
@@ -16,7 +14,6 @@ class WarehouseTransforms{
                 disabled(env_config.get('DISABLED', false))
                 authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars)
-                parameters secure_scm_parameters(allVars)
                 parameters {
                     stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the Warehouse Transforms Repo.')
                     stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of Warehouse Transforms to use.')
@@ -35,7 +32,7 @@ class WarehouseTransforms{
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                     booleanParam('FULL_REFRESH_INCREMENTALS', false, '[DANGEROUS] Supply the --full-refresh flag to the `dbt run` command, and use a larger warehouse. Use when you need to re-compute an incremental table from scratch.  Applies to ALL incrementals in this run.')
                 }
-                multiscm secure_scm(allVars) << {
+                multiscm {
                     git {
                         remote {
                             url('$WAREHOUSE_TRANSFORMS_URL')
@@ -80,4 +77,3 @@ class WarehouseTransforms{
         }
     }
 }
-

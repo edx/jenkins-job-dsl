@@ -2,8 +2,6 @@ package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class SnowflakeSchemaBuilder {
     public static def job = { dslFactory, allVars ->
@@ -20,7 +18,7 @@ class SnowflakeSchemaBuilder {
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             logRotator common_log_rotator(allVars)
-            multiscm secure_scm(allVars) << {
+            multiscm {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')

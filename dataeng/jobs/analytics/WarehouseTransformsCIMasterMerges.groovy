@@ -1,10 +1,8 @@
 package analytics
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.slack_publisher
 
@@ -14,7 +12,6 @@ class WarehouseTransformsCIMasterMerges{
         dslFactory.job("warehouse-transforms-ci-poll-master"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
-            parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
@@ -60,7 +57,6 @@ class WarehouseTransformsCIMasterMerges{
         dslFactory.job("warehouse-transforms-ci-master-merges"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
-            parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
@@ -88,7 +84,7 @@ class WarehouseTransformsCIMasterMerges{
                 env('WITH_RETRY', allVars.get('WITH_RETRY'))
                 env('NO_OF_TRIES', allVars.get('NO_OF_TRIES'))
             }
-            multiscm secure_scm(allVars) << {
+            multiscm {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
