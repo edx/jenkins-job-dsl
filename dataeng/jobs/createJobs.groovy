@@ -75,22 +75,6 @@ listView('Edge') {
     columns DEFAULT_VIEW.call()
 }
 
-listView('Release') {
-    description('Jobs that are used for testing release candidates.')
-    jobs {
-        regex('.+release')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
-listView('Exporter') {
-    description('Jobs that are used for exporting course data.')
-    jobs {
-        regex('analytics-.+')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
 listView('Warehouse') {
     jobs {
         name('snowflake-schema-builder')
@@ -109,38 +93,9 @@ listView('Tools') {
     columns DEFAULT_VIEW.call()
 }
 
-listView('Stage') {
-    jobs {
-        regex('.+stage')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
-listView('Enterprise') {
-    jobs {
-        regex('enterprise.+')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
 listView('Backups') {
     jobs {
         regex('.*backup.*')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
-listView('dbt') {
-    jobs {
-        name('snowflake-schema-builder')
-        regex('dbt-.*|warehouse-transforms-.*')
-    }
-    columns DEFAULT_VIEW.call()
-}
-
-listView('Deprecated') {
-    jobs {
-        regex('DEPRECATED-.*')
     }
     columns DEFAULT_VIEW.call()
 }
