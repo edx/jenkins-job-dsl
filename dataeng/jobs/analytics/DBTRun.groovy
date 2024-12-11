@@ -1,11 +1,9 @@
 package analytics
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class DBTRun{
     public static def job = { dslFactory, allVars ->
@@ -18,7 +16,6 @@ class DBTRun{
             )
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
-            parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
@@ -36,7 +33,7 @@ class DBTRun{
             environmentVariables {
                 env('JOB_TYPE', 'manual')
             }
-            multiscm secure_scm(allVars) << {
+            multiscm {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
@@ -68,7 +65,6 @@ class DBTRun{
                 "Automatically run dbt <strong>in production</strong>, overwriting data in the PROD database when Schema Builder generated PR are merged"
             )
             logRotator common_log_rotator(allVars)
-            parameters secure_scm_parameters(allVars)
             environmentVariables {
                 env('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'))
                 env('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'))
@@ -84,7 +80,7 @@ class DBTRun{
                 env('JOB_TYPE', 'automated')
                 env('NOTIFY', allVars.get('$PAGER_NOTIFY'))
             }
-            multiscm secure_scm(allVars) << {
+            multiscm {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')

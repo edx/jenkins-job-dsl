@@ -80,6 +80,8 @@ class AnalyticsEmailOptin {
                         'Used to set the date of the CWSM dump.  Leave blank to use today\'s date.  Set to "-d 202x-0x-0x" if that is when the CWSM dump took place, typically the preceding Sunday.  (Leave off quotes.)')
                 stringParam('ORG_CONFIG','data-czar-keys/config.yaml', 'Path to the data-czar organization config file')
                 stringParam('DATA_CZAR_KEYS_BRANCH','master', 'Branch of the Data-czar-keys repository to use')
+                stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
+                stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), , 'Branch of analytics tools repo to use.')
             }
             parameters secure_scm_parameters(allVars)
 
@@ -114,6 +116,18 @@ class AnalyticsEmailOptin {
                     }
                     extensions {
                         relativeTargetDirectory('data-czar-keys')
+                    }
+                }
+                git {
+                    remote {
+                        url('$ANALYTICS_TOOLS_URL')
+                        branch('$ANALYTICS_TOOLS_BRANCH')
+                        credentials('1')
+                    }
+                    extensions {
+                        relativeTargetDirectory('analytics-tools')
+                        pruneBranches()
+                        cleanAfterCheckout()
                     }
                 }
             }
@@ -157,4 +171,3 @@ class AnalyticsEmailOptin {
         }
     }
 }
-

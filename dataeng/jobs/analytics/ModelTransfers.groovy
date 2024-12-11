@@ -1,10 +1,8 @@
 package analytics
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 
 class ModelTransfers{
@@ -13,7 +11,6 @@ class ModelTransfers{
             dslFactory.job("transfer-dbt-models-$environment"){
                 authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars)
-                parameters secure_scm_parameters(allVars)
                 parameters {
                     stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the Warehouse Transforms Repo.')
                     stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of Warehouse Transforms to use.')
@@ -23,7 +20,7 @@ class ModelTransfers{
                     stringParam('MODELS_TO_TRANSFER', env_config.get('MODELS_TO_TRANSFER'), 'Name of DBT models which should be transferred to S3 via a Snowflake stage.')
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                 }
-                multiscm secure_scm(allVars) << {
+                multiscm {
                     git {
                         remote {
                             url('$WAREHOUSE_TRANSFORMS_URL')
@@ -51,4 +48,3 @@ class ModelTransfers{
         }
     }
 }
-

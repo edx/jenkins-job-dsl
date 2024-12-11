@@ -3,8 +3,6 @@ package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 
 class SnowflakeExpirePasswords {
@@ -31,7 +29,6 @@ class SnowflakeExpirePasswords {
             dslFactory.job(jobConfig['NAME']) {
 
                 logRotator common_log_rotator(allVars)
-                parameters secure_scm_parameters(allVars)
                 parameters {
                     stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
                     stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), 'Branch of analytics tools repo to use.')
@@ -45,7 +42,7 @@ class SnowflakeExpirePasswords {
                     env('ACCOUNT', allVars.get('ACCOUNT'))
                 }
                 logRotator common_log_rotator(allVars)
-                multiscm secure_scm(allVars) << {
+                multiscm {
                     git {
                         remote {
                             url('$ANALYTICS_TOOLS_URL')
