@@ -2,14 +2,11 @@ package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
 class SnowflakeSchemaBuilder {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('snowflake-schema-builder') {
             logRotator common_log_rotator(allVars)
-            parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the Warehouse Transforms Repo.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of Warehouse Transforms to use.')
@@ -20,7 +17,7 @@ class SnowflakeSchemaBuilder {
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
             }
             logRotator common_log_rotator(allVars)
-            multiscm secure_scm(allVars) << {
+            multiscm {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')

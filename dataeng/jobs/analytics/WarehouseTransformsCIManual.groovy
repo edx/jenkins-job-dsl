@@ -1,10 +1,8 @@
 package analytics
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.JenkinsPublicConstants.GHPRB_CANCEL_BUILDS_ON_UPDATE
 
@@ -13,7 +11,6 @@ class WarehouseTransformsCIManual{
         dslFactory.job("warehouse-transforms-ci-manual"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
-            parameters secure_scm_parameters(allVars)
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', '', 'Must specify branch of warehouse-transforms repository to use.')
@@ -39,13 +36,13 @@ class WarehouseTransformsCIManual{
                 env('PASSPHRASE_PATH', allVars.get('PASSPHRASE_PATH'))
                 env('USER', allVars.get('USER'))
                 env('ACCOUNT', allVars.get('ACCOUNT'))
-            }                      
-            multiscm secure_scm(allVars) << {
+            }
+            multiscm {
                 git {
                     remote {
                         url('$WAREHOUSE_TRANSFORMS_URL')
                         branch('$WAREHOUSE_TRANSFORMS_BRANCH')
-                        credentials('1') 
+                        credentials('1')
                     }
                     extensions {
                         relativeTargetDirectory('warehouse-transforms')
@@ -64,7 +61,7 @@ class WarehouseTransformsCIManual{
                         pruneBranches()
                         cleanAfterCheckout()
                     }
-                }  
+                }
                 git {
                     remote {
                         url('$JENKINS_JOB_DSL_URL')
@@ -76,14 +73,14 @@ class WarehouseTransformsCIManual{
                         pruneBranches()
                         cleanAfterCheckout()
                     }
-                }                              
+                }
             }
             triggers common_triggers(allVars)
             publishers common_publishers(allVars)
             concurrentBuild(true)
             throttleConcurrentBuilds {
                 maxTotal(5)
-            }            
+            }
             wrappers {
                 colorizeOutput('xterm')
             }
