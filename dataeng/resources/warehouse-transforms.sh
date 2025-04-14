@@ -16,9 +16,9 @@ cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT
 source $WORKSPACE/secrets-manager.sh
 # Fetch the secrets from AWS
 set +x
-get_secret_value analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
+get_secret_value analytics-secure/warehouse-transforms/profiles PRIVATE_KEY
 set -x
-export DBT_PASSWORD
+export PRIVATE_KEY
 
 # Fails the job if a dbt command fails and uploads the dbt artifacts to Snowflake if the job is configured for it
 # First argument is the dbt operation name, second is the result code from the dbt command
