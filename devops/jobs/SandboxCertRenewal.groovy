@@ -43,7 +43,7 @@ class SandboxCertRenewal {
             }
 
             triggers {
-                cron("H H 1 */3 *") // Every 3 months
+                cron("H H 1 */3 *") // 1st day of every 3rd month
             }
 
             steps {
