@@ -13,9 +13,9 @@ pip install --upgrade dbt-schema-builder
 source $WORKSPACE/secrets-manager.sh
 # Fetch the secrets from AWS
 set +x
-get_secret_value analytics-secure/warehouse-transforms/profiles PRIVATE_KEY
+get_secret_value analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
 set -x
-export PRIVATE_KEY
+export DBT_PASSWORD
 
 cd $WORKSPACE/warehouse-transforms/projects/$SOURCE_PROJECT
 dbt clean --profiles-dir $WORKSPACE/warehouse-transforms/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
