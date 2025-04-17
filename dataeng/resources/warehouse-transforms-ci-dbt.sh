@@ -10,7 +10,7 @@ source $WORKSPACE/secrets-manager.sh
 # Fetch the secrets from AWS
 set +x
 get_secret_value analytics-secure/warehouse-transforms/profiles DBT_TRANSFORMER_CI_PRIVATE_KEY
-export PRIVATE_KEY=$DBT_TRANSFORMER_CI_PRIVATE_KEY
+export PRIVATE_KEY="$DBT_TRANSFORMER_CI_PRIVATE_KEY"
 set -x
 
 
