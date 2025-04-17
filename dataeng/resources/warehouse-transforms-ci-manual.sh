@@ -48,9 +48,9 @@ cd $WORKSPACE/warehouse-transforms/projects/$DBT_PROJECT_PATH
 source $WORKSPACE/secrets-manager.sh
 # Fetch the secrets from AWS
 set +x
-get_secret_value analytics-secure/warehouse-transforms/profiles DBT_PASSWORD
+get_secret_value analytics-secure/warehouse-transforms/profiles DBT_TRANSFORMER_CI_PRIVATE_KEY
 set -x
-export DBT_PASSWORD
+export PRIVATE_KEY=$DBT_TRANSFORMER_CI_PRIVATE_KEY
 
 dbt clean --profiles-dir $WORKSPACE/warehouse-transforms/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
 dbt deps --profiles-dir $WORKSPACE/warehouse-transforms/profiles/ --profile $DBT_PROFILE --target $DBT_TARGET
