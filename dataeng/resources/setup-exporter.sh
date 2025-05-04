@@ -21,9 +21,24 @@ pip install 'setuptools<65'
 pip install -r github_requirements.txt
 pip install mysql-connector-python -e .
 popd
-
-# Configuration paths in analytics-secure
-SECURE_ROOT=${WORKSPACE}/analytics-secure/analytics-exporter
+ls -l 
+pwd
+ls analytics-tools
+ls analytics-tools/snowflake
+cd analytics-tools/snowflake
+pip install argparse boto3 
+echo "Secrets test" 
+pwd
+python3 secrets-manager.py -w -n analytics-secure/analytics-exporter/task-auth.json -v task-auth.json
+echo "Secrets test 2"
+ls -la
+mv task-auth.json ../../analytics-config/analytics-exporter
+cd ../../
+pwd
+# Configuration paths in analytics-config
+SECURE_ROOT=${WORKSPACE}/analytics-config/analytics-exporter
+echo "SECURE ROOT" 
+echo $SECURE_ROOT
 CONFIG_PATH=${SECURE_ROOT}/${EXPORTER_CONFIG_FILENAME}
 GPG_KEYS_PATH=${WORKSPACE}/data-czar-keys
 
