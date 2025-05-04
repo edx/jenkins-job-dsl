@@ -60,6 +60,20 @@ class AnalyticsConstants {
         }
     }
 
+    public static def config_scm = { allVars ->
+        return {
+            git {
+                remote {
+                    url('git@github.com:edx/analytics-config.git')
+                    branch('master')
+                }
+                extensions {
+                    pruneBranches()
+                    relativeTargetDirectory('analytics-config')
+                }
+            }
+        }
+    }
     public static def data_czar_keys_scm = { allVars ->
         return {
             git {
