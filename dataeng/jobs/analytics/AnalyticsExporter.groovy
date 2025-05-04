@@ -153,6 +153,8 @@ class AnalyticsExporter {
                 stringParam('ORG_CONFIG', 'data-czar-keys/config.yaml', 'Path to the data-czar organization config file.')
                 stringParam('DATA_CZAR_KEYS_BRANCH', 'master', 'Branch to use for the data-czar-keys repository.')
                 stringParam('PRIORITY_ORGS', allVars.get('PRIORITY_ORGS'), 'Space separated list of organizations to process first.')
+                stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
+                stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), , 'Branch of analytics tools repo to use.')
             }
             parameters secure_scm_parameters(allVars)
             environmentVariables {
@@ -194,7 +196,19 @@ class AnalyticsExporter {
                         relativeTargetDirectory('data-czar-keys')
                     }
                 }
-                
+                git {
+                    remote {
+                        url(allVars.get('ANALYTICS_TOOLS_URL'))
+                        branch('$ANALYTICS_TOOLS_BRANCH')
+                        credentials('1')
+                    }
+                    extensions {
+                        relativeTargetDirectory('analytics-tools')
+                        pruneBranches()
+                        cleanAfterCheckout()
+                    }
+                }
+
             }
 
             triggers{
