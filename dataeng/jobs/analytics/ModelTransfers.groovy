@@ -43,6 +43,7 @@ class ModelTransfers{
                 steps {
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/model-transfers.sh'))
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/trigger-prefect-flow.sh'))
                 }
             }
         }
