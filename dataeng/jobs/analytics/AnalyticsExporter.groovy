@@ -3,6 +3,8 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_groovy_postbuild
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
 
 class AnalyticsExporter {
     public static def job = { dslFactory, allVars ->
@@ -153,6 +155,7 @@ class AnalyticsExporter {
                 stringParam('ORG_CONFIG', 'data-czar-keys/config.yaml', 'Path to the data-czar organization config file.')
                 stringParam('DATA_CZAR_KEYS_BRANCH', 'master', 'Branch to use for the data-czar-keys repository.')
                 stringParam('PRIORITY_ORGS', allVars.get('PRIORITY_ORGS'), 'Space separated list of organizations to process first.')
+                stringParam('BUILD_STATUS')
             }
             parameters secure_scm_parameters(allVars)
             environmentVariables {
@@ -194,7 +197,7 @@ class AnalyticsExporter {
                         relativeTargetDirectory('data-czar-keys')
                     }
                 }
-                
+
             }
 
             triggers{
@@ -211,10 +214,11 @@ class AnalyticsExporter {
                 }
             }
 
-            publishers common_publishers(allVars)
+            publishers common_datadog_build_end(dslFactory, allVars) << common_groovy_postbuild(dslFactory, allVars) << common_publishers(allVars)
             publishers opsgenie_heartbeat_publisher(allVars)
 
             steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-platform-venv-py3.sh'))

@@ -2,6 +2,8 @@ package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_groovy_postbuild
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
 
 class AnalyticsEmailOptin {
     public static def job = { dslFactory, allVars ->
@@ -82,6 +84,7 @@ class AnalyticsEmailOptin {
                 stringParam('DATA_CZAR_KEYS_BRANCH','master', 'Branch of the Data-czar-keys repository to use')
                 stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
                 stringParam('ANALYTICS_TOOLS_BRANCH', allVars.get('ANALYTICS_TOOLS_BRANCH'), , 'Branch of analytics tools repo to use.')
+                stringParam('BUILD_STATUS')
             }
             parameters secure_scm_parameters(allVars)
 
@@ -141,9 +144,10 @@ class AnalyticsEmailOptin {
                 timestamps()
             }
 
-            publishers common_publishers(allVars)
+            publishers common_datadog_build_end(dslFactory, allVars) << common_groovy_postbuild(dslFactory, allVars) << common_publishers(allVars)
 
             steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'))
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-platform-venv-py3.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/setup-exporter-email-optin.sh'))
