@@ -118,6 +118,7 @@ class AnalyticsConstants {
                         env.get('PYTHON_VERSION',
                         allVars.get('PYTHON_VERSION')),
                         'Path to a specific python interpreter inside the EMR cluster that will be used to run pipelines tasks.')
+            stringParam('BUILD_STATUS')
         }
         // secure_scm_parameters provides variables required by run-automated-task.sh.
         return parameters >> AnalyticsConstants.secure_scm_parameters(allVars) >> AnalyticsConstants.emr_cluster_parameters(allVars, env)
@@ -212,6 +213,30 @@ This text may reference other parameters in the task as shell variables, e.g.  $
                         mailer('$NOTIFY')
                     }
                 }
+            }
+        }
+    }
+
+    public static def common_groovy_postbuild = { dslFactory, allVars ->
+        return {
+            groovyPostBuild {
+                script(dslFactory.readFileFromWorkspace('dataeng/resources/set_build_status.groovy'))
+            }
+        }
+    }
+
+    public static def common_datadog_build_start = { dslFactory, allVars ->
+        return {
+            postBuildTask {
+                task('Started', dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'), false, true)
+            }
+        }
+    }
+
+    public static def common_datadog_build_end = { dslFactory, allVars ->
+        return {
+            postBuildTask {
+                task('Started', dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_end.sh'), false, false)
             }
         }
     }
