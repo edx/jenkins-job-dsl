@@ -5,6 +5,10 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_groovy_postbuild
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_start
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
+
 
 class WarehouseTransforms{
     public static def job = { dslFactory, allVars ->
@@ -31,6 +35,7 @@ class WarehouseTransforms{
                     stringParam('TEST_PARENT_MODELS_FIRST', env_config.get('TEST_PARENT_MODELS_FIRST', 'false'), 'Set to \'true\' to run the upstream models tests first.')
                     stringParam('NOTIFY', env_config.get('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY')), 'Space separated list of emails to send notifications to.')
                     booleanParam('FULL_REFRESH_INCREMENTALS', false, '[DANGEROUS] Supply the --full-refresh flag to the `dbt run` command, and use a larger warehouse. Use when you need to re-compute an incremental table from scratch.  Applies to ALL incrementals in this run.')
+                    stringParam('BUILD_STATUS')
                 }
                 multiscm {
                     git {
@@ -56,7 +61,7 @@ class WarehouseTransforms{
                 wrappers {
                     colorizeOutput('xterm')
                 }
-                publishers common_publishers(allVars) << {
+                publishers common_datadog_build_end(dslFactory, allVars) << common_groovy_postbuild(dslFactory, allVars) << common_publishers(allVars) << {
                     env_config.get('DOWNSTREAM_JOBS', []).each { downstream_job_name ->
                         downstream(downstream_job_name)
                     }
@@ -69,6 +74,7 @@ class WarehouseTransforms{
                     }
                 }
                 steps {
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms.sh'))

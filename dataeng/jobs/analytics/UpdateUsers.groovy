@@ -28,9 +28,6 @@ class UpdateUsers {
                     task('skipping: no hosts matched', 'exit 1', true, true)
                 }
             }
-            // publishers {
-            //     groovyPostBuild('println "hello, world"', Behavior.MarkFailed)
-            // }
         }
     }
 }
