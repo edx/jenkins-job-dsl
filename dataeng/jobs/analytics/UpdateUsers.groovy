@@ -3,7 +3,6 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.analytics_configuration_scm
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_groovy_postbuild
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_start
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
 
 class UpdateUsers {

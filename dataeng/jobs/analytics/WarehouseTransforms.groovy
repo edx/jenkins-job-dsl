@@ -6,7 +6,6 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_groovy_postbuild
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_start
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
 
 

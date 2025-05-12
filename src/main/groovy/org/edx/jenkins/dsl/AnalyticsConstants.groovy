@@ -225,14 +225,6 @@ This text may reference other parameters in the task as shell variables, e.g.  $
         }
     }
 
-    public static def common_datadog_build_start = { dslFactory, allVars ->
-        return {
-            postBuildTask {
-                task('Started', dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'), false, true)
-            }
-        }
-    }
-
     public static def common_datadog_build_end = { dslFactory, allVars ->
         return {
             postBuildTask {
