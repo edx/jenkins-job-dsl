@@ -2,6 +2,8 @@ package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_groovy_postbuild
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
 
 class SnowflakeSchemaBuilder {
     public static def job = { dslFactory, allVars ->
@@ -15,6 +17,7 @@ class SnowflakeSchemaBuilder {
                 stringParam('DBT_PROFILE', allVars.get('DBT_PROFILE'), 'dbt profile from analytics-secure to work on.')
                 stringParam('DBT_TARGET', allVars.get('DBT_TARGET'), 'dbt target from analytics-secure to work on.')
                 stringParam('NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'), 'Space separated list of emails to send notifications to.')
+                stringParam('BUILD_STATUS')
             }
             logRotator common_log_rotator(allVars)
             multiscm {
@@ -38,9 +41,9 @@ class SnowflakeSchemaBuilder {
                     string('GITHUB_TOKEN', 'GHPRB_BOT_TOKEN');
                 }
             }
-            publishers common_publishers(allVars)
+            publishers common_datadog_build_end(dslFactory, allVars) << common_groovy_postbuild(dslFactory, allVars) << common_publishers(allVars)
             steps {
-
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'))
                 // This will create python 3.8 venv inside shell script instead of using shiningpanda
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/snowflake-schema-builder.sh'))

@@ -5,6 +5,8 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.slack_publisher
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_groovy_postbuild
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
 
 
 class WarehouseTransformsCIMasterMerges{
@@ -75,6 +77,7 @@ class WarehouseTransformsCIMasterMerges{
                 stringParam('NOTIFY', allVars.get('NOTIFY'), 'Space separated list of emails to send notifications to.')
                 stringParam('SLACK_NOTIFICATION_CHANNEL', allVars.get('SLACK_NOTIFICATION_CHANNEL'), 'Space separated list of slack channel name to send build failure notifications')
                 stringParam('FAILURE_MESSAGE', allVars.get('FAILURE_MESSAGE'), 'Custom message for to send along with buid failure notification')
+                stringParam('BUILD_STATUS')
             }
             environmentVariables {
                 env('KEY_PATH', allVars.get('KEY_PATH'))
@@ -125,13 +128,14 @@ class WarehouseTransformsCIMasterMerges{
             triggers {
                 upstream('warehouse-transforms-ci-poll-master', 'SUCCESS')
             }
-            publishers common_publishers(allVars)
+            publishers common_datadog_build_end(dslFactory, allVars) << common_groovy_postbuild(dslFactory, allVars) << common_publishers(allVars)
             publishers slack_publisher()
             wrappers {
                 colorizeOutput('xterm')
             }
             wrappers common_wrappers(allVars)
             steps {
+                shell(dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/warehouse-transforms-ci-master-merges.sh'))
             }

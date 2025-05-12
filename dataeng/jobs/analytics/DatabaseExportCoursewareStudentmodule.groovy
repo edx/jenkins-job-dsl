@@ -6,6 +6,8 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_triggers
 import static org.edx.jenkins.dsl.AnalyticsConstants.opsgenie_heartbeat_publisher
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_groovy_postbuild
+import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
 
 class DatabaseExportCoursewareStudentmodule {
     public static def job = { dslFactory, allVars ->
@@ -33,9 +35,10 @@ class DatabaseExportCoursewareStudentmodule {
                         string('OPSGENIE_HEARTBEAT_CONFIG_KEY', 'opsgenie_heartbeat_config_key')
                     }
                 }
-                publishers common_publishers(allVars)
+                publishers common_datadog_build_end(dslFactory, allVars) << common_groovy_postbuild(dslFactory, allVars) << common_publishers(allVars)
                 publishers opsgenie_heartbeat_publisher(allVars)
                 steps {
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/opsgenie-enable-heartbeat.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/database-export-courseware-studentmodule.sh'))
                 }
