@@ -37,9 +37,11 @@ echo "$CONFIG_YAML" > "$TEMP_CONFIG_YAML"
 
 set -x
 
-# Prepare retirement scripts
-cd $WORKSPACE/edx-platform
-pip install -r scripts/user_retirement/requirements/base.txt
+# prepare tubular
+cd $WORKSPACE/tubular
+# snapshot the current latest versions of pip and setuptools.
+pip install 'pip==21.0.1' 'setuptools==53.0.0'
+pip install -r requirements.txt
 
 # Create the directory where we will populate properties files, one per
 # downstream build.
@@ -47,7 +49,7 @@ rm -rf $LEARNERS_TO_RETIRE_PROPERTIES_DIR
 mkdir $LEARNERS_TO_RETIRE_PROPERTIES_DIR
 
 # Call the script to collect the list of learners that are to be retired.
-python scripts/user_retirement/get_learners_to_retire.py \
+python scripts/get_learners_to_retire.py \
     --config_file=$TEMP_CONFIG_YAML \
     --output_dir=$LEARNERS_TO_RETIRE_PROPERTIES_DIR \
     --cool_off_days=$COOL_OFF_DAYS \

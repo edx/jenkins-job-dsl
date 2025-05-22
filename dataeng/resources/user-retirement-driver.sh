@@ -37,13 +37,15 @@ echo "$CONFIG_YAML" > "$TEMP_CONFIG_YAML"
 
 set -x
 
-# Prepare retirement scripts
-cd $WORKSPACE/edx-platform
-pip install -r scripts/user_retirement/requirements/base.txt
+# prepare tubular
+cd $WORKSPACE/tubular
+# snapshot the current latest versions of pip and setuptools.
+pip install 'pip==21.0.1' 'setuptools==53.0.0'
+pip install -r requirements.txt
 
 # Call the script to retire one learner.  This assumes the following build
 # parameters / environment variable is set: RETIREMENT_USERNAME.
-python scripts/user_retirement/retire_one_learner.py \
+python scripts/retire_one_learner.py \
     --config_file=$TEMP_CONFIG_YAML
 
 # Remove the temporary file after processing
