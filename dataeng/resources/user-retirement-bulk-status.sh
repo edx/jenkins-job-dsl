@@ -37,12 +37,14 @@ echo "$CONFIG_YAML" > "$TEMP_CONFIG_YAML"
 
 set -x
 
-# Prepare retirement scripts
-cd $WORKSPACE/edx-platform
-pip install -r scripts/user_retirement/requirements/base.txt
+# prepare tubular
+cd $WORKSPACE/tubular
+# snapshot the current latest versions of pip and setuptools.
+pip install 'pip==21.0.1' 'setuptools==53.0.0'
+pip install -r requirements.txt
 
 # Call the script to collect the list of learners that are to be retired.
-python scripts/user_retirement/retirement_bulk_status_update.py \
+python scripts/retirement_bulk_status_update.py \
     --config_file=$TEMP_CONFIG_YAML \
     --start_date=$START_DATE \
     --end_date=$END_DATE \

@@ -33,12 +33,14 @@ echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > "$TEMP_GOOGLE_SECRETS"
 
 set -x
 
-# Prepare retirement scripts
-cd $WORKSPACE/edx-platform
-pip install -r scripts/user_retirement/requirements/base.txt
+# prepare tubular
+cd $WORKSPACE/tubular
+# snapshot the current latest versions of pip and setuptools.
+pip install 'pip==21.0.1' 'setuptools==53.0.0'
+pip install -r requirements.txt
 
 # Call the script to cleanup the reports
-python scripts/user_retirement/delete_expired_partner_gdpr_reports.py \
+python scripts/delete_expired_partner_gdpr_reports.py \
     --config_file=$TEMP_CONFIG_YAML \
     --google_secrets_file=$TEMP_GOOGLE_SECRETS \
     --age_in_days=$AGE_IN_DAYS
