@@ -67,7 +67,7 @@ class RetirementJobs{
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm (allVars) << {
+            multiscm {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -171,7 +171,7 @@ class RetirementJobs{
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm << {
+            multiscm {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -320,7 +320,7 @@ class RetirementJobs{
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm << {
+            multiscm {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -439,7 +439,7 @@ class RetirementJobs{
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm << {
+            multiscm {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
@@ -539,7 +539,7 @@ class RetirementJobs{
             // retry cloning repositories
             checkoutRetryCount(5)
 
-            multiscm << {
+            multiscm {
                 git {
                     remote {
                         url('https://github.com/edx/configuration.git')
