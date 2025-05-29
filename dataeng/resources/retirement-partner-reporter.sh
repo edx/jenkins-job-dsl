@@ -45,16 +45,18 @@ echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > "$TEMP_GOOGLE_SECRETS"
 
 set -x
 
-# Prepare retirement scripts
-cd $WORKSPACE/edx-platform
-pip install -r scripts/user_retirement/requirements/base.txt
+# prepare tubular
+cd $WORKSPACE/tubular
+# snapshot the current latest versions of pip and setuptools.
+pip install 'pip==21.0.1' 'setuptools==53.0.0'
+pip install -r requirements.txt
 
 # Create the directory where we will store reports, one per partner
 rm -rf $PARTNER_REPORTS_DIR
 mkdir $PARTNER_REPORTS_DIR
 
 # Call the script to generate the reports and upload them to Google Drive
-python scripts/user_retirement/retirement_partner_report.py \
+python scripts/retirement_partner_report.py \
     --config_file=$TEMP_CONFIG_YAML \
     --google_secrets_file=$TEMP_GOOGLE_SECRETS \
     --output_dir=$PARTNER_REPORTS_DIR

@@ -75,34 +75,6 @@ class AnalyticsConstants {
         }
     }
 
-    public static def platform_scm = { allVars ->
-        return {
-            git {
-                remote {
-                    url('git@github.com:openedx/edx-platform.git')
-                    branch('$PLATFORM_BRANCH')
-                }
-                extensions {
-                    pruneBranches()
-                    relativeTargetDirectory('edx-platform')
-                    cloneOptions {
-                        shallow() // Shallow clone to reduce time and disk space
-                        depth(1) // Only clone the latest commit
-                        noTags() // Save time and disk space
-                        timeout(10)
-                    }
-                    sparseCheckoutPaths { // Only checkout the directories we need
-                        sparseCheckoutPaths {
-                            sparseCheckoutPath {
-                                path('scripts/user_retirement')
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public static def common_parameters = { allVars, env=[:] ->
         def parameters = {
             stringParam('CONFIG_BRANCH', '$ANALYTICS_CONFIGURATION_RELEASE', 'e.g. tagname or origin/branchname, or $ANALYTICS_CONFIGURATION_RELEASE')
