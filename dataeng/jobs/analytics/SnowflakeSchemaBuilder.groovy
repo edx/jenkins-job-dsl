@@ -8,6 +8,11 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_datadog_build_end
 class SnowflakeSchemaBuilder {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('snowflake-schema-builder') {
+            disabled()
+            description(
+                'This job has been replaced by Argo on the data account EKS cluster' +
+                're: https://2u-internal.atlassian.net/browse/DPE-1972'
+            )
             logRotator common_log_rotator(allVars)
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the Warehouse Transforms Repo.')
