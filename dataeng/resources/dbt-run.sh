@@ -13,7 +13,7 @@ cd $WORKSPACE/warehouse-transforms
 # without squashing. It helps us ignoring the noise in commit history.
 HEAD_COMMIT=$(git log --first-parent origin/master --format='%H' --max-count=1)
 
-if git log --format=%B -n 1 $HEAD_COMMIT | grep 'Schema Builder automated dbt update at' -q;
+if git log --format=%B -n 1 $HEAD_COMMIT | grep 'Schema Builder Automated PR via Argo cronwf' -q;
 then
     IS_SCHEMA_BUILDER_PR="true"
 else
