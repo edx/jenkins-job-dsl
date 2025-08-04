@@ -146,7 +146,7 @@ class AnalyticsExporter {
             parameters {
                 stringParam('ORGS', '*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH', 'origin/master', 'Branch from the edx-analytics-exporter repository. For tags use tags/[tag-name].')
-                stringParam('PLATFORM_BRANCH', 'origin/2u/release', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
+                stringParam('PLATFORM_BRANCH', '83a18cdfc806709e08ed5b2cd02d25f6d247529b', 'Branch from the edx-platform repository. For tags use tags/[tag-name].')
                 stringParam('EXPORTER_CONFIG_FILENAME', 'default.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', allVars.get('EXPORTER_OUTPUT_BUCKET'), 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')
                 stringParam('NOTIFY', allVars.get('ANALYTICS_EXPORTER_NOTIFY_LIST'), 'Space separated list of emails to notify in case of failure.')
