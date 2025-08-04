@@ -68,6 +68,7 @@ class DBTRun{
                 "Automatically run dbt <strong>in production</strong>, overwriting data in the PROD database when Schema Builder generated PR are merged"
             )
             logRotator common_log_rotator(allVars)
+            disabled()
             environmentVariables {
                 env('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'))
                 env('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'))
