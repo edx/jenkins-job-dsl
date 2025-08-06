@@ -13,6 +13,7 @@ class ModelTransfers{
             dslFactory.job("transfer-dbt-models-$environment"){
                 authorization common_authorization(env_config)
                 logRotator common_log_rotator(allVars)
+                disable()
                 parameters {
                     stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the Warehouse Transforms Repo.')
                     stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of Warehouse Transforms to use.')
