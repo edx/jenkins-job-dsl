@@ -14,6 +14,7 @@ class WarehouseTransformsCIMasterMerges{
         dslFactory.job("warehouse-transforms-ci-poll-master"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
+            disabled()
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
@@ -59,6 +60,7 @@ class WarehouseTransformsCIMasterMerges{
         dslFactory.job("warehouse-transforms-ci-master-merges"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
+            disabled()
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')

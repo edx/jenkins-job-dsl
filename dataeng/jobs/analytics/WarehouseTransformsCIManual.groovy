@@ -13,6 +13,7 @@ class WarehouseTransformsCIManual{
         dslFactory.job("warehouse-transforms-ci-manual"){
             authorization common_authorization(allVars)
             logRotator common_log_rotator(allVars)
+            disabled()
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', '', 'Must specify branch of warehouse-transforms repository to use.')
