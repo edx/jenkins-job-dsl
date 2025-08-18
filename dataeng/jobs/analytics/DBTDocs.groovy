@@ -10,6 +10,7 @@ class DBTDocs{
     public static def job = { dslFactory, allVars ->
         dslFactory.job("dbt-docs"){
             logRotator common_log_rotator(allVars)
+            disabled()
             parameters {
                 stringParam('WAREHOUSE_TRANSFORMS_URL', allVars.get('WAREHOUSE_TRANSFORMS_URL'), 'URL for the warehouse-transforms repository.')
                 stringParam('WAREHOUSE_TRANSFORMS_BRANCH', allVars.get('WAREHOUSE_TRANSFORMS_BRANCH'), 'Branch of warehouse-transforms repository to use.')
