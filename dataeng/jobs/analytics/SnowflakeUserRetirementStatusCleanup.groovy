@@ -32,7 +32,7 @@ class SnowflakeUserRetirementStatusCleanup {
                     'NOTIFY', allVars.get('NOTIFY','$PAGER_NOTIFY'),
                     'Space separated list of emails to send notifications to.'
                 )
-                stringParam('PYTHON_VENV_VERSION', 'python3.7', 'Python virtual environment version to used.')
+                stringParam('PYTHON_VENV_VERSION', 'python3.11', 'Python virtual environment version to used.')
             }
             environmentVariables {
                 // Path to the key file used to authenticate to Snowflake
