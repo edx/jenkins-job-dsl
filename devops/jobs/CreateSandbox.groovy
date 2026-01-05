@@ -134,6 +134,7 @@ class CreateSandbox {
                 booleanParam("performance_course",true,"")
                 booleanParam("demo_test_course",true,"")
                 booleanParam("edx_demo_course",true,"")
+
                 booleanParam("edxapp",true,"")
                 /*
                     https://2u-internal.atlassian.net/browse/BOMS-356 sandbox builds are broken 
