@@ -135,12 +135,15 @@ class CreateSandbox {
                 booleanParam("demo_test_course",true,"")
                 booleanParam("edx_demo_course",true,"")
                 booleanParam("edxapp",true,"")
-		/*
-		   Sandbox build to use edx/edx-platform and default branch release-ulmo.
-		   The edx-platform repo has moved under the edx org, and release-ulmo is currently
-		   the default branch for builds. After the next release, the default branch will change,
-                   and this value will need to be updated again for sandbox creation.
-		*/
+                /*
+                    https://2u-internal.atlassian.net/browse/BOMS-356 sandbox builds are broken 
+                    as the default sandbox build uses openedx/edx-platform master.
+                    Sandbox build should now use edx/edx-platform and default branch release-ulmo.
+                    The edx-platform repo has moved under the edx org, and release-ulmo is
+                    currently the default branch for builds. After the next release, the default
+                    branch will change and this value will need to be updated again for sandbox
+                    creation.
+                */
                 stringParam("edxapp_version","release-ulmo","")
                 stringParam("edx_platform_repo","https://github.com/edx/edx-platform.git",
                             "If building a sandbox to test an external configuration PR, replace this with the fork of configuration.git's https URL")
