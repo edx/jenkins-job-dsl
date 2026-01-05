@@ -137,7 +137,7 @@ class CreateSandbox {
 
                 booleanParam("edxapp",true,"")
                 /*
-                    https://2u-internal.atlassian.net/browse/BOMS-356 sandbox builds are broken 
+                    https://2u-internal.atlassian.net/browse/BOMS-356 sandbox builds are broken
                     as the default sandbox build uses openedx/edx-platform master.
                     Sandbox build should now use edx/edx-platform and default branch release-ulmo.
                     The edx-platform repo has moved under the edx org, and release-ulmo is
