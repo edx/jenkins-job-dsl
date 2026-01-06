@@ -12,6 +12,7 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.slack_publisher
 class PrefectFlowsDeployment{
     public static def job = { dslFactory, allVars ->
         dslFactory.job("prefect-flows-deployment-poll"){
+            disabled(true)
             description(
                 'This job polls prefect-flows repository code changes to trigger deployment ' +
                 'It detects file changes for latest merge commit, creates a downstream.properties ' +
