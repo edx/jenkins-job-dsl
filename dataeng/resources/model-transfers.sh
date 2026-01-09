@@ -21,6 +21,9 @@ then
 elif [ "$MODELS_TO_TRANSFER" = 'enterprise' ]
 then
     MART_NAME=enterprise
+elif [ "$MODELS_TO_TRANSFER" = 'enterprise_learner_progress' ]
+then
+    MART_NAME=enterprise_learner_progress    
 else
     echo "Unknown MODELS_TO_TRANSFER: '${MODELS_TO_TRANSFER}'"
     exit 1
