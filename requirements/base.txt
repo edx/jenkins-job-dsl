@@ -8,7 +8,7 @@ attrs==21.4.0
     # via jsonschema
 bcrypt==3.2.2
     # via paramiko
-certifi==2022.6.15
+certifi==2022.12.7
     # via requests
 cffi==1.15.0
     # via
@@ -24,7 +24,7 @@ distro==1.7.0
 docker[ssh]==5.0.3
     # via docker-compose
 docker-compose==1.29.2
-    # via -r requirements/base.in
+    # via -r base.in
 dockerpty==0.4.1
     # via docker-compose
 docopt==0.6.2
