@@ -46,6 +46,7 @@ python scripts/user_retirement/retirement_archive_and_cleanup.py \
     --batch_size=$BATCH_SIZE \
     --start_date=$START_DATE \
     --end_date=$END_DATE \
+    --jenkins_run_id=$BUILD_NUMBER \
     --dry_run=$DRY_RUN
 
 # Remove the temporary file after processing
