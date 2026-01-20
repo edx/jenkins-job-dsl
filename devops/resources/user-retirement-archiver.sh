@@ -39,8 +39,9 @@ if [[ ! -v END_DATE ]]; then
     END_DATE=$(date --iso --date "$(date --iso) - $COOL_OFF_DAYS days")
 fi
 
-# Compute redacted value once for all PII fields
-REDACTED_VALUE="redacted-$BUILD_NUMBER"
+REDACTED_USERNAME="redacted-$BUILD_NUMBER"
+REDACTED_EMAIL="redacted-$BUILD_NUMBER"
+REDACTED_NAME="redacted-$BUILD_NUMBER"
 
 # Call the script to read the retirement statuses from the LMS, send them to S3, and redact them in the LMS.
 python scripts/user_retirement/retirement_archive_and_cleanup.py \
@@ -49,7 +50,9 @@ python scripts/user_retirement/retirement_archive_and_cleanup.py \
     --batch_size=$BATCH_SIZE \
     --start_date=$START_DATE \
     --end_date=$END_DATE \
-    --redacted_value=$REDACTED_VALUE \
+    --redacted_username=$REDACTED_USERNAME \
+    --redacted_email=$REDACTED_EMAIL \
+    --redacted_name=$REDACTED_NAME \
     --dry_run=$DRY_RUN
 
 # Remove the temporary file after processing
