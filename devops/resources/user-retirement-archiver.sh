@@ -39,16 +39,17 @@ if [[ ! -v END_DATE ]]; then
     END_DATE=$(date --iso --date "$(date --iso) - $COOL_OFF_DAYS days")
 fi
 
-# Call the script to read the retirement statuses from the LMS, send them to S3, and delete them from the LMS.
+# Compute redacted value once for all PII fields
+REDACTED_VALUE="redacted-$BUILD_NUMBER"
+
+# Call the script to read the retirement statuses from the LMS, send them to S3, and redact them in the LMS.
 python scripts/user_retirement/retirement_archive_and_cleanup.py \
     --config_file=$TEMP_CONFIG_YAML \
     --cool_off_days=$COOL_OFF_DAYS \
     --batch_size=$BATCH_SIZE \
     --start_date=$START_DATE \
     --end_date=$END_DATE \
-    --redacted_username=redacted-$BUILD_NUMBER \
-    --redacted_email=redacted-$BUILD_NUMBER \
-    --redacted_name=redacted-$BUILD_NUMBER \
+    --redacted_value=$REDACTED_VALUE \
     --dry_run=$DRY_RUN
 
 # Remove the temporary file after processing
