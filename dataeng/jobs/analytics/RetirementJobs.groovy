@@ -260,7 +260,7 @@ class RetirementJobs{
                             attachBuildLog(false)  // build log contains PII!
                             compressBuildLog(false)  // build log contains PII!
                             subject('Build failed in Jenkins: user-retirement-collector #${BUILD_NUMBER}')
-                            content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.\n\nTo fix the failure, see https://2u-internal.atlassian.net/wiki/spaces/AT/pages/2607644695/runbook+User+retirement+failure')
+                            content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.\n\nTo fix the failure, see https://2u-internal.atlassian.net/wiki/spaces/AT/pages/2607644695/runbook+How+to+fix+a+failed+user-retirement-collector')
                             contentType('text/plain')
                             sendTo {
                                 recipientList()
