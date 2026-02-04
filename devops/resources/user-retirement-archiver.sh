@@ -1,18 +1,9 @@
 #!/usr/bin/env bash
 
 set +u
-#. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
+. /edx/var/jenkins/jobvenvs/virtualenv_python_tools.sh
 # creates a venv with its location stored in variable "venvpath"
-# create_virtualenv --python=python3.12 --clear
-
-if [ -z "${JOBVENVDIR:-}" ]; then
-    JOBVENVDIR="/edx/var/jenkins/jobvenvs"
-fi
-
-venvname="$( (echo "$@"; pwd) | md5sum | cut -d' ' -f1 )"
-venvpath="$JOBVENVDIR/$venvname"
-
-python3.12 -m venv --clear "$venvpath"
+create_virtualenv_python --python=python3.12 --clear
 . "$venvpath/bin/activate"
 set -u
 
