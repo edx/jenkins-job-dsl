@@ -19,7 +19,7 @@ class SnowflakeCollectMetrics {
         jobConfigs.each { jobConfig ->
 
             dslFactory.job(jobConfig['NAME']){
-	        disabled()
+                disabled()
                 logRotator common_log_rotator(allVars)
                 parameters {
                     stringParam('ANALYTICS_TOOLS_URL', allVars.get('ANALYTICS_TOOLS_URL'), 'URL for the analytics tools repo.')
