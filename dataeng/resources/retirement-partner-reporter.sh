@@ -59,7 +59,9 @@ mkdir $PARTNER_REPORTS_DIR
 python scripts/retirement_partner_report.py \
     --config_file=$TEMP_CONFIG_YAML \
     --google_secrets_file=$TEMP_GOOGLE_SECRETS \
-    --output_dir=$PARTNER_REPORTS_DIR
+    --output_dir=$PARTNER_REPORTS_DIR \
+    --age_in_days=$AGE_IN_DAYS \
+    --deletion_warning_days=$DELETION_WARNING_DAYS
 
 # Remove the temporary files after processing
 rm -f "$TEMP_CONFIG_YAML"
