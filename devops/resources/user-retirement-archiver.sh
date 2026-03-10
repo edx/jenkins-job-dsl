@@ -3,7 +3,7 @@
 cd $WORKSPACE/configuration
 
 set +u
-. util/jenkins/virtualenv_tools.sh
+. util/jenkins/virtualenv_python_tools.sh
 # creates a venv with its location stored in variable "venvpath"
 create_virtualenv_python python3.12 --clear
 . "$venvpath/bin/activate"
