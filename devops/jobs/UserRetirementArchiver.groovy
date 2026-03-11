@@ -15,9 +15,14 @@ This job expects the following credentials to be defined on the folder:
   * tools-edx-jenkins-aws-credentials: file with key/secret in boto config format
   * ${environment}-${deployment}-retirement-archive-upload-role: the role to aws sts assume-role
 
-This job archives and deletes user retirement statuses from the LMS database. These deletions
-are replicated to Snowflake as "soft-deletes". In other words, they are marked as deleted and filtered
-from downstream data views, but remain within Snowflake.
+This job archives user retirement statuses and then deletes them from the LMS database.
+
+PII Handling:
+  * All PII (usernames, emails, names) is redacted (replaced with "redacted-<build_number>") before archiving
+  * Archives are stored in S3 with only redacted values
+  * Database records are redacted before deletion
+  * Deletions are replicated to Snowflake as "soft-deletes" (_FIVETRAN_DELETED = TRUE)
+  * Snowflake records contain only redacted PII values, ensuring compliance
 */
 package devops.jobs
 import static org.edx.jenkins.dsl.UserRetirementConstants.common_access_controls
