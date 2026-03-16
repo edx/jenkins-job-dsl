@@ -434,7 +434,7 @@ class RetirementJobs{
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('AGE_IN_DAYS', '60', 'Number of days to keep partner reports.')
                 stringParam('MIMETYPE', 'text/csv', 'MIME type of files to delete (default: text/csv).')
-                stringParam('PREFIX', '', 'Prefix filter for files to delete. Leave empty to use platform-specific default pattern.')
+                stringParam('PREFIX', '', 'Prefix filter for files to delete. If left empty, an empty prefix will be passed through to the cleanup script.')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
             }
 
