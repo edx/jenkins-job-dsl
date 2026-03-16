@@ -43,7 +43,9 @@ pip install -r requirements.txt
 python scripts/delete_expired_partner_gdpr_reports.py \
     --config_file=$TEMP_CONFIG_YAML \
     --google_secrets_file=$TEMP_GOOGLE_SECRETS \
-    --age_in_days=$AGE_IN_DAYS
+    --age_in_days=$AGE_IN_DAYS \
+    --mimetype=$MIMETYPE \
+    --prefix=$PREFIX
 
 # Remove the temporary files after processing
 rm -f "$TEMP_CONFIG_YAML"
