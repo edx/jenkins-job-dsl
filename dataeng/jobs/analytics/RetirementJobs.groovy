@@ -468,6 +468,20 @@ class RetirementJobs{
                         cleanBeforeCheckout()
                     }
                 }
+                git {
+                    remote {
+                        url('https://github.com/edx/edx-internal.git')
+                    }
+                    branch('master')
+                    extensions {
+                        relativeTargetDirectory('edx-internal')
+                        cloneOptions {
+                            shallow()
+                            timeout(10)
+                        }
+                        cleanBeforeCheckout()
+                    }
+                }
             }
 
             steps {
