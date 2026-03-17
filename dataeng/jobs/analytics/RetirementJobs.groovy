@@ -470,7 +470,8 @@ class RetirementJobs{
                 }
                 git {
                     remote {
-                        url('https://github.com/edx/edx-internal.git')
+                        url('git@github.com:edx/edx-internal.git')
+                        credentials(allVars.get('SECURE_GIT_CREDENTIALS'))
                     }
                     branch('master')
                     extensions {
