@@ -36,7 +36,7 @@ set -x
 # Load public configuration from edx-internal Git repo (Phase 2 pilot)
 cd $WORKSPACE/edx-internal
 ENABLE_DELETE_NOTIFICATION=$(yq -r ".[\"${ENVIRONMENT}\"].enable_delete_notification // false" \
-    job-configs/retirement/runtime-config.yml)
+    tools-edx-jenkins/runtime-configs/user-retirement.yml)
 
 # prepare tubular
 cd $WORKSPACE/tubular
