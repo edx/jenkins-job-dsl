@@ -33,10 +33,10 @@ echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > "$TEMP_GOOGLE_SECRETS"
 
 set -x
 
-# Load public configuration from edx-internal Git repo (Phase 2 pilot)
+# Load public configuration from edx-internal Git repo
 cd $WORKSPACE/edx-internal
-ENABLE_DELETE_NOTIFICATION=$(yq -r ".[\"${ENVIRONMENT}\"].enable_delete_notification // false" \
-    tools-edx-jenkins/runtime-configs/user-retirement.yml)
+ENABLE_DELETE_NOTIFICATION=$(yq -r ".PARTNER_REPORT_CLEANUP_VARS[] | select(.ENVIRONMENT_DEPLOYMENT == \"${ENVIRONMENT}\") | .ENABLE_DELETE_NOTIFICATION // false" \
+    tools-edx-jenkins/user-retirement.yml)
 
 # prepare tubular
 cd $WORKSPACE/tubular
