@@ -33,6 +33,11 @@ echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > "$TEMP_GOOGLE_SECRETS"
 
 set -x
 
+# Load public configuration from edx-internal Git repo
+cd $WORKSPACE/edx-internal
+ENABLE_DELETE_NOTIFICATION=$(yq -r ".PARTNER_REPORT_CLEANUP_VARS[] | select(.ENVIRONMENT_DEPLOYMENT == \"${ENVIRONMENT}\") | .ENABLE_DELETE_NOTIFICATION // false" \
+    tools-edx-jenkins/user-retirement.yml)
+
 # prepare tubular
 cd $WORKSPACE/tubular
 # snapshot the current latest versions of pip and setuptools.
@@ -43,7 +48,8 @@ pip install -r requirements.txt
 python scripts/delete_expired_partner_gdpr_reports.py \
     --config_file=$TEMP_CONFIG_YAML \
     --google_secrets_file=$TEMP_GOOGLE_SECRETS \
-    --age_in_days=$AGE_IN_DAYS
+    --age_in_days=$AGE_IN_DAYS \
+    --enable_delete_notification=$ENABLE_DELETE_NOTIFICATION
 
 # Remove the temporary files after processing
 rm -f "$TEMP_CONFIG_YAML"
