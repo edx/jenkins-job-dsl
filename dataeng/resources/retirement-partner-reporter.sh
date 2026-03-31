@@ -55,6 +55,39 @@ pip install -r requirements.txt
 rm -rf $PARTNER_REPORTS_DIR
 mkdir $PARTNER_REPORTS_DIR
 
+# Validate and set defaults for Jenkins parameters
+# AGE_IN_DAYS: defaults to 60 if not provided
+if [[ -z "${AGE_IN_DAYS}" ]]; then
+    AGE_IN_DAYS=60
+    echo "AGE_IN_DAYS not set, defaulting to ${AGE_IN_DAYS}"
+fi
+
+# DELETION_WARNING_DAYS: defaults to 7 if not provided
+if [[ -z "${DELETION_WARNING_DAYS}" ]]; then
+    DELETION_WARNING_DAYS=7
+    echo "DELETION_WARNING_DAYS not set, defaulting to ${DELETION_WARNING_DAYS}"
+fi
+
+# Validate AGE_IN_DAYS is a positive integer
+if ! [[ "${AGE_IN_DAYS}" =~ ^[0-9]+$ ]] || [[ "${AGE_IN_DAYS}" -le 0 ]]; then
+    echo "ERROR: AGE_IN_DAYS must be a positive integer, got: '${AGE_IN_DAYS}'"
+    exit 1
+fi
+
+# Validate DELETION_WARNING_DAYS is a positive integer
+if ! [[ "${DELETION_WARNING_DAYS}" =~ ^[0-9]+$ ]] || [[ "${DELETION_WARNING_DAYS}" -le 0 ]]; then
+    echo "ERROR: DELETION_WARNING_DAYS must be a positive integer, got: '${DELETION_WARNING_DAYS}'"
+    exit 1
+fi
+
+# Validate DELETION_WARNING_DAYS is less than AGE_IN_DAYS
+if [[ "${DELETION_WARNING_DAYS}" -ge "${AGE_IN_DAYS}" ]]; then
+    echo "ERROR: DELETION_WARNING_DAYS (${DELETION_WARNING_DAYS}) must be less than AGE_IN_DAYS (${AGE_IN_DAYS})"
+    exit 1
+fi
+
+echo "Using retention settings: AGE_IN_DAYS=${AGE_IN_DAYS}, DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS}"
+
 # Call the script to generate the reports and upload them to Google Drive
 python scripts/retirement_partner_report.py \
     --config_file=$TEMP_CONFIG_YAML \
