@@ -45,6 +45,11 @@ echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > "$TEMP_GOOGLE_SECRETS"
 
 set -x
 
+# Load public configuration from edx-internal Git repo
+cd $WORKSPACE/edx-internal
+ENABLE_CHECK_EXPIRING_FILES=$(yq -r ".PARTNER_REPORTER_VARS[] | select(.ENVIRONMENT_DEPLOYMENT == \"${ENVIRONMENT}\") | .ENABLE_CHECK_EXPIRING_FILES // false" \
+    tools-edx-jenkins/user-retirement.yml)
+
 # prepare tubular
 cd $WORKSPACE/tubular
 # snapshot the current latest versions of pip and setuptools.
@@ -94,7 +99,8 @@ python scripts/retirement_partner_report.py \
     --google_secrets_file=$TEMP_GOOGLE_SECRETS \
     --output_dir=$PARTNER_REPORTS_DIR \
     --age_in_days=$AGE_IN_DAYS \
-    --deletion_warning_days=$DELETION_WARNING_DAYS
+    --deletion_warning_days=$DELETION_WARNING_DAYS \
+    --ENABLE_CHECK_EXPIRING_FILES=$ENABLE_CHECK_EXPIRING_FILES
 
 # Remove the temporary files after processing
 rm -f "$TEMP_CONFIG_YAML"
