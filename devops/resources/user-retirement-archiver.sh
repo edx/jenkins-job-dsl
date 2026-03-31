@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+cd $WORKSPACE/configuration
+
 set +u
-. /edx/var/jenkins/jobvenvs/virtualenv_python_tools.sh
+. util/jenkins/virtualenv_python_tools.sh
 # creates a venv with its location stored in variable "venvpath"
 create_virtualenv_python python3.12 --clear
 . "$venvpath/bin/activate"
@@ -9,8 +11,6 @@ set -u
 
 env
 set -ex
-
-cd $WORKSPACE/configuration
 pip install -r util/jenkins/requirements.txt
 
 . util/jenkins/assume-role.sh

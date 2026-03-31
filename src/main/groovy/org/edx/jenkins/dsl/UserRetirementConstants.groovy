@@ -78,7 +78,7 @@ class UserRetirementConstants {
 
     public static def edx_platform_parameters = { extraVars ->
         return {
-            stringParam('EDX_PLATFORM_BRANCH', 'master', 'Repo branch for edx platform')
+            stringParam('EDX_PLATFORM_BRANCH', 'release-ulmo', 'Repo branch for edx platform')
         }
     }
     
@@ -86,7 +86,7 @@ class UserRetirementConstants {
         return {
             git {
                 remote {
-                    url('https://github.com/openedx/edx-platform.git')
+                    url('https://github.com/edx/edx-platform.git')
                     branch('$EDX_PLATFORM_BRANCH')
                 }
                 extensions {
