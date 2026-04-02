@@ -91,7 +91,12 @@ if [[ "${DELETION_WARNING_DAYS}" -ge "${AGE_IN_DAYS}" ]]; then
     exit 1
 fi
 
-echo "Using retention settings: AGE_IN_DAYS=${AGE_IN_DAYS}, DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS}"
+echo "Using retention settings: AGE_IN_DAYS=${AGE_IN_DAYS}, ENABLE_CHECK_EXPIRING_FILES=${ENABLE_CHECK_EXPIRING_FILES}"
+if [[ "${ENABLE_CHECK_EXPIRING_FILES}" == "true" ]]; then
+    echo "Deletion warning enabled: DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS}"
+else
+    echo "DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS} (unused, ENABLE_CHECK_EXPIRING_FILES=false)"
+fi
 
 # Call the script to generate the reports and upload them to Google Drive
 python scripts/retirement_partner_report.py \
@@ -100,7 +105,7 @@ python scripts/retirement_partner_report.py \
     --output_dir=$PARTNER_REPORTS_DIR \
     --age_in_days=$AGE_IN_DAYS \
     --deletion_warning_days=$DELETION_WARNING_DAYS \
-    --ENABLE_CHECK_EXPIRING_FILES=$ENABLE_CHECK_EXPIRING_FILES
+    --enable_check_expiring_files=$ENABLE_CHECK_EXPIRING_FILES
 
 # Remove the temporary files after processing
 rm -f "$TEMP_CONFIG_YAML"
