@@ -49,6 +49,8 @@ set -x
 cd $WORKSPACE/edx-internal
 ENABLE_CHECK_EXPIRING_FILES=$(yq -r ".PARTNER_REPORTER_VARS[] | select(.ENVIRONMENT_DEPLOYMENT == \"${ENVIRONMENT}\") | .ENABLE_CHECK_EXPIRING_FILES // false" \
     tools-edx-jenkins/user-retirement.yml)
+ENABLE_OVERDUE_FILE_NOTIFICATION=$(yq -r ".PARTNER_REPORTER_VARS[] | select(.ENVIRONMENT_DEPLOYMENT == \"${ENVIRONMENT}\") | .ENABLE_OVERDUE_FILE_NOTIFICATION // false" \
+    tools-edx-jenkins/user-retirement.yml)
 
 # prepare tubular
 cd $WORKSPACE/tubular
@@ -91,7 +93,7 @@ if [[ "${DELETION_WARNING_DAYS}" -ge "${AGE_IN_DAYS}" ]]; then
     exit 1
 fi
 
-echo "Using retention settings: AGE_IN_DAYS=${AGE_IN_DAYS}, ENABLE_CHECK_EXPIRING_FILES=${ENABLE_CHECK_EXPIRING_FILES}"
+echo "Using retention settings: AGE_IN_DAYS=${AGE_IN_DAYS}, ENABLE_CHECK_EXPIRING_FILES=${ENABLE_CHECK_EXPIRING_FILES}, ENABLE_OVERDUE_FILE_NOTIFICATION=${ENABLE_OVERDUE_FILE_NOTIFICATION}"
 if [[ "${ENABLE_CHECK_EXPIRING_FILES}" == "true" ]]; then
     echo "Deletion warning enabled: DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS}"
 else
@@ -105,7 +107,8 @@ python scripts/retirement_partner_report.py \
     --output_dir=$PARTNER_REPORTS_DIR \
     --age_in_days=$AGE_IN_DAYS \
     --deletion_warning_days=$DELETION_WARNING_DAYS \
-    --enable_check_expiring_files=$ENABLE_CHECK_EXPIRING_FILES
+    --enable_check_expiring_files=$ENABLE_CHECK_EXPIRING_FILES \
+    --enable_overdue_file_notification=$ENABLE_OVERDUE_FILE_NOTIFICATION
 
 # Remove the temporary files after processing
 rm -f "$TEMP_CONFIG_YAML"
