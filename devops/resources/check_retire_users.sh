@@ -15,6 +15,21 @@ pip install -r requirements.txt
 # Assume role for different envs
 set +x
 assume-role ${ROLE_ARN}
+
+# Fetch LMS client credentials and base URL from the same Secrets Manager secret
+# used by the retirement pipeline, so no separate DB credentials are needed.
+SECRET_JSON=$(aws secretsmanager get-secret-value \
+    --secret-id "user-retirement-secure/${ENVIRONMENT}" \
+    --region "us-east-1" \
+    --output json | jq -r '.SecretString')
+
+LMS_HOST=$(echo "${SECRET_JSON}" | jq -r '.base_urls.lms')
+LMS_CLIENT_ID=$(echo "${SECRET_JSON}" | jq -r '.client_id')
+LMS_CLIENT_SECRET=$(echo "${SECRET_JSON}" | jq -r '.client_secret')
 set -x
 
-python ./retired_user_cert_remover.py -h "${ENVIRONMENT}-${DEPLOYMENT}-edxapp.rds.edx.org" -db wwc --dry-run
+export LMS_CLIENT_ID
+export LMS_CLIENT_SECRET
+
+python ./retired_user_cert_remover.py \
+    --lms-host="${LMS_HOST}"
