@@ -20,7 +20,6 @@ class CheckRetireUsers {
 
                     wrappers {
                         credentialsBinding {
-                            usernamePassword("DB_USER", "DB_PASSWORD", "${deployment}-${environment}-users-retire-credentials")
                             def variable = "${deployment}-retired-users-certs"
                             string("ROLE_ARN", variable)
                         }
