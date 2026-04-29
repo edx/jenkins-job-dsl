@@ -20,16 +20,26 @@ assume-role ${ROLE_ARN}
 # used by the retirement pipeline, so no separate DB credentials are needed.
 SECRET_JSON=$(aws secretsmanager get-secret-value \
     --secret-id "user-retirement-secure/${ENVIRONMENT}" \
-    --region "us-east-1" \
+    --region "${AWS_DEFAULT_REGION}" \
     --output json | jq -r '.SecretString')
 
 LMS_HOST=$(echo "${SECRET_JSON}" | jq -r '.base_urls.lms')
 LMS_CLIENT_ID=$(echo "${SECRET_JSON}" | jq -r '.client_id')
 LMS_CLIENT_SECRET=$(echo "${SECRET_JSON}" | jq -r '.client_secret')
+unset SECRET_JSON
+
+# Fail fast if any required value is missing or null in the secret.
+if [ -z "${LMS_HOST}" ] || [ "${LMS_HOST}" = "null" ] || \
+   [ -z "${LMS_CLIENT_ID}" ] || [ "${LMS_CLIENT_ID}" = "null" ] || \
+   [ -z "${LMS_CLIENT_SECRET}" ] || [ "${LMS_CLIENT_SECRET}" = "null" ]; then
+    echo "Error: required LMS secret values are missing or invalid in user-retirement-secure/${ENVIRONMENT}" >&2
+    exit 1
+fi
 set -x
 
 export LMS_CLIENT_ID
 export LMS_CLIENT_SECRET
 
 python ./retired_user_cert_remover.py \
-    --lms-host="${LMS_HOST}"
+    --lms-host="${LMS_HOST}" \
+    --dry-run
