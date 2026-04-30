@@ -19,7 +19,7 @@ assume-role ${ROLE_ARN}
 # Fetch LMS client credentials and base URL from the same Secrets Manager secret
 # used by the retirement pipeline, so no separate DB credentials are needed.
 SECRET_JSON=$(aws secretsmanager get-secret-value \
-    --secret-id "user-retirement-secure/${ENVIRONMENT}" \
+    --secret-id "user-retirement-secure/${ENVIRONMENT}-${DEPLOYMENT}" \
     --region "${AWS_DEFAULT_REGION}" \
     --output json | jq -r '.SecretString')
 
@@ -32,7 +32,7 @@ unset SECRET_JSON
 if [ -z "${LMS_HOST}" ] || [ "${LMS_HOST}" = "null" ] || \
    [ -z "${LMS_CLIENT_ID}" ] || [ "${LMS_CLIENT_ID}" = "null" ] || \
    [ -z "${LMS_CLIENT_SECRET}" ] || [ "${LMS_CLIENT_SECRET}" = "null" ]; then
-    echo "Error: required LMS secret values are missing or invalid in user-retirement-secure/${ENVIRONMENT}" >&2
+    echo "Error: required LMS secret values are missing or invalid in user-retirement-secure/${ENVIRONMENT}-${DEPLOYMENT}" >&2
     exit 1
 fi
 set -x
