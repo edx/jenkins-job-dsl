@@ -11,7 +11,7 @@ class RetireCertificates {
         allVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.get('environments').each { environment ->
 
-                dslFactory.job("retire-certificates-${deployment}-${environment}") {
+                dslFactory.job("retirement-certificates-${deployment}-${environment}") {
                     description(
                         "Delete S3 certificate files and mark GeneratedCertificate records as deleted " +
                         "for retired users in the ${environment}-${deployment} environment."
@@ -27,9 +27,6 @@ class RetireCertificates {
                         buildName('#${BUILD_NUMBER}')
                         timestamps()
                         colorizeOutput('xterm')
-                        credentialsBinding {
-                            string('ROLE_ARN', "${deployment}-retired-users-certs")
-                        }
                     }
                     wrappers common_wrappers(allVars)
                     parameters secure_scm_parameters(allVars)
@@ -78,7 +75,7 @@ class RetireCertificates {
                                 failure {
                                     attachBuildLog(false)  // build log contains PII!
                                     compressBuildLog(false)  // build log contains PII!
-                                    subject('Build failed in Jenkins: retire-certificates-${deployment}-${environment} #${BUILD_NUMBER}')
+                                    subject('Build failed in Jenkins: retirement-certificates-${deployment}-${environment} #${BUILD_NUMBER}')
                                     content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
                                     contentType('text/plain')
                                     sendTo {
