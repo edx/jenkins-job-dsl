@@ -2,7 +2,6 @@ package analytics
 
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
-import static org.edx.jenkins.dsl.AnalyticsConstants.common_publishers
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
 import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
 
@@ -38,6 +37,7 @@ class RetireCertificates {
                     parameters {
                         stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git', 'Repo URL for edx/configuration.')
                         stringParam('CONFIGURATION_BRANCH', 'master', 'Repo branch for edx/configuration.')
+                        stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
                     }
 
                     environmentVariables {
@@ -69,7 +69,25 @@ class RetireCertificates {
                         shell(dslFactory.readFileFromWorkspace('devops/resources/check_retire_users.sh'))
                     }
 
-                    publishers common_publishers(allVars)
+                    publishers {
+                        wsCleanup()
+
+                        extendedEmail {
+                            recipientList(allVars.get('RETIREMENT_JOBS_MAILING_LIST'))
+                            triggers {
+                                failure {
+                                    attachBuildLog(false)  // build log contains PII!
+                                    compressBuildLog(false)  // build log contains PII!
+                                    subject('Build failed in Jenkins: retire-certificates-${deployment}-${environment} #${BUILD_NUMBER}')
+                                    content('Build #${BUILD_NUMBER} failed.\n\nSee ${BUILD_URL} for details.')
+                                    contentType('text/plain')
+                                    sendTo {
+                                        recipientList()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
