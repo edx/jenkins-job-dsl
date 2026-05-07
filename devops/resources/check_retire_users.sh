@@ -13,8 +13,9 @@ pip install -r requirements.txt
 . ../assume-role.sh
 
 # Assume role for different envs
-set +x
 assume-role ${ROLE_ARN}
+
+set +x
 
 # Fetch LMS client credentials and base URL from the same Secrets Manager secret
 # used by the retirement pipeline, so no separate DB credentials are needed.

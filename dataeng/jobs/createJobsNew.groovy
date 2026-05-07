@@ -5,6 +5,7 @@ import static analytics.DBTRun.job as DBTRunJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
 import static analytics.ModelTransfers.job as ModelTransfersJob
+import static analytics.RetireCertificates.job as RetireCertificatesJob
 import static analytics.RetirementJobEdxTriggers.job as RetirementJobEdxTriggersJob
 import static analytics.RetirementJobs.job as RetirementJobsJob
 import static analytics.SnowflakeCollectMetrics.job as SnowflakeCollectMetricsJob
@@ -45,6 +46,7 @@ def taskMap = [
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
     MODEL_TRANSFERS_JOB: ModelTransfersJob,
+    RETIRE_CERTIFICATES_JOB: RetireCertificatesJob,
     RETIREMENT_JOB_EDX_TRIGGERS_JOB: RetirementJobEdxTriggersJob,
     RETIREMENT_JOBS_JOB: RetirementJobsJob,
     SNOWFLAKE_COLLECT_METRICS_JOB: SnowflakeCollectMetricsJob,
