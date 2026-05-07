@@ -2,7 +2,7 @@
 
 set -ex
 
-VENV="venv"
+VENV="venv-${BUILD_NUMBER}"
 virtualenv --python=python3.8 --clear "${VENV}"
 source "${VENV}/bin/activate"
 
