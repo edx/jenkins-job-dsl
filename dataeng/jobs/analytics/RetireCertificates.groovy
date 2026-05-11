@@ -9,7 +9,7 @@ class RetireCertificates {
     public static def job = { dslFactory, allVars ->
 
         allVars.get('DEPLOYMENTS').each { deployment, configuration ->
-            configuration.get('environments').each { environment ->
+            configuration.get('environments').each { environment, env_config ->
 
                 dslFactory.job("retirement-certificates-${deployment}-${environment}") {
                     description(
@@ -20,6 +20,10 @@ class RetireCertificates {
                     authorization common_authorization(allVars)
 
                     concurrentBuild(false)
+
+                    triggers {
+                        cron(env_config.get('JOB_FREQUENCY', allVars.get('JOB_FREQUENCY')))
+                    }
 
                     logRotator common_log_rotator(allVars)
 
