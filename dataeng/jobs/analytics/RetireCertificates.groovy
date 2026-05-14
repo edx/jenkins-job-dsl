@@ -35,6 +35,8 @@ class RetireCertificates {
                         stringParam('CONFIGURATION_REPO', 'https://github.com/edx/configuration.git', 'Repo URL for edx/configuration.')
                         stringParam('CONFIGURATION_BRANCH', 'master', 'Repo branch for edx/configuration.')
                         stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
+                        booleanParam('DRY_RUN', true, 'Run in dry-run mode (no S3 deletions or DB updates).')
+                        stringParam('BATCH_SIZE', '0', 'Max certificates to process per run (0 = no limit).')
                     }
 
                     environmentVariables {
