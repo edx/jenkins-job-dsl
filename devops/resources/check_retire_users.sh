@@ -36,6 +36,19 @@ set -x
 export LMS_CLIENT_ID
 export LMS_CLIENT_SECRET
 
+DRY_RUN="${DRY_RUN:-true}"
+if [ "${DRY_RUN}" != "true" ] && [ "${DRY_RUN}" != "false" ]; then
+    echo "Error: DRY_RUN must be 'true' or 'false', got '${DRY_RUN}'" >&2
+    exit 1
+fi
+
+BATCH_SIZE="${BATCH_SIZE:-0}"
+if ! echo "${BATCH_SIZE}" | grep -qE '^[0-9]+$'; then
+    echo "Error: BATCH_SIZE must be a non-negative integer, got '${BATCH_SIZE}'" >&2
+    exit 1
+fi
+
 python ./retired_user_cert_remover.py \
     --lms-host="${LMS_HOST}" \
-    --dry-run
+    --dry-run="${DRY_RUN}" \
+    --batch-size="${BATCH_SIZE}"
