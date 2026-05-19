@@ -9,6 +9,7 @@ class AnalyticsEmailOptin {
     public static def job = { dslFactory, allVars ->
         dslFactory.job('analytics-email-optin-worker') {
             description('A version of the Analytics Exporter job that only runs the OrgEmailOptInTask task.')
+            authorization common_authorization(allVars)
             parameters {
                 stringParam('NOTIFY')
                 stringParam('MASTER_WORKSPACE')
@@ -68,6 +69,7 @@ class AnalyticsEmailOptin {
             }
         }
         dslFactory.job('analytics-email-optin-master') {
+            authorization common_authorization(allVars)
             parameters{
                 stringParam('ORGS','*', 'Space separated list of organizations to process. Can use wildcards. e.g.: idbx HarvardX')
                 stringParam('EXPORTER_BRANCH','origin/master',
