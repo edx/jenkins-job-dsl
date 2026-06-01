@@ -39,7 +39,7 @@ class AnalyticsExporter {
             multiscm secure_scm(allVars) << {
                 git {
                     remote {
-                        url('git@github.com:openedx/edx-platform.git')
+                        url('git@github.com:edx/edx-platform.git')
                         branch('$PLATFORM_BRANCH')
                         credentials('1')
                     }
