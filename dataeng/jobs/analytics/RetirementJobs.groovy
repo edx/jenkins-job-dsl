@@ -49,7 +49,7 @@ class RetirementJobs{
                     failBuild()
                 }
                 buildUserVars() /* gives us access to BUILD_USER_ID, among other things */
-                buildName('#${BUILD_NUMBER}, ${ENV,var="RETIREMENT_USERNAME"}')
+                buildName('#${BUILD_NUMBER}, ${ENV,var="RETIREMENT_USER_ID"}')
                 timestamps()
                 colorizeOutput('xterm')
                 credentialsBinding {
@@ -62,6 +62,7 @@ class RetirementJobs{
                 stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('RETIREMENT_USERNAME', '', 'Current username of learner to retire.')
+                stringParam('RETIREMENT_USER_ID', '', 'LMS user ID of the learner to retire.')
             }
 
             // retry cloning repositories
