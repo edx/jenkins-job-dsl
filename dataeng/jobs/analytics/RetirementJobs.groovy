@@ -214,17 +214,13 @@ class RetirementJobs{
             }
 
             steps {
-                // This step calls out to the LMS and collects a list of learners to
-                // retire.  The output is several generated properties files, one per
-                // learner. Each file contains RETIREMENT_USERNAME and RETIREMENT_USER_ID,
-                // both of which are injected by the tubular get_learners_to_retire script.
-                // RETIREMENT_USER_ID is used to name the build (avoids exposing PII in job titles).
-                // RETIREMENT_USERNAME is still required by the downstream retire_one_learner script.
+                // Collects a list of learners ready for retirement from the LMS
+                // and generates a properties file per learner. Each file is named
+                // using the learner's unique identifier and contains the parameters
+                // needed by the downstream retirement driver job.
                 shell(dslFactory.readFileFromWorkspace('dataeng/resources/user-retirement-collector.sh'))
-                // This takes as input the properties files created in the previous
-                // step, and triggers user-retirement-driver jobs per file.
-                // The fileBuildParameterFactory reads the file contents as build parameters,
-                // making RETIREMENT_USERNAME and RETIREMENT_USER_ID available to the driver job.
+                // Reads the generated properties files and triggers a
+                // user-retirement-driver build for each learner.
                 downstreamParameterized {
                     trigger('user-retirement-driver') {
                         // This section causes the build to block on completion of downstream builds.
