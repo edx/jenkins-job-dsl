@@ -631,6 +631,5 @@ class RetirementJobs{
                 }
             }
         }
-
     }
 }
