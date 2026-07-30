@@ -13,7 +13,7 @@ if [[ -z "${RETIREMENT_HEALTH_CHECK_PASSWORD:-}" ]]; then
 fi
 
 VENV="venv-${BUILD_NUMBER}"
-virtualenv --python=python3.11 --clear "${VENV}"
+virtualenv --python="python${PYTHON_VERSION}" --clear "${VENV}"
 source "${VENV}/bin/activate"
 
 export PYTHONIOENCODING=UTF-8
@@ -26,7 +26,7 @@ pip install -r util/jenkins/requirements.txt
 
 set +x
 CONFIG_YAML=$(aws secretsmanager get-secret-value --secret-id "user-retirement-secure/${ENVIRONMENT}" --region "us-east-1" --output json | jq -r '.SecretString' | yq -y .)
-TEMP_CONFIG_YAML=$(mktemp "${WORKSPACE}/stage-retirement.XXXXXXXXXX.yml")
+TEMP_CONFIG_YAML=$(mktemp "${WORKSPACE}/${RETIREMENT_CONFIG_FILE}.XXXXXXXXXX")
 echo "${CONFIG_YAML}" > "${TEMP_CONFIG_YAML}"
 chmod 600 "${TEMP_CONFIG_YAML}"
 set -x
@@ -64,5 +64,5 @@ python scripts/retirement_health_check.py poll-complete \
     --config-file "${TEMP_CONFIG_YAML}" \
     --tubular-path "${TUBULAR_PATH}" \
     --expected-environment stage \
-    --timeout-seconds 1800 \
-    --poll-interval-seconds 30
+    --timeout-seconds "${TIMEOUT_SECONDS}" \
+    --poll-interval-seconds "${POLL_INTERVAL_SECONDS}"
