@@ -29,7 +29,6 @@ CONFIG_YAML=$(aws secretsmanager get-secret-value --secret-id "user-retirement-s
 TEMP_CONFIG_YAML=$(mktemp "${WORKSPACE}/${RETIREMENT_CONFIG_FILE}.XXXXXXXXXX")
 echo "${CONFIG_YAML}" > "${TEMP_CONFIG_YAML}"
 chmod 600 "${TEMP_CONFIG_YAML}"
-set -x
 
 cleanup() {
     rm -f "${TEMP_CONFIG_YAML}"
@@ -42,7 +41,6 @@ npx playwright install chromium
 npm run test:retirement-health
 
 cd "${WORKSPACE}/tubular"
-pip install --upgrade pip
 pip install -r requirements.txt
 
 cd "${WORKSPACE}/playwright-e2e"
