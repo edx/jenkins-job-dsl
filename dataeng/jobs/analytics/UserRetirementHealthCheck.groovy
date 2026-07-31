@@ -6,6 +6,10 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 class UserRetirementHealthCheck {
     public static def job = { dslFactory, allVars ->
         def gitCredentialId = allVars.get('SECURE_GIT_CREDENTIALS', '')
+        def healthCheckPasswordCredentialId = allVars.get(
+            'RETIREMENT_HEALTH_CHECK_PASSWORD_CREDENTIAL_ID',
+            'retirement-health-check-password'
+        )
         def deployments = allVars.get('DEPLOYMENTS', ['edx': ['environments': ['stage']]])
 
         deployments.each { deployment, configuration ->
@@ -38,6 +42,7 @@ class UserRetirementHealthCheck {
                             colorizeOutput('xterm')
                             credentialsBinding {
                                 usernamePassword('GITHUB_USER', 'GITHUB_TOKEN', 'GITHUB_USER_PASS_COMBO')
+                                string('RETIREMENT_HEALTH_CHECK_PASSWORD', healthCheckPasswordCredentialId)
                             }
                         }
 
@@ -53,7 +58,6 @@ class UserRetirementHealthCheck {
                             stringParam('PYTHON_VERSION', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PYTHON_VERSION', '3.9'), 'Python version to use for the health check virtualenv.')
                             stringParam('TIMEOUT_SECONDS', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TIMEOUT_SECONDS', 1800).toString(), 'Polling timeout in seconds.')
                             stringParam('POLL_INTERVAL_SECONDS', allVars.get('USER_RETIREMENT_HEALTH_CHECK_POLL_INTERVAL_SECONDS', 30).toString(), 'Polling interval in seconds.')
-                            passwordParam('RETIREMENT_HEALTH_CHECK_PASSWORD', '', 'Password for the synthetic health-check user.')
                         }
 
                         checkoutRetryCount(5)
