@@ -18,8 +18,8 @@ source "${VENV}/bin/activate"
 
 export PYTHONIOENCODING=UTF-8
 export LC_CTYPE=en_US.UTF-8
-export TEST_ENV=stage
-export RUN_HEALTH_CHECK=true
+export TEST_ENV="${TEST_ENV:-stage}"
+export RUN_HEALTH_CHECK="${RUN_HEALTH_CHECK:-true}"
 
 cd "${WORKSPACE}/configuration"
 pip install -r util/jenkins/requirements.txt

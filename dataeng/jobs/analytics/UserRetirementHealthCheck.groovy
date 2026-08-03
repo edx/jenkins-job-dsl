@@ -10,21 +10,7 @@ class UserRetirementHealthCheck {
             'RETIREMENT_HEALTH_CHECK_PASSWORD_CREDENTIAL_ID',
             'retirement-health-check-password'
         )
-        // Keep this stage-only health check self-contained; no extra-vars file is required to seed it.
-        def defaultRetirementJobsMailingList = [
-            'retirement-jobs@2u-internal.jsmalerts.atlassian.net',
-            'data-engineering@edx.org',
-            'analytics@2u-internal.opsgenie.net',
-            'dpe_analytics@2u-internal.opsgenie.net',
-            'orbi-bom-jenkins-notifications@2u-internal.jsmalerts.atlassian.net'
-        ].join(' ')
-        def retirementJobsMailingList = allVars.get(
-            'RETIREMENT_JOBS_MAILING_LIST',
-            defaultRetirementJobsMailingList
-        )
-        def deployments = ['edx': ['environments': ['stage']]]
-
-        deployments.each { deployment, configuration ->
+        allVars.get('DEPLOYMENTS').each { deployment, configuration ->
             configuration.get('environments').each { environment ->
                 if (environment == 'stage') {
 
@@ -59,14 +45,14 @@ class UserRetirementHealthCheck {
                         }
 
                         parameters {
-                            stringParam('CONFIGURATION_REPO', 'git@github.com:edx/configuration.git', 'Repo URL for edx/configuration.')
-                            stringParam('CONFIGURATION_BRANCH', 'master', 'Repo branch for edx/configuration.')
-                            stringParam('PLAYWRIGHT_E2E_REPO', 'git@github.com:edx/playwright-e2e.git', 'Repo URL for the playwright-e2e tests.')
-                            stringParam('PLAYWRIGHT_E2E_BRANCH', 'master', 'Repo branch for the playwright-e2e tests.')
-                            stringParam('TUBULAR_REPO', 'git@github.com:edx/tubular.git', 'Repo URL for the tubular scripts.')
-                            stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
+                            stringParam('CONFIGURATION_REPO', allVars.get('USER_RETIREMENT_HEALTH_CHECK_CONFIGURATION_REPO', 'git@github.com:edx/configuration.git'), 'Repo URL for edx/configuration.')
+                            stringParam('CONFIGURATION_BRANCH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_CONFIGURATION_BRANCH', 'master'), 'Repo branch for edx/configuration.')
+                            stringParam('PLAYWRIGHT_E2E_REPO', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PLAYWRIGHT_E2E_REPO', 'git@github.com:edx/playwright-e2e.git'), 'Repo URL for the playwright-e2e tests.')
+                            stringParam('PLAYWRIGHT_E2E_BRANCH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PLAYWRIGHT_E2E_BRANCH', 'master'), 'Repo branch for the playwright-e2e tests.')
+                            stringParam('TUBULAR_REPO', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TUBULAR_REPO', 'git@github.com:edx/tubular.git'), 'Repo URL for the tubular scripts.')
+                            stringParam('TUBULAR_BRANCH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TUBULAR_BRANCH', 'master'), 'Repo branch for the tubular scripts.')
                             stringParam('ENVIRONMENT', environmentDeployment, 'edx environment for the health check. MVP is stage-only.')
-                            stringParam('RETIREMENT_JOBS_MAILING_LIST', retirementJobsMailingList, 'Space separated list of emails to send notifications to.')
+                            stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
                             stringParam('PYTHON_VERSION', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PYTHON_VERSION', '3.9'), 'Python version to use for the health check virtualenv.')
                             stringParam('TIMEOUT_SECONDS', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TIMEOUT_SECONDS', 1800).toString(), 'Polling timeout in seconds.')
                             stringParam('POLL_INTERVAL_SECONDS', allVars.get('USER_RETIREMENT_HEALTH_CHECK_POLL_INTERVAL_SECONDS', 30).toString(), 'Polling interval in seconds.')
@@ -123,10 +109,10 @@ class UserRetirementHealthCheck {
                         }
 
                         environmentVariables {
-                            env('TEST_ENV', environment)
-                            env('RUN_HEALTH_CHECK', 'true')
-                            env('RETIREMENT_ARTIFACT_PATH', '${WORKSPACE}/playwright-e2e/retirement-health-check/artifact.json')
-                            env('RETIREMENT_CONFIG_FILE', 'stage-retirement.yml')
+                            env('TEST_ENV', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TEST_ENV', environment))
+                            env('RUN_HEALTH_CHECK', allVars.get('USER_RETIREMENT_HEALTH_CHECK_RUN_HEALTH_CHECK', 'true'))
+                            env('RETIREMENT_ARTIFACT_PATH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_RETIREMENT_ARTIFACT_PATH', '${WORKSPACE}/playwright-e2e/retirement-health-check/artifact.json'))
+                            env('RETIREMENT_CONFIG_FILE', allVars.get('USER_RETIREMENT_HEALTH_CHECK_RETIREMENT_CONFIG_FILE', 'stage-retirement.yml'))
                             env('TUBULAR_PATH', '${WORKSPACE}/tubular')
                             env('PYTHONIOENCODING', 'UTF-8')
                             env('LC_CTYPE', 'en_US.UTF-8')
@@ -144,7 +130,7 @@ class UserRetirementHealthCheck {
                             wsCleanup()
 
                             extendedEmail {
-                                recipientList(retirementJobsMailingList)
+                                recipientList(allVars.get('RETIREMENT_JOBS_MAILING_LIST'))
                                 triggers {
                                     failure {
                                         attachBuildLog(false)  // build log may contain learner data.
