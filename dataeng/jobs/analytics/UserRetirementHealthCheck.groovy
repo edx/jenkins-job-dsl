@@ -5,12 +5,19 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 
 class UserRetirementHealthCheck {
     public static def job = { dslFactory, allVars ->
-        def gitCredentialId = allVars.get('SECURE_GIT_CREDENTIALS', '')
         def healthCheckPasswordCredentialId = allVars.get(
             'RETIREMENT_HEALTH_CHECK_PASSWORD_CREDENTIAL_ID',
             'retirement-health-check-password'
         )
-        def deployments = allVars.get('DEPLOYMENTS', ['edx': ['environments': ['stage']]])
+        // Keep this stage-only health check self-contained; no extra-vars file is required to seed it.
+        def retirementJobsMailingList = [
+            'retirement-jobs@2u-internal.jsmalerts.atlassian.net',
+            'data-engineering@edx.org',
+            'analytics@2u-internal.opsgenie.net',
+            'dpe_analytics@2u-internal.opsgenie.net',
+            'orbi-bom-jenkins-notifications@2u-internal.jsmalerts.atlassian.net'
+        ].join(',')
+        def deployments = ['edx': ['environments': ['stage']]]
 
         deployments.each { deployment, configuration ->
             configuration.get('environments').each { environment ->
@@ -54,7 +61,7 @@ class UserRetirementHealthCheck {
                             stringParam('TUBULAR_REPO', 'git@github.com:edx/tubular.git', 'Repo URL for the tubular scripts.')
                             stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                             stringParam('ENVIRONMENT', environmentDeployment, 'edx environment for the health check. MVP is stage-only.')
-                            stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
+                            stringParam('RETIREMENT_JOBS_MAILING_LIST', retirementJobsMailingList, 'Space separated list of emails to send notifications to.')
                             stringParam('PYTHON_VERSION', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PYTHON_VERSION', '3.9'), 'Python version to use for the health check virtualenv.')
                             stringParam('TIMEOUT_SECONDS', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TIMEOUT_SECONDS', 1800).toString(), 'Polling timeout in seconds.')
                             stringParam('POLL_INTERVAL_SECONDS', allVars.get('USER_RETIREMENT_HEALTH_CHECK_POLL_INTERVAL_SECONDS', 30).toString(), 'Polling interval in seconds.')
@@ -67,9 +74,7 @@ class UserRetirementHealthCheck {
                                 remote {
                                     url('$CONFIGURATION_REPO')
                                     branch('$CONFIGURATION_BRANCH')
-                                    if (gitCredentialId) {
-                                        credentials(gitCredentialId)
-                                    }
+                                    credentials('1')
                                 }
                                 extensions {
                                     relativeTargetDirectory('configuration')
@@ -84,9 +89,7 @@ class UserRetirementHealthCheck {
                                 remote {
                                     url('$PLAYWRIGHT_E2E_REPO')
                                     branch('$PLAYWRIGHT_E2E_BRANCH')
-                                    if (gitCredentialId) {
-                                        credentials(gitCredentialId)
-                                    }
+                                    credentials('1')
                                 }
                                 extensions {
                                     relativeTargetDirectory('playwright-e2e')
@@ -101,9 +104,7 @@ class UserRetirementHealthCheck {
                                 remote {
                                     url('$TUBULAR_REPO')
                                     branch('$TUBULAR_BRANCH')
-                                    if (gitCredentialId) {
-                                        credentials(gitCredentialId)
-                                    }
+                                    credentials('1')
                                 }
                                 extensions {
                                     relativeTargetDirectory('tubular')
@@ -138,7 +139,7 @@ class UserRetirementHealthCheck {
                             wsCleanup()
 
                             extendedEmail {
-                                recipientList(allVars.get('RETIREMENT_JOBS_MAILING_LIST'))
+                                recipientList(retirementJobsMailingList)
                                 triggers {
                                     failure {
                                         attachBuildLog(false)  // build log may contain learner data.
