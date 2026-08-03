@@ -13,7 +13,6 @@ import static analytics.SnowflakeSchemaBuilder.job as SnowflakeSchemaBuilderJob
 import static analytics.PrefectFlowsDeployment.job as PrefectFlowsDeploymentJob
 import static analytics.TerminateCluster.job as TerminateClusterJob
 import static analytics.UpdateUsers.job as UpdateUsersJob
-import static analytics.UserRetirementHealthCheck.job as UserRetirementHealthCheckJob
 import static analytics.WarehouseTransforms.job as WarehouseTransformsJob
 import static analytics.WarehouseTransformsCI.job as WarehouseTransformsCIJob
 import static analytics.WarehouseTransformsCIMasterMerges.job as WarehouseTransformsCIMasterMergesJob
@@ -55,7 +54,6 @@ def taskMap = [
     PREFECT_FLOWS_DEPLOYMENT_JOB: PrefectFlowsDeploymentJob,
     TERMINATE_CLUSTER_JOB: TerminateClusterJob,
     UPDATE_USERS_JOB: UpdateUsersJob,
-    USER_RETIREMENT_HEALTH_CHECK_JOB: UserRetirementHealthCheckJob,
     WAREHOUSE_TRANSFORMS_CI_JOB: WarehouseTransformsCIJob,
     WAREHOUSE_TRANSFORMS_CI_MANUAL_JOB: WarehouseTransformsCIManualJob,
     WAREHOUSE_TRANSFORMS_CI_MASTER_MERGES_JOB: WarehouseTransformsCIMasterMergesJob,
