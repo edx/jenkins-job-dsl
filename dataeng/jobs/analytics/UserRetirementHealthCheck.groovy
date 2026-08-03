@@ -5,18 +5,23 @@ import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 
 class UserRetirementHealthCheck {
     public static def job = { dslFactory, allVars ->
+        def gitCredentialId = allVars.get('SECURE_GIT_CREDENTIALS', '1')
         def healthCheckPasswordCredentialId = allVars.get(
             'RETIREMENT_HEALTH_CHECK_PASSWORD_CREDENTIAL_ID',
             'retirement-health-check-password'
         )
         // Keep this stage-only health check self-contained; no extra-vars file is required to seed it.
-        def retirementJobsMailingList = [
+        def defaultRetirementJobsMailingList = [
             'retirement-jobs@2u-internal.jsmalerts.atlassian.net',
             'data-engineering@edx.org',
             'analytics@2u-internal.opsgenie.net',
             'dpe_analytics@2u-internal.opsgenie.net',
             'orbi-bom-jenkins-notifications@2u-internal.jsmalerts.atlassian.net'
-        ].join(',')
+        ].join(' ')
+        def retirementJobsMailingList = allVars.get(
+            'RETIREMENT_JOBS_MAILING_LIST',
+            defaultRetirementJobsMailingList
+        )
         def deployments = ['edx': ['environments': ['stage']]]
 
         deployments.each { deployment, configuration ->
@@ -74,7 +79,7 @@ class UserRetirementHealthCheck {
                                 remote {
                                     url('$CONFIGURATION_REPO')
                                     branch('$CONFIGURATION_BRANCH')
-                                    credentials('1')
+                                    credentials(gitCredentialId)
                                 }
                                 extensions {
                                     relativeTargetDirectory('configuration')
@@ -89,7 +94,7 @@ class UserRetirementHealthCheck {
                                 remote {
                                     url('$PLAYWRIGHT_E2E_REPO')
                                     branch('$PLAYWRIGHT_E2E_BRANCH')
-                                    credentials('1')
+                                    credentials(gitCredentialId)
                                 }
                                 extensions {
                                     relativeTargetDirectory('playwright-e2e')
@@ -104,7 +109,7 @@ class UserRetirementHealthCheck {
                                 remote {
                                     url('$TUBULAR_REPO')
                                     branch('$TUBULAR_BRANCH')
-                                    credentials('1')
+                                    credentials(gitCredentialId)
                                 }
                                 extensions {
                                     relativeTargetDirectory('tubular')
