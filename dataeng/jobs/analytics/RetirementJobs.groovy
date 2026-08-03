@@ -634,7 +634,7 @@ class RetirementJobs{
 
         // ########### user-retirement-health-check ###########
         // This defines the stage-only synthetic health check for user retirement.
-        def gitCredentialId = allVars.get('SECURE_GIT_CREDENTIALS', '1')
+        def gitCredentialId = allVars.get('SECURE_GIT_CREDENTIALS')
         def healthCheckPasswordCredentialId = allVars.get(
             'RETIREMENT_HEALTH_CHECK_PASSWORD_CREDENTIAL_ID',
             'retirement-health-check-password'
