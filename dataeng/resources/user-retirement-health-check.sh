@@ -14,7 +14,7 @@ fi
 
 VENV="${WORKSPACE}/venv-${BUILD_NUMBER}"
 NODEENV="${WORKSPACE}/nodeenv-${BUILD_NUMBER}"
-NODE_VERSION="${NODE_VERSION:-24}"
+NODE_VERSION="${NODE_VERSION:-24.19.0}"
 
 virtualenv --python="python${PYTHON_VERSION}" --clear "${VENV}"
 source "${VENV}/bin/activate"
