@@ -21,6 +21,7 @@ source "${VENV}/bin/activate"
 
 export PYTHONIOENCODING=UTF-8
 export LC_CTYPE=en_US.UTF-8
+export CI=true
 export TEST_ENV=stage
 export RUN_HEALTH_CHECK=true
 
