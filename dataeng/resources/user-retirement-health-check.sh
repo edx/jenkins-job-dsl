@@ -12,7 +12,10 @@ if [[ -z "${RETIREMENT_HEALTH_CHECK_PASSWORD:-}" ]]; then
     exit 1
 fi
 
-VENV="venv-${BUILD_NUMBER}"
+VENV="${WORKSPACE}/venv-${BUILD_NUMBER}"
+NODEENV="${WORKSPACE}/nodeenv-${BUILD_NUMBER}"
+NODE_VERSION="${NODE_VERSION:-24}"
+
 virtualenv --python="python${PYTHON_VERSION}" --clear "${VENV}"
 source "${VENV}/bin/activate"
 
@@ -23,6 +26,12 @@ export RUN_HEALTH_CHECK=true
 
 cd "${WORKSPACE}/configuration"
 pip install -r util/jenkins/requirements.txt
+pip install nodeenv
+nodeenv --node="${NODE_VERSION}" --prebuilt "${NODEENV}"
+export PATH="${NODEENV}/bin:${PATH}"
+hash -r
+node --version
+npm --version
 
 set +x
 CONFIG_YAML=$(aws secretsmanager get-secret-value --secret-id "user-retirement-secure/${ENVIRONMENT}" --region "us-east-1" --output json | jq -r '.SecretString' | yq -y .)
@@ -32,6 +41,7 @@ chmod 600 "${TEMP_CONFIG_YAML}"
 
 cleanup() {
     rm -f "${TEMP_CONFIG_YAML}"
+    rm -rf "${VENV}" "${NODEENV}"
 }
 trap cleanup EXIT
 

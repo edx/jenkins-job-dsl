@@ -682,7 +682,7 @@ class RetirementJobs{
                             stringParam('CONFIGURATION_REPO', allVars.get('USER_RETIREMENT_HEALTH_CHECK_CONFIGURATION_REPO', 'git@github.com:edx/configuration.git'), 'Repo URL for edx/configuration.')
                             stringParam('CONFIGURATION_BRANCH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_CONFIGURATION_BRANCH', 'master'), 'Repo branch for edx/configuration.')
                             stringParam('PLAYWRIGHT_E2E_REPO', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PLAYWRIGHT_E2E_REPO', 'git@github.com:edx/playwright-e2e.git'), 'Repo URL for the playwright-e2e tests.')
-                            stringParam('PLAYWRIGHT_E2E_BRANCH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PLAYWRIGHT_E2E_BRANCH', 'master'), 'Repo branch for the playwright-e2e tests.')
+                            stringParam('PLAYWRIGHT_E2E_BRANCH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PLAYWRIGHT_E2E_BRANCH', 'main'), 'Repo branch for the playwright-e2e tests.')
                             stringParam('TUBULAR_REPO', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TUBULAR_REPO', 'git@github.com:edx/tubular.git'), 'Repo URL for the tubular scripts.')
                             stringParam('TUBULAR_BRANCH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TUBULAR_BRANCH', 'master'), 'Repo branch for the tubular scripts.')
                             stringParam('ENVIRONMENT', environmentDeployment, 'edx environment for the health check. MVP is stage-only.')
