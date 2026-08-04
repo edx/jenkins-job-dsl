@@ -27,7 +27,8 @@ cd "${WORKSPACE}/configuration"
 pip install -r util/jenkins/requirements.txt
 pip install nodeenv
 nodeenv --node="${NODE_VERSION}" --prebuilt "${NODEENV}"
-source "${NODEENV}/bin/activate"
+export PATH="${NODEENV}/bin:${PATH}"
+hash -r
 node --version
 npm --version
 
