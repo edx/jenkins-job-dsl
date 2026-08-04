@@ -12,9 +12,19 @@ if [[ -z "${RETIREMENT_HEALTH_CHECK_PASSWORD:-}" ]]; then
     exit 1
 fi
 
-VENV="venv-${BUILD_NUMBER}"
+VENV="${WORKSPACE}/venv-${BUILD_NUMBER}"
 NODEENV="${WORKSPACE}/nodeenv-${BUILD_NUMBER}"
 NODE_VERSION="${NODE_VERSION:-24}"
+TEMP_CONFIG_YAML=""
+
+cleanup() {
+    if [[ -n "${TEMP_CONFIG_YAML}" ]]; then
+        rm -f "${TEMP_CONFIG_YAML}"
+    fi
+    rm -rf "${VENV}" "${NODEENV}"
+}
+trap cleanup EXIT
+
 virtualenv --python="python${PYTHON_VERSION}" --clear "${VENV}"
 source "${VENV}/bin/activate"
 
@@ -37,11 +47,6 @@ CONFIG_YAML=$(aws secretsmanager get-secret-value --secret-id "user-retirement-s
 TEMP_CONFIG_YAML=$(mktemp "${WORKSPACE}/${RETIREMENT_CONFIG_FILE}.XXXXXXXXXX")
 echo "${CONFIG_YAML}" > "${TEMP_CONFIG_YAML}"
 chmod 600 "${TEMP_CONFIG_YAML}"
-
-cleanup() {
-    rm -f "${TEMP_CONFIG_YAML}"
-}
-trap cleanup EXIT
 
 cd "${WORKSPACE}/playwright-e2e"
 npm ci
