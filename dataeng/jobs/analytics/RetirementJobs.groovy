@@ -657,10 +657,6 @@ class RetirementJobs{
                         authorization common_authorization(allVars)
                         concurrentBuild(false)
 
-                        triggers {
-                            cron(allVars.get('USER_RETIREMENT_HEALTH_CHECK_CRON', 'H */6 * * *'))
-                        }
-
                         logRotator common_log_rotator(allVars)
 
                         wrappers {
