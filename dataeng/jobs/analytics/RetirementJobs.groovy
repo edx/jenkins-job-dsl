@@ -657,6 +657,11 @@ class RetirementJobs{
                         authorization common_authorization(allVars)
                         concurrentBuild(false)
 
+                        triggers {
+                            // Daily during 8:30-9:29 AM IST / 3:00-3:59 AM UTC.
+                            cron(allVars.get('USER_RETIREMENT_HEALTH_CHECK_CRON', 'H 3 * * *'))
+                        }
+
                         logRotator common_log_rotator(allVars)
 
                         wrappers {
