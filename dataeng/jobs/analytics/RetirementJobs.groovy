@@ -688,7 +688,7 @@ class RetirementJobs{
                             stringParam('TUBULAR_BRANCH', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TUBULAR_BRANCH', 'master'), 'Repo branch for the tubular scripts.')
                             stringParam('ENVIRONMENT', environmentDeployment, 'edx environment for the health check. MVP is stage-only.')
                             stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
-                            stringParam('PYTHON_VERSION', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PYTHON_VERSION', '3.9'), 'Python version to use for the health check virtualenv.')
+                            stringParam('PYTHON_VERSION', allVars.get('USER_RETIREMENT_HEALTH_CHECK_PYTHON_VERSION', '3.12'), 'Python version to use for the health check virtualenv.')
                             stringParam('TIMEOUT_SECONDS', allVars.get('USER_RETIREMENT_HEALTH_CHECK_TIMEOUT_SECONDS', 1800).toString(), 'Polling timeout in seconds.')
                             stringParam('POLL_INTERVAL_SECONDS', allVars.get('USER_RETIREMENT_HEALTH_CHECK_POLL_INTERVAL_SECONDS', 30).toString(), 'Polling interval in seconds.')
                         }
