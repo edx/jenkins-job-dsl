@@ -14,7 +14,7 @@ mkdir -p ${WORKING_DIRECTORY}/course-data
 # requirements.txt is read by pbr as install_requires (it now includes
 # mysql-connector-python from PyPI; github_requirements.txt no longer exists).
 pushd analytics-exporter/
-pip install --upgrade pip setuptools
+pip install --upgrade pip "setuptools>=68"
 pip install -e .
 popd
 
