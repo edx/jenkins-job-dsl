@@ -3,7 +3,19 @@ set -e
 
 # Create the exporter virtual env (edx-analytics-exporter requires Python >= 3.12)
 PYTHON_VENV="python_venv"
-virtualenv --python=python3.12 --clear "${PYTHON_VENV}"
+# Python 3.12 is not packaged for the Ubuntu 20.04 Jenkins workers (deadsnakes stopped at
+# Focal). Use the system python3.12 when the host has one; otherwise fetch a standalone build
+# with uv into the jenkins user's home (~/.local/share/uv, cached across runs). No root needed.
+if command -v python3.12 >/dev/null 2>&1; then
+    PYTHON_312="$(command -v python3.12)"
+else
+    python3 -m pip install --user --quiet "uv==0.12.20"
+    export PATH="${HOME}/.local/bin:${PATH}"
+    uv python install 3.12
+    PYTHON_312="$(uv python find 3.12)"
+fi
+# stdlib venv: the host virtualenv (20.2.0 on py3.8) cannot seed a 3.12 environment.
+"${PYTHON_312}" -m venv --clear "${PYTHON_VENV}"
 source "${PYTHON_VENV}/bin/activate"
 
 # Create destination directory
