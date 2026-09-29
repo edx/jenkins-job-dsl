@@ -14,7 +14,7 @@ class AnalyticsExporter {
             authorization common_authorization(allVars)
             parameters {
                 stringParam('COURSES', '', 'Space separated list of courses to process. E.g. --course=course-v1:BerkleeX+BMPR365_3x+1T2015')
-                stringParam('EXPORTER_BRANCH', 'environment/production', 'Branch from the analytics-exporter repository. For tags use tags/[tag-name].')
+                stringParam('EXPORTER_BRANCH', 'origin/master', 'Branch from the analytics-exporter repository. For tags use tags/[tag-name].')
                 stringParam('PLATFORM_BRANCH', 'origin/release', 'Branch from the exporter repository. For tags use tags/[tag-name].')
                 stringParam('EXPORTER_CONFIG_FILENAME', 'course_exporter.yaml', 'Name of configuration file in analytics-secure/analytics-exporter.')
                 stringParam('OUTPUT_BUCKET', '', 'Name of the bucket for the destination of the export data. Can use a path. (eg. export-data/test).')

@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 set -e
 
-# Creating python2.7 virtual env
+# Create the exporter virtual env (edx-analytics-exporter requires Python >= 3.12)
 PYTHON_VENV="python_venv"
-virtualenv --python=python2.7 --clear "${PYTHON_VENV}"
+# python3.12 is installed on the Jenkins host by the jenkins_data_engineering_new
+# role in edx/configuration. Use the stdlib venv module: the host virtualenv
+# cannot seed a 3.12 environment.
+python3.12 -m venv --clear "${PYTHON_VENV}"
 source "${PYTHON_VENV}/bin/activate"
 
 # Create destination directory
 WORKING_DIRECTORY=/var/lib/jenkins/tmp/analytics-course-exporter
 mkdir -p ${WORKING_DIRECTORY}/course-data
 
-# Install requirements into this (exporter) virtual environment
+# Install the exporter into this virtual environment.
+# requirements.txt is read by pbr as install_requires (it now includes
+# mysql-connector-python from PyPI; github_requirements.txt no longer exists).
 pushd analytics-exporter/
-pip install 'setuptools<45'
-pip install -r github_requirements.txt
-pip install mysql-connector-python -e .
+pip install --upgrade pip "setuptools>=68"
+pip install -e .
 popd
 
 # Get name of other (platform) virtual environment
