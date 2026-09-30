@@ -1,11 +1,9 @@
 #!/bin/bash -xe
 
-set +u
-. /edx/var/jenkins/jobvenvs/virtualenv_tools.sh
-# creates a venv with its location stored in variable "venvpath"
+# Use the stdlib venv module with the host python3.12: the host virtualenv
+# cannot seed a 3.12 environment.
 python3.12 -m venv --clear "$WORKSPACE/venv"
 . "$WORKSPACE/venv/bin/activate"
-set -u
 
 cd $WORKSPACE/tubular
 pip install -r requirements.txt
