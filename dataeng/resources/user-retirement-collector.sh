@@ -12,7 +12,10 @@ env
 # setting on the jenkins worker, it would be safest to keep the builds from
 # clobbering each other's virtualenvs.
 VENV="venv-${BUILD_NUMBER}"
-virtualenv --python=python3.8 --clear "${VENV}"
+# python3.12 is installed on the Jenkins host by the jenkins_data_engineering_new
+# role in edx/configuration. Use the stdlib venv module: the host virtualenv
+# cannot seed a 3.12 environment.
+python3.12 -m venv --clear "${VENV}"
 source "${VENV}/bin/activate"
 
 # Make sure that when we try to write unicode to the console, it
@@ -39,8 +42,8 @@ set -x
 
 # prepare tubular
 cd $WORKSPACE/tubular
-# snapshot the current latest versions of pip and setuptools.
-pip install 'pip==21.0.1' 'setuptools==53.0.0'
+# pip 21 cannot run on Python 3.12; use current pip/setuptools.
+pip install --upgrade pip "setuptools>=68"
 pip install -r requirements.txt
 
 # Create the directory where we will populate properties files, one per

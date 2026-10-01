@@ -16,7 +16,10 @@ VENV="${WORKSPACE}/venv-${BUILD_NUMBER}"
 NODEENV="${WORKSPACE}/nodeenv-${BUILD_NUMBER}"
 NODE_VERSION="${NODE_VERSION:-24.19.0}"
 
-virtualenv --python="python${PYTHON_VERSION}" --clear "${VENV}"
+# Use the stdlib venv module: the host virtualenv cannot seed a 3.12 environment.
+# python3.12 is installed on the Jenkins host by the jenkins_data_engineering_new
+# role in edx/configuration.
+"python${PYTHON_VERSION}" -m venv --clear "${VENV}"
 source "${VENV}/bin/activate"
 
 export PYTHONIOENCODING=UTF-8
