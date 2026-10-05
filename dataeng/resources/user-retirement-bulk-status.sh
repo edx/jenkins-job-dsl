@@ -12,10 +12,19 @@ env
 # setting on the jenkins worker, it would be safest to keep the builds from
 # clobbering each other's virtualenvs.
 VENV="venv-${BUILD_NUMBER}"
-# python3.12 is installed on the Jenkins host by the jenkins_data_engineering_new
-# role in edx/configuration. Use the stdlib venv module: the host virtualenv
-# cannot seed a 3.12 environment.
-python3.12 -m venv --clear "${VENV}"
+# Python 3.12 is not packaged for the Ubuntu 20.04 Jenkins workers (deadsnakes stopped at
+# Focal). Use the system python3.12 when the host has one; otherwise fetch a standalone build
+# with uv into the jenkins user's home (~/.local/share/uv, cached across runs). No root needed.
+if command -v python3.12 >/dev/null 2>&1; then
+    PYTHON_312="$(command -v python3.12)"
+else
+    python3 -m pip install --user --quiet "uv==0.12.20"
+    export PATH="${HOME}/.local/bin:${PATH}"
+    uv python install 3.12
+    PYTHON_312="$(uv python find 3.12)"
+fi
+# stdlib venv: the host virtualenv (20.2.0 on py3.8) cannot seed a 3.12 environment.
+"${PYTHON_312}" -m venv --clear "${VENV}"
 source "${VENV}/bin/activate"
 
 # Make sure that when we try to write unicode to the console, it

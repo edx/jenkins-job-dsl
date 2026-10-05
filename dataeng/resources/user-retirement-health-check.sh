@@ -16,10 +16,20 @@ VENV="${WORKSPACE}/venv-${BUILD_NUMBER}"
 NODEENV="${WORKSPACE}/nodeenv-${BUILD_NUMBER}"
 NODE_VERSION="${NODE_VERSION:-24.19.0}"
 
-# Use the stdlib venv module: the host virtualenv cannot seed a 3.12 environment.
-# python3.12 is installed on the Jenkins host by the jenkins_data_engineering_new
-# role in edx/configuration.
-"python${PYTHON_VERSION}" -m venv --clear "${VENV}"
+# Python 3.12 is not packaged for the Ubuntu 20.04 Jenkins workers (deadsnakes stopped at
+# Focal). Use the system python${PYTHON_VERSION} when the host has one; otherwise fetch a
+# standalone build with uv into the jenkins user's home (~/.local/share/uv, cached across
+# runs). No root needed.
+if command -v "python${PYTHON_VERSION}" >/dev/null 2>&1; then
+    PYTHON_BIN="$(command -v "python${PYTHON_VERSION}")"
+else
+    python3 -m pip install --user --quiet "uv==0.12.20"
+    export PATH="${HOME}/.local/bin:${PATH}"
+    uv python install "${PYTHON_VERSION}"
+    PYTHON_BIN="$(uv python find "${PYTHON_VERSION}")"
+fi
+# stdlib venv: the host virtualenv (20.2.0 on py3.8) cannot seed a 3.12 environment.
+"${PYTHON_BIN}" -m venv --clear "${VENV}"
 source "${VENV}/bin/activate"
 
 export PYTHONIOENCODING=UTF-8
