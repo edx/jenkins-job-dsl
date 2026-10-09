@@ -3,8 +3,7 @@ package analytics
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_authorization
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_log_rotator
 import static org.edx.jenkins.dsl.AnalyticsConstants.common_wrappers
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm
-import static org.edx.jenkins.dsl.AnalyticsConstants.secure_scm_parameters
+import static org.edx.jenkins.dsl.AnalyticsConstants.config_scm
 
 
 class PipelineAcceptanceTestManual {
@@ -32,8 +31,7 @@ class PipelineAcceptanceTestManual {
                 stringParam('MAX_DIFF', allVars.get('MAX_DIFF'), '')
             }
 
-            parameters secure_scm_parameters(allVars)
-            multiscm secure_scm(allVars) << {
+            multiscm config_scm(allVars) << {
                 git {
                     remote {
                         url('git@github.com:edx/edx-analytics-exporter.git')
