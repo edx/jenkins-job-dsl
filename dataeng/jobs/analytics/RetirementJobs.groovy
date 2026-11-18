@@ -316,7 +316,6 @@ class RetirementJobs{
                 stringParam('TUBULAR_BRANCH', 'master', 'Repo branch for the tubular scripts.')
                 stringParam('ENVIRONMENT', '', 'edx environment which contains the user in question, in ENVIRONMENT-DEPLOYMENT format.')
                 stringParam('AGE_IN_DAYS', '60', 'Number of days to keep partner reports; should match retirement-partner-report-cleanup job AGE_IN_DAYS to keep retention and cleanup in sync.')
-                stringParam('DELETION_WARNING_DAYS', '7', 'Number of days before deletion to send warning notification.')
                 stringParam('RETIREMENT_JOBS_MAILING_LIST', allVars.get('RETIREMENT_JOBS_MAILING_LIST'), 'Space separated list of emails to send notifications to.')
             }
 
@@ -345,21 +344,6 @@ class RetirementJobs{
                     branch('$TUBULAR_BRANCH')
                     extensions {
                         relativeTargetDirectory('tubular')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
-                git {
-                    remote {
-                        url('git@github.com:edx/edx-internal.git')
-                        credentials(allVars.get('SECURE_GIT_CREDENTIALS'))
-                    }
-                    branch('master')
-                    extensions {
-                        relativeTargetDirectory('edx-internal')
                         cloneOptions {
                             shallow()
                             timeout(10)
@@ -479,21 +463,6 @@ class RetirementJobs{
                     branch('$TUBULAR_BRANCH')
                     extensions {
                         relativeTargetDirectory('tubular')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
-                git {
-                    remote {
-                        url('git@github.com:edx/edx-internal.git')
-                        credentials(allVars.get('SECURE_GIT_CREDENTIALS'))
-                    }
-                    branch('master')
-                    extensions {
-                        relativeTargetDirectory('edx-internal')
                         cloneOptions {
                             shallow()
                             timeout(10)
