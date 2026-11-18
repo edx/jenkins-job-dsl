@@ -57,13 +57,6 @@ echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > "$TEMP_GOOGLE_SECRETS"
 
 set -x
 
-# Load public configuration from edx-internal Git repo
-cd $WORKSPACE/edx-internal
-ENABLE_CHECK_EXPIRING_FILES=$(yq -r ".PARTNER_REPORTER_VARS[] | select(.ENVIRONMENT_DEPLOYMENT == \"${ENVIRONMENT}\") | .ENABLE_CHECK_EXPIRING_FILES // false" \
-    tools-edx-jenkins/user-retirement.yml)
-ENABLE_OVERDUE_FILE_NOTIFICATION=$(yq -r ".PARTNER_REPORTER_VARS[] | select(.ENVIRONMENT_DEPLOYMENT == \"${ENVIRONMENT}\") | .ENABLE_OVERDUE_FILE_NOTIFICATION // false" \
-    tools-edx-jenkins/user-retirement.yml)
-
 # prepare tubular
 cd $WORKSPACE/tubular
 # pip 21 cannot run on Python 3.12; use current pip/setuptools.
@@ -81,10 +74,16 @@ if [[ -z "${AGE_IN_DAYS}" ]]; then
     echo "AGE_IN_DAYS not set, defaulting to ${AGE_IN_DAYS}"
 fi
 
-# DELETION_WARNING_DAYS: defaults to 7 if not provided
 if [[ -z "${DELETION_WARNING_DAYS}" ]]; then
     DELETION_WARNING_DAYS=7
     echo "DELETION_WARNING_DAYS not set, defaulting to ${DELETION_WARNING_DAYS}"
+fi
+
+ENABLE_CHECK_EXPIRING_FILES=false
+ENABLE_OVERDUE_FILE_NOTIFICATION=false
+if [[ "${ENVIRONMENT}" == "stage-edx" ]]; then
+    ENABLE_CHECK_EXPIRING_FILES=true
+    ENABLE_OVERDUE_FILE_NOTIFICATION=true
 fi
 
 # Validate AGE_IN_DAYS is a positive integer
@@ -93,24 +92,12 @@ if ! [[ "${AGE_IN_DAYS}" =~ ^[0-9]+$ ]] || [[ "${AGE_IN_DAYS}" -le 0 ]]; then
     exit 1
 fi
 
-# Validate DELETION_WARNING_DAYS is a positive integer
-if ! [[ "${DELETION_WARNING_DAYS}" =~ ^[0-9]+$ ]] || [[ "${DELETION_WARNING_DAYS}" -le 0 ]]; then
-    echo "ERROR: DELETION_WARNING_DAYS must be a positive integer, got: '${DELETION_WARNING_DAYS}'"
+if ! [[ "${DELETION_WARNING_DAYS}" =~ ^[0-9]+$ ]] || [[ "${DELETION_WARNING_DAYS}" -le 0 ]] || [[ "${DELETION_WARNING_DAYS}" -ge "${AGE_IN_DAYS}" ]]; then
+    echo "ERROR: DELETION_WARNING_DAYS must be a positive integer less than AGE_IN_DAYS, got: '${DELETION_WARNING_DAYS}'"
     exit 1
 fi
 
-# Validate DELETION_WARNING_DAYS is less than AGE_IN_DAYS
-if [[ "${DELETION_WARNING_DAYS}" -ge "${AGE_IN_DAYS}" ]]; then
-    echo "ERROR: DELETION_WARNING_DAYS (${DELETION_WARNING_DAYS}) must be less than AGE_IN_DAYS (${AGE_IN_DAYS})"
-    exit 1
-fi
-
-echo "Using retention settings: AGE_IN_DAYS=${AGE_IN_DAYS}, ENABLE_CHECK_EXPIRING_FILES=${ENABLE_CHECK_EXPIRING_FILES}, ENABLE_OVERDUE_FILE_NOTIFICATION=${ENABLE_OVERDUE_FILE_NOTIFICATION}"
-if [[ "${ENABLE_CHECK_EXPIRING_FILES}" == "true" ]]; then
-    echo "Deletion warning enabled: DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS}"
-else
-    echo "DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS} (unused, ENABLE_CHECK_EXPIRING_FILES=false)"
-fi
+echo "Using retention settings: AGE_IN_DAYS=${AGE_IN_DAYS}, DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS}, ENABLE_CHECK_EXPIRING_FILES=${ENABLE_CHECK_EXPIRING_FILES}, ENABLE_OVERDUE_FILE_NOTIFICATION=${ENABLE_OVERDUE_FILE_NOTIFICATION}"
 
 # Call the script to generate the reports and upload them to Google Drive
 python scripts/retirement_partner_report.py \

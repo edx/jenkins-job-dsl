@@ -352,21 +352,6 @@ class RetirementJobs{
                         cleanBeforeCheckout()
                     }
                 }
-                git {
-                    remote {
-                        url('git@github.com:edx/edx-internal.git')
-                        credentials(allVars.get('SECURE_GIT_CREDENTIALS'))
-                    }
-                    branch('master')
-                    extensions {
-                        relativeTargetDirectory('edx-internal')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
             }
 
             environmentVariables {
@@ -479,21 +464,6 @@ class RetirementJobs{
                     branch('$TUBULAR_BRANCH')
                     extensions {
                         relativeTargetDirectory('tubular')
-                        cloneOptions {
-                            shallow()
-                            timeout(10)
-                        }
-                        cleanBeforeCheckout()
-                    }
-                }
-                git {
-                    remote {
-                        url('git@github.com:edx/edx-internal.git')
-                        credentials(allVars.get('SECURE_GIT_CREDENTIALS'))
-                    }
-                    branch('master')
-                    extensions {
-                        relativeTargetDirectory('edx-internal')
                         cloneOptions {
                             shallow()
                             timeout(10)
