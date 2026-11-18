@@ -74,20 +74,40 @@ if [[ -z "${AGE_IN_DAYS}" ]]; then
     echo "AGE_IN_DAYS not set, defaulting to ${AGE_IN_DAYS}"
 fi
 
+if [[ -z "${DELETION_WARNING_DAYS}" ]]; then
+    DELETION_WARNING_DAYS=7
+    echo "DELETION_WARNING_DAYS not set, defaulting to ${DELETION_WARNING_DAYS}"
+fi
+
+ENABLE_CHECK_EXPIRING_FILES=false
+ENABLE_OVERDUE_FILE_NOTIFICATION=false
+if [[ "${ENVIRONMENT}" == "stage-edx" ]]; then
+    ENABLE_CHECK_EXPIRING_FILES=true
+    ENABLE_OVERDUE_FILE_NOTIFICATION=true
+fi
+
 # Validate AGE_IN_DAYS is a positive integer
 if ! [[ "${AGE_IN_DAYS}" =~ ^[0-9]+$ ]] || [[ "${AGE_IN_DAYS}" -le 0 ]]; then
     echo "ERROR: AGE_IN_DAYS must be a positive integer, got: '${AGE_IN_DAYS}'"
     exit 1
 fi
 
-echo "Using retention setting: AGE_IN_DAYS=${AGE_IN_DAYS}"
+if ! [[ "${DELETION_WARNING_DAYS}" =~ ^[0-9]+$ ]] || [[ "${DELETION_WARNING_DAYS}" -le 0 ]] || [[ "${DELETION_WARNING_DAYS}" -ge "${AGE_IN_DAYS}" ]]; then
+    echo "ERROR: DELETION_WARNING_DAYS must be a positive integer less than AGE_IN_DAYS, got: '${DELETION_WARNING_DAYS}'"
+    exit 1
+fi
+
+echo "Using retention settings: AGE_IN_DAYS=${AGE_IN_DAYS}, DELETION_WARNING_DAYS=${DELETION_WARNING_DAYS}, ENABLE_CHECK_EXPIRING_FILES=${ENABLE_CHECK_EXPIRING_FILES}, ENABLE_OVERDUE_FILE_NOTIFICATION=${ENABLE_OVERDUE_FILE_NOTIFICATION}"
 
 # Call the script to generate the reports and upload them to Google Drive
 python scripts/retirement_partner_report.py \
     --config_file=$TEMP_CONFIG_YAML \
     --google_secrets_file=$TEMP_GOOGLE_SECRETS \
     --output_dir=$PARTNER_REPORTS_DIR \
-    --age_in_days=$AGE_IN_DAYS
+    --age_in_days=$AGE_IN_DAYS \
+    --deletion_warning_days=$DELETION_WARNING_DAYS \
+    --enable_check_expiring_files=$ENABLE_CHECK_EXPIRING_FILES \
+    --enable_overdue_file_notification=$ENABLE_OVERDUE_FILE_NOTIFICATION
 
 # Remove the temporary files after processing
 rm -f "$TEMP_CONFIG_YAML"
