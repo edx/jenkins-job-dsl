@@ -4,6 +4,7 @@ import static analytics.DBTDocs.job as DBTDocsJob
 import static analytics.DBTRun.job as DBTRunJob
 import static analytics.DeployCluster.job as DeployClusterJob
 import static analytics.EmrCostReporter.job as EmrCostReporterJob
+import static analytics.TestHelloWorld.job as TestHelloWorldJob
 import static analytics.ModelTransfers.job as ModelTransfersJob
 import static analytics.RetireCertificates.job as RetireCertificatesJob
 import static analytics.RetirementJobEdxTriggers.job as RetirementJobEdxTriggersJob
@@ -45,6 +46,7 @@ def taskMap = [
     DBT_RUN_JOB: DBTRunJob,
     DEPLOY_CLUSTER_JOB: DeployClusterJob,
     EMR_COST_REPORTER_JOB: EmrCostReporterJob,
+    TEST_HELLO_WORLD_JOB: TestHelloWorldJob,
     MODEL_TRANSFERS_JOB: ModelTransfersJob,
     RETIRE_CERTIFICATES_JOB: RetireCertificatesJob,
     RETIREMENT_JOB_EDX_TRIGGERS_JOB: RetirementJobEdxTriggersJob,
