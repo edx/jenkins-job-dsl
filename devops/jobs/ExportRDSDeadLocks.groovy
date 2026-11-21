@@ -23,7 +23,7 @@ class ExportRDSDeadLocks {
                     wrappers {
                         credentialsBinding {
                             usernamePassword("USERNAME", "PASSWORD", "${deployment}-${environment}-export-dead-locks-credentials")
-                            usernamePassword("SPLUNKUSERNAME", "SPLUNKPASSWORD", "export-dead-locks-splunk-credentials")
+                            string("DDAPIKEY", "datadog_api_key")
                             def variable = "${deployment}-export-dead-locks"
                             string("ROLE_ARN", variable)
                         }
@@ -33,7 +33,7 @@ class ExportRDSDeadLocks {
                         cron("H H * * *")
                     }
 
-                    def INDEXNAME = "${environment}-${deployment}"
+                    def INDEXNAME = "edx-logs"
 
                     def rdsignore = ""
                     extraVars.get('IGNORE_LIST').each { ignore ->
@@ -48,8 +48,6 @@ class ExportRDSDeadLocks {
                     environmentVariables {
                         env('AWS_DEFAULT_REGION', extraVars.get('REGION'))
                         env('ENVIRONMENT', environment)
-                        env('HOSTNAME', extraVars.get('SPLUNKHOSTNAME'))
-                        env('PORT', extraVars.get('PORT'))
                         env('INDEXNAME', INDEXNAME)
                         env('RDSIGNORE', rdsignore)
                         env('WHITELISTREGIONS', whitelistregions)

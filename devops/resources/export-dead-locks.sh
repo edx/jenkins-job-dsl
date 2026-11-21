@@ -26,4 +26,11 @@ if [[ ! -v WHITELISTREGIONS ]]; then
     WHITELISTREGIONS=""
 fi
 
-python export_dead_locks.py --environment ${ENVIRONMENT} --hostname ${HOSTNAME} --port ${PORT} --indexname ${INDEXNAME} ${RDSIGNORE} ${WHITELISTREGIONS}
+# Check if ENVIRONMENT is set to "stage"
+# As we have "stg" in datadog and "stage" in the configuration
+if [[ "$ENVIRONMENT" == "stage" ]]; then
+  # Update ENVIRONMENT to "stg"
+  ENVIRONMENT="stg"
+fi
+
+python export_dead_locks_dd.py --environment ${ENVIRONMENT} --indexname ${INDEXNAME} ${RDSIGNORE} ${WHITELISTREGIONS}
