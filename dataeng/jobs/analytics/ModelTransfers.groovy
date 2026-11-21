@@ -48,6 +48,7 @@ class ModelTransfers{
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/datadog_job_start.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/secrets-manager-setup.sh'))
                     shell(dslFactory.readFileFromWorkspace('dataeng/resources/model-transfers.sh'))
+                    shell(dslFactory.readFileFromWorkspace('dataeng/resources/trigger-prefect-flow.sh'))
                 }
             }
         }
